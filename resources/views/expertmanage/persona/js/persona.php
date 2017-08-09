@@ -1,4 +1,5 @@
 <script type="text/javascript">
+var persona_id, cargos_selec=[], PersonaObj;
 var AddEdit=0; //0: Editar | 1: Agregar
 var PersonaG={id:0,
 paterno:"",
@@ -13,7 +14,7 @@ celular:"",
 fecha_nacimiento:"",
 estado:1}; // Datos Globales
 $(document).ready(function() {
-
+CargarSlct();
     $(".fechas").datetimepicker({
         format: "yyyy-mm-dd",
         language: 'es',
@@ -41,6 +42,7 @@ $(document).ready(function() {
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
         }
         else{
+            AjaxPersona.CargarAreas(SlctCargarAreas,PersonaG.id); //no es multiselect
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalPersonaForm").append("<input type='hidden' value='"+PersonaG.id+"' name='id'>");
         }
@@ -153,6 +155,56 @@ HTMLAgregarEditar=function(result){
     }
 }
 
+CargarSlct=function(){
+    AjaxPersona.CargarPrivilegio(SlctCargarPrivilegio);
+}
+
+SlctCargarPrivilegio=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.privilegio+"</option>";
+    });
+    $("#ModalPersona #slct_cargos").html(html); 
+    $("#ModalPersona #slct_cargos").selectpicker('refresh');
+
+}
+
+SlctCargarSucursal=function(result){
+    var html="";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.sucursal+"</option>";
+    });
+    $("#t_cargoPersona .selectpicker").html(html); 
+    $("#t_cargoPersona .selectpicker").selectpicker('refresh');
+
+};
+SlctCargarAreas=function(result){
+                if(result[0].DATA !== null){
+                    var cargos = result[0].DATA.split("|"); 
+
+                    var html="";
+
+                    $.each(cargos, function(i,opcion){
+                        var data = opcion.split("-");
+                        html+="<li class='list-group-item'><div class='row'>";
+                        html+="<div class='col-sm-4' id='cargo_"+data[0]+"'><h5>"+$("#slct_cargos option[value=" +data[0] +"]").text()+"</h5></div>";
+                        var areas = data[1].split(",");
+                        html+="<div class='col-sm-6'><select class='form-control' multiple='multiple' name='slct_areas"+data[0]+"[]' id='slct_areas"+data[0]+"'></select></div>";
+                        //var envio = {cargo_id: data[0]};
+
+                        var envio = {cargo_id: data[0],estado:1};
+                        slctGlobal.listarSlct('area','slct_areas'+data[0],'multiple',areas,envio);
+
+                        html+='<div class="col-sm-2">';
+                        html+='<button type="button" id="'+data[0]+'" Onclick="EliminarArea(this)" class="btn btn-danger btn-sm" >';
+                        html+='<i class="fa fa-minus fa-sm"></i> </button></div>';
+                        html+="</div></li>";
+                        cargos_selec.push(data[0]);
+                    });
+                    $("#t_cargoPersona").html(html); 
+                    $("#ModalPersona #slct_areas"+data[0]).selectpicker('refresh');
+                }
+                }
 HTMLCargarPersona=function(result){
     var html="";
     $('#TablePersona').DataTable().destroy();
@@ -197,5 +249,46 @@ HTMLCargarPersona=function(result){
             masterG.CargarPaginacion('HTMLCargarPersona','AjaxPersona',result.data,'#TablePersona_paginate');
         } 
     });
+};
+AgregarArea=function(){
+    //añadir registro "opcion" por usuario
+    var cargo_id=$('#slct_cargos option:selected').val();
+    var cargo=$('#slct_cargos option:selected').text();
+    var buscar_cargo = $('#cargo_'+cargo_id).text();
+    if (cargo_id!=='') {
+        if (buscar_cargo==="") {
+
+            var html='';
+            html+="<li class='list-group-item'><div class='row'>";
+            html+="<div class='col-sm-4' id='cargo_"+cargo_id+"'><h5>"+cargo+"</h5></div>";
+
+            html+="<div class='col-xs-6'>";
+            html+="<select class='selectpicker' multiple data-actions-box='true' name='slct_areas"+cargo_id+"[]' id='slct_areas"+cargo_id+"'>";
+            html+="</select></div>";
+//          var envio = {cargo_id: cargo_id,estado:1};
+            AjaxPersona.CargarSucursal(SlctCargarSucursal);
+            html+='<div class="col-sm-2">';
+            html+='<button type="button" id="'+cargo_id+'" Onclick="EliminarArea(this)" class="btn btn-danger btn-sm" >';
+            html+='<i class="fa fa-minus fa-sm"></i> </button></div>';
+            html+="</div></li>";
+
+            $("#t_cargoPersona").append(html);
+            $("#ModalPersona #slct_areas"+cargo_id).selectpicker('refresh');
+//            slctGlobal.listarSlct('area','slct_areas'+cargo_id,'multiple',null,envio);
+
+            cargos_selec.push(cargo_id);
+        } else 
+            alert("Ya se agrego este Cargo");
+    } else 
+        alert("Seleccione Cargo");
+
+};
+
+EliminarArea=function(obj){
+    //console.log(obj);
+    var valor= obj.id;
+    obj.parentNode.parentNode.parentNode.remove();
+    var index = cargos_selec.indexOf(valor);
+    cargos_selec.splice( index, 1 );
 };
 </script>

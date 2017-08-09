@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ExpertManage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ExpertManage\Persona;
+use App\Models\ExpertManage\Privilegio;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -97,7 +98,7 @@ class PersonaEM extends Controller
                 $return['rst'] = 2;
                 $return['msj'] = $validator->errors()->all()[0];
             }
-
+            
             return response()->json($return);
         }
     }
@@ -112,5 +113,27 @@ class PersonaEM extends Controller
             return response()->json($return);
         }
     }
+    
+     public function ListPrivilegio (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Privilegio::ListPrivilegio($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+    
+        public function CargarAreas(Request $r)
+    {
+            if ( $r->ajax() ) {
+                $personaId =$r->persona_id;
+                $return = Persona::getAreas($personaId);
+                return response()->json($return);
+            }
+
+    }
+    
 
 }

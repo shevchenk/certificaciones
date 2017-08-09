@@ -1,6 +1,8 @@
 <script type="text/javascript">
 var AjaxPersona={
     AgregarEditar:function(evento){
+        $("#ModalPersonaForm input[name='cargos_selec']").remove();
+        $("#ModalPersonaForm").append("<input type='hidden' value='"+cargos_selec+"' name='cargos_selec'>");
         var data=$("#ModalPersonaForm").serialize().split("txt_").join("").split("slct_").join("");
         url='AjaxDinamic/ExpertManage.PersonaEM@New';
         if(AddEdit==0){
@@ -24,6 +26,21 @@ var AjaxPersona={
         $("#ModalPersonaForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/ExpertManage.PersonaEM@EditStatus';
         masterG.postAjax(url,data,evento);
-    }
+    },
+    CargarPrivilegio:function(evento){
+        url='AjaxDinamic/ExpertManage.PersonaEM@ListPrivilegio';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarSucursal:function(evento){
+        url='AjaxDinamic/ExpertManage.SucursalEM@ListSucursal';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarAreas:function(evento,persona){
+        url='AjaxDinamic/ExpertManage.PersonaEM@CargarAreas';
+        data={persona_id:persona};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

@@ -4,6 +4,7 @@ namespace App\Models\ExpertManage;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ExpertManage\Privilegio;
 use DB;
 
 class Persona extends Model
@@ -43,6 +44,34 @@ class Persona extends Model
         $persona->estado = trim( $r->estado );
         $persona->persona_id_created_at=$persona_id;
         $persona->save();
+        
+        if ($r->cargos_selec) {
+                $cargos=$r->cargos_selec;
+                $cargos = explode(',', $cargos);
+                if (is_array($cargos)) {
+                    for ($i=0; $i<count($cargos); $i++) {
+                        $cargoId = $cargos[$i];
+
+                         $areas = $r['areas'.$cargoId];
+
+                        for ($j=0; $j<count($areas); $j++) {
+                            //recorrer las areas y buscar si exten
+                            $areaId = $areas[$j];
+                            DB::table('personas_privilegios_sucursales')->insert(
+                                array(
+                                    'sucursal_id' => $areaId,
+                                    'privilegio_id' => $cargoId,
+                                    'persona_id' => $persona->id,
+                                    'created_at'=> date('Y-m-d h:m:s'),
+                                    'persona_id_created_at'=> Auth::user()->id,
+                                    'estado' => 1,
+                                    'persona_id_updated_at' => Auth::user()->id
+                                )
+                            );
+                        }
+                    }
+                }
+            }
     }
 
     public static function runEdit($r)
@@ -67,14 +96,73 @@ class Persona extends Model
         }
         else
         {
-
         $persona->fecha_nacimiento = null;
-
         }
 
         $persona->estado = trim( $r->estado );
         $persona->persona_id_updated_at=$persona_id;
         $persona->save();
+        
+        DB::table('personas_privilegios_sucursales')
+                ->where('persona_id', $r->id)
+                ->update(array('estado' => 0,
+                    'persona_id_updated_at' => Auth::user()->id));
+        
+        $cargos = $r->cargos_selec;
+         if ($cargos) {//si selecciono algun cargo
+                $cargos = explode(',', $cargos);
+                $areas=array();
+
+                //recorrer os cargos y verificar si existen
+                for ($i=0; $i<count($cargos); $i++) {
+                    $cargoId = $cargos[$i];
+                    $areas = $r['areas'.$cargoId];
+
+                    DB::table('personas_privilegios_sucursales')
+                            ->where('privilegio_id', '=', $cargoId)
+                            ->where('persona_id', '=', $r->id)
+                            ->update(
+                                array(
+                                    'estado' => 0,
+                                    'persona_id_updated_at' => Auth::user()->id
+                                    )
+                                );
+                    
+                    //almacenar las areas seleccionadas
+                    for ($j=0; $j<count($areas); $j++) {
+                        //recorrer las areas y buscar si exten
+                        $areaId = $areas[$j];
+                        $areaCargoPersona=DB::table('personas_privilegios_sucursales')
+                                ->where('sucursal_id', '=', $areaId)
+                                ->where('privilegio_id', $cargoId)
+                                ->where('persona_id', $r->id)
+                                ->first();
+                        if (is_null($areaCargoPersona)) {
+                            DB::table('personas_privilegios_sucursales')->insert(
+                                array(
+                                    'sucursal_id' => $areaId,
+                                    'privilegio_id' => $cargoId,
+                                    'persona_id' => $r->id,
+                                    'created_at'=> date('Y-m-d h:m:s'),
+                                    'persona_id_created_at'=> Auth::user()->id,
+                                    'estado' => 1,
+                                    'persona_id_updated_at' => Auth::user()->id
+                                )
+                            );
+                        } else {
+                            DB::table('personas_privilegios_sucursales')
+                            ->where('sucursal_id', '=', $areaId)
+                            ->where('privilegio_id', '=', $cargoId)
+                            ->update(
+                                array(
+                                    'estado' => 1,
+                                    'persona_id_updated_at' => Auth::user()->id
+                                ));
+                        }
+                    }
+                }
+            }
+        
     }
 
 
@@ -125,6 +213,42 @@ class Persona extends Model
             );
         $result = $sql->orderBy('paterno','asc')->paginate(10);
         return $result;
+    }
+    
+     public static function getAreas($personaId) {
+        //subconsulta
+        $sql = DB::table('personas_privilegios_sucursales as cp')
+                ->join(
+                        'privilegios as c', 'cp.privilegio_id', '=', 'c.id'
+                )
+//                ->join(
+//                        'area_cargo_persona as acp', 'cp.id', '=', 'acp.cargo_persona_id'
+//                )
+                ->join(
+                        'sucursales as a', 'cp.sucursal_id', '=', 'a.id'
+                )
+                ->select(
+                        DB::raw(
+                                "
+                CONCAT(c.id, '-',
+                    GROUP_CONCAT(a.id)
+                ) AS info"
+                        )
+                )
+                ->whereRaw("cp.persona_id=$personaId AND cp.estado=1 AND c.estado=1 ")
+                ->groupBy('c.id');
+        //consulta
+        $areas = DB::table(DB::raw("(" . $sql->toSql() . ") as a"))
+                ->select(
+                        DB::raw("GROUP_CONCAT( info SEPARATOR '|'  ) as DATA ")
+                )
+                ->get();
+
+        return $areas;
+    }
+    
+    public function Privilegios() {
+        return $this->belongsToMany('App\Models\ExpertManage\Privilegio');
     }
 
 
