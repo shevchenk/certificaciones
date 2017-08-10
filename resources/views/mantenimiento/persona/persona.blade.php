@@ -127,6 +127,6 @@
 @stop
 
 @section('form')
-     @include( 'expertmanage.persona.form.persona' )
+     @include( 'mantenimiento.persona.form.persona' )
      
 @stop
