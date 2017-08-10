@@ -192,22 +192,26 @@ var masterG ={
             window.alert('Please use a modern browser to properly view this template!');
         }
     },
-    postAjax:function(url,data,eventsucces,eventbefore){
+    postAjax:function(url,data,eventsucces,eventbefore,syncr){
+            if( typeof syncr== 'undefined' ){
+                  syncr=true;
+            }
       $.ajax({
             url         : url,
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
             data        : data,
+            async       : syncr,
             beforeSend : function() {
                 $(".content .box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-                if( typeof eventbefore!= 'undefined' ){
+                if( typeof eventbefore!= 'undefined' && eventbefore!=null){
                   eventbefore();
                 }
             },
             success : function(r) {
                 $(".content .box .overlay").remove();
-                if( typeof eventsucces!= 'undefined' ){
+                if( typeof eventsucces!= 'undefined'  ){
                   eventsucces(r);
                 }
             },

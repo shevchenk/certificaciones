@@ -171,7 +171,7 @@ SlctCargarPrivilegio=function(result){
 
 }
 
-SlctCargarSucursal=function(result){alert(SlctItem);
+SlctCargarSucursal=function(result){
     var html="";
     $.each(result.data,function(index,r){
         html+="<option value="+r.id+">"+r.sucursal+"</option>";
@@ -198,10 +198,9 @@ SlctCargarAreas=function(result){
                         html+='<i class="fa fa-minus fa-sm"></i> </button></div>';
                         html+="</div></li>";
                         $("#t_cargoPersona").append(html); 
+                        
                         SlctItem=data[0];
                         SlctAreasMarcadas=areas;
-                        
-                        $("#ModalPersona #slct_areas"+data[0]).selectpicker('refresh');
                         AjaxPersona.CargarSucursal(SlctCargarSucursal);
                         cargos_selec.push(data[0]);
                     });
@@ -265,18 +264,18 @@ AgregarArea=function(){
             var html='';
             html+="<li class='list-group-item'><div class='row'>";
             html+="<div class='col-sm-4' id='cargo_"+cargo_id+"'><h5>"+cargo+"</h5></div>";
-
             html+="<div class='col-xs-6'>";
             html+="<select class='selectpicker' multiple data-actions-box='true' name='slct_areas"+cargo_id+"[]' id='slct_areas"+cargo_id+"'>";
             html+="</select></div>";
-            SlctItem=cargo_id;
-            SlctAreasMarcadas="";
-            AjaxPersona.CargarSucursal(SlctCargarSucursal);
             html+='<div class="col-sm-2">';
             html+='<button type="button" id="'+cargo_id+'" Onclick="EliminarArea(this)" class="btn btn-danger btn-sm" >';
             html+='<i class="fa fa-minus fa-sm"></i> </button></div>';
             html+="</div></li>";
             $("#t_cargoPersona").append(html);
+            
+            SlctItem=cargo_id;
+            SlctAreasMarcadas="";
+            AjaxPersona.CargarSucursal(SlctCargarSucursal);
             cargos_selec.push(cargo_id);
         } else 
             alert("Ya se agrego este Cargo");
