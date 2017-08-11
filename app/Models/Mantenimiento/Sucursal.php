@@ -87,7 +87,7 @@ class Sucursal extends Model
                     if( $r->has("telefono") ){
                         $telefono=trim($r->telefono);
                         if( $telefono !='' ){
-                            $query->where('telefono','like','%'.$telefono.'%');
+                            $query->where('telefono','like',$telefono.'%');
                         }
                     }
                     if( $r->has("celular") ){
