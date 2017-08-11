@@ -13,11 +13,11 @@
         <link rel="shortcut icon" href="favicon.ico">
 
         @section('description')
-        <meta name="description" content="Software de Negocios">
+        <meta name="description" content="Software Eficiencia de Entrega de Certificados ">
         @show
         <title>
             @section('title')
-                Software de Negocios (JS)
+                Efencer (JS)
             @show
         </title>
 
