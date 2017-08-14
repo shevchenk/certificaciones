@@ -4,30 +4,21 @@
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Producto</h4>
+                <h4 class="modal-title">Programación</h4>
             </div>
             <div class="modal-body">
                 <form id="ModalProgramacionForm">
-<!--                    <div class="col-md-12">
+                    <div class="col-md-12">
                         <label>Docente</label>
                     </div>
-                    
                         <div class="input-group margin">
-                            <input type="hidden" class="form-control mant" id="txt_producto_id" name="txt_producto_id" readOnly="">
-                            <input type="text" class="form-control" id="txt_producto" name="txt_producto"  disabled="">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListaproducto" data-filtros="estado:1" data-productoid="ModalProductosucursalForm #txt_producto_id" data-producto="ModalProductosucursalForm #txt_producto">Buscar</button>
-                            </span>
-                        </div>-->
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Docente</label>
-                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_docente_id" name="slct_docente_id">
-                                <option value="0">.::Seleccione::.</option>
-                            </select>
+                            <input type="hidden" class="form-control mant" id="txt_docente_id" name="txt_docente_id" readOnly="">
                             <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control mant" readonly="">
-                        </div> 
-                    </div>                 
+                            <input type="text" class="form-control" id="txt_docente" name="txt_docente"  disabled="">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListadocente" data-filtros="estado:1" data-personaid="ModalProgramacionForm #txt_docente_id" data-docenteid="ModalProgramacionForm #txt_persona_id" data-docente="ModalProgramacionForm #txt_docente">Buscar</button>
+                            </span>
+                        </div>           
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Sucursal</label>

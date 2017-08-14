@@ -30,11 +30,6 @@ var AjaxProgramacion={
         data={};
         masterG.postAjax(url,data,evento);
     },
-    CargarDocente:function(evento){
-        url='AjaxDinamic/Mantenimiento.DocenteEM@ListDocente';
-        data={};
-        masterG.postAjax(url,data,evento);
-    },
     CargarCurso:function(evento){
         url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';
         data={};

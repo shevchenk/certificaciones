@@ -16,6 +16,14 @@
 
     @include( 'mantenimiento.programacion.js.programacion_ajax' )
     @include( 'mantenimiento.programacion.js.programacion' )
+    @include( 'mantenimiento.programacion.js.listadocente_ajax' )
+    @include( 'mantenimiento.programacion.js.listadocente' )
+    @include( 'mantenimiento.programacion.js.listapersona_ajax' )
+    @include( 'mantenimiento.programacion.js.listapersona' )
+    @include( 'mantenimiento.programacion.js.aedocente_ajax' )
+    @include( 'mantenimiento.programacion.js.aedocente' )
+    @include( 'mantenimiento.programacion.js.aepersona_ajax' )
+    @include( 'mantenimiento.programacion.js.aepersona' )
     
 
 @stop
@@ -138,5 +146,8 @@
 
 @section('form')
      @include( 'mantenimiento.programacion.form.programacion' )
-     
+     @include( 'mantenimiento.programacion.form.listadocente' )
+     @include( 'mantenimiento.programacion.form.listapersona' )
+     @include( 'mantenimiento.docente.form.docente' )
+     @include( 'mantenimiento.persona.form.persona' )
 @stop

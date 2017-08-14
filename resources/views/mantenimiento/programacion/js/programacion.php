@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
-var ProgramacionG={id:0,persona_id:0,docente_id:0,sucursal_id:"",
+var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
                curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     $(".fechas").datetimepicker({
@@ -21,7 +21,14 @@ $(document).ready(function() {
         "info": true,
         "autoWidth": false
     });
-    CargarSlct(1);CargarSlct(2);CargarSlct(3);
+    
+    $('#ModalProgramacion').css('z-index', 1050);
+    $('#ModalListadocente').css('z-index', 1050);
+    $('#ModalDocente').css('z-index', 1060);
+    $('#ModalListapersona').css('z-index', 1070);
+    $('#ModalPersona').css('z-index', 1080);
+    
+    CargarSlct(1);CargarSlct(3);
     AjaxProgramacion.Cargar(HTMLCargarProgramacion);
     
     $("#ProgramacionForm #TableProgramacion select").change(function(){ AjaxProgramacion.Cargar(HTMLCargarProgramacion); });
@@ -36,8 +43,8 @@ $(document).ready(function() {
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalProgramacionForm").append("<input type='hidden' value='"+ProgramacionG.id+"' name='id'>");
         }
-
-        $('#ModalProgramacionForm #slct_docente_id').val( ProgramacionG.docente_id );
+        $('#ModalProgramacionForm #txt_docente').val( ProgramacionG.persona );
+        $('#ModalProgramacionForm #txt_docente_id').val( ProgramacionG.docente_id );
         $('#ModalProgramacionForm #txt_persona_id').val( ProgramacionG.persona_id );
         $('#ModalProgramacionForm #slct_sucursal_id').val( ProgramacionG.sucursal_id );
         $('#ModalProgramacionForm #slct_curso_id').val( ProgramacionG.curso_id );
@@ -53,15 +60,11 @@ $(document).ready(function() {
         $("#ModalProgramacionForm input[type='hidden']").not('.mant').remove();
     });
     
-    $( "#ModalProgramacionForm #slct_docente_id" ).change(function() {
-            var persona_id= $(this).children("option:selected").data('personaid');
-            $('#ModalProgramacionForm #txt_persona_id').val(persona_id);
-    });
 });
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalProgramacionForm #slct_docente_id").val() )=='0' ){
+    if( $.trim( $("#ModalProgramacionForm #txt_docente_id").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Docente',4000);
     }
@@ -87,7 +90,8 @@ ValidaForm=function(){
 AgregarEditar=function(val,id){
     AddEdit=val;
     ProgramacionG.id='';
-     ProgramacionG.persona_id='';
+    ProgramacionG.persona='';
+    ProgramacionG.persona_id='';
     ProgramacionG.docente_id='';
     ProgramacionG.sucursal_id='';
     ProgramacionG.curso_id='';
@@ -99,6 +103,7 @@ AgregarEditar=function(val,id){
         ProgramacionG.id=id;
         ProgramacionG.docente_id=$("#TableProgramacion #trid_"+id+" .docente_id").val();
         ProgramacionG.persona_id=$("#TableProgramacion #trid_"+id+" .persona_id").val();
+        ProgramacionG.persona=$("#TableProgramacion #trid_"+id+" .persona").text();
         ProgramacionG.sucursal_id=$("#TableProgramacion #trid_"+id+" .sucursal_id").val();
         ProgramacionG.curso_id=$("#TableProgramacion #trid_"+id+" .curso_id").val();
         ProgramacionG.aula=$("#TableProgramacion #trid_"+id+" .aula").text();
@@ -185,33 +190,23 @@ HTMLCargarProgramacion=function(result){
 
 CargarSlct=function(slct){
     if(slct==1){
-    AjaxProgramacion.CargarSucursal(SlctCargarSucursal);
-    }
-    if(slct==2){
-    AjaxProgramacion.CargarDocente(SlctCargarDocente);
+    AjaxProgramacion.CargarSucursal(SlctCargarSucursal1);
     }
     if(slct==3){
     AjaxProgramacion.CargarCurso(SlctCargarCurso);
     }
+    if(slct==2){
+    AjaxAEPersona.CargarPrivilegio(SlctCargarPrivilegio);
+    }
 }
 
-SlctCargarSucursal=function(result){
+SlctCargarSucursal1=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
     $.each(result.data,function(index,r){
         html+="<option value="+r.id+">"+r.sucursal+"</option>";
     });
     $("#ModalProgramacion #slct_sucursal_id").html(html); 
     $("#ModalProgramacion #slct_sucursal_id").selectpicker('refresh');
-
-};
-
-SlctCargarDocente=function(result){
-    var html="<option value='0'>.::Seleccione::.</option>";
-    $.each(result.data,function(index,r){
-        html+="<option value="+r.id+" data-personaid="+r.persona_id+">"+r.persona+"</option>";
-    });
-    $("#ModalProgramacion #slct_docente_id").html(html); 
-    $("#ModalProgramacion #slct_docente_id").selectpicker('refresh');
 
 };
 
