@@ -35,8 +35,7 @@ class ProgramacionEM extends Controller
 
             $rules = array(
                 'docente_id' => 
-                       ['required',
-                        Rule::unique('sucursales','sucursal'),
+                       ['required'
                         ],
             );
 
@@ -66,8 +65,7 @@ class ProgramacionEM extends Controller
 
             $rules = array(
                 'docente_id' => 
-                       ['required',
-                        Rule::unique('sucursales','sucursal')->ignore($r->id),
+                       ['required'
                         ],
             );
 
