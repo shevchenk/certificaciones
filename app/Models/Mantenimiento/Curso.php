@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use DB;
 
 class Curso extends Model
 {
@@ -14,7 +15,16 @@ class Curso extends Model
     public static function runLoad($r)
     {
 
-        $sql=Curso::select('id','curso','certificado_curso','tipo_curso','estado')
+        $sql=Curso::select('id','curso','certificado_curso',
+        	DB::raw('
+        		CASE tipo_curso
+        		WHEN "1" THEN "Curso"
+        		WHEN "2" THEN "Seminario"
+        		END tipo_curso
+        		'),
+        	'estado')
+
+
             ->where( 
                 function($query) use ($r){
                     if( $r->has("curso") ){
