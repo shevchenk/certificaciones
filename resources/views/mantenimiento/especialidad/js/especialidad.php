@@ -1,8 +1,10 @@
 <script type="text/javascript">
+var cursos_selec=[];
 var AddEdit=0; //0: Editar | 1: Agregar
 var EspecialidadG={id:0,
 especialidad:"",
 certificado_especialidad:"",
+curso_id:"",
 estado:1}; // Datos Globales
 $(document).ready(function() {
     $("#TableEspecialidad").DataTable({
@@ -13,11 +15,13 @@ $(document).ready(function() {
         "info": true,
         "autoWidth": false
     });
+    CargarSlct(3);
     AjaxEspecialidad.Cargar(HTMLCargarEspecialidad);
     $("#EspecialidadForm #TableEspecialidad select").change(function(){ AjaxEspecialidad.Cargar(HTMLCargarEspecialidad); });
     $("#EspecialidadForm #TableEspecialidad input").blur(function(){ AjaxEspecialidad.Cargar(HTMLCargarEspecialidad); });
 
     $('#ModalEspecialidad').on('shown.bs.modal', function (event) {
+
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
         }
@@ -28,7 +32,9 @@ $(document).ready(function() {
 
         $('#ModalEspecialidadForm #txt_especialidad').val( EspecialidadG.especialidad );
         $('#ModalEspecialidadForm #txt_certificado_especialidad').val( EspecialidadG.certificado_especialidad );
+        $('#ModalEspecialidadForm #slct_curso_id').val( EspecialidadG.curso_id );
         $('#ModalEspecialidadForm #slct_estado').val( EspecialidadG.estado );
+        $("#ModalEspecialidad select").selectpicker('refresh');
         $('#ModalEspecialidadForm #txt_especialidad').focus();
     });
 
@@ -53,11 +59,13 @@ AgregarEditar=function(val,id){
     EspecialidadG.id='';
     EspecialidadG.especialidad='';
     EspecialidadG.certificado_especialidad='';
+    EspecialidadG.curso_id='';
     EspecialidadG.estado='1';
     if( val==0 ){
         EspecialidadG.id=id;
         EspecialidadG.especialidad=$("#TableEspecialidad #trid_"+id+" .especialidad").text();
         EspecialidadG.certificado_especialidad=$("#TableEspecialidad #trid_"+id+" .certificado_especialidad").text();
+        EspecialidadG.curso_id=$("#TableEspecialidad #trid_"+id+" .curso_id").val();
         EspecialidadG.estado=$("#TableEspecialidad #trid_"+id+" .estado").val();
     }
     $('#ModalEspecialidad').modal('show');
@@ -83,6 +91,7 @@ AgregarEditarAjax=function(){
 HTMLAgregarEditar=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
+        cursos_selec=[];
         $('#ModalEspecialidad').modal('hide');
         AjaxEspecialidad.Cargar(HTMLCargarEspecialidad);
     }
@@ -90,6 +99,22 @@ HTMLAgregarEditar=function(result){
         msjG.mensaje('warning',result.msj,3000);
     }
 }
+CargarSlct=function(slct){
+
+    if(slct==3){
+    AjaxEspecialidad.CargarCurso(SlctCargarCurso);
+    }
+}
+
+SlctCargarCurso=function(result){
+    var html="";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.curso+"</option>";
+    });
+    $("#ModalEspecialidad #slct_curso_id").html(html); 
+    $("#ModalEspecialidad #slct_curso_id").selectpicker('refresh');
+
+};
 
 HTMLCargarEspecialidad=function(result){ //INICIO HTML
     var html="";
@@ -106,7 +131,8 @@ HTMLCargarEspecialidad=function(result){ //INICIO HTML
             html+="</td>"+
             "<td class='especialidad'>"+r.especialidad+"</td>"+
             "<td class='certificado_especialidad'>"+r.certificado_especialidad+"</td>"+
-            "<td>";
+            "<td>"+
+            "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';

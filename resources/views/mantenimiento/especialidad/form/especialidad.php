@@ -24,8 +24,14 @@
                   </div>
 
               </div>
-            
-
+            <div class="col-sm-12">  
+              <div class="col-sm-6">     
+                  <br>         
+                      <label>Curso</label>
+                      <br>
+                        <select class="selectpicker" multiple data-actions-box="true" name="slct_curso_id" id="slct_curso_id">
+                        </select>     
+                  </div>
               <div class="col-sm-6">    
               <br>                    
                       <label>Estado</label>
@@ -33,6 +39,7 @@
                           <option value='0'>Inactivo</option>
                           <option value='1' selected>Activo</option>
                         </select>               
+              </div>
               </div>
 
           </div> <!-- FIN FORM GROUP-->

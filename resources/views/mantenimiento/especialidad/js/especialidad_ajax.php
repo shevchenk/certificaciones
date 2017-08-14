@@ -24,6 +24,11 @@ var AjaxEspecialidad={
         $("#ModalEspecialidadForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Mantenimiento.EspecialidadEM@EditStatus';
         masterG.postAjax(url,data,evento);
+    },
+    CargarCurso:function(evento){
+        url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';
+        data={};
+        masterG.postAjax(url,data,evento);
     }
 };
 </script>
