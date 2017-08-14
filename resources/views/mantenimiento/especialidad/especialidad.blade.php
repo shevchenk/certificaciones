@@ -6,6 +6,10 @@
     {{ Html::script('lib/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('lib/datatables/dataTables.bootstrap.min.js') }}
 
+    {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
+    {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
+    {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
+
     @include( 'mantenimiento.especialidad.js.especialidad_ajax' )
     @include( 'mantenimiento.especialidad.js.especialidad' )
 @stop
