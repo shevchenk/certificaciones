@@ -16,7 +16,7 @@
                             <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control mant" readonly="">
                             <input type="text" class="form-control" id="txt_docente" name="txt_docente"  disabled="">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListadocente" data-filtros="estado:1" data-personaid="ModalProgramacionForm #txt_docente_id" data-docenteid="ModalProgramacionForm #txt_persona_id" data-docente="ModalProgramacionForm #txt_docente">Buscar</button>
+                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListadocente" data-filtros="estado:1" data-personaid="ModalProgramacionForm #txt_persona_id" data-docenteid="ModalProgramacionForm #txt_docente_id" data-docente="ModalProgramacionForm #txt_docente">Buscar</button>
                             </span>
                         </div>           
                     <div class="col-md-12">

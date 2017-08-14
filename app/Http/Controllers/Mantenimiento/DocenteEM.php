@@ -34,8 +34,8 @@ class DocenteEM extends Controller
             );
 
             $rules = array(
-                'sucursal' => 
-                       ['persona_id',
+                'persona_id' => 
+                       ['required',
                         Rule::unique('mat_docentes','persona_id'),
                         ],
             );
