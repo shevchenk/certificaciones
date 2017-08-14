@@ -76,39 +76,27 @@ class Especialidad extends Model
         $especialidad_id = Auth::user()->id;
         $especialidad = new Especialidad;
         $especialidad->especialidad = trim( $r->especialidad );
-        $especialidad->certificado_especialidad = trim( $r->certificado_especialidad );    
-        //$especialidad->curso_id = trim( $r->curso_id);  
+        $especialidad->certificado_especialidad = trim( $r->certificado_especialidad );     
         $especialidad->estado = trim( $r->estado );
         $especialidad->persona_id_created_at=$especialidad_id;
+        $especialidad->save();
+        $curso = $r->curso_id;
+
+        //ESTO HACE QUE GRABE EN LA TABLE DETALLE LOS CURSOS, LO QUE SE ESCOJE EN EL COMBO CURSO
+        for($i=0;$i<count($curso);$i++)
+        {
+            $curso_especialidad = new CursoEspecialidad;
+
+            $curso_especialidad->curso_id = $curso[$i];
+            $curso_especialidad->especialidad_id = $especialidad -> id;
+            $curso_especialidad->persona_id_created_at = Auth::user()->id;
+            $curso_especialidad->save();
+        }
         
        
-       if ($r->cargos_selec) {
-                $especialidades=$r->cargos_selec;
-                $especialidades = explode(',', $especialidades);
-                if (is_array($especialidades)) {
-                    for ($i=0; $i<count($especialidades); $i++) {
-                        $especialidadId = $especialidades[$i];
+ 
 
-                         $cursos = $r['cursos'.$especialidadId];
-
-                        for ($j=0; $j<count($cursos); $j++) {
-                            //recorrer las cursos y buscar si exten
-                            $cursoId = $cursos[$j];
-                            DB::table('mat_cursos_especialidades')->insert(
-                                array(
-                                    'curso_id' => $cursoId,
-                                    'especialidad_id' => $especialidadId,
-                                    'estado' => 1,
-                                    'created_at'=> date('Y-m-d h:m:s'),
-                                    'persona_id_created_at'=> Auth::user()->id,
-                                    'persona_id_updated_at' => Auth::user()->id
-                                )
-                            );
-                        }
-                    }
-                }
-            }
-            $especialidad->save();
+           
     }
 
     public static function runEdit($r)

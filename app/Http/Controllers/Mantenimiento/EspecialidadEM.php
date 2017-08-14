@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mantenimiento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mantenimiento\Especialidad;
+use App\Models\Mantenimiento\CursoEspecialidad;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
