@@ -12,6 +12,16 @@ $(document).ready(function() {
         autoclose: true,
         todayBtn: false
     });
+    
+    $(".fecha").datetimepicker({
+        format: "yyyy-mm-dd",
+        language: 'es',
+        showMeridian: true,
+        time:true,
+        minView:2,
+        autoclose: true,
+        todayBtn: false
+    });
 
     $("#TableProgramacion").DataTable({
         "paging": true,

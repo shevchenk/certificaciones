@@ -26,6 +26,7 @@ $(document).ready(function() {
     
     $('#ModalPersona').on('shown.bs.modal', function (event) {
         CargarSlct(2);
+        $("#f_areas_cargo").css("display","none");
         if( AddEdit==1 ){
             
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax2();');
@@ -42,6 +43,7 @@ $(document).ready(function() {
         $('#ModalPersonaForm #txt_dni').val( PersonaG.dni );
         $('#ModalPersonaForm #slct_sexo').val( PersonaG.sexo );
         $('#ModalPersonaForm #txt_email').val( PersonaG.email );
+        $('#ModalPersonaForm #txt_password').val( PersonaG.password );
         $('#ModalPersonaForm #txt_telefono').val( PersonaG.telefono );
         $('#ModalPersonaForm #txt_celular').val( PersonaG.celular );
         $('#ModalPersonaForm #txt_fecha_nacimiento').val( PersonaG.fecha_nacimiento );
