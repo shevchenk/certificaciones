@@ -26,7 +26,7 @@ var AjaxProgramacion={
         masterG.postAjax(url,data,evento);
     },
     CargarSucursal:function(evento){
-        url='AjaxDinamic/Mantenimiento.SucursalEM@ListSucursal';
+        url='AjaxDinamic/Mantenimiento.SucursalEM@ListSucursalandusuario';
         data={};
         masterG.postAjax(url,data,evento);
     },

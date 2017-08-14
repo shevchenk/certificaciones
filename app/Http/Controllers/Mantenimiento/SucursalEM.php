@@ -107,5 +107,16 @@ class SucursalEM extends Controller
             return response()->json($return);
         }
     }
+    
+                public function ListSucursalandusuario (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Sucursal::ListSucursalandUsuario($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
 
 }
