@@ -3,7 +3,7 @@ var AddEdit=0; //0: Editar | 1: Agregar
 var CursoG={id:0,
 curso:"",
 certificado_curso:"",
-tipo_curso:1,
+tipo_curso:0,
 estado:1}; // Datos Globales
 $(document).ready(function() {
     $("#TableCurso").DataTable({
@@ -31,11 +31,13 @@ $(document).ready(function() {
         $('#ModalCursoForm #txt_certificado_curso').val( CursoG.certificado_curso );
         $('#ModalCursoForm #slct_tipo_curso').val( CursoG.tipo_curso );
         $('#ModalCursoForm #slct_estado').val( CursoG.estado );
+        $("#ModalCurso select").selectpicker('refresh');
         $('#ModalCursoForm #txt_curso').focus();
     });
 
     $('#ModalCurso').on('hidden.bs.modal', function (event) {
         $("ModalCursoForm input[type='hidden']").not('.mant').remove();
+
        // $("ModalCursoForm input").val('');
     });
 });
@@ -55,7 +57,7 @@ AgregarEditar=function(val,id){
     CursoG.id='';
     CursoG.curso='';
     CursoG.certificado_curso='';
-    CursoG.tipo_curso='1';
+    CursoG.tipo_curso='0';
     CursoG.estado='1';
     if( val==0 ){
         CursoG.id=id;
@@ -105,18 +107,18 @@ HTMLCargarCurso=function(result){ //INICIO HTML
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }
 
-        html+="<tr id='trid_"+r.id+"'>";
-   
-            html+="</td>"+
+        html+="<tr id='trid_"+r.id+"'>"+
             "<td class='curso'>"+r.curso+"</td>"+
             "<td class='certificado_curso'>"+r.certificado_curso+"</td>"+
-            "<td class='tipo_curso'>"+r.tipo_curso+"</td>"+
-            "<td>";
+            "<td class='tipo_cursoFORM'>"+r.tipo_curso+"</td>"+
 
-        
-        html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
+            "<td>"+
+            "<input type='hidden' class='tipo_curso' value='"+r.tipo_curso+"'>"+
+            "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
+            "</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";
+
     });//FIN FUNCTION
 
     $("#TableCurso tbody").html(html); 
