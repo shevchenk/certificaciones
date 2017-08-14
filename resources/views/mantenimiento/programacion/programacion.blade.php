@@ -22,7 +22,7 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Personas
+    <h1>Programación de Cursos
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
