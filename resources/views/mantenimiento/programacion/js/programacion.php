@@ -61,15 +61,15 @@ $(document).ready(function() {
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalProgramacionForm #slct_docente_id").val() )=='' ){
+    if( $.trim( $("#ModalProgramacionForm #slct_docente_id").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione Docente',4000);
     }
-    else if( $.trim( $("#ModalProgramacionForm #slct_sucursal_id").val() )=='' ){
+    else if( $.trim( $("#ModalProgramacionForm #slct_sucursal_id").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione Sucursal',4000);
     }
-    else if( $.trim( $("#ModalProgramacionForm #slct_curso_id").val() )=='' ){
+    else if( $.trim( $("#ModalProgramacionForm #slct_curso_id").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione Curso',4000);
     }
