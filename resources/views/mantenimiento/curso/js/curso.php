@@ -113,6 +113,7 @@ HTMLCargarCurso=function(result){ //INICIO HTML
             "<td class='tipo_curso'>"+r.tipo_curso+"</td>"+
             "<td>";
 
+        
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";
