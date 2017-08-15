@@ -41,6 +41,20 @@
                             <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_aula" name="txt_aula">
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Horario</label>
+                            <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_dia[]" id="slct_dia">
+                                <option value="LU">Lunes</option>
+                                <option value="MA">Martes</option>
+                                <option value="MI">Miercoles</option>
+                                <option value="JU">Jueves</option>
+                                <option value="VI">Viernes</option>
+                                <option value="SA">Sabado</option>
+                                <option value="DO">Domingo</option>
+                            </select>
+                        </div>
+                    </div>                 
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Fecha de Inicio</label>

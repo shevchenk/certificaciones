@@ -27,6 +27,8 @@ class Programacion extends Model
         $sucursal->curso_id = trim( $r->curso_id);
         $sucursal->sucursal_id = trim( $r->sucursal_id );
         $sucursal->aula = trim( $r->aula );
+        $dia=implode(",", $r->dia);
+        $sucursal->dia = trim( $dia );
         $sucursal->fecha_inicio = trim( $r->fecha_inicio );
         $sucursal->fecha_final = trim( $r->fecha_final );
         $sucursal->estado = trim( $r->estado );
@@ -42,6 +44,8 @@ class Programacion extends Model
         $sucursal->curso_id = trim( $r->curso_id);
         $sucursal->sucursal_id = trim( $r->sucursal_id );
         $sucursal->aula = trim( $r->aula );
+        $dia=implode(",", $r->dia);
+        $sucursal->dia = trim( $dia );
         $sucursal->fecha_inicio = trim( $r->fecha_inicio );
         $sucursal->fecha_final = trim( $r->fecha_final );
         $sucursal->estado = trim( $r->estado );
@@ -52,7 +56,7 @@ class Programacion extends Model
     public static function runLoad($r)
     {
 
-        $sql=Programacion::select('mat_programaciones.id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona'),'mat_programaciones.persona_id','mat_programaciones.docente_id','c.curso','mat_programaciones.curso_id','mat_programaciones.sucursal_id',
+        $sql=Programacion::select('mat_programaciones.dia','mat_programaciones.id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona'),'mat_programaciones.persona_id','mat_programaciones.docente_id','c.curso','mat_programaciones.curso_id','mat_programaciones.sucursal_id',
                                   's.sucursal','mat_programaciones.aula','mat_programaciones.fecha_inicio','mat_programaciones.fecha_final','mat_programaciones.estado')
              ->join('personas as p','p.id','=','mat_programaciones.persona_id')
              ->join('sucursales as s','s.id','=','mat_programaciones.sucursal_id')

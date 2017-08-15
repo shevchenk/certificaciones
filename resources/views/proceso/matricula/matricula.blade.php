@@ -81,7 +81,7 @@
                             <input type="text" class="form-control" id="txt_dni" name="txt_dni" disabled="">
                         </div> 
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label>Nombre Completo</label>
                             <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control mant" readonly="">
@@ -92,17 +92,11 @@
                         <div class="form-group">
                             <label>&nbsp;&nbsp;&nbsp;</label>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni">Buscar</button>
+                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni">Buscar Persona</button>
                             </span>
                         </div> 
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Direccion</label>
-                            <input type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_direccion" name="txt_direccion">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Región</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_region_id" name="slct_region_id">
@@ -111,7 +105,7 @@
                             </select>
                         </div> 
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Provincia</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_provincia_id" name="slct_provincia_id">
@@ -120,7 +114,7 @@
                             </select>
                         </div> 
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Distrito</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_distrito_id" name="slct_distrito_id">
@@ -129,15 +123,27 @@
                             </select>
                         </div> 
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Direccion</label>
+                            <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_direccion" name="txt_direccion"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Referencia</label>
+                            <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_referencia" name="txt_referencia"></textarea>
+                        </div>
+                    </div>
                     <div class="col-md-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading"><center>CURSOS MATRICULADOS</center></div>
+                        <div class="panel panel-success">
+                            <div class="panel-heading text-white" style="background-color: #A9D08E;color:black"><center>CURSOS MATRICULADOS</center></div>
                             <div class="panel-body">
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>&nbsp;&nbsp;&nbsp;</label>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-warning btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni">Agregar Curso con Programación</button>
+                                            <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni">Agregar Curso con Programación</button>
                                         </span>
                                     </div> 
                                 </div>
@@ -152,7 +158,7 @@
                                     <div class="form-group">
                                         <label>&nbsp;&nbsp;&nbsp;</label>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar</button>
+                                            <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
                                         </span>
                                     </div> 
                                 </div>
@@ -179,9 +185,9 @@
 
                     <div class="col-md-12">
                         <div class="panel panel-warning">
-                            <div class="panel-heading"><center>PAGOS</center></div>
+                            <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGOS</center></div>
                             <div class="panel-body">
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>&nbsp;&nbsp;&nbsp;</label>
                                     </div> 
@@ -197,7 +203,7 @@
                                     <div class="form-group">
                                         <label>&nbsp;&nbsp;&nbsp;</label>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_caja_id"  data-persona="ModalMatriculaForm #txt_persona_caja">Buscar</button>
+                                            <button type="button" class="btn btn-warning btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_caja_id"  data-persona="ModalMatriculaForm #txt_persona_caja">Buscar Responsable</button>
                                         </span>
                                     </div> 
                                 </div>
@@ -212,10 +218,10 @@
                                                 <th>Nombre del Curso.</th>
                                                 <th>N° de Boleta</th>
                                                 <th>Importe</th>
-                                                <th>Img</th>
+                                                <th>Archivo</th>
                                                 <th>N° de Boleta</th>
                                                 <th>Importe</th>
-                                                <th>Img</th>
+                                                <th>Archivo</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tb_pago">

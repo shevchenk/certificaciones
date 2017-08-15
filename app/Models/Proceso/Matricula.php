@@ -26,7 +26,7 @@ class Matricula extends Model
            $al= new Alumno;
            $al->persona_id=trim( $r->persona_id);
            $al->direccion=trim( $r->direccion);
-           $al->referencia=trim('');
+           $al->referencia=trim($r->referencia);
            $al->region_id=trim( $r->region_id);
            $al->provincia_id=trim( $r->provincia_id);
            $al->distrito_id=trim( $r->distrito_id);
@@ -63,9 +63,6 @@ class Matricula extends Model
         
         if($matricula){
             for($i=0;$i<count($programacion_id);$i++){
-                $este = new Matricula;
-                $url = "upload/$matricula->id/pago".$i.'.';
-                $ruta_archivo = $este->fileToFile($pago_archivo[$i], $matricula->id, $url);
                 
                 $mtdetalle=new MatriculaDetalle;
                 $mtdetalle->matricula_id=$matricula->id;
@@ -74,30 +71,22 @@ class Matricula extends Model
                 $mtdetalle->monto_pago=$monto_pago[$i];
                 $mtdetalle->nro_pago_certificado=$nro_pago_certificado[$i];
                 $mtdetalle->monto_pago_certificado=$monto_pago_certificado[$i];
-                $mtdetalle->archivo_pago=$ruta_archivo;
+                
+                $este = new Matricula;
+                    if(trim($pago_nombre[$i])!=''){
+                        $url_curso = "upload/m$matricula->id/cu_".$i.'.';
+                        $ruta_curso = $este->fileToFile($pago_archivo[$i],'m'.$matricula->id, $url_curso);
+                        $mtdetalle->archivo_pago=$ruta_curso;
+                    }
+
+                    if(trim($pago_nombre_certificado[$i])!=''){
+                        $url_certificado = "upload/m$matricula->id/ce_".$i.'.';
+                        $ruta_certificado = $este->fileToFile($pago_archivo_certificado[$i],'m'.$matricula->id, $url_certificado);
+                        $mtdetalle->archivo_pago_certificado=$ruta_certificado;
+                    }
                 $mtdetalle->persona_id_created_at=Auth::user()->id;
                 $mtdetalle->save();
             }
-//            
-//            if (Input::has('nro_pagos') && Input::get('nro_pagos')>0) {
-//                    $alumnoProbPagos=[];
-//                    $file = Input::get('pago_archivo');
-//                    for ($i=0; $i < Input::get('nro_pagos'); $i++) {
-//                        
-//                        $url = "upload/$problema->id/pago".$i.'.';
-//                        $ruta_archivo = $this->fileToFile($file[$i], $problema->id, $url);
-//                        $alumnoProbPago =new AlumnoProblemaPago( [
-//                            'fecha' => Input::get('tp_fecha')[$i],
-//                            'recibo' => Input::get('tp_recibo')[$i],
-//                            'monto' => Input::get('tp_monto')[$i],
-//                            'ruta_archivo' => $ruta_archivo,
-//                            'usuario_created_at'=>$id,
-//                            'alumno_problema_id'=>$alumnoProblema->id
-//                        ]);
-//                        array_push($alumnoProbPagos, $alumnoProbPago);
-//                    }
-//                    $alumnoProblema->alumnoProbPagos()->saveMany($alumnoProbPagos);
-//                }
 
         }
     }
