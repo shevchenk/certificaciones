@@ -1,6 +1,7 @@
 <script type="text/javascript">
 var LTtextoIdPersona='';
 var LTtextoPersona='';
+var LTtextoDNI='';
 var LPfiltrosG='';
 $(document).ready(function() {
     $("#TableListapersona").DataTable({
@@ -25,6 +26,7 @@ $(document).ready(function() {
 
       LTtextoIdPersona= button.data('personaid');
       LTtextoPersona= button.data('persona');
+      LTtextoDNI= button.data('dni');
 
     });
 
@@ -38,12 +40,16 @@ $(document).ready(function() {
 SeleccionarPersona = function(val,id){
     $("#"+LTtextoPersona).val('');
     $("#"+LTtextoIdPersona).val('');
+    $("#"+LTtextoDNI).val('');
+    
     if( val==0 ){
         var paterno=$("#TableListapersona #trid_"+id+" .paterno").text();
         var materno=$("#TableListapersona #trid_"+id+" .materno").text();
         var nombre=$("#TableListapersona #trid_"+id+" .nombre").text();
+        var dni=$("#TableListapersona #trid_"+id+" .dni").text();
         $("#"+LTtextoPersona).val(paterno+" "+materno+" "+nombre);
         $("#"+LTtextoIdPersona).val(id);
+        $("#"+LTtextoDNI).val(dni);
 
         $('#ModalListapersona').modal('hide');
     }

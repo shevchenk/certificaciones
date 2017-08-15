@@ -15,6 +15,17 @@ fecha_nacimiento:"",
 estado:1}; // 
 
 $(document).ready(function() {
+    
+    $(".fecha").datetimepicker({
+        format: "yyyy-mm-dd",
+        language: 'es',
+        showMeridian: false,
+        time:false,
+        minView:2,
+        autoclose: true,
+        todayBtn: false
+    });
+    
     $("#TablePersona").DataTable({
         "paging": true,
         "lengthChange": false,

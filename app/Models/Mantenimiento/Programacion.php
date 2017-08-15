@@ -106,5 +106,5 @@ class Programacion extends Model
         $result = $sql->orderBy('mat_programaciones.id','asc')->paginate(10);
         return $result;
     }
-    
+        
 }

@@ -15,7 +15,7 @@ fecha_nacimiento:"",
 estado:1}; // Datos Globales
 $(document).ready(function() {
 
-    $(".fechas").datetimepicker({
+    $(".fecha").datetimepicker({
         format: "yyyy-mm-dd",
         language: 'es',
         showMeridian: false,
@@ -54,6 +54,7 @@ $(document).ready(function() {
         $('#ModalPersonaForm #slct_sexo').val( PersonaG.sexo );
         $('#ModalPersonaForm #txt_email').val( PersonaG.email );
         $('#ModalPersonaForm #txt_telefono').val( PersonaG.telefono );
+        $('#ModalPersonaForm #txt_password').val( PersonaG.password );
         $('#ModalPersonaForm #txt_celular').val( PersonaG.celular );        
         $('#ModalPersonaForm #txt_fecha_nacimiento').val( PersonaG.fecha_nacimiento );
         $('#ModalPersonaForm #slct_estado').val( PersonaG.estado );
