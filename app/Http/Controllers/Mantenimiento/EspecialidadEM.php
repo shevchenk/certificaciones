@@ -3,11 +3,12 @@ namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Sucursal;
+use App\Models\Mantenimiento\Especialidad;
+use App\Models\Mantenimiento\CursoEspecialidad;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class SucursalEM extends Controller
+class EspecialidadEM extends Controller
 {
     public function __construct()
     {
@@ -17,7 +18,7 @@ class SucursalEM extends Controller
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Sucursal::runEditStatus($r);
+            Especialidad::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
@@ -34,9 +35,9 @@ class SucursalEM extends Controller
             );
 
             $rules = array(
-                'sucursal' => 
+                'especialidad' => 
                        ['required',
-                        Rule::unique('sucursales','sucursal'),
+                        Rule::unique('mat_especialidades','especialidad'),
                         ],
             );
 
@@ -44,7 +45,7 @@ class SucursalEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Sucursal::runNew($r);
+                Especialidad::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -65,16 +66,16 @@ class SucursalEM extends Controller
             );
 
             $rules = array(
-                'sucursal' => 
+                'especialidad' => 
                        ['required',
-                        Rule::unique('sucursales','sucursal')->ignore($r->id),
+                        Rule::unique('mat_especialidades','especialidad')->ignore($r->id),
                         ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Sucursal::runEdit($r);
+                Especialidad::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -89,7 +90,7 @@ class SucursalEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Sucursal::runLoad($r);
+            $renturnModel = Especialidad::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
@@ -97,21 +98,10 @@ class SucursalEM extends Controller
         }
     }
     
-            public function ListSucursal (Request $r )
+            public function ListEspecialidad (Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Sucursal::ListSucursal($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-    
-                public function ListSucursalandusuario (Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Sucursal::ListSucursalandUsuario($r);
+            $renturnModel = Especialidad::ListEspecialidad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
