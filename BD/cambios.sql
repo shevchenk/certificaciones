@@ -4,6 +4,7 @@ INSERT INTO `privilegios_opciones` VALUES ('5', '1', '5', '1', '2017-05-26 19:05
 
 CREATE TABLE `alumnos_historico` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alumno_id` int(11) NOT NULL,
   `campo_1` varchar(255) DEFAULT NULL,
   `campo_2` varchar(255) DEFAULT NULL,
   `campo_3` varchar(255) DEFAULT NULL,
@@ -30,4 +31,4 @@ CREATE TABLE `alumnos_historico` (
   `persona_id_created_at` int(11) NOT NULL,
   `persona_id_updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
