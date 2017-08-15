@@ -92,8 +92,8 @@ class PrivilegioMA extends Controller
             $renturnModel = Privilegio::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
+            $return['msj'] = "No hay registros aún";    
+            return response()->json($return);   
         }
     }
     

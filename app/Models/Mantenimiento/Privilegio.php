@@ -43,7 +43,7 @@ class Privilegio extends Model
                         $privilegio=trim($r->privilegio);
                         if( $privilegio !='' ){
                             $query->where('privilegio','like','%'.$privilegio.'%');
-                        }
+                        }   
                     }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
