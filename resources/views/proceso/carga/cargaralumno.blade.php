@@ -2,24 +2,21 @@
 
 @section('include')
     @parent
-    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
-    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    {{ Html::script('lib/bootstrap-filestyle/src/bootstrap-filestyle.min.js') }}
 
-    @include( 'ruta.js.cargarmatriculas_ajax' )
-    @include( 'ruta.js.cargarmatriculas' )
+    @include( 'proceso.carga.js.cargaralumno_ajax' )
+    @include( 'proceso.carga.js.cargaralumno' )
 
 @stop
 
 @section('content')
 <section class="content-header">
-    <h1>Carga de Gastos
-        <small></small>
+    <h1>Alumnos
+        <small>Carga de Datos</small>
     </h1>
     <ol class="breadcrumb">
-        <li><i class="fa fa-sitemap"></i> Matriculas</a></li>
-        <li class="active">Carga de Gastos</li>
+        <li><i class="fa fa-sitemap"></i> Alumnos</a></li>
+        <li class="active">Carga de Datos</li>
     </ol>
 </section>
 
@@ -30,17 +27,24 @@
                 <form id="form_file" name="form_file" action="" enctype="multipart/form-data" method="post">
                     <div class="col-sm-12">
                         <div class="col-sm-4">
-                            <label>Archivo TXT</label>
-                            <input type="file" class="form-control" id="carga" name="carga" >
+                            <!-- <label>Archivo TXT</label> -->
+                            <input type="file" class="filestyle" data-buttonText="&nbsp;Seleccione Archivo .TXT" id="carga" name="carga" data-buttonName="btn-primary">
+                        </div>
+                        <div class="col-sm-2 ">
+                            <button type="button" id="btn_cargar" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
+                            </button>
                         </div>
                     </div>
                 </form>
+                <!-- 
                 <br><br>
                 <div class="col-sm-12">
                     <div class="col-sm-4">
                         <button type="button" id="btn_cargar" class="btn btn-primary">Guardar</button>
                     </div>
                 </div>
+                -->
                 <hr>
                 <br><br>
                 <div class="col-sm-12">
