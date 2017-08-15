@@ -3,11 +3,11 @@ namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Programacion;
+use App\Models\Mantenimiento\Privilegio;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ProgramacionEM extends Controller
+class PrivilegioMA extends Controller
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class ProgramacionEM extends Controller
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Programacion::runEditStatus($r);
+            Privilegio::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
@@ -30,12 +30,13 @@ class ProgramacionEM extends Controller
 
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
+                'unique'      => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'docente_id' => 
-                       ['required'
+                'privilegio' => 
+                       ['required',
+                        Rule::unique('privilegios','privilegio'),
                         ],
             );
 
@@ -43,7 +44,7 @@ class ProgramacionEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Programacion::runNew($r);
+                Privilegio::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -64,15 +65,16 @@ class ProgramacionEM extends Controller
             );
 
             $rules = array(
-                'docente_id' => 
-                       ['required'
+                'privilegio' => 
+                       ['required',
+                        Rule::unique('privilegios','privilegio')->ignore($r->id),
                         ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Programacion::runEdit($r);
+                Privilegio::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -87,7 +89,18 @@ class ProgramacionEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Programacion::runLoad($r);
+            $renturnModel = Privilegio::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";    
+            return response()->json($return);   
+        }
+    }
+    
+            public function ListPrivilegio (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Privilegio::ListPrivilegio($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
@@ -95,5 +108,4 @@ class ProgramacionEM extends Controller
         }
     }
 
-    
 }

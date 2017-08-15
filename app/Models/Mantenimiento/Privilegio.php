@@ -10,50 +10,50 @@ class Privilegio extends Model
 
     public static function runEditStatus($r)
     {
-        $cargo = Privilegio::find($r->id);
-        $cargo->estado = trim( $r->estadof );
-        $cargo->persona_id_updated_at=1;
-        $cargo->save();
+        $privilegio = Privilegio::find($r->id);
+        $privilegio->estado = trim( $r->estadof );
+        $privilegio->persona_id_updated_at=1;
+        $privilegio->save();
     }
 
     public static function runNew($r)
     {
-        $cargo = new Privilegio;
-        $cargo->cargo = trim( $r->cargo );
-        $cargo->estado = trim( $r->estado );
-        $cargo->persona_id_created_at=1;
-        $cargo->save();
+        $privilegio = new Privilegio;
+        $privilegio->privilegio = trim( $r->privilegio );
+        $privilegio->estado = trim( $r->estado );
+        $privilegio->persona_id_created_at=1;
+        $privilegio->save();
     }
 
     public static function runEdit($r)
     {
-        $cargo = Privilegio::find($r->id);
-        $cargo->cargo = trim( $r->cargo );
-        $cargo->estado = trim( $r->estado );
-        $cargo->persona_id_updated_at=1;
-        $cargo->save();
+        $privilegio = Privilegio::find($r->id);
+        $privilegio->privilegio = trim( $r->privilegio );
+        $privilegio->estado = trim( $r->estado );
+        $privilegio->persona_id_updated_at=1;
+        $privilegio->save();
     }
 
     public static function runLoad($r)
     {
-        $sql=Privilegio::select('id','cargo','estado')
+        $sql=Privilegio::select('id','privilegio','estado')
             ->where( 
                 function($query) use ($r){
-                    if( $r->has("cargo") ){
-                        $cargo=trim($r->cargo);
-                        if( $cargo !='' ){
-                            $query->where('cargo','like','%'.$cargo.'%');
-                        }
+                    if( $r->has("privilegio") ){
+                        $privilegio=trim($r->privilegio);
+                        if( $privilegio !='' ){
+                            $query->where('privilegio','like','%'.$privilegio.'%');
+                        }   
                     }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('estado','like','%'.$estado.'%');
+                            $query->where('estado','=',''.$estado.'');
                         }
                     }
                 }
             );
-        $result = $sql->orderBy('cargo','asc')->paginate(10);
+        $result = $sql->orderBy('privilegio','asc')->paginate(10);
         return $result;
     }
     
