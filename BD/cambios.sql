@@ -4,6 +4,7 @@ INSERT INTO `privilegios_opciones` VALUES ('5', '1', '5', '1', '2017-05-26 19:05
 
 CREATE TABLE `alumnos_historico` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alumno_id` int(11) NOT NULL,
   `campo_1` varchar(255) DEFAULT NULL,
   `campo_2` varchar(255) DEFAULT NULL,
   `campo_3` varchar(255) DEFAULT NULL,
