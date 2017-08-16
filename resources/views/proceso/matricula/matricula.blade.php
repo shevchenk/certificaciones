@@ -101,7 +101,6 @@
                             <label>Región</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_region_id" name="slct_region_id">
                                 <option value="0">.::Seleccione::.</option>
-                                <option value="1">Lima</option>
                             </select>
                         </div> 
                     </div>
@@ -110,7 +109,6 @@
                             <label>Provincia</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_provincia_id" name="slct_provincia_id">
                                 <option value="0">.::Seleccione::.</option>
-                                <option value="1">Callao</option>
                             </select>
                         </div> 
                     </div>
@@ -119,7 +117,6 @@
                             <label>Distrito</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_distrito_id" name="slct_distrito_id">
                                 <option value="0">.::Seleccione::.</option>
-                                <option value="1">Ventanilla</option>
                             </select>
                         </div> 
                     </div>
@@ -137,7 +134,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="panel panel-success">
-                            <div class="panel-heading text-white" style="background-color: #A9D08E;color:black"><center>CURSOS MATRICULADOS</center></div>
+                            <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>CURSOS MATRICULADOS</center></div>
                             <div class="panel-body">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -225,6 +222,44 @@
                                             </tr>
                                         </thead>
                                         <tbody id="tb_pago">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE MATRÍCULA</center></div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <table class="table" id="t_pago_matricula">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="3" style="text-align:center;">Pago de Matricula</th>
+                                            </tr>
+                                            <tr>
+                                                <th>N° de Boleta</th>
+                                                <th>Importe</th>
+                                                <th>Archivo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb_pago_matricula">
+                                            <tr>
+                                                <td><input type='text' class='form-control'  id='txt_nro_pago_matricula' name='txt_nro_pago_matricula'></td>
+                                                <td><input type='text' class='form-control'  id='txt_monto_pago_matricula' name='txt_monto_pago_matricula' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>
+                                                <td>
+                                                    <input type="text" readonly class="form-control" id="pago_nombre_matricula"  name="pago_nombre_matricula" value="">
+                                                    <input type="text" style="display: none;" id="pago_archivo_matricula" name="pago_archivo_matricula">
+                                                    <label class="btn btn-warning  btn-flat margin">
+                                                        <i class="fa fa-file-pdf-o fa-lg"></i>
+                                                        <i class="fa fa-file-word-o fa-lg"></i>
+                                                        <i class="fa fa-file-image-o fa-lg"></i>
+                                                    <input type="file" style="display: none;" onchange="onPagos(null,3);" >
+                                                    </label>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

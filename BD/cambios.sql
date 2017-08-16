@@ -31,3 +31,13 @@ CREATE TABLE `alumnos_historico` (
   `persona_id_updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+/************************16/08/2017***********************************/
+ALTER TABLE `mat_matriculas`
+ADD COLUMN `tipo_participante_id`  int(11) NULL AFTER `id`;
+
+ALTER TABLE `mat_programaciones`
+ADD COLUMN `dia`  varchar(50) NULL AFTER `aula`;
+
+ALTER TABLE `mat_matriculas`
+ADD COLUMN `archivo_pago`  varchar(100) NULL AFTER `monto_pago`;

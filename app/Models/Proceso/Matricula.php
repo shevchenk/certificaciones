@@ -42,13 +42,21 @@ class Matricula extends Model
         if( trim( $r->persona_caja_id )!=''){
         $matricula->persona_caja_id = trim( $r->persona_caja_id );}
         $matricula->persona_matricula_id = trim( $r->responsable_id );
-        if( trim( $r->persona_marketing_id )!=''){
+        if( trim( $r->marketing_id )!=''){
         $matricula->persona_marketing_id = trim( $r->marketing_id );}
         $matricula->fecha_matricula = trim( $r->fecha );
         $matricula->tipo_matricula = trim( $r->tipo_participante_id );
-        $matricula->nro_pago = trim( 1 );
-        $matricula->monto_pago = trim( 1 );
+        $matricula->nro_pago = trim( $r->nro_pago_matricula);
+        $matricula->monto_pago = trim( $r->monto_pago_matricula );                            
         $matricula->persona_id_created_at=Auth::user()->id;
+        $matricula->save();
+        
+            if(trim($r->pago_nombre_matricula)!=''){
+                $este = new Matricula;
+                $url_matricula = "upload/m$matricula->id/ma_0.";
+                $ruta_matricula = $este->fileToFile($r->pago_archivo_matricula,'m'.$matricula->id, $url_matricula);
+                $matricula->archivo_pago=$ruta_matricula;
+            }
         $matricula->save();
         
         $programacion_id=$r->programacion_id;

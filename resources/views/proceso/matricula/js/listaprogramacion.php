@@ -69,7 +69,7 @@ SeleccionarProgramacion = function(val,id){
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre'+id+'"" name="pago_nombre[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo'+id+'" name="pago_archivo[]">'+
-                    '<label class="btn bg-olive btn-flat margin">'+
+                    '<label class="btn btn-warning  btn-flat margin">'+
                         '<i class="fa fa-file-pdf-o fa-lg"></i>'+
                         '<i class="fa fa-file-word-o fa-lg"></i>'+
                         '<i class="fa fa-file-image-o fa-lg"></i>'+
@@ -81,7 +81,7 @@ SeleccionarProgramacion = function(val,id){
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
-                    '<label class="btn bg-olive btn-flat margin">'+
+                    '<label class="btn btn-warning  btn-flat margin">'+
                         '<i class="fa fa-file-pdf-o fa-lg"></i>'+
                         '<i class="fa fa-file-word-o fa-lg"></i>'+
                         '<i class="fa fa-file-image-o fa-lg"></i>'+
@@ -99,18 +99,30 @@ SeleccionarProgramacion = function(val,id){
 };
     
 onPagos=function(item,val){
-    if(val==1){ etiqueta="_certificado";}else {etiqueta="";}
+    if(val==1){ etiqueta="_certificado";}
+    if(val==3){ etiqueta="_matricula";}
+    if(val==2){etiqueta="";}
+    
     var files = event.target.files || event.dataTransfer.files;
     if (!files.length)
       return;
     var image = new Image();
     var reader = new FileReader();
     reader.onload = (e) => {
-        $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
+        if(val!=3){
+            $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
+        }else {
+            $("#t_pago_matricula  #pago_archivo"+etiqueta).val(event.target.result);
+        }
         //console.log(event.target.result);
     };
     reader.readAsDataURL(files[0]);
-    $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
+    if(val!=3){
+        $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
+    }else {
+        $("#t_pago_matricula  #pago_nombre"+etiqueta).val(files[0].name);
+    }
+    
 //    console.log(files[0].name);
 };    
     

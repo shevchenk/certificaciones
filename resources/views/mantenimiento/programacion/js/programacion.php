@@ -53,17 +53,17 @@ $(document).ready(function() {
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalProgramacionForm").append("<input type='hidden' value='"+ProgramacionG.id+"' name='id'>");
         }
+        var dia = ProgramacionG.dia.split(",");
         $('#ModalProgramacionForm #txt_docente').val( ProgramacionG.persona );
         $('#ModalProgramacionForm #txt_docente_id').val( ProgramacionG.docente_id );
         $('#ModalProgramacionForm #txt_persona_id').val( ProgramacionG.persona_id );
         $('#ModalProgramacionForm #slct_sucursal_id').selectpicker('val', ProgramacionG.sucursal_id );
         $('#ModalProgramacionForm #slct_curso_id').selectpicker( 'val',ProgramacionG.curso_id );
         $('#ModalProgramacionForm #txt_aula').val( ProgramacionG.aula );
-        var dia = ProgramacionG.dia.split(",");
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',dia);
         $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio );
         $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final );
-        $('#ModalProgramacionForm #slct_estado').val( ProgramacionG.estado );
+        $('#ModalProgramacionForm #slct_estado').selectpicker( 'val',ProgramacionG.estado );
         $('#ModalProgramacionForm #slct_docente_id').focus();
     });
 
