@@ -46,8 +46,10 @@ class Matricula extends Model
         $matricula->persona_marketing_id = trim( $r->marketing_id );}
         $matricula->fecha_matricula = trim( $r->fecha );
         $matricula->tipo_matricula = trim( $r->tipo_participante_id );
-        $matricula->nro_pago = trim( $r->nro_pago_matricula);
-        $matricula->monto_pago = trim( $r->monto_pago_matricula );                            
+        if( trim( $r->nro_pago_matricula )!=''){
+        $matricula->nro_pago = trim( $r->nro_pago_matricula);}
+        if( trim( $r->monto_pago_matricula )!=''){
+        $matricula->monto_pago = trim( $r->monto_pago_matricula );}                            
         $matricula->persona_id_created_at=Auth::user()->id;
         $matricula->save();
         

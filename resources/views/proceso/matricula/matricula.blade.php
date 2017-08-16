@@ -231,7 +231,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="panel panel-warning">
-                            <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE MATRÍCULA</center></div>
+                            <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE MATRÍCULA</center><input type="checkbox" name="exonerar_matricula" id="exonerar_matricula">Exonerar Matrícula</div>
                             <div class="panel-body">
                                 <div class="col-md-12">
                                     <table class="table" id="t_pago_matricula">
@@ -252,11 +252,11 @@
                                                 <td>
                                                     <input type="text" readonly class="form-control" id="pago_nombre_matricula"  name="pago_nombre_matricula" value="">
                                                     <input type="text" style="display: none;" id="pago_archivo_matricula" name="pago_archivo_matricula">
-                                                    <label class="btn btn-warning  btn-flat margin">
+                                                    <label class="btn btn-warning  btn-flat margin" id="df">
                                                         <i class="fa fa-file-pdf-o fa-lg"></i>
                                                         <i class="fa fa-file-word-o fa-lg"></i>
                                                         <i class="fa fa-file-image-o fa-lg"></i>
-                                                    <input type="file" style="display: none;" onchange="onPagos(null,3);" >
+                                                        <input type="file" style="display: none;" onchange="onPagos(null,3);" id="file_matricula">
                                                     </label>
                                                 </td>
                                             </tr>

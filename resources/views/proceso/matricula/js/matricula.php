@@ -23,6 +23,19 @@ $(document).ready(function() {
             var provincia_id= $('#ModalMatriculaForm #slct_provincia_id').val();
             AjaxMatricula.CargarDistrito(SlctCargarDistrito,provincia_id);
     });
+    
+    $( "#ModalMatriculaForm #exonerar_matricula" ).change(function() {
+        if( $('#ModalMatriculaForm #exonerar_matricula').prop('checked') ) {
+              $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",true);
+              $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",true);
+              $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",true);
+        }else{
+              $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
+              $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",false);
+              $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",false);
+        }
+
+    });
 
 });
 
@@ -72,11 +85,11 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione al menos una programación',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_matricula").val() )==''){
+    else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==false){
         r=false;
         msjG.mensaje('warning','Ingrese Número de pago de Matrícula',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_matricula").val() )==''){
+    else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==false){
         r=false;
         msjG.mensaje('warning','Ingrese Monto de pago de Matrícula',4000);
     }
