@@ -38,8 +38,12 @@ SeleccionarProgramacion = function(val,id){
         var sucursal_id=$("#TableListaprogramacion #trid_"+id+" .sucursal_id").val();
         var sucursal=$("#TableListaprogramacion #trid_"+id+" .sucursal").text();
         var curso_id=$("#TableListaprogramacion #trid_"+id+" .curso_id").val();
+        var dia=$("#TableListaprogramacion #trid_"+id+" .dia").val();
         var curso=$("#TableListaprogramacion #trid_"+id+" .curso").text();
         var fecha_inicio=$("#TableListaprogramacion #trid_"+id+" .fecha_inicio").text();
+        var fecha_final=$("#TableListaprogramacion #trid_"+id+" .fecha_final").text();
+        var fecha_i=fecha_inicio.split(" ");
+        var fecha_f=fecha_final.split(" ");
         if(sucursal_id==1){
             var mod='VIRTUAL';
         }
@@ -48,8 +52,8 @@ SeleccionarProgramacion = function(val,id){
             "<td>"+
             "<input type='text' class='form-control' value='"+mod+"' disabled></td>"+
             "<td><input type='text' class='form-control' value='"+curso+"' disabled></td>"+
-            "<td><input type='text' class='form-control' value='"+fecha_inicio+"' disabled></td>"+
-            "<td><input type='text' class='form-control' value='"+fecha_inicio+"' disabled></td>"+
+            "<td><input type='text' class='form-control' value='"+fecha_i[0]+"' disabled></td>"+
+            "<td><input type='text' class='form-control' value='"+fecha_i[1]+"-"+fecha_f[1]+" | "+dia+"' disabled></td>"+
             "<td><input type='text' class='form-control' value='"+sucursal+"' disabled></td>"+
             '<td><a onClick="Eliminar('+id+')" class="btn btn-danger" ><i class="fa fa-trash fa-lg"></i></a></td>';
           html+="</tr>";
@@ -65,7 +69,7 @@ SeleccionarProgramacion = function(val,id){
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre'+id+'"" name="pago_nombre[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo'+id+'" name="pago_archivo[]">'+
-                    '<label class="btn bg-olive btn-flat margin">'+
+                    '<label class="btn btn-warning  btn-flat margin">'+
                         '<i class="fa fa-file-pdf-o fa-lg"></i>'+
                         '<i class="fa fa-file-word-o fa-lg"></i>'+
                         '<i class="fa fa-file-image-o fa-lg"></i>'+
@@ -77,7 +81,7 @@ SeleccionarProgramacion = function(val,id){
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
-                    '<label class="btn bg-olive btn-flat margin">'+
+                    '<label class="btn btn-warning  btn-flat margin">'+
                         '<i class="fa fa-file-pdf-o fa-lg"></i>'+
                         '<i class="fa fa-file-word-o fa-lg"></i>'+
                         '<i class="fa fa-file-image-o fa-lg"></i>'+
@@ -95,18 +99,30 @@ SeleccionarProgramacion = function(val,id){
 };
     
 onPagos=function(item,val){
-    if(val==1){ etiqueta="_certificado";}else {etiqueta="";}
+    if(val==1){ etiqueta="_certificado";}
+    if(val==3){ etiqueta="_matricula";}
+    if(val==2){etiqueta="";}
+    
     var files = event.target.files || event.dataTransfer.files;
     if (!files.length)
       return;
     var image = new Image();
     var reader = new FileReader();
     reader.onload = (e) => {
-        $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
+        if(val!=3){
+            $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
+        }else {
+            $("#t_pago_matricula  #pago_archivo"+etiqueta).val(event.target.result);
+        }
         //console.log(event.target.result);
     };
     reader.readAsDataURL(files[0]);
-    $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
+    if(val!=3){
+        $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
+    }else {
+        $("#t_pago_matricula  #pago_nombre"+etiqueta).val(files[0].name);
+    }
+    
 //    console.log(files[0].name);
 };    
     
@@ -135,6 +151,7 @@ HTMLCargarProgramacion=function(result){
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
             "<td>"+
             '<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
+            "<input type='hidden' class='dia' value='"+r.dia+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+

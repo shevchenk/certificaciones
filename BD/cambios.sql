@@ -56,3 +56,15 @@ INSERT INTO `certificaciones`.`clientes_accesos` (`id`, `nombre`, `descripcion`,
 VALUES ('1', 'Software 1', 'Cliente de prueba rest full', '173449ebbda62b67a0d9bc645e6dbba7', NULL, NULL, '1', '2017-08-15 15:21:35', NULL, '1', NULL);
 
 -- 
+
+
+/************************16/08/2017***********************************/
+ALTER TABLE `mat_matriculas`
+ADD COLUMN `tipo_participante_id`  int(11) NULL AFTER `id`;
+
+ALTER TABLE `mat_programaciones`
+ADD COLUMN `dia`  varchar(50) NULL AFTER `aula`;
+
+ALTER TABLE `mat_matriculas`
+ADD COLUMN `archivo_pago`  varchar(100) NULL AFTER `monto_pago`;
+>>>>>>> 74febfb885d6107c2b0d70c612518a8c1c8704b3

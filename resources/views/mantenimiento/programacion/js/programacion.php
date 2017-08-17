@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
-var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
+var ProgramacionG={id:0,dia:"",persona_id:0,persona:"",docente_id:0,sucursal_id:"",
                curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     $(".fechas").datetimepicker({
@@ -53,16 +53,17 @@ $(document).ready(function() {
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalProgramacionForm").append("<input type='hidden' value='"+ProgramacionG.id+"' name='id'>");
         }
+        var dia = ProgramacionG.dia.split(",");
         $('#ModalProgramacionForm #txt_docente').val( ProgramacionG.persona );
         $('#ModalProgramacionForm #txt_docente_id').val( ProgramacionG.docente_id );
         $('#ModalProgramacionForm #txt_persona_id').val( ProgramacionG.persona_id );
-        $('#ModalProgramacionForm #slct_sucursal_id').val( ProgramacionG.sucursal_id );
-        $('#ModalProgramacionForm #slct_curso_id').val( ProgramacionG.curso_id );
+        $('#ModalProgramacionForm #slct_sucursal_id').selectpicker('val', ProgramacionG.sucursal_id );
+        $('#ModalProgramacionForm #slct_curso_id').selectpicker( 'val',ProgramacionG.curso_id );
         $('#ModalProgramacionForm #txt_aula').val( ProgramacionG.aula );
+        $('#ModalProgramacionForm #slct_dia').selectpicker('val',dia);
         $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio );
         $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final );
-        $('#ModalProgramacionForm #slct_estado').val( ProgramacionG.estado );
-        $("#ModalProgramacion select").selectpicker('refresh');
+        $('#ModalProgramacionForm #slct_estado').selectpicker( 'val',ProgramacionG.estado );
         $('#ModalProgramacionForm #slct_docente_id').focus();
     });
 
@@ -86,6 +87,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Curso',4000);
     }
+    else if( $.trim( $("#ModalProgramacionForm #slct_dia").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Días',4000);
+    }
     else if( $.trim( $("#ModalProgramacionForm #txt_fecha_inicio").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Fecha de Inicio',4000);
@@ -106,6 +111,7 @@ AgregarEditar=function(val,id){
     ProgramacionG.sucursal_id='';
     ProgramacionG.curso_id='';
     ProgramacionG.aula='';
+    ProgramacionG.dia='';
     ProgramacionG.fecha_inicio='';
     ProgramacionG.fecha_final='';
     ProgramacionG.estado='1';
@@ -117,6 +123,7 @@ AgregarEditar=function(val,id){
         ProgramacionG.sucursal_id=$("#TableProgramacion #trid_"+id+" .sucursal_id").val();
         ProgramacionG.curso_id=$("#TableProgramacion #trid_"+id+" .curso_id").val();
         ProgramacionG.aula=$("#TableProgramacion #trid_"+id+" .aula").text();
+        ProgramacionG.dia=$("#TableProgramacion #trid_"+id+" .dia").val();  
         ProgramacionG.fecha_inicio=$("#TableProgramacion #trid_"+id+" .fecha_inicio").text();
         ProgramacionG.fecha_final=$("#TableProgramacion #trid_"+id+" .fecha_final").text();  
         ProgramacionG.estado=$("#TableProgramacion #trid_"+id+" .estado").val();
@@ -169,6 +176,7 @@ HTMLCargarProgramacion=function(result){
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
             "<td>"+
+            "<input type='hidden' class='dia' value='"+r.dia+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+
