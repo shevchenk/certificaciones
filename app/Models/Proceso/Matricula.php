@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Proceso\Alumno;
 use App\Models\Proceso\MatriculaDetalle;
+use Illuminate\Support\Facades\Input;
 
 class Matricula extends Model
 {
@@ -15,7 +16,7 @@ class Matricula extends Model
     {
         /******Validar si alumno existe ***/
         $alumno=Alumno::where('persona_id','=',$r->persona_id)->first();
-        
+
         if($alumno){
            $al= Alumno::find($alumno->id);
            $al->region_id=trim( $r->region_id);
@@ -61,7 +62,13 @@ class Matricula extends Model
             }
         $matricula->save();
         
-        $programacion_id=$r->programacion_id;
+        if(Input::has('programacion_id')){
+                $programacion_id=$r->programacion_id;
+            }
+        if(Input::has('especialidad_id')){
+                $especialidad_id=$r->especialidad_id;
+            }
+        
         $nro_pago=$r->nro_pago;
         $monto_pago=$r->monto_pago;
         $nro_pago_certificado=$r->nro_pago_certificado;
@@ -72,11 +79,14 @@ class Matricula extends Model
         $pago_nombre_certificado=$r->pago_nombre_certificado;
         
         if($matricula){
-            for($i=0;$i<count($programacion_id);$i++){
+            for($i=0;$i<count($monto_pago);$i++){
                 
                 $mtdetalle=new MatriculaDetalle;
                 $mtdetalle->matricula_id=$matricula->id;
-                $mtdetalle->programacion_id=$programacion_id[$i];
+                if(Input::has('programacion_id')){
+                $mtdetalle->programacion_id=$programacion_id[$i];}
+                if(Input::has('especialidad_id')){
+                $mtdetalle->especialidad_id=$especialidad_id[$i];}
                 $mtdetalle->nro_pago=$nro_pago[$i];
                 $mtdetalle->monto_pago=$monto_pago[$i];
                 $mtdetalle->nro_pago_certificado=$nro_pago_certificado[$i];

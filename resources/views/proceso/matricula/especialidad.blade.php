@@ -18,8 +18,8 @@
 @include( 'proceso.matricula.js.matricula' )
 @include( 'mantenimiento.programacion.js.listapersona_ajax' )
 @include( 'mantenimiento.programacion.js.listapersona' )
-@include( 'proceso.matricula.js.listaprogramacion_ajax' )
-@include( 'proceso.matricula.js.listaprogramacion' )
+@include( 'proceso.matricula.js.listaespecialidad_ajax' )
+@include( 'proceso.matricula.js.listaespecialidad' )
 @include( 'mantenimiento.programacion.js.aepersona_ajax' )
 @include( 'mantenimiento.programacion.js.aepersona' )
 
@@ -27,7 +27,7 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Matrícula de Cursos
+    <h1>Matrícula de Especialidades
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
@@ -93,7 +93,7 @@
                         <div class="form-group">
                             <label>&nbsp;&nbsp;&nbsp;</label>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni">Buscar Persona</button>
+                                <button type="button" class="btn btn-info btn-flat" onclick="TipoModal(1)" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni">Buscar Persona</button>
                             </span>
                         </div> 
                     </div>
@@ -135,13 +135,13 @@
                     </div>
                     <div class="col-md-12">
                         <div class="panel panel-success">
-                            <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>CURSOS MATRICULADOS</center></div>
+                            <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>ESPECIALIZACIONES MATRICULADAS</center></div>
                             <div class="panel-body">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>&nbsp;&nbsp;&nbsp;</label>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1">Agregar Curso con Programación</button>
+                                            <button type="button" class="btn btn-success btn-flat" onclick="ValidarPersona(this)" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id">Agregar Especialización Disponible</button>
                                         </span>
                                     </div> 
                                 </div>
@@ -156,7 +156,7 @@
                                     <div class="form-group">
                                         <label>&nbsp;&nbsp;&nbsp;</label>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
+                                            <button type="button" class="btn btn-success btn-flat" onclick="TipoModal(0)"  data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
                                         </span>
                                     </div> 
                                 </div>
@@ -164,11 +164,8 @@
                                     <table id="t_matricula" class="table">
                                         <thead>
                                             <tr>
-                                                <th>Mod.</th>
-                                                <th>Cursos</th>
-                                                <th>Fecha de Inicio</th>
-                                                <th>Horario</th>
-                                                <th>Local</th>
+                                                <th>Especialidad</th>
+                                                <th>Certificado de Especialidad</th>
                                                 <th>[]</th>
                                             </tr>
                                         </thead>
@@ -201,7 +198,7 @@
                                     <div class="form-group">
                                         <label>&nbsp;&nbsp;&nbsp;</label>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-warning btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_caja_id"  data-persona="ModalMatriculaForm #txt_persona_caja">Buscar Responsable</button>
+                                            <button type="button" class="btn btn-warning btn-flat" onclick="TipoModal(0)" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_caja_id"  data-persona="ModalMatriculaForm #txt_persona_caja">Buscar Responsable</button>
                                         </span>
                                     </div> 
                                 </div>
@@ -213,7 +210,7 @@
                                                 <th colspan="3" style="text-align:center;">Pago por Certificados</th>
                                             </tr>
                                             <tr>
-                                                <th>Nombre del Curso.</th>
+                                                <th>Especialidad.</th>
                                                 <th>N° de Boleta</th>
                                                 <th>Importe</th>
                                                 <th>Archivo</th>
@@ -288,6 +285,6 @@
 
 @section('form')
 @include( 'mantenimiento.programacion.form.listapersona' )
-@include( 'proceso.matricula.form.listaprogramacion' )
+@include( 'proceso.matricula.form.listaespecialidad' )
 @include( 'mantenimiento.persona.form.persona' )
 @stop

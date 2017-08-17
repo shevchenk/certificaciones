@@ -6,7 +6,7 @@
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Lista Programación</h4>
+                <h4 class="modal-title">Lista Especialidades</h4>
             </div>
             <div class="modal-body">
                 <section class="content">
@@ -95,7 +95,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default active pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary active pull-right" onclick="AgregarEditar1(1)">Nuevo</button>
             </div>
         </div>
     </div>

@@ -1,7 +1,8 @@
 <script type="text/javascript">
 var LDfiltrosG='';
+var LDTipoModal=0;
 $(document).ready(function() {
-    $("#TableListaprogramacion").DataTable({
+    $("#TableListaespecialidad").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -10,51 +11,49 @@ $(document).ready(function() {
         "autoWidth": false
     });
    
-    $("#ListaprogramacionForm #TableListaprogramacion select").change(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
-    $("#ListaprogramacionForm #TableListaprogramacion input").blur(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
+    $("#ListaespecialidadForm #TableListaespecialidad select").change(function(){ AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad); });
+    $("#ListaespecialidadForm #TableListaespecialidad input").blur(function(){ AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad); });
 
-    $('#ModalListaprogramacion').on('shown.bs.modal', function (event) { 
+    $('#ModalListaespecialidad').on('shown.bs.modal', function (event) { 
       var button = $(event.relatedTarget); // captura al boton
       bfiltros= button.data('filtros');
       if( typeof (bfiltros)!='undefined'){
           LDfiltrosG=bfiltros;
       }
-      AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
+      AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad);
 
     });
 
-    $('#ModalListaprogramacion').on('hidden.bs.modal', function (event) {
-//        $("ModalDocenteForm input[type='hidden']").remove();
-//        $("ModalDocenteForm input").val('');
+    $('#ModalListaespecialidad').on('hidden.bs.modal', function (event) {
+        LDfiltrosG='';
     });
+    
+    $('#ModalListapersona').on('hide.bs.modal', function (event) {
+            if(LDTipoModal==1){
+                if(LTvalorIdPersona==''){
+                }
+                else if($("#ModalMatriculaForm #txt_persona_id").val()!=LTvalorIdPersona){
+                   $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
+                }
+                LTvalorIdPersona='';
+                LDTipoModal='';
+            }
+    });
+
+
 });
 
-SeleccionarProgramacion = function(val,id){
+SeleccionarEspecialidad = function(val,id){
     var existe=$("#t_matricula #trid_"+id+"").val();
     if( val==0 && typeof(existe)=='undefined'){
-        var mod='PRESENCIAL';
-        var docente=$("#TableListaprogramacion #trid_"+id+" .docente").text();
-        var persona_id=$("#TableListaprogramacion #trid_"+id+" .persona_id").val();
-        var sucursal_id=$("#TableListaprogramacion #trid_"+id+" .sucursal_id").val();
-        var sucursal=$("#TableListaprogramacion #trid_"+id+" .sucursal").text();
-        var curso_id=$("#TableListaprogramacion #trid_"+id+" .curso_id").val();
-        var dia=$("#TableListaprogramacion #trid_"+id+" .dia").val();
-        var curso=$("#TableListaprogramacion #trid_"+id+" .curso").text();
-        var fecha_inicio=$("#TableListaprogramacion #trid_"+id+" .fecha_inicio").text();
-        var fecha_final=$("#TableListaprogramacion #trid_"+id+" .fecha_final").text();
-        var fecha_i=fecha_inicio.split(" ");
-        var fecha_f=fecha_final.split(" ");
-        if(sucursal_id==1){
-            var mod='VIRTUAL';
-        }
+        var especialidad=$("#TableListaespecialidad #trid_"+id+" .especialidad").text();
+        var certificado_especialidad=$("#TableListaespecialidad #trid_"+id+" .certificado_especialidad").text();
+
         var html='';
           html+="<tr id='trid_"+id+"'>"+
             "<td>"+
-            "<input type='text' class='form-control' value='"+mod+"' disabled></td>"+
-            "<td><input type='text' class='form-control' value='"+curso+"' disabled></td>"+
-            "<td><input type='text' class='form-control' value='"+fecha_i[0]+"' disabled></td>"+
-            "<td><input type='text' class='form-control' value='"+fecha_i[1]+"-"+fecha_f[1]+" | "+dia+"' disabled></td>"+
-            "<td><input type='text' class='form-control' value='"+sucursal+"' disabled></td>"+
+            "<input type='text' class='form-control' value='"+especialidad+"' disabled></td>"+
+            "<td><input type='text' class='form-control' value='"+certificado_especialidad+"' disabled></td>"+
             '<td><a onClick="Eliminar('+id+')" class="btn btn-danger" ><i class="fa fa-trash fa-lg"></i></a></td>';
           html+="</tr>";
         
@@ -62,8 +61,8 @@ SeleccionarProgramacion = function(val,id){
         
           var html1='';
           html1+="<tr id='trid_"+id+"'>"+
-            "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
-            "<input type='text' class='form-control'  value='"+curso+"'  disabled></td>"+
+            "<td><input type='hidden' id='txt_especialidad_id' name='txt_especialidad_id[]' class='form-control' value='"+id+"' readOnly>"+
+            "<input type='text' class='form-control'  value='"+especialidad+"'  disabled></td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago' name='txt_nro_pago[]'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago' name='txt_monto_pago[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+
@@ -92,9 +91,9 @@ SeleccionarProgramacion = function(val,id){
         
         $("#t_pago").append(html1);
         
-        $('#ModalListaprogramacion').modal('hide');
+        $('#ModalListaespecialidad').modal('hide');
     }else {
-        msjG.mensaje('warning',"Ya se agregó el  Curso",3000);
+        msjG.mensaje('warning',"Ya se agregó la Especialidad",3000);
     }
 };
     
@@ -128,39 +127,43 @@ onPagos=function(item,val){
     
 
 Eliminar = function (tr) {
-        var c = confirm("¿Está seguro de Eliminar el Curso?");
+        var c = confirm("¿Está seguro de Eliminar la Especialiación?");
         if (c) {
             $("#t_matricula #trid_"+tr+"").remove();
             $("#t_pago #trid_"+tr+"").remove();
         }
 };
     
+ValidarPersona=function(thiis){
     
-HTMLCargarProgramacion=function(result){
+    if($("#"+$(thiis).data('personaid')).val()!=''){
+        $('#ModalListaespecialidad').modal('show');
+    }else{
+        msjG.mensaje('warning',"No hay una persona seleccionada",3000);
+    }
+}
+
+TipoModal=function(val){
+    LDTipoModal=val;
+}
+
+HTMLCargarEspecialidad=function(result){
     var html="";
-    $('#TableListaprogramacion').DataTable().destroy();
+    $('#TableListaespecialidad').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){
 
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='persona'>"+r.persona+"</td>"+
-            "<td class='sucursal'>"+r.sucursal+"</td>"+
-            "<td class='curso'>"+r.curso+"</td>"+
-            "<td class='aula'>"+r.aula+"</td>"+
-            "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
-            "<td class='fecha_final'>"+r.fecha_final+"</td>"+
+            "<td class='especialidad'>"+r.especialidad+"</td>"+
+            "<td class='certificado_especialidad'>"+r.certificado_especialidad+"</td>"+
             "<td>"+
-            '<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
-            "<input type='hidden' class='dia' value='"+r.dia+"'>"+
-            "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
-            "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
-            "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+
-            "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
+            '<span class="btn btn-primary btn-sm" onClick="SeleccionarEspecialidad(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
+            "<input type='hidden' class='id' value='"+r.id+"'>";
         html+="</td>";
         html+="</tr>";
     });
-    $("#TableListaprogramacion tbody").html(html); 
-    $("#TableListaprogramacion").DataTable({
+    $("#TableListaespecialidad tbody").html(html); 
+    $("#TableListaespecialidad").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -173,9 +176,10 @@ HTMLCargarProgramacion=function(result){
             "infoEmpty": "No éxite registro(s) aún",
         },
         "initComplete": function () {
-            $('#TableListaprogramacion_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarDocente','AjaxDocente',result.data,'#TableListaprogramacion_paginate');
+            $('#TableListaespecialidad_paginate ul').remove();
+            masterG.CargarPaginacion('HTMLCargarDocente','AjaxDocente',result.data,'#TableListaespecialidad_paginate');
         } 
     });
 };
+
 </script>
