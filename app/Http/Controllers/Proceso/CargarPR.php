@@ -60,7 +60,6 @@ class CargarPR extends Controller
                         $con++;
                     }
 
-
                     $alumnos = Alumnos::where('sucursal_id', '=', trim($detfile[0]))
                                         ->where('id_envio', '=', trim($detfile[1]))
                                         ->where('nombre', '=', trim($detfile[2]))
@@ -90,6 +89,7 @@ class CargarPR extends Controller
                         $obj->region = trim( $detfile[11] );
                         $obj->provincia = trim( $detfile[12] );
                         $obj->distrito = trim( $detfile[13] );
+                        $obj->tipo_reg = 'CM';
 
                         $obj->estado = 1;
                         $obj->persona_id_created_at=Auth::user()->id;
@@ -172,10 +172,6 @@ class CargarPR extends Controller
             
             return response()->json($return);
         }
-    }
-    
-                    
-
-    
+    }    
 
 }
