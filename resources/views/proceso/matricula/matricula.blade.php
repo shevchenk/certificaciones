@@ -43,6 +43,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">PAE</h3>
                 </div>
+                <div class="box-body with-border">
                 <form id="ModalMatriculaForm">
                     <div class="col-md-5">
                         <div class="form-group">
@@ -56,13 +57,13 @@
                         <div class="form-group">
                             <label>Resp. de la Matrícula</label>
                             <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
-                            <input type="text" class="form-control" id="txt_responsable" name="txt_responsable" disabled="">
+                            <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
                         </div> 
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Fecha</label>
-                            <input type="text" class="form-control" id="txt_fecha" name="txt_fecha" readOnly="">
+                            <input type="text" class="form-control mant" id="txt_fecha" name="txt_fecha" readOnly="">
                         </div> 
                     </div>
                     <div class="col-md-3">
@@ -84,7 +85,7 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label>Nombre Completo</label>
-                            <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control mant" readonly="">
+                            <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control" readonly="">
                             <input type="text" class="form-control" id="txt_persona" name="txt_persona" disabled="">
                         </div> 
                     </div>
@@ -147,7 +148,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Cod. Teleoperadora</label>
-                                        <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control mant" readonly="">
+                                        <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
                                         <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
                                     </div> 
                                 </div>
@@ -192,7 +193,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Responsable de Caja</label>
-                                        <input type="hidden" name="txt_persona_caja_id" id="txt_persona_caja_id" class="form-control mant" readonly="">
+                                        <input type="hidden" name="txt_persona_caja_id" id="txt_persona_caja_id" class="form-control" readonly="">
                                         <input type="text" class="form-control" id="txt_persona_caja" name="txt_persona_caja" disabled="">
                                     </div> 
                                 </div>
@@ -231,8 +232,11 @@
                     </div>
                     <div class="col-md-12">
                         <div class="panel panel-warning">
-                            <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE MATRÍCULA</center><input type="checkbox" name="exonerar_matricula" id="exonerar_matricula">Exonerar Matrícula</div>
+                            <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE MATRÍCULA</center></div>
                             <div class="panel-body">
+                                <div class="col-md-12">
+                                    <input type="checkbox" name="exonerar_matricula" id="exonerar_matricula">Exonerar Matrícula
+                                </div>
                                 <div class="col-md-12">
                                     <table class="table" id="t_pago_matricula">
                                         <thead>
@@ -272,6 +276,7 @@
                     </div>
 
                 </form>
+                </div>
                 <div class="box-footer">
                     <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Matricula</button>
                 </div>

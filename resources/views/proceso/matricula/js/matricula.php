@@ -96,33 +96,6 @@ ValidaForm=function(){
     return r;
 }
 
-AgregarEditar=function(val,id){
-    AddEdit=val;
-    ProgramacionG.id='';
-    ProgramacionG.persona='';
-    ProgramacionG.persona_id='';
-    ProgramacionG.docente_id='';
-    ProgramacionG.sucursal_id='';
-    ProgramacionG.curso_id='';
-    ProgramacionG.aula='';
-    ProgramacionG.fecha_inicio='';
-    ProgramacionG.fecha_final='';
-    ProgramacionG.estado='1';
-    if( val==0 ){
-        ProgramacionG.id=id;
-        ProgramacionG.docente_id=$("#TableProgramacion #trid_"+id+" .docente_id").val();
-        ProgramacionG.persona_id=$("#TableProgramacion #trid_"+id+" .persona_id").val();
-        ProgramacionG.persona=$("#TableProgramacion #trid_"+id+" .persona").text();
-        ProgramacionG.sucursal_id=$("#TableProgramacion #trid_"+id+" .sucursal_id").val();
-        ProgramacionG.curso_id=$("#TableProgramacion #trid_"+id+" .curso_id").val();
-        ProgramacionG.aula=$("#TableProgramacion #trid_"+id+" .aula").text();
-        ProgramacionG.fecha_inicio=$("#TableProgramacion #trid_"+id+" .fecha_inicio").text();
-        ProgramacionG.fecha_final=$("#TableProgramacion #trid_"+id+" .fecha_final").text();  
-        ProgramacionG.estado=$("#TableProgramacion #trid_"+id+" .estado").val();
-    }
-    $('#ModalProgramacion').modal('show');
-}
-
 AgregarEditarAjax=function(){
     if( ValidaForm() ){
         AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
@@ -132,6 +105,9 @@ AgregarEditarAjax=function(){
 HTMLAgregarEditar=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
+        $("#ModalMatriculaForm input[type='hidden'],#ModalMatriculaForm input[type='text'],#ModalMatriculaForm textarea").not('.mant').val('');
+        $("#ModalMatriculaForm select").selectpicker('val','0');
+        $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
     }else{
         msjG.mensaje('warning',result.msj,3000);
     }
