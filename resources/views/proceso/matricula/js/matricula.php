@@ -81,7 +81,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Responsable de Caja',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_programacion_id").val() )==''){
+    else if( $.trim( $("#ModalMatriculaForm #txt_programacion_id").val() )=='' && $.trim( $("#ModalMatriculaForm #txt_especialidad_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione al menos una programación',4000);
     }

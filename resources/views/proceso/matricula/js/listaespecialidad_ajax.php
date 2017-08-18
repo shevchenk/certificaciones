@@ -13,7 +13,7 @@ var AjaxListaespecialidad={
         }
         data=$("#ListaespecialidadForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ListaespecialidadForm input[type='hidden']").remove();
-        url='AjaxDinamic/Mantenimiento.EspecialidadEM@Load';
+        url='AjaxDinamic/Mantenimiento.EspecialidadEM@ListEspecialidadDisponible';
         masterG.postAjax(url,data,evento);
     }
 };

@@ -120,5 +120,11 @@ class Especialidad extends Model
         return $result;
     }
     
-
+            public static function ListEspecialidadDisponible($r)
+    {
+        $sql=Especialidad::select('id','especialidad','certificado_especialidad','estado')
+            ->where('estado','=','1');
+        $result = $sql->orderBy('especialidad','asc')->paginate(10);
+        return $result;
+    }
 }
