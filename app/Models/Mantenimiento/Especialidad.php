@@ -18,15 +18,14 @@ class Especialidad extends Model
         $sql=Especialidad::select(
             'mat_especialidades.id',
             'mat_especialidades.especialidad',
-            'mat_especialidades.certificado_especialidad',
+            'mat_especialidades.certificado_especialidad',       
+            DB::raw(
+                'GROUP_CONCAT(mtce.curso_id) as curso_id'
+                   ),
             'mat_especialidades.estado'
-            /*DB::raw(
-                'c.curso',
-                'mat_especialidades.curso_id',
-                'mat_especialidades.estado'
-                   )*/
             )
-          //  ->join('mat_cursos as c','c.id','=','mat_especialidades.curso_id')
+            ->join('mat_cursos_especialidades as mtce','mtce.especialidad_id','=','mat_especialidades.id')
+            ->join('mat_cursos as c','c.id','=','mtce.curso_id')
             ->where( 
                 function($query) use ($r){
                     if( $r->has("especialidad") ){
@@ -42,13 +41,6 @@ class Especialidad extends Model
                         }
                     }
 
-                    /*if( $r->has("curso") ){
-                        $curso=trim($r->curso);
-                        if( $curso !='' ){
-                            $query->where('c.curso','like','%'.$curso.'%');
-                        }
-                    }*/
-
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
@@ -57,7 +49,7 @@ class Especialidad extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('mat_especialidades.id','asc')->paginate(10);
+        $result = $sql->groupBy('mat_especialidades.id')->orderBy('mat_especialidades.id','asc')->paginate(10);
         return $result;
     }
 
@@ -109,6 +101,26 @@ class Especialidad extends Model
         $especialidad->estado = trim( $r->estado );
         $especialidad->persona_id_updated_at=$especialidad_id;
         $especialidad->save();
+        $curso = $r->curso_id;
+
+        //ESTO HACE QUE GRABE EN LA TABLE DETALLE LOS CURSOS, LO QUE SE ESCOJE EN EL COMBO CURSO
+        for($i=0;$i<count($curso);$i++)
+        {
+            $curso_especialidad = new CursoEspecialidad;
+            $curso_id = $curso[$i];
+            $curso_especialidad->especialidad_id = $especialidad -> id;
+            //$curso_especialidad->persona_id_updated_at = Auth::user()->id;
+            DB::table('mat_cursos_especialidades')
+                            ->where('curso_id', '=', $curso_id)       
+                            ->update(
+                                array(
+                                    'estado' => 0,
+                                    'persona_id_updated_at' => Auth::user()->id
+                                    )
+                                );
+
+          //  $curso_especialidad->save();
+        }
     }    
 
     
