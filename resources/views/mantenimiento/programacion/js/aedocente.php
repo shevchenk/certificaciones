@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var AddEdit=0; 
+var AddEdit1=0; 
 var DocenteG={id:0,docente:"",persona_id:0,estado:1}; // 
 
 $(document).ready(function() {
@@ -14,7 +14,7 @@ $(document).ready(function() {
     
     $('#ModalDocente').on('shown.bs.modal', function (event) {
 
-        if( AddEdit==1 ){
+        if( AddEdit1==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax1();');
         }
         else{
@@ -46,7 +46,7 @@ ValidaForm1=function(){
 }
 
 AgregarEditar1=function(val,id){
-    AddEdit=val;
+    AddEdit1=val;
     DocenteG.id='';
     DocenteG.persona_id='';
     DocenteG.docente='';

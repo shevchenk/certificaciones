@@ -4,7 +4,7 @@ var ProgramacionG={id:0,dia:"",persona_id:0,persona:"",docente_id:0,sucursal_id:
                curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     $(".fechas").datetimepicker({
-        format: "yyyy-mm-dd hh:ii:ss",
+        format: "yyyy-mm-dd hh:ii:00",
         language: 'es',
         showMeridian: true,
         time:true,
@@ -87,6 +87,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Curso',4000);
     }
+    else if( $.trim( $("#ModalProgramacionForm #txt_aula").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Aula',4000);
+    }
     else if( $.trim( $("#ModalProgramacionForm #slct_dia").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Días',4000);
@@ -108,8 +112,8 @@ AgregarEditar=function(val,id){
     ProgramacionG.persona='';
     ProgramacionG.persona_id='';
     ProgramacionG.docente_id='';
-    ProgramacionG.sucursal_id='';
-    ProgramacionG.curso_id='';
+    ProgramacionG.sucursal_id='0';
+    ProgramacionG.curso_id='0';
     ProgramacionG.aula='';
     ProgramacionG.dia='';
     ProgramacionG.fecha_inicio='';
@@ -173,6 +177,7 @@ HTMLCargarProgramacion=function(result){
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='curso'>"+r.curso+"</td>"+
             "<td class='aula'>"+r.aula+"</td>"+
+            "<td class='dias'>"+r.dia+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
             "<td>"+

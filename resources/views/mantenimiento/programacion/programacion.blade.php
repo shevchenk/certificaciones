@@ -29,6 +29,13 @@
 @stop
 
 @section('content')
+<style>
+/*.modal{
+ max-height: auto !important;
+ overflow-y: scroll;
+}*/
+.modal { overflow: auto !important; 
+</style>
 <section class="content-header">
     <h1>Programación de Cursos
         <small>Mantenimiento</small>
@@ -75,12 +82,21 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Aula:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_aula" id="txt_aula" placeholder="Aula" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
+                                            <label><h4>Días:</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_dia" id="txt_dia" placeholder="Días" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>
                                         </div>
                                     </th>
@@ -126,6 +142,7 @@
                                   <th>Sucursal</th>
                                   <th>Curso</th>
                                   <th>Aula</th>
+                                  <th>Días</th>
                                   <th>Inicio</th>
                                   <th>Final</th>
                                   <th>Estado</th>

@@ -30,12 +30,19 @@ class ProgramacionEM extends Controller
 
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
+                'unique'        => 'Ya existe la Programación',
             );
 
             $rules = array(
                 'docente_id' => 
-                       ['required'
+                       ['required',
+                        Rule::unique('mat_programaciones','docente_id')->where(function ($query) use($r) {
+                                $query->where('sucursal_id',$r->sucursal_id );
+                                $query->where('curso_id',$r->curso_id );
+                                $query->where('fecha_inicio',$r->fecha_inicio );
+                                $query->where('fecha_final',$r->fecha_final );
+                                $query->where('dia',$r->dia );
+                        }),
                         ],
             );
 
@@ -60,12 +67,19 @@ class ProgramacionEM extends Controller
         if ( $r->ajax() ) {
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
+                'unique'        => 'Ya existe la Programación',
             );
 
             $rules = array(
                 'docente_id' => 
-                       ['required'
+                       ['required',
+                        Rule::unique('mat_programaciones','docente_id')->ignore($r->id)->where(function ($query) use($r) {
+                                $query->where('sucursal_id',$r->sucursal_id );
+                                $query->where('curso_id',$r->curso_id );
+                                $query->where('fecha_inicio',$r->fecha_inicio );
+                                $query->where('fecha_final',$r->fecha_final );
+                                $query->where('dia',$r->dia );
+                        }),
                         ],
             );
 

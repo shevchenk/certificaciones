@@ -5,7 +5,7 @@ var AjaxAEPersona={
         $("#ModalPersonaForm").append("<input type='hidden' value='"+cargos_selec+"' name='cargos_selec'>");
         var data=$("#ModalPersonaForm").serialize().split("txt_").join("").split("slct_").join("");
         url='AjaxDinamic/Mantenimiento.PersonaEM@New';
-        if(AddEdit==0){
+        if(AddEdit2==0){
             url='AjaxDinamic/Mantenimiento.PersonaEM@Edit';
         }
         masterG.postAjax(url,data,evento);

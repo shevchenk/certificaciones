@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var persona_id, cargos_selec=[], PersonaObj,SlctItem='',SlctAreasMarcadas="";
-var AddEdit=0; //0: Editar | 1: Agregar
+var AddEdit2=0; //0: Editar | 1: Agregar
 var PersonaG={id:0,
 paterno:"",
 materno:"",
@@ -38,7 +38,7 @@ $(document).ready(function() {
     $('#ModalPersona').on('shown.bs.modal', function (event) {
         CargarSlct(2);
         $("#f_areas_cargo").css("display","none");
-        if( AddEdit==1 ){
+        if( AddEdit2==1 ){
             
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax2();');
         }
@@ -98,7 +98,7 @@ ValidaForm2=function(){
 }
 
 AgregarEditar2=function(val,id){
-    AddEdit=val;
+    AddEdit2=val;
     PersonaG.id='';
     PersonaG.paterno='';
     PersonaG.materno='';

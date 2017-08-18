@@ -16,7 +16,8 @@ $(document).ready(function() {
 
     $('#ModalListaespecialidad').on('shown.bs.modal', function (event) { 
       var button = $(event.relatedTarget); // captura al boton
-      bfiltros= button.data('filtros');
+//      bfiltros= button.data('filtros');
+        bfiltros='estado:1'
       if( typeof (bfiltros)!='undefined'){
           LDfiltrosG=bfiltros;
       }

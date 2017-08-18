@@ -30,7 +30,7 @@ class DocenteEM extends Controller
 
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
+                'unique'        => 'Persona ya existe como Docente',
             );
 
             $rules = array(
@@ -61,7 +61,7 @@ class DocenteEM extends Controller
         if ( $r->ajax() ) {
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
+                'unique'        => 'Persona ya existe como Docente',
             );
 
             $rules = array(

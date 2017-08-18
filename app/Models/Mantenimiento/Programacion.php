@@ -87,6 +87,12 @@ class Programacion extends Model
                             $query->where('mat_programaciones.aula','like',$aula.'%');
                         }
                     }
+                    if( $r->has("dia") ){
+                        $dia=trim($r->dia);
+                        if( $dia !='' ){
+                            $query->where('mat_programaciones.dia','like',$dia.'%');
+                        }
+                    }
                     if( $r->has("inicio") ){
                         $inicio=trim($r->inicio);
                         if( $inicio !='' ){
