@@ -29,12 +29,12 @@ $(document).ready(function() {
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalEspecialidadForm").append("<input type='hidden' value='"+EspecialidadG.id+"' name='id'>");
         }
-
+        
         $('#ModalEspecialidadForm #txt_especialidad').val( EspecialidadG.especialidad );
         $('#ModalEspecialidadForm #txt_certificado_especialidad').val( EspecialidadG.certificado_especialidad );
-        $('#ModalEspecialidadForm #slct_curso_id').val( EspecialidadG.curso_id );
-        $('#ModalEspecialidadForm #slct_estado').val( EspecialidadG.estado );
-        $("#ModalEspecialidad select").selectpicker('refresh');
+        var curso = EspecialidadG.curso_id.split(',');
+        $('#ModalEspecialidadForm #slct_curso_id').selectpicker( 'val',curso );
+        $('#ModalEspecialidadForm #slct_estado').selectpicker( 'val',EspecialidadG.estado );
         $('#ModalEspecialidadForm #txt_especialidad').focus();
     });
 
@@ -66,6 +66,7 @@ AgregarEditar=function(val,id){
         EspecialidadG.especialidad=$("#TableEspecialidad #trid_"+id+" .especialidad").text();
         EspecialidadG.certificado_especialidad=$("#TableEspecialidad #trid_"+id+" .certificado_especialidad").text();
         EspecialidadG.curso_id=$("#TableEspecialidad #trid_"+id+" .curso_id").val();
+
         EspecialidadG.estado=$("#TableEspecialidad #trid_"+id+" .estado").val();
     }
     $('#ModalEspecialidad').modal('show');
