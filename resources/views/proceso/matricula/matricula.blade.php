@@ -269,7 +269,7 @@
                                                     <td>
                                                         <input type="text" readonly class="form-control" id="pago_nombre_matricula"  name="pago_nombre_matricula" value="">
                                                         <input type="text" style="display: none;" id="pago_archivo_matricula" name="pago_archivo_matricula">
-                                                        <label class="btn btn-warning  btn-flat margin" id="df">
+                                                        <label class="btn btn-warning  btn-flat margin">
                                                             <i class="fa fa-file-pdf-o fa-lg"></i>
                                                             <i class="fa fa-file-word-o fa-lg"></i>
                                                             <i class="fa fa-file-image-o fa-lg"></i>

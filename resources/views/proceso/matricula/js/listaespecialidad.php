@@ -10,14 +10,14 @@ $(document).ready(function() {
         "info": true,
         "autoWidth": false
     });
-   
+    $('#exonerar_matricula').prop('checked', true);
     $("#ListaespecialidadForm #TableListaespecialidad select").change(function(){ AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad); });
     $("#ListaespecialidadForm #TableListaespecialidad input").blur(function(){ AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad); });
 
     $('#ModalListaespecialidad').on('shown.bs.modal', function (event) { 
-      var button = $(event.relatedTarget); // captura al boton
-//      bfiltros= button.data('filtros');
-        bfiltros='estado:1'
+        
+        var persona_id=$("#txt_persona_id").val();
+        bfiltros='persona_id:'+persona_id;
       if( typeof (bfiltros)!='undefined'){
           LDfiltrosG=bfiltros;
       }
@@ -157,11 +157,14 @@ HTMLCargarEspecialidad=function(result){
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='especialidad'>"+r.especialidad+"</td>"+
             "<td class='certificado_especialidad'>"+r.certificado_especialidad+"</td>"+
-            "<td>"+
-            '<span class="btn btn-primary btn-sm" onClick="SeleccionarEspecialidad(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
-            "<input type='hidden' class='id' value='"+r.id+"'>";
-        html+="</td>";
-        html+="</tr>";
+            "<td class='nveces'>"+r.nveces+"</td>"+
+            "<td>";
+                if(r.validar==1 || r.nveces>0){
+                    html+='<span class="btn btn-primary btn-sm" onClick="SeleccionarEspecialidad(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>';
+                }
+        html+="<input type='hidden' class='id' value='"+r.id+"'>"+
+              "</td>"+
+              "</tr>";
     });
     $("#TableListaespecialidad tbody").html(html); 
     $("#TableListaespecialidad").DataTable({

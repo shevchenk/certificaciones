@@ -134,8 +134,42 @@ class Especialidad extends Model
     
             public static function ListEspecialidadDisponible($r)
     {
-        $sql=Especialidad::select('id','especialidad','certificado_especialidad','estado')
-            ->where('estado','=','1');
+        $sql=DB::table(DB::raw(
+                '(SELECT me.id, me.especialidad,me.certificado_especialidad, COUNT(mce.curso_id) ncursos, GROUP_CONCAT( mce.curso_id ) cursos
+                FROM mat_especialidades me
+                INNER JOIN mat_cursos_especialidades mce ON mce.especialidad_id=me.id AND mce.estado=1
+                AND me.estado=1
+                GROUP BY me.id) as a'
+                ))
+                ->select('a.id','a.especialidad','a.certificado_especialidad','a.ncursos','a.cursos',
+                DB::raw('ValidaCursos( CONCAT(a.cursos,","),'.$r->persona_id.' ) as validar'),
+                DB::raw('IFNULL(
+                    (SELECT COUNT(mt.id) 
+                     FROM mat_matriculas mt
+                     INNER JOIN mat_matriculas_detalles mmd ON mmd.matricula_id=mt.id AND mmd.estado=1
+                     WHERE mt.persona_id='.$r->persona_id.' 
+                     AND mt.estado=1
+                     AND mmd.especialidad_id=a.id 
+                     GROUP BY mt.persona_id
+                    ),0
+                ) as nveces')
+                )
+                ->where( 
+                function($query) use ($r){
+                    if( $r->has("especialidad") ){
+                        $especialidad=trim($r->especialidad);
+                        if( $especialidad !='' ){
+                            $query->where('a.especialidad','like','%'.$especialidad.'%');
+                        }
+                    }
+                    if( $r->has("certificado_especialidad") ){
+                        $certificado_especialidad=trim($r->certificado_especialidad);
+                        if( $certificado_especialidad !='' ){
+                            $query->where('a.certificado_especialidad','like','%'.$certificado_especialidad.'%');
+                        }
+                    }
+                }
+                );
         $result = $sql->orderBy('especialidad','asc')->paginate(10);
         return $result;
     }

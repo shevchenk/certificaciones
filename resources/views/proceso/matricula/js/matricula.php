@@ -96,8 +96,32 @@ ValidaForm=function(){
     return r;
 }
 
+ValidaTabla=function(){
+    var r=true;
+         $("#t_pago tr").each(function(){
+
+                  if($(this).find("td:eq(1) input[type='text']").val()==''){
+                      r=false;
+                      msjG.mensaje('warning','Ingrese N° Boleta',4000);
+                  }
+                  else if($(this).find("td:eq(2) input[type='text']").val()==''){
+                      r=false;
+                      msjG.mensaje('warning','Ingrese Importe',4000);   
+                  }
+                  else if($(this).find("td:eq(4) input[type='text']").val()==''){
+                      r=false;
+                      msjG.mensaje('warning','Ingrese N° Boleta',4000);
+                  }
+                  else if($(this).find("td:eq(5) input[type='text']").val()==''){
+                      r=false;
+                      msjG.mensaje('warning','Ingrese Importe',4000);
+                  }
+          
+         });
+    return r;     
+}
 AgregarEditarAjax=function(){
-    if( ValidaForm() ){
+    if( ValidaTabla() && ValidaForm()){
         AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
     }
 }
