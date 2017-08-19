@@ -68,3 +68,39 @@ ADD COLUMN `dia`  varchar(50) NULL AFTER `aula`;
 ALTER TABLE `mat_matriculas`
 ADD COLUMN `archivo_pago`  varchar(100) NULL AFTER `monto_pago`;
 >>>>>>> 74febfb885d6107c2b0d70c612518a8c1c8704b3
+
+/**********************19/08/2017***********************************************/
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `ValidaCursos`(`cursos` varchar(200),`persona_id` int) RETURNS int(11)
+BEGIN
+DECLARE cantidad INT;
+DECLARE cvalidaaux VARCHAR(200);
+DECLARE cursosaux VARCHAR(200);
+
+	SELECT SUBSTRING(cursos FROM 1 FOR (LOCATE(',',cursos)-1)) INTO cvalidaaux;
+	SELECT SUBSTRING(cursos FROM (LOCATE(',',cursos)+1) ) INTO cursosaux;
+	
+	SELECT count(mm.id) INTO cantidad
+	FROM mat_matriculas mm
+	INNER JOIN mat_matriculas_detalles mmd ON mm.id=mmd.matricula_id
+	INNER JOIN mat_programaciones mp ON mp.id=mmd.programacion_id
+	WHERE mm.persona_id=persona_id
+	AND mp.curso_id=cvalidaaux*1;
+	
+	
+	WHILE( cursosaux<>'' AND cantidad>0 ) DO
+
+	SELECT SUBSTRING(cursosaux FROM 1 FOR (LOCATE(',',cursosaux)-1)) INTO cvalidaaux;
+	SELECT SUBSTRING(cursosaux FROM (LOCATE(',',cursosaux)+1) ) INTO cursosaux;	
+	
+	SELECT count(mm.id) INTO cantidad
+	FROM mat_matriculas mm
+	INNER JOIN mat_matriculas_detalles mmd ON mm.id=mmd.matricula_id
+	INNER JOIN mat_programaciones mp ON mp.id=mmd.programacion_id
+	WHERE mm.persona_id=persona_id
+	AND mp.curso_id=cvalidaaux*1;
+
+	END WHILE;
+
+	RETURN cantidad;
+END
