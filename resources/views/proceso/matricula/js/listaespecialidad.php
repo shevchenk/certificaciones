@@ -159,7 +159,7 @@ HTMLCargarEspecialidad=function(result){
             "<td class='certificado_especialidad'>"+r.certificado_especialidad+"</td>"+
             "<td class='nveces'>"+r.nveces+"</td>"+
             "<td>";
-                if(r.validar==1 || r.nveces>0){
+                if(r.validar>0 || r.nveces>0){
                     html+='<span class="btn btn-primary btn-sm" onClick="SeleccionarEspecialidad(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>';
                 }
         html+="<input type='hidden' class='id' value='"+r.id+"'>"+
