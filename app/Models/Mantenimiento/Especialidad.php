@@ -16,40 +16,35 @@ class Especialidad extends Model
     {
 
         $sql=Especialidad::select(
-            'mat_especialidades.id',
-            'mat_especialidades.especialidad',
-            'mat_especialidades.certificado_especialidad',       
-            DB::raw(
-                'GROUP_CONCAT(mtce.curso_id) as curso_id'
-                   ),
-            'mat_especialidades.estado'
+            'id',
+            'especialidad',
+            'certificado_especialidad',
+            'estado'
             )
-            ->join('mat_cursos_especialidades as mtce','mtce.especialidad_id','=','mat_especialidades.id')
-            ->join('mat_cursos as c','c.id','=','mtce.curso_id')
             ->where( 
                 function($query) use ($r){
                     if( $r->has("especialidad") ){
                         $especialidad=trim($r->especialidad);
                         if( $especialidad !='' ){
-                            $query->where('mat_especialidades.especialidad','like','%'.$especialidad.'%');
+                            $query->where('especialidad','like','%'.$especialidad.'%');
                         }
                     }
                     if( $r->has("certificado_especialidad") ){
                         $certificado_especialidad=trim($r->certificado_especialidad);
                         if( $certificado_especialidad !='' ){
-                            $query->where('mat_especialidades.certificado_especialidad','like','%'.$certificado_especialidad.'%');
+                            $query->where('certificado_especialidad','like','%'.$certificado_especialidad.'%');
                         }
                     }
 
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('mat_especialidades.estado','like','%'.$estado.'%');
+                            $query->where('estado','like','%'.$estado.'%');
                         }
                     }
                 }
             );
-        $result = $sql->groupBy('mat_especialidades.id')->orderBy('mat_especialidades.id','asc')->paginate(10);
+        $result = $sql->groupBy('id')->orderBy('id','asc')->paginate(10);
         return $result;
     }
 
