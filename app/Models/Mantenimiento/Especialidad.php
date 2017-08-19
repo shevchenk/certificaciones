@@ -44,7 +44,7 @@ class Especialidad extends Model
                     }
                 }
             );
-        $result = $sql->groupBy('id')->orderBy('id','asc')->paginate(10);
+        $result = $sql->orderBy('id','asc')->paginate(10);
         return $result;
     }
 
