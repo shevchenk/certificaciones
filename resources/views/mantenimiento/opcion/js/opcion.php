@@ -29,7 +29,7 @@ $(document).ready(function() {
 
         $('#ModalOpcionForm #txt_menu').val( OpcionG.menu );
         $('#ModalOpcionForm #txt_opcion').val( OpcionG.opcion );
-        $('#ModalOpcionForm #slct_ruta').val( OpcionG.ruta );
+        $('#ModalOpcionForm #txt_ruta').val( OpcionG.ruta );
         $('#ModalOpcionForm #slct_estado').val( OpcionG.estado );
         $("#ModalOpcion select").selectpicker('refresh');
         //$('#ModalOpcionForm #txt_menu').focus();
@@ -52,7 +52,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Nombre',4000);
     }
-    else if( $.trim( $("#ModalOpcionForm #slct_ruta").val() )=='0' ){
+    else if( $.trim( $("#ModalOpcionForm #txt_ruta").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione ruta',4000);
     }
@@ -119,7 +119,7 @@ HTMLCargarOpcion=function(result){ //INICIO HTML
             "<td class='menu'>"+r.menu+"</td>"+
             "<td class='opcion'>"+r.opcion+"</td>"+
             "<td class='rutaFORM'>"+r.ruta+"</td>"+
-         
+
 
             "<td>"+
             "<input type='hidden' class='ruta' value='"+r.ruta+"'>"+
