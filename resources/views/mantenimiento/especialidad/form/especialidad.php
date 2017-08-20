@@ -29,7 +29,7 @@
                   <br>         
                       <label>Curso</label>
                       <br>
-                        <select class="selectpicker" multiple data-actions-box="true" name="slct_curso_id[]" id="slct_curso_id">
+                        <select class="selectpicker show-menu-arrow" multiple data-actions-box="true" data-live-search="true" name="slct_curso_id[]" id="slct_curso_id">
                         </select>     
                   </div>
               <div class="col-sm-6">    
