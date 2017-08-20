@@ -1,4 +1,7 @@
 <style type="text/css">
+.pagination>li>a{
+    cursor: pointer !important;
+}
 @media screen and (max-width: 767px) {
     .msjG{
         position: fixed;
