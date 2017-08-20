@@ -10,10 +10,10 @@ var AjaxOpcion={
     },
     Cargar:function(evento,pag){
         if( typeof(pag)!='undefined' ){
-            $("#EspecialidadForm").append("<input type='hidden' value='"+pag+"' name='page'>");
+            $("#OpcionForm").append("<input type='hidden' value='"+pag+"' name='page'>");
         }
-        data=$("#EspecialidadForm").serialize().split("txt_").join("").split("slct_").join("");
-        $("#EspecialidadForm input[type='hidden']").not('.mant').remove();
+        data=$("#OpcionForm").serialize().split("txt_").join("").split("slct_").join("");
+        $("#OpcionForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Mantenimiento.OpcionMA@Load';
         masterG.postAjax(url,data,evento);
     },
@@ -25,8 +25,8 @@ var AjaxOpcion={
         url='AjaxDinamic/Mantenimiento.OpcionMA@EditStatus';
         masterG.postAjax(url,data,evento);
     },
-    CargarCurso:function(evento){
-        url='AjaxDinamic/Mantenimiento.OpcionMA@ListOpcion';
+    CargarMenu:function(evento){
+        url='AjaxDinamic/Mantenimiento.MenuMA@ListMenu';
         data={};
         masterG.postAjax(url,data,evento);
     }

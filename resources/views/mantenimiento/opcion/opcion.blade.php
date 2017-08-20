@@ -40,7 +40,7 @@
                                             <label><h4>Menu:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_opcion" id="txt_opcion" placeholder="Buscar Menu" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_menu" id="txt_menu" placeholder="Buscar Menu" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>                                          
                                         </div>
                                     </th>
@@ -58,11 +58,11 @@
                                             <label><h4>Ruta:</h4></label>
                                         </div>
                                     </th>
-                                    <!-- <th class="col-xs-2">
+                                    <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Icono:</h4></label>
+                                            <label><h4>Class Icono:</h4></label>
                                         </div>
-                                    </th> -->
+                                    </th>
 
                                     <th class="col-xs-2">
                                         <div class="form-group">
@@ -87,7 +87,7 @@
                                   <th>Menu</th>
                                   <th>Nombre</th>
                                   <th>Ruta</th>
-                               <!--   <th>Icono</th>-->
+                                  <th>Class Icono</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

@@ -15,12 +15,13 @@
 
                 <div class="col-sm-6">       
                   <label>Menu</label>
-                  <input type="text" class="form-control" id="txt_menu" name="txt_menu" placeholder="Menu">
+                  <select class="form-control selectpicker show-menu-arrow" data-live-search="true" name="slct_menu_id" id="slct_menu_id">
+                  </select>
                 </div>
 
                 <div class="col-sm-6">
-                  <label>Nombre</label>
-                  <input type="text" class="form-control" id="txt_opcion" name="txt_opcion" placeholder="Nombre">
+                  <label>Opcion</label>
+                  <input type="text" class="form-control" id="txt_opcion" name="txt_opcion" placeholder="Opcion">
                   </div>
 
               </div>
@@ -29,14 +30,22 @@
                   <br>         
                       <label>ruta</label>
                       <input type="text" class="form-control" id="txt_ruta" name="txt_ruta" placeholder="Ruta">   
-                  </div>
+              </div>
+              <div class="col-sm-6">    
+              <br>         
+                      <label>Class Icono</label>
+                      <input type="text" class="form-control" id="txt_class_icono" name="txt_class_icono" placeholder="Class Icono">   
+              </div>
+            </div>
+
+            <div class="col-sm-12">  
               <div class="col-sm-6">    
               <br>                    
-                      <label>Estado</label>
-                        <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
-                          <option value='0'>Inactivo</option>
-                          <option value='1' selected>Activo</option>
-                        </select>               
+                    <label>Estado</label>
+                      <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
+                        <option value='0'>Inactivo</option>
+                        <option value='1' selected>Activo</option>
+                      </select>               
               </div>
             </div>
 

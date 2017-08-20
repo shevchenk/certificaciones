@@ -4,6 +4,8 @@ var OpcionG={id:0,
 menu:0,
 opcion:"",
 ruta:"",
+menu_id:"",
+class_icono:"",
 estado:1}; // Datos Globales
 $(document).ready(function() {
     $("#TableOpcion").DataTable({
@@ -14,9 +16,10 @@ $(document).ready(function() {
         "info": true,
         "autoWidth": false
     });
+    CargarSlct(1);
     AjaxOpcion.Cargar(HTMLCargarOpcion);
-    $("#CursoForm #TableOpcion select").change(function(){ AjaxOpcion.Cargar(HTMLCargarOpcion); });
-    $("#CursoForm #TableOpcion input").blur(function(){ AjaxOpcion.Cargar(HTMLCargarOpcion); });
+    $("#OpcionForm #TableOpcion select").change(function(){ AjaxOpcion.Cargar(HTMLCargarOpcion); });
+    $("#OpcionForm #TableOpcion input").blur(function(){ AjaxOpcion.Cargar(HTMLCargarOpcion); });
 
     $('#ModalOpcion').on('shown.bs.modal', function (event) {
         if( AddEdit==1 ){
@@ -27,12 +30,12 @@ $(document).ready(function() {
             $("#ModalOpcionForm").append("<input type='hidden' value='"+OpcionG.id+"' name='id'>");
         }
 
-        $('#ModalOpcionForm #txt_menu').val( OpcionG.menu );
+        $('#ModalOpcionForm #slct_menu_id').selectpicker( 'val', OpcionG.menu_id );
         $('#ModalOpcionForm #txt_opcion').val( OpcionG.opcion );
         $('#ModalOpcionForm #txt_ruta').val( OpcionG.ruta );
+        $('#ModalOpcionForm #txt_class_icono').val( OpcionG.class_icono );
         $('#ModalOpcionForm #slct_estado').val( OpcionG.estado );
-        $("#ModalOpcion select").selectpicker('refresh');
-        //$('#ModalOpcionForm #txt_menu').focus();
+        $('#ModalOpcionForm #txt_opcion').focus();
     });
 
     $('#ModalOpcion').on('hidden.bs.modal', function (event) {
@@ -44,17 +47,17 @@ $(document).ready(function() {
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalOpcionForm #txt_menu").val() )=='' ){
+    if( $.trim( $("#ModalOpcionForm #slct_menu_id").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Menu',4000);
+        msjG.mensaje('warning','Seleccione Menu',4000);
     }
     else if( $.trim( $("#ModalOpcionForm #txt_opcion").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Nombre',4000);
+        msjG.mensaje('warning','Ingrese Opcion',4000);
     }
-    else if( $.trim( $("#ModalOpcionForm #txt_ruta").val() )=='0' ){
+    else if( $.trim( $("#ModalOpcionForm #txt_ruta").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Seleccione ruta',4000);
+        msjG.mensaje('warning','Ingrese Ruta',4000);
     }
 
     return r;
@@ -65,13 +68,17 @@ AgregarEditar=function(val,id){
     OpcionG.id='';
     OpcionG.menu='';
     OpcionG.opcion='';
-    OpcionG.ruta='0';
+    OpcionG.ruta='';
+    OpcionG.menu_id='';
+    OpcionG.class_icono='';
     OpcionG.estado='1';
     if( val==0 ){
         OpcionG.id=id;
         OpcionG.menu=$("#TableOpcion #trid_"+id+" .menu").text();
         OpcionG.opcion=$("#TableOpcion #trid_"+id+" .opcion").text();
-        OpcionG.ruta=$("#TableOpcion #trid_"+id+" .ruta").val();
+        OpcionG.ruta=$("#TableOpcion #trid_"+id+" .ruta").text();
+        OpcionG.menu_id=$("#TableOpcion #trid_"+id+" .menu_id").val();
+        OpcionG.class_icono=$("#TableOpcion #trid_"+id+" .class_icono").text();
         OpcionG.estado=$("#TableOpcion #trid_"+id+" .estado").val();
     }
     $('#ModalOpcion').modal('show');
@@ -105,6 +112,23 @@ HTMLAgregarEditar=function(result){
     }
 }
 
+CargarSlct=function(slct){
+
+    if(slct==1){
+    AjaxOpcion.CargarMenu(SlctCargarMenu);
+    }
+}
+
+SlctCargarMenu=function(result){
+    var html="";
+    $.each(result.data,function(index,r){
+        html+="<option data-icon='"+r.class_icono+"' value="+r.id+">"+r.menu+"</option>";
+    });
+    $("#ModalOpcionForm #slct_menu_id").html(html); 
+    $("#ModalOpcionForm #slct_menu_id").selectpicker('refresh');
+
+};
+
 HTMLCargarOpcion=function(result){ //INICIO HTML
     var html="";
     $('#TableOpcion').DataTable().destroy();
@@ -116,13 +140,13 @@ HTMLCargarOpcion=function(result){ //INICIO HTML
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='menu'>"+r.menu+"</td>"+
+            "<td class='menu'><span><i class='"+r.class_icono_menu+"'> "+r.menu+"</span></td>"+
             "<td class='opcion'>"+r.opcion+"</td>"+
-            "<td class='rutaFORM'>"+r.ruta+"</td>"+
-
+            "<td class='ruta'>"+r.ruta+"</td>"+
+            "<td class='class_icono'>"+r.class_icono+"</td>"+
 
             "<td>"+
-            "<input type='hidden' class='ruta' value='"+r.ruta+"'>"+
+            "<input type='hidden' class='menu_id' value='"+r.menu_id+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
             "</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
