@@ -81,6 +81,7 @@
 
                                   <th>Especialidad</th>
                                   <th>Certificado Especialidad</th>
+                                  <th>Cursos Asignados</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>
