@@ -53,7 +53,11 @@
                                             </div>                                          
                                         </div>
                                     </th>
-
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Cursos Asignados:</h4></label>
+                                        </div>
+                                    </th>
 
                                     <th class="col-xs-2">
                                         <div class="form-group">
