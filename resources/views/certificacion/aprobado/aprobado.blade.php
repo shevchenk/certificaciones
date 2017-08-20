@@ -142,9 +142,6 @@
                     </div>
                 </form>
                 </div>
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Matricula</button>
-                </div>
             </div><!-- .box -->
         </div><!-- .col -->
     </div><!-- .row -->

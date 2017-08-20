@@ -205,7 +205,7 @@ HTMLCargarProgramacion=function(result){
         },
         "initComplete": function () {
             $('#TableProgramacion_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarProgramacion','AjaxProgramacion',result.data,'#HTMLCargarProgramacion_paginate');
+            masterG.CargarPaginacion('HTMLCargarProgramacion','AjaxProgramacion',result.data,'#TableProgramacion_paginate');
         }
     });
 
