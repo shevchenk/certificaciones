@@ -100,7 +100,7 @@ class Privilegio extends Model
             'p.id',
             'p.privilegio',
             'p.estado',
-            DB::raw('GROUP_CONCAT(o.opcion ORDER BY opcion) opciones'),
+            DB::raw('GROUP_CONCAT(CONCAT("<span><i class=|",class_icono,"|></i>"," ",o.opcion,"</span>") ORDER BY opcion) opciones'),
             DB::raw('GROUP_CONCAT(o.id) opcion_id')
             )
             ->where( 

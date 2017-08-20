@@ -108,7 +108,7 @@ CargarSlct=function(slct){
 SlctCargarOpcion=function(result){
     var html="";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.opcion+"</option>";
+        html+="<option data-icon='"+r.class_icono+"' value="+r.id+">"+r.opcion+"</option>";
     });
     $("#ModalPrivilegioForm #slct_opcion_id").html(html); 
     $("#ModalPrivilegioForm #slct_opcion_id").selectpicker('refresh');
@@ -127,7 +127,7 @@ HTMLCargarPrivilegio=function(result){
 
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='privilegio'>"+r.privilegio+"</td>"+
-            "<td class='opciones'>"+$.trim(r.opciones).split(",").join("<br>")+"</td>"+
+            "<td class='opciones'>"+$.trim(r.opciones).split("|").join("'").split(",").join("<br>")+"</td>"+
             "<td>"+
             "<input type='hidden' class='opcion_id' value='"+r.opcion_id+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+

@@ -92,7 +92,7 @@ class Opcion extends Model
     
     public static function ListOpcion($r)
     {  
-        $sql=Opcion::select('id','opcion','estado')
+        $sql=Opcion::select('id','opcion','class_icono','estado')
             ->where('estado','=','1');
         $result = $sql->orderBy('opcion','asc')->get();
         return $result;
