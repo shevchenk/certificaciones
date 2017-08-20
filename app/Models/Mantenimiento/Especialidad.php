@@ -134,7 +134,7 @@ class Especialidad extends Model
                 FROM mat_especialidades me
                 INNER JOIN mat_cursos_especialidades mce ON mce.especialidad_id=me.id AND mce.estado=1
                 AND me.estado=1
-                GROUP BY me.id) as a'
+                GROUP BY me.id, me.especialidad,me.certificado_especialidad) as a'
                 ))
                 ->select('a.id','a.especialidad','a.certificado_especialidad','a.ncursos','a.cursos',
                 DB::raw('ValidaCursos( CONCAT(a.cursos,","),'.$r->persona_id.' ) as validar'),
