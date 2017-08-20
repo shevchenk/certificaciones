@@ -29,7 +29,8 @@ class Especialidad extends Model
             'me.especialidad',
             'me.certificado_especialidad',
             'me.estado',
-            DB::raw('GROUP_CONCAT(mc.curso ORDER BY curso) cursos')
+            DB::raw('GROUP_CONCAT(mc.curso ORDER BY curso) cursos'),
+            DB::raw('GROUP_CONCAT(mc.id) curso_id')
             )
             ->where( 
                 function($query) use ($r){
