@@ -12,12 +12,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Cargos
-        <small>Mantenimiento</small>
+    <h1>Mis Datos
+        <small>Datos Personales</small>
     </h1>
     <ol class="breadcrumb">
-        <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Cargos</li>
+        <li><i class="fa fa-sitemap"></i> Datos Personales</a></li>
+        <li class="active">Mis Datos</li>
     </ol>
 </section>
 
@@ -51,5 +51,4 @@
 @stop
 
 @section('form')
-     @include( 'expertmanage.cargo.form.cargo' )
 @stop
