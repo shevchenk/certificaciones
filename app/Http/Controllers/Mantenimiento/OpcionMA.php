@@ -3,11 +3,11 @@ namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Privilegio;
+use App\Models\Mantenimiento\Opcion;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class PrivilegioMA extends Controller
+class OpcionMA extends Controller
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class PrivilegioMA extends Controller
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Privilegio::runEditStatus($r);
+            Opcion::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
@@ -34,9 +34,9 @@ class PrivilegioMA extends Controller
             );
 
             $rules = array(
-                'privilegio' => 
+                'opcion' => 
                        ['required',
-                        Rule::unique('privilegios','privilegio'),
+                        Rule::unique('opciones','opcion'),
                         ],
             );
 
@@ -44,7 +44,7 @@ class PrivilegioMA extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Privilegio::runNew($r);
+                Opcion::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -65,16 +65,16 @@ class PrivilegioMA extends Controller
             );
 
             $rules = array(
-                'privilegio' => 
+                'opcion' => 
                        ['required',
-                        Rule::unique('privilegios','privilegio')->ignore($r->id),
+                        Rule::unique('opciones','opcion')->ignore($r->id),
                         ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Privilegio::runEdit($r);
+                Opcion::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -89,7 +89,7 @@ class PrivilegioMA extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Privilegio::runLoad($r);
+            $renturnModel = Opcion::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";    
@@ -97,10 +97,10 @@ class PrivilegioMA extends Controller
         }
     }
     
-    public function ListPrivilegio (Request $r )
+    public function ListOpcion (Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Privilegio::ListPrivilegio($r);
+            $renturnModel = Opcion::ListOpcion($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";

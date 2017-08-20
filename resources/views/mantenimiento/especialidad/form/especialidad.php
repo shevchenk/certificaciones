@@ -40,7 +40,7 @@
                           <option value='1' selected>Activo</option>
                         </select>               
               </div>
-              </div>
+            </div>
 
           </div> <!-- FIN FORM GROUP-->
           </fieldset>

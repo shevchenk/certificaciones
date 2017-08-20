@@ -137,7 +137,7 @@ class Especialidad extends Model
     }    
 
     
-        public static function ListEspecialidad($r)
+    public static function ListEspecialidad($r)
     {
         $sql=Especialidad::select('id','especialidad','certificado_especialidad','estado')
             ->where('estado','=','1');
@@ -145,7 +145,7 @@ class Especialidad extends Model
         return $result;
     }
     
-            public static function ListEspecialidadDisponible($r)
+    public static function ListEspecialidadDisponible($r)
     {
         $sql=DB::table(DB::raw(
                 '(SELECT me.id, me.especialidad,me.certificado_especialidad, COUNT(mce.curso_id) ncursos, GROUP_CONCAT( mce.curso_id ) cursos

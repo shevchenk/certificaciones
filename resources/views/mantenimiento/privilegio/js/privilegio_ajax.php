@@ -24,6 +24,11 @@ var AjaxPrivilegio={
         $("#ModalPrivilegioForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Mantenimiento.PrivilegioMA@EditStatus';
         masterG.postAjax(url,data,evento);
+    },
+    CargarOpcion:function(evento){
+        url='AjaxDinamic/Mantenimiento.OpcionMA@ListOpcion';
+        data={};
+        masterG.postAjax(url,data,evento);
     }
 };
 </script>

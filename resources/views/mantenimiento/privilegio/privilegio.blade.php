@@ -6,6 +6,10 @@
     {{ Html::script('lib/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('lib/datatables/dataTables.bootstrap.min.js') }}
 
+    {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
+    {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
+    {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
+
     @include( 'mantenimiento.privilegio.js.privilegio_ajax' )
     @include( 'mantenimiento.privilegio.js.privilegio' )
 @stop
@@ -36,7 +40,12 @@
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_privilegio" id="txt_privilegio" placeholder="Buscar Privilegio" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>                                          
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Opciones Asignados:</h4></label>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
@@ -59,6 +68,7 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th>Privilegio</th>
+                                  <th>Opciones Asignados</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

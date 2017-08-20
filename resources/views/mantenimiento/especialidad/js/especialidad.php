@@ -108,6 +108,7 @@ HTMLAgregarEditar=function(result){
         msjG.mensaje('warning',result.msj,3000);
     }
 }
+
 CargarSlct=function(slct){
 
     if(slct==3){

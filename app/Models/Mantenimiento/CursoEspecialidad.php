@@ -8,7 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class CursoEspecialidad extends Model
 {
     protected   $table = 'mat_cursos_especialidades';
-
-    
-
 }

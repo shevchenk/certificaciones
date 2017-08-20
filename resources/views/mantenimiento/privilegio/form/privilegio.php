@@ -7,7 +7,8 @@
           <h4 class="modal-title">Privilegio</h4>
         </div>
         <div class="modal-body">
-            <form id="ModalPrivilegioForm">
+          <form id="ModalPrivilegioForm">
+          <fieldset>
             <div class="form-group">
               <div class="col-md-12">
               
@@ -15,22 +16,26 @@
                 <input type="text" class="form-control" id="txt_privilegio" name="txt_privilegio" placeholder="Privilegio">
               </div>
             
-              <div class="col-sm-6">
-                <label>Estado</label>
-                  <select class="form-control" name="slct_estado" id="slct_estado">
-                    <option value='0'>Inactivo</option>
-                    <option value='1' selected>Activo</option>
-                  </select>
+              <div class="col-sm-12">  
+                <div class="col-sm-6">     
+                    <br>         
+                        <label>Opcion</label>
+                        <br>
+                          <select class="selectpicker show-menu-arrow" multiple data-actions-box="true" data-live-search="true" name="slct_opcion_id[]" id="slct_opcion_id">
+                          </select>     
+                    </div>
+                <div class="col-sm-6">    
+                  <br>                    
+                        <label>Estado</label>
+                          <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
+                            <option value='0'>Inactivo</option>
+                            <option value='1' selected>Activo</option>
+                          </select>               
+                </div>
               </div>
             </div>
             <br>
-            
-            <div class="col-md-4">
-                        <div class="form-group">
-                            <img class="img-circle" style="height: 142px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px"> 
-                        </div>  
-            </div>
-          </div>
+          <fieldset>
           </form>
         </div>
         <div class="modal-footer">
