@@ -50,6 +50,14 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Especialidad',4000);
     }
+    else if( $.trim( $("#ModalEspecialidadForm #txt_certificado_especialidad").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Nombre del Certificado',4000);
+    }
+    else if( $.trim( $("#ModalEspecialidadForm #slct_curso_id").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione almenos 1 Curso',4000);
+    }
 
     return r;
 }
@@ -132,6 +140,7 @@ HTMLCargarEspecialidad=function(result){ //INICIO HTML
             html+="</td>"+
             "<td class='especialidad'>"+r.especialidad+"</td>"+
             "<td class='certificado_especialidad'>"+r.certificado_especialidad+"</td>"+
+            "<td class='cursos'>"+$.trim(r.cursos).split(",").join("<br>")+"</td>"+
             "<td>"+
             "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 

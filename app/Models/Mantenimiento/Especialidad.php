@@ -15,36 +15,48 @@ class Especialidad extends Model
     public static function runLoad($r)
     {
 
-        $sql=Especialidad::select(
-            'id',
-            'especialidad',
-            'certificado_especialidad',
-            'estado'
+        $sql=DB::table('mat_especialidades AS me')
+            ->leftJoin('mat_cursos_especialidades AS mce',function($join){
+                $join->on('mce.especialidad_id','=','me.id')
+                ->where('mce.estado','=',1);
+            })
+            ->leftJoin('mat_cursos AS mc',function($join){
+                $join->on('mc.id','=','mce.curso_id')
+                ->where('mc.estado','=',1);
+            })
+            ->select(
+            'me.id',
+            'me.especialidad',
+            'me.certificado_especialidad',
+            'me.estado',
+            DB::raw('GROUP_CONCAT(mc.curso ORDER BY curso) cursos'),
+            DB::raw('GROUP_CONCAT(mc.id) curso_id')
             )
             ->where( 
                 function($query) use ($r){
                     if( $r->has("especialidad") ){
                         $especialidad=trim($r->especialidad);
                         if( $especialidad !='' ){
-                            $query->where('especialidad','like','%'.$especialidad.'%');
+                            $query->where('me.especialidad','like','%'.$especialidad.'%');
                         }
                     }
                     if( $r->has("certificado_especialidad") ){
                         $certificado_especialidad=trim($r->certificado_especialidad);
                         if( $certificado_especialidad !='' ){
-                            $query->where('certificado_especialidad','like','%'.$certificado_especialidad.'%');
+                            $query->where('me.certificado_especialidad','like','%'.$certificado_especialidad.'%');
                         }
                     }
 
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('estado','like','%'.$estado.'%');
+                            $query->where('me.estado','like','%'.$estado.'%');
                         }
                     }
                 }
-            );
-        $result = $sql->orderBy('id','asc')->paginate(10);
+            )
+            ->groupBy('me.id','me.especialidad','me.certificado_especialidad','me.estado');
+        $result = $sql->orderBy('me.especialidad','asc')->paginate(10);
         return $result;
     }
 
@@ -63,7 +75,7 @@ class Especialidad extends Model
         $especialidad_id = Auth::user()->id;
         $especialidad = new Especialidad;
         $especialidad->especialidad = trim( $r->especialidad );
-        $especialidad->certificado_especialidad = trim( $r->certificado_especialidad );     
+        $especialidad->certificado_especialidad = trim( $r->certificado_especialidad );
         $especialidad->estado = trim( $r->estado );
         $especialidad->persona_id_created_at=$especialidad_id;
         $especialidad->save();
@@ -73,17 +85,11 @@ class Especialidad extends Model
         for($i=0;$i<count($curso);$i++)
         {
             $curso_especialidad = new CursoEspecialidad;
-
             $curso_especialidad->curso_id = $curso[$i];
             $curso_especialidad->especialidad_id = $especialidad -> id;
             $curso_especialidad->persona_id_created_at = Auth::user()->id;
             $curso_especialidad->save();
         }
-        
-       
- 
-
-           
     }
 
     public static function runEdit($r)
@@ -92,29 +98,41 @@ class Especialidad extends Model
         $especialidad = Especialidad::find($r->id);
         $especialidad->especialidad = trim( $r->especialidad );
         $especialidad->certificado_especialidad = trim( $r->certificado_especialidad );
-        $especialidad->curso_id = trim( $r->curso_id); 
         $especialidad->estado = trim( $r->estado );
         $especialidad->persona_id_updated_at=$especialidad_id;
         $especialidad->save();
         $curso = $r->curso_id;
 
         //ESTO HACE QUE GRABE EN LA TABLE DETALLE LOS CURSOS, LO QUE SE ESCOJE EN EL COMBO CURSO
+        if( count($curso)>0 ){
+            DB::table('mat_cursos_especialidades')
+            ->where('especialidad_id', '=', $especialidad->id)
+            ->update(
+                array(
+                    'estado' => 0,
+                    'persona_id_updated_at' => Auth::user()->id,
+                    'updated_at' => date('Y-m-d H:i:s')
+                    )
+                );
+        }
         for($i=0;$i<count($curso);$i++)
         {
-            $curso_especialidad = new CursoEspecialidad;
-            $curso_id = $curso[$i];
-            $curso_especialidad->especialidad_id = $especialidad -> id;
-            //$curso_especialidad->persona_id_updated_at = Auth::user()->id;
-            DB::table('mat_cursos_especialidades')
-                            ->where('curso_id', '=', $curso_id)       
-                            ->update(
-                                array(
-                                    'estado' => 0,
-                                    'persona_id_updated_at' => Auth::user()->id
-                                    )
-                                );
-
-          //  $curso_especialidad->save();
+            $curso_especialidad=DB::table('mat_cursos_especialidades')
+            ->where('especialidad_id', '=', $especialidad->id)
+            ->where('curso_id', '=', $curso[$i])
+            ->first();
+            if( count($curso_especialidad)==0 ){
+                $curso_especialidad = new CursoEspecialidad;
+                $curso_especialidad->curso_id = $curso[$i];
+                $curso_especialidad->especialidad_id = $especialidad->id;
+                $curso_especialidad->persona_id_created_at = Auth::user()->id;
+            }
+            else{
+                $curso_especialidad = CursoEspecialidad::find($curso_especialidad->id);
+                $curso_especialidad->estado = 1;
+                $curso_especialidad->persona_id_updated_at = Auth::user()->id;
+            }
+            $curso_especialidad->save();
         }
     }    
 
