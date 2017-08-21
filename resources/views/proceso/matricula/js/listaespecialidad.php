@@ -169,7 +169,7 @@ HTMLCargarEspecialidad=function(result){
         },
         "initComplete": function () {
             $('#TableListaespecialidad_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarDocente','AjaxDocente',result.data,'#TableListaespecialidad_paginate');
+            masterG.CargarPaginacion('HTMLCargarEspecialidad','AjaxListaespecialidad',result.data,'#TableListaespecialidad_paginate');
         } 
     });
 };
