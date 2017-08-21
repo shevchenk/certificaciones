@@ -20,6 +20,8 @@
 @include( 'mantenimiento.programacion.js.listapersona' )
 @include( 'proceso.matricula.js.listaprogramacion_ajax' )
 @include( 'proceso.matricula.js.listaprogramacion' )
+@include( 'mantenimiento.programacion.js.aepersona_ajax' )
+@include( 'mantenimiento.programacion.js.aepersona' )
 
 @stop
 
@@ -49,7 +51,7 @@
                                 <div class="panel-body">
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label>Sucursal</label>
+                                            <label>Sucursal (Lugar de Recojo)</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
                                                 <option value="0">.::Seleccione::.</option>
                                             </select>
@@ -96,7 +98,7 @@
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni">Buscar Persona</button>
+                                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni" data-epersona="0">Buscar Persona</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -154,7 +156,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Cod. Teleoperadora</label>
+                                            <label>Cod. Teleoperadora (Si no encuentra seleccionar Anónimo)</label>
                                             <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
                                             <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
                                         </div> 
@@ -163,7 +165,7 @@
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing" data-epersona="0" data-apersona="0">Buscar Teleoperadora</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -301,4 +303,5 @@
 @section('form')
 @include( 'mantenimiento.programacion.form.listapersona' )
 @include( 'proceso.matricula.form.listaprogramacion' )
+@include( 'mantenimiento.persona.form.persona' )
 @stop

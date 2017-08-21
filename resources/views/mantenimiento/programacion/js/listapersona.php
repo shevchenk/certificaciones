@@ -4,6 +4,7 @@ var LTtextoPersona='';
 var LTtextoDNI='';
 var LPfiltrosG='';
 var LTvalorIdPersona='';
+var LTEpersona=1;
 $(document).ready(function() {
     $("#TableListapersona").DataTable({
         "paging": true,
@@ -18,8 +19,15 @@ $(document).ready(function() {
     $("#ListapersonaForm #TableListapersona input").blur(function(){ AjaxListapersona.Cargar(HTMLCargarPersona); });
 
     $('#ModalListapersona').on('shown.bs.modal', function (event) {
+      $(this).find('.modal-footer .btn-primary').text('Nuevo').css("display","");
       var button = $(event.relatedTarget); // captura al boton
       bfiltros= button.data('filtros');
+      if( typeof (button.data('epersona'))!='undefined'){
+           LTEpersona=0;
+      }
+      if( typeof (button.data('apersona'))!='undefined'){
+           $(this).find('.modal-footer .btn-primary').text('Nuevo').css("display","none");
+      }
       if( typeof (bfiltros)!='undefined'){
           LPfiltrosG=bfiltros;
       }
@@ -77,7 +85,11 @@ HTMLCargarPersona=function(result){
             "<input type='hidden' class='celular' value='"+r.celular+"'>"+
              "<input type='hidden' class='estado' value='"+r.estado+"'>"+
             "</td>"+
-            '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar2(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
+            '<td>';
+            if(LTEpersona==1){
+                 html+='<a class="btn btn-primary btn-sm" onClick="AgregarEditar2(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a>';
+            }
+        html+='</td>';
 
         html+="</tr>";
     });
