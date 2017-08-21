@@ -14,8 +14,8 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'proceso.matricula.js.matricula_ajax' )
-@include( 'proceso.matricula.js.matricula' )
+@include( 'proceso.matricula.js.especialidad_ajax' )
+@include( 'proceso.matricula.js.especialidad' )
 @include( 'mantenimiento.programacion.js.listapersona_ajax' )
 @include( 'mantenimiento.programacion.js.listapersona' )
 @include( 'proceso.matricula.js.listaespecialidad_ajax' )
@@ -67,6 +67,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Fecha</label>
+                                            <input type="hidden" class="form-control mant" id="txt_tipo_matricula" name="txt_tipo_matricula" readOnly="" value="1">
                                             <input type="text" class="form-control mant" id="txt_fecha" name="txt_fecha" readOnly="">
                                         </div> 
                                     </div>
@@ -213,14 +214,10 @@
                                         <table class="table" id="t_pago">
                                             <thead>
                                                 <tr>
-                                                    <th colspan="4" style="text-align:center;">Pago de los Cursos</th>
-                                                    <th colspan="3" style="text-align:center;">Pago por Certificados</th>
+                                                    <th colspan="4" style="text-align:center;">Pago por Certificados</th>
                                                 </tr>
                                                 <tr>
                                                     <th>Especialidad.</th>
-                                                    <th>N° de Boleta</th>
-                                                    <th>Importe</th>
-                                                    <th>Archivo</th>
                                                     <th>N° de Boleta</th>
                                                     <th>Importe</th>
                                                     <th>Archivo</th>

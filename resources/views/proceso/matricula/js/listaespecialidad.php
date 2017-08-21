@@ -10,7 +10,7 @@ $(document).ready(function() {
         "info": true,
         "autoWidth": false
     });
-    $('#exonerar_matricula').prop('checked', true);
+
     $("#ListaespecialidadForm #TableListaespecialidad select").change(function(){ AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad); });
     $("#ListaespecialidadForm #TableListaespecialidad input").blur(function(){ AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad); });
 
@@ -64,18 +64,6 @@ SeleccionarEspecialidad = function(val,id){
           html1+="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_especialidad_id' name='txt_especialidad_id[]' class='form-control' value='"+id+"' readOnly>"+
             "<input type='text' class='form-control'  value='"+especialidad+"'  disabled></td>"+
-            "<td><input type='text' class='form-control'  id='txt_nro_pago' name='txt_nro_pago[]'></td>"+
-            "<td><input type='text' class='form-control'  id='txt_monto_pago' name='txt_monto_pago[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
-            "<td>"+
-            '<input type="text" readonly class="form-control" id="pago_nombre'+id+'"" name="pago_nombre[]" value="">'+
-                    '<input type="text" style="display: none;" id="pago_archivo'+id+'" name="pago_archivo[]">'+
-                    '<label class="btn btn-warning  btn-flat margin">'+
-                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
-                        '<i class="fa fa-file-word-o fa-lg"></i>'+
-                        '<i class="fa fa-file-image-o fa-lg"></i>'+
-                    '<input type="file" style="display: none;" onchange="onPagos('+id+',2);" >'+
-             '</label>'+ 
-            "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado' name='txt_nro_pago_certificado[]'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+

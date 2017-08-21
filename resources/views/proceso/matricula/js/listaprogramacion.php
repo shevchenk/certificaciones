@@ -76,8 +76,8 @@ SeleccionarProgramacion = function(val,id){
                     '<input type="file" style="display: none;" onchange="onPagos('+id+',2);" >'+
              '</label>'+ 
             "</td>"+
-            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado' name='txt_nro_pago_certificado[]'></td>"+
-            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado' name='txt_nro_pago_certificado[]' value='0'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+

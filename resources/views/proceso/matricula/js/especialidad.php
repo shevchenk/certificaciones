@@ -3,7 +3,8 @@ var AddEdit=0; //0: Editar | 1: Agregar
 var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
                curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
 $(document).ready(function() {
-
+    
+    $('#exonerar_matricula').prop('checked', true);
     CargarSlct(1);CargarSlct(2);
     var responsable='<?php echo Auth::user()->paterno .' '. Auth::user()->materno .' '. Auth::user()->nombre ?>';
     var responsable_id='<?php echo Auth::user()->id ?>';
@@ -104,19 +105,11 @@ ValidaTabla=function(){
 
                   if($(this).find("td:eq(1) input[type='text']").val()==''){
                       r=false;
-                      msjG.mensaje('warning','Ingrese N° Boleta del Curso',4000);
+                      msjG.mensaje('warning','Ingrese N° Boleta de Especialidad',4000);
                   }
                   else if($(this).find("td:eq(2) input[type='text']").val()==''){
                       r=false;
-                      msjG.mensaje('warning','Ingrese Importe del Curso',4000);   
-                  }
-                  else if($(this).find("td:eq(4) input[type='text']").val()==''){
-                      r=false;
-                      msjG.mensaje('warning','Ingrese N° Boleta del Certificado',4000);
-                  }
-                  else if($(this).find("td:eq(5) input[type='text']").val()==''){
-                      r=false;
-                      msjG.mensaje('warning','Ingrese Importe del Certificado',4000);
+                      msjG.mensaje('warning','Ingrese Importe de Especialidad',4000);   
                   }
           
          });

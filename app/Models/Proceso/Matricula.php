@@ -46,7 +46,7 @@ class Matricula extends Model
         if( trim( $r->marketing_id )!=''){
         $matricula->persona_marketing_id = trim( $r->marketing_id );}
         $matricula->fecha_matricula = trim( $r->fecha );
-        $matricula->tipo_matricula = trim( $r->tipo_participante_id );
+        $matricula->tipo_matricula = trim( $r->tipo_matricula );
         if( trim( $r->nro_pago_matricula )!=''){
         $matricula->nro_pago = trim( $r->nro_pago_matricula);}
         if( trim( $r->monto_pago_matricula )!=''){
@@ -79,14 +79,22 @@ class Matricula extends Model
         $pago_nombre_certificado=$r->pago_nombre_certificado;
         
         if($matricula){
-            for($i=0;$i<count($monto_pago);$i++){
+            for($i=0;$i<count($nro_pago_certificado);$i++){
                 
                 $mtdetalle=new MatriculaDetalle;
                 $mtdetalle->matricula_id=$matricula->id;
                 if(Input::has('programacion_id')){
-                $mtdetalle->programacion_id=$programacion_id[$i];}
+                    $mtdetalle->programacion_id=$programacion_id[$i];
+                        if($nro_pago_certificado[$i]==0 or $monto_pago_certificado[$i]==0){
+                            $mtdetalle->tipo_matricula_detalle=1;
+                        }else{
+                            $mtdetalle->tipo_matricula_detalle=3;
+                        }
+                }
                 if(Input::has('especialidad_id')){
-                $mtdetalle->especialidad_id=$especialidad_id[$i];}
+                        $mtdetalle->especialidad_id=$especialidad_id[$i];
+                        $mtdetalle->tipo_matricula_detalle=2;
+                }
                 $mtdetalle->nro_pago=$nro_pago[$i];
                 $mtdetalle->monto_pago=$monto_pago[$i];
                 $mtdetalle->nro_pago_certificado=$nro_pago_certificado[$i];
@@ -98,7 +106,7 @@ class Matricula extends Model
                         $ruta_curso = $este->fileToFile($pago_archivo[$i],'m'.$matricula->id, $url_curso);
                         $mtdetalle->archivo_pago=$ruta_curso;
                     }
-
+                    
                     if(trim($pago_nombre_certificado[$i])!=''){
                         $url_certificado = "upload/m$matricula->id/ce_".$i.'.';
                         $ruta_certificado = $este->fileToFile($pago_archivo_certificado[$i],'m'.$matricula->id, $url_certificado);
