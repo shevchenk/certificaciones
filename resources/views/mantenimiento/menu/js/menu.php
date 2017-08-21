@@ -43,7 +43,7 @@ ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalMenuForm #txt_menu").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Estado Certificado',4000);
+        msjG.mensaje('warning','Ingrese Menu',4000);
     }
 
     return r;

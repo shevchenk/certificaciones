@@ -25,9 +25,9 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <form id="CertificadoEstadoForm">
+                <form id="MenuForm">
                     <div class="box-body table-responsive no-padding">
-                        <table id="TableCertificadoEstado" class="table table-bordered table-hover">
+                        <table id="TableMenu" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
                                     <th class="col-xs-2">
