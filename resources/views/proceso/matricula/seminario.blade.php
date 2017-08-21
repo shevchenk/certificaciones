@@ -27,7 +27,7 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Matrícula de Cursos
+    <h1>Matrícula de Seminarios
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
@@ -41,7 +41,7 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">CURSOS</h3>
+                    <h3 class="box-title">SEMINARIOS</h3>
                 </div>
                 <div class="box-body with-border">
                     <form id="ModalMatriculaForm">
@@ -144,13 +144,13 @@
                         </div>
                         <div class="col-md-12">
                             <div class="panel panel-success">
-                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>CURSOS MATRICULADOS</center></div>
+                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>SEMINARIOS MATRICULADOS</center></div>
                                 <div class="panel-body">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1">Agregar Curso con Programación</button>
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:2">Agregar Seminario con Programación</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -174,7 +174,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Mod.</th>
-                                                    <th>Cursos</th>
+                                                    <th>Seminarios</th>
                                                     <th>Fecha de Inicio</th>
                                                     <th>Horario</th>
                                                     <th>Local</th>
@@ -218,11 +218,11 @@
                                         <table class="table" id="t_pago">
                                             <thead>
                                                 <tr>
-                                                    <th colspan="4" style="text-align:center;">Pago de los Cursos</th>
+                                                    <th colspan="4" style="text-align:center;">Pago de los Seminarios</th>
                                                     <th colspan="3" style="text-align:center;">Pago por Certificados</th>
                                                 </tr>
                                                 <tr>
-                                                    <th>Nombre del Curso.</th>
+                                                    <th>Nombre del Seminario</th>
                                                     <th>N° de Boleta</th>
                                                     <th>Importe</th>
                                                     <th>Archivo</th>

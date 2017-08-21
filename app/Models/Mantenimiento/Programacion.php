@@ -108,7 +108,13 @@ class Programacion extends Model
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('mat_programaciones.estado','like','%'.$estado.'%');
+                            $query->where('mat_programaciones.estado','=',$estado);
+                        }
+                    }
+                    if( $r->has("tipo_curso") ){
+                        $tipo_curso=trim($r->tipo_curso);
+                        if( $tipo_curso !='' ){
+                            $query->where('c.tipo_curso','=',$tipo_curso);
                         }
                     }
                 }
