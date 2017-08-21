@@ -26,6 +26,9 @@
 @stop
 
 @section('content')
+<style>
+.modal { overflow: auto !important; 
+</style>
 <section class="content-header">
     <h1>Matrícula de Especialidades
         <small>Proceso</small>
