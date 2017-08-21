@@ -42,7 +42,8 @@ class Matricula extends Model
         $matricula->sucursal_id = trim( $r->sucursal_id);
         if( trim( $r->persona_caja_id )!=''){
         $matricula->persona_caja_id = trim( $r->persona_caja_id );}
-        $matricula->persona_matricula_id = trim( $r->responsable_id );
+        if( trim( $r->responsable_id )!=''){
+        $matricula->persona_matricula_id = trim( $r->responsable_id );}
         if( trim( $r->marketing_id )!=''){
         $matricula->persona_marketing_id = trim( $r->marketing_id );}
         $matricula->fecha_matricula = trim( $r->fecha );

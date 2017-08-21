@@ -14,14 +14,12 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'proceso.matricula.js.matricula_ajax' )
-@include( 'proceso.matricula.js.matricula' )
+@include( 'proceso.matricula.js.virtual_ajax' )
+@include( 'proceso.matricula.js.virtual' )
 @include( 'mantenimiento.programacion.js.listapersona_ajax' )
 @include( 'mantenimiento.programacion.js.listapersona' )
 @include( 'proceso.matricula.js.listaprogramacion_ajax' )
 @include( 'proceso.matricula.js.listaprogramacion' )
-@include( 'mantenimiento.programacion.js.aepersona_ajax' )
-@include( 'mantenimiento.programacion.js.aepersona' )
 
 @stop
 
@@ -41,7 +39,7 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">CURSOS</h3>
+                    <h3 class="box-title">VIRTUAL</h3>
                 </div>
                 <div class="box-body with-border">
                     <form id="ModalMatriculaForm">
@@ -58,7 +56,7 @@
                                         </div> 
                                     </div>
                                     <div class="col-md-5">
-                                        <div class="form-group">
+                                        <div class="form-group hidden">
                                             <label>Resp. de la Matrícula</label>
                                             <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
                                             <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
@@ -67,7 +65,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Fecha</label>
-                                            <input type="hidden" class="form-control mant" id="txt_tipo_matricula" name="txt_tipo_matricula" readOnly="" value="1">
+                                            <input type="hidden" class="form-control mant" id="txt_tipo_matricula" name="txt_tipo_matricula" readOnly="" value="2">
                                             <input type="text" class="form-control mant" id="txt_fecha" name="txt_fecha" readOnly="">
                                         </div> 
                                     </div>
@@ -199,14 +197,14 @@
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                         </div> 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 hidden">
                                         <div class="form-group">
                                             <label>Responsable de Caja</label>
                                             <input type="hidden" name="txt_persona_caja_id" id="txt_persona_caja_id" class="form-control" readonly="">
                                             <input type="text" class="form-control" id="txt_persona_caja" name="txt_persona_caja" disabled="">
                                         </div> 
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-1 hidden">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
@@ -239,7 +237,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 hidden">
                             <div class="panel panel-warning">
                                 <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE MATRÍCULA</center></div>
                                 <div class="panel-body">
@@ -303,5 +301,4 @@
 @section('form')
 @include( 'mantenimiento.programacion.form.listapersona' )
 @include( 'proceso.matricula.form.listaprogramacion' )
-@include( 'mantenimiento.persona.form.persona' )
 @stop
