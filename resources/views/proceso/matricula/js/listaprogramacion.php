@@ -174,7 +174,7 @@ HTMLCargarProgramacion=function(result){
         },
         "initComplete": function () {
             $('#TableListaprogramacion_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarDocente','AjaxDocente',result.data,'#TableListaprogramacion_paginate');
+            masterG.CargarPaginacion('HTMLCargarProgramacion','AjaxListaprogramacion',result.data,'#TableListaprogramacion_paginate');
         } 
     });
 };
