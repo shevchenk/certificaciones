@@ -45,7 +45,9 @@ $(document).ready(function() {
     $("#ProgramacionForm #TableProgramacion input").blur(function(){ AjaxProgramacion.Cargar(HTMLCargarProgramacion); });
     
     $('#ModalProgramacion').on('shown.bs.modal', function (event) {
-        $('#ModalProgramacionForm #txt_aula,#ModalProgramacionForm #slct_dia').css( "display","none" );
+        $('#ModalProgramacionForm .txt_aula,#ModalProgramacionForm .slct_dia').css( "display","none" );
+        $('#ModalProgramacionForm #label_curso').text( "Seminario" );
+        
 
         if( AddEdit==1 ){        
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');

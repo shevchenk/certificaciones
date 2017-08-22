@@ -29,19 +29,19 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Curso</label>
+                            <label id="label_curso">Curso</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_curso_id" name="slct_curso_id">
                                 <option value="0">.::Seleccione::.</option>
                             </select>
                         </div> 
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 txt_aula">
                         <div class="form-group">
                             <label>Aula</label>
                             <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_aula" name="txt_aula">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 slct_dia">
                         <div class="form-group">
                             <label>Horario</label>
                             <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_dia[]" id="slct_dia">

@@ -95,7 +95,17 @@ class Curso extends Model
         public static function ListCurso($r)
     {
         $sql=Curso::select('id','curso','certificado_curso','tipo_curso','estado')
-            ->where('estado','=','1');
+            ->where('estado','=','1')
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("tipo_curso") ){
+                        $tipo_curso=trim($r->tipo_curso);
+                        if( $tipo_curso !='' ){
+                            $query->where('tipo_curso','=',$tipo_curso);
+                        }
+                    }
+                }
+            );
         $result = $sql->orderBy('curso','asc')->get();
         return $result;
     }

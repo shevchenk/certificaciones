@@ -37,12 +37,12 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Programación de Cursos
+    <h1>Programación de Seminarios
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Programación de Cursos</li>
+        <li class="active">Programación de Seminarios</li>
     </ol>
 </section>
 
