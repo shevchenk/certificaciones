@@ -60,18 +60,17 @@
                                     <label>Fecha Nacimiento</label>
                                     <input type="text" class="form-control fecha" id="txt_fecha_nacimiento" name="txt_fecha_nacimiento" placeholder="AAAA-MM-DD" readonly=""> <!-- onfocus="blur()"/-->
                                 </div>
-
-                                <div class="col-sm-4">
-                                    <label>Telefono</label>
-                                    <input type="text" onkeypress="return masterG.validaNumerosMax(event, this, 7);" class="form-control" id="txt_telefono" name="txt_telefono" placeholder="Telefono">
-                                </div>
                             </div><!--FIN DE COL SM 12-->
 
                             <div class="col-sm-12"><!--INICIO DE COL SM 12-->
+                                 <div class="col-sm-4">
+                                    <label>Telefono</label>
+                                    <textarea cols="3" class="form-control" id="txt_telefono" name="txt_telefono" placeholder="Telefono"></textarea>
+                                </div>
                                 <div class="col-sm-4">
                                     <label>Celular</label>
-                                    <input type="text" onkeypress="return masterG.validaNumerosMax(event, this, 9);" class="form-control" id="txt_celular" name="txt_celular" placeholder="Celular">
-                                </div>            
+                                    <textarea cols="3" class="form-control" id="txt_celular" name="txt_celular" placeholder="Telefono"></textarea>
+                                </div>
                                 <div class="col-sm-4">
                                     <label>Estado</label>
                                     <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
