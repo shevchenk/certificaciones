@@ -5,7 +5,7 @@ var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
 $(document).ready(function() {
     
     $('#exonerar_matricula').prop('checked', true);
-    CargarSlct(1);CargarSlct(2);
+    CargarSlct(1);CargarSlct(2);CargarSlct(3);
     var responsable='<?php echo Auth::user()->paterno .' '. Auth::user()->materno .' '. Auth::user()->nombre ?>';
     var responsable_id='<?php echo Auth::user()->id ?>';
     var hoy='<?php echo date('Y-m-d') ?>';
@@ -139,6 +139,9 @@ CargarSlct=function(slct){
     if(slct==2){
         AjaxMatricula.CargarRegion(SlctCargarRegion);
     }
+    if(slct==3){
+        AjaxMatricula.CargarTipoParticipante(SlctCargarTipoParticipante);
+    }
 }
 
 SlctCargarSucursal1=function(result){
@@ -178,6 +181,16 @@ SlctCargarDistrito=function(result){
     });
     $("#ModalMatriculaForm #slct_distrito_id").html(html); 
     $("#ModalMatriculaForm #slct_distrito_id").selectpicker('refresh');
+
+};
+
+SlctCargarTipoParticipante=function(result){
+    var html="<option value='0'>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.tipo_participante+"</option>";
+    });
+    $("#ModalMatriculaForm #slct_tipo_participante_id").html(html); 
+    $("#ModalMatriculaForm #slct_tipo_participante_id").selectpicker('refresh');
 
 };
 </script>

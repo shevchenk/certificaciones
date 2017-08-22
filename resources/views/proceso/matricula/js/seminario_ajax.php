@@ -25,5 +25,10 @@ var AjaxMatricula={
         data={provincia_id:provincia_id};
         masterG.postAjax(url,data,evento);
     },
+    CargarTipoParticipante:function(evento){
+        url='AjaxDinamic/Mantenimiento.TipoParticipanteEM@ListTipoParticipante';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

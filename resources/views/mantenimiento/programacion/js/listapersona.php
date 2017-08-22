@@ -15,8 +15,8 @@ $(document).ready(function() {
         "autoWidth": false
     });
    
-    $("#ListapersonaForm #TableListapersona select").change(function(){ AjaxListapersona.Cargar(HTMLCargarPersona); });
-    $("#ListapersonaForm #TableListapersona input").blur(function(){ AjaxListapersona.Cargar(HTMLCargarPersona); });
+    $("#ListapersonaForm #TableListapersona select").change(function(){ AjaxListapersona.Cargar(HTMLCargarListaPersona); });
+    $("#ListapersonaForm #TableListapersona input").blur(function(){ AjaxListapersona.Cargar(HTMLCargarListaPersona); });
 
     $('#ModalListapersona').on('shown.bs.modal', function (event) {
       $(this).find('.modal-footer .btn-primary').text('Nuevo').css("display","");
@@ -31,7 +31,7 @@ $(document).ready(function() {
       if( typeof (bfiltros)!='undefined'){
           LPfiltrosG=bfiltros;
       }
-      AjaxListapersona.Cargar(HTMLCargarPersona);
+      AjaxListapersona.Cargar(HTMLCargarListaPersona);
 
       LTtextoIdPersona= button.data('personaid');
       LTtextoPersona= button.data('persona');
@@ -66,7 +66,7 @@ SeleccionarPersona = function(val,id){
     }
     
     
-HTMLCargarPersona=function(result){
+HTMLCargarListaPersona=function(result){
     var html="";
     $('#TableListapersona').DataTable().destroy();
 
@@ -108,7 +108,7 @@ HTMLCargarPersona=function(result){
         },
         "initComplete": function () {
             $('#TableListapersona_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarPersona','AjaxPersona',result.data,'#TableListapersona_paginate');
+            masterG.CargarPaginacion('HTMLCargarListaPersona','AjaxListapersona',result.data,'#TableListapersona_paginate');
         } 
     });
 };

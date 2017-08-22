@@ -79,8 +79,6 @@
                                             <label>Tipo de Participante</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tipo_participante_id" name="slct_tipo_participante_id">
                                                 <option value="0">.::Seleccione::.</option>
-                                                <option value="1">Tipo 1</option>
-                                                <option value="2">Tipo 2</option>
                                             </select>
                                         </div> 
                                     </div>
