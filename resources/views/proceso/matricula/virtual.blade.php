@@ -54,7 +54,7 @@
                                 <div class="panel-body">
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label>Sucursal (Lugar de Recojo)</label>
+                                            <label>ODE (Lugar de Recojo)</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
                                                 <option value="0">.::Seleccione::.</option>
                                             </select>

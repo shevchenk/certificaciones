@@ -81,7 +81,7 @@ ValidaForm=function(){
     }
     else if( $.trim( $("#ModalProgramacionForm #slct_sucursal_id").val() )=='0' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Sucursal',4000);
+        msjG.mensaje('warning','Seleccione ODE',4000);
     }
     else if( $.trim( $("#ModalProgramacionForm #slct_curso_id").val() )=='0' ){
         r=false;

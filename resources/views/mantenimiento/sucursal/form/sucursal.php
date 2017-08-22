@@ -4,15 +4,15 @@
         <div class="modal-header btn-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Sucursal</h4>
+          <h4 class="modal-title">ODE</h4>
         </div>
         <div class="modal-body">
             <form id="ModalSucursalForm">
             <div class="form-group">
               <div class="col-md-12">
               
-                <label>Sucursal</label>
-                <input type="text" class="form-control" id="txt_sucursal" name="txt_sucursal" placeholder="Sucursal">
+                <label>ODE</label>
+                <input type="text" class="form-control" id="txt_sucursal" name="txt_sucursal" placeholder="ODE">
               </div>
             
 

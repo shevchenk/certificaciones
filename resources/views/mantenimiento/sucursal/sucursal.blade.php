@@ -12,12 +12,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Sucursales
+    <h1>ODES
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Sucursales</li>
+        <li class="active">ODES</li>
     </ol>
 </section>
 
@@ -33,10 +33,10 @@
                                     <th class="col-xs-1">IMG</th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Sucursal:</h4></label>
+                                            <label><h4>ODE:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_sucursal" id="txt_sucursal" placeholder="Buscar Sucursal" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_sucursal" id="txt_sucursal" placeholder="Buscar ODE" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>                                          
                                         </div>
                                     </th>
@@ -97,7 +97,7 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th>Img</th>
-                                  <th>Sucursal</th>
+                                  <th>ODE</th>
                                   <th>Direccion</th>
                                   <th>Telefono</th>
                                   <th>Celular</th>

@@ -55,7 +55,7 @@ ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalSucursalForm #txt_sucursal").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Sucursal',4000);
+        msjG.mensaje('warning','Ingrese ODE',4000);
     }
 
     return r;
