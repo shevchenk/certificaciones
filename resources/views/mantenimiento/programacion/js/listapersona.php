@@ -5,6 +5,7 @@ var LTtextoDNI='';
 var LPfiltrosG='';
 var LTvalorIdPersona='';
 var LTEpersona=1;
+var LTBuscarAlumno=0;
 $(document).ready(function() {
     $("#TableListapersona").DataTable({
         "paging": true,
@@ -19,18 +20,20 @@ $(document).ready(function() {
     $("#ListapersonaForm #TableListapersona input").blur(function(){ AjaxListapersona.Cargar(HTMLCargarListaPersona); });
 
     $('#ModalListapersona').on('shown.bs.modal', function (event) {
-      $(this).find('.modal-footer .btn-primary').text('Nuevo').css("display","");
+        
       var button = $(event.relatedTarget); // captura al boton
       bfiltros= button.data('filtros');
-      if( typeof (button.data('epersona'))!='undefined'){
-           LTEpersona=0;
-      }
-      if( typeof (button.data('apersona'))!='undefined'){
-           $(this).find('.modal-footer .btn-primary').text('Nuevo').css("display","none");
-      }
       if( typeof (bfiltros)!='undefined'){
           LPfiltrosG=bfiltros;
       }
+      
+      if( typeof (button.data('epersona'))!='undefined'){
+           LTEpersona=0;
+      }
+      if( typeof (button.data('buscaralumno'))!='undefined'){
+           LTBuscarAlumno=button.data('buscaralumno');  
+      }
+      
       AjaxListapersona.Cargar(HTMLCargarListaPersona);
 
       LTtextoIdPersona= button.data('personaid');
@@ -60,10 +63,17 @@ SeleccionarPersona = function(val,id){
         $("#"+LTtextoPersona).val(paterno+" "+materno+" "+nombre);
         $("#"+LTtextoIdPersona).val(id);
         $("#"+LTtextoDNI).val(dni);
+        if(LTBuscarAlumno==1){
+            AjaxListapersona.BuscarAlumno(id,CargarAlumno);
+        }
         
         $('#ModalListapersona').modal('hide');
     }
-    }
+    };
+ 
+CargarAlumno=function(result){
+    console.log(result);
+};
     
     
 HTMLCargarListaPersona=function(result){

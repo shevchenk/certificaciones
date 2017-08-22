@@ -15,6 +15,11 @@ var AjaxListapersona={
         $("#ListapersonaForm input[type='hidden']").remove();
         url='AjaxDinamic/Mantenimiento.PersonaEM@Load';
         masterG.postAjax(url,data,evento);
+    },
+    BuscarAlumno:function(persona_id,evento){
+        url='AjaxDinamic/Proceso.MatriculaPR@BuscarAlumno';
+        data={persona_id:persona_id};
+        masterG.postAjax(url,data,evento);
     }
 };
 </script>

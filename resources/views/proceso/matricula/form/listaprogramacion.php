@@ -13,6 +13,16 @@
                     <div class="box">
                         <form id="ListaprogramacionForm">
                             <div class="box-body table-responsive no-padding">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Tipo Modalidad</label>
+                                        <select  class="form-control selectpicker show-menu-arrow" id="slct_tipo_modalidad_id" name="slct_tipo_modalidad_id">
+                                            <option value="0">.::Seleccione::.</option>
+                                            <option value="1">Presencial</option>
+                                            <option value="2">Virtual</option>
+                                        </select>
+                                    </div> 
+                                </div>
                                 <table id="TableListaprogramacion" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">

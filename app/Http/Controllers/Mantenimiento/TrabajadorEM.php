@@ -36,7 +36,9 @@ class TrabajadorEM extends Controller
             $rules = array(
                 'persona_id' => 
                        ['required',
-                        Rule::unique('mat_trabajadores','persona_id'),
+                        Rule::unique('mat_trabajadores','persona_id')->where(function ($query) use($r) {
+                                $query->where('rol_id',$r->rol_id );
+                        }),
                         ],
             );
 
@@ -67,7 +69,9 @@ class TrabajadorEM extends Controller
             $rules = array(
                 'persona_id' => 
                        ['required',
-                        Rule::unique('mat_trabajadores','persona_id')->ignore($r->id),
+                        Rule::unique('mat_trabajadores','persona_id')->ignore($r->id)->where(function ($query) use($r) {
+                                $query->where('rol_id',$r->rol_id );
+                        }),
                         ],
             );
 

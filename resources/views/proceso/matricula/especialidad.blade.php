@@ -22,6 +22,8 @@
 @include( 'proceso.matricula.js.listaespecialidad' )
 @include( 'mantenimiento.programacion.js.aepersona_ajax' )
 @include( 'mantenimiento.programacion.js.aepersona' )
+@include( 'mantenimiento.trabajador.js.listatrabajador_ajax' )
+@include( 'mantenimiento.trabajador.js.listatrabajador' )
 
 @stop
 
@@ -165,7 +167,7 @@
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" onclick="TipoModal(0)"  data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
+                                                <button type="button" class="btn btn-success btn-flat"  data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -207,7 +209,7 @@
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-warning btn-flat" onclick="TipoModal(0)" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_caja_id"  data-persona="ModalMatriculaForm #txt_persona_caja">Buscar Responsable</button>
+                                                <button type="button" class="btn btn-warning btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:2" data-personaid="ModalMatriculaForm #txt_persona_caja_id"  data-persona="ModalMatriculaForm #txt_persona_caja">Buscar Responsable</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -297,4 +299,5 @@
 @include( 'mantenimiento.programacion.form.listapersona' )
 @include( 'proceso.matricula.form.listaespecialidad' )
 @include( 'mantenimiento.persona.form.persona' )
+@include( 'mantenimiento.trabajador.form.listatrabajador' )
 @stop

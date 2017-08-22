@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Proceso;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Proceso\Matricula;
+use App\Models\Proceso\Alumno;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -42,6 +43,17 @@ class MatriculaPR extends Controller
                 $return['rst'] = 2;
                 $return['msj'] = $validator->errors()->all()[0];
             }
+            return response()->json($return);
+        }
+    }
+    
+           public function BuscarAlumno (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::BuscarAlumno($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
             return response()->json($return);
         }
     }

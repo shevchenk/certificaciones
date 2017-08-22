@@ -13,14 +13,16 @@ $(document).ready(function() {
     $("#ListaprogramacionForm #TableListaprogramacion select").change(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
     $("#ListaprogramacionForm #TableListaprogramacion input").blur(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
 
-    $('#ModalListaprogramacion').on('shown.bs.modal', function (event) { 
-      var button = $(event.relatedTarget); // captura al boton
-      bfiltros= button.data('filtros');
-      if( typeof (bfiltros)!='undefined'){
-          LDfiltrosG=bfiltros;
-      }
-      AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
-
+    $('#ModalListaprogramacion').on('shown.bs.modal', function (event) {
+          var button = $(event.relatedTarget); // captura al boton
+          $( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).change(function() {
+             
+                  bfiltros= button.data('filtros');
+                    if( typeof (bfiltros)!='undefined'){
+                      LDfiltrosG=bfiltros+'|tipo_modalidad:'+$( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
+                    }
+                  AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
+          });
     });
 
     $('#ModalListaprogramacion').on('hidden.bs.modal', function (event) {
@@ -45,7 +47,7 @@ SeleccionarProgramacion = function(val,id){
         var fecha_i=fecha_inicio.split(" ");
         var fecha_f=fecha_final.split(" ");
         if(sucursal_id==1){
-            var mod='VIRTUAL';
+            var mod='ONLINE';
         }
         var html='';
           html+="<tr id='trid_"+id+"'>"+

@@ -60,6 +60,12 @@ class Trabajador extends Model
                             $query->where('r.rol','like','%'.$rol.'%');
                         }
                     }
+                    if( $r->has("rol_id") ){
+                        $rol_id=trim($r->rol_id);
+                        if( $rol_id !='' ){
+                            $query->where('mat_trabajadores.rol_id','=',$rol_id);
+                        }
+                    }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
