@@ -85,8 +85,8 @@ class Privilegio extends Model
     }
 
     public static function runLoad($r)
-    {
-
+    {   
+        DB::statement(DB::raw('SET GLOBAL group_concat_max_len=4294967295'));
         $sql=DB::table('privilegios AS p')
             ->leftJoin('privilegios_opciones AS po',function($join){
                 $join->on('po.privilegio_id','=','p.id')
