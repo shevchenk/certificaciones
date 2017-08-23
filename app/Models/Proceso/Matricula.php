@@ -22,6 +22,9 @@ class Matricula extends Model
            $al->region_id=trim( $r->region_id);
            $al->provincia_id=trim( $r->provincia_id);
            $al->distrito_id=trim( $r->distrito_id);
+           $al->direccion=trim( $r->direccion);
+           $al->referencia=trim($r->referencia);
+           $al->persona_id_updated_at=Auth::user()->id;
            $al->save();
         }else {
            $al= new Alumno;
