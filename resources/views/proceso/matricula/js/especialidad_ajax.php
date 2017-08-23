@@ -18,12 +18,12 @@ var AjaxMatricula={
     CargarProvincia:function(evento,region_id){
         url='AjaxDinamic/Mantenimiento.RegionEM@ListProvincia';
         data={region_id:region_id};
-        masterG.postAjax(url,data,evento);
+        masterG.postAjax(url,data,evento,null,false);
     },
     CargarDistrito:function(evento,provincia_id){
         url='AjaxDinamic/Mantenimiento.RegionEM@ListDistrito';
         data={provincia_id:provincia_id};
-        masterG.postAjax(url,data,evento);
+        masterG.postAjax(url,data,evento,null,false);
     },
     CargarTipoParticipante:function(evento){
         url='AjaxDinamic/Mantenimiento.TipoParticipanteEM@ListTipoParticipante';

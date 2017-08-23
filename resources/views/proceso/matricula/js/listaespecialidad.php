@@ -1,6 +1,5 @@
 <script type="text/javascript">
 var LDfiltrosG='';
-var LDTipoModal=0;
 $(document).ready(function() {
     $("#TableListaespecialidad").DataTable({
         "paging": true,
@@ -28,19 +27,6 @@ $(document).ready(function() {
     $('#ModalListaespecialidad').on('hidden.bs.modal', function (event) {
         LDfiltrosG='';
     });
-    
-    $('#ModalListapersona').on('hide.bs.modal', function (event) {
-            if(LDTipoModal==1){
-                if(LTvalorIdPersona==''){
-                }
-                else if($("#ModalMatriculaForm #txt_persona_id").val()!=LTvalorIdPersona){
-                   $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
-                }
-                LTvalorIdPersona='';
-                LDTipoModal='';
-            }
-    });
-
 
 });
 
@@ -130,10 +116,6 @@ ValidarPersona=function(thiis){
     }else{
         msjG.mensaje('warning',"No hay una persona seleccionada",3000);
     }
-}
-
-TipoModal=function(val){
-    LDTipoModal=val;
 }
 
 HTMLCargarEspecialidad=function(result){

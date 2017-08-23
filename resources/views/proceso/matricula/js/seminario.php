@@ -201,4 +201,26 @@ SlctCargarTipoParticipante=function(result){
     $("#ModalMatriculaForm #slct_tipo_participante_id").selectpicker('refresh');
 
 };
+
+CargarAlumno=function(result){
+    if(result.data!=null){
+        $("#ModalMatriculaForm #txt_direccion").val(result.data.direccion); 
+        $("#ModalMatriculaForm #txt_referencia").val(result.data.referencia);
+        
+        $("#ModalMatriculaForm #slct_region_id").selectpicker('val',result.data.region_id);
+        $("#ModalMatriculaForm #slct_region_id").change();
+        $("#ModalMatriculaForm #slct_provincia_id").selectpicker('val',result.data.provincia_id);
+        $("#ModalMatriculaForm #slct_provincia_id").change();
+        $("#ModalMatriculaForm #slct_distrito_id").selectpicker('val',result.data.distrito_id);
+    }else{
+        $("#ModalMatriculaForm #txt_direccion").val(''); 
+        $("#ModalMatriculaForm #txt_referencia").val('');
+        
+        $("#ModalMatriculaForm #slct_region_id").selectpicker('val',0);
+        $("#ModalMatriculaForm #slct_region_id").change();
+        $("#ModalMatriculaForm #slct_provincia_id").selectpicker('val',0);
+        $("#ModalMatriculaForm #slct_provincia_id").change();
+        $("#ModalMatriculaForm #slct_distrito_id").selectpicker('val',0);
+    }
+};
 </script>

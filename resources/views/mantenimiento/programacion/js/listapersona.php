@@ -6,6 +6,7 @@ var LPfiltrosG='';
 var LTvalorIdPersona='';
 var LTEpersona=1;
 var LTBuscarAlumno=0;
+var LDValidarPersona=0;
 $(document).ready(function() {
     $("#TableListapersona").DataTable({
         "paging": true,
@@ -33,6 +34,9 @@ $(document).ready(function() {
       if( typeof (button.data('buscaralumno'))!='undefined'){
            LTBuscarAlumno=button.data('buscaralumno');  
       }
+      if( typeof (button.data('validarpersona'))!='undefined'){
+           LDValidarPersona=button.data('validarpersona');  
+      }
       
       AjaxListapersona.Cargar(HTMLCargarListaPersona);
 
@@ -44,7 +48,15 @@ $(document).ready(function() {
 
     $('#ModalListapersona').on('hidden.bs.modal', function (event) {
         LPfiltrosG='';
-//        $("ModalPersonaForm input[type='hidden']").remove();
+        if(LDValidarPersona==1){
+                if(LTvalorIdPersona==''){
+                }
+                else if($("#ModalMatriculaForm #txt_persona_id").val()!=LTvalorIdPersona){
+                   $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
+                }
+                LTvalorIdPersona='';
+                LDValidarPersona='';
+            }
 
     });
 });
@@ -71,9 +83,6 @@ SeleccionarPersona = function(val,id){
     }
     };
  
-CargarAlumno=function(result){
-    console.log(result);
-};
     
     
 HTMLCargarListaPersona=function(result){
