@@ -19,7 +19,7 @@
                                         <select  class="form-control selectpicker show-menu-arrow" id="slct_tipo_modalidad_id" name="slct_tipo_modalidad_id">
                                             <option value="0">.::Seleccione::.</option>
                                             <option value="1">Presencial</option>
-                                            <option value="2">Virtual</option>
+                                            <option value="2">OnLine</option>
                                         </select>
                                     </div> 
                                 </div>
