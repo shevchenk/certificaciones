@@ -280,6 +280,52 @@
 
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE INSCRIPCIÓN</center></div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="exonerar_inscripcion" id="exonerar_inscripcion" >
+                                                Exonerar Inscripción
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <table class="table" id="t_pago_inscripcion">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="3" style="text-align:center;">Pago de Inscripción</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>N° de Boleta</th>
+                                                    <th>Importe</th>
+                                                    <th>Archivo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_pago_inscripcion">
+                                                <tr>
+                                                    <td><input type='text' class='form-control'  id='txt_nro_pago_inscripcion' name='txt_nro_pago_inscripcion' readonly=""></td>
+                                                    <td><input type='text' class='form-control'  id='txt_monto_pago_inscripcion' name='txt_monto_pago_inscripcion' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);' readonly=""></td>
+                                                    <td>
+                                                        <input type="text" readonly class="form-control" id="pago_nombre_inscripcion"  name="pago_nombre_inscripcion" value="" readonly="">
+                                                        <input type="text" style="display: none;" id="pago_archivo_inscripcion" name="pago_archivo_inscripcion">
+                                                        <label class="btn btn-warning  btn-flat margin">
+                                                            <i class="fa fa-file-pdf-o fa-lg"></i>
+                                                            <i class="fa fa-file-word-o fa-lg"></i>
+                                                            <i class="fa fa-file-image-o fa-lg"></i>
+                                                            <input type="file" style="display: none;" onchange="onPagos(null, 4);" id="file_inscripcion" disabled="">
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                         <div class="form-group"> 
                             <label></label>
                         </div>

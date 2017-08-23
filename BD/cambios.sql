@@ -104,3 +104,13 @@ DECLARE cursosaux VARCHAR(200);
 
 	RETURN cantidad;
 END
+
+/*****************************23/08/2017*****************************************/
+
+ALTER TABLE `mat_matriculas`
+ADD COLUMN `nro_pago_inscripcion`  varchar(30) NULL AFTER `archivo_pago`,
+ADD COLUMN `monto_pago_inscripcion`  decimal(10,2) NULL AFTER `nro_pago_inscripcion`,
+ADD COLUMN `archivo_pago_inscripcion`  varchar(100) NULL AFTER `monto_pago_inscripcion`;
+
+ALTER TABLE `mat_matriculas_detalles`
+MODIFY COLUMN `tipo_matricula_detalle`  int(11) NULL DEFAULT 1 COMMENT '1: Curso | 2: Especialidad Certificado | 3: Curso Certificado | 4: Seminario' AFTER `monto_pago_certificado`;

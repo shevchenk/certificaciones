@@ -30,11 +30,30 @@ $(document).ready(function() {
               $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",true);
               $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).val("");
               $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).val("");
+              $( "#ModalMatriculaForm #pago_nombre_matricula" ).val("");
+              $( "#ModalMatriculaForm #pago_archivo_matricula" ).val("");
               $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",true);
         }else{
               $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
               $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",false);
               $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",false);
+        }
+
+    });
+    
+    $( "#ModalMatriculaForm #exonerar_inscripcion" ).change(function() {
+        if( $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked') ) {
+              $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",true);
+              $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",true);
+              $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).val("");
+              $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).val("");
+              $( "#ModalMatriculaForm #pago_nombre_inscripcion" ).val("");
+              $( "#ModalMatriculaForm #pago_nombre_inscripcion" ).val("");
+              $( "#ModalMatriculaForm #file_inscripcion" ).prop("disabled",true);
+        }else{
+              $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",false);
+              $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",false);
+              $( "#ModalMatriculaForm #file_inscripcion" ).prop("disabled",false);
         }
 
     });
@@ -94,6 +113,14 @@ ValidaForm=function(){
     else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==false){
         r=false;
         msjG.mensaje('warning','Ingrese Monto de pago de Matrícula',4000);
+    }
+   else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_inscripcion").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==false){
+        r=false;
+        msjG.mensaje('warning','Ingrese Número de pago de Inscripción',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_inscripcion").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==false){
+        r=false;
+        msjG.mensaje('warning','Ingrese Monto de pago de Inscripción',4000);
     }
     return r;
 }

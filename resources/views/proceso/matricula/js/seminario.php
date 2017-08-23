@@ -31,6 +31,8 @@ $(document).ready(function() {
               $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",true);
               $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).val("");
               $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).val("");
+              $( "#ModalMatriculaForm #pago_nombre_matricula" ).val("");
+              $( "#ModalMatriculaForm #pago_archivo_matricula" ).val("");
               $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",true);
         }else{
               $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
@@ -110,14 +112,6 @@ ValidaTabla=function(){
                   else if($(this).find("td:eq(2) input[type='text']").val()==''){
                       r=false;
                       msjG.mensaje('warning','Ingrese Importe del Seminario',4000);   
-                  }
-                  else if($(this).find("td:eq(4) input[type='text']").val()==''){
-                      r=false;
-                      msjG.mensaje('warning','Ingrese N° Boleta del Certificado',4000);
-                  }
-                  else if($(this).find("td:eq(5) input[type='text']").val()==''){
-                      r=false;
-                      msjG.mensaje('warning','Ingrese Importe del Certificado',4000);
                   }
           
          });

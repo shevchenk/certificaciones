@@ -296,7 +296,7 @@
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" name="exonerar_inscripcion" id="exonerar_inscripcion" >
-                                                Exonerar Matrícula
+                                                Exonerar Inscripción
                                             </label>
                                         </div>
                                     </div>
@@ -314,16 +314,16 @@
                                             </thead>
                                             <tbody id="tb_pago_inscripcion">
                                                 <tr>
-                                                    <td><input type='text' class='form-control'  id='txt_nro_pago_matricula' name='txt_nro_pago_matricula'></td>
-                                                    <td><input type='text' class='form-control'  id='txt_monto_pago_matricula' name='txt_monto_pago_matricula' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>
+                                                    <td><input type='text' class='form-control'  id='txt_nro_pago_inscripcion' name='txt_nro_pago_inscripcion'></td>
+                                                    <td><input type='text' class='form-control'  id='txt_monto_pago_inscripcion' name='txt_monto_pago_inscripcion' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>
                                                     <td>
-                                                        <input type="text" readonly class="form-control" id="pago_nombre_matricula"  name="pago_nombre_matricula" value="">
-                                                        <input type="text" style="display: none;" id="pago_archivo_matricula" name="pago_archivo_matricula">
+                                                        <input type="text" readonly class="form-control" id="pago_nombre_inscripcion"  name="pago_nombre_inscripcion" value="">
+                                                        <input type="text" style="display: none;" id="pago_archivo_inscripcion" name="pago_archivo_inscripcion">
                                                         <label class="btn btn-warning  btn-flat margin">
                                                             <i class="fa fa-file-pdf-o fa-lg"></i>
                                                             <i class="fa fa-file-word-o fa-lg"></i>
                                                             <i class="fa fa-file-image-o fa-lg"></i>
-                                                            <input type="file" style="display: none;" onchange="onPagos(null, 3);" id="file_matricula">
+                                                            <input type="file" style="display: none;" onchange="onPagos(null, 4);" id="file_inscripcion">
                                                         </label>
                                                     </td>
                                                 </tr>
