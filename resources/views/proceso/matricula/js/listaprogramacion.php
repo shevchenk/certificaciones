@@ -1,5 +1,13 @@
+<?php 
+use App\Models\Proceso\Promocion;
+$promocionG=Promocion::where('estado',1)->first(); 
+?>
 <script type="text/javascript">
 var LDfiltrosG='';
+var LDTipoTabla=0;
+var PromocionG="<?php echo $promocionG->pae ?>";
+var CheckG=0; // Indica los checks q tiene actualmente
+var CheckedG=0; // Indica cuantos tiene
 $(document).ready(function() {
     $("#TableListaprogramacion").DataTable({
         "paging": true,
@@ -19,7 +27,10 @@ $(document).ready(function() {
              
                   bfiltros= button.data('filtros');
                     if( typeof (bfiltros)!='undefined'){
-                      LDfiltrosG=bfiltros+'|tipo_modalidad:'+$( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
+                        LDfiltrosG=bfiltros+'|tipo_modalidad:'+$( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
+                    }
+                    if( typeof (button.data('tipotabla'))!='undefined'){
+                        LDTipoTabla=button.data('tipotabla');
                     }
                   AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
           });
@@ -61,8 +72,16 @@ SeleccionarProgramacion = function(val,id){
           html+="</tr>";
         
         $("#t_matricula").append(html);
+        CheckG++;
+        //CheckedG++;
+        var checkedlocal=""; //checked
+        if( CheckG>PromocionG ){
+            //CheckedG--;
+            checkedlocal="";
+        }
         
           var html1='';
+          if(LDTipoTabla==0){
           html1+="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
             "<input type='text' class='form-control'  value='"+curso+"'  disabled></td>"+
@@ -78,8 +97,8 @@ SeleccionarProgramacion = function(val,id){
                     '<input type="file" style="display: none;" onchange="onPagos('+id+',2);" >'+
              '</label>'+ 
             "</td>"+
-            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado' name='txt_nro_pago_certificado[]' value='0'></td>"+
-            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]' value='0'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
@@ -89,10 +108,70 @@ SeleccionarProgramacion = function(val,id){
                         '<i class="fa fa-file-image-o fa-lg"></i>'+
                     '<input type="file" style="display: none;" onchange="onPagos('+id+',1);" >'+
              '</label>'+ 
+            "</td>"+
+            "<td>"+
+                "<label>"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flat"+id+"' "+checkedlocal+">"+
+                "</label>"+
             "</td>";
           html1+="</tr>";
-        
+        }else {
+          html1+="<tr id='trid_"+id+"'>"+
+            "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
+            "<input type='text' class='form-control'  value='"+curso+"'  disabled></td>"+
+            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<td>"+
+            '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
+                    '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
+                    '<label class="btn btn-warning  btn-flat margin">'+
+                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
+                        '<i class="fa fa-file-word-o fa-lg"></i>'+
+                        '<i class="fa fa-file-image-o fa-lg"></i>'+
+                    '<input type="file" style="display: none;" onchange="onPagos('+id+',1);" >'+
+             '</label>'+ 
+            "</td>"+
+            "<td>"+
+                "<label>"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flat"+id+"' "+checkedlocal+">"+
+                "</label>"+
+            "</td>";
+          html1+="</tr>";
+        }
         $("#t_pago").append(html1);
+        $('input[type="checkbox"].flat'+id).iCheck({
+          checkboxClass: 'icheckbox_flat-green'
+        }).on('ifChanged', function(e) {
+            // Get the field name
+            var isChecked = e.currentTarget.checked;
+
+                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).val("0");
+            if (isChecked == true) {
+                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).attr("readOnly","true");
+                CheckedG++;
+            }
+            else{
+                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).removeAttr("readOnly");
+                CheckedG--;
+            }
+
+            $("#txt_nro_promocion,#txt_monto_promocion").removeAttr("disabled");
+            $("#txt_nro_promocion,#txt_monto_promocion").val("");
+            var cont=0;
+            $("#t_pago tr").each(function(){
+              if( $(this).find("input[type='checkbox']").is(':checked') ){
+                cont++;
+              }
+            });
+
+            if(cont<PromocionG){
+                $("#txt_nro_promocion,#txt_monto_promocion").attr("disabled","true");
+                $("#txt_nro_promocion,#txt_monto_promocion").val("0");
+            }
+
+        });
+
+
         
         $('#ModalListaprogramacion').modal('hide');
     }else {
@@ -103,6 +182,7 @@ SeleccionarProgramacion = function(val,id){
 onPagos=function(item,val){
     if(val==1){ etiqueta="_certificado";}
     if(val==3){ etiqueta="_matricula";}
+    if(val==4){ etiqueta="_inscripcion";}
     if(val==2){etiqueta="";}
     
     var files = event.target.files || event.dataTransfer.files;
@@ -111,18 +191,22 @@ onPagos=function(item,val){
     var image = new Image();
     var reader = new FileReader();
     reader.onload = (e) => {
-        if(val!=3){
-            $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
-        }else {
+        if(val==3){
             $("#t_pago_matricula  #pago_archivo"+etiqueta).val(event.target.result);
+        }else if(val==4){
+            $("#t_pago_inscripcion  #pago_archivo"+etiqueta).val(event.target.result);
+        }else {
+            $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
         }
         //console.log(event.target.result);
     };
     reader.readAsDataURL(files[0]);
-    if(val!=3){
-        $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
+    if(val==3){
+         $("#t_pago_matricula  #pago_nombre"+etiqueta).val(files[0].name);
+    }else if(val==4){
+         $("#t_pago_inscripcion  #pago_nombre"+etiqueta).val(files[0].name);
     }else {
-        $("#t_pago_matricula  #pago_nombre"+etiqueta).val(files[0].name);
+         $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
     }
     
 //    console.log(files[0].name);
@@ -132,8 +216,14 @@ onPagos=function(item,val){
 Eliminar = function (tr) {
         var c = confirm("¿Está seguro de Eliminar el Curso?");
         if (c) {
+
+            if( $("#t_matricula #trid_"+tr+" input[type='checkbox'].flat").is(':checked') ){
+                CheckedG--;
+            }
+
             $("#t_matricula #trid_"+tr+"").remove();
             $("#t_pago #trid_"+tr+"").remove();
+            CheckG--;
         }
 };
     

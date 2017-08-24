@@ -4,7 +4,8 @@ var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
                curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     
-    $('#exonerar_matricula').prop('checked', true);    
+    $('#exonerar_matricula').prop('checked', true); 
+    $('#exonerar_inscripcion').prop('checked', true); 
     CargarSlct(1);CargarSlct(2);CargarSlct(3);
     var hoy='<?php echo date('Y-m-d') ?>';
     $("#ModalMatriculaForm #txt_fecha").val(hoy);
@@ -27,11 +28,30 @@ $(document).ready(function() {
               $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",true);
               $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).val("");
               $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).val("");
+              $( "#ModalMatriculaForm #pago_nombre_matricula" ).val("");
+              $( "#ModalMatriculaForm #pago_archivo_matricula" ).val("");
               $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",true);
         }else{
               $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
               $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",false);
               $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",false);
+        }
+
+    });
+    
+    $( "#ModalMatriculaForm #exonerar_inscripcion" ).change(function() {
+        if( $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked') ) {
+              $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",true);
+              $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",true);
+              $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).val("");
+              $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).val("");
+              $( "#ModalMatriculaForm #pago_nombre_inscripcion" ).val("");
+              $( "#ModalMatriculaForm #pago_nombre_inscripcion" ).val("");
+              $( "#ModalMatriculaForm #file_inscripcion" ).prop("disabled",true);
+        }else{
+              $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",false);
+              $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",false);
+              $( "#ModalMatriculaForm #file_inscripcion" ).prop("disabled",false);
         }
 
     });
@@ -79,6 +99,22 @@ ValidaForm=function(){
     else if( $.trim( $("#ModalMatriculaForm #txt_programacion_id").val() )=='' && $.trim( $("#ModalMatriculaForm #txt_especialidad_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione al menos una programación',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==false){
+        r=false;
+        msjG.mensaje('warning','Ingrese Número de pago de Matrícula',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==false){
+        r=false;
+        msjG.mensaje('warning','Ingrese Monto de pago de Matrícula',4000);
+    }
+   else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_inscripcion").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==false){
+        r=false;
+        msjG.mensaje('warning','Ingrese Número de pago de Inscripción',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_inscripcion").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==false){
+        r=false;
+        msjG.mensaje('warning','Ingrese Monto de pago de Inscripción',4000);
     }
     return r;
 }

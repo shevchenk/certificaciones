@@ -75,6 +75,7 @@ SeleccionarEspecialidad = function(val,id){
 onPagos=function(item,val){
     if(val==1){ etiqueta="_certificado";}
     if(val==3){ etiqueta="_matricula";}
+    if(val==4){ etiqueta="_inscripcion";}
     if(val==2){etiqueta="";}
     
     var files = event.target.files || event.dataTransfer.files;
@@ -83,21 +84,25 @@ onPagos=function(item,val){
     var image = new Image();
     var reader = new FileReader();
     reader.onload = (e) => {
-        if(val!=3){
-            $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
-        }else {
+        if(val==3){
             $("#t_pago_matricula  #pago_archivo"+etiqueta).val(event.target.result);
+        }else if(val==4){
+            $("#t_pago_inscripcion  #pago_archivo"+etiqueta).val(event.target.result);
+        }else {
+            $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
         }
         //console.log(event.target.result);
     };
     reader.readAsDataURL(files[0]);
-    if(val!=3){
-        $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
+    if(val==3){
+         $("#t_pago_matricula  #pago_nombre"+etiqueta).val(files[0].name);
+    }else if(val==4){
+         $("#t_pago_inscripcion  #pago_nombre"+etiqueta).val(files[0].name);
     }else {
-        $("#t_pago_matricula  #pago_nombre"+etiqueta).val(files[0].name);
+         $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
     }
     
-//    console.log(files[0].name);
+    console.log(files[0].name);
 };    
     
 
