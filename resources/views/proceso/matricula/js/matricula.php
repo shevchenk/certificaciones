@@ -127,7 +127,9 @@ ValidaForm=function(){
 
 ValidaTabla=function(){
     var r=true;
-         $("#t_pago tr").each(function(){
+    var ValidaTotal=0;
+    var contador=0;
+         $("#t_pago>tbody tr").each(function(){
 
                   if($(this).find("td:eq(1) input[type='text']").val()==''){
                       r=false;
@@ -145,8 +147,18 @@ ValidaTabla=function(){
                       r=false;
                       msjG.mensaje('warning','Ingrese Importe del Certificado',4000);
                   }
-          
+
+                  if( $(this).find("input[type='checkbox']").is(':checked') ){
+                      ValidaTotal++;
+                  }
+
+                  $(this).find("input[type='checkbox']").attr("value",contador);
+                  contador++;
          });
+         if( (ValidaTotal>PromocionG) || (ValidaTotal<PromocionG && ValidaTotal>0) ){
+            r=false;
+            msjG.mensaje('warning','La oferta existente tiene un máximo de '+PromocionG+' cursos en promoción. Verifique y actualice los cursos seleccionados.',9000);
+         }
     return r;     
 }
 AgregarEditarAjax=function(){
@@ -161,6 +173,7 @@ HTMLAgregarEditar=function(result){
         $("#ModalMatriculaForm input[type='hidden'],#ModalMatriculaForm input[type='text'],#ModalMatriculaForm textarea").not('.mant').val('');
         $("#ModalMatriculaForm select").selectpicker('val','0');
         $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
+        $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
     }else{
         msjG.mensaje('warning',result.msj,3000);
     }

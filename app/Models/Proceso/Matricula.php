@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Proceso\Alumno;
 use App\Models\Proceso\MatriculaDetalle;
 use Illuminate\Support\Facades\Input;
+use DB;
 
 class Matricula extends Model
 {
@@ -17,6 +18,7 @@ class Matricula extends Model
         /******Validar si alumno existe ***/
         $alumno=Alumno::where('persona_id','=',$r->persona_id)->first();
 
+        DB::beginTransaction();
         if($alumno){
            $al= Alumno::find($alumno->id);
            $al->region_id=trim( $r->region_id);
@@ -63,6 +65,11 @@ class Matricula extends Model
             if( trim( $r->monto_pago_inscripcion )!=''){
             $matricula->monto_pago_inscripcion = trim( $r->monto_pago_inscripcion );}   
         }
+
+        if( trim($r->nro_promocion)!=''){
+            $matricula->nro_promocion = trim( $r->nro_promocion);
+            $matricula->monto_promocion = trim( $r->monto_promocion);
+        }
     
         $matricula->persona_id_created_at=Auth::user()->id;
         $matricula->save();
@@ -96,6 +103,7 @@ class Matricula extends Model
         $pago_nombre=$r->pago_nombre;
         $pago_archivo_certificado=$r->pago_archivo_certificado;
         $pago_nombre_certificado=$r->pago_nombre_certificado;
+        $checks= $r->checks;
         
         if($matricula){
             for($i=0;$i<count($nro_pago_certificado);$i++){
@@ -117,6 +125,12 @@ class Matricula extends Model
                 if(Input::has('especialidad_id')){
                         $mtdetalle->especialidad_id=$especialidad_id[$i];
                         $mtdetalle->tipo_matricula_detalle=2;
+                }
+
+                foreach ($checks as $key => $value) {
+                    if($value==$i){
+                        $mtdetalle->gratis=1;
+                    }
                 }
                 $mtdetalle->nro_pago=$nro_pago[$i];
                 $mtdetalle->monto_pago=$monto_pago[$i];
@@ -140,6 +154,7 @@ class Matricula extends Model
             }
 
         }
+        DB::commit();
     }
     
         public function fileToFile($file,$id, $url){

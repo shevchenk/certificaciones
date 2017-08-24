@@ -1,6 +1,13 @@
+<?php 
+use App\Models\Proceso\Promocion;
+$promocionG=Promocion::where('estado',1)->first(); 
+?>
 <script type="text/javascript">
 var LDfiltrosG='';
 var LDTipoTabla=0;
+var PromocionG="<?php echo $promocionG->pae ?>";
+var CheckG=0; // Indica los checks q tiene actualmente
+var CheckedG=0; // Indica cuantos tiene
 $(document).ready(function() {
     $("#TableListaprogramacion").DataTable({
         "paging": true,
@@ -65,6 +72,13 @@ SeleccionarProgramacion = function(val,id){
           html+="</tr>";
         
         $("#t_matricula").append(html);
+        CheckG++;
+        //CheckedG++;
+        var checkedlocal=""; //checked
+        if( CheckG>PromocionG ){
+            //CheckedG--;
+            checkedlocal="";
+        }
         
           var html1='';
           if(LDTipoTabla==0){
@@ -83,8 +97,8 @@ SeleccionarProgramacion = function(val,id){
                     '<input type="file" style="display: none;" onchange="onPagos('+id+',2);" >'+
              '</label>'+ 
             "</td>"+
-            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado' name='txt_nro_pago_certificado[]' value='0'></td>"+
-            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]' value='0'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
@@ -94,14 +108,19 @@ SeleccionarProgramacion = function(val,id){
                         '<i class="fa fa-file-image-o fa-lg"></i>'+
                     '<input type="file" style="display: none;" onchange="onPagos('+id+',1);" >'+
              '</label>'+ 
+            "</td>"+
+            "<td>"+
+                "<label>"+
+                  "<input type='checkbox' name='checks[]' value='1' class='flat"+id+"' "+checkedlocal+">"+
+                "</label>"+
             "</td>";
           html1+="</tr>";
         }else {
           html1+="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
             "<input type='text' class='form-control'  value='"+curso+"'  disabled></td>"+
-            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado' name='txt_nro_pago_certificado[]'></td>"+
-            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
@@ -115,6 +134,39 @@ SeleccionarProgramacion = function(val,id){
           html1+="</tr>";
         }
         $("#t_pago").append(html1);
+        $('input[type="checkbox"].flat'+id).iCheck({
+          checkboxClass: 'icheckbox_flat-green'
+        }).on('ifChanged', function(e) {
+            // Get the field name
+            var isChecked = e.currentTarget.checked;
+
+                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).val("0");
+            if (isChecked == true) {
+                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).attr("readOnly","true");
+                CheckedG++;
+            }
+            else{
+                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).removeAttr("readOnly");
+                CheckedG--;
+            }
+
+            $("#txt_nro_promocion,#txt_monto_promocion").removeAttr("disabled");
+            $("#txt_nro_promocion,#txt_monto_promocion").val("");
+            var cont=0;
+            $("#t_pago tr").each(function(){
+              if( $(this).find("input[type='checkbox']").is(':checked') ){
+                cont++;
+              }
+            });
+
+            if(cont<PromocionG){
+                $("#txt_nro_promocion,#txt_monto_promocion").attr("disabled","true");
+                $("#txt_nro_promocion,#txt_monto_promocion").val("0");
+            }
+
+        });
+
+
         
         $('#ModalListaprogramacion').modal('hide');
     }else {
@@ -159,8 +211,14 @@ onPagos=function(item,val){
 Eliminar = function (tr) {
         var c = confirm("¿Está seguro de Eliminar el Curso?");
         if (c) {
+
+            if( $("#t_matricula #trid_"+tr+" input[type='checkbox'].flat").is(':checked') ){
+                CheckedG--;
+            }
+
             $("#t_matricula #trid_"+tr+"").remove();
             $("#t_pago #trid_"+tr+"").remove();
+            CheckG--;
         }
 };
     
