@@ -100,7 +100,7 @@ class Alumno extends Model
             'mc.curso',
             //'mmd.nota_curso_alum',
             DB::raw('IFNULL(mmd.nota_curso_alum,0) as nota_curso_alum')
-            )
+            ,
             DB::raw('DATE(mp.fecha_final) as fecha_final')
             )
             ->where( 
