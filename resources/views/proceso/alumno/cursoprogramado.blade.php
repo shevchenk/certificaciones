@@ -34,12 +34,12 @@
                         <table id="TableDatos" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4># DNI</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_dni" id="txt_dni" placeholder="Buscar # DNI" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <!-- <div class="input-group-addon"><i class="fa fa-search"></i></div> -->
+                                                <!-- <input type="text" class="form-control" name="txt_dni" id="txt_dni" placeholder="Buscar # DNI" onkeypress="return masterG.enterGlobal(event,'.input-group',1);"> -->
                                             </div>
                                         </div>
                                     </th>
@@ -71,6 +71,28 @@
                                         </div>
                                     </th>
 
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
+                                            <label><h4>Email</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
+                                            <label><h4>Telefono</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
+                                            <label><h4>Celular</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Direccion</h4></label>
+                                        </div>
+                                    </th>
+
+
                                     <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Estado</h4></label>
@@ -94,6 +116,11 @@
                                   <th>Nombres</th>
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
+                                  <th>Email</th>
+                                  <th>Telefono</th>
+                                  <th>Celular</th>
+                                  <th>Dirección</th>
+
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>
@@ -116,12 +143,22 @@
             <div class="well well-lg" style="background-color: #FFF;">
                 <form class="form-horizontal">
                   <div class="form-group has-primary has-feedback">
-                    <label class="control-label col-sm-3" for="inputSucess3">DNI:</label>
-                    <div class="col-sm-9" id="div_dni" style="padding-top: 7px;">44444444</div>
+                    <label class="control-label col-sm-1" for="" style="text-align: left;">DNI:</label>
+                    <div class="col-sm-4" id="div_dni" style="padding-top: 7px;"></div>
+                    <label class="control-label col-sm-1" for="" style="text-align: left;">EMAIL:</label>
+                    <div class="col-sm-4" id="div_email" style="padding-top: 7px;"></div>
                   </div>
                   <div class="form-group has-primary has-feedback">
-                    <label class="control-label col-sm-3" for="inputSucess3">NOMBRES: </label>
-                    <div class="col-sm-9" id="div_nombres" style="padding-top: 7px;">Rusbel Arteaga</div>
+                    <label class="control-label col-sm-1" for="" style="text-align: left;">NOMBRES: </label>
+                    <div class="col-sm-4" id="div_nombres" style="padding-top: 7px;"></div>
+                    <label class="control-label col-sm-1" for="" style="text-align: left;">TELEFONO:</label>
+                    <div class="col-sm-4" id="div_telefono" style="padding-top: 7px;"></div>
+                  </div>
+                  <div class="form-group has-primary has-feedback">
+                    <label class="control-label col-sm-1" for="" style="text-align: left;">DIRECCION: </label>
+                    <div class="col-sm-4" id="div_direccion" style="padding-top: 7px;"></div>
+                    <label class="control-label col-sm-1" for="" style="text-align: left;">CELULAR:</label>
+                    <div class="col-sm-4" id="div_celular" style="padding-top: 7px;"></div>
                   </div>
                 </form>
             </div>
@@ -133,7 +170,9 @@
                     <thead>
                         <tr class="cabecera">
                         <th>#</th>
+                        <th>Profesor</th>
                         <th>Cursos</th>
+                        <th>Fecha Ini</th>
                         <th>Fecha Final</th>
                         <th>Nota</th>
                         </tr>
@@ -141,9 +180,11 @@
                     <tbody id="tbody_cursos">
                         <tr>
                         <td>#</td>
-                        <td>Curso</td>
-                        <td>Fecha Final</td>
-                        <td>Nota</td>
+                        <td>#</td>
+                        <td>#</td>
+                        <td>#</td>
+                        <td>#</td>
+                        <td>#</td>
                         </tr>
                     </tbody>
                     <tfoot>

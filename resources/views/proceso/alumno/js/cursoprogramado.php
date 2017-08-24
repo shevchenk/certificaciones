@@ -150,6 +150,10 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
+                "<td class='materno'>"+r.email+"</td>"+
+                "<td class='materno'>"+r.telefono+"</td>"+
+                "<td class='materno'>"+r.celular+"</td>"+
+                "<td class='materno'>"+r.direccion+"</td>"+
                 "<td>";
                 //"<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 
@@ -189,14 +193,16 @@ HTMLCargaCurso=function(result){ //INICIO HTML
         html+="<tr id='trid_"+r.matricula_detalle_id+"'>";
         html+=""+
                 "<td class='dni'>"+r.matricula_detalle_id+"</td>"+
+                "<td class='nombre'>"+r.profesor+"</td>"+
                 "<td class='nombre'>"+r.curso+"</td>"+
+                "<td class='paterno'>"+r.fecha_inicio+"</td>"+
                 "<td class='paterno'>"+r.fecha_final+"</td>"+
                 "";
 
         if(r.fecha_final <= '2017-08-24'){
-            html+='<td>--</td>';
+            html+='<td><input type="hidden" name="id_mat[]" id="" value="'+r.matricula_detalle_id+'"><input type="text" class="form-control" id="nota_'+r.matricula_detalle_id+'" name="notas[]" value="'+r.nota_curso_alum+'" style="width: 50px;" onkeypress="return masterG.validaDecimal(event, this);"></td>';            
         }else{
-            html+='<td><input type="hidden" name="id_mat[]" id="" value="'+r.matricula_detalle_id+'"><input type="text" class="form-control" id="nota_'+r.matricula_detalle_id+'" name="notas[]" value="'+r.nota_curso_alum+'" style="width: 50px;" onkeypress="return masterG.validaDecimal(event, this);"></td>';
+            html+='<td>--</td>';
         }    
 
         html+="</tr>";

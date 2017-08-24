@@ -38,7 +38,10 @@ class Alumno extends Model
            	'p.nombre',
            	'p.paterno',
            	'p.materno',
-           	'p.dni'
+           	'p.dni',
+           	'p.email',
+           	'p.telefono',
+           	'p.celular'
             )
             ->where( 
                 function($query) use ($r){
@@ -91,16 +94,18 @@ class Alumno extends Model
                 $join->on('mp.id','=','mmd.programacion_id')
                 ->where('mp.estado','=',1);
             })
+            ->Join('personas AS p', function($join){
+                $join->on('p.id','=','mp.persona_id');
+            })
             ->Join('mat_cursos AS mc', function($join){
                 $join->on('mc.id','=','mp.curso_id');
-                // ->where('mm.estado','=',1);
             })
             ->select(
             'mmd.id as matricula_detalle_id',
             'mc.curso',
-            //'mmd.nota_curso_alum',
-            DB::raw('IFNULL(mmd.nota_curso_alum,0) as nota_curso_alum')
-            )
+            DB::raw('CONCAT(p.nombre, p.paterno, p.materno) as profesor'),
+            DB::raw('DATE(mp.fecha_inicio) as fecha_inicio'),
+            DB::raw('IFNULL(mmd.nota_curso_alum,"") as nota_curso_alum'),
             DB::raw('DATE(mp.fecha_final) as fecha_final')
             )
             ->where( 
