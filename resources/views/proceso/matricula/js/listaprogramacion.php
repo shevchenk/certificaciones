@@ -111,7 +111,7 @@ SeleccionarProgramacion = function(val,id){
             "</td>"+
             "<td>"+
                 "<label>"+
-                  "<input type='checkbox' name='checks[]' value='1' class='flat"+id+"' "+checkedlocal+">"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flat"+id+"' "+checkedlocal+">"+
                 "</label>"+
             "</td>";
           html1+="</tr>";
@@ -130,6 +130,11 @@ SeleccionarProgramacion = function(val,id){
                         '<i class="fa fa-file-image-o fa-lg"></i>'+
                     '<input type="file" style="display: none;" onchange="onPagos('+id+',1);" >'+
              '</label>'+ 
+            "</td>"+
+            "<td>"+
+                "<label>"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flat"+id+"' "+checkedlocal+">"+
+                "</label>"+
             "</td>";
           html1+="</tr>";
         }
