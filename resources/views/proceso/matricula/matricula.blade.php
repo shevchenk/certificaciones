@@ -11,7 +11,7 @@
 {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
 {{ Html::style('lib/iCheck/all.css') }}
-{{ Html::script('lib/iCheck/iCheck.min.js') }}
+{{ Html::script('lib/iCheck/icheck.min.js') }}
 
 {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
