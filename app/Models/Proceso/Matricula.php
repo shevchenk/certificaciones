@@ -104,7 +104,10 @@ class Matricula extends Model
         $pago_archivo_certificado=$r->pago_archivo_certificado;
         $pago_nombre_certificado=$r->pago_nombre_certificado;
         $checks= $r->checks;
-        
+        if(count($checks)==0){
+            $checks=array();
+        }
+            
         if($matricula){
             for($i=0;$i<count($nro_pago_certificado);$i++){
                 

@@ -29,7 +29,13 @@
               
 
                 <div class="col-md-12"> <!-- INICIO CLASS 12 -->
-                  <div class="col-sm-6">     
+                  <div class="col-sm-5">     
+                  <br>         
+                      <label>Apocope</label>
+                        <input type="text" class="form-control" id="txt_curso_apocope" name="txt_curso_apocope" placeholder="Curso Apocope">
+                  </div>
+
+                  <div class="col-sm-5">     
                   <br>         
                       <label>Tipo Curso</label>
                         <select class="form-control selectpicker show-menu-arrow" data-live-search="true" name="slct_tipo_curso" id="slct_tipo_curso">
@@ -39,7 +45,7 @@
                         </select>     
                   </div>
 
-                  <div class="col-sm-6">     
+                  <div class="col-sm-2">     
                   <br>    
                       <label>Estado</label>
                         <select class="form-control" name="slct_estado" id="slct_estado">

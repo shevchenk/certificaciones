@@ -5,23 +5,30 @@
     {{ Html::style('lib/datatables/dataTables.bootstrap.css') }}
     {{ Html::script('lib/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('lib/datatables/dataTables.bootstrap.min.js') }}
-
+    
     {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
-    @include( 'mantenimiento.curso.js.curso_ajax' )
-    @include( 'mantenimiento.curso.js.curso' )
+    {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
+    
+    @include( 'mantenimiento.tipoparticipante.js.tipoparticipante_ajax' )
+    @include( 'mantenimiento.tipoparticipante.js.tipoparticipante' )
 @stop
 
 @section('content')
+<style>
+.modal { overflow: auto !important; 
+</style>
 <section class="content-header">
-    <h1>Curso
+    <h1>Tipo Participante
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Curso</li>
+        <li class="active">Tipo Participante</li>
     </ol>
 </section>
 
@@ -29,53 +36,20 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <form id="CursoForm">
+                <form id="TipoParticipanteForm">
                     <div class="box-body table-responsive no-padding">
-                        <table id="TableCurso" class="table table-bordered table-hover">
+                        <table id="TableTipoParticipante" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Curso:</h4></label>
+                                            <label><h4>Tipo Participante:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Buscar Curso" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_tipo_participante" id="txt_tipo_participante" placeholder="Buscar Tipo Participante" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>                                          
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Certificado Curso:</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_certificado_curso" id="txt_certificado_curso" placeholder="Buscar Certificado Curso" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>                                          
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Curso Apocope:</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_curso_apocope" id="txt_curso_apocope" placeholder="Buscar Curso Apocope" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>                                          
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Tipo Curso:</h4></label>
-                                            <div class="input-group">
-                                                <select class="form-control" name="slct_tipo_curso" id="slct_tipo_curso">
-                                                    <option value='' selected>.::Todo::.</option>
-                                                    <option value='1'>Curso</option>
-                                                    <option value='2'>Seminario</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </th>
-
-
                                     <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Estado:</h4></label>
@@ -95,9 +69,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Curso</th>
-                                  <th>Certificado Curso</th>
-                                  <th>Tipo Curso</th>
+                                  <th>Tipo Participante</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>
@@ -115,5 +87,6 @@
 @stop
 
 @section('form')
-     @include( 'mantenimiento.curso.form.curso' )
+     @include( 'mantenimiento.tipoparticipante.form.tipoparticipante' )
+
 @stop

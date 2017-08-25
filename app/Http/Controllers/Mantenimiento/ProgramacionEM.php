@@ -38,12 +38,14 @@ class ProgramacionEM extends Controller
                        ['required',
                         Rule::unique('mat_programaciones','docente_id')->where(function ($query) use($r) {
                                 $dia=$r->dia; 
-                                $dias= implode(",", $dia);
                                 $query->where('sucursal_id',$r->sucursal_id );
                                 $query->where('curso_id',$r->curso_id );
                                 $query->where('fecha_inicio',$r->fecha_inicio );
                                 $query->where('fecha_final',$r->fecha_final );
-                                $query->where('dia',$dias );
+                                if( count($dia)>0 ){
+                                    $dias= implode(",", $dia);
+                                    $query->where('dia',$dias );
+                                }
                         }),
                         ],
             );

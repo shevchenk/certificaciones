@@ -106,6 +106,7 @@ class Alumno extends Model
             DB::raw('CONCAT(p.nombre, p.paterno, p.materno) as profesor'),
             DB::raw('DATE(mp.fecha_inicio) as fecha_inicio'),
             DB::raw('IFNULL(mmd.nota_curso_alum,"") as nota_curso_alum'),
+            DB::raw('IFNULL(mmd.nota_curso_alum,0) as nota_curso_alum'),
             DB::raw('DATE(mp.fecha_final) as fecha_final')
             )
             ->where( 

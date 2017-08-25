@@ -147,6 +147,7 @@ class Especialidad extends Model
     
     public static function ListEspecialidadDisponible($r)
     {
+        DB::statement(DB::raw('SET @@group_concat_max_len = 4294967295'));
         $sql=DB::table(DB::raw(
                 '(SELECT me.id, me.especialidad,me.certificado_especialidad, COUNT(mce.curso_id) ncursos, GROUP_CONCAT( mce.curso_id ) cursos
                 FROM mat_especialidades me
@@ -156,6 +157,20 @@ class Especialidad extends Model
                 ))
                 ->select('a.id','a.especialidad','a.certificado_especialidad','a.ncursos','a.cursos',
                 DB::raw('ValidaCursos( CONCAT(a.cursos,","),'.$r->persona_id.' ) as validar'),
+                DB::raw('(
+                        SELECT GROUP_CONCAT(mc.curso, "|", IFNULL(cll.nota,"") ) cursos
+                        FROM mat_cursos mc
+                        LEFT JOIN 
+                        (
+                        SELECT mp.curso_id,MAX(mmd.nota_curso_alum) nota
+                        FROM mat_programaciones mp 
+                        INNER JOIN mat_matriculas_detalles mmd ON mmd.programacion_id=mp.id
+                        INNER JOIN mat_matriculas mm ON mm.id=mmd.matricula_id AND mm.persona_id=12
+                        GROUP BY mp.curso_id
+                        ) cll ON cll.curso_id=mc.id
+                        WHERE FIND_IN_SET(mc.id,a.cursos)
+                    ) as notas
+                '),
                 DB::raw('IFNULL(
                     (SELECT COUNT(mt.id) 
                      FROM mat_matriculas mt

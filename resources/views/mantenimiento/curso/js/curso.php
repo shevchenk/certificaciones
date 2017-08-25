@@ -3,6 +3,7 @@ var AddEdit=0; //0: Editar | 1: Agregar
 var CursoG={id:0,
 curso:"",
 certificado_curso:"",
+curso_apocope:"",
 tipo_curso:0,
 estado:1}; // Datos Globales
 $(document).ready(function() {
@@ -29,9 +30,10 @@ $(document).ready(function() {
 
         $('#ModalCursoForm #txt_curso').val( CursoG.curso );
         $('#ModalCursoForm #txt_certificado_curso').val( CursoG.certificado_curso );
-        $('#ModalCursoForm #slct_tipo_curso').val( CursoG.tipo_curso );
-        $('#ModalCursoForm #slct_estado').val( CursoG.estado );
-        $("#ModalCurso select").selectpicker('refresh');
+        $('#ModalCursoForm #txt_curso_apocope').val( CursoG.curso_apocope );
+        $('#ModalCursoForm #slct_tipo_curso').selectpicker( 'val',CursoG.tipo_curso );
+        $('#ModalCursoForm #slct_estado').selectpicker( 'val',CursoG.estado );
+        
         $('#ModalCursoForm #txt_curso').focus();
     });
 
@@ -52,6 +54,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Nombre del Certificado',4000);
     }
+    else if( $.trim( $("#ModalCursoForm #txt_curso_apocope").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Curso Apocope',4000);
+    }
     else if( $.trim( $("#ModalCursoForm #slct_tipo_curso").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione Tipo',4000);
@@ -65,12 +71,14 @@ AgregarEditar=function(val,id){
     CursoG.id='';
     CursoG.curso='';
     CursoG.certificado_curso='';
+    CursoG.curso_apocope='';
     CursoG.tipo_curso='0';
     CursoG.estado='1';
     if( val==0 ){
         CursoG.id=id;
         CursoG.curso=$("#TableCurso #trid_"+id+" .curso").text();
         CursoG.certificado_curso=$("#TableCurso #trid_"+id+" .certificado_curso").text();
+        CursoG.curso_apocope=$("#TableCurso #trid_"+id+" .curso_apocope").text();
         CursoG.tipo_curso=$("#TableCurso #trid_"+id+" .tipo_curso").val();
         CursoG.estado=$("#TableCurso #trid_"+id+" .estado").val();
     }
@@ -118,10 +126,11 @@ HTMLCargarCurso=function(result){ //INICIO HTML
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='curso'>"+r.curso+"</td>"+
             "<td class='certificado_curso'>"+r.certificado_curso+"</td>"+
+            "<td class='curso_apocope'>"+r.curso_apocope+"</td>"+
             "<td class='tipo_cursoFORM'>"+r.tipo_curso+"</td>"+
 
             "<td>"+
-            "<input type='hidden' class='tipo_curso' value='"+r.tipo_curso+"'>"+
+            "<input type='hidden' class='tipo_curso' value='"+r.tc+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
             "</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';

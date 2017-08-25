@@ -15,7 +15,7 @@ class Curso extends Model
     public static function runLoad($r)
     {
 
-        $sql=Curso::select('id','curso','certificado_curso',
+        $sql=Curso::select('id','curso','certificado_curso','curso_apocope','tipo_curso as tc',
         	DB::raw('
         		CASE tipo_curso
         		WHEN "1" THEN "Curso"
@@ -39,6 +39,12 @@ class Curso extends Model
                             $query->where('certificado_curso','like','%'.$certificado_curso.'%');
                         }
                     }
+                    if( $r->has("curso_apocope") ){
+                        $curso_apocope=trim($r->curso_apocope);
+                        if( $curso_apocope !='' ){
+                            $query->where('curso_apocope','like','%'.$curso_apocope.'%');
+                        }
+                    }
                     if( $r->has("tipo_curso") ){
                         $tipo_curso=trim($r->tipo_curso);
                         if( $tipo_curso !='' ){
@@ -48,7 +54,7 @@ class Curso extends Model
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('estado','like','%'.$estado.'%');
+                            $query->where('estado','=',$estado);
                         }
                     }
                 }
@@ -73,7 +79,8 @@ class Curso extends Model
         $curso = new Curso;
         $curso->curso = trim( $r->curso );
         $curso->certificado_curso = trim( $r->certificado_curso );
-        $curso->tipo_curso = trim( $r->tipo_curso );             
+        $curso->tipo_curso = trim( $r->tipo_curso );
+        $curso->curso_apocope = trim( $r->curso_apocope );
         $curso->estado = trim( $r->estado );
         $curso->persona_id_created_at=$cursoe;
         $curso->save();
@@ -86,6 +93,7 @@ class Curso extends Model
         $curso->curso = trim( $r->curso );
         $curso->certificado_curso = trim( $r->certificado_curso );
         $curso->tipo_curso = trim( $r->tipo_curso );
+        $curso->curso_apocope = trim( $r->curso_apocope );
         $curso->estado = trim( $r->estado );
         $curso->persona_id_updated_at=$cursoe;
         $curso->save();

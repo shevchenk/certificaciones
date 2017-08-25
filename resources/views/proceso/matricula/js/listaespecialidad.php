@@ -132,6 +132,7 @@ HTMLCargarEspecialidad=function(result){
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='especialidad'>"+r.especialidad+"</td>"+
             "<td class='certificado_especialidad'>"+r.certificado_especialidad+"</td>"+
+            "<td class='notas'>"+r.notas.split(",").join("<br>")+"</td>"+
             "<td class='nveces'>"+r.nveces+"</td>"+
             "<td>";
                 if(r.validar>0 || r.nveces>0){
