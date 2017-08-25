@@ -153,11 +153,12 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='materno'>"+r.email+"</td>"+
                 "<td class='materno'>"+r.telefono+"</td>"+
                 "<td class='materno'>"+r.celular+"</td>"+
-                "<td class='materno'>"+r.direccion+"</td>"+
-                "<td>";
+                "<td class='materno'>"+r.direccion+"</td>";
+                //"<td>";
                 //"<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 
-        html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
+        //html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
+        html+=""+
                 //'<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
                 '<td><a id="btn_'+r.id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verCursos(HTMLCargaCurso, '+r.id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
         html+="</tr>";

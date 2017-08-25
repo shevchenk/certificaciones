@@ -92,7 +92,7 @@
                                         </div>
                                     </th>
 
-
+                                <!--
                                     <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Estado</h4></label>
@@ -105,6 +105,7 @@
                                             </div>
                                         </div>
                                     </th>
+                                -->
                                     <th class="col-xs-1">[-]</th>
                                 </tr>
                             </thead>
@@ -121,7 +122,7 @@
                                   <th>Celular</th>
                                   <th>Dirección</th>
 
-                                  <th>Estado</th>
+                                  <!-- <th>Estado</th> -->
                                   <th>[-]</th>
                                 </tr>
                             </tfoot>
@@ -166,33 +167,35 @@
 
         <div class="col-xs-12">
             <form id="frmcursoprogramdos">
-                <table id="tb_cursos" class="table table-striped">
-                    <thead>
-                        <tr class="cabecera">
-                        <th>#</th>
-                        <th>Profesor</th>
-                        <th>Cursos</th>
-                        <th>Fecha Ini</th>
-                        <th>Fecha Final</th>
-                        <th>Nota</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody_cursos">
-                        <tr>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <div class="row" style="padding: 5px 15px; text-align: right; padding-top: 0px;">
-                    <input type="button" class="btn btn-default" onClick="btnregresar_curso();" id="btnregresar" name="" value="Regresar">
-                    <input type="button" class="btn btn-primary" onClick="btnguardar_curso();"  id="btnguardar" name="" value="Guardar">
+                <div class="box-body table-responsive no-padding">
+                    <table id="tb_cursos" class="table table-striped">
+                        <thead>
+                            <tr class="cabecera">
+                            <th>#</th>
+                            <th>Profesor</th>
+                            <th>Cursos</th>
+                            <th>Fecha Ini</th>
+                            <th>Fecha Final</th>
+                            <th>Nota</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_cursos">
+                            <tr>
+                            <td>#</td>
+                            <td>#</td>
+                            <td>#</td>
+                            <td>#</td>
+                            <td>#</td>
+                            <td>#</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                    <div class="row" style="padding: 5px 15px; text-align: right; padding-top: 0px;">
+                        <input type="button" class="btn btn-default" onClick="btnregresar_curso();" id="btnregresar" name="" value="Regresar">
+                        <input type="button" class="btn btn-primary" onClick="btnguardar_curso();"  id="btnguardar" name="" value="Guardar">
+                    </div>
                 </div>
             </form>
         </div>  
