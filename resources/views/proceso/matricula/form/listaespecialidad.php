@@ -34,6 +34,11 @@
                                                     </div>
                                                 </div>
                                             </th>
+                                            <th class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label><h4>Notas Obtenidas:</h4></label>
+                                                </div>
+                                            </th>
                                             <th class="col-xs-1">
                                                 <div class="form-group">
                                                     <label><h4>Número de Veces:</h4></label>
@@ -48,6 +53,7 @@
                                         <tr class="cabecera">
                                             <th>Especialidad</th>
                                             <th>Certificado de Especialidad</th>
+                                            <th>Notas Obtenidas</th>
                                             <th>N° de Veces</th>
                                             <th>[-]</th>
                                         </tr>

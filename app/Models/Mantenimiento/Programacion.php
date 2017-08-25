@@ -27,8 +27,10 @@ class Programacion extends Model
         $sucursal->curso_id = trim( $r->curso_id);
         $sucursal->sucursal_id = trim( $r->sucursal_id );
         $sucursal->aula = trim( $r->aula );
-        $dia=implode(",", $r->dia);
-        $sucursal->dia = trim( $dia );
+        if( count($r->dia)>0 ){
+            $dia=implode(",", $r->dia);
+            $sucursal->dia = trim( $dia );
+        }
         $sucursal->fecha_inicio = trim( $r->fecha_inicio );
         $sucursal->fecha_final = trim( $r->fecha_final );
         $sucursal->estado = trim( $r->estado );
