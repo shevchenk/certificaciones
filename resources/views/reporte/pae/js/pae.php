@@ -78,6 +78,16 @@ HTMLCargarPAE=function(result){
             "<td>"+curso[0]+"</td>"+
             "<td>"+nro[0]+"</td>"+
             "<td>"+monto[0]+"</td>"+
+            "<td>"+curso[1]+"</td>"+
+            "<td>"+nro[1]+"</td>"+
+            "<td>"+monto[1]+"</td>"+
+            "<td>"+curso[2]+"</td>"+
+            "<td>"+nro[2]+"</td>"+
+            "<td>"+monto[2]+"</td>"+
+            "<td>"+r.nro_promocion+"</td>"+
+            "<td>"+r.monto_promocion+"</td>"+
+            "<td>"+r.marketing+"</td>"+
+            "<td>"+r.cajera+"</td>"+
             "<td>"+r.matricula+"</td>";
         html+="</tr>";
     });

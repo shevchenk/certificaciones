@@ -61,48 +61,68 @@
                                 <table id="TablePae" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Empresa</th>
+                                            <th>DNI</th>
+                                            <th>Nombres</th>
+                                            <th>Paterno</th>
+                                            <th>Materno</th>
+                                            <th>Teléfono</th>
+                                            <th>Email</th>
+                                            <th>Dirección</th>
+                                            <th>Fecha  Matrícula</th>
+                                            <th>ODE</th>
+                                            <th>Tipo de Participante</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
+                                            <th>Curso</th>
+                                            <th>Nro Pago Certificado</th>
+                                            <th>Monto Pago Certificado</th>
+                                            <th>Curso</th>
+                                            <th>Nro Pago Certificado</th>
+                                            <th>Monto Pago Certificado</th>
+                                            <th>Curso</th>
+                                            <th>Nro Pago Certificado</th>
+                                            <th>Monto Pago Certificado</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
+                                            <th>Marketing</th>
+                                            <th>Caja</th>
+                                            <th>Matrícula</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                     <tfoot>
                                         <tr class="cabecera">
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Estado</th>
-                                            <th>Persona</th>
-                                            <th>Empresa</th>
-                                            <th>Empresa</th>
+                                            <th>DNI</th>
+                                            <th>Nombres</th>
+                                            <th>Paterno</th>
+                                            <th>Materno</th>
+                                            <th>Teléfono</th>
+                                            <th>Email</th>
+                                            <th>Dirección</th>
+                                            <th>Fecha  Matrícula</th>
+                                            <th>ODE</th>
+                                            <th>Tipo de Participante</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
+                                            <th>Curso</th>
+                                            <th>Nro Pago Certificado</th>
+                                            <th>Monto Pago Certificado</th>
+                                            <th>Curso</th>
+                                            <th>Nro Pago Certificado</th>
+                                            <th>Monto Pago Certificado</th>
+                                            <th>Curso</th>
+                                            <th>Nro Pago Certificado</th>
+                                            <th>Monto Pago Certificado</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
+                                            <th>Marketing</th>
+                                            <th>Caja</th>
+                                            <th>Matrícula</th>
                                         </tr>
                                     </tfoot>
                                 </table>

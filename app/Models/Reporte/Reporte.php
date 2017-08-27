@@ -19,8 +19,6 @@ class Reporte extends Model
                             $query->orwhere('mmd.tipo_matricula_detalle','=',3);
                         }
                     );
-//                ->where('mmd.tipo_matricula_detalle','=',1)
-//                ->orwhere('mmd.tipo_matricula_detalle','=',3);
             })
             ->join('personas AS p',function($join){
                 $join->on('p.id','=','mm.persona_id');
@@ -65,7 +63,8 @@ class Reporte extends Model
                      DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado) monto_pago_certificado'),
                      DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
                      DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
-                     DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'))
+                     DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
+                    'mm.nro_promocion','mm.monto_promocion')
             ->where( 
                 function($query) use ($r){
 
