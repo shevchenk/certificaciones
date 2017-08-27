@@ -68,10 +68,11 @@ class Reporte extends Model
             ->where( 
                 function($query) use ($r){
 
-                    if( $r->has("sucursal") ){
-                        $sucursal=trim($r->sucursal);
-                        if( $sucursal !='' ){
-                            $query->where('s.sucursal','like','%'.$sucursal.'%');
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
                         }
                     }
                 }

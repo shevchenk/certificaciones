@@ -36,14 +36,14 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    <form id="TipoParticipanteForm">
+                    <form id="PaeForm">
                         <div class="box-body table-responsive no-padding">
                             <div class="col-sm-12">
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <label class="control-label">Desde:</label>
                                     <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_inicial" readonly=""/>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <label class="control-label">Hasta:</label>
                                     <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final" name="txt_fecha_final" readonly=""/>
                                 </div>
@@ -56,7 +56,6 @@
                                 </div>
                             </div><!-- .box-body -->
                         </form><!-- .form -->
-                        <form id="ClienteForm">
                             <div class="box-body table-responsive no-padding">
                                 <table id="TablePae" class="table table-bordered table-hover">
                                     <thead>
@@ -127,7 +126,6 @@
                                     </tfoot>
                                 </table>
                             </div><!-- .box-body -->
-                        </form><!-- .form -->
                     </div><!-- .box -->
                 </div><!-- .col -->
             </div><!-- .row -->
