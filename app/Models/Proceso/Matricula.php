@@ -112,6 +112,7 @@ class Matricula extends Model
             for($i=0;$i<count($nro_pago_certificado);$i++){
                 
                 $mtdetalle=new MatriculaDetalle;
+                $mtdetalle->norden=$i+1;
                 $mtdetalle->matricula_id=$matricula->id;
                 if(Input::has('programacion_id')){
                     $mtdetalle->programacion_id=$programacion_id[$i]; 
