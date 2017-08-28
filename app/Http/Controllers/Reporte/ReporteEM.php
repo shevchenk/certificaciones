@@ -30,12 +30,12 @@ class ReporteEM extends Controller
         
         Excel::create('Matricula', function($excel) use($renturnModel) {
 
-        $excel->setTitle('Reporte de Matrícula')
+        $excel->setTitle('Reporte de Matriculas')
               ->setCreator('Jorge Salcedo')
               ->setCompany('JS Soluciones')
               ->setDescription('Matrícula PAE o Seminarios');
 
-        $excel->sheet('Matrícula', function($sheet) use($renturnModel) {
+        $excel->sheet('Matricula', function($sheet) use($renturnModel) {
             $sheet->setOrientation('landscape');
             $sheet->setPageMargin(array(
                 0.25, 0.30, 0.25, 0.30
@@ -50,7 +50,7 @@ class ReporteEM extends Controller
             ));
 
             $sheet->cell('A1', function($cell) {
-                $cell->setValue('REPORTE DE MATRÍCULAS');
+                $cell->setValue('REPORTE DE MATRICULAS');
                 $cell->setFont(array(
                     'family'     => 'Bookman Old Style',
                     'size'       => '20',
@@ -70,6 +70,9 @@ class ReporteEM extends Controller
                 $renturnModel['cabecera']
             ));
 
+            $data=json_decode(json_encode($renturnModel['data']), true);
+            $sheet->rows($data);
+
             $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
@@ -80,22 +83,19 @@ class ReporteEM extends Controller
                     'bold'       =>  true
                 ));
             });
-
-            $data=json_decode(json_encode($renturnModel['data']), true);
-
-            $sheet->rows($data);
-
+            
             $sheet->setAutoSize(array(
                 'Q', 'R','S'
             ));
 
-            $sheet->setBorder('A3:'.$renturnModel['max'].'6', 'thin');
+            $count = $sheet->getHighestRow();
+
+            $sheet->getStyle('Q4:S'.$count)->getAlignment()->setWrapText(true);
+            
+            $sheet->setBorder('A3:'.$renturnModel['max'].$count, 'thin');
 
         });
-
-        /*$excel->sheet('Demo', function($sheet) {
-        });*/
-
+        
         })->export('xlsx');
     }
 }

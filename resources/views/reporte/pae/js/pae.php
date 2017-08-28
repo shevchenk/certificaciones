@@ -10,6 +10,13 @@ $(document).ready(function() {
         autoclose: true,
         todayBtn: false
     });
+
+    $('#spn_fecha_ini').on('click', function(){
+        $('#txt_fecha_inicial').focus();
+    });
+    $('#spn_fecha_fin').on('click', function(){
+        $('#txt_fecha_final').focus();
+    });
     
     $("#TablePae").DataTable({
         "paging": true,
@@ -43,7 +50,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
-            $(this).attr('href','AjaxDinamic/Reporte.ReporteEM@getLoadPAEExport'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_inicial']);            
+            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportPAE'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
         }else{
             event.preventDefault();
         }
@@ -57,9 +64,13 @@ HTMLCargarPAE=function(result){
     $('#TablePae').DataTable().destroy();
 
     $.each(result.data,function(index,r){
-        var curso=r.cursos.split(",");
-        var nro=r.nro_pago_certificado.split(",");
-        var monto=r.monto_pago_certificado.split(",");
+        //var curso=r.cursos.split(",");
+        //var nro=r.nro_pago_certificado.split(",");
+        //var monto=r.monto_pago_certificado.split(",");
+        var curso=r.cursos.split("\n").join('<br/>');
+        var nro=r.nro_pago_certificado.split("\n").join('<br/>');
+        var monto=r.monto_pago_certificado.split("\n").join('<br/>');
+
         html+="<tr id='trid_"+r.paterno+"'>"+
             "<td>"+r.dni+"</td>"+
             "<td>"+r.nombre+"</td>"+
@@ -71,21 +82,29 @@ HTMLCargarPAE=function(result){
             "<td>"+r.fecha_matricula+"</td>"+
             "<td>"+r.sucursal+"</td>"+
             "<td>"+r.tipo_participante+"</td>"+
+
             "<td>"+r.nro_pago_inscripcion+"</td>"+
             "<td>"+r.monto_pago_inscripcion+"</td>"+
             "<td>"+r.nro_pago+"</td>"+
             "<td>"+r.monto_pago+"</td>"+
-            "<td>"+curso[0]+"</td>"+
-            "<td>"+nro[0]+"</td>"+
-            "<td>"+monto[0]+"</td>"+
+
+            "<td>"+curso+"</td>"+
+            "<td>"+nro+"</td>"+
+            "<td>"+monto+"</td>"+
+            /*
             "<td>"+curso[1]+"</td>"+
             "<td>"+nro[1]+"</td>"+
             "<td>"+monto[1]+"</td>"+
             "<td>"+curso[2]+"</td>"+
             "<td>"+nro[2]+"</td>"+
             "<td>"+monto[2]+"</td>"+
-            "<td>"+r.nro_promocion+"</td>"+
-            "<td>"+r.monto_promocion+"</td>"+
+            */
+            "<td>"+$.trim(r.nro_promocion)+"</td>"+
+            "<td>"+$.trim(r.monto_promocion)+"</td>"+
+
+            "<td>"+$.trim(r.subtotal)+"</td>"+
+            "<td>"+$.trim(r.total)+"</td>"+
+
             "<td>"+r.marketing+"</td>"+
             "<td>"+r.cajera+"</td>"+
             "<td>"+r.matricula+"</td>";

@@ -57,9 +57,13 @@ class Seminario extends Model
             })
             ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante',
-                     DB::raw('GROUP_CONCAT( mc.curso) seminario'),
-                     DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado) nro_pago'),
-                     DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado) monto_pago'),
+
+                     DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") seminario'),
+                     DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago'),
+                     DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago'),
+                     DB::raw('SUM(mmd.monto_pago_certificado) subtotal'),
+                     DB::raw('(SUM(mmd.monto_pago_certificado)+SUM(mm.monto_promocion)) total'),
+
                      DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
                      DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
                      DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
@@ -91,13 +95,15 @@ class Seminario extends Model
             'J'=>15,'K'=>15,'L'=>15,
             //'M'=>15,'N'=>15,'O'=>15,'P'=>15,
             'M'=>15,'N'=>15,'O'=>15, //''=>15,''=>15,''=>15,''=>15,''=>15,''=>15,
-            'P'=>20,'Q'=>20,'R'=>20,
+            'P'=>15,'Q'=>15,
+            'R'=>20,'S'=>20,'T'=>20,
         );
         $cabecera=array(
             'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
             'Fecha Matrícula','Sucursal','Tipo Participante',
             //'Nro Pago','Monto Pago','Nro Pago','Monto Pago',
-            'Seminario','Nro Pago','Monto Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
+            'Seminarios','Nro Pago','Monto Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
+            'Sub Total Sem','Total Pagado',
             'Cajera','Marketing','Matrícula'
         );
         $campos=array(
@@ -106,6 +112,7 @@ class Seminario extends Model
              //'nro_pago_inscripcion','monto_pago_inscripcion',
              //'nro_pago','monto_pago',
              'seminario','nro_pago','monto_pago',
+             'subtotal','total',
              'cajera','marketing','matricula'
         );
 
@@ -113,7 +120,7 @@ class Seminario extends Model
         $r['cabecera']=$cabecera;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='R'; // Max. Celda en LETRA
+        $r['max']='T'; // Max. Celda en LETRA
         return $r;
     }
 }

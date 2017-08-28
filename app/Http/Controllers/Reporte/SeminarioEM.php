@@ -70,6 +70,9 @@ class SeminarioEM extends Controller
                 $renturnModel['cabecera']
             ));
 
+            $data=json_decode(json_encode($renturnModel['data']), true);
+            $sheet->rows($data);
+
             $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
@@ -80,27 +83,19 @@ class SeminarioEM extends Controller
                     'bold'       =>  true
                 ));
             });
-
-            $data=json_decode(json_encode($renturnModel['data']), true);
-
-            $sheet->rows($data);
-
-            $con = 3;
-            foreach ($renturnModel['data'] as $lis) {
-                $con++;
-            }
-
+            
             $sheet->setAutoSize(array(
                 'M', 'N','O'
             ));
 
-            $sheet->setBorder('A3:'.$renturnModel['max'].$con, 'thin');
+            $count = $sheet->getHighestRow();
+
+            $sheet->getStyle('M4:O'.$count)->getAlignment()->setWrapText(true);
+            
+            $sheet->setBorder('A3:'.$renturnModel['max'].$count, 'thin');
 
         });
-
-        /*$excel->sheet('Demo', function($sheet) {
-        });*/
-
+        
         })->export('xlsx');
     }
 

@@ -56,14 +56,18 @@ class Notas extends Model
                 $join->on('pmat.id','=','mm.persona_matricula_id');
 
             })
-            ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
-                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago',
-                     DB::raw('GROUP_CONCAT( mc.curso) cursos'),
-                     DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado) nro_pago_certificado'),
-                     DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado) monto_pago_certificado'),
-                     DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
-                     DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
-                     DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
+            ->join('personas AS pdoc',function($join){
+                $join->on('pdoc.id','=','mp.persona_id');
+
+            })
+            ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email',
+                     's.sucursal','mp.fecha_inicio','mp.fecha_final',
+                      DB::raw('CONCAT_WS(" ",pdoc.paterno,pdoc.materno,pdoc.nombre) as docente'),
+                      DB::raw('IF(mp.sucursal_id=1, "Online", "Presencial") AS modalidad'),
+                     'mc.curso',
+                     'mmd.nota_curso_alum',
+                     DB::raw('mmd.nro_pago_certificado as nro_pago_certificado'),
+                     DB::raw('mmd.monto_pago_certificado as monto_pago_certificado'),
                     'mm.nro_promocion','mm.monto_promocion')
             ->where( 
                 function($query) use ($r){
@@ -76,10 +80,45 @@ class Notas extends Model
                         }
                     }
                 }
-            )
-            ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
-                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago');
+            );
+            //->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email',
+            //         's.sucursal','mp.fecha_inicio','mp.fecha_final', 'mp.sucursal_id', 'mmd.nota_curso_alum','mm.nro_promocion','mm.monto_promocion');
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
+    }
+
+    public static function runExportNotas($r)
+    {
+        $rsql= Notas::runLoadNOTAS($r);
+
+        $length=array(
+            'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,'G'=>15,'H'=>25,
+            'I'=>15,'J'=>15,'K'=>15,
+            //'M'=>15,'N'=>15,'O'=>15,'P'=>15,
+            'L'=>15,'M'=>15,'N'=>15,'O'=>15,
+            'P'=>15,'Q'=>15,
+            'R'=>20,'S'=>20,
+        );
+        $cabecera=array(
+            'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email',
+            'Sucursal','Fecha Inicio','Fecha Final',
+            'Docente','Modalidad','Curso','Nota Curso',
+            'Nro Pago Certificado','Monto Pago Certificado',
+            'Nro Pago Promocion','Monto Pago Promocion'
+        );
+        $campos=array(
+            '','id','dni','nombre','paterno','materno','telefono','celular','email',
+             's.sucursal','mp.fecha_inicio','mp.fecha_final',
+             'docente','modalidad','curso','nota_curso_alum',
+             'nro_pago_certificado','monto_pago_certificado',
+             'nro_promocion','monto_promocion'
+        );
+
+        $r['data']=$rsql;
+        $r['cabecera']=$cabecera;
+        $r['campos']=$campos;
+        $r['length']=$length;
+        $r['max']='S'; // Max. Celda en LETRA
+        return $r;
     }
 }

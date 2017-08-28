@@ -46,7 +46,8 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
-            $(this).attr('href','AjaxDinamic/Reporte.NotasEM@getLoadNOTASExport'+'?fecha_inicio='+data[0]['fecha_inicio']+'&fecha_final='+data[0]['fecha_inicial']);            
+            //$(this).attr('href','AjaxDinamic/Reporte.NotasEM@getLoadNOTASExport'+'?fecha_inicio='+data[0]['fecha_inicio']+'&fecha_final='+data[0]['fecha_inicial']);            
+            $(this).attr('href','ReportDinamic/Reporte.NotasEM@ExportNotas'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
         }else{
             event.preventDefault();
         }
@@ -71,17 +72,21 @@ HTMLCargarNotas=function(result){
             "<td>"+r.materno+"</td>"+
             "<td>"+r.telefono+"</td>"+
             "<td>"+r.email+"</td>"+
+
             "<td>"+r.sucursal+"</td>"+
             "<td>"+r.fecha_inicio+"</td>"+
             "<td>"+r.fecha_final+"</td>"+
             "<td>"+r.docente+"</td>"+
             "<td>"+r.modalidad+"</td>"+
             "<td>"+r.curso+"</td>"+
-            "<td>"+r.nota_curso+"</td>"+
+
+            "<td>"+$.trim(r.nota_curso_alum)+"</td>"+
+
             "<td>"+r.nro_pago_certificado+"</td>"+
             "<td>"+r.monto_pago_certificado+"</td>"+
-            "<td>"+r.nro_promocion+"</td>"+
-            "<td>"+r.monto_promocion+"</td>";
+
+            "<td>"+$.trim(r.nro_promocion)+"</td>"+
+            "<td>"+$.trim(r.monto_promocion)+"</td>";
         html+="</tr>";
     });
     $("#TableNotas tbody").html(html); 

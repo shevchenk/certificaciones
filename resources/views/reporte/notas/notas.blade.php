@@ -20,7 +20,7 @@
 
 @section('content')
 <style>
-    .modal { overflow: auto !important; 
+    .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
         <h1>NOTAS
@@ -68,21 +68,32 @@
                                 <table id="TableNotas" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
+                                            <th colspan='6'>Alumnos</th>
+                                            <th colspan='6'>Programación</th>
+                                            <th colspan='1'>Nota del Curso</th>
+                                            <th colspan='2'>Certificado</th>
+                                            <th colspan='2'>Promoción</th>
+                                        </tr>
+                                        <tr class="cabecera">
                                             <th>DNI</th>
                                             <th>Nombres</th>
                                             <th>Paterno</th>
                                             <th>Materno</th>
                                             <th>Teléfono</th>
                                             <th>Email</th>
+                                            
                                             <th>ODE</th>
                                             <th>Fecha de Inicio</th>
                                             <th>Fecha de Fin</th>
                                             <th>Docente</th>
                                             <th>Modalidad</th>
                                             <th>Curso</th>
+
                                             <th>Nota del Curso</th>
+
                                             <th>Nro Pago Certificado</th>
                                             <th>Monto Pago Certificado</th>
+
                                             <th>Nro Pago Promoción</th>
                                             <th>Monto Pago Promoción</th>
                                         </tr>
@@ -97,15 +108,19 @@
                                             <th>Materno</th>
                                             <th>Teléfono</th>
                                             <th>Email</th>
+                                            
                                             <th>ODE</th>
                                             <th>Fecha de Inicio</th>
                                             <th>Fecha de Fin</th>
                                             <th>Docente</th>
                                             <th>Modalidad</th>
                                             <th>Curso</th>
+
                                             <th>Nota del Curso</th>
+
                                             <th>Nro Pago Certificado</th>
                                             <th>Monto Pago Certificado</th>
+
                                             <th>Nro Pago Promoción</th>
                                             <th>Monto Pago Promoción</th>
                                         </tr>

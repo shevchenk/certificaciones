@@ -52,7 +52,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
-            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportSeminario'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);            
+            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportSeminario'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
             //$(this).attr('href','reporte/seminario'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
         }else{
             event.preventDefault();
@@ -67,9 +67,10 @@ HTMLCargarReporte=function(result){
     $('#TableReporte').DataTable().destroy();
 
     $.each(result.data,function(index,r){
-        var seminario=r.seminario.split(",");
-        var nro=r.nro_pago.split(",");
-        var monto=r.monto_pago.split(",");
+        var seminario=r.seminario.split("\n").join('<br/>');
+        var nro=r.nro_pago.split("\n").join('<br/>');
+        var monto=r.monto_pago.split("\n").join('<br/>');
+
 
         html+="<tr id='trid_"+r.id+"'>"+
             "<td>"+r.dni+"</td>"+
@@ -82,23 +83,17 @@ HTMLCargarReporte=function(result){
             "<td>"+r.fecha_matricula+"</td>"+
             "<td>"+r.sucursal+"</td>"+
             "<td>"+r.tipo_participante+"</td>"+
-            /*
-            "<td>"+r.nro_pago_inscripcion+"</td>"+
-            "<td>"+r.monto_pago_inscripcion+"</td>"+
-            "<td>"+r.nro_pago+"</td>"+
-            "<td>"+r.monto_pago+"</td>"+
-            */
-            "<td>"+seminario[0]+"</td>"+
-            "<td>"+nro[0]+"</td>"+
-            "<td>"+monto[0]+"</td>"+
-            "<td>"+seminario[1]+"</td>"+
-            "<td>"+nro[1]+"</td>"+
-            "<td>"+monto[1]+"</td>"+
-            "<td>"+seminario[2]+"</td>"+
-            "<td>"+nro[2]+"</td>"+
-            "<td>"+monto[2]+"</td>"+
-            "<td>"+r.nro_promocion+"</td>"+
-            "<td>"+r.monto_promocion+"</td>"+
+            
+            "<td>"+seminario+"</td>"+
+            "<td>"+nro+"</td>"+
+            "<td>"+monto+"</td>"+
+            
+            "<td>"+$.trim(r.nro_promocion)+"</td>"+
+            "<td>"+$.trim(r.monto_promocion)+"</td>"+
+
+            "<td>"+$.trim(r.subtotal)+"</td>"+
+            "<td>"+$.trim(r.total)+"</td>"+
+
             "<td>"+r.marketing+"</td>"+
             "<td>"+r.cajera+"</td>"+
             "<td>"+r.matricula+"</td>";

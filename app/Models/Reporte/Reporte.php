@@ -58,9 +58,21 @@ class Reporte extends Model
             })
             ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago',
+                    /* 
                      DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n\r") cursos'),
                      DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago_certificado'),
                      DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago_certificado'),
+                     DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
+                     DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
+                     DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
+                    'mm.nro_promocion','mm.monto_promocion')
+                    */
+                     DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") cursos'),
+                     DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago_certificado'),
+                     DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago_certificado'),
+                     DB::raw('SUM(mmd.monto_pago_certificado) subtotal'),
+                     DB::raw('(SUM(mmd.monto_pago_certificado)+SUM(mm.monto_promocion)) total'),
+
                      DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
                      DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
                      DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
@@ -92,21 +104,23 @@ class Reporte extends Model
             'J'=>15,'K'=>15,'L'=>15,
             'M'=>15,'N'=>15,'O'=>15,'P'=>15,
             'Q'=>15,'R'=>15,'S'=>15, //''=>15,''=>15,''=>15,''=>15,''=>15,''=>15,
-            'T'=>20,'U'=>20,'V'=>20,
+            'T'=>20,'U'=>20,
+            'V'=>20,'W'=>20,'X'=>20,
         );
         $cabecera=array(
             'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
             'Fecha Matrícula','Sucursal','Tipo Participante',
             'Nro Pago','Monto Pago','Nro Pago','Monto Pago',
-            'Curso 1','Nro Pago','Monto Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
+            'Cursos','Nro Pago','Monto Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
+            'Sub Total Sem','Total Pagado',
             'Cajera','Marketing','Matrícula'
         );
         $campos=array(
             '','id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
              'fecha_matricula','sucursal','tipo_participante',
-             'nro_pago_inscripcion','monto_pago_inscripcion',
-             'nro_pago','monto_pago',
+             'nro_pago_inscripcion','monto_pago_inscripcion','nro_pago','monto_pago',
              'cursos','nro_pago_certificado','monto_pago_certificado',
+             'subtotal','total',
              'cajera','marketing','matricula'
         );
 
@@ -114,10 +128,11 @@ class Reporte extends Model
         $r['cabecera']=$cabecera;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='V';
+        $r['max']='X';
         return $r;
     }
 
+    /*
     public static function runExportPAE2($r)
     {
         $rsql= DB::table('mat_cursos as c')
@@ -143,4 +158,5 @@ class Reporte extends Model
         $r['length']=$length;
         return $r;
     }
+    */
 }

@@ -68,6 +68,14 @@
                                 <table id="TableReporte" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
+                                            <th colspan='7'>Alumnos</th>
+                                            <th colspan='3'>Matrícula</th>
+                                            <th colspan='3'>Seminario(s)</th>
+                                            <th colspan='2'>Promocion(es)</th>
+                                            <th colspan='2'>Pagos</th>
+                                            <th colspan='3'>Responsables</th>
+                                        </tr>
+                                        <tr class="cabecera">
                                             <th>DNI</th>
                                             <th>Nombres</th>
                                             <th>Paterno</th>
@@ -75,26 +83,21 @@
                                             <th>Teléfono</th>
                                             <th>Email</th>
                                             <th>Dirección</th>
+
                                             <th>Fecha  Matrícula</th>
                                             <th>ODE</th>
                                             <th>Tipo de Participante</th>
-                                        <!--
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                        -->
+                                        
                                             <th>Seminario</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
-                                            <th>Seminario</th>
+                                           
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
-                                            <th>Seminario</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
+
+                                            <th>Sub Total Sem</th>
+                                            <th>Total Pagado</th>
+
                                             <th>Marketing</th>
                                             <th>Caja</th>
                                             <th>Matrícula</th>
@@ -117,14 +120,10 @@
                                             <th>Seminario</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
-                                            <th>Seminario</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
-                                            <th>Seminario</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
+                                            <th>Sub Total Sem</th>
+                                            <th>Total Pagado</th>
                                             <th>Marketing</th>
                                             <th>Caja</th>
                                             <th>Matrícula</th>
