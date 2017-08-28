@@ -4,11 +4,11 @@ namespace App\Models\Reporte;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class Reporte extends Model
+class Notas extends Model
 {
     protected   $table = 'mat_promocion';
     
-    public static function runLoadPAE($r)
+        public static function runLoadNOTAS($r)
     {
         $sql=DB::table('mat_matriculas AS mm')
             ->join('mat_matriculas_detalles AS mmd',function($join){
@@ -81,72 +81,5 @@ class Reporte extends Model
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago');
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
-    }
-
-    public static function runExportPAE($r)
-    {
-        $rsql= $this->runLoadPAE($r);
-
-        $length=array(
-            5,25,15,20,26,40,
-            15,20,15,20,
-            15,15,15,
-            20,15,15,20,20,10,
-            15,15,15,30,
-            15,
-            25,15,15,
-            15,15,40
-        );
-        $cabecera=array(
-            'N°','Persona que registró Problema','Telefono','Problema General','Tipo Problema','Descripción',
-            'Sede','Persona que Contrató','Cuanto gana','Persona que Autorizó',
-            'Mes que se debe','Nro cuenta','Nombre Banco',
-            'Para','Área','Ode Solicitante','Nombre Cajero','Empresa','Cantidad',
-            'Nro Última boleta de venta','Enviar por','Fecha y Hora aproximado de envio','Información Adicional',
-            'Fecha Registro',
-            'Persona que atendió Problema','Fecha Atención','Fecha Solucionado/Rechazado',
-            'Tiempo Transcurrido','Estado Problema','Resultado'
-        );
-        $campos=array(
-            '','persona','telefono','problema_general','tipo_problema','descripcion',
-            'sede','contrato','gana','autorizo',
-            'mes','nrocta','banco',
-            'para','area','ode','cajero','empresa','cantidad',
-            'ultboleta','enviar','fecha','adicional',
-            'fecha_registro',
-            'persona_atendio','fecha_atendio','fecha_fin',
-            'tiempo_transcurrido','estado_problema','resultado'
-        );
-        $r['data']=$rsql;
-        $r['cabecera']=$cabecera;
-        $r['campos']=$campos;
-        $r['length']=$length;
-        return $r;
-    }
-
-    public static function runExportPAE2($r)
-    {
-        $rsql= DB::table('mat_cursos as c')
-                ->select('curso','certificado_curso','curso_apocope',
-                DB::raw('IF(tipo_curso=1,"Curso","Seminario") tipo_curso')
-                );
-
-        $length=array(
-            5,20,20,15,
-            17
-        );
-        $cabecera=array(
-            'N°','Curso','Certificado','Apocope',
-            'Tipo Curso',
-        );
-        $campos=array(
-            '','curso','certificado_curso','curso_apocope',
-            'tipo_curso'
-        );
-        $r['data']=$rsql;
-        $r['cabecera']=$cabecera;
-        $r['campos']=$campos;
-        $r['length']=$length;
-        return $r;
     }
 }

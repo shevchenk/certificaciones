@@ -14,8 +14,8 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'reporte.pae.js.pae_ajax' )
-@include( 'reporte.pae.js.pae' )
+@include( 'reporte.notas.js.notas_ajax' )
+@include( 'reporte.notas.js.notas' )
 @stop
 
 @section('content')
@@ -23,12 +23,12 @@
     .modal { overflow: auto !important; 
     </style>
     <section class="content-header">
-        <h1>PAE
+        <h1>NOTAS
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-sitemap"></i> Reporte</li>
-            <li class="active">PAE</li>
+            <li class="active">NOTAS</li>
         </ol>
     </section>
 
@@ -36,15 +36,23 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    <form id="PaeForm">
+                    <form id="NotasForm">
                         <div class="box-body table-responsive no-padding">
                             <div class="col-sm-12">
                                 <div class="col-sm-2">
-                                    <label class="control-label">Desde:</label>
-                                    <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_inicial" readonly=""/>
+                                    <label class="control-label">Matricula Desde:</label>
+                                    <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_ini_mat" readonly=""/>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="control-label">Hasta:</label>
+                                    <label class="control-label">MatriculaHasta:</label>
+                                    <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final" name="txt_fecha_fin_mat" readonly=""/>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="control-label">Programación Desde:</label>
+                                    <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_inicio" readonly=""/>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="control-label">Programación Hasta:</label>
                                     <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final" name="txt_fecha_final" readonly=""/>
                                 </div>
                                 <div class="col-sm-1" style="padding:24px">
@@ -57,7 +65,7 @@
                             </div><!-- .box-body -->
                         </form><!-- .form -->
                             <div class="box-body table-responsive no-padding">
-                                <table id="TablePae" class="table table-bordered table-hover">
+                                <table id="TableNotas" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
                                             <th>DNI</th>
@@ -66,28 +74,17 @@
                                             <th>Materno</th>
                                             <th>Teléfono</th>
                                             <th>Email</th>
-                                            <th>Dirección</th>
-                                            <th>Fecha  Matrícula</th>
                                             <th>ODE</th>
-                                            <th>Tipo de Participante</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
+                                            <th>Fecha de Inicio</th>
+                                            <th>Fecha de Fin</th>
+                                            <th>Docente</th>
+                                            <th>Modalidad</th>
                                             <th>Curso</th>
+                                            <th>Nota del Curso</th>
                                             <th>Nro Pago Certificado</th>
                                             <th>Monto Pago Certificado</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Marketing</th>
-                                            <th>Caja</th>
-                                            <th>Matrícula</th>
+                                            <th>Nro Pago Promoción</th>
+                                            <th>Monto Pago Promoción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -100,28 +97,17 @@
                                             <th>Materno</th>
                                             <th>Teléfono</th>
                                             <th>Email</th>
-                                            <th>Dirección</th>
-                                            <th>Fecha  Matrícula</th>
                                             <th>ODE</th>
-                                            <th>Tipo de Participante</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
+                                            <th>Fecha de Inicio</th>
+                                            <th>Fecha de Fin</th>
+                                            <th>Docente</th>
+                                            <th>Modalidad</th>
                                             <th>Curso</th>
+                                            <th>Nota del Curso</th>
                                             <th>Nro Pago Certificado</th>
                                             <th>Monto Pago Certificado</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Marketing</th>
-                                            <th>Caja</th>
-                                            <th>Matrícula</th>
+                                            <th>Nro Pago Promoción</th>
+                                            <th>Monto Pago Promoción</th>
                                         </tr>
                                     </tfoot>
                                 </table>
