@@ -26,7 +26,7 @@ class ReporteEM extends Controller
     
     public function ExportPAE(Request $r )
     {
-        $renturnModel = Reporte::runLoadPAE($r);
+        $renturnModel = Reporte::runExportPAE($r);
         
         Excel::create('Matricula', function($excel) use($renturnModel) {
 
@@ -49,21 +49,52 @@ class ReporteEM extends Controller
                 )
             ));
 
+            $sheet->cell('A1', function($cell) {
+                $cell->setValue('REPORTE DE MATRÍCULAS');
+                $cell->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '20',
+                    'bold'       =>  true
+                ));
+            });
+            $sheet->mergeCells('A1:'.$renturnModel['max'].'1');
+            $sheet->cells('A1:'.$renturnModel['max'].'1', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+            });
+
+            $sheet->setWidth($renturnModel['length']);
             $sheet->fromArray(array(
-                array('data1', 'data2'),
-                array('data3', 'data4')
+                array(''),
+                $renturnModel['cabecera']
             ));
+
+            $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '12',
+                    'bold'       =>  true
+                ));
+            });
+
+            $data=json_decode(json_encode($renturnModel['data']), true);
+
+            $sheet->rows($data);
+
+            $sheet->setAutoSize(array(
+                'Q', 'R','S'
+            ));
+
+            $sheet->setBorder('A3:'.$renturnModel['max'].'6', 'thin');
 
         });
 
-        $excel->sheet('Demo', function($sheet) {
-            $sheet->setPageMargin(0.25);
-
-            $sheet->with(array(
-                array('data1', 'data2'),
-                array('data3', 'data4')
-            ));
-        });
+        /*$excel->sheet('Demo', function($sheet) {
+        });*/
 
         })->export('xlsx');
     }

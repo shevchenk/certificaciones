@@ -58,9 +58,9 @@ class Reporte extends Model
             })
             ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago',
-                     DB::raw('GROUP_CONCAT( mc.curso) cursos'),
-                     DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado) nro_pago_certificado'),
-                     DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado) monto_pago_certificado'),
+                     DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n\r") cursos'),
+                     DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago_certificado'),
+                     DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago_certificado'),
                      DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
                      DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
                      DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
@@ -85,42 +85,36 @@ class Reporte extends Model
 
     public static function runExportPAE($r)
     {
-        $rsql= $this->runLoadPAE($r);
+        $rsql= Reporte::runLoadPAE($r);
 
         $length=array(
-            5,25,15,20,26,40,
-            15,20,15,20,
-            15,15,15,
-            20,15,15,20,20,10,
-            15,15,15,30,
-            15,
-            25,15,15,
-            15,15,40
+            'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,'G'=>15,'H'=>25,'I'=>30,
+            'J'=>15,'K'=>15,'L'=>15,
+            'M'=>15,'N'=>15,'O'=>15,'P'=>15,
+            'Q'=>15,'R'=>15,'S'=>15, //''=>15,''=>15,''=>15,''=>15,''=>15,''=>15,
+            'T'=>20,'U'=>20,'V'=>20,
         );
         $cabecera=array(
-            'N°','Persona que registró Problema','Telefono','Problema General','Tipo Problema','Descripción',
-            'Sede','Persona que Contrató','Cuanto gana','Persona que Autorizó',
-            'Mes que se debe','Nro cuenta','Nombre Banco',
-            'Para','Área','Ode Solicitante','Nombre Cajero','Empresa','Cantidad',
-            'Nro Última boleta de venta','Enviar por','Fecha y Hora aproximado de envio','Información Adicional',
-            'Fecha Registro',
-            'Persona que atendió Problema','Fecha Atención','Fecha Solucionado/Rechazado',
-            'Tiempo Transcurrido','Estado Problema','Resultado'
+            'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
+            'Fecha Matrícula','Sucursal','Tipo Participante',
+            'Nro Pago','Monto Pago','Nro Pago','Monto Pago',
+            'Curso 1','Nro Pago','Monto Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
+            'Cajera','Marketing','Matrícula'
         );
         $campos=array(
-            '','persona','telefono','problema_general','tipo_problema','descripcion',
-            'sede','contrato','gana','autorizo',
-            'mes','nrocta','banco',
-            'para','area','ode','cajero','empresa','cantidad',
-            'ultboleta','enviar','fecha','adicional',
-            'fecha_registro',
-            'persona_atendio','fecha_atendio','fecha_fin',
-            'tiempo_transcurrido','estado_problema','resultado'
+            '','id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
+             'fecha_matricula','sucursal','tipo_participante',
+             'nro_pago_inscripcion','monto_pago_inscripcion',
+             'nro_pago','monto_pago',
+             'cursos','nro_pago_certificado','monto_pago_certificado',
+             'cajera','marketing','matricula'
         );
+
         $r['data']=$rsql;
         $r['cabecera']=$cabecera;
         $r['campos']=$campos;
         $r['length']=$length;
+        $r['max']='V';
         return $r;
     }
 
