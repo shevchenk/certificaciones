@@ -36,5 +36,5 @@ Route::get(
     }
 );
 
-Route::get('/reporte/g','Reporte\ReporteEM@ExportPAE');
-Route::resource('/AjaxDinamic/{ruta}','SecureAccess\PersonaSA');
+Route::get('/ReportDinamic/{ruta}','Reporte\SeminarioEM@');
+Route::post('/AjaxDinamic/{ruta}','SecureAccess\PersonaSA@Menu');

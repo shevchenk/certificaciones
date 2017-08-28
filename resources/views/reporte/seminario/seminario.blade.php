@@ -14,8 +14,8 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'reporte.pae.js.pae_ajax' )
-@include( 'reporte.pae.js.pae' )
+@include( 'reporte.seminario.js.seminario_ajax' )
+@include( 'reporte.seminario.js.seminario' )
 @stop
 
 @section('content')
@@ -23,12 +23,12 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>PAE
+        <h1>Seminario
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-sitemap"></i> Reporte</li>
-            <li class="active">PAE</li>
+            <li class="active">Seminario</li>
         </ol>
     </section>
 
@@ -63,8 +63,9 @@
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
+
                             <div class="box-body table-responsive no-padding">
-                                <table id="TablePae" class="table table-bordered table-hover">
+                                <table id="TableReporte" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
                                             <th>DNI</th>
@@ -77,19 +78,21 @@
                                             <th>Fecha  Matrícula</th>
                                             <th>ODE</th>
                                             <th>Tipo de Participante</th>
+                                        <!--
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
+                                        -->
+                                            <th>Seminario</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
+                                            <th>Seminario</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
+                                            <th>Seminario</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
                                             <th>Marketing</th>
@@ -111,19 +114,15 @@
                                             <th>Fecha  Matrícula</th>
                                             <th>ODE</th>
                                             <th>Tipo de Participante</th>
+                                            <th>Seminario</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
+                                            <th>Seminario</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
-                                            <th>Curso</th>
-                                            <th>Nro Pago Certificado</th>
-                                            <th>Monto Pago Certificado</th>
+                                            <th>Seminario</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
                                             <th>Marketing</th>

@@ -3,39 +3,39 @@ namespace App\Http\Controllers\Reporte;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Reporte\Reporte;
+use App\Models\Reporte\Seminario;
 use Excel;
 
-class ReporteEM extends Controller
+class SeminarioEM extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
     } 
     
-    public function LoadPAE(Request $r )
+    public function LoadSeminario(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Reporte::runLoadPAE($r);
+            $renturnModel = Seminario::runLoadSeminario($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
             return response()->json($return);
         }
     }
-    
-    public function ExportPAE(Request $r )
-    {
-        $renturnModel = Reporte::runExportPAE($r);
-        
-        Excel::create('Matricula', function($excel) use($renturnModel) {
 
-        $excel->setTitle('Reporte de Matrícula')
+    public function ExportSeminario(Request $r )
+    {
+        $renturnModel = Seminario::runExportSeminario($r);
+        
+        Excel::create('Seminario', function($excel) use($renturnModel) {
+
+        $excel->setTitle('Reporte de Seminarios')
               ->setCreator('Jorge Salcedo')
               ->setCompany('JS Soluciones')
               ->setDescription('Matrícula PAE o Seminarios');
 
-        $excel->sheet('Matrícula', function($sheet) use($renturnModel) {
+        $excel->sheet('Seminarios', function($sheet) use($renturnModel) {
             $sheet->setOrientation('landscape');
             $sheet->setPageMargin(array(
                 0.25, 0.30, 0.25, 0.30
@@ -50,7 +50,7 @@ class ReporteEM extends Controller
             ));
 
             $sheet->cell('A1', function($cell) {
-                $cell->setValue('REPORTE DE MATRÍCULAS');
+                $cell->setValue('REPORTE DE SEMINARIOS');
                 $cell->setFont(array(
                     'family'     => 'Bookman Old Style',
                     'size'       => '20',
@@ -85,11 +85,16 @@ class ReporteEM extends Controller
 
             $sheet->rows($data);
 
+            $con = 3;
+            foreach ($renturnModel['data'] as $lis) {
+                $con++;
+            }
+
             $sheet->setAutoSize(array(
-                'Q', 'R','S'
+                'M', 'N','O'
             ));
 
-            $sheet->setBorder('A3:'.$renturnModel['max'].'6', 'thin');
+            $sheet->setBorder('A3:'.$renturnModel['max'].$con, 'thin');
 
         });
 
@@ -98,4 +103,5 @@ class ReporteEM extends Controller
 
         })->export('xlsx');
     }
+
 }

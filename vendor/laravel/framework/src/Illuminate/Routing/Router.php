@@ -131,6 +131,13 @@ class Router implements RegistrarContract, BindingRegistrar
      */
     public function get($uri, $action = null)
     {
+        $strpos=strpos($_SERVER['REQUEST_URI'], 'ReportDinamic');
+        $uriaux=substr($_SERVER['REQUEST_URI'],$strpos+1+13);
+        $uriaux_url=explode('?', $uriaux);
+        if( $strpos!==false && count($uriaux_url)>1){
+                $uriaux=str_replace(".","\\",$uriaux_url[0]);
+                $action=$uriaux;
+        }
         return $this->addRoute(['GET', 'HEAD'], $uri, $action);
     }
 
