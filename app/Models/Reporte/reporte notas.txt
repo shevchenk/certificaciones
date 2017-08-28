@@ -1,0 +1,25 @@
+Select 
+		alu.dni, alu.nombre, alu.materno, alu.paterno, IFNULL(alu.telefono, alu.celular), alu.email,
+		prog_suc.Sucursal, prog.fecha_inicio, prog.fecha_final, doc.paterno, doc.materno, doc.nombre, IF(prog.sucursal_id = "1", "OnLine", "Presencial"), cur.curso,
+		/*det.nota_curso_alum*/10,
+		 IF(det.gratis="1", 0, det.nro_pago_certificado), IF(det.gratis="1", 0, det.monto_pago_certificado), IF(det.gratis="1", det.nro_pago, 0), IF(det.gratis="1", det.monto_pago, 0)
+From mat_matriculas mat
+	Inner Join mat_matriculas_detalles det
+		On det.matricula_id = mat.id
+	Inner Join mat_programaciones prog
+		On det.programacion_id = prog.id
+	Inner Join sucursales prog_suc
+		On prog.sucursal_id = prog_suc.id
+	Inner Join personas doc
+		On doc.id = prog.docente_id
+	Inner Join mat_cursos cur
+		On cur.id = prog.curso_id
+	Inner Join alumnos al
+		On al.id = mat.alumno_id
+	Inner Join personas alu
+		On alu.dni = al.dni
+Where mat.estado = "1"
+And mat.fecha_matricula BETWEEN @fec_ini_mat AND @fec_fin mat
+And prog.fecha_inicio <= @fec_fin_prog
+And prog.fecha_final >= @fec_ini_prog
+ 
