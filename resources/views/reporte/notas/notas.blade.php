@@ -39,21 +39,34 @@
                     <form id="NotasForm">
                         <div class="box-body table-responsive no-padding">
                             <div class="col-sm-12">
+                                <div class="col-sm-1"></div>
                                 <div class="col-sm-2">
                                     <label class="control-label">Matricula Desde:</label>
-                                    <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_ini_mat" readonly=""/>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                        <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_inicial" readonly=""/>
+                                    </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="control-label">MatriculaHasta:</label>
-                                    <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final" name="txt_fecha_fin_mat" readonly=""/>
+                                    <label class="control-label">Matricula Hasta:</label>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                        <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final" name="txt_fecha_final" readonly=""/>
+                                    </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <label class="control-label">Programación Desde:</label>
-                                    <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_inicio" readonly=""/>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_ini_progra" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial_progra" name="txt_fecha_inicial_progra" readonly=""/>
+                                    </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <label class="control-label">Programación Hasta:</label>
-                                    <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final" name="txt_fecha_final" readonly=""/>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_fin_progra" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final_progra" name="txt_fecha_final_progra" readonly=""/>
+                                    </div>  
                                 </div>
                                 <div class="col-sm-1" style="padding:24px">
                                         <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>

@@ -64,19 +64,27 @@ class Notas extends Model
                      's.sucursal','mp.fecha_inicio','mp.fecha_final',
                       DB::raw('CONCAT_WS(" ",pdoc.paterno,pdoc.materno,pdoc.nombre) as docente'),
                       DB::raw('IF(mp.sucursal_id=1, "Online", "Presencial") AS modalidad'),
-                     'mc.curso',
-                     'mmd.nota_curso_alum',
-                     DB::raw('mmd.nro_pago_certificado as nro_pago_certificado'),
-                     DB::raw('mmd.monto_pago_certificado as monto_pago_certificado'),
-                    'mm.nro_promocion','mm.monto_promocion')
+                      'mc.curso','mmd.nota_curso_alum',
+                      DB::raw('mmd.nro_pago_certificado as nro_pago_certificado'),
+                      DB::raw('mmd.monto_pago_certificado as monto_pago_certificado'),
+                      'mm.nro_promocion','mm.monto_promocion')
             ->where( 
                 function($query) use ($r){
 
                     if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
                         $inicial=trim($r->fecha_inicial);
                         $final=trim($r->fecha_final);
-                        if( $inicial !=''AND $final!=''){
+                        if( $inicial !=''AND $final!='' AND $inicial != 'undefined' AND $final != 'undefined'){
                             $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has("fecha_inicio_progra") AND $r->has("fecha_final_progra")){
+                        $inicial=trim($r->fecha_inicio_progra);
+                        $final=trim($r->fecha_final_progra);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->where(DB::raw('DATE_FORMAT(mp.fecha_inicio,"%Y-%m")'), '<=', $inicial);
+                            $query ->where(DB::raw('DATE_FORMAT(mp.fecha_final,"%Y-%m")'), '<=', $final);
                         }
                     }
                 }
@@ -108,7 +116,7 @@ class Notas extends Model
         );
         $campos=array(
             '','id','dni','nombre','paterno','materno','telefono','celular','email',
-             's.sucursal','mp.fecha_inicio','mp.fecha_final',
+             'sucursal','fecha_inicio','fecha_final',
              'docente','modalidad','curso','nota_curso_alum',
              'nro_pago_certificado','monto_pago_certificado',
              'nro_promocion','monto_promocion'
