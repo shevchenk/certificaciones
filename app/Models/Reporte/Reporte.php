@@ -90,7 +90,7 @@ class Reporte extends Model
                 }
             )
             ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
-                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago',
+                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago','mm.nro_promocion','mm.monto_promocion',
                      'pcaj.paterno','pcaj.materno','pcaj.nombre',
                      'pmar.paterno','pmar.materno','pmar.nombre',
                      'pmat.paterno','pmat.materno','pmat.nombre');
