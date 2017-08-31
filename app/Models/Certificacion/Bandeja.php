@@ -27,7 +27,7 @@ class Bandeja extends Model
                 $join->on('ce.id','=','c.certificado_estado_id')
                 ->where('ce.estado','=',1);
             })
-            ->select('s.sucursal', 'a.dni', 'a.paterno', 'a.materno', 'a.nombre', 'a.certificado AS tramite', 
+            ->select('c.id','s.sucursal', 'a.dni', 'a.paterno', 'a.materno', 'a.nombre', 'a.certificado AS tramite', 
             'c.fecha_estado_certificado AS fecha_ingreso', 'c.created_at AS fecha_tramite', 
             'a.direccion', 'a.referencia', 'a.region', 'a.provincia', 'a.distrito', 'a.nota_certificado', 'a.tipo_certificado',
              'c.fecha_pago', 'c.nro_pago', 'ce.estado_certificado')
@@ -98,5 +98,18 @@ class Bandeja extends Model
         $result = $sql->orderBy('s.sucursal','asc')->paginate(10);
         return $result;
     }
-
+    
+        public static function runEditStatusDistribucion($r)
+    {
+        $certificado = Bandeja::find($r->id);
+        $certificado->certificado_estado_id = trim( $r->estadof );
+        $certificado->persona_id_updated_at=Auth::user()->id;
+        $certificado->save();
+        
+        $ch= new CertificadoHistorico;
+        $ch->certificado_id=$r->id;
+        $ch->certificado_estado_id = trim( $r->estadof );
+        $ch->persona_id_created_at=Auth::user()->id;
+        $ch->save();
+    }
 }
