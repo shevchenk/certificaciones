@@ -28,7 +28,7 @@ class Bandeja extends Model
                 $join->on('ce.id','=','c.certificado_estado_id')
                 ->where('ce.estado','=',1);
             })
-            ->select('s.sucursal', 'a.dni', 'a.paterno', 'a.materno', 'a.nombre', 'a.certificado AS tramite', 
+            ->select('c.id','s.sucursal', 'a.dni', 'a.paterno', 'a.materno', 'a.nombre', 'a.certificado AS tramite', 
             'c.fecha_estado_certificado AS fecha_ingreso', 'c.created_at AS fecha_tramite', 
             'a.direccion', 'a.referencia', 'a.region', 'a.provincia', 'a.distrito', 'a.nota_certificado', 'a.tipo_certificado',
              'c.fecha_pago', 'c.nro_pago', 'ce.estado_certificado')
@@ -189,19 +189,33 @@ class Bandeja extends Model
 
     public static function runEditStatus($r)
     {
-        $certificado_id = Auth::user()->id;
+        $usuario_id = Auth::user()->id;
 
         $certificado = Bandeja::find($r->id);
         $certificado->certificado_estado_id=$r->certificado_estado_id;
-        $certificado->persona_id_updated_at=$certificado_id;
+        $certificado->persona_id_updated_at=$usuario_id;
         $certificado->save();
 
-        $certificado_hist = new BandejaHistorico;
+        $certificado_hist = new BandejaHistorico
         $certificado_hist->certificado_id=$certificado->id;
         $certificado_hist->certificado_estado_id=$r->certificado_estado_id;
-        $certificado_hist->persona_id_created_at=$certificado_id;
+        $certificado_hist->persona_id_created_at=$usuario_id;
         $certificado_hist->save();
 
+    }
+    
+        public static function runEditStatusDistribucion($r)
+    {
+        $certificado = Bandeja::find($r->id);
+        $certificado->certificado_estado_id = trim( $r->estadof );
+        $certificado->persona_id_updated_at=Auth::user()->id;
+        $certificado->save();
+        
+        $ch= new CertificadoHistorico;
+        $ch->certificado_id=$r->id;
+        $ch->certificado_estado_id = trim( $r->estadof );
+        $ch->persona_id_created_at=Auth::user()->id;
+        $ch->save();
     }
 
 }
