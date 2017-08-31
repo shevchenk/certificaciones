@@ -27,4 +27,41 @@ class BandejaCE extends Controller
         }
     }
 
+    public function LoadEmitido(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=3;
+            $renturnModel = Bandeja::runLoadEmitido($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function EditStatusa4(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=4;
+            Bandeja::runEditStatus($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Enviado a Distribución correctamente';
+            return response()->json($return);
+        }
+    }
+
+    public function EditStatusa6(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=6;
+            Bandeja::runEditStatus($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Enviado a Pago del Alumno correctamente';
+            return response()->json($return);
+        }
+    }
+
 }
