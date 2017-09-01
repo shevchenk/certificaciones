@@ -27,6 +27,19 @@ class BandejaCE extends Controller
         }
     }
     
+    public function LoadPagoAlumno(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=6;
+            $renturnModel = Bandeja::runLoadPagoAlumno($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+    
         public function LoadDistribucion(Request $r )
     {
         if ( $r->ajax() ) {
