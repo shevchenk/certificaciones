@@ -25,6 +25,15 @@
                                                     </div>
                                                 </div>
                                             </th>
+                                            <th class="col-xs-3">
+                                                <div class="form-group">
+                                                    <label><h4>Rol:</h4></label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                        <input type="text" class="form-control" name="txt_rol" id="txt_rol" placeholder="Buscar Rol" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                    </div>
+                                                </div>
+                                            </th>
                                             <th class="col-xs-2">
                                                 <div class="form-group">
                                                     <label><h4>Código:</h4></label>
@@ -34,15 +43,6 @@
                                                     </div>                                          
                                                 </div>
                                             </th>
-                                            <th class="col-xs-3">
-                                                <div class="form-group">
-                                                    <label><h4>Rol:</h4></label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                        <input type="text" class="form-control" name="txt_rol" id="txt_rol" placeholder="Buscar Rol" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
-                                                    </div>
-                                                </div>
-                                            </th>                                    
                                             <th class="col-xs-1">[-]</th>
                                         </tr>
                                     </thead>
@@ -52,6 +52,7 @@
                                         <tr class="cabecera">
                                             <th>Trabajadors</th>
                                             <th>Rol</th>
+                                            <th>Código</th>
                                             <th>[-]</th>
                                         </tr>
                                     </tfoot>
