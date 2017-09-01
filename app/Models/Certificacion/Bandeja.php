@@ -237,6 +237,22 @@ class Bandeja extends Model
         $ch->save();
     }
 
+    public static function runEditStatusRecibeOde($r)
+    {
+        // Update
+        $certificado = Bandeja::find($r->id);
+        $certificado->certificado_estado_id = trim( $r->certificado_estado_id );
+        $certificado->persona_id_updated_at=Auth::user()->id;
+        $certificado->save();
+        
+        // Insert
+        $ch= new CertificadoHistorico;
+        $ch->certificado_id=$r->id;
+        $ch->certificado_estado_id = trim( $r->certificado_estado_id );
+        $ch->persona_id_created_at=Auth::user()->id;
+        $ch->save();
+    }
+
     public static function runLoadEnemision($r)
     {
         $sql=DB::table('alumnos AS a')
