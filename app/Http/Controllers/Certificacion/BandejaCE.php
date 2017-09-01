@@ -63,6 +63,31 @@ class BandejaCE extends Controller
         }
     }
 
+    // RAG
+    public function LoadRecibeOde(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=5;
+            $renturnModel = Bandeja::runLoadAprobado($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+    
+    public function EditStatusRecibeOde(Request $r )
+    {
+        if ( $r->ajax() ) {
+            Bandeja::runEditStatusRecibeOde($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
+    // --
+
     public function LoadEmitido(Request $r )
     {
         if ( $r->ajax() ) {
