@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
-var TrabajadorG={id:0,persona_id:0,trabajador:'',rol_id:0,estado:1}; // Datos Globales
+var TrabajadorG={id:0,persona_id:0,trabajador:'',rol_id:0,codigo:'',estado:1}; // Datos Globales
 
 $(document).ready(function() {
     $("#TableTrabajador").DataTable({
@@ -28,7 +28,7 @@ $(document).ready(function() {
         $('#ModalTrabajadorForm #txt_trabajador').val( TrabajadorG.trabajador );
         $('#ModalTrabajadorForm #txt_persona_id').val( TrabajadorG.persona_id );
         $('#ModalTrabajadorForm #slct_rol_id').selectpicker('val', TrabajadorG.rol_id );
-        
+        $('#ModalTrabajadorForm #txt_codigo').val( TrabajadorG.codigo );
         $('#ModalTrabajadorForm #slct_estado').selectpicker('val', TrabajadorG.estado );
         $('#ModalTrabajadorForm #txt_trabajador').focus();
     });
@@ -49,6 +49,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Rol',4000);
     }
+    else if( $.trim( $("#ModalTrabajadorForm #txt_codigo").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Código',4000);
+    }
 
     return r;
 }
@@ -59,12 +63,14 @@ AgregarEditar=function(val,id){
     TrabajadorG.persona_id='';
     TrabajadorG.trabajador='';
     TrabajadorG.rol_id='0';
+    TrabajadorG.codigo='';
     TrabajadorG.estado='1';
     if( val==0 ){
         TrabajadorG.id=id;
         TrabajadorG.persona_id=$("#TableTrabajador #trid_"+id+" .persona_id").val();
         TrabajadorG.rol_id=$("#TableTrabajador #trid_"+id+" .rol_id").val();
         TrabajadorG.trabajador=$("#TableTrabajador #trid_"+id+" .trabajador").text();
+        TrabajadorG.codigo=$("#TableTrabajador #trid_"+id+" .codigo").text();
         TrabajadorG.estado=$("#TableTrabajador #trid_"+id+" .estado").val();
     }
     $('#ModalTrabajador').modal('show');
@@ -111,6 +117,7 @@ HTMLCargarTrabajador=function(result){
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='trabajador'>"+r.trabajador+"</td>"+
             "<td class='rol'>"+r.rol+"</td>"+
+            "<td class='codigo'>"+r.codigo+"</td>"+
             "<td>"+
             "<input type='hidden' class='rol_id' value='"+r.rol_id+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>";

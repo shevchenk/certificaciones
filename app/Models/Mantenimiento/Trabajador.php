@@ -25,6 +25,7 @@ class Trabajador extends Model
         $trabajador = new Trabajador;
         $trabajador->persona_id = trim( $r->persona_id );
         $trabajador->rol_id = trim( $r->rol_id );
+        $trabajador->codigo = trim( $r->codigo );
         $trabajador->estado = trim( $r->estado );
         $trabajador->persona_id_created_at=Auth::user()->id;
         $trabajador->save();
@@ -35,6 +36,7 @@ class Trabajador extends Model
         $trabajador = Trabajador::find($r->id);
         $trabajador->persona_id = trim( $r->persona_id );
         $trabajador->rol_id = trim( $r->rol_id );
+        $trabajador->codigo = trim( $r->codigo );
         $trabajador->estado = trim( $r->estado );
         $trabajador->persona_id_updated_at=Auth::user()->id;
         $trabajador->save();
@@ -42,7 +44,7 @@ class Trabajador extends Model
 
     public static function runLoad($r)
     {
-        $sql=Trabajador::select('mat_trabajadores.id','mat_trabajadores.persona_id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre ) as trabajador')
+        $sql=Trabajador::select('mat_trabajadores.codigo','mat_trabajadores.id','mat_trabajadores.persona_id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre ) as trabajador')
                                 ,'mat_trabajadores.rol_id','r.rol','mat_trabajadores.estado')
              ->join('personas as p','p.id','=','mat_trabajadores.persona_id')
              ->join('mat_roles as r','r.id','=','mat_trabajadores.rol_id')
@@ -64,6 +66,12 @@ class Trabajador extends Model
                         $rol_id=trim($r->rol_id);
                         if( $rol_id !='' ){
                             $query->where('mat_trabajadores.rol_id','=',$rol_id);
+                        }
+                    }
+                    if( $r->has("codigo") ){
+                        $codigo=trim($r->codigo);
+                        if( $codigo !='' ){
+                            $query->where('mat_trabajadores.codigo','like','%'.$codigo.'%');
                         }
                     }
                     if( $r->has("estado") ){
