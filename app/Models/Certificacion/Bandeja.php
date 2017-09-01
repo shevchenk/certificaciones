@@ -203,6 +203,25 @@ class Bandeja extends Model
         $certificado_hist->save();
 
     }
+
+    public static function runEditStatus6($r)
+    {
+        $usuario_id = Auth::user()->id;
+
+        $certificado = Bandeja::find($r->id);
+        $certificado->certificado_estado_id=$r->certificado_estado_id;
+        $certificado->nro_pago = $r->nro_pago;
+        $certificado->monto_pago = $r->monto_pago;
+        $certificado->persona_id_updated_at=$usuario_id;
+        $certificado->save();
+
+        $certificado_hist = new BandejaHistorico;
+        $certificado_hist->certificado_id=$certificado->id;
+        $certificado_hist->certificado_estado_id=$r->certificado_estado_id;
+        $certificado_hist->persona_id_created_at=$usuario_id;
+        $certificado_hist->save();
+
+    }
     
         public static function runEditStatusDistribucion($r)
     {
@@ -323,7 +342,7 @@ class Bandeja extends Model
             ->select('c.id','s.sucursal', 'a.dni', 'a.paterno', 'a.materno', 'a.nombre', 'a.certificado AS tramite', 
             'c.fecha_estado_certificado AS fecha_ingreso', 'c.created_at AS fecha_tramite', 
             'a.direccion', 'a.referencia', 'a.region', 'a.provincia', 'a.distrito', 'a.nota_certificado', 'a.tipo_certificado',
-             'c.fecha_pago', 'c.nro_pago', 'ce.estado_certificado')
+             'c.fecha_pago', 'c.nro_pago','c.monto_pago', 'ce.estado_certificado')
             ->where( 
                 function($query) use ($r){
                     if( $r->certificado_estado_id!='' ){

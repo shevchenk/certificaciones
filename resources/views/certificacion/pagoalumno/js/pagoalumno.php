@@ -3,6 +3,8 @@ var AddEdit=0; //0: Editar | 1: Agregar
 var BandejaG={  id:0,
                 curso:"",
                 certificado_curso:"",
+                nro_pago:"",
+                monto_pago:"",
                 tipo_curso:0,
                 estado:1}; // Datos Globales
 $(document).ready(function() {
@@ -36,18 +38,24 @@ HTMLCambiarEstado=function(result){
 }
 
 Abrir_archivoboleta=function(id){
-    $('#ModalBoletaForm #txt_nboleta');
-    $('#ModalBoletaForm #txt_montboleta');
+    $('#ModalBoletaForm #txt_nboleta').val( '' );
+   $('#ModalBoletaForm #txt_montboleta').val( '' );
     $('#ModalBoleta #id_1').val(id);
 
 }
+
+CambiarEstado_PagoAlumno=function(){   //atendido a solucion
+
+        AjaxBandeja.CambiarEstado();
+    
+};
 
 HTMLCargarBandeja=function(result){ //INICIO HTML
     var html="";
     $('#TableBandeja').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
-        boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+')"><i class="fa fa-check fa-lg">Iniciar<br>Pago Alumno</i></a> </td>';
+        boton='<td> <a class="btn btn-success btn-sm" id="'+r.id+'" onClick="Abrir_archivoboleta('+r.id+')" data-estado="'+r.estado+'" class="btn btn-warning" data-toggle="modal" data-target="#ModalBoleta" return false;><i class="fa fa-check fa-lg">Iniciar<br>Pago Alumno</i></a> </td>';
         html+="<tr id='trid_"+r.id+"'>"+
             boton+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
@@ -58,6 +66,8 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
             "<td class='tramite'>"+r.tramite+"</td>"+
             "<td class='fecha_ingreso'>"+r.fecha_ingreso+"</td>"+
             "<td class='fecha_tramite'>"+r.fecha_tramite+"</td>"+
+
+
             boton;
         html+="</tr>";
 

@@ -16,5 +16,7 @@ var AjaxBandeja={
         url='AjaxDinamic/Certificacion.BandejaCE@EditStatusa6';
         masterG.postAjax(url,data,evento);
     }
+
 };
+
 </script>
