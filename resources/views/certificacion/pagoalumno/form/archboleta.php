@@ -9,27 +9,26 @@
         </div>
 
         <div class="modal-body"><!-- INICIO BODY-->
-            <form id="ModalBoletaForm" name="ModalBoletaForm"><!-- INICIO FORM-->
+          <form id="ModalBoletaForm" name="ModalBoletaForm"><!-- INICIO FORM-->
+            <!-- <input type='hidden' class="mant" name='id' name="id"> -->
               <fieldset>
-          <legend>Datos Boleta</legend>
-          <div class="form-group"> 
+              <legend>Datos Boleta</legend>
+              <div class="form-group"> 
 
-            <div class="col-sm-12"> 
-<!--            <div class="col-md-2 form-group">-->
-              <label>N° Boleta:</label>
-                <input type="text" class="form-control mant" id="txt_nboleta" name="txt_nboleta" value="0">
-            </div>
-          
-            <div class="col-md-12 txt_montboleta">
-                <div class="form-group">
-                  <label>Monto Boleta</label>
-                    <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_montboleta" name="txt_montboleta">
+                <div class="col-sm-12"> 
+    <!--            <div class="col-md-2 form-group">-->
+                  <label>N° Boleta:</label>
+                    <input type="text" class="form-control mant" id="txt_nro_pago" name="txt_nro_pago" value="">
                 </div>
-            </div>
+              
+                <div class="col-md-12 txt_montboleta">
+                    <div class="form-group">
+                      <label>Monto Boleta</label>
+                        <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_monto_pago" name="txt_monto_pago">
+                    </div>
+                </div>
 
-          </div>
-
-
+              </div>
             </form><!-- FIN FORM-->
         </div><!-- FIN BOODY-->
 
@@ -39,7 +38,7 @@
 
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default active pull-left" data-dismiss="modal">Close</button>
+          <button type="button" id="btnclose" class="btn btn-default active pull-left" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" onClick="CambiarEstado_PagoAlumno();">Guardar</button>
         </div>
       </div><!-- /.modal-content -->

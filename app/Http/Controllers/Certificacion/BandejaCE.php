@@ -115,9 +115,17 @@ class BandejaCE extends Controller
 
     public function EditStatusa6(Request $r )
     {
+        /*
         if ( $r->ajax() ) {
-
-            $r->certificado_estado_id=6;
+            //$r->certificado_estado_id=6;
+            Bandeja::runEditStatus6($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Enviado a Pago del Alumno correctamente';
+            return response()->json($return);
+        }
+        */
+        
+        if ( $r->ajax() ) {
             Bandeja::runEditStatus6($r);
             $return['rst'] = 1;
             $return['msj'] = 'Enviado a Pago del Alumno correctamente';

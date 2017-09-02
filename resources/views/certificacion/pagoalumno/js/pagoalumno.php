@@ -22,6 +22,7 @@ $(document).ready(function() {
 
 });
 
+
 CambiarEstado=function(id){
     if(confirm('Confirme su envio a Validacion del Pago del Alumno')){
         alert('Ud. ha confirmado! ...');
@@ -30,6 +31,7 @@ CambiarEstado=function(id){
     }
 }
 
+
 HTMLCambiarEstado=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
@@ -37,17 +39,19 @@ HTMLCambiarEstado=function(result){
     }
 }
 
+
 Abrir_archivoboleta=function(id){
     $('#ModalBoletaForm #txt_nboleta').val( '' );
-   $('#ModalBoletaForm #txt_montboleta').val( '' );
-    $('#ModalBoleta #id_1').val(id);
+    $('#ModalBoletaForm #txt_montboleta').val( '' );
 
+    $("#ModalBoletaForm").append("<input type='hidden' value='"+id+"' id='id' name='id'>");
 }
 
-CambiarEstado_PagoAlumno=function(){   //atendido a solucion
 
-        AjaxBandeja.CambiarEstado();
-    
+CambiarEstado_PagoAlumno=function(){ //atendido a solucion
+    //alert($('#ModalBoletaForm #id').val());
+    CambiarEstado($('#ModalBoletaForm #id').val());
+    $("#btnclose").click();
 };
 
 HTMLCargarBandeja=function(result){ //INICIO HTML
