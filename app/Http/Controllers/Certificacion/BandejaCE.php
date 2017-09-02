@@ -127,6 +127,32 @@ class BandejaCE extends Controller
         }
     }
 
+    public function LoadEntregaAlumnoODE(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=9;
+            $renturnModel = Bandeja::runLoadEntregaAlumnoODE($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function LoadEntregaValidaAlumno(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=10;
+            $renturnModel = Bandeja::runLoadEntregaValidaAlumno($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function EditStatusa4(Request $r )
     {
         if ( $r->ajax() ) {
@@ -170,7 +196,19 @@ class BandejaCE extends Controller
             $r->certificado_estado_id=10;
             Bandeja::runEditStatus($r);
             $return['rst'] = 1;
-            $return['msj'] = 'Enviado a Entrega al Alumno en Ode correctamente';
+            $return['msj'] = 'Enviado a Entrega y Validación de Alumno correctamente';
+            return response()->json($return);
+        }
+    }
+
+    public function EditStatusFin(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=11;
+            Bandeja::runEditStatus($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Entregado y Validado por Alumno correctamente';
             return response()->json($return);
         }
     }
