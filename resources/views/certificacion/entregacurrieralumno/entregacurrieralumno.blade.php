@@ -14,19 +14,19 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'certificacion.entregacourieralumno.js.entregacourieralumno_ajax' )
-@include( 'certificacion.entregacourieralumno.js.entregacourieralumno' )
+@include( 'certificacion.entregacurrieralumno.js.entregacurrieralumno_ajax' )
+@include( 'certificacion.entregacurrieralumno.js.entregacurrieralumno' )
 
 @stop
 
 @section('content')
 <section class="content-header">
-    <h1>Entrega del Courier al Alumno
+    <h1>Entrega del Currier al Alumno
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Proceso</li>
-        <li class="active">Entrega del Courier al Alumno</li>
+        <li class="active">Entrega del Currier al Alumno</li>
     </ol>
 </section>
 
@@ -35,7 +35,7 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Procesos - Entrega del Courier al Alumno</h3>
+                    <h3 class="box-title">Procesos - Entrega del Currier al Alumno</h3>
                 </div>
                 <div class="box-body with-border">
                 <form id="BandejaForm">
@@ -149,5 +149,5 @@
 @stop
 
 @section('form')
-    @include( 'certificacion.entregacourieralumno.form.entregacourieralumno' )
+    @include( 'certificacion.entregacurrieralumno.form.entregacurrieralumno' )
 @stop
