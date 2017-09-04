@@ -44,7 +44,7 @@ CambiarEstado=function(id){
 
     if(confirm('Confirme su Validación del Alumno')){
         //alert('Ud. ha confirmado! ...');
-        AjaxBandeja.CambiarEstadoFin(HTMLCambiarEstado,id);
+        AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
     }
 }
 

@@ -22,7 +22,6 @@ $(document).ready(function() {
 
 CambiarEstado=function(id){
     if(confirm('Confirme su inicio de Recepción en la ODE')){
-        alert('Ud. ha confirmado! ...');
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
     }
 }

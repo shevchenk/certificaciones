@@ -10,11 +10,10 @@ var AjaxBandeja={
         masterG.postAjax(url,data,evento);
     },
     CambiarEstado:function(evento,id){
-        $("#ModalDistribucionForm").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#ModalDistribucionForm").append("<input type='hidden' value='5' name='estadof'>");
-        var data=$("#ModalDistribucionForm").serialize().split("txt_").join("").split("slct_").join("");
-        $("#ModalDistribucionForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Certificacion.BandejaCE@EditStatusDistribucion';
+        $("#ModalBandejaForm").append("<input type='hidden' value='"+id+"' name='id'>");
+        var data=$("#ModalBandejaForm").serialize().split("txt_").join("").split("slct_").join("");
+        $("#ModalBandejaForm input[type='hidden']").not('.mant').remove();
+        url='AjaxDinamic/Certificacion.BandejaCE@EditStatus';
         masterG.postAjax(url,data,evento);
     }
 };

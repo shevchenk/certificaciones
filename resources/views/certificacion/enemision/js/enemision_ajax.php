@@ -13,7 +13,7 @@ var AjaxBandeja={
         $("#ModalBandejaForm").append("<input type='hidden' value='"+id+"' name='id'>");
         var data=$("#ModalBandejaForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ModalBandejaForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Certificacion.BandejaCE@EditStatusa3';
+        url='AjaxDinamic/Certificacion.BandejaCE@EditStatus';
         masterG.postAjax(url,data,evento);
     }
 };

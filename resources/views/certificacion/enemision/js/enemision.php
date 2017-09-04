@@ -42,7 +42,6 @@ $(document).ready(function() {
 
 CambiarEstado=function(id){
     if(confirm('Confirme su envio a emitido de trámite')){
-        alert('Ud. ha confirmado! ...'+id);
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
     }
 }

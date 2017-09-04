@@ -1,0 +1,4 @@
+1	1100	Alumno 	ape 1	ape 2	46487881	MBA	18	1	Pj. Las Dalias N 14	Parque Guillen	Lima	Lima	Comas
+1	2000	Alumno 2	ape 1	ape2	12345678	MBA	18	1	Jr. Los Claveles	Municipalidad Inpependencia	Lima	Lima	Independencia	ewweq
+1	1100	Alumnno 	apee 1	ape 2	46487881	MBA	18	1	Pj. Las Dalias N 14	Parque Guillen	Lima	Lima	Comas	test	test 2	ergrtrhtrhtyvrttr rthrhrt
+1	2000	Alumndsdsdon 2	apee 1	ape2	12345678	MBA	18	1	Jr. Los Claveles	Municipalidad Inpependencia	Lima	Lima	Independencia	testing	testing 2

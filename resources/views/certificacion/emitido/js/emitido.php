@@ -44,12 +44,12 @@ CambiarEstado=function(id,sucursal){
     if(sucursal== 1 ){
         if(confirm('Confirme su envio a Pago del Alumno')){
             //alert('Ud. ha confirmado! ...');
-            AjaxBandeja.CambiarEstadoa6(HTMLCambiarEstado,id);
+            AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
         }
     }else{
         if(confirm('Confirme su envio a Distribución')){
             //alert('Ud. ha confirmado! ...');
-            AjaxBandeja.CambiarEstadoa4(HTMLCambiarEstado,id);
+            AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
         }
     }
 }
@@ -66,10 +66,10 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
     $('#TableBandeja').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
-        if(r.id_sucursal==1){
-            boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+','+r.id_sucursal+')"><i class="fa fa-check fa-lg">Iniciar<br>Pago del Alumno</i></a> </td>';    
+        if(r.sucursal_id==1){
+            boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+','+r.sucursal_id+')"><i class="fa fa-check fa-lg">Iniciar<br>Pago del Alumno</i></a> </td>';    
         }else{
-            boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+','+r.id_sucursal+')"><i class="fa fa-check fa-lg">Iniciar<br>a Distribución</i></a> </td>'; 
+            boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+','+r.sucursal_id+')"><i class="fa fa-check fa-lg">Iniciar<br>a Distribución</i></a> </td>'; 
         }
         html+="<tr id='trid_"+r.id+"'>"+
             boton+

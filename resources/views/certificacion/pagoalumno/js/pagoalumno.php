@@ -25,9 +25,7 @@ $(document).ready(function() {
 
 CambiarEstado=function(id){
     if(confirm('Confirme su envio a Validacion del Pago del Alumno')){
-        alert('Ud. ha confirmado! ...');
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-
     }
 }
 

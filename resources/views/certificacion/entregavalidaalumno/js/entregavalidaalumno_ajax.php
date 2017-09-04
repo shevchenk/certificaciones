@@ -9,11 +9,11 @@ var AjaxBandeja={
         url='AjaxDinamic/Certificacion.BandejaCE@LoadEntregaValidaAlumno';
         masterG.postAjax(url,data,evento);
     },
-    CambiarEstadoFin:function(evento,id){
+    CambiarEstado:function(evento,id){
         $("#ModalBandejaForm").append("<input type='hidden' value='"+id+"' name='id'>");
         var data=$("#ModalBandejaForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ModalBandejaForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Certificacion.BandejaCE@EditStatusFin';
+        url='AjaxDinamic/Certificacion.BandejaCE@EditStatus';
         masterG.postAjax(url,data,evento);
     }
 };

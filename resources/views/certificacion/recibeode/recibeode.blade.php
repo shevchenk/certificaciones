@@ -148,4 +148,5 @@
 </section><!-- .content -->
 @stop
 @section('form')
+@include( 'certificacion.recibeode.form.recibeode' )
 @stop
