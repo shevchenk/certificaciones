@@ -17,7 +17,7 @@
         @show
         <title>
             @section('title')
-                Efencer (JS)
+                PAE (JS)
             @show
         </title>
 

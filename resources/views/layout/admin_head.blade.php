@@ -1,8 +1,8 @@
 <a href="secureaccess.inicio" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>SN</b>JS</span>
+    <span class="logo-mini"><b>PAE</span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>NEGOCIOS</b>JS</span>
+    <span class="logo-lg"><b>PAE</b>JS</span>
 </a>
 
 <nav class="navbar navbar-static-top">
@@ -12,7 +12,7 @@
 
     <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-            <li class="dropdown tasks-menu">
+            <!--li class="dropdown tasks-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-dashboard"></i>
                     <span class="label label-danger">12</span>
@@ -21,19 +21,16 @@
                     <li class="header"><b>Seleccione un Tema</b></li>
                     <li id="tema-body">
                     </li>
-                    <!--li class="footer">    aqui ponde el tema seleccionado por defecto
-                        <a href="#">View all tasks</a>
-                    </li-->
                 </ul>
-            </li>
+            </li-->
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="img/user2-160x160.jpg" class="user-image" alt="User Image">
+                    <!--img src="img/user2-160x160.jpg" class="user-image" alt="User Image"-->
                     <span class="hidden-xs">{{ Auth::user()->paterno.' '.Auth::user()->materno.', '.Auth::user()->nombre }}</span>
                 </a>
                 <ul class="dropdown-menu">
                     <li class="user-header">
-                        <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <!--img src="img/user2-160x160.jpg" class="img-circle" alt="User Image"-->
                         <p>
                           {{ Auth::user()->paterno.' '.Auth::user()->materno.', '.Auth::user()->nombre }}
                           <small>Miembro desde {{ Auth::user()->created_at }}</small>
