@@ -68,7 +68,6 @@ class Sucursal extends Model
 
     public static function runLoad($r)
     {
-
         $sql=Sucursal::select('id','sucursal','direccion','telefono','celular','email','foto','estado')
             ->where( 
                 function($query) use ($r){
@@ -114,6 +113,13 @@ class Sucursal extends Model
         return $result;
     }
 
+    public static function runLoad2($r)
+    {
+        $sql=Sucursal::select('id','sucursal','direccion','telefono','celular','email')->where('estado','=',1);
+        $result = $sql->orderBy('sucursal','asc')->get();
+        return $result;
+    }
+
     public function fileToFile($file, $url)
     {
         if ( !is_dir('img') ) {
@@ -135,7 +141,7 @@ class Sucursal extends Model
         return $url. $type;
     }
     
-        public static function ListSucursal($r)
+    public static function ListSucursal($r)
     {
         $sql=Sucursal::select('id','sucursal','estado')
             ->where('estado','=','1');
@@ -143,7 +149,7 @@ class Sucursal extends Model
         return $result;
     }
     
-            public static function ListSucursalandUsuario($r)
+    public static function ListSucursalandUsuario($r)
     {
         $sql= PersonaPrivilegioSucursal::select('s.id','s.sucursal','s.estado')
             ->join('sucursales as s','s.id','=','pps.sucursal_id')
@@ -152,6 +158,33 @@ class Sucursal extends Model
         $result = $sql->orderBy('sucursal','asc')->get();
         return $result;
 
+    }
+
+    // Export
+    public static function runExport($r)
+    {
+        $rsql= Sucursal::runLoad2($r);
+
+        $length=array(
+            'A'=>15,
+            'B'=>15,'C'=>40,'D'=>20,'E'=>20,
+            'F'=>30
+        );
+        $cabecera=array(
+            'id','Sucursal','Direccion','Telefono',
+            'Celular','Email'
+        );
+        $campos=array(
+            'id','sucursal','direccion','telefono',
+            'celular','email'
+        );
+
+        $r['data']=$rsql;
+        $r['cabecera']=$cabecera;
+        $r['campos']=$campos;
+        $r['length']=$length;
+        $r['max']='F'; // Max. Celda en LETRA
+        return $r;
     }
 
 }

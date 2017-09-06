@@ -14,6 +14,7 @@
 <section class="content-header">
     <h1>ODES
         <small>Mantenimiento</small>
+        <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>

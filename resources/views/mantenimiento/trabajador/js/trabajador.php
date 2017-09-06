@@ -49,10 +49,12 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Rol',4000);
     }
+    /*
     else if( $.trim( $("#ModalTrabajadorForm #txt_codigo").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Código',4000);
     }
+    */
 
     return r;
 }

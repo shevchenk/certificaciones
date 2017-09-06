@@ -87,10 +87,12 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Curso',4000);
     }
+    /*
     else if( $.trim( $("#ModalProgramacionForm #txt_aula").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Aula',4000);
     }
+    */
     else if( $.trim( $("#ModalProgramacionForm #slct_dia").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Días',4000);

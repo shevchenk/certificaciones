@@ -49,6 +49,11 @@ $(document).ready(function() {
         $("ModalSucursalForm input[type='hidden']").not('.mant').remove();
        // $("ModalSucursalForm input").val('');
     });
+
+    $(document).on('click', '#btnexport', function(event) {
+        $(this).attr('href','ReportDinamic/Mantenimiento.SucursalEM@ExportSucursal?d=1');
+    });
+
 });
 
 ValidaForm=function(){
