@@ -175,6 +175,8 @@ HTMLCargaMatriDeta=function(result){ //INICIO HTML
         html+="<tr id='trid_"+r.id+"'>";
         html+=""+
                 "<td class=''>"+r.id+"</td>"+
+                "<td class=''>"+r.modalidad+"</td>"+
+                "<td class=''>"+r.sucursal+"</td>"+
                 "<td class=''>"+r.curso+"</td>"+
                 "<td class=''>"+r.docente+"</td>"+
                 "<td class=''>"+r.dia+"</td>"+

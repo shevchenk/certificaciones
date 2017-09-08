@@ -218,11 +218,13 @@
                 <table id="tb_tabla2_deta" class="table table-striped">
                     <thead>
                         <tr class="cabecera" style="text-align: center;">
-                            <th colspan='7'>DETALLES DE MATRICULA</th>
+                            <th colspan='9'>DETALLES DE MATRICULA</th>
                         </tr>
 
                         <tr class="cabecera">
                         <th>#</th>
+                        <th>Modalidad</th>
+                        <th>Sucursal</th>
                         <th>Curso</th>
                         <th>Docente</th>
                         <th>Dia</th>
@@ -233,6 +235,8 @@
                     </thead>
                     <tbody id="tbody_tabla2">
                         <tr>
+                        <td>#</td>
+                        <td>#</td>
                         <td>#</td>
                         <td>#</td>
                         <td>#</td>

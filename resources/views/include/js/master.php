@@ -211,7 +211,7 @@ var masterG ={
             },
             success : function(r) {
                 $(".content .box .overlay").remove();
-                if( typeof eventsucces!= 'undefined'  ){
+                if( typeof eventsucces!= 'undefined' && eventsucces!=null){
                   eventsucces(r);
                 }
             },

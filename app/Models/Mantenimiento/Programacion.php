@@ -119,7 +119,22 @@ class Programacion extends Model
                             $query->where('c.tipo_curso','=',$tipo_curso);
                         }
                     }
-                    if( $r->has("tipo_modalidad") ){
+                    if( $r->has("tipo_modalidad_id") ){
+                        $tipo_modalidad=trim($r->tipo_modalidad_id);
+                        if( $tipo_modalidad !='' ){
+                            if($tipo_modalidad==0){
+                                $query->where('mat_programaciones.sucursal_id','=',$tipo_modalidad);
+                            }
+                            if($tipo_modalidad==1){
+                                $query->where('mat_programaciones.sucursal_id','!=',$tipo_modalidad);
+                            }
+                            if($tipo_modalidad==2){
+                                $query->where('mat_programaciones.sucursal_id','=',1);
+                            }
+                            
+                        }
+                    }
+                    else if( $r->has("tipo_modalidad") ){
                         $tipo_modalidad=trim($r->tipo_modalidad);
                         if( $tipo_modalidad !='' ){
                             if($tipo_modalidad==0){

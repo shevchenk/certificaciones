@@ -8,6 +8,8 @@ var LDTipoTabla=0;
 var PromocionG="<?php echo $promocionG->pae ?>";
 var CheckG=0; // Indica los checks q tiene actualmente
 var CheckedG=0; // Indica cuantos tiene
+var IdMatriProG=0;
+var IdMatriDetProG=0;
 $(document).ready(function() {
     $("#TableListaprogramacion").DataTable({
         "paging": true,
@@ -23,22 +25,25 @@ $(document).ready(function() {
 
     $('#ModalListaprogramacion').on('shown.bs.modal', function (event) {
           var button = $(event.relatedTarget); // captura al boton
-          $( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).change(function() {
-             
-                  bfiltros= button.data('filtros');
-                    if( typeof (bfiltros)!='undefined'){
-                        LDfiltrosG=bfiltros+'|tipo_modalidad:'+$( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
-                    }
-                    if( typeof (button.data('tipotabla'))!='undefined'){
-                        LDTipoTabla=button.data('tipotabla');
-                    }
-                  AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
-          });
+          bfiltros= button.data('filtros');
+            IdMatriProG=button.data('filtros').split('id_matri:')[1].split("|")[0];
+            IdMatriDetProG=button.data('filtros').split('id_matri_deta:')[1].split("|")[0];
+            if( typeof (bfiltros)!='undefined'){
+                LDfiltrosG=bfiltros+'|tipo_modalidad:'+$( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
+            }
+            if( typeof (button.data('tipotabla'))!='undefined'){
+                LDTipoTabla=button.data('tipotabla');
+            }
+            AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
     });
 
     $('#ModalListaprogramacion').on('hidden.bs.modal', function (event) {
 //        $("ModalDocenteForm input[type='hidden']").remove();
 //        $("ModalDocenteForm input").val('');
+    });
+
+    $( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).change(function() {
+        AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
     });
 });
 
@@ -50,12 +55,9 @@ SeleccionarProgramacion = function(val,id){
 
     if( val==0 && typeof(existe)=='undefined'){
         //data=$("#ListaprogramacionForm").serialize().split("txt_").join("").split("slct_").join("");
-
-        var id_matri = ($("#ListaprogramacionForm #id_matri").val());
-        var id_matri_deta = $("#ListaprogramacionForm #id_matri_deta").val();
         
-        AjaxEspecialidad.actualizarMatriDeta(HTMLCargaMatriDeta, id_matri_deta, id);
-        AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, id_matri);
+        AjaxEspecialidad.actualizarMatriDeta(IdMatriDetProG, id);
+        AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, IdMatriProG);
 
         /*
         var mod='PRESENCIAL';

@@ -13,7 +13,7 @@ var AjaxListaprogramacion={
           }
         }
         data=$("#ListaprogramacionForm").serialize().split("txt_").join("").split("slct_").join("");
-        //$("#ListaprogramacionForm input[type='hidden']").remove();
+        $("#ListaprogramacionForm input[type='hidden']").remove();
         url='AjaxDinamic/Mantenimiento.ProgramacionEM@Load';
         masterG.postAjax(url,data,evento);
     }

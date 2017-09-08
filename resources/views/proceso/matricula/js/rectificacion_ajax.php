@@ -54,10 +54,10 @@ var AjaxEspecialidad={
         data={id:id};
         masterG.postAjax(url,data,evento);
     },
-    actualizarMatriDeta:function(evento, id, id_progra){
+    actualizarMatriDeta:function(id, id_progra){
         url='AjaxDinamic/Proceso.MatriculaRectificaPR@UpdateMatriDeta';
         data={id:id, programacion_id:id_progra};
-        masterG.postAjax(url,data,evento);
+        masterG.postAjax(url,data,null,null,false);
     },
     CargarCurso:function(evento){
         url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';

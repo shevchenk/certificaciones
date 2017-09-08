@@ -129,6 +129,9 @@ class MatriculaRectifica extends Model
             ->Join('mat_programaciones AS mp', function($join){
                 $join->on('mp.id','=','mmd.programacion_id');
             })
+            ->Join('sucursales AS s', function($join){
+                $join->on('s.id','=','mp.sucursal_id');
+            })
             ->Join('mat_cursos AS mc', function($join){
                 $join->on('mc.id','=','mp.curso_id');
             })
@@ -141,6 +144,8 @@ class MatriculaRectifica extends Model
             'mc.tipo_curso',
             'mc.curso',
              DB::raw("CONCAT(p.paterno,' ', p.materno,', ', p.nombre) as docente"),
+             DB::raw("IF(s.id=1,'OnLine','Presencial') as modalidad"),
+            's.sucursal',
             'mp.dia',
             'mp.fecha_inicio',
             'mp.fecha_final'
