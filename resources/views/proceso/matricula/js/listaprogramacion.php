@@ -84,9 +84,15 @@ SeleccionarProgramacion = function(val,id){
           if(LDTipoTabla==0){
           html1+="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
-            "<input type='text' class='form-control'  value='"+curso+"'  disabled></td>"+
-            "<td><input type='text' class='form-control'  id='txt_nro_pago' name='txt_nro_pago[]'></td>"+
-            "<td><input type='text' class='form-control'  id='txt_monto_pago' name='txt_monto_pago[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<div class='input-group margin'>"+
+                "<span class='input-group-btn'><label>"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flatcurso"+id+"'>"+
+                "</label></span>"+
+                "<input type='text' class='form-control'  value='"+curso+"'  disabled>"+
+            "</div>"+
+            "</td>"+
+            "<td><input type='text' class='form-control'  id='txt_nro_pago"+id+"' name='txt_nro_pago[]'></td>"+
+            "<td><input type='text' class='form-control'  id='txt_monto_pago"+id+"' name='txt_monto_pago[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre'+id+'"" name="pago_nombre[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo'+id+'" name="pago_archivo[]">'+
@@ -167,6 +173,25 @@ SeleccionarProgramacion = function(val,id){
             if(cont<PromocionG){
                 $("#txt_nro_promocion,#txt_monto_promocion").attr("disabled","true");
                 $("#txt_nro_promocion,#txt_monto_promocion").val("0");
+            }
+
+        });
+
+        $('input[type="checkbox"].flatcurso'+id).iCheck({
+          checkboxClass: 'icheckbox_flat-green'
+        }).on('ifChanged', function(e) {
+            // Get the field name
+            var isChecked = e.currentTarget.checked;
+
+                $("#txt_nro_pago"+id+",#txt_monto_pago"+id).val("0");
+            if (isChecked == true) {
+                $("#txt_nro_pago"+id+",#txt_monto_pago"+id).attr("readOnly","true");
+                CheckedG++;
+            }
+            else{
+                $("#txt_nro_pago"+id+",#txt_monto_pago"+id).removeAttr("readOnly");
+                $("#txt_nro_pago"+id+",#txt_monto_pago"+id).val("");
+                CheckedG--;
             }
 
         });
