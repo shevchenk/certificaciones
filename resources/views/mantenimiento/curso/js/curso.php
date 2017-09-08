@@ -54,10 +54,6 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Nombre del Certificado',4000);
     }
-    else if( $.trim( $("#ModalCursoForm #txt_curso_apocope").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Ingrese Curso Apocope',4000);
-    }
     else if( $.trim( $("#ModalCursoForm #slct_tipo_curso").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione Tipo',4000);
