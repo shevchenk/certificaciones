@@ -6,6 +6,7 @@ var BandejaG={  id:0,
                 tipo_curso:0,
                 estado:1}; // Datos Globales
 $(document).ready(function() {
+
     $("#TableBandeja").DataTable({
         "paging": true,
         "lengthChange": false,
@@ -41,9 +42,9 @@ $(document).ready(function() {
 });
 
 CambiarEstado=function(id){
-    if(confirm('Confirme su envio a emisión de trámite')){
+    sweetalertG.confirm("Confirmación!", "Confirme su envio a emisión de trámite", function(){
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-    }
+    });
 }
 
 HTMLCambiarEstado=function(result){

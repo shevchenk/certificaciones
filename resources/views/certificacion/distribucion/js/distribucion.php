@@ -20,10 +20,10 @@ $(document).ready(function() {
 
 });
 
-CambiarEstado=function(id){
-    if(confirm('Confirme su inicio de Recepción en la ODE')){
+CambiarEstado=function(id){    
+    sweetalertG.confirm("Confirmación!", "Confirme su inicio de Recepción en la ODE", function(){
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-    }
+    });
 }
 
 HTMLCambiarEstado=function(result){

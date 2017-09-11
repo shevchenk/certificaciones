@@ -21,9 +21,9 @@ $(document).ready(function() {
 });
 
 CambiarEstado=function(id){
-    if(confirm('Confirme su envio a Pago del Alumno')){
+    sweetalertG.confirm("Confirmación!", "Confirme su envio a Pago del Alumno", function(){
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-    }
+    });
 }
 
 HTMLCambiarEstado=function(result){

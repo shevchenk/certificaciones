@@ -42,15 +42,13 @@ $(document).ready(function() {
 
 CambiarEstado=function(id,sucursal){
     if(sucursal== 1 ){
-        if(confirm('Confirme su envio a Pago del Alumno')){
-            //alert('Ud. ha confirmado! ...');
+        sweetalertG.confirm("Confirmación!", "Confirme su envio a Pago del Alumno", function(){
             AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-        }
+        });
     }else{
-        if(confirm('Confirme su envio a Distribución')){
-            //alert('Ud. ha confirmado! ...');
+        sweetalertG.confirm("Confirmación!", "Confirme su envio a Distribución", function(){
             AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-        }
+        });
     }
 }
 

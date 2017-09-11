@@ -371,4 +371,18 @@ var msjG = {
     },
 }
 
+var sweetalertG = {
+    confirm: function (titulo, descripcion, consulta) {
+      swal({
+          title: titulo,
+          text: descripcion,
+          showCancelButton: true,
+          confirmButtonText: "Procesar",
+          closeOnConfirm: true
+      },
+      consulta
+      );
+    }
+}
+
 </script>

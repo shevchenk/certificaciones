@@ -41,11 +41,9 @@ $(document).ready(function() {
 });
 
 CambiarEstado=function(id){
-
-    if(confirm('Confirme su Validación del Alumno')){
-        //alert('Ud. ha confirmado! ...');
+    sweetalertG.confirm("Confirmación!", "Confirme su Validación del Alumno", function(){
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-    }
+    });
 }
 
 HTMLCambiarEstado=function(result){

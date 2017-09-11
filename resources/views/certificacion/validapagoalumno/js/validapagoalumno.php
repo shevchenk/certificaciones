@@ -42,13 +42,13 @@ $(document).ready(function() {
 
 CambiarEstado=function(id,sucursal){
     if(sucursal== 1 ){
-        if(confirm('Confirme su envio a Entrega por Courier al Alumno')){
+        sweetalertG.confirm("Confirmación!", "Confirme su envio a Entrega por Courier al Alumno", function(){
             AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-        }
+        });
     }else{
-        if(confirm('Confirme su envio a Entrega al Alumno en ODE')){
+        sweetalertG.confirm("Confirmación!", "Confirme su envio a Entrega al Alumno en ODE", function(){
             AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-        }
+        });
     }
 }
 

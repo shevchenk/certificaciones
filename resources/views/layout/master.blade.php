@@ -27,12 +27,14 @@
             {{ Html::style('lib/ionicons/css/ionicons.min.css') }}
             {{ Html::style('css/AdminLTE.min.css') }}
             {{ Html::style('css/skins/_all-skins.min.css') }}
+            {{ Html::style('lib/sweetalert-master/dist/sweetalert.css') }}
 
             {{ Html::script('lib/jQuery/jquery-2.2.3.min.js') }}
             {{ Html::script('lib/bootstrap/js/bootstrap.min.js') }}
             {{ Html::script('lib/fastclick/fastclick.js') }}
             {{ Html::script('lib/slimScroll/jquery.slimscroll.min.js') }}
             {{ Html::script('js/app.min.js') }}
+            {{ Html::script('lib/sweetalert-master/dist/sweetalert.min.js') }}
         @show
         @include( 'include.css.master' )
         @include( 'include.js.master' )

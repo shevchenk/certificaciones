@@ -41,9 +41,9 @@ $(document).ready(function() {
 });
 
 CambiarEstado=function(id){
-    if(confirm('Confirme su envio a emitido de trámite')){
+    sweetalertG.confirm("Confirmación!", "Confirme su envio a emitido de trámite", function(){
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-    }
+    });
 }
 
 HTMLCambiarEstado=function(result){
