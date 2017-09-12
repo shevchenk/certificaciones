@@ -227,7 +227,7 @@ class CargarPR extends Controller
                         if (count($especialidad) == 0) 
                         {
                             $especialidad=new Especialidad;
-                            $especialidad->especialidad=trim($detfile[1]);
+                            $especialidad->especialidad=trim($detfile[0]);
                             $especialidad->certificado_especialidad='-';
                             $especialidad->persona_id_created_at=Auth::user()->id;
                             $especialidad->save();
