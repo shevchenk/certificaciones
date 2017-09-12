@@ -2,7 +2,12 @@
 $(document).ready(function() {
     $('#btn_cargar').on('click', function(){
     	$(this).prop('disabled', true).html('<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Procesando..');
-    	Cargar.Programacion()
+    	Cargar.Programacion();
+    });
+
+    $('#btn_cargar_m').on('click', function(){
+        $(this).prop('disabled', true).html('<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Procesando..');
+        Cargar.Matriculas();
     });
 });
 
