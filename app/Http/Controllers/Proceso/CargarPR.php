@@ -11,11 +11,15 @@ use App\Models\Mantenimiento\Curso;
 use App\Models\Mantenimiento\CursoEspecialidad;
 use App\Models\Mantenimiento\Programacion;
 use App\Models\Proceso\Certificados;
-
+use App\Models\Proceso\Matricula;
 use App\Models\Mantenimiento\Sucursal;
 use App\Models\Mantenimiento\Persona;
 use App\Models\Mantenimiento\Trabajador;
-use App\Models\Mantenimiento\Matricula;
+
+use App\Models\Mantenimiento\Provincia;
+use App\Models\Mantenimiento\Distrito;
+use App\Models\Mantenimiento\Region;
+use App\Models\Mantenimiento\TipoParticipante;
 use App\Models\Proceso\Alumno;
 
 class CargarPR extends Controller
@@ -186,9 +190,9 @@ class CargarPR extends Controller
 
 
     public function CargarMatriculas() 
-    {
+    { 
         ini_set('memory_limit', '512M');
-        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+        if (isset($_FILES['carga_m']) and $_FILES['carga_m']['size'] > 0) {
 
             $uploadFolder = 'txt/matricula';
 
@@ -196,8 +200,8 @@ class CargarPR extends Controller
                 mkdir($uploadFolder);
             }
 
-            $nombreArchivo = explode(".", $_FILES['carga']['name']);
-            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $nombreArchivo = explode(".", $_FILES['carga_m']['name']);
+            $tmpArchivo = $_FILES['carga_m']['tmp_name'];
             $archivoNuevo = $nombreArchivo[0] . "_u" . Auth::user()->id . "_" . date("Ymd_his") . "." . $nombreArchivo[1];
             $file = $uploadFolder . '/' . $archivoNuevo;
 
@@ -229,27 +233,25 @@ class CargarPR extends Controller
                         $array[$i][$j] = $detfile[$j];
                         $con++;
                     }
-
-
-                    // Sucursal
-                        $sucursal = Sucursal::where('sucursal', 'like', '%'.$detfile[0].'%')
+                   
+                    // ODE
+                        $sucursal = Sucursal::where('sucursal', 'like', '%'.$detfile[1].'%')
                                              ->first();
                         if (count($sucursal) == 0) 
                         {
                             $sucursal = new Sucursal;
-                            $sucursal->id_externo = 1;
-                            $sucursal->sucursal = trim( $detfile[0] );
+                            $sucursal->sucursal = trim( $detfile[1] );
                             $sucursal->estado = 1;
                             $sucursal->persona_id_created_at = Auth::user()->id;
                             $sucursal->save();
                         }
                     // --
-
-                    // Persona
-                        if($detfile[1])
+                    
+                    // Responsable Matrícula
+                        if($detfile[2])
                         {
-                            $resmatri = explode(' ', $detfile[1]);
-                            if($resmatri[0] == 'DR.' || $resmatri[0] == 'LIC') //DR. WILLIAN MOGROVEJO / LIC
+                            $resmatri = explode(' ', $detfile[2]);
+                            if($resmatri[1] == 'DR.' || $resmatri[1] == 'LIC') //DR. WILLIAN MOGROVEJO / LIC
                             {
                                 $mat_person_nombre = $resmatri[1];
                                 $mat_person_paterno = $resmatri[2];
@@ -263,58 +265,110 @@ class CargarPR extends Controller
                             }
                         }
 
-                        $persona = Persona::where('nombre', 'like', '%'.$mat_person_nombre.'%')
+                        $responsable_matricula = Persona::where('nombre', 'like', '%'.$mat_person_nombre.'%')
                                             ->where('paterno', 'like', '%'.$mat_person_paterno.'%')
                                             ->first();
-                        if (count($persona) == 0) 
+                        
+                        if (count($responsable_matricula) == 0) 
                         {
-                            $persona = new Persona;
-                            $persona->paterno = trim( $mat_person_paterno );
-                            $persona->materno = trim( $mat_person_materno );
-                            $persona->nombre = trim( $mat_person_nombre );
-                            $persona->dni = '99999999';
-                            $persona->sexo = '-';
-                            $persona->password = '-';                
-                            $persona->estado = 1;
-                            $persona->persona_id_created_at = Auth::user()->id;
-                            $persona->save();
+                            $responsable_matricula = new Persona;
+                            $responsable_matricula->paterno = trim( $mat_person_paterno );
+                            $responsable_matricula->materno = trim( $mat_person_materno );
+                            $responsable_matricula->nombre = trim( $mat_person_nombre );
+                            $responsable_matricula->dni = '99999999';
+                            $responsable_matricula->sexo = '';
+                            $responsable_matricula->password = '';                
+                            $responsable_matricula->estado = 1;
+                            $responsable_matricula->persona_id_created_at = Auth::user()->id;
+                            $responsable_matricula->save();
                         }
                     // --
 
                     // Trabajador
-                        $trabajador = Trabajador::where('codigo', 'like', '%'.$detfile[2].'%')
+                        $trabajador = Trabajador::where('codigo','=',$detfile[3])
                                                  ->first();
                         if (count($trabajador) == 0) 
                         {
                             $trabajador = new Trabajador;
                             $trabajador->persona_id = 2;
                             $trabajador->rol_id = 1;
-                            $trabajador->codigo = trim( $detfile[2] );
+                            $trabajador->codigo = trim( $detfile[3] );
                             $trabajador->estado = 1;
                             $trabajador->persona_id_created_at = Auth::user()->id;
                             $trabajador->save();
                         }
                     // --
-
-                    // Alumnos
-                        $alumno = Alumno::where('dni', '=', $detfile[5])
-                                        ->where('paterno', '=', $detfile[6])
-                                        ->where('materno', '=', $detfile[7])
-                                        ->where('nombre', '=', $detfile[8])
+                    // Tipo de Participante
+                        $tipo_participante = TipoParticipante::where('tipo_participante', '=', trim($detfile[5]))
                                         ->first();
-                        if (count($alumno) == 0) 
+                        if (count($tipo_participante) == 0) 
                         {
-                            $alumno = new Alumno;
-                            $alumno->persona_id = '';
+                            $tipo_participante= new TipoParticipante;
+                            $tipo_participante->tipo_participante = trim($detfile[5]);
+                            $tipo_participante->estado = 1;
+                            $tipo_participante->persona_id_created_at = Auth::user()->id;
+                            $tipo_participante->save();
+                        }
+                    // --    
+                    // Persona
+                        $persona = Persona::where('dni', '=', trim($detfile[6]))
+                                        ->first();
+                        
+                        if (count($persona) == 0) 
+                        {
+                            $fecha_nacimiento = explode('/', trim($detfile[12]));
+                            $persona = new Persona;
+                            $persona->dni = trim($detfile[6]);
+                            $persona->paterno = trim($detfile[7]);
+                            $persona->materno = trim($detfile[8]);
+                            $persona->nombre = trim($detfile[9]);
+                            $persona->email = trim($detfile[10]);
+                            $persona->celular = trim($detfile[11]);
+                            $persona->fecha_nacimiento= $fecha_nacimiento[2].'-'.$fecha_nacimiento[1].'-'.$fecha_nacimiento[0];
+                            $persona->sexo= substr(trim($detfile[13]), 0,1);
+                            $persona->password = '';                
+                            $persona->estado = 1;
+                            $persona->persona_id_created_at = Auth::user()->id;
+                            $persona->save();
                             
+                        }
+                    // --
+                    // Alumno
+                        $alumno = Alumno::where('persona_id', '=',$persona->id)
+                                        ->first();
+                        
+                        if(count($alumno)==0){
+                            
+                            $region= Region::where('region','=',trim($detfile[15]))
+                                                   ->first();
+                            
+                            $provincia= Provincia::where('provincia','=',trim($detfile[16]))
+                                                   ->first();
+                            
+                            $distrito= Distrito::where('distrito','=',trim($detfile[17]))
+                                                   ->first();
+                            
+                            $alumno = new Alumno;
+                            $alumno->persona_id = $persona->id;
+                            $alumno->direccion =trim($detfile[14]);
+                            $alumno->referencia = '';
+                            if($region){
+                               $alumno->region_id = $region->id; 
+                            }
+                            if($provincia){
+                               $alumno->provincia_id = $provincia->id; 
+                            }
+                            if($distrito){
+                               $alumno->distrito_id = $distrito->id; 
+                            }
                             $alumno->estado = 1;
                             $alumno->persona_id_created_at = Auth::user()->id;
                             $alumno->save();
                         }
-                    // --
+                    //--
 
                     // Proceso Matriculas
-                        $fecha_matri = explode('/', trim($detfile[3]));
+                        $fecha_matri = explode('/', trim($detfile[4]));
                         $matricula = Matricula::where('persona_matricula_id', '=', $persona->id)
                                                 ->where('sucursal_id','=', $sucursal->id)
                                                 ->where('persona_marketing_id','=', $trabajador->persona_id)
@@ -324,17 +378,14 @@ class CargarPR extends Controller
                         if (count($matricula) == 0) 
                         {
                             $matricula = new Matricula;
-                            $matricula->tipo_participante_id = 2;
-                            $matricula->persona_id = '';
-                            $matricula->alumno_id = '';
-                            $matricula->sucursal_id = trim( $r->sucursal_id);
-                            
-                            $matricula->persona_matricula_id = trim( $persona->id );
-                            $matricula->persona_marketing_id = trim( $trabajador->persona_id );
-                            
+                            $matricula->tipo_participante_id = $tipo_participante->id;
+                            $matricula->persona_id = $persona->id;
+                            $matricula->alumno_id = $alumno->id;
+                            $matricula->sucursal_id = $sucursal->id;
+                            $matricula->persona_matricula_id = $responsable_matricula->id;
+                            $matricula->persona_marketing_id = $trabajador->persona_id;
                             $matricula->fecha_matricula = $fecha_matri[2].'-'.$fecha_matri[1].'-'.$fecha_matri[0];
                             $matricula->tipo_matricula = 1;
-                        
                             $matricula->persona_id_created_at = Auth::user()->id;
                             $matricula->save();
                         }
