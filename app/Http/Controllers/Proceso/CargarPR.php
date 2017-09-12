@@ -416,7 +416,7 @@ class CargarPR extends Controller
                         {
                             $especialidad=new Especialidad;
                             $especialidad->especialidad=trim($detfile[0]);
-                            $especialidad->certificado_especialidad='-';
+                            $especialidad->certificado_especialidad='';
                             $especialidad->persona_id_created_at=Auth::user()->id;
                             $especialidad->save();
                         }
@@ -426,7 +426,7 @@ class CargarPR extends Controller
                         if (count($curso) == 0){
                             $curso=new Curso;
                             $curso->curso=trim($detfile[1]);
-                            $curso->certificado_curso='-';
+                            $curso->certificado_curso='';
                             $curso->tipo_curso=1;
                             $curso->persona_id_created_at=Auth::user()->id;
                             $curso->save();
