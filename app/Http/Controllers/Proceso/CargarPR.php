@@ -175,7 +175,98 @@ class CargarPR extends Controller
             
             return response()->json($return);
         }
-    }    
+    }
+
+
+    public function CargarMatriculas() 
+    {
+        ini_set('memory_limit', '512M');
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            $uploadFolder = 'txt/matricula';
+
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder);
+            }
+
+            $nombreArchivo = explode(".", $_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0] . "_u" . Auth::user()->id . "_" . date("Ymd_his") . "." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                $return['rst'] = 2;
+                $return['msj'] = $m;
+                return response()->json($return);
+            }
+
+            $array = array();
+            $arrayExist = array();
+
+            $file=file('txt/matricula/'.$archivoNuevo);
+            
+            for ($i = 0; $i < count($file); $i++) {
+
+                DB::beginTransaction();
+                if (trim($file[$i]) != '') {
+                    $detfile = explode("\t", $file[$i]);
+
+                    $con = 0;
+                    for ($j = 0; $j < count($detfile); $j++) {
+                        $buscar = array(chr(13) . chr(10), "\r\n", "\n", "�", "\r", "\n\n", "\xEF", "\xBB", "\xBF");
+                        $reemplazar = "";
+                        $detfile[$j] = trim(str_replace($buscar, $reemplazar, $detfile[$j]));
+                        $array[$i][$j] = $detfile[$j];
+                        $con++;
+                    }
+
+                    $alumnos = Alumnos::where('sucursal_id', '=', trim($detfile[0]))
+                                        ->where('id_envio', '=', trim($detfile[1]))
+                                        ->where('nombre', '=', trim($detfile[2]))
+                                        ->where('paterno', '=', trim($detfile[3]))
+                                        ->where('materno', '=', trim($detfile[4]))
+                                        ->where('dni', '=', trim($detfile[5]))
+                                        ->where('certificado', '=', trim($detfile[6]))
+                                        ->where('nota_certificado', '=', trim($detfile[7]))
+                                        ->where('tipo_certificado', '=', trim($detfile[8]))
+                                        ->first();
+
+                    if (count($alumnos) == 0) 
+                    {
+                        // Graba Alumnos
+                        
+                        // --
+                    
+                    
+                    }
+                    else
+                    {
+                        $no_pasa = ($i+1);
+                    }
+
+                }
+                DB::commit();
+            }// for del file
+            
+            if(@$no_pasa > 0)
+            {
+                $return['no_pasa'] = $no_pasa;
+                $return['rst'] = 3;
+                $return['msj'] = 'Algunos datos no procesaron';
+            }
+            else
+            {
+                $return['rst'] = 1;
+                $return['msj'] = 'Archivo procesado correctamente';
+            }
+            
+            return response()->json($return);
+        }
+    }
+
     
     public function CargaProgramacion() 
     {
