@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Proceso\Alumnos;
 use App\Models\Mantenimiento\Especialidad;
 use App\Models\Mantenimiento\Curso;
+use App\Models\Mantenimiento\CursoEspecialidad;
 use App\Models\Mantenimiento\Programacion;
 use App\Models\Proceso\Certificados;
 
@@ -209,7 +210,7 @@ class CargarPR extends Controller
             
             for ($i = 0; $i < count($file); $i++) {
 
-//                DB::beginTransaction();
+                DB::beginTransaction();
                 if (trim($file[$i]) != '') {
                     $detfile = explode("\t", $file[$i]);
 
@@ -243,7 +244,18 @@ class CargarPR extends Controller
                             $curso->persona_id_created_at=Auth::user()->id;
                             $curso->save();
                         }
-
+                    $curso_especialidad= CursoEspecialidad::where('curso_id','=',$curso->id)
+                                         ->where('especialidad_id','=',$especialidad->id)
+                                         ->first();
+                    
+                        if (count($curso_especialidad) == 0){
+                            $curso_especialidad=new CursoEspecialidad;
+                            $curso_especialidad->curso_id=$curso->id;
+                            $curso_especialidad->especialidad_id=$especialidad->id;
+                            $curso_especialidad->persona_id_created_at=Auth::user()->id;
+                            $curso_especialidad->save();
+                        }
+                        
                     $fecha_inicio=explode('/',trim($detfile[3]));
                     $fecha_final=explode('/',trim($detfile[4]));
                     
@@ -275,7 +287,7 @@ class CargarPR extends Controller
                         }
 
                 }
-//                DB::commit();
+                DB::commit();
             }// for del file
             
             if(@$no_pasa > 0)
