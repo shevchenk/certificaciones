@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Proceso\Alumnos;
+use App\Models\Mantenimiento\Especialidad;
+use App\Models\Mantenimiento\Curso;
+use App\Models\Mantenimiento\Programacion;
 use App\Models\Proceso\Certificados;
 
 class CargarPR extends Controller
@@ -173,5 +176,121 @@ class CargarPR extends Controller
             return response()->json($return);
         }
     }    
+    
+    public function CargaProgramacion() 
+    {
+        ini_set('memory_limit', '512M');
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
+            $uploadFolder = 'txt/matricula';
+
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder);
+            }
+
+            $nombreArchivo = explode(".", $_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0] . "_u" . Auth::user()->id . "_" . date("Ymd_his") . "." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                $return['rst'] = 2;
+                $return['msj'] = $m;
+                return response()->json($return);
+            }
+
+            $array = array();
+            $arrayExist = array();
+
+            $file=file('txt/matricula/'.$archivoNuevo);
+            
+            for ($i = 0; $i < count($file); $i++) {
+
+//                DB::beginTransaction();
+                if (trim($file[$i]) != '') {
+                    $detfile = explode("\t", $file[$i]);
+
+                    $con = 0;
+                    for ($j = 0; $j < count($detfile); $j++) {
+                        $buscar = array(chr(13) . chr(10), "\r\n", "\n", "�", "\r", "\n\n", "\xEF", "\xBB", "\xBF");
+                        $reemplazar = "";
+                        $detfile[$j] = trim(str_replace($buscar, $reemplazar, $detfile[$j]));
+                        $array[$i][$j] = $detfile[$j];
+                        $con++;
+                    }
+                    
+                    $especialidad= Especialidad::where('especialidad','=',trim($detfile[0]))
+                                         ->first();
+                        if (count($especialidad) == 0) 
+                        {
+                            $especialidad=new Especialidad;
+                            $especialidad->especialidad=trim($detfile[1]);
+                            $especialidad->certificado_especialidad='-';
+                            $especialidad->persona_id_created_at=Auth::user()->id;
+                            $especialidad->save();
+                        }
+                    
+                    $curso= Curso::where('curso','=',trim($detfile[1]))
+                                         ->first();
+                        if (count($curso) == 0){
+                            $curso=new Curso;
+                            $curso->curso=trim($detfile[1]);
+                            $curso->certificado_curso='-';
+                            $curso->tipo_curso=1;
+                            $curso->persona_id_created_at=Auth::user()->id;
+                            $curso->save();
+                        }
+
+                    $fecha_inicio=explode('/',trim($detfile[3]));
+                    $fecha_final=explode('/',trim($detfile[4]));
+                    
+                    $programaciones = Programacion::where('sucursal_id', '=', trim($detfile[0]))
+                                                    ->where('sucursal_id','=',1)
+                                                    ->where('curso_id','=',$curso->id)
+                                                    ->where('fecha_inicio','=',$fecha_inicio[2].'-'.$fecha_inicio[1].'-'.$fecha_inicio[0].' '.trim($detfile[6]).':00')
+                                                    ->where('fecha_final','=',$fecha_final[2].'-'.$fecha_final[1].'-'.$fecha_final[0].' '.trim($detfile[6]).':00')
+                                                    ->where('dia','=',substr(trim($detfile[5]), 0, 2))
+                                                    ->first();
+
+                        if (count($programaciones)== 0) 
+                        {
+                            $programacion=new Programacion;
+                            $programacion->persona_id=1;
+                            $programacion->docente_id=1;
+                            $programacion->curso_id=$curso->id;
+                            $programacion->sucursal_id=1;
+                            $programacion->aula='-';
+                            $programacion->dia=substr(trim($detfile[5]), 0, 2);
+                            $programacion->fecha_inicio=$fecha_inicio[2].'-'.$fecha_inicio[1].'-'.$fecha_inicio[0].' '.trim($detfile[6]).':00';
+                            $programacion->fecha_final=$fecha_final[2].'-'.$fecha_final[1].'-'.$fecha_final[0].' '.trim($detfile[7]).':00';
+                            $programacion->persona_id_created_at=Auth::user()->id;
+                            $programacion->save();
+                        }
+                        else
+                        {
+                            $no_pasa = ($i+1);
+                        }
+
+                }
+//                DB::commit();
+            }// for del file
+            
+            if(@$no_pasa > 0)
+            {
+                $return['no_pasa'] = $no_pasa;
+                $return['rst'] = 3;
+                $return['msj'] = 'Algunos datos no procesaron';
+            }
+            else
+            {
+                $return['rst'] = 1;
+                $return['msj'] = 'Archivo procesado correctamente';
+            }
+            
+            return response()->json($return);
+        }
+    }  
 }
