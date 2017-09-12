@@ -247,11 +247,11 @@ class CargarPR extends Controller
                     $fecha_inicio=explode('/',trim($detfile[3]));
                     $fecha_final=explode('/',trim($detfile[4]));
                     
-                    $programaciones = Programacion::where('sucursal_id', '=', trim($detfile[0]))
+                    $programaciones = Programacion::where('docente_id', '=', 1)
                                                     ->where('sucursal_id','=',1)
                                                     ->where('curso_id','=',$curso->id)
                                                     ->where('fecha_inicio','=',$fecha_inicio[2].'-'.$fecha_inicio[1].'-'.$fecha_inicio[0].' '.trim($detfile[6]).':00')
-                                                    ->where('fecha_final','=',$fecha_final[2].'-'.$fecha_final[1].'-'.$fecha_final[0].' '.trim($detfile[6]).':00')
+                                                    ->where('fecha_final','=',$fecha_final[2].'-'.$fecha_final[1].'-'.$fecha_final[0].' '.trim($detfile[7]).':00')
                                                     ->where('dia','=',substr(trim($detfile[5]), 0, 2))
                                                     ->first();
 
