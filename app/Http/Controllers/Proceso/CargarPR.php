@@ -342,13 +342,13 @@ class CargarPR extends Controller
                         
                         if(count($alumno) == 0){
                             
-                            $region = Region::where('region','=',trim($detfile[15]))
+                            $region = Region::where('region','=', utf8_encode(trim($detfile[15])))
                                             ->first();
                             
-                            $provincia = Provincia::where('provincia','=',trim($detfile[16]))
+                            $provincia = Provincia::where('provincia','=',utf8_encode(trim($detfile[16])))
                                                 ->first();
                             
-                            $distrito = Distrito::where('distrito','=',trim($detfile[17]))
+                            $distrito = Distrito::where('distrito','=',utf8_encode(trim($detfile[17])))
                                                 ->first();
                             
                             $alumno = new Alumno;
@@ -397,10 +397,11 @@ class CargarPR extends Controller
                                                         ->join('mat_cursos AS c',function($join){
                                                             $join->on('c.id','=','p.curso_id');
                                                         })
-                                                        ->select('p.id', )
+                                                        ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso','=', trim($detfile[18])) // Columna T
+                                                        ->where('c.curso','=', trim($detfile[19])) // Columna T
                                                         ->first();
+                                
                                 $matriculadetalle = new MatriculaDetalle;
                                 $matriculadetalle->matricula_id = $matricula->id;
                                 $matriculadetalle->norden = 1;
@@ -419,9 +420,9 @@ class CargarPR extends Controller
                                                         ->join('mat_cursos AS c',function($join){
                                                             $join->on('c.id','=','p.curso_id');
                                                         })
-                                                        ->select('p.id', )
+                                                        ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso','=', trim($detfile[21])) // Columna T
+                                                        ->where('c.curso','=', trim($detfile[22])) // Columna T
                                                         ->first();
                                 $matriculadetalle = new MatriculaDetalle;
                                 $matriculadetalle->matricula_id = $matricula->id;
@@ -442,9 +443,9 @@ class CargarPR extends Controller
                                                         ->join('mat_cursos AS c',function($join){
                                                             $join->on('c.id','=','p.curso_id');
                                                         })
-                                                        ->select('p.id', )
+                                                        ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso','=', trim($detfile[24])) // Columna T
+                                                        ->where('c.curso','=', trim($detfile[25])) // Columna T
                                                         ->first();
                                 $matriculadetalle = new MatriculaDetalle;
                                 $matriculadetalle->matricula_id = $matricula->id;
