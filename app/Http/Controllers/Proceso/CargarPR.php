@@ -301,7 +301,7 @@ class CargarPR extends Controller
                     // --
 
                     // Tipo de Participante
-                        $tipo_participante = TipoParticipante::where('tipo_participante', '=', trim($detfile[5]))
+                        $tipo_participante = TipoParticipante::where('tipo_participante', 'like', '%'.trim($detfile[5]).'%')
                                                                 ->first();
                         if (count($tipo_participante) == 0) 
                         {
@@ -319,7 +319,14 @@ class CargarPR extends Controller
                         
                         if (count($persona) == 0) 
                         {
-                            $fecha_nacimiento = explode('/', trim($detfile[12]));
+                            if($detfile[12])
+                            {
+                                $fecha_nacimiento = explode('/', trim(@$detfile[12]));
+                                $fecha_naci = @$fecha_nacimiento[2].'-'.@$fecha_nacimiento[1].'-'.@$fecha_nacimiento[0];
+                            }
+                            else
+                                $fecha_naci = NULL;
+
                             $persona = new Persona;
                             $persona->dni = trim($detfile[6]);
                             $persona->paterno = trim($detfile[7]);
@@ -327,7 +334,7 @@ class CargarPR extends Controller
                             $persona->nombre = trim($detfile[9]);
                             $persona->email = trim($detfile[10]);
                             $persona->celular = trim($detfile[11]);
-                            $persona->fecha_nacimiento= $fecha_nacimiento[2].'-'.$fecha_nacimiento[1].'-'.$fecha_nacimiento[0];
+                            $persona->fecha_nacimiento = $fecha_naci;
                             $persona->sexo= substr(trim($detfile[13]), 0,1);
                             $persona->password = '';                
                             $persona->estado = 1;
@@ -371,11 +378,18 @@ class CargarPR extends Controller
                     //--
 
                     // Matriculas
-                        $fecha_matri = explode('/', trim($detfile[4]));
+                        if($detfile[4])
+                        {
+                            $fecha_matri = explode('/', trim($detfile[4]));
+                            $fecha_matricula = $fecha_matri[2].'-'.$fecha_matri[1].'-'.$fecha_matri[0];
+                        }
+                        else
+                            $fecha_matricula = '1969-01-01'; //Fecha por default que se puede cambiar
+
                         $matricula = Matricula::where('persona_matricula_id', '=', $persona->id)
                                                 ->where('sucursal_id','=', $sucursal->id)
                                                 ->where('persona_marketing_id','=', $trabajador->persona_id)
-                                                ->where('fecha_matricula', '=', $fecha_matri[2].'-'.$fecha_matri[1].'-'.$fecha_matri[0])
+                                                ->where('fecha_matricula', '=', $fecha_matricula)
                                                 ->first();
 
                         if (count($matricula) == 0) 
@@ -387,7 +401,7 @@ class CargarPR extends Controller
                             $matricula->sucursal_id = $sucursal->id;
                             $matricula->persona_matricula_id = $responsable_matricula->id;
                             $matricula->persona_marketing_id = $trabajador->persona_id;
-                            $matricula->fecha_matricula = $fecha_matri[2].'-'.$fecha_matri[1].'-'.$fecha_matri[0];
+                            $matricula->fecha_matricula = $fecha_matricula;
                             $matricula->tipo_matricula = 1;
                             $matricula->persona_id_created_at = Auth::user()->id;
                             $matricula->save();
@@ -399,9 +413,32 @@ class CargarPR extends Controller
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso','=', trim($detfile[19])) // Columna T
+                                                        ->where('c.curso', 'like', '%'.trim($detfile[19]).'%') // Columna T
                                                         ->first();
-                                
+                                if (count($programaciones) == 0) 
+                                {
+                                    $curso = new Curso;
+                                    $curso->curso = trim($detfile[19]);
+                                    $curso->certificado_curso = '-';
+                                    $curso->tipo_curso = 1;
+                                    $curso->estado = 1;
+                                    $curso->persona_id_created_at = Auth::user()->id;
+                                    $curso->save();
+                                    /*
+                                    $programacion = new Programacion;
+                                    $programacion->persona_id = trim( $r->persona_id);
+                                    $programacion->docente_id = trim( $r->docente_id );
+                                    $programacion->curso_id = trim( $r->curso_id);
+                                    $programacion->sucursal_id = trim( $r->sucursal_id );
+                                    
+                                    $programacion->fecha_inicio = trim( $r->fecha_inicio );
+                                    $programacion->fecha_final = trim( $r->fecha_final );
+                                    $programacion->estado = trim( $r->estado );
+                                    $programacion->persona_id_created_at=Auth::user()->id;
+                                    $programacion->save();
+                                    */
+                                }
+
                                 $matriculadetalle = new MatriculaDetalle;
                                 $matriculadetalle->matricula_id = $matricula->id;
                                 $matriculadetalle->norden = 1;
@@ -422,7 +459,7 @@ class CargarPR extends Controller
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso','=', trim($detfile[22])) // Columna T
+                                                        ->where('c.curso','like', '%'.trim($detfile[22]).'%') // Columna T
                                                         ->first();
                                 $matriculadetalle = new MatriculaDetalle;
                                 $matriculadetalle->matricula_id = $matricula->id;
@@ -445,11 +482,11 @@ class CargarPR extends Controller
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso','=', trim($detfile[25])) // Columna T
+                                                        ->where('c.curso', 'like', '%'.trim($detfile[25]).'%') // Columna T
                                                         ->first();
                                 $matriculadetalle = new MatriculaDetalle;
                                 $matriculadetalle->matricula_id = $matricula->id;
-                                $matriculadetalle->norden = 2;
+                                $matriculadetalle->norden = 3;
                                 $matriculadetalle->programacion_id = $programaciones3->id;
                                 //$matriculadetalle->nro_pago = ;
                                 //$matriculadetalle->monto_pago = ;
