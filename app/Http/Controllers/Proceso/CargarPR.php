@@ -220,6 +220,9 @@ class CargarPR extends Controller
 
             $file=file('txt/matricula/'.$archivoNuevo);
             
+            $array_error = array();
+            $array_rollBack = array();
+
             for ($i = 0; $i < count($file); $i++) {
 
                 DB::beginTransaction();
@@ -414,8 +417,6 @@ class CargarPR extends Controller
                         
                             
                             // Matricula Detalle
-                            $msg_error = '';
-                            $rollBack = 0;
 
                             if(trim($detfile[19])!='')
                             {
@@ -434,8 +435,9 @@ class CargarPR extends Controller
                                                         ->first();
                                 if (count($programaciones) == 0)
                                 {
-                                    $msg_error .= trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[19]).'<br>'; 
-                                    $rollBack = 1;
+                                    $msg_error = trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[19]).'<br>'; 
+                                    array_push($array_error, $msg_error);
+                                    array_push($array_rollBack, 1);
                                     DB::rollBack();
                                 }
                                 else
@@ -444,10 +446,15 @@ class CargarPR extends Controller
                                     $matriculadetalle->matricula_id = $matricula->id;
                                     $matriculadetalle->norden = 1;
                                     $matriculadetalle->programacion_id = $programaciones->id;
-                                    $matriculadetalle->nro_pago = (@$resmatri[32]!='') ? trim($resmatri[32]) : '';
+
+                                    if((@$resmatri[32]*1)>0)
+                                        $matriculadetalle->nro_pago = trim($resmatri[32]);
                                     $matriculadetalle->monto_pago = (@$resmatri[34]!='') ? trim($resmatri[34]) : 0;
-                                    $matriculadetalle->nro_pago_certificado = (@$resmatri[40]!='') ? trim($resmatri[40]) : '';
+
+                                    if((@$resmatri[40]*1)>0)
+                                        $matriculadetalle->nro_pago_certificado = trim($resmatri[40]);
                                     $matriculadetalle->monto_pago_certificado = (@$resmatri[42]!='') ? trim($resmatri[42]) : 0;
+
                                     $matriculadetalle->tipo_matricula_detalle = 1;
                                     $matriculadetalle->estado = 1;
                                     $matriculadetalle->persona_id_created_at = Auth::user()->id;
@@ -473,8 +480,9 @@ class CargarPR extends Controller
                                                         ->first();
                                 if (count($programaciones2) == 0)
                                 {
-                                    $msg_error .= trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[22]).'<br>'; 
-                                    $rollBack = 1;
+                                    $msg_error = trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[22]).'<br>'; 
+                                    array_push($array_error, $msg_error);
+                                    array_push($array_rollBack, 1);
                                     DB::rollBack();
                                 }
                                 else
@@ -483,9 +491,12 @@ class CargarPR extends Controller
                                     $matriculadetalle->matricula_id = $matricula->id;
                                     $matriculadetalle->norden = 2;
                                     $matriculadetalle->programacion_id = $programaciones2->id;
-                                    $matriculadetalle->nro_pago = (@$resmatri[32]!='') ? trim($resmatri[32]) : '';
+                                    if((@$resmatri[32]*1)>0)
+                                        $matriculadetalle->nro_pago = trim($resmatri[32]);
                                     $matriculadetalle->monto_pago = (@$resmatri[34]!='') ? trim($resmatri[34]) : 0;
-                                    $matriculadetalle->nro_pago_certificado = (@$resmatri[40]!='') ? trim($resmatri[40]) : '';
+
+                                    if((@$resmatri[40]*1)>0)
+                                        $matriculadetalle->nro_pago_certificado = trim($resmatri[40]);
                                     $matriculadetalle->monto_pago_certificado = (@$resmatri[42]!='') ? trim($resmatri[42]) : 0;
                                     $matriculadetalle->tipo_matricula_detalle = 1;
                                     $matriculadetalle->estado = 1;
@@ -513,8 +524,9 @@ class CargarPR extends Controller
                                                         ->first();
                                 if (count($programaciones3) == 0)
                                 {
-                                    $msg_error .= trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[25]).'';
-                                    $rollBack = 1;
+                                    $msg_error = trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[25]).'';
+                                    array_push($array_error, $msg_error);
+                                    array_push($array_rollBack, 1);
                                     DB::rollBack();
                                 }
                                 else
@@ -523,9 +535,12 @@ class CargarPR extends Controller
                                     $matriculadetalle->matricula_id = $matricula->id;
                                     $matriculadetalle->norden = 3;
                                     $matriculadetalle->programacion_id = $programaciones3->id;
-                                    $matriculadetalle->nro_pago = (@$resmatri[32]!='') ? trim($resmatri[32]) : '';
+                                    if((@$resmatri[32]*1)>0)
+                                        $matriculadetalle->nro_pago = trim($resmatri[32]);
                                     $matriculadetalle->monto_pago = (@$resmatri[34]!='') ? trim($resmatri[34]) : 0;
-                                    $matriculadetalle->nro_pago_certificado = (@$resmatri[40]!='') ? trim($resmatri[40]) : '';
+
+                                    if((@$resmatri[40]*1)>0)
+                                        $matriculadetalle->nro_pago_certificado = trim($resmatri[40]);
                                     $matriculadetalle->monto_pago_certificado = (@$resmatri[42]!='') ? trim($resmatri[42]) : 0;
                                     $matriculadetalle->tipo_matricula_detalle = 1;
                                     $matriculadetalle->estado = 1;
@@ -546,7 +561,7 @@ class CargarPR extends Controller
                 DB::commit();
             }// for del file
             
-            if($rollBack == 1)
+            if(count($array_rollBack) > 0)
             {
                 $return['error_carga'] = $msg_error;
                 $return['rst'] = 4;
