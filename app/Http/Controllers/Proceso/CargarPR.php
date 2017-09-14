@@ -407,10 +407,13 @@ class CargarPR extends Controller
                             $matricula->persona_marketing_id = $trabajador->persona_id;
                             $matricula->fecha_matricula = $fecha_matricula;
                             $matricula->tipo_matricula = 1;
+                            $matricula->nro_pago = trim($detfile[28]);
+                            $matricula->monto_pago = trim($detfile[30]);
                             $matricula->persona_id_created_at = Auth::user()->id;
                             $matricula->save();
                         
                             // Matricula Detalle
+                            if(trim($detfile[19])!=''){
                                 $programaciones = DB::table('mat_programaciones AS p')
                                                         ->join('mat_cursos AS c',function($join){
                                                             $join->on('c.id','=','p.curso_id')
@@ -421,45 +424,29 @@ class CargarPR extends Controller
                                                                 );
                                                         })
                                                         ->select('p.id')
-                                                        ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso', 'like', '%'.trim($detfile[19]).'%') // Columna T
+                                                        ->where('p.sucursal_id','=', 1) 
+                                                        ->where('c.curso', '=',trim($detfile[19])) // Columna T
                                                         ->first();
-                                if (count($programaciones) == 0) 
-                                {
-                                    $curso = new Curso;
-                                    $curso->curso = trim($detfile[19]);
-                                    $curso->certificado_curso = '-';
-                                    $curso->tipo_curso = 1;
-                                    $curso->estado = 1;
-                                    $curso->persona_id_created_at = Auth::user()->id;
-                                    $curso->save();
-                                    /*
-                                    $programacion = new Programacion;
-                                    $programacion->persona_id = trim( $r->persona_id);
-                                    $programacion->docente_id = trim( $r->docente_id );
-                                    $programacion->curso_id = trim( $r->curso_id);
-                                    $programacion->sucursal_id = trim( $r->sucursal_id );
-                                    
-                                    $programacion->fecha_inicio = trim( $r->fecha_inicio );
-                                    $programacion->fecha_final = trim( $r->fecha_final );
-                                    $programacion->estado = trim( $r->estado );
-                                    $programacion->persona_id_created_at=Auth::user()->id;
-                                    $programacion->save();
-                                    */
+                                if (count($programaciones) == 0) {
+                                    DB::rollBack();
+                                }else{
+                                    $matriculadetalle = new MatriculaDetalle;
+                                    $matriculadetalle->matricula_id = $matricula->id;
+                                    $matriculadetalle->norden = 1;
+                                    $matriculadetalle->programacion_id = $programaciones->id;
+                                    $matriculadetalle->nro_pago = trim(@$detfile[32]);
+                                    $matriculadetalle->monto_pago = trim(@$detfile[34]);
+                                    $matriculadetalle->nro_pago_certificado = trim(@$detfile[40]);
+                                    $matriculadetalle->monto_pago_certificado = trim(@$detfile[42]);
+                                    $matriculadetalle->tipo_matricula_detalle = 1;
+                                    $matriculadetalle->estado = 1;
+                                    $matriculadetalle->persona_id_created_at = Auth::user()->id;
+                                    $matriculadetalle->save();
                                 }
+                            }
 
-                                $matriculadetalle = new MatriculaDetalle;
-                                $matriculadetalle->matricula_id = $matricula->id;
-                                $matriculadetalle->norden = 1;
-                                $matriculadetalle->programacion_id = $programaciones->id;
-                                //$matriculadetalle->nro_pago = ;
-                                //$matriculadetalle->monto_pago = ;
-                                //$matriculadetalle->nro_pago_certificado = ;
-                                //$matriculadetalle->monto_pago_certificado = ;
-                                $matriculadetalle->tipo_matricula_detalle = 1;
-                                $matriculadetalle->estado = 1;
-                                $matriculadetalle->persona_id_created_at = Auth::user()->id;
-                                $matriculadetalle->save();
+
+
 
                                 // Deta 2
                                 $programaciones2 = DB::table('mat_programaciones AS p')
