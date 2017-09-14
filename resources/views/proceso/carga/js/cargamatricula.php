@@ -26,7 +26,14 @@ HTMLMsg=function(result){
         $("#log_fallas").show();
 
         msjG.mensaje('warning',result.msj,4000);
-        $('#resultado_log').html('<tr><td style="text-align: center; font-weight: bold; color: red;"><pre>'+result.error_carga+'</pre></td></tr>');
+        
+        var html_rl = '<tr><td style="text-align: center; font-weight: bold; color: red;"><pre>';
+        //$.each(result.error_carga,function(index, data){
+            html_rl += result.error_carga;
+        //});
+        html_rl += '</pre></td></tr>';
+
+        $('#resultado_log').html(html_rl);
     }
     else{
         msjG.mensaje('warning',result.msj,3000);

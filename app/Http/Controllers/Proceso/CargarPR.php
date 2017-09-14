@@ -476,7 +476,7 @@ class CargarPR extends Controller
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso','like', '%'.trim($detfile[22]).'%') // Columna T
+                                                        ->where('c.curso','=', trim($detfile[22])) // Columna T
                                                         ->first();
                                 if (count($programaciones2) == 0)
                                 {
@@ -520,11 +520,11 @@ class CargarPR extends Controller
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso', 'like', '%'.trim($detfile[25]).'%') // Columna T
+                                                        ->where('c.curso', '=', trim($detfile[25])) // Columna T
                                                         ->first();
                                 if (count($programaciones3) == 0)
                                 {
-                                    $msg_error = trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[25]).'';
+                                    $msg_error = trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[25]).'<br>';
                                     array_push($array_error, $msg_error);
                                     array_push($array_rollBack, 1);
                                     DB::rollBack();
@@ -563,7 +563,7 @@ class CargarPR extends Controller
             
             if(count($array_rollBack) > 0)
             {
-                $return['error_carga'] = $msg_error;
+                $return['error_carga'] = $array_error;
                 $return['rst'] = 4;
                 $return['msj'] = 'Existieron algunos errores';
             }

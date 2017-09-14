@@ -80,11 +80,11 @@
                     <div class="col-sm-10">
                         <table class="table table-bordered table-striped">
                             <thead>
-                                <th style="text-align:center">Lista de registros con fallas</th>
+                                <th style="text-align:center">DATOS NO PROCESADOS</th>
                             </head>
                             <tbody id="resultado_log">
                                 <tr>
-                                <td><pre>sasasasasasas <br> asasasas<br> asasasas<br> asasasas</pre></td>
+                                <td>&nbsp;</td>
                                 </tr>
                             </body>
                         </table>
