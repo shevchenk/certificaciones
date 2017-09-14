@@ -384,7 +384,11 @@ class CargarPR extends Controller
                             $fecha_matricula = $fecha_matri[2].'-'.$fecha_matri[1].'-'.$fecha_matri[0];
                         }
                         else
-                            $fecha_matricula = '1969-01-01'; //Fecha por default que se puede cambiar
+                        {
+                            $month = date('m');
+                            $year = date('Y');
+                            $fecha_matricula = date('Y-m-d', mktime(0,0,0, $month, 1, $year));
+                        }
 
                         $matricula = Matricula::where('persona_matricula_id', '=', $persona->id)
                                                 ->where('sucursal_id','=', $sucursal->id)
@@ -409,7 +413,12 @@ class CargarPR extends Controller
                             // Matricula Detalle
                                 $programaciones = DB::table('mat_programaciones AS p')
                                                         ->join('mat_cursos AS c',function($join){
-                                                            $join->on('c.id','=','p.curso_id');
+                                                            $join->on('c.id','=','p.curso_id')
+                                                                ->where(
+                                                                    function($query){
+                                                                        $query->where('p.estado','=',1);
+                                                                    }
+                                                                );
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
@@ -455,7 +464,12 @@ class CargarPR extends Controller
                                 // Deta 2
                                 $programaciones2 = DB::table('mat_programaciones AS p')
                                                         ->join('mat_cursos AS c',function($join){
-                                                            $join->on('c.id','=','p.curso_id');
+                                                            $join->on('c.id','=','p.curso_id')
+                                                                ->where(
+                                                                    function($query){
+                                                                        $query->where('p.estado','=',1);
+                                                                    }
+                                                                );
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
@@ -478,7 +492,12 @@ class CargarPR extends Controller
                                 // Deta 3
                                 $programaciones3 = DB::table('mat_programaciones AS p')
                                                         ->join('mat_cursos AS c',function($join){
-                                                            $join->on('c.id','=','p.curso_id');
+                                                            $join->on('c.id','=','p.curso_id')
+                                                                ->where(
+                                                                    function($query){
+                                                                        $query->where('p.estado','=',1);
+                                                                    }
+                                                                );
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
