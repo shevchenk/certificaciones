@@ -72,6 +72,25 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="col-sm-12" id="log_fallas">
+                    <div class="col-sm-1">
+                    &nbsp;
+                    </div>
+                    <div class="col-sm-10">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <th style="text-align:center">Lista de registros con fallas</th>
+                            </head>
+                            <tbody id="resultado_log">
+                                <tr>
+                                <td><pre>sasasasasasas <br> asasasas<br> asasasas<br> asasasas</pre></td>
+                                </tr>
+                            </body>
+                        </table>
+                    </div>
+                </div>
+
             </div><!-- /.box -->
             <!-- Finaliza contenido -->
         </div>

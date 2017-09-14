@@ -1,5 +1,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
+
+    $("#log_fallas").hide();
+
     $('#btn_cargar').on('click', function(){
     	$(this).prop('disabled', true).html('<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Procesando..');
     	Cargar.Programacion();
@@ -18,6 +21,12 @@ HTMLMsg=function(result){
     else if( result.rst==3 ){
         msjG.mensaje('warning',result.msj,4000);
         $('#resultado').html('<tr><td style="text-align: center; font-weight: bold; color: red;">'+result.no_pasa+' filas</td></tr>');
+    }
+    else if( result.rst==4 ){
+        $("#log_fallas").show();
+
+        msjG.mensaje('warning',result.msj,4000);
+        $('#resultado_log').html('<tr><td style="text-align: center; font-weight: bold; color: red;"><pre>'+result.error_carga+'</pre></td></tr>');
     }
     else{
         msjG.mensaje('warning',result.msj,3000);
