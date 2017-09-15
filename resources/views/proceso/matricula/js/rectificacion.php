@@ -59,12 +59,15 @@ HTMLCambiarNotaCurso=function(result){
 }
 */
 AnularMatri=function(alumno_id, id_matri){
-    window.alumno_id = alumno_id;
-    window.id_matri = id_matri;
-    AjaxEspecialidad.anularMatricula(HTMLAnularMatri, id_matri);
-    $("#div_tabla2_deta").slideUp();
-    $("#tb_tabla2_deta tbody").html(''); 
+    sweetalertG.confirm("Confirmación!", "Desea anular la Matricula?", function(){
+        window.alumno_id = alumno_id;
+        window.id_matri = id_matri;
+        AjaxEspecialidad.anularMatricula(HTMLAnularMatri, id_matri);
+        $("#div_tabla2_deta").slideUp();
+        $("#tb_tabla2_deta tbody").html('');
+    });
 }
+
 HTMLAnularMatri=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
