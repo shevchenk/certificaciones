@@ -221,7 +221,7 @@ class CargarPR extends Controller
             $file=file('txt/matricula/'.$archivoNuevo);
             
             $array_error = array();
-            $array_rollBack = array();
+            //$array_rollBack = array();
 
             for ($i = 0; $i < count($file); $i++) {
 
@@ -417,7 +417,6 @@ class CargarPR extends Controller
                         
                             
                             // Matricula Detalle
-
                             if(trim($detfile[19])!='')
                             {
                                 $programaciones = DB::table('mat_programaciones AS p')
@@ -431,14 +430,14 @@ class CargarPR extends Controller
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) 
-                                                        ->where('c.curso', '=',trim($detfile[19])) // Columna T
+                                                        ->where('c.curso', '=',trim($detfile[19]))
                                                         ->first();
                                 if (count($programaciones) == 0)
                                 {
                                     $msg_error = trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[19]).'<br>'; 
                                     array_push($array_error, $msg_error);
-                                    array_push($array_rollBack, 1);
                                     DB::rollBack();
+                                    continue;
                                 }
                                 else
                                 {
@@ -476,14 +475,14 @@ class CargarPR extends Controller
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso','=', trim($detfile[22])) // Columna T
+                                                        ->where('c.curso','=', trim($detfile[22]))
                                                         ->first();
                                 if (count($programaciones2) == 0)
                                 {
                                     $msg_error = trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[22]).'<br>'; 
                                     array_push($array_error, $msg_error);
-                                    array_push($array_rollBack, 1);
                                     DB::rollBack();
+                                    continue;
                                 }
                                 else
                                 {
@@ -520,14 +519,14 @@ class CargarPR extends Controller
                                                         })
                                                         ->select('p.id')
                                                         ->where('p.sucursal_id','=', 1) //$sucursal->id
-                                                        ->where('c.curso', '=', trim($detfile[25])) // Columna T
+                                                        ->where('c.curso', '=', trim($detfile[25]))
                                                         ->first();
                                 if (count($programaciones3) == 0)
                                 {
                                     $msg_error = trim($detfile[9]).': No se encontro programacion con el curso: '.trim($detfile[25]).'<br>';
                                     array_push($array_error, $msg_error);
-                                    array_push($array_rollBack, 1);
                                     DB::rollBack();
+                                    continue;
                                 }
                                 else
                                 {
@@ -561,7 +560,7 @@ class CargarPR extends Controller
                 DB::commit();
             }// for del file
             
-            if(count($array_rollBack) > 0)
+            if(count($array_error) > 0)
             {
                 $return['error_carga'] = $array_error;
                 $return['rst'] = 4;
