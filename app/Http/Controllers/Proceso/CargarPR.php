@@ -332,9 +332,9 @@ class CargarPR extends Controller
 
                             $persona = new Persona;
                             $persona->dni = trim($detfile[6]);
-                            $persona->paterno = trim($detfile[7]);
-                            $persona->materno = trim($detfile[8]);
-                            $persona->nombre = trim($detfile[9]);
+                            $persona->paterno = utf8_encode(trim($detfile[7]));
+                            $persona->materno = utf8_encode(trim($detfile[8]));
+                            $persona->nombre = utf8_encode(trim($detfile[9]));
                             $persona->email = trim($detfile[10]);
                             $persona->celular = trim($detfile[11]);
                             $persona->fecha_nacimiento = $fecha_naci;
