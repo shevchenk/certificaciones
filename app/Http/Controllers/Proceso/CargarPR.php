@@ -678,8 +678,8 @@ class CargarPR extends Controller
                         if (count($programaciones)== 0) 
                         {
                             $programacion=new Programacion;
-                            $programacion->persona_id=1;
-                            $programacion->docente_id=1;
+                            $programacion->persona_id=2;
+                            $programacion->docente_id=20;
                             $programacion->curso_id=$curso->id;
                             $programacion->sucursal_id=1;
                             $programacion->aula='-';
