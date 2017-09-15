@@ -186,9 +186,9 @@ HTMLCargaMatriDeta=function(result){ //INICIO HTML
                 "<td class=''>"+r.fecha_inicio+"</td>"+
                 "<td class=''>"+r.fecha_final+"</td>"+
                 
-                "<td class=''>"+r.nro_pago+"</td>"+
+                "<td class=''>"+(r.nro_pago*1)+"</td>"+
                 "<td class=''>"+r.monto_pago+"</td>"+
-                "<td class=''>"+r.nro_pago_certificado+"</td>"+
+                "<td class=''>"+(r.nro_pago_certificado*1)+"</td>"+
                 "<td class=''>"+r.monto_pago_certificado+"</td>"+
                 //'<td><a id="btnv_'+r.id+'" class="btn btn-primary btn-sm" onClick="AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, '+r.id+')"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> </a></td>';
                 '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:'+r.tipo_curso+'|id_matri:'+r.id_matri+'|id_matri_deta:'+r.id+'"><i class="glyphicon glyphicon-refresh"></i> Programación</button>'+
@@ -214,11 +214,30 @@ actualizarPagosDM=function(val,id, id_matri){
 }
 
 actualizarPagosDMAjax=function(){
-    AjaxEspecialidad.actualizarPagosDM(HTMLCargaMatriDeta);
-    var id_matri = $("#ModalPagosMDForm #id_matri").val();
-    $("#ModalPagosMDForm input[type='hidden']").not('.mant').remove();
-    $('#ModalPagosMD').modal('hide');
-    AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, id_matri);
+    if( $.trim( $("#ModalPagosMDForm #txt_nro_pago").val() )=='' ){
+        msjG.mensaje('warning','Ingrese el Nro. Pago', 4000);
+        return false;
+    }
+    else if( $.trim( $("#ModalPagosMDForm #txt_monto_pago").val() )=='' ){
+        msjG.mensaje('warning','Ingrese el Monto Pago', 4000);
+        return false;
+    }
+    else if( $.trim( $("#ModalPagosMDForm #txt_nro_pago_certificado").val() )=='' ){
+        msjG.mensaje('warning','Ingrese el Nro. Pago Certificado', 4000);
+        return false;
+    }
+    else if( $.trim( $("#ModalPagosMDForm #txt_monto_pago_certificado").val() )=='' ){
+        msjG.mensaje('warning','Ingrese el Monto Pago Certificado', 4000);
+        return false;
+    }
+    else
+    {
+        AjaxEspecialidad.actualizarPagosDM(HTMLCargaMatriDeta);
+        var id_matri = $("#ModalPagosMDForm #id_matri").val();
+        $("#ModalPagosMDForm input[type='hidden']").not('.mant').remove();
+        $('#ModalPagosMD').modal('hide');
+        AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, id_matri);
+    }    
 }
 
 

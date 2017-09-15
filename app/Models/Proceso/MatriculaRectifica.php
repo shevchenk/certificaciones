@@ -149,10 +149,10 @@ class MatriculaRectifica extends Model
             'mp.dia',
             'mp.fecha_inicio',
             'mp.fecha_final',
-            'mmd.nro_pago',
-            'mmd.monto_pago',
-            'mmd.nro_pago_certificado',
-            'mmd.monto_pago_certificado'
+            DB::raw('IFNULL(mmd.nro_pago, 0) AS nro_pago'),
+            DB::raw('IFNULL(mmd.monto_pago, 0) AS monto_pago'),
+            DB::raw('IFNULL(mmd.nro_pago_certificado, 0) AS nro_pago_certificado'),
+            DB::raw('IFNULL(mmd.monto_pago_certificado, 0) AS monto_pago_certificado')
             )
             ->where( 
                 function($query) use ($r){
@@ -169,25 +169,6 @@ class MatriculaRectifica extends Model
         $result = $sql->orderBy('mmd.id','asc')->paginate(10);
         return $result;
     }
-
-    /*
-    public static function editarNotaAlum($r)
-    {
-        $especialidad_id = Auth::user()->id;
-        $id_mat = $r->id_mat;
-        $notas = $r->notas;
-
-        //ESTO HACE QUE GRABE EN LA TABLE DETALLE LOS CURSOS, LO QUE SE ESCOJE EN EL COMBO CURSO
-        for($i=0;$i<count($id_mat);$i++)
-        {
-        	if($notas[$i] !='' ){
-	            $alumno = MatriculaDetalle::find($id_mat[$i]);
-	        	$alumno->nota_curso_alum = $r->notas[$i];
-	            $alumno->save();
-        	}
-        }
-    }
-    */
 
     public static function runEditStatus($r)
     {
@@ -219,12 +200,12 @@ class MatriculaRectifica extends Model
         $user_id = Auth::user()->id;
         $data = MatriculaDetalle::find($r->id);
         
-        if($r->nro_pago)
-            $data->nro_pago = $r->nro_pago;
+        //if($r->nro_pago)
+        $data->nro_pago = $r->nro_pago;
         $data->monto_pago = $r->monto_pago;
         
-        if($r->nro_pago_certificado)
-            $data->nro_pago_certificado = $r->nro_pago_certificado;
+        //if($r->nro_pago_certificado)
+        $data->nro_pago_certificado = $r->nro_pago_certificado;
         $data->monto_pago_certificado = $r->monto_pago_certificado;
 
         $data->persona_id_updated_at=$user_id;
