@@ -218,7 +218,7 @@
                 <table id="tb_tabla2_deta" class="table table-striped">
                     <thead>
                         <tr class="cabecera" style="text-align: center;">
-                            <th colspan='9'>DETALLES DE MATRICULA</th>
+                            <th colspan='14'>DETALLES DE MATRICULA</th>
                         </tr>
 
                         <tr class="cabecera">
@@ -230,11 +230,20 @@
                         <th>Dia</th>
                         <th>Fecha Inicio</th>
                         <th>Fecha Final</th>
-                        <th width="7%">[]</th>
+
+                        <th>Nro Pago</th>
+                        <th>Mto. Pago</th>
+                        <th>Nro P Cerf.</th>
+                        <th>Mto. P Cerf.</th>
+                        <th colspan="2" width="7%">[]</th>
                         </tr>
                     </thead>
                     <tbody id="tbody_tabla2">
                         <tr>
+                        <td>#</td>
+                        <td>#</td>
+                        <td>#</td>
+                        <td>#</td>
                         <td>#</td>
                         <td>#</td>
                         <td>#</td>

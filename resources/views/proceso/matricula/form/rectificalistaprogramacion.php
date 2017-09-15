@@ -110,3 +110,62 @@
     </div>
 </div>
 <!-- /.modal -->
+
+
+
+<!-- Actualizar los NRO PAGOS, MONTOS PAGOS-->
+<div class="modal" id="ModalPagosMD" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content"> 
+            <div class="modal-header btn-info">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">DETALLE MATRICULA - MONTOS DE PAGO</h4>
+            </div>
+            <div class="modal-body">
+                <form id="ModalPagosMDForm">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nro. Pago</label>
+                                    <input type="text" class="form-control" id="txt_nro_pago" name="txt_nro_pago">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Monto Pago</label>
+                                    <input type="text" class="form-control" id="txt_monto_pago" name="txt_monto_pago">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nro. Pago Certificado</label>
+                                    <input type="text" class="form-control" id="txt_nro_pago_certificado" name="txt_nro_pago_certificado">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Monto Pago Certificado</label>
+                                    <input type="text" class="form-control" id="txt_monto_pago_certificado" name="txt_monto_pago_certificado">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group"> 
+                            <label></label>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default active pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onClick="actualizarPagosDMAjax()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- -->

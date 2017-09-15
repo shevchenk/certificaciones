@@ -68,6 +68,15 @@ class MatriculaRectificaPR extends Controller
         }
     }
     
+    public function UpdatePagosDM(Request $r )
+    {
+        if ( $r->ajax() ) {
+            MatriculaRectifica::UpdatePagosDM($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
     /*
     public function ListEspecialidadDisponible (Request $r )
     {

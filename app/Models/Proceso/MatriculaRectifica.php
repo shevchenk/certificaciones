@@ -148,7 +148,11 @@ class MatriculaRectifica extends Model
             's.sucursal',
             'mp.dia',
             'mp.fecha_inicio',
-            'mp.fecha_final'
+            'mp.fecha_final',
+            'mmd.nro_pago',
+            'mmd.monto_pago',
+            'mmd.nro_pago_certificado',
+            'mmd.monto_pago_certificado'
             )
             ->where( 
                 function($query) use ($r){
@@ -196,7 +200,6 @@ class MatriculaRectifica extends Model
 
     public static function UpdateMatriDeta($r)
     {
-        
         $user_id = Auth::user()->id;
         $data = MatriculaDetalle::find($r->id);
         $data->programacion_id = $r->programacion_id;
@@ -211,5 +214,21 @@ class MatriculaRectifica extends Model
         */
     }
     
+    public static function UpdatePagosDM($r)
+    {
+        $user_id = Auth::user()->id;
+        $data = MatriculaDetalle::find($r->id);
+        
+        if($r->nro_pago)
+            $data->nro_pago = $r->nro_pago;
+        $data->monto_pago = $r->monto_pago;
+        
+        if($r->nro_pago_certificado)
+            $data->nro_pago_certificado = $r->nro_pago_certificado;
+        $data->monto_pago_certificado = $r->monto_pago_certificado;
+
+        $data->persona_id_updated_at=$user_id;
+        $data->save();
+    }
     // --
 }

@@ -185,14 +185,41 @@ HTMLCargaMatriDeta=function(result){ //INICIO HTML
                 "<td class=''>"+r.dia+"</td>"+
                 "<td class=''>"+r.fecha_inicio+"</td>"+
                 "<td class=''>"+r.fecha_final+"</td>"+
+                
+                "<td class=''>"+r.nro_pago+"</td>"+
+                "<td class=''>"+r.monto_pago+"</td>"+
+                "<td class=''>"+r.nro_pago_certificado+"</td>"+
+                "<td class=''>"+r.monto_pago_certificado+"</td>"+
                 //'<td><a id="btnv_'+r.id+'" class="btn btn-primary btn-sm" onClick="AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, '+r.id+')"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> </a></td>';
-                '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:'+r.tipo_curso+'|id_matri:'+r.id_matri+'|id_matri_deta:'+r.id+'"><i class="glyphicon glyphicon-refresh"></i> Programación</button>';
+                '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:'+r.tipo_curso+'|id_matri:'+r.id_matri+'|id_matri_deta:'+r.id+'"><i class="glyphicon glyphicon-refresh"></i> Programación</button>'+
+                '<td><a id="btndm_'+r.id+'" class="btn btn-primary btn-sm" onClick="actualizarPagosDM(0,'+r.id+','+r.id_matri+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
 
         html+="</tr>";
     });//FIN FUNCTION
 
     $("#tb_tabla2_deta tbody").html(html);
 };
+
+actualizarPagosDM=function(val,id, id_matri){
+    $('#ModalPagosMD').modal('show');
+
+    $("#ModalPagosMDForm input[type='hidden']").not('.mant').remove();
+    $("#ModalPagosMDForm").append("<input type='hidden' value='"+id+"' name='id' id='id'>");
+    $("#ModalPagosMDForm").append("<input type='hidden' value='"+id_matri+"' name='id_matri' id='id_matri'>");
+
+    $("#txt_nro_pago").val($("#btndm_"+id).parents("tr").find("td").eq(8).html());
+    $("#txt_monto_pago").val($("#btndm_"+id).parents("tr").find("td").eq(9).html());
+    $("#txt_nro_pago_certificado").val($("#btndm_"+id).parents("tr").find("td").eq(10).html());
+    $("#txt_monto_pago_certificado").val($("#btndm_"+id).parents("tr").find("td").eq(11).html());
+}
+
+actualizarPagosDMAjax=function(){
+    AjaxEspecialidad.actualizarPagosDM(HTMLCargaMatriDeta);
+    var id_matri = $("#ModalPagosMDForm #id_matri").val();
+    $("#ModalPagosMDForm input[type='hidden']").not('.mant').remove();
+    $('#ModalPagosMD').modal('hide');
+    AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, id_matri);
+}
 
 
 btnregresar_curso = function(){
