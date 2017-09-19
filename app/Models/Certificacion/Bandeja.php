@@ -116,26 +116,26 @@ class Bandeja extends Model
 
         if( $alumno->tipo_certificado==1 ){
             if( $r->sucursal_id!=1 ){
-                $r->certificado_estado_id = $certificado->ruta_sede_nopago;
+                $r->certificado_estado_id = $certificados->ruta_sede_nopago;
             }
             else{
-                $r->certificado_estado_id = $certificado->ruta_online_nopago;
+                $r->certificado_estado_id = $certificados->ruta_online_nopago;
             }
         }
         elseif( $alumno->tipo_certificado==2 ){
             if( $r->sucursal_id!=1 ){
-                $r->certificado_estado_id = $certificado->ruta_sede_pago;
+                $r->certificado_estado_id = $certificados->ruta_sede_pago;
             }
             else{
-                $r->certificado_estado_id = $certificado->ruta_online_pago;
+                $r->certificado_estado_id = $certificados->ruta_online_pago;
             }
         }
         elseif( $alumno->tipo_certificado==3 ){
             if( $r->sucursal_id!=1 ){
-                $r->certificado_estado_id = $certificado->ruta_sede_snpago;
+                $r->certificado_estado_id = $certificados->ruta_sede_snpago;
             }
             else{
-                $r->certificado_estado_id = $certificado->ruta_online_snpago;
+                $r->certificado_estado_id = $certificados->ruta_online_snpago;
             }
         }
 
