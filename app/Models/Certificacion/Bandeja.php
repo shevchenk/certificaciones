@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use DB;
 use App\Models\Certificacion\BandejaHistorico;
+use App\Models\Proceso\Alumnos;
+use App\Models\Mantenimiento\CertificadoEstado;
 
 class Bandeja extends Model
 {
@@ -108,7 +110,36 @@ class Bandeja extends Model
         $r->certificado_estado_id=$certificado->certificado_estado_id;
         $r->sucursal_id=$certificado->sucursal_id;
 
-        if( $r->certificado_estado_id==1 ){
+        $alumno= Alumnos::find($certificado->alumno_id);
+
+        $certificados=CertificadoEstado::find($certificado->certificado_estado_id);
+
+        if( $alumno->tipo_certificado==1 ){
+            if( $r->sucursal_id!=1 ){
+                $r->certificado_estado_id = $certificado->ruta_sede_nopago;
+            }
+            else{
+                $r->certificado_estado_id = $certificado->ruta_online_nopago;
+            }
+        }
+        elseif( $alumno->tipo_certificado==2 ){
+            if( $r->sucursal_id!=1 ){
+                $r->certificado_estado_id = $certificado->ruta_sede_pago;
+            }
+            else{
+                $r->certificado_estado_id = $certificado->ruta_online_pago;
+            }
+        }
+        elseif( $alumno->tipo_certificado==3 ){
+            if( $r->sucursal_id!=1 ){
+                $r->certificado_estado_id = $certificado->ruta_sede_snpago;
+            }
+            else{
+                $r->certificado_estado_id = $certificado->ruta_online_snpago;
+            }
+        }
+
+        /*if( $r->certificado_estado_id==1 ){
             $r->certificado_estado_id=2;
         }
         elseif( $r->certificado_estado_id==2 ){
@@ -143,7 +174,7 @@ class Bandeja extends Model
         }
         elseif( $r->certificado_estado_id==10 ){
             $r->certificado_estado_id=11;
-        }
+        }*/
 
         $certificado->certificado_estado_id=$r->certificado_estado_id;
 
