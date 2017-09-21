@@ -2,7 +2,7 @@
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b>PAE</span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>PAE</b>JS</span>
+    <span class="logo-lg"><b>PAE</span>
 </a>
 
 <nav class="navbar navbar-static-top">
