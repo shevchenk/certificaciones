@@ -61,8 +61,7 @@
                 <div class="pull-right hidden-xs">
                   <b>Version</b> 1.0
                 </div>
-                <strong>Copyright &copy; 2017-2018 <a href="http://jssoluciones.com">JS</a>.</strong> All rights
-                reserved.
+                <strong>Copyright &copy; 2017 PAE - Escuela de Posgrado Universidad Privada TELESUP</strong>
             </footer>
         </div><!-- ./wrapper -->
 
