@@ -54,6 +54,11 @@ var AjaxEspecialidad={
         data={id:id};
         masterG.postAjax(url,data,evento);
     },
+    anularDetalleMatricula:function(evento, id){
+        url='AjaxDinamic/Proceso.MatriculaRectificaPR@EditDetalleStatus';
+        data={id:id};
+        masterG.postAjax(url,data,evento,null,false);
+    },
     actualizarMatriDeta:function(id, id_progra){
         url='AjaxDinamic/Proceso.MatriculaRectificaPR@UpdateMatriDeta';
         data={id:id, programacion_id:id_progra};
@@ -62,7 +67,7 @@ var AjaxEspecialidad={
     actualizarPagosDM:function(evento){
         var data=$("#ModalPagosMDForm").serialize().split("txt_").join("").split("slct_").join("");
         url='AjaxDinamic/Proceso.MatriculaRectificaPR@UpdatePagosDM';
-        masterG.postAjax(url,data,evento);
+        masterG.postAjax(url,data,evento,null,false);
     },
     CargarCurso:function(evento){
         url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';

@@ -14,7 +14,8 @@ class Reporte extends Model
         $id=Auth::user()->id;
         $sql=DB::table('mat_matriculas AS mm')
             ->join('mat_matriculas_detalles AS mmd',function($join){
-                $join->on('mmd.matricula_id','=','mm.id');
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado',1);
             })
             ->join('personas AS p',function($join){
                 $join->on('p.id','=','mm.persona_id');

@@ -125,7 +125,7 @@
             <div class="modal-body">
                 <form id="ModalPagosMDForm">
                     <div class="form-group">
-                        <div class="col-md-12">
+                        <div class="col-md-12 curso">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nro. Pago</label>

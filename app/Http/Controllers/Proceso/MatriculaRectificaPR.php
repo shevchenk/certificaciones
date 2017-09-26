@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Proceso;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Proceso\MatriculaRectifica;
+use App\Models\Proceso\MatriculaDetalle;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -21,6 +22,16 @@ class MatriculaRectificaPR extends Controller
             MatriculaRectifica::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
+
+    public function EditDetalleStatus(Request $r )
+    {
+        if ( $r->ajax() ) {
+            MatriculaDetalle::runEditDetalleStatus($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro eliminado';
             return response()->json($return);
         }
     }

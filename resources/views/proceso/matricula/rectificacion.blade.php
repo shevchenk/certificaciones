@@ -231,11 +231,11 @@
                         <th>Fecha Inicio</th>
                         <th>Fecha Final</th>
 
-                        <th>Nro Pago</th>
-                        <th>Mto. Pago</th>
+                        <th class="curso">Nro Pago</th>
+                        <th class="curso">Mto. Pago</th>
                         <th>Nro P Cerf.</th>
                         <th>Mto. P Cerf.</th>
-                        <th colspan="2" width="7%">[]</th>
+                        <th colspan="3">[]</th>
                         </tr>
                     </thead>
                     <tbody id="tbody_tabla2">
@@ -248,11 +248,11 @@
                         <td>#</td>
                         <td>#</td>
                         <td>#</td>
+                        <td class="curso">#</td>
+                        <td class="curso">#</td>
                         <td>#</td>
                         <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
+                        <td colspan="3">#</td>
                         </tr>
                     </tbody>
                     <tfoot>
