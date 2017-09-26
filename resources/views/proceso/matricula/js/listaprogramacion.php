@@ -23,6 +23,8 @@ $(document).ready(function() {
 
     $('#ModalListaprogramacion').on('shown.bs.modal', function (event) {
           var button = $(event.relatedTarget); // captura al boton
+          $("#ModalListaprogramacion #slct_tipo_modalidad_id").selectpicker('val','0');
+          $("#ModalListaprogramacion #slct_tipo_modalidad_id").change();
           $( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).change(function() {
              
                   bfiltros= button.data('filtros');
@@ -86,6 +88,9 @@ SeleccionarProgramacion = function(val,id){
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
             "<div class='input-group margin'>"+
                 "<span class='input-group-btn'><label>"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flattodo"+id+"'>"+
+                "</label></span>"+
+                "<span class='input-group-btn'><label>"+
                   "<input type='checkbox' name='checks[]' value='100' class='flatcurso"+id+"'>"+
                 "</label></span>"+
                 "<input type='text' class='form-control'  value='"+curso+"'  disabled>"+
@@ -117,14 +122,20 @@ SeleccionarProgramacion = function(val,id){
             "</td>"+
             "<td>"+
                 "<label>"+
-                  "<input type='checkbox' name='checks[]' value='100' class='flat"+id+"' "+checkedlocal+">"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flat"+id+" promo' "+checkedlocal+">"+
                 "</label>"+
             "</td>";
           html1+="</tr>";
         }else {
           html1+="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
-            "<input type='text' class='form-control'  value='"+curso+"'  disabled></td>"+
+            "<div class='input-group margin'>"+
+                "<span class='input-group-btn'><label>"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flattodo"+id+"'>"+
+                "</label></span>"+
+                "<input type='text' class='form-control'  value='"+curso+"'  disabled>"+
+            "</div>"+
+            "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+
@@ -139,7 +150,7 @@ SeleccionarProgramacion = function(val,id){
             "</td>"+
             "<td>"+
                 "<label>"+
-                  "<input type='checkbox' name='checks[]' value='100' class='flat"+id+"' "+checkedlocal+">"+
+                  "<input type='checkbox' name='checks[]' value='100' class='flat"+id+" promo' "+checkedlocal+">"+
                 "</label>"+
             "</td>";
           html1+="</tr>";
@@ -151,21 +162,25 @@ SeleccionarProgramacion = function(val,id){
             // Get the field name
             var isChecked = e.currentTarget.checked;
 
-                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).val("0");
-            if (isChecked == true) {
-                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).attr("readOnly","true");
-                CheckedG++;
+            if ($('input[type="checkbox"].flattodo'+id).is(':checked')) {
             }
             else{
-                $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).removeAttr("readOnly");
-                CheckedG--;
+                    $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).val("0");
+                if (isChecked == true) {
+                    $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).attr("readOnly","true");
+                    CheckedG++;
+                }
+                else{
+                    $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id).removeAttr("readOnly");
+                    CheckedG--;
+                }
             }
 
             $("#txt_nro_promocion,#txt_monto_promocion").removeAttr("disabled");
             $("#txt_nro_promocion,#txt_monto_promocion").val("");
             var cont=0;
             $("#t_pago tr").each(function(){
-              if( $(this).find("input[type='checkbox']").is(':checked') ){
+              if( $(this).find("input[type='checkbox'].promo").is(':checked') ){
                 cont++;
               }
             });
@@ -182,16 +197,54 @@ SeleccionarProgramacion = function(val,id){
         }).on('ifChanged', function(e) {
             // Get the field name
             var isChecked = e.currentTarget.checked;
-
-                $("#txt_nro_pago"+id+",#txt_monto_pago"+id).val("0");
-            if (isChecked == true) {
-                $("#txt_nro_pago"+id+",#txt_monto_pago"+id).attr("readOnly","true");
-                CheckedG++;
+            if ($('input[type="checkbox"].flattodo'+id).is(':checked')) {
             }
             else{
-                $("#txt_nro_pago"+id+",#txt_monto_pago"+id).removeAttr("readOnly");
-                $("#txt_nro_pago"+id+",#txt_monto_pago"+id).val("");
-                CheckedG--;
+                    $("#txt_nro_pago"+id+",#txt_monto_pago"+id).val("0");
+                if (isChecked == true) {
+                    $("#txt_nro_pago"+id+",#txt_monto_pago"+id).attr("readOnly","true");
+                    CheckedG++;
+                }
+                else{
+                    $("#txt_nro_pago"+id+",#txt_monto_pago"+id).removeAttr("readOnly");
+                    $("#txt_nro_pago"+id+",#txt_monto_pago"+id).val("");
+                    CheckedG--;
+                }
+            }
+
+        });
+
+        $('input[type="checkbox"].flattodo'+id).iCheck({
+          checkboxClass: 'icheckbox_flat-blue'
+        }).on('ifChanged', function(e) {
+            // Get the field name
+            var isChecked = e.currentTarget.checked;
+
+            if ($('input[type="checkbox"].flat'+id).is(':checked')) {
+                    $("#txt_nro_pago"+id+",#txt_monto_pago"+id).val("0");
+                if (isChecked == true) {
+                    $("#txt_nro_pago"+id+",#txt_monto_pago"+id).attr("readOnly","true");
+                    CheckedG++;
+                }
+                else{
+                    $('input[type="checkbox"].flatcurso'+id).iCheck('uncheck');
+                    $("#txt_nro_pago"+id+",#txt_monto_pago"+id).removeAttr("readOnly");
+                    $("#txt_nro_pago"+id+",#txt_monto_pago"+id).val("");
+                    CheckedG--;
+                }
+            }
+            else{
+                    $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id+",#txt_nro_pago"+id+",#txt_monto_pago"+id).val("0");
+                if (isChecked == true) {
+                    $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id+",#txt_nro_pago"+id+",#txt_monto_pago"+id).attr("readOnly","true");
+                    CheckedG++;
+                }
+                else{
+                    $('input[type="checkbox"].flatcurso'+id).iCheck('uncheck');
+                    $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id+",#txt_nro_pago"+id+",#txt_monto_pago"+id).removeAttr("readOnly");
+                    $("#txt_nro_pago_certificado"+id+",#txt_monto_pago_certificado"+id+",#txt_nro_pago"+id+",#txt_monto_pago"+id).val("");
+                    CheckedG--;
+                }
             }
 
         });

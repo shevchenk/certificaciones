@@ -131,31 +131,31 @@ ValidaTabla=function(){
     var contador=0;
          $("#t_pago>tbody tr").each(function(){
 
-                  if($(this).find("td:eq(1) input[type='text']").val()==''){
+                  if($(this).find("td:eq(1) input[type='text']").val()=='' && r==true){
                       r=false;
                       msjG.mensaje('warning','Ingrese N° Boleta del Curso',4000);
                   }
-                  else if($(this).find("td:eq(2) input[type='text']").val()==''){
+                  else if($(this).find("td:eq(2) input[type='text']").val()==''  && r==true){
                       r=false;
                       msjG.mensaje('warning','Ingrese Importe del Curso',4000);   
                   }
-                  else if($(this).find("td:eq(4) input[type='text']").val()==''){
+                  else if($(this).find("td:eq(4) input[type='text']").val()==''  && r==true){
                       r=false;
                       msjG.mensaje('warning','Ingrese N° Boleta del Certificado',4000);
                   }
-                  else if($(this).find("td:eq(5) input[type='text']").val()==''){
+                  else if($(this).find("td:eq(5) input[type='text']").val()==''  && r==true){
                       r=false;
                       msjG.mensaje('warning','Ingrese Importe del Certificado',4000);
                   }
 
-                  if( $(this).find("input[type='checkbox']").is(':checked') ){
+                  if( $(this).find("input[type='checkbox'].promo").is(':checked') ){
                       ValidaTotal++;
                   }
 
                   $(this).find("input[type='checkbox']").attr("value",contador);
                   contador++;
          });
-         if( (ValidaTotal>PromocionG) || (ValidaTotal<PromocionG && ValidaTotal>0) ){
+         if( ( (ValidaTotal>PromocionG) || (ValidaTotal<PromocionG && ValidaTotal>0) ) && r==true ){
             r=false;
             msjG.mensaje('warning','La oferta existente tiene un máximo de '+PromocionG+' cursos en promoción. Verifique y actualice los cursos seleccionados.',9000);
          }
