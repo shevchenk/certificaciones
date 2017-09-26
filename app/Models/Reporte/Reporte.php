@@ -85,6 +85,7 @@ class Reporte extends Model
                     }
                 }
             )
+            ->where('mm.estado',1)
             ->where('mc.tipo_curso',1)
             ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
                             FROM personas_privilegios_sucursales ppv
