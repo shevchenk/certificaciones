@@ -3,6 +3,7 @@ namespace App\Models\Reporte;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Auth;
 
 class Seminario extends Model
 {
@@ -10,6 +11,7 @@ class Seminario extends Model
     
     public static function runLoadSeminario($r)
     {
+        $id=Auth::user()->id;
         $sql=DB::table('mat_matriculas AS mm')
             ->join('mat_matriculas_detalles AS mmd',function($join){
                 $join->on('mmd.matricula_id','=','mm.id');
@@ -76,6 +78,9 @@ class Seminario extends Model
                 }
             )
             ->where('mc.tipo_curso',2)
+            ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
+                            FROM personas_privilegios_sucursales ppv
+                            WHERE ppv.persona_id='.$id.')')
             ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_promocion','mm.monto_promocion',
                      'pcaj.paterno','pcaj.materno','pcaj.nombre',
