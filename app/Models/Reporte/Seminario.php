@@ -12,12 +12,7 @@ class Seminario extends Model
     {
         $sql=DB::table('mat_matriculas AS mm')
             ->join('mat_matriculas_detalles AS mmd',function($join){
-                $join->on('mmd.matricula_id','=','mm.id')
-                    ->where( 
-                        function($query){
-                            $query->where('mmd.tipo_matricula_detalle','=',4);
-                        }
-                    );
+                $join->on('mmd.matricula_id','=','mm.id');
             })
             ->join('personas AS p',function($join){
                 $join->on('p.id','=','mm.persona_id');
@@ -80,6 +75,7 @@ class Seminario extends Model
                     }
                 }
             )
+            ->where('mc.tipo_curso',2)
             ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_promocion','mm.monto_promocion',
                      'pcaj.paterno','pcaj.materno','pcaj.nombre',
