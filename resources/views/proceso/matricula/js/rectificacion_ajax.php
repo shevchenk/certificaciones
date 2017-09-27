@@ -17,7 +17,7 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Mantenimiento.EspecialidadEM@EditStatus';
         masterG.postAjax(url,data,evento);
     },
-    verMatriculas:function(evento, id){
+    verMatriculas:function(evento, id, tc){
         $("#div_alumnos_mat").slideUp();
         $("#div_cursos_progra").slideDown();
 
@@ -39,7 +39,7 @@ var AjaxEspecialidad={
         $("#div_direccion").html(direccion);
 
         url='AjaxDinamic/Proceso.MatriculaRectificaPR@verMatriculas';
-        data={alumno_id:id};
+        data={alumno_id:id, tipo_curso:tc};
         masterG.postAjax(url,data,evento);
     },
     verMatriDeta:function(evento, id){

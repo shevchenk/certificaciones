@@ -85,6 +85,22 @@ class MatriculaRectifica extends Model
     public static function verMatriculas($r)
     {
         $sql=DB::table('mat_matriculas as mm')
+            ->Join('mat_matriculas_detalles AS mmd', function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.norden',1);
+            })
+            ->Join('mat_programaciones AS mp', function($join){
+                $join->on('mp.id','=','mmd.programacion_id');
+            })
+            ->Join('mat_cursos AS mc', function($join) use ($r){
+                $join->on('mc.id','=','mp.curso_id');
+                if( $r->has('tipo_curso') ){
+                    $join->where('mc.tipo_curso',2);
+                }
+                else{
+                    $join->where('mc.tipo_curso',1);
+                }
+            })
             ->Join('mat_tipos_participantes AS mtp', function($join){
                 $join->on('mtp.id','=','mm.tipo_participante_id');
             })

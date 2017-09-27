@@ -71,7 +71,11 @@ AnularMatri=function(alumno_id, id_matri){
 HTMLAnularMatri=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
-        AjaxEspecialidad.verMatriculas(HTMLCargaMatri, alumno_id);
+        var tipo_curso=null;
+        if( $.trim($("#EspecialidadForm #tipo_curso").val())!='' ){
+            tipo_curso=1;
+        }
+        AjaxEspecialidad.verMatriculas(HTMLCargaMatri, alumno_id, tipo_curso);
     }
 }
 
@@ -121,10 +125,15 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='materno'>"+r.celular+"</td>"+
                 "<td class='materno'>"+r.direccion+"</td>";
 
+        var tipo_curso=null;
+        if( $.trim($("#EspecialidadForm #tipo_curso").val())!='' ){
+            tipo_curso=1;
+        }
+
         //html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
         html+=""+
                 //'<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
-                '<td><a id="btn_'+r.id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verMatriculas(HTMLCargaMatri, '+r.id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
+                '<td><a id="btn_'+r.id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verMatriculas(HTMLCargaMatri, '+r.id+','+tipo_curso+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
 
