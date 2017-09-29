@@ -64,10 +64,12 @@ class Reporte extends Model
                     'mm.nro_promocion','mm.monto_promocion')
                     */
                      DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") cursos'),
+                     DB::raw('GROUP_CONCAT( IFNULL(mmd.nro_pago,"") ORDER BY mmd.id SEPARATOR "\n") nro_pago_c'),
+                     DB::raw('GROUP_CONCAT( IFNULL(mmd.monto_pago,0) ORDER BY mmd.id SEPARATOR "\n") monto_pago_c'),
                      DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago_certificado'),
                      DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago_certificado'),
-                     DB::raw('SUM(mmd.monto_pago_certificado) subtotal'),
-                     DB::raw('(SUM(mmd.monto_pago_certificado)+SUM(mm.monto_promocion)) total'),
+                     DB::raw('SUM(mmd.monto_pago)+SUM(mmd.monto_pago_certificado) subtotal'),
+                     DB::raw('(mm.monto_pago_inscripcion+mm.monto_pago+SUM(mmd.monto_pago)+SUM(mmd.monto_pago_certificado)+SUM(mm.monto_promocion)) total'),
 
                      DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
                      DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
@@ -107,23 +109,23 @@ class Reporte extends Model
             'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,'G'=>15,'H'=>25,'I'=>30,
             'J'=>15,'K'=>15,'L'=>15,
             'M'=>15,'N'=>15,'O'=>15,'P'=>15,
-            'Q'=>15,'R'=>15,'S'=>15, //''=>15,''=>15,''=>15,''=>15,''=>15,''=>15,
-            'T'=>20,'U'=>20,
-            'V'=>20,'W'=>20,'X'=>20,
+            'Q'=>15,'R'=>15,'S'=>15, 'T'=>15, 'U'=>15,//''=>15,''=>15,''=>15,''=>15,''=>15,''=>15,
+            'V'=>20,'W'=>20,
+            'X'=>20,'Y'=>20,'Z'=>20,
         );
         $cabecera=array(
             'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
             'Fecha Matrícula','Sucursal','Tipo Participante',
-            'Nro Pago','Monto Pago','Nro Pago','Monto Pago',
-            'Cursos','Nro Pago','Monto Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
-            'Sub Total Sem','Total Pagado',
+            'Nro Pago Ins','Monto Pago Ins','Nro Pago Mat','Monto Pago Mat',
+            'Cursos','Nro Pago','Monto Pago','Nro Pago Certificado','Monto Pago Certificado',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
+            'Sub Total Curso','Total Pagado',
             'Cajera','Marketing','Matrícula'
         );
         $campos=array(
             '','id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
              'fecha_matricula','sucursal','tipo_participante',
              'nro_pago_inscripcion','monto_pago_inscripcion','nro_pago','monto_pago',
-             'cursos','nro_pago_certificado','monto_pago_certificado',
+             'cursos','nro_pago_c','monto_pago_c','nro_pago_certificado','monto_pago_certificado',
              'subtotal','total',
              'cajera','marketing','matricula'
         );
@@ -132,7 +134,7 @@ class Reporte extends Model
         $r['cabecera']=$cabecera;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='X';
+        $r['max']='Z';
         return $r;
     }
 

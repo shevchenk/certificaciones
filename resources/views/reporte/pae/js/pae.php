@@ -70,6 +70,8 @@ HTMLCargarPAE=function(result){
         var curso=r.cursos.split("\n").join('<br/>');
         var nro=r.nro_pago_certificado.split("\n").join('<br/>');
         var monto=r.monto_pago_certificado.split("\n").join('<br/>');
+        var nro_c=r.nro_pago_c.split("\n").join('<br/>');
+        var monto_c=r.monto_pago_c.split("\n").join('<br/>');
 
         html+="<tr id='trid_"+r.paterno+"'>"+
             "<td>"+r.dni+"</td>"+
@@ -89,6 +91,8 @@ HTMLCargarPAE=function(result){
             "<td>"+r.monto_pago+"</td>"+
 
             "<td>"+curso+"</td>"+
+            "<td>"+nro_c+"</td>"+
+            "<td>"+monto_c+"</td>"+
             "<td>"+nro+"</td>"+
             "<td>"+monto+"</td>"+
             /*

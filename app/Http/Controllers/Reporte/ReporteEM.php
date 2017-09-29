@@ -85,12 +85,12 @@ class ReporteEM extends Controller
             });
             
             $sheet->setAutoSize(array(
-                'Q', 'R','S'
+                'Q', 'R','S','T','U'
             ));
 
             $count = $sheet->getHighestRow();
 
-            $sheet->getStyle('Q4:S'.$count)->getAlignment()->setWrapText(true);
+            $sheet->getStyle('Q4:U'.$count)->getAlignment()->setWrapText(true);
             
             $sheet->setBorder('A3:'.$renturnModel['max'].$count, 'thin');
 

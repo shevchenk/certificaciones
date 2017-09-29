@@ -69,8 +69,9 @@
                                         <tr class="cabecera">
                                             <th colspan='7'>Alumnos</th>
                                             <th colspan='3'>Matrícula</th>
-                                            <th colspan='4'>Inscripción Matricula</th>
-                                            <th colspan='3'>Curso(s)</th>
+                                            <th colspan='2'>Inscripción</th>
+                                            <th colspan='2'>Matricula</th>
+                                            <th colspan='5'>Curso(s)</th>
                                             <th colspan='2'>Promocion(es)</th>
                                             <th colspan='2'>Pagos</th>
                                             <th colspan='3'>Responsables</th>
@@ -88,12 +89,14 @@
                                             <th>ODE</th>
                                             <th>Tipo de Participante</th>
                                             
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
+                                            <th>Nro Pago Ins</th>
+                                            <th>Monto Pago Ins</th>
+                                            <th>Nro Pago Mat</th>
+                                            <th>Monto Pago Mat</th>
 
                                             <th>Cursos</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
                                             <th>Nro Pago Certificado</th>
                                             <th>Monto Pago Certificado</th>
                                         <!--
@@ -107,7 +110,7 @@
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
 
-                                            <th>Sub Total Sem</th>
+                                            <th>Sub Total Curso</th>
                                             <th>Total Pagado</th>
 
                                             <th>Marketing</th>
@@ -137,6 +140,8 @@
                                             <th>Monto Pago</th>
 
                                             <th>Cursos</th>
+                                            <th>Nro Pago</th>
+                                            <th>Monto Pago</th>
                                             <th>Nro Pago Certificado</th>
                                             <th>Monto Pago Certificado</th>
                                         <!--
