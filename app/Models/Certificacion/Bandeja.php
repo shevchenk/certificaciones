@@ -104,94 +104,97 @@ class Bandeja extends Model
 
     public static function runEditStatus($r)
     {
+        $id=$r->id;
         $usuario_id = Auth::user()->id;
+        
+        for($i=0;$i<count($id);$i++){     
+                $certificado = Bandeja::find($id[$i]);
+                $r->certificado_estado_id=$certificado->certificado_estado_id;
+                $r->sucursal_id=$certificado->sucursal_id;
 
-        $certificado = Bandeja::find($r->id);
-        $r->certificado_estado_id=$certificado->certificado_estado_id;
-        $r->sucursal_id=$certificado->sucursal_id;
+                $alumno= Alumnos::find($certificado->alumno_id);
 
-        $alumno= Alumnos::find($certificado->alumno_id);
+                $certificados=CertificadoEstado::find($certificado->certificado_estado_id);
 
-        $certificados=CertificadoEstado::find($certificado->certificado_estado_id);
+                if( $alumno->tipo_certificado==1 ){
+                    if( $r->sucursal_id!=1 ){
+                        $r->certificado_estado_id = $certificados->ruta_sede_nopago;
+                    }
+                    else{
+                        $r->certificado_estado_id = $certificados->ruta_online_nopago;
+                    }
+                }
+                elseif( $alumno->tipo_certificado==2 ){
+                    if( $r->sucursal_id!=1 ){
+                        $r->certificado_estado_id = $certificados->ruta_sede_pago;
+                    }
+                    else{
+                        $r->certificado_estado_id = $certificados->ruta_online_pago;
+                    }
+                }
+                elseif( $alumno->tipo_certificado==3 ){
+                    if( $r->sucursal_id!=1 ){
+                        $r->certificado_estado_id = $certificados->ruta_sede_snpago;
+                    }
+                    else{
+                        $r->certificado_estado_id = $certificados->ruta_online_snpago;
+                    }
+                }
 
-        if( $alumno->tipo_certificado==1 ){
-            if( $r->sucursal_id!=1 ){
-                $r->certificado_estado_id = $certificados->ruta_sede_nopago;
-            }
-            else{
-                $r->certificado_estado_id = $certificados->ruta_online_nopago;
-            }
-        }
-        elseif( $alumno->tipo_certificado==2 ){
-            if( $r->sucursal_id!=1 ){
-                $r->certificado_estado_id = $certificados->ruta_sede_pago;
-            }
-            else{
-                $r->certificado_estado_id = $certificados->ruta_online_pago;
-            }
-        }
-        elseif( $alumno->tipo_certificado==3 ){
-            if( $r->sucursal_id!=1 ){
-                $r->certificado_estado_id = $certificados->ruta_sede_snpago;
-            }
-            else{
-                $r->certificado_estado_id = $certificados->ruta_online_snpago;
-            }
-        }
+                /*if( $r->certificado_estado_id==1 ){
+                    $r->certificado_estado_id=2;
+                }
+                elseif( $r->certificado_estado_id==2 ){
+                    $r->certificado_estado_id=3;
+                }
+                elseif( $r->certificado_estado_id==3 AND $r->sucursal_id!=1 ){
+                    $r->certificado_estado_id=4;
+                }
+                elseif( $r->certificado_estado_id==3 ){
+                    $r->certificado_estado_id=6;
+                }
+                elseif( $r->certificado_estado_id==4 ){
+                    $r->certificado_estado_id=5;
+                }
+                elseif( $r->certificado_estado_id==5 ){
+                    $r->certificado_estado_id=6;
+                }
+                elseif( $r->certificado_estado_id==6 ){
+                    $r->certificado_estado_id=7;
+                }
+                elseif( $r->certificado_estado_id==7 AND $r->sucursal_id!=1 ){
+                    $r->certificado_estado_id=9;
+                }
+                elseif( $r->certificado_estado_id==7 ){
+                    $r->certificado_estado_id=8;
+                }
+                elseif( $r->certificado_estado_id==8 ){
+                    $r->certificado_estado_id=10;
+                }
+                elseif( $r->certificado_estado_id==9 ){
+                    $r->certificado_estado_id=10;
+                }
+                elseif( $r->certificado_estado_id==10 ){
+                    $r->certificado_estado_id=11;
+                }*/
 
-        /*if( $r->certificado_estado_id==1 ){
-            $r->certificado_estado_id=2;
-        }
-        elseif( $r->certificado_estado_id==2 ){
-            $r->certificado_estado_id=3;
-        }
-        elseif( $r->certificado_estado_id==3 AND $r->sucursal_id!=1 ){
-            $r->certificado_estado_id=4;
-        }
-        elseif( $r->certificado_estado_id==3 ){
-            $r->certificado_estado_id=6;
-        }
-        elseif( $r->certificado_estado_id==4 ){
-            $r->certificado_estado_id=5;
-        }
-        elseif( $r->certificado_estado_id==5 ){
-            $r->certificado_estado_id=6;
-        }
-        elseif( $r->certificado_estado_id==6 ){
-            $r->certificado_estado_id=7;
-        }
-        elseif( $r->certificado_estado_id==7 AND $r->sucursal_id!=1 ){
-            $r->certificado_estado_id=9;
-        }
-        elseif( $r->certificado_estado_id==7 ){
-            $r->certificado_estado_id=8;
-        }
-        elseif( $r->certificado_estado_id==8 ){
-            $r->certificado_estado_id=10;
-        }
-        elseif( $r->certificado_estado_id==9 ){
-            $r->certificado_estado_id=10;
-        }
-        elseif( $r->certificado_estado_id==10 ){
-            $r->certificado_estado_id=11;
-        }*/
+                $certificado->certificado_estado_id=$r->certificado_estado_id;
 
-        $certificado->certificado_estado_id=$r->certificado_estado_id;
+                if( trim($r->nro_pago)!='' ){
+                    $certificado->nro_pago = $r->nro_pago;
+                    $certificado->monto_pago = $r->monto_pago;
+                }
 
-        if( trim($r->nro_pago)!='' ){
-            $certificado->nro_pago = $r->nro_pago;
-            $certificado->monto_pago = $r->monto_pago;
+                $certificado->persona_id_updated_at=$usuario_id;
+                $certificado->save();
+
+                $certificado_hist = new BandejaHistorico;
+                $certificado_hist->certificado_id=$certificado->id;
+                $certificado_hist->certificado_estado_id=$r->certificado_estado_id;
+                $certificado_hist->persona_id_created_at=$usuario_id;
+                $certificado_hist->save(); 
         }
-
-        $certificado->persona_id_updated_at=$usuario_id;
-        $certificado->save();
-
-        $certificado_hist = new BandejaHistorico;
-        $certificado_hist->certificado_id=$certificado->id;
-        $certificado_hist->certificado_estado_id=$r->certificado_estado_id;
-        $certificado_hist->persona_id_created_at=$usuario_id;
-        $certificado_hist->save();
-
+        
     }
 
 }
