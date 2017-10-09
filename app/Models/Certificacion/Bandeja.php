@@ -141,46 +141,9 @@ class Bandeja extends Model
                     }
                 }
 
-                /*if( $r->certificado_estado_id==1 ){
-                    $r->certificado_estado_id=2;
-                }
-                elseif( $r->certificado_estado_id==2 ){
-                    $r->certificado_estado_id=3;
-                }
-                elseif( $r->certificado_estado_id==3 AND $r->sucursal_id!=1 ){
-                    $r->certificado_estado_id=4;
-                }
-                elseif( $r->certificado_estado_id==3 ){
-                    $r->certificado_estado_id=6;
-                }
-                elseif( $r->certificado_estado_id==4 ){
-                    $r->certificado_estado_id=5;
-                }
-                elseif( $r->certificado_estado_id==5 ){
-                    $r->certificado_estado_id=6;
-                }
-                elseif( $r->certificado_estado_id==6 ){
-                    $r->certificado_estado_id=7;
-                }
-                elseif( $r->certificado_estado_id==7 AND $r->sucursal_id!=1 ){
-                    $r->certificado_estado_id=9;
-                }
-                elseif( $r->certificado_estado_id==7 ){
-                    $r->certificado_estado_id=8;
-                }
-                elseif( $r->certificado_estado_id==8 ){
-                    $r->certificado_estado_id=10;
-                }
-                elseif( $r->certificado_estado_id==9 ){
-                    $r->certificado_estado_id=10;
-                }
-                elseif( $r->certificado_estado_id==10 ){
-                    $r->certificado_estado_id=11;
-                }*/
-
                 $certificado->certificado_estado_id=$r->certificado_estado_id;
 
-                if( trim($r->nro_pago)!='' ){
+                if( $r->has('nro_pago') AND trim($r->nro_pago)!='' ){
                     $certificado->nro_pago = $r->nro_pago;
                     $certificado->monto_pago = $r->monto_pago;
                 }
