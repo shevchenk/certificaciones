@@ -33,7 +33,7 @@ class Bandeja extends Model
             ->select('c.id','s.sucursal', 'a.dni', 'a.paterno', 'a.materno', 'a.nombre', 'a.certificado AS tramite', 
             'c.fecha_estado_certificado AS fecha_ingreso', 'c.created_at AS fecha_tramite', 
             'a.direccion', 'a.referencia', 'a.region', 'a.provincia', 'a.distrito', 'a.nota_certificado', 'a.tipo_certificado',
-             'c.fecha_pago', 'c.nro_pago', 'ce.estado_certificado','c.sucursal_id')
+             'c.fecha_pago', 'c.nro_pago', 'ce.estado_certificado','a.sucursal_id')
             ->where( 
                 function($query) use ($r){
                     if( $r->certificado_estado_id!='' ){

@@ -14,6 +14,9 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
+{{ Html::style('lib/iCheck/all.css') }}
+{{ Html::script('lib/iCheck/icheck.min.js') }}
+
 @include( 'certificacion.emitido.js.emitido_ajax' )
 @include( 'certificacion.emitido.js.emitido' )
 
@@ -21,12 +24,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Emitidos
+    <h1>Docs. Emitidos
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Proceso</li>
-        <li class="active">Emitidos</li>
+        <li class="active">Docs. Emitidos</li>
     </ol>
 </section>
 
@@ -35,7 +38,7 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Procesos - Emitidos</h3>
+                    <h3 class="box-title">Procesos - Docs. Emitidos</h3>
                 </div>
                 <div class="box-body with-border">
                 <form id="BandejaForm">
@@ -46,6 +49,9 @@
                             </div>
                             <div class="panel-body table-responsive no-padding">
                                 <div class="col-md-12">
+                                    <a class="btn btn-success btn-sm" onClick="CambiarEstadoMasivo()"><i class="fa fa-check fa-lg">Iniciar Masivo</i></a>
+                                </div>
+                                <div class="col-md-12">
                                     <table id="TableBandeja" class="table table-bordered table-hover">
                                         <thead>
                                             <tr class="cabecera">
@@ -54,16 +60,21 @@
                                                         <label><h4>[-]</h4></label>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-1" style="text-align: center">
                                                     <div class="form-group">
-                                                        <label><h4>ODE:</h4></label>
+                                                        <label><h4>[-]</h4></label>
+                                                    </div>
+                                                </th>
+                                                <th class="col-xs-2" style="min-width: 100px;">
+                                                    <div class="form-group">
+                                                        <label><h4>Destino del Documento:</h4></label>
                                                         <div class="input-group">
                                                             <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                             <input type="text" class="form-control" name="txt_sucursal" id="txt_sucursal" placeholder="ODE" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 80px;">
                                                     <div class="form-group">
                                                         <label><h4>DNI:</h4></label>
                                                         <div class="input-group">
@@ -72,7 +83,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 70px;">
                                                     <div class="form-group">
                                                         <label><h4>Paterno:</h4></label>
                                                         <div class="input-group">
@@ -81,7 +92,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 70px;">
                                                     <div class="form-group">
                                                         <label><h4>Materno:</h4></label>
                                                         <div class="input-group">
@@ -90,7 +101,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 70px;">
                                                     <div class="form-group">
                                                         <label><h4>Nombre:</h4></label>
                                                         <div class="input-group">
@@ -99,7 +110,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 100px;">
                                                     <div class="form-group">
                                                         <label><h4>Trámite:</h4></label>
                                                         <div class="input-group">
@@ -108,7 +119,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 80px;">
                                                     <div class="form-group">
                                                         <label><h4>Fecha Ingreso:</h4></label>
                                                         <div class="input-group">
@@ -117,7 +128,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 80px;">
                                                     <div class="form-group">
                                                         <label><h4>Fecha Trámite:</h4></label>
                                                         <div class="input-group">

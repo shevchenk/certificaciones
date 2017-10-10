@@ -17,39 +17,18 @@ $(document).ready(function() {
     AjaxBandeja.Cargar(HTMLCargarBandeja);
     $("#BandejaForm #TableBandeja select").change(function(){ AjaxBandeja.Cargar(HTMLCargarBandeja); });
     $("#BandejaForm #TableBandeja input").blur(function(){ AjaxBandeja.Cargar(HTMLCargarBandeja); });
-
-    /*$('#ModalBandeja').on('shown.bs.modal', function (event) {
-        if( AddEdit==1 ){
-            $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
-        }
-        else{
-            $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
-            $("#ModalBandejaForm").append("<input type='hidden' value='"+BandejaG.id+"' name='id'>");
-        }
-
-        $('#ModalBandejaForm #txt_curso').val( BandejaG.curso );
-        $('#ModalBandejaForm #txt_certificado_curso').val( BandejaG.certificado_curso );
-        $('#ModalBandejaForm #slct_tipo_curso').val( BandejaG.tipo_curso );
-        $('#ModalBandejaForm #slct_estado').val( BandejaG.estado );
-        $("#ModalBandeja select").selectpicker('refresh');
-        $('#ModalBandejaForm #txt_curso').focus();
-    });
-
-    $('#ModalBandeja').on('hidden.bs.modal', function (event) {
-        $("ModalBandejaForm input[type='hidden']").not('.mant').remove();
-    });*/
 });
 
-CambiarEstado=function(id,sucursal){
-    if(sucursal== 1 ){
-        sweetalertG.confirm("Confirmación!", "Confirme su envio a Pago del Alumno", function(){
-            AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-        });
-    }else{
-        sweetalertG.confirm("Confirmación!", "Confirme su envio a Distribución", function(){
-            AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
-        });
-    }
+CambiarEstado=function(id){
+    sweetalertG.confirm("Confirmación!", "Confirme su trabajo realizado", function(){
+        AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
+    });
+}
+
+CambiarEstadoMasivo=function(){
+    sweetalertG.confirm("Confirmación!", "Confirme su trabajo realizado masivamente", function(){
+        AjaxBandeja.CambiarEstadoMasivo(HTMLCambiarEstado);
+    });
 }
 
 HTMLCambiarEstado=function(result){
@@ -65,11 +44,15 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
 
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
         if(r.sucursal_id==1){
-            boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+','+r.sucursal_id+')"><i class="fa fa-check fa-lg">Iniciar<br>Pago del Alumno</i></a> </td>';    
-        }else{
-            boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+','+r.sucursal_id+')"><i class="fa fa-check fa-lg">Iniciar<br>a Distribución</i></a> </td>'; 
+            r.sucursal='A Domicilio';
         }
+        boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+')"><i class="fa fa-check fa-lg">Trabajo<br>Realizado</i></a> </td>';
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td class='check'>"+
+               "<label>"+
+                  "<input type='checkbox' name='id[]' id='id' value='"+r.id+"' class='flat ' >"+
+               "</label>"+
+            "</td>"+
             boton+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='dni'>"+r.dni+"</td>"+
@@ -102,6 +85,10 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
             masterG.CargarPaginacion('HTMLCargarBandeja','AjaxBandeja',result.data,'#TableBandeja_paginate');
         }
     }); //FIN DATA TABLE
+
+    $('input[type="checkbox"].flat').iCheck({
+        checkboxClass: 'icheckbox_flat-green'
+    })
 }; //FIN HTML
 
 </script>

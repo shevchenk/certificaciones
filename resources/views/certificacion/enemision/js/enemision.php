@@ -17,40 +17,20 @@ $(document).ready(function() {
     AjaxBandeja.Cargar(HTMLCargarBandeja);
     $("#BandejaForm #TableBandeja select").change(function(){ AjaxBandeja.Cargar(HTMLCargarBandeja); });
     $("#BandejaForm #TableBandeja input").blur(function(){ AjaxBandeja.Cargar(HTMLCargarBandeja); });
-
-    /*$('#ModalBandeja').on('shown.bs.modal', function (event) {
-        if( AddEdit==1 ){
-            $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
-        }
-        else{
-            $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
-            $("#ModalBandejaForm").append("<input type='hidden' value='"+BandejaG.id+"' name='id'>");
-        }
-
-        $('#ModalBandejaForm #txt_curso').val( BandejaG.curso );
-        $('#ModalBandejaForm #txt_certificado_curso').val( BandejaG.certificado_curso );
-        $('#ModalBandejaForm #slct_tipo_curso').val( BandejaG.tipo_curso );
-        $('#ModalBandejaForm #slct_estado').val( BandejaG.estado );
-        $("#ModalBandeja select").selectpicker('refresh');
-        $('#ModalBandejaForm #txt_curso').focus();
-    });
-
-    $('#ModalBandeja').on('hidden.bs.modal', function (event) {
-        $("ModalBandejaForm input[type='hidden']").not('.mant').remove();
-    });*/
 });
 
 CambiarEstado=function(id){
-    sweetalertG.confirm("Confirmación!", "Confirme su envio a emitido de trámite", function(){
+    sweetalertG.confirm("Confirmación!", "Confirme su trabajo realizado", function(){
         AjaxBandeja.CambiarEstado(HTMLCambiarEstado,id);
     });
 }
 
 CambiarEstadoMasivo=function(){
-    sweetalertG.confirm("Confirmación!", "Confirme su envio Masivo a emitido de trámite", function(){
+    sweetalertG.confirm("Confirmación!", "Confirme su trabajo realizado masivamente", function(){
         AjaxBandeja.CambiarEstadoMasivo(HTMLCambiarEstado);
     });
 }
+
 HTMLCambiarEstado=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
@@ -63,7 +43,10 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
     $('#TableBandeja').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
-        boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+')"><i class="fa fa-check fa-lg">Iniciar<br>Emitido</i></a> </td>';
+        if( r.sucursal_id==1 ){
+            r.sucursal='A Domicilio';
+        }
+        boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+')"><i class="fa fa-check fa-lg">Trabajo<br>Realizado</i></a> </td>';
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='check'>"+
                "<label>"+
@@ -104,8 +87,8 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
     }); //FIN DATA TABLE
     
     $('input[type="checkbox"].flat').iCheck({
-          checkboxClass: 'icheckbox_flat-green'
-        })
+        checkboxClass: 'icheckbox_flat-green'
+    })
 }; //FIN HTML
 
 </script>

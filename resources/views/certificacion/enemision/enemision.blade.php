@@ -26,12 +26,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>En Emision
+    <h1>Docs. en Emisión
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Proceso</li>
-        <li class="active">En Emision</li>
+        <li class="active">Docs. en Emisión</li>
     </ol>
 </section>
 
@@ -40,7 +40,7 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Procesos - En Emision</h3>
+                    <h3 class="box-title">Procesos - Docs. en Emisión</h3>
                 </div>
                 <div class="box-body with-border">
                 <form id="BandejaForm">
@@ -51,7 +51,7 @@
                             </div>
                             <div class="panel-body table-responsive no-padding">
                                 <div class="col-md-12">
-                                    <a class="btn btn-success btn-sm" onClick="CambiarEstadoMasivo()"><i class="fa fa-check fa-lg">Iniciar Emitido Masivo</i></a>
+                                    <a class="btn btn-success btn-sm" onClick="CambiarEstadoMasivo()"><i class="fa fa-check fa-lg">Iniciar Masivo</i></a>
                                 </div>
                                 <div class="col-md-12">
                                     <table id="TableBandeja" class="table table-bordered table-hover">
@@ -67,16 +67,16 @@
                                                         <label><h4>[-]</h4></label>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 100px;">
                                                     <div class="form-group">
-                                                        <label><h4>ODE:</h4></label>
+                                                        <label><h4>Destino del Documento:</h4></label>
                                                         <div class="input-group">
                                                             <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                             <input type="text" class="form-control" name="txt_sucursal" id="txt_sucursal" placeholder="ODE" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 80px;">
                                                     <div class="form-group">
                                                         <label><h4>DNI:</h4></label>
                                                         <div class="input-group">
@@ -85,7 +85,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 70px;">
                                                     <div class="form-group">
                                                         <label><h4>Paterno:</h4></label>
                                                         <div class="input-group">
@@ -94,7 +94,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 70px;">
                                                     <div class="form-group">
                                                         <label><h4>Materno:</h4></label>
                                                         <div class="input-group">
@@ -103,7 +103,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 70px;">
                                                     <div class="form-group">
                                                         <label><h4>Nombre:</h4></label>
                                                         <div class="input-group">
@@ -112,7 +112,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 100px;">
                                                     <div class="form-group">
                                                         <label><h4>Trámite:</h4></label>
                                                         <div class="input-group">
@@ -121,7 +121,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 80px;">
                                                     <div class="form-group">
                                                         <label><h4>Fecha Ingreso:</h4></label>
                                                         <div class="input-group">
@@ -130,7 +130,7 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                <th class="col-xs-2" style="min-width: 80px;">
                                                     <div class="form-group">
                                                         <label><h4>Fecha Trámite:</h4></label>
                                                         <div class="input-group">
