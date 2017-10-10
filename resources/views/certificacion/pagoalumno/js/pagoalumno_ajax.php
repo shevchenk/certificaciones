@@ -10,7 +10,7 @@ var AjaxBandeja={
         masterG.postAjax(url,data,evento);
     },
     CambiarEstado:function(evento,id){
-        $("#ModalBoletaForm").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#ModalBoletaForm").append("<input type='hidden' value='"+id+"' name='id[]'>");
         var data=$("#ModalBoletaForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ModalBoletaForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Certificacion.BandejaCE@EditStatus';
