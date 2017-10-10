@@ -14,9 +14,6 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-{{ Html::style('lib/iCheck/all.css') }}
-{{ Html::script('lib/iCheck/icheck.min.js') }}
-
 @include( 'certificacion.enemision.js.enemision_ajax' )
 @include( 'certificacion.enemision.js.enemision' )
 

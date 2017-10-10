@@ -52,6 +52,12 @@ CambiarEstado=function(id,sucursal){
     }
 }
 
+CambiarEstadoMasivo=function(){
+    sweetalertG.confirm("Confirmación!", "Confirme su envio Masivo a Entrega por Courier al Alumno y Entrega al Alumno en ODE", function(){
+        AjaxBandeja.CambiarEstadoMasivo(HTMLCambiarEstado);
+    });
+}
+
 HTMLCambiarEstado=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
@@ -70,6 +76,11 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
             boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+','+r.sucursal_id+')"><i class="fa fa-check fa-lg">Iniciar<br>Entrega al Alumno en ODE</i></a> </td>'; 
         }
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td class='check'>"+
+               "<label>"+
+                  "<input type='checkbox' name='id[]' id='id' value='"+r.id+"' class='flat ' >"+
+               "</label>"+
+            "</td>"+
             boton+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='dni'>"+r.dni+"</td>"+
@@ -102,6 +113,9 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
             masterG.CargarPaginacion('HTMLCargarBandeja','AjaxBandeja',result.data,'#TableBandeja_paginate');
         }
     }); //FIN DATA TABLE
+    $('input[type="checkbox"].flat').iCheck({
+          checkboxClass: 'icheckbox_flat-green'
+    })
 }; //FIN HTML
 
 </script>

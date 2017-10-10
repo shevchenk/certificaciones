@@ -48,11 +48,6 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
         }
         boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+')"><i class="fa fa-check fa-lg">Trabajo<br>Realizado</i></a> </td>';
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='check'>"+
-               "<label>"+
-                  "<input type='checkbox' name='id[]' id='id' value='"+r.id+"' class='flat ' >"+
-               "</label>"+
-            "</td>"+
             boton+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='dni'>"+r.dni+"</td>"+
