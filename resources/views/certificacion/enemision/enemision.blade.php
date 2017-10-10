@@ -14,9 +14,6 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-{{ Html::style('lib/iCheck/all.css') }}
-{{ Html::script('lib/iCheck/icheck.min.js') }}
-
 @include( 'certificacion.enemision.js.enemision_ajax' )
 @include( 'certificacion.enemision.js.enemision' )
 
@@ -51,17 +48,9 @@
                             </div>
                             <div class="panel-body table-responsive no-padding">
                                 <div class="col-md-12">
-                                    <a class="btn btn-success btn-sm" onClick="CambiarEstadoMasivo()"><i class="fa fa-check fa-lg">Iniciar Emitido Masivo</i></a>
-                                </div>
-                                <div class="col-md-12">
                                     <table id="TableBandeja" class="table table-bordered table-hover">
                                         <thead>
                                             <tr class="cabecera">
-                                                <th class="col-xs-1" style="text-align: center">
-                                                    <div class="form-group">
-                                                        <label><h4>[-]</h4></label>
-                                                    </div>
-                                                </th>
                                                 <th class="col-xs-1" style="text-align: center">
                                                     <div class="form-group">
                                                         <label><h4>[-]</h4></label>
