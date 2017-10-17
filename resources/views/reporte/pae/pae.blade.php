@@ -39,7 +39,16 @@
                     <form id="PaeForm">
                         <div class="box-body table-responsive no-padding">
                             <div class="col-sm-12">
-                                <div class="col-sm-3"></div>
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Total Pago mayor a 0?</label>
+                                    <div class="input-group">
+                                    <select name="slct_solopago" id="slct_solopago" style="width: 80px;">
+                                        <option value="1">Si</option>
+                                        <option value="" selected>No</option>
+                                    </select>
+                                    </div>
+                                </div>
                                 <div class="col-sm-2 text-center">
                                     <label class="control-label">Fecha Inicial</label>
                                     <div class="input-group">

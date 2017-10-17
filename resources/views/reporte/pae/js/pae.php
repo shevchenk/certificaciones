@@ -30,9 +30,10 @@ $(document).ready(function() {
     function DataToFilter(){
         var fecha_inicial = $('#txt_fecha_ini').val();
         var fecha_final = $('#txt_fecha_fin').val();
+        var solopago = $("#slct_solopago").val();
         var data = [];
         if ( fecha_inicial!=="" && fecha_final!=="") {
-            data.push({fecha_ini:fecha_inicial,fecha_fin:fecha_final});
+            data.push({fecha_ini:fecha_inicial,fecha_fin:fecha_final,solopago:solopago});
            
         } else {
             alert("Seleccione Fechas");
@@ -50,7 +51,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
-            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportPAE'+'?fecha_ini='+data[0]['fecha_ini']+'&fecha_fin='+data[0]['fecha_fin']);
+            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportPAE'+'?fecha_ini='+data[0]['fecha_ini']+'&fecha_fin='+data[0]['fecha_fin']+'&solopago='+data[0]['solopago']);
         }else{
             event.preventDefault();
         }

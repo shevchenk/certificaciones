@@ -105,6 +105,11 @@ class Reporte extends Model
                      'pcaj.paterno','pcaj.materno','pcaj.nombre',
                      'pmar.paterno','pmar.materno','pmar.nombre',
                      'pmat.paterno','pmat.materno','pmat.nombre');
+
+            if( $r->has('solopago') AND $r->solopago==1 ){
+                $sql->having('total', '>', 0);
+            }
+
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
     }
