@@ -1,12 +1,12 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $(".fecha").datetimepicker({
-        format: "yyyy-mm",
+        format: "yyyy-mm-dd",
         language: 'es',
         showMeridian: false,
         time:false,
-        minView:3,
-        startView:3,
+        minView:2,
+        startView:2,
         autoclose: true,
         todayBtn: false
     });
@@ -28,11 +28,11 @@ $(document).ready(function() {
     });
     
     function DataToFilter(){
-        var fecha_inicial = $('#txt_fecha_inicial').val();
-        var fecha_final = $('#txt_fecha_final').val();
+        var fecha_inicial = $('#txt_fecha_ini').val();
+        var fecha_final = $('#txt_fecha_fin').val();
         var data = [];
         if ( fecha_inicial!=="" && fecha_final!=="") {
-            data.push({fecha_inicial:fecha_inicial,fecha_final:fecha_final});
+            data.push({fecha_ini:fecha_inicial,fecha_fin:fecha_final});
            
         } else {
             alert("Seleccione Fechas");
@@ -50,7 +50,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
-            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportPAE'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
+            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportPAE'+'?fecha_ini='+data[0]['fecha_ini']+'&fecha_fin='+data[0]['fecha_fin']);
         }else{
             event.preventDefault();
         }

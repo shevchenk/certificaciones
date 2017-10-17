@@ -85,6 +85,14 @@ class Reporte extends Model
                             $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
                         }
                     }
+
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin")){
+                        $inicial=trim($r->fecha_ini);
+                        $final=trim($r->fecha_fin);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_ini,$r->fecha_fin));
+                        }
+                    }
                 }
             )
             ->where('mm.estado',1)
