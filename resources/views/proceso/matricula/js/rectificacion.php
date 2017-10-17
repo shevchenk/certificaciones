@@ -258,8 +258,8 @@ actualizarPagosDM=function(val,id, id_matri,tipo_curso){
     }
     $("#txt_nro_pago").val($("#btndm_"+id).parents("tr").find("td").eq(8).html());
     $("#txt_monto_pago").val($("#btndm_"+id).parents("tr").find("td").eq(9).html());
-    $("#txt_nro_pago_certificado").val($("#btndm_"+id).parents("tr").find("td").eq(10).html());
-    $("#txt_monto_pago_certificado").val($("#btndm_"+id).parents("tr").find("td").eq(11).html());
+    $("#txt_nro_pago_certificado").val($("#btndm_"+id).parents("tr").find("td").eq(11).html());
+    $("#txt_monto_pago_certificado").val($("#btndm_"+id).parents("tr").find("td").eq(12).html());
 }
 
 actualizarPagosDMAjax=function(){
