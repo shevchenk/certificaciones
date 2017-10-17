@@ -168,7 +168,9 @@ class MatriculaRectifica extends Model
             DB::raw('IFNULL(mmd.nro_pago, 0) AS nro_pago'),
             DB::raw('IFNULL(mmd.monto_pago, 0) AS monto_pago'),
             DB::raw('IFNULL(mmd.nro_pago_certificado, 0) AS nro_pago_certificado'),
-            DB::raw('IFNULL(mmd.monto_pago_certificado, 0) AS monto_pago_certificado')
+            DB::raw('IFNULL(mmd.monto_pago_certificado, 0) AS monto_pago_certificado'),
+            'mmd.archivo_pago',
+            'mmd.archivo_pago_certificado'
             )
             ->where( 
                 function($query) use ($r){

@@ -218,7 +218,7 @@
                 <table id="tb_tabla2_deta" class="table table-striped">
                     <thead>
                         <tr class="cabecera" style="text-align: center;">
-                            <th colspan='14'>DETALLES DE MATRICULA</th>
+                            <th colspan='17'>DETALLES DE MATRICULA</th>
                         </tr>
 
                         <tr class="cabecera">
@@ -233,8 +233,10 @@
 
                         <th class="curso">Nro Pago</th>
                         <th class="curso">Mto. Pago</th>
+                        <th class="curso">Arch. Pago</th>
                         <th>Nro P Cerf.</th>
                         <th>Mto. P Cerf.</th>
+                        <th>Arch. P Cerf.</th>
                         <th colspan="3">[]</th>
                         </tr>
                     </thead>
@@ -250,6 +252,8 @@
                         <td>#</td>
                         <td class="curso">#</td>
                         <td class="curso">#</td>
+                        <td class="curso">#</td>
+                        <td>#</td>
                         <td>#</td>
                         <td>#</td>
                         <td colspan="3">#</td>

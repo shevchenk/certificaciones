@@ -188,6 +188,7 @@ CargaMatriDeta=function(id_matri){
 
 HTMLCargaMatriDeta=function(result){ //INICIO HTML
     var html=""; var invi=1;
+    var archivopago=''; var archivopagoc='';
     $("#tb_tabla2_deta .curso").css('display','');
     $("#tb_tabla2_deta tbody").html('');
 
@@ -195,6 +196,16 @@ HTMLCargaMatriDeta=function(result){ //INICIO HTML
         html+="<tr id='trid_"+r.id+"'>";
         if( r.tipo_curso==2 ){
             invi=2;
+        }
+
+        archivopago="";
+        if( $.trim(r.archivo_pago)!="" ){
+            archivopago="<a target='_blank' class='btn btn-sm' href='"+r.archivo_pago+"'><i class='fa fa-lg fa-download'><i></a>";
+        }
+
+        archivopagoc="";
+        if( $.trim(r.archivo_pago_certificado)!="" ){
+            archivopagoc="<a target='_blank' class='btn btn-sm' href='"+r.archivo_pago_certificado+"'><i class='fa fa-lg fa-download'><i></a>";
         }
 
         html+=""+
@@ -209,8 +220,10 @@ HTMLCargaMatriDeta=function(result){ //INICIO HTML
                 
                 "<td class='curso'>"+$.trim(r.nro_pago)+"</td>"+
                 "<td class='curso'>"+r.monto_pago+"</td>"+
+                "<td class='curso'>"+archivopago+"</td>"+
                 "<td class=''>"+$.trim(r.nro_pago_certificado)+"</td>"+
                 "<td class=''>"+r.monto_pago_certificado+"</td>"+
+                "<td class=''>"+archivopagoc+"</td>"+
                 //'<td><a id="btnv_'+r.id+'" class="btn btn-primary btn-sm" onClick="AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, '+r.id+')"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> </a></td>';
                 '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:'+r.tipo_curso+'|id_matri:'+r.id_matri+'|id_matri_deta:'+r.id+'"><i class="glyphicon glyphicon-refresh"></i> Programación</button>'+
                 '<td><a id="btndm_'+r.id+'" class="btn btn-primary btn-sm" onClick="actualizarPagosDM(0,'+r.id+','+r.id_matri+','+r.tipo_curso+')"><i class="fa fa-edit fa-lg"></i> </a></td>'+
