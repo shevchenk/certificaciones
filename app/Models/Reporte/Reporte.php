@@ -107,7 +107,7 @@ class Reporte extends Model
                      'pmat.paterno','pmat.materno','pmat.nombre');
 
             if( $r->has('solopago') AND $r->solopago==1 ){
-                $sql->having(DB::raw(' total > 0 '));
+                $sql->having(DB::raw(' total '),'>','0');
             }
 
         $result = $sql->orderBy('mm.id','asc')->get();
