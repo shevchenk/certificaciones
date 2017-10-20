@@ -13,15 +13,15 @@ class PagoAlumnoDetalle extends Model
         public static function runLoad($r)
     {
         $result=DB::table('pago_alumno_detalles AS pad')
-            ->join('mat_contesta AS mc',function($join){
-                $join->on('pad.contesta_id','=','mc.id')
+            ->leftjoin('mat_contesta AS mc',function($leftjoin){
+                $leftjoin->on('pad.contesta_id','=','mc.id')
                 ->where('mc.estado','=',1);
             })
             ->join('personas as p','p.id','=','pad.persona_id_created_at')
-            ->select('mc.detalle',DB::raw('CASE pad.estado_contesta  WHEN 0 THEN "NO" WHEN 1 THEN "SI" END AS estado_contesta '),'pad.observacion','pad.created_at',
+            ->select(DB::raw('IFNULL(mc.detalle,"") as detalle'),DB::raw('CASE pad.estado_contesta  WHEN 0 THEN "NO" WHEN 1 THEN "SI" END AS estado_contesta '),'pad.observacion','pad.created_at',
                     DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as usuario'))
             ->where('pad.certificado_id','=',$r->certificado_id)
-            ->orderBy('mc.detalle','asc')->get();
+            ->orderBy('pad.id','desc')->get();
         return $result;
     }
     
@@ -29,7 +29,9 @@ class PagoAlumnoDetalle extends Model
     {
         $pagoalumnodetalle = new PagoAlumnoDetalle;
         $pagoalumnodetalle->certificado_id = trim( $r->certificado_id );
-        $pagoalumnodetalle->contesta_id = trim( $r->contesta_id );
+        if(trim( $r->estado_contesto )!=0){
+           $pagoalumnodetalle->contesta_id = trim( $r->contesta_id ); 
+        }
         $pagoalumnodetalle->estado_contesta = trim( $r->estado_contesto );
         $pagoalumnodetalle->observacion = trim( $r->observacion );
         $pagoalumnodetalle->persona_id_created_at= Auth::user()->id;

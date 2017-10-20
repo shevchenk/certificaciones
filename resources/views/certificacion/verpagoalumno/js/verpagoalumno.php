@@ -34,6 +34,9 @@ $(document).ready(function() {
 
     $('#ModalVerpagoalumno').on('hidden.bs.modal', function (event) {
         $("#ModalVerpagoalumnoForm input[type='hidden']").not('.mant').remove();
+        $("#ModalVerpagoalumnoForm #slct_estado_contesto").selectpicker('val','');
+        $("#ModalVerpagoalumnoForm #slct_contesta_id").selectpicker('val','0');
+        $("#ModalVerpagoalumnoForm #txt_observacion").val('');
     });
 });
 
