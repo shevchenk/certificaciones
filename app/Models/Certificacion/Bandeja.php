@@ -4,8 +4,6 @@ namespace App\Models\Certificacion;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Input;
 use DB;
 use App\Models\Certificacion\BandejaHistorico;
 use App\Models\Proceso\Alumnos;
