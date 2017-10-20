@@ -1,11 +1,8 @@
 <script type="text/javascript">
 var AjaxBandeja={
     AgregarEditar:function(evento){
-        var data=$("#ModalProgramacionForm").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Mantenimiento.ProgramacionEM@New';
-        if(AddEdit==0){
-            url='AjaxDinamic/Mantenimiento.ProgramacionEM@Edit';
-        }
+        var data=$("#ModalVerpagoalumnoForm").serialize().split("txt_").join("").split("slct_").join("");
+        url='AjaxDinamic/Certificacion.PagoAlumnoDetalleCE@New';
         masterG.postAjax(url,data,evento);
     },
     Cargar:function(evento,pag){

@@ -22,7 +22,7 @@ $(document).ready(function() {
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
-            $("#ModalProgramacionForm").append("<input type='hidden' value='"+BandejaG.id+"' name='id'>");
+            $("#ModalVerpagoalumnoForm").append("<input type='hidden' value='"+BandejaG.id+"' name='certificado_id'>");
         }
         $('#ModalVerpagoalumnoForm #txt_ode').val( BandejaG.ode );
         $('#ModalVerpagoalumnoForm #txt_dni').val( BandejaG.dni );
@@ -186,4 +186,31 @@ HTMLCargarBandejaDetalle=function(result){
     });
 
 };
+
+AgregarEditarAjax=function(){
+    if( ValidaForm() ){
+        AjaxBandeja.AgregarEditar(HTMLAgregarEditar);
+    }
+};
+HTMLAgregarEditar=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        $('#ModalVerpagoalumno').modal('hide');
+        AjaxBandeja.Cargar(HTMLCargarBandeja);
+    }else{
+        msjG.mensaje('warning',result.msj,3000);
+    }
+};
+ValidaForm=function(){
+    var r=true;
+    if( $.trim( $("#ModalVerpagoalumnoForm #slct_estado_contesto").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione si Contestó el Alumno',4000);
+    }
+    else if( $.trim( $("#ModalVerpagoalumnoForm #slct_estado_contesto").val() )=='1' && $.trim( $("#ModalVerpagoalumnoForm #slct_contesta_id").val() )=='0' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Respuesta',4000);
+    }
+    return r;
+}
 </script>

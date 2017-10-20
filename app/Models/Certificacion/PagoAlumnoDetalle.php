@@ -2,6 +2,7 @@
 
 namespace App\Models\Certificacion;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -20,5 +21,16 @@ class PagoAlumnoDetalle extends Model
             ->where('pad.certificado_id','=',$r->certificado_id)
             ->orderBy('mc.detalle','asc');
         return $result;
+    }
+    
+        public static function runNew($r)
+    {
+        $pagoalumnodetalle = new PagoAlumnoDetalle;
+        $pagoalumnodetalle->certificado_id = trim( $r->certificado_id );
+        $pagoalumnodetalle->contesta_id = trim( $r->contesta_id );
+        $pagoalumnodetalle->estado_contesta = trim( $r->estado_contesto );
+        $pagoalumnodetalle->observacion = trim( $r->observacion );
+        $pagoalumnodetalle->persona_id_created_at= Auth::user()->id;
+        $pagoalumnodetalle->save();
     }
 }

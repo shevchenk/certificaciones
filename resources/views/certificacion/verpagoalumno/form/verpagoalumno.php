@@ -38,25 +38,25 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>ODE</label>
-                            <input type="text" class="form-control" id="txt_ode" name="txt_ode" readonly="">
+                            <input type="text" class="form-control" id="txt_ode" name="txt_ode" disabled="">
                         </div> 
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label id="label_curso">DNI</label>
-                            <input type="text" class="form-control" id="txt_dni" name="txt_dni" readonly="">
+                            <input type="text" class="form-control" id="txt_dni" name="txt_dni" disabled="">
                         </div> 
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Nombre Completo</label>
-                            <input type="text" class="form-control" id="txt_nombre" name="txt_nombre" readonly="">
+                            <input type="text" class="form-control" id="txt_nombre" name="txt_nombre" disabled="">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Trámite</label>
-                            <input type="text" class="form-control" id="txt_tramite" name="txt_tramite" readonly="">
+                            <input type="text" class="form-control" id="txt_tramite" name="txt_tramite" disabled="">
                         </div>
                     </div>
                     </div>
