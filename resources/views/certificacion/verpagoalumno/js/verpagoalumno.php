@@ -38,6 +38,15 @@ $(document).ready(function() {
         $("#ModalVerpagoalumnoForm #slct_contesta_id").selectpicker('val','0');
         $("#ModalVerpagoalumnoForm #txt_observacion").val('');
     });
+    
+    $( "#ModalVerpagoalumno #slct_estado_contesto" ).change(function() {
+            if ($( "#ModalVerpagoalumno #slct_estado_contesto" ).val()==1) {
+                $('#ModalVerpagoalumno #respuesta').css('display',"");
+            }
+            else {
+                $('#ModalVerpagoalumno #respuesta').css('display',"none");
+            }
+    });
 });
 
 AgregarEditar=function(val,id){

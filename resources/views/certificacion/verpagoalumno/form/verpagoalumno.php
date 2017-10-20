@@ -19,7 +19,7 @@
                             </select>
                         </div> 
                     </div>
-                    <div class="col-md-12">
+                        <div class="col-md-12" id="respuesta" style="display: none">
                         <div class="form-group">
                             <label id="label_curso">Respuesta</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_contesta_id" name="slct_contesta_id">
