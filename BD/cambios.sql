@@ -150,3 +150,29 @@ ADD COLUMN `archivo_pago_inscripcion`  varchar(100) NULL AFTER `monto_pago_inscr
 
 ALTER TABLE `mat_matriculas_detalles`
 MODIFY COLUMN `tipo_matricula_detalle`  int(11) NULL DEFAULT 1 COMMENT '1: Curso | 2: Especialidad Certificado | 3: Curso Certificado | 4: Seminario' AFTER `monto_pago_certificado`;
+
+
+/******************************20/10/2017***********************************************/
+CREATE TABLE `mat_contesta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `detalle` varchar(250) DEFAULT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `persona_id_created_at` int(11) NOT NULL,
+  `persona_id_updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `pago_alumno_detalles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `certificado_id` int(11) NOT NULL,
+  `contesta_id` int(11) DEFAULT NULL,
+  `estado_contesta` int(11) NOT NULL,
+  `observacion` varchar(300) DEFAULT '',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `persona_id_created_at` int(11) NOT NULL,
+  `persona_id_updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
