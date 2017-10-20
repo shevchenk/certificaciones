@@ -17,9 +17,11 @@ class PagoAlumnoDetalle extends Model
                 $join->on('pad.contesta_id','=','mc.id')
                 ->where('mc.estado','=',1);
             })
-            ->select('pad.id','mc.detalle','pad.estado_contesta','pad.observacion','pad.created_at')
+            ->join('personas as p','p.id','=','pad.persona_id_created_at')
+            ->select('mc.detalle',DB::raw('CASE pad.estado_contesta  WHEN 0 THEN "NO" WHEN 1 THEN "SI" END AS estado_contesta '),'pad.observacion','pad.created_at',
+                    DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as usuario'))
             ->where('pad.certificado_id','=',$r->certificado_id)
-            ->orderBy('mc.detalle','asc');
+            ->orderBy('mc.detalle','asc')->get();
         return $result;
     }
     

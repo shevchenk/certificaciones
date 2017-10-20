@@ -148,31 +148,19 @@ SlctCargarContesta=function(result){
 
 };
 HTMLCargarBandejaDetalle=function(result){
-    console.log(result.data);
     var html="";
+    var pos=0;
     $('#TableVerpagoalumno').DataTable().destroy();
     
     $.each(result.data,function(index,r){
-        estadohtml='<span id="'+r.id+'" onClick="CambiarEstado3(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
-        if(r.estado==1){
-            estadohtml='<span id="'+r.id+'" onClick="CambiarEstado3(0,'+r.id+')" class="btn btn-success">Activo</span>';
-        }
-
+        pos++;
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td>";
-            if(r.foto!=null){    
-            html+="<a  target='_blank' href='img/product/"+r.foto+"'><img src='img/product/"+r.foto+"' style='height: 40px;width: 40px;'></a>";}
-            html+="</td>"+
-            "<td class='producto'>"+r.producto+"</td>"+
-            "<td class='articulo'>"+r.articulo+"</td>"+
-            "<td>"+
-            "<input type='hidden' class='articulo_id' value='"+r.articulo_id+"'>"+
-            "<input type='hidden' class='unidad_medida' value='"+r.unidad_medida+"'>";
-        if(r.foto!=null){
-        html+="<input type='hidden' class='foto' value='"+r.foto+"'>";}
-
-        html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
-            '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar3(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
+            "<td >"+pos+"</td>"+
+            "<td class='estado_contesta'>"+r.estado_contesta+"</td>"+
+            "<td class='detalle'>"+r.detalle+"</td>"+
+            "<td class='observacion'>"+r.observacion+"</td>"+
+            "<td class='created_at'>"+r.created_at+"</td>"+
+            "<td class='usuario'>"+r.usuario+"</td>";
         html+="</tr>";
     });
     $("#TableVerpagoalumno tbody").html(html); 

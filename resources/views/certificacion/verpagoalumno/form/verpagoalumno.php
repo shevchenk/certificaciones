@@ -14,7 +14,7 @@
                             <label>¿Contestó el Alumno?</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_estado_contesto" name="slct_estado_contesto">
                                 <option value>.::Seleccione::.</option>
-                                <option value="1">Contestó</option>
+                                <option value="1">Si Contestó</option>
                                 <option value="0">No Contestó</option>
                             </select>
                         </div> 
@@ -66,22 +66,24 @@
                                     <table id="TableVerpagoalumno" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-                                      <th>Img</th>
-                                      <th>Producto</th>
-                                      <th>Sucursal</th>
-                                      <th>Precio Venta</th>
-                                      <th>Precio Compra</th>                              
+                                      <th>N°</th>
+                                      <th>¿Contestó?</th>
+                                      <th>Respuesta</th>
+                                      <th>Observación</th>
+                                      <th>Fecha de Llamada</th>  
+                                      <th>Usuario</th>  
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                      <th>Img</th>
-                                      <th>Producto</th>
-                                      <th>Sucursal</th>
-                                      <th>Precio Venta</th>
-                                      <th>Precio Compra</th>
+                                      <th>N°</th>
+                                      <th>¿Contestó?</th>
+                                      <th>Respuesta</th>
+                                      <th>Observación</th>
+                                      <th>Fecha de Llamada</th>  
+                                      <th>Usuario</th>  
                                 </tr>
                             </tfoot>
                             </table>
