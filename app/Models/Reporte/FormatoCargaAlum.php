@@ -10,11 +10,59 @@ class FormatoCargaAlum extends Model
 
     public static function runLoad($r)
     {
+      $sql=DB::table('mat_alumnos AS ma')
+          ->join('personas AS p',function($join){
+              $join->on('ma.persona_id','=','p.id');
+          })
+          ->join('mat_matriculas AS mm',function($join){
+              $join->on('ma.id','=','mm.alumno_id');
+          })
+          ->join('mat_matriculas_detalles AS mmd',function($join){
+              $join->on('mm.id','=','mmd.matricula_id');
+          })
+          ->join('mat_programaciones AS mp',function($join){
+              $join->on('mmd.programacion_id','=','mp.id');
+          })
+          ->join('mat_cursos AS mc',function($join){
+              $join->on('mp.curso_id','=','mc.id');
+          })
+          ->join('mat_ubicacion_region AS mur',function($join){
+              $join->on('ma.region_id','=','mur.id');
+          })
+          ->join('mat_ubicacion_provincia AS mup',function($join){
+              $join->on('ma.provincia_id','=','mup.id');
+          })
+          ->join('mat_ubicacion_distrito AS mud',function($join){
+              $join->on('ma.distrito_id','=','mud.id');
+          })
+            ->select('mm.sucursal_id',
+                      DB::raw('mmd.id as id_envio'),
+                      'p.nombre', 'p.paterno', 'p.materno', 'p.dni',
+                      DB::raw('mc.curso as certificado'),
+                      DB::raw('mmd.nota_curso_alum as nota_certificado'),
+                      DB::raw('1 as tipo_certificado'),
+                     'ma.direccion', 'ma.referencia', 'mur.region', 'mup.provincia', 'mud.distrito')
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("formato")){
+                        $formato=trim($r->formato);
+                        if($formato == 'S') //Seminario
+                          $query ->where('mmd.tipo_matricula_detalle', '=', 4);
+                        else
+                          $query ->whereIn('mmd.tipo_matricula_detalle', [1, 3]);
+                    }
+                }
+            )
+            ->groupBy('mm.sucursal_id', 'mmd.id','p.nombre', 'p.paterno', 'p.materno', 'p.dni','mc.curso',
+                      'mmd.nota_curso_alum','tipo_certificado','ma.direccion', 'ma.referencia', 'mur.region', 'mup.provincia', 'mud.distrito');
+
+        $result = $sql->orderBy('p.dni','asc')->get();
+        return $result;
     }
 
     public static function runExport($r)
     {
-        $rsql= array();
+        $rsql= FormatoCargaAlum::runLoad($r);
 
         $length=array(
             'A'=>15,'B'=>12,'C'=>20,'D'=>20,'E'=>20,'F'=>15,'G'=>15,'H'=>15,
@@ -24,9 +72,13 @@ class FormatoCargaAlum extends Model
         $cabecera=array(
             'ID SUCURSAL','ID ENVIO','NOMBRE','APE. PATERNO','APE. MATERNO','DNI','CERTIFICADO','NOTA_CERTIF',
             'TIPO_CERTIF','DIRECCION','REFERENCIA',
-            'REGION','PROVINCIA','DISTRITO',
+            'REGION','PROVINCIA','DISTRITO'
         );
-        $campos=array();
+        $campos=array(
+            'sucursal_id', 'id_envio', 'nombre', 'paterno', 'materno', 'dni', 'certificado',
+            'nota_certificado', 'tipo_certificado', 'direccion', 'referencia', 'region', 'provincia',
+            'distrito'
+        );
 
         $r['data']=$rsql;
         $r['cabecera']=$cabecera;

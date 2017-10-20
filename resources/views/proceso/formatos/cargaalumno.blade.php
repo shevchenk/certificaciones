@@ -35,8 +35,8 @@
                               <label>Tipo Formato</label>
                               <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_formato_carga" name="slct_formato_carga">
                                   <option value="0">.:: Seleccione una opción :.</option>
-                                  <option value="1"> Seminario </option>
-                                  <option value="2"> Matricula(PAE) </option>
+                                  <option value="S"> Seminario </option>
+                                  <option value="M"> Matricula(PAE) </option>
                               </select>
                           </div>
                         </div>

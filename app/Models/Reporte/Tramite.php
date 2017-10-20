@@ -7,7 +7,7 @@ use DB;
 class Tramite extends Model
 {
     protected   $table = 'certificados';
-    
+
     public static function runLoad($r)
     {
         $sql=DB::table('certificados AS c')
@@ -16,7 +16,7 @@ class Tramite extends Model
             })
             ->join('certificados_estados AS ce',function($join){
                 $join->on('ce.id','=','c.certificado_estado_id');
-                /*->where( 
+                /*->where(
                         function($query){
                             $query->where('mmd.tipo_matricula_detalle','=',1);
                             $query->orwhere('mmd.tipo_matricula_detalle','=',3);
@@ -27,11 +27,11 @@ class Tramite extends Model
                 $join->on('s.id','=','c.sucursal_id');
 
             })
-            ->select('a.id_envio', 'a.nombre', 'a.paterno', 'a.materno', 'a.dni', 'a.certificado', 'a.nota_certificado', 
-                        'a.direccion', 'a.referencia', 'a.region', 'a.provincia', 'a.distrito', 'c.fecha_estado_certificado', 's.sucursal', 'c.nro_pago', 
+            ->select('a.id_envio', 'a.nombre', 'a.paterno', 'a.materno', 'a.dni', 'a.certificado', 'a.nota_certificado',
+                        'a.direccion', 'a.referencia', 'a.region', 'a.provincia', 'a.distrito', 'c.fecha_estado_certificado', 's.sucursal', 'c.nro_pago',
                     DB::raw('IFNULL(c.fecha_pago, "") as fecha_pago'),
                      'c.updated_at as fecha_inicio_bandeja', 'ce.estado_certificado')
-            ->where( 
+            ->where(
                 function($query) use ($r){
                     if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
                         $inicial=trim($r->fecha_inicial);
@@ -66,8 +66,8 @@ class Tramite extends Model
         );
         $campos=array(
             '',
-            'id_envio', 'nombre', 'paterno', 'materno', 'dni', 'certificado', 'nota_certificado', 
-            'direccion', 'referencia', 'region', 'provincia', 'distrito', 'fecha_estado_certificado', 
+            'id_envio', 'nombre', 'paterno', 'materno', 'dni', 'certificado', 'nota_certificado',
+            'direccion', 'referencia', 'region', 'provincia', 'distrito', 'fecha_estado_certificado',
             'sucursal', 'nro_pago', 'fecha_pago',
             'fecha_inicio_bandeja', 'estado_certificado'
         );

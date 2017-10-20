@@ -27,7 +27,7 @@ class FormatoCargaAlumEM extends Controller
     public function Export(Request $r )
     {
         $renturnModel = FormatoCargaAlum::runExport($r);
-        
+
         Excel::create('FormatoCargaAlum', function($excel) use($renturnModel) {
 
         $excel->setTitle('Reporte de Formato Carga Alumno')
@@ -48,8 +48,7 @@ class FormatoCargaAlumEM extends Controller
                     'bold'      =>  false
                 )
             ));
-
-            /*
+            
             $sheet->cell('A1', function($cell) {
                 $cell->setValue('FORMATO DE CARGA ALUMNOS');
                 $cell->setFont(array(
@@ -64,7 +63,6 @@ class FormatoCargaAlumEM extends Controller
                 $cells->setAlignment('center');
                 $cells->setValignment('center');
             });
-            */
 
             $sheet->setWidth($renturnModel['length']);
             $sheet->fromArray(array(
