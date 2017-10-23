@@ -56,6 +56,13 @@ class FormatoCargaAlum extends Model
                         else
                           $query ->whereIn('mmd.tipo_matricula_detalle', [1, 3]);
                     }
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
                 }
             )
             ->groupBy('mm.sucursal_id', 'mmd.id','p.nombre', 'p.paterno', 'p.materno', 'p.dni','mc.curso',
