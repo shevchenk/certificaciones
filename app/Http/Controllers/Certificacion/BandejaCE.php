@@ -14,6 +14,19 @@ class BandejaCE extends Controller
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
     }
 
+        public function LoadTeleoperadora(Request $r )
+    {
+        if ( $r->ajax() ) {
+
+            $r->certificado_estado_id=6;
+            $renturnModel = Bandeja::runLoadteleoperada($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+    
     public function LoadAprobado(Request $r )
     {
         if ( $r->ajax() ) {

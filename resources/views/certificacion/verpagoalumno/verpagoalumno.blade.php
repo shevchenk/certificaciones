@@ -56,6 +56,11 @@
                                                 </th>
                                                 <th class="col-xs-2" style="min-width: 150px;">
                                                     <div class="form-group">
+                                                        <label><h4>[]</h4></label>
+                                                    </div>
+                                                </th>
+                                                <th class="col-xs-2" style="min-width: 150px;">
+                                                    <div class="form-group">
                                                         <label><h4>ODE:</h4></label>
                                                         <div class="input-group">
                                                             <div class="input-group-addon"><i class="fa fa-search"></i></div>

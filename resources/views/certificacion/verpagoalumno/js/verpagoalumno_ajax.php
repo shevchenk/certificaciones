@@ -11,7 +11,7 @@ var AjaxBandeja={
         }
         data=$("#BandejaForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#BandejaForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Certificacion.BandejaCE@LoadPagoAlumno';
+        url='AjaxDinamic/Certificacion.BandejaCE@LoadTeleoperadora';
         masterG.postAjax(url,data,evento);
     },
     CambiarEstado:function(evento,id){

@@ -109,6 +109,7 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
         boton='<td> <a class="btn btn-success btn-sm" onClick="AgregarEditar(0,'+r.id+')" ><i class="fa fa-check fa-lg">Ver</i></a> </td>';
         html+="<tr id='trid_"+r.id+"'>"+
             boton+
+            "<td class='ultima_llamada'>"+r.ultima_llamada+"</td>"+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='dni'>"+r.dni+"</td>"+
             "<td class='paterno'>"+r.paterno+"</td>"+
