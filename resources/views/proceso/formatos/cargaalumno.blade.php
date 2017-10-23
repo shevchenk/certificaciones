@@ -6,6 +6,10 @@
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
+    {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
+
     @include( 'proceso.formatos.js.cargaalumno_ajax' )
     @include( 'proceso.formatos.js.cargaalumno' )
 
@@ -29,16 +33,30 @@
                 <form id="form" name="form" action="" method="post">
                     <div class="col-sm-12">&nbsp;</div>
                     <div class="col-sm-12" style="background-color: #FFF;">
-                        <div class="col-sm-4"></div>
+                        <div class="col-sm-2"></div>
                         <div class="col-sm-2">
                           <div class="form-group text-center">
-                              <label>Tipo Formato</label>
+                              <label class="control-label">Tipo Formato</label>
                               <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_formato_carga" name="slct_formato_carga">
                                   <option value="0">.:: Seleccione una opción :.</option>
-                                  <option value="1"> Seminario </option>
-                                  <option value="2"> Matricula(PAE) </option>
+                                  <option value="S"> Seminario </option>
+                                  <option value="M"> Matricula(PAE) </option>
                               </select>
                           </div>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <label class="control-label">Fecha Inicial</label>
+                            <div class="input-group">
+                              <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                              <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_inicial" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <label class="control-label">Fecha Final</label>
+                            <div class="input-group">
+                              <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                              <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final" name="txt_fecha_final" readonly/>
+                            </div>
                         </div>
                         <div class="col-sm-2">
                           <div class="form-group text-center">
