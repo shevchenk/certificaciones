@@ -15,6 +15,12 @@ var AjaxBandeja={
         $("#ModalBandejaForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Certificacion.BandejaCE@EditStatus';
         masterG.postAjax(url,data,evento);
+    },
+    CambiarEstadoMasivo:function(evento){
+        var data=$("#BandejaForm").serialize().split("txt_").join("").split("slct_").join("");
+        $("#BandejaForm input[type='hidden']").not('.mant').remove();
+        url='AjaxDinamic/Certificacion.BandejaCE@EditStatus';
+        masterG.postAjax(url,data,evento);
     }
 };
 </script>
