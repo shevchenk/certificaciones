@@ -10,6 +10,11 @@ class FormatoCargaAlum extends Model
 
     public static function runLoad($r)
     {
+      if(trim($r->formato) == 'S')
+        $tipo_certif = 3;
+      else
+        $tipo_certif = 2;
+
       $sql=DB::table('mat_alumnos AS ma')
           ->join('personas AS p',function($join){
               $join->on('ma.persona_id','=','p.id');
@@ -40,7 +45,7 @@ class FormatoCargaAlum extends Model
                       'p.nombre', 'p.paterno', 'p.materno', 'p.dni',
                       DB::raw('mc.curso as certificado'),
                       DB::raw('mmd.nota_curso_alum as nota_certificado'),
-                      DB::raw('1 as tipo_certificado'),
+                      DB::raw($tipo_certif.' as tipo_certificado'),
                      'ma.direccion', 'ma.referencia', 'mur.region', 'mup.provincia', 'mud.distrito')
             ->where(
                 function($query) use ($r){
