@@ -64,7 +64,11 @@ ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalMatriculaForm #slct_sucursal_id").val() )=='0' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Sucursal',4000);
+        msjG.mensaje('warning','Seleccione ODE de Matrícula',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #slct_sucursal_destino_id").val() )=='0' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Lugar de Recojo del Documento',4000);
     }
     else if( $.trim( $("#ModalMatriculaForm #slct_tipo_participante_id").val() )=='0'){
         r=false;
@@ -122,6 +126,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Monto de pago de Inscripción',4000);
     }
+    else if( $.trim( $("#ModalMatriculaForm #txt_observacion").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Observación de matrícula o escriba S/O',4000);
+    }
     return r;
 }
 
@@ -174,6 +182,7 @@ HTMLAgregarEditar=function(result){
         $("#ModalMatriculaForm select").selectpicker('val','0');
         $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
         $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
+        $("#txt_observacion").val('S/O');
     }else{
         msjG.mensaje('warning',result.msj,3000);
     }
@@ -182,6 +191,7 @@ HTMLAgregarEditar=function(result){
 CargarSlct=function(slct){
     if(slct==1){
         AjaxMatricula.CargarSucursal(SlctCargarSucursal1);
+        AjaxMatricula.CargarSucursal(SlctCargarSucursalTotal);
     }
     if(slct==2){
         AjaxMatricula.CargarRegion(SlctCargarRegion);
@@ -190,6 +200,19 @@ CargarSlct=function(slct){
         AjaxMatricula.CargarTipoParticipante(SlctCargarTipoParticipante);
     }
 }
+
+SlctCargarSucursalTotal=function(result){
+    var html="<option value='0'>.::Seleccione::.</option>";
+    html+="<option value='0'>A Domicilio</option>";
+    $.each(result.data,function(index,r){
+        if(r.id>1){
+          html+="<option value="+r.id+">"+r.sucursal+"</option>";
+        }
+    });
+    $("#ModalMatriculaForm #slct_sucursal_destino_id").html(html); 
+    $("#ModalMatriculaForm #slct_sucursal_destino_id").selectpicker('refresh');
+
+};
 
 SlctCargarSucursal1=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";

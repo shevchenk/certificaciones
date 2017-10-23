@@ -261,6 +261,7 @@ onPagos=function(item,val){
     if(val==1){ etiqueta="_certificado";}
     if(val==3){ etiqueta="_matricula";}
     if(val==4){ etiqueta="_inscripcion";}
+    if(val==5){ etiqueta="_promocion";}
     if(val==2){etiqueta="";}
     
     var files = event.target.files || event.dataTransfer.files;
@@ -273,6 +274,8 @@ onPagos=function(item,val){
             $("#t_pago_matricula  #pago_archivo"+etiqueta).val(event.target.result);
         }else if(val==4){
             $("#t_pago_inscripcion  #pago_archivo"+etiqueta).val(event.target.result);
+        }else if(val==5){
+            $("#t_pago_promocion  #pago_archivo"+etiqueta).val(event.target.result);
         }else {
             $("#t_pago #trid_"+item+" #pago_archivo"+etiqueta+item).val(event.target.result);
         }
@@ -283,6 +286,8 @@ onPagos=function(item,val){
          $("#t_pago_matricula  #pago_nombre"+etiqueta).val(files[0].name);
     }else if(val==4){
          $("#t_pago_inscripcion  #pago_nombre"+etiqueta).val(files[0].name);
+    }else if(val==5){
+         $("#t_pago_promocion  #pago_nombre"+etiqueta).val(files[0].name);
     }else {
          $("#t_pago #trid_"+item+" #pago_nombre"+etiqueta+item).val(files[0].name);
     }

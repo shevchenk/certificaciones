@@ -57,15 +57,23 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading"><center>DATOS DEL ALUMNO</center></div>
                                 <div class="panel-body">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>ODE</label>
+                                            <label>ODE Matrícula</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
                                                 <option value="0">.::Seleccione::.</option>
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Lugar Recojo Documento</label>
+                                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_destino_id" name="slct_sucursal_destino_id">
+                                                <option value="0">.::Seleccione::.</option>
+                                            </select>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Resp. de la Matrícula</label>
                                             <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
@@ -226,16 +234,26 @@
                                         </div> 
                                     </div>
                                     <div class="col-md-8">
-                                        <div class="form-group">
+                                        <div class="form-group" id="t_pago_promocion">
                                             <label>Promoción:</label>
                                             <br>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <label>Nro:</label>
                                                 <input type="text" class="form-control" id="txt_nro_promocion" name="txt_nro_promocion" placeholder="Nro" disabled>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <label>Monto:</label>
                                                 <input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" placeholder="Monto" disabled>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="text" readonly class="form-control" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">
+                                                <input type="text" style="display: none;" id="pago_archivo_promocion" name="pago_archivo_promocion">
+                                                <label class="btn btn-warning  btn-flat margin">
+                                                    <i class="fa fa-file-pdf-o fa-lg"></i>
+                                                    <i class="fa fa-file-word-o fa-lg"></i>
+                                                    <i class="fa fa-file-image-o fa-lg"></i>
+                                                    <input type="file" style="display: none;" onchange="onPagos(null, 5);" id="file_promocion">
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -352,6 +370,17 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><center>OBSERVACIONES:</center></div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <textarea class="form-control" id="txt_observacion" name="txt_observacion">S/O</textarea>
                                     </div>
                                 </div>
 

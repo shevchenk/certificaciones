@@ -45,6 +45,7 @@ class Matricula extends Model
         $matricula->tipo_participante_id = trim($r->tipo_participante_id);
         $matricula->persona_id = trim( $r->persona_id);
         $matricula->sucursal_id = trim( $r->sucursal_id);
+        $matricula->sucursal_destino_id = trim( $r->sucursal_destino_id);
         if( trim( $r->persona_caja_id )!=''){
         $matricula->persona_caja_id = trim( $r->persona_caja_id );}
         if( trim( $r->responsable_id )!=''){
@@ -72,6 +73,7 @@ class Matricula extends Model
         }
     
         $matricula->persona_id_created_at=Auth::user()->id;
+        $matricula->observacion=$r->observacion;
         $matricula->save();
         
             if(trim($r->pago_nombre_matricula)!=''){
@@ -85,6 +87,12 @@ class Matricula extends Model
                 $url_inscripcion = "upload/m$matricula->id/ins_0.";
                 $ruta_inscripcion = $este->fileToFile($r->pago_archivo_inscripcion,'m'.$matricula->id, $url_inscripcion);
                 $matricula->archivo_pago_inscripcion=$ruta_inscripcion;
+            }
+            if(trim($r->pago_nombre_promocion)!=''){
+                $este = new Matricula;
+                $url_promocion = "upload/m$matricula->id/pro_0.";
+                $ruta_promocion = $este->fileToFile($r->pago_archivo_promocion,'m'.$matricula->id, $url_promocion);
+                $matricula->archivo_promocion=$ruta_promocion;
             }
         $matricula->save();
         
