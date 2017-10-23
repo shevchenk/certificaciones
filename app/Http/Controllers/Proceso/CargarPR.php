@@ -86,6 +86,7 @@ class CargarPR extends Controller
                                         ->where('certificado', '=', trim($detfile[6]))
                                         ->where('nota_certificado', '=', trim($detfile[7]))
                                         ->where('tipo_certificado', '=', trim($detfile[8]))
+                                        ->where('estado', '=', 1)
                                         ->first();
 
                     if (count($alumnos) == 0) 
