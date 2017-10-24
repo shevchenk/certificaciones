@@ -40,10 +40,10 @@ class FormatoCargaAlum extends Model
           ->join('mat_ubicacion_distrito AS mud',function($join){
               $join->on('ma.distrito_id','=','mud.id');
           })
-            ->select('mm.sucursal_id',
+            ->select('mm.sucursal_destino_id as sucursal_id',
                       DB::raw('mmd.id as id_envio'),
                       'p.nombre', 'p.paterno', 'p.materno', 'p.dni',
-                      DB::raw('mc.curso as certificado'),
+                      DB::raw('mc.certificado_curso as certificado'),
                       DB::raw('mmd.nota_curso_alum as nota_certificado'),
                       DB::raw($tipo_certif.' as tipo_certificado'),
                      'ma.direccion', 'ma.referencia', 'mur.region', 'mup.provincia', 'mud.distrito')
@@ -52,9 +52,9 @@ class FormatoCargaAlum extends Model
                     if( $r->has("formato")){
                         $formato=trim($r->formato);
                         if($formato == 'S') //Seminario
-                          $query ->where('mmd.tipo_matricula_detalle', '=', 4);
+                          $query ->where('mc.tipo_curso', '=', 2);
                         else
-                          $query ->whereIn('mmd.tipo_matricula_detalle', [1, 3]);
+                          $query ->where('mc.tipo_curso','=', 1);
                     }
                     if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
                         $inicial=trim($r->fecha_inicial);
@@ -64,9 +64,8 @@ class FormatoCargaAlum extends Model
                         }
                     }
                 }
-            )
-            ->groupBy('mm.sucursal_id', 'mmd.id','p.nombre', 'p.paterno', 'p.materno', 'p.dni','mc.curso',
-                      'mmd.nota_curso_alum','tipo_certificado','ma.direccion', 'ma.referencia', 'mur.region', 'mup.provincia', 'mud.distrito');
+            );
+            
 
         $result = $sql->orderBy('p.dni','asc')->get();
         return $result;
