@@ -192,7 +192,7 @@
                                                     <th>Seminarios</th>
                                                     <th>Fecha de Inicio</th>
                                                     <th>Horario</th>
-                                                    <th>Local</th>
+                                                    <th>Local de Estudios</th>
                                                     <th>[]</th>
                                                 </tr>
                                             </thead>
