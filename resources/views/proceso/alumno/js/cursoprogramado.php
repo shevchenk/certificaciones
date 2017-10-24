@@ -200,7 +200,7 @@ HTMLCargaCurso=function(result){ //INICIO HTML
                 "<td class='paterno'>"+r.fecha_final+"</td>"+
                 "";
 
-        if(r.fecha_final <= '2017-08-24'){
+        if(r.fecha_final <= r.hoy){
             html+='<td><input type="hidden" name="id_mat[]" id="" value="'+r.matricula_detalle_id+'"><input type="text" class="form-control" id="nota_'+r.matricula_detalle_id+'" name="notas[]" value="'+r.nota_curso_alum+'" style="width: 50px;" onkeypress="return masterG.validaDecimal(event, this);"></td>';            
         }else{
             html+='<td>--</td>';
