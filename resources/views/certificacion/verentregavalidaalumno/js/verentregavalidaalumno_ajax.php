@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var AjaxBandeja={
     AgregarEditar:function(evento){
-        var data=$("#ModalVerpagoalumnoForm").serialize().split("txt_").join("").split("slct_").join("");
+        var data=$("#ModalVerentregavalidaalumnoForm").serialize().split("txt_").join("").split("slct_").join("");
         url='AjaxDinamic/Certificacion.PagoAlumnoDetalleCE@New';
         masterG.postAjax(url,data,evento);
     },
@@ -11,7 +11,7 @@ var AjaxBandeja={
         }
         data=$("#BandejaForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#BandejaForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Certificacion.BandejaCE@LoadVerPagoAlumno';
+        url='AjaxDinamic/Certificacion.BandejaCE@LoadVerEntregaValidaAlumno';
         masterG.postAjax(url,data,evento);
     },
     CargarContesta:function(evento){

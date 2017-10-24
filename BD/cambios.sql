@@ -176,3 +176,11 @@ CREATE TABLE `pago_alumno_detalles` (
   `persona_id_updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+/******************************24/10/2017***********************************************/
+
+ALTER TABLE `pago_alumno_detalles`
+ADD COLUMN `certificado_estado_id`  int(11) NOT NULL AFTER `persona_id_updated_at`;
+
+ALTER TABLE `pago_alumno_detalles`
+ADD COLUMN `estado`  int(11) NOT NULL DEFAULT 1 AFTER `persona_id_updated_at`;

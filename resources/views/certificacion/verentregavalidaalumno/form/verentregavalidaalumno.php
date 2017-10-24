@@ -1,4 +1,4 @@
-<div class="modal" id="ModalVerpagoalumno" tabindex="-1" role="dialog">
+<div class="modal" id="ModalVerentregavalidaalumno" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header btn-info">
@@ -7,10 +7,10 @@
                 <h4 class="modal-title">Pago de Alumno</h4>
             </div>
             <div class="modal-body">
-                <form id="ModalVerpagoalumnoForm">
+                <form id="ModalVerentregavalidaalumnoForm">
                     <div class="col-md-6">
                     <div class="col-md-12">
-                        <input type="hidden" class="mant" id="txt_certificado_estado_id" name="txt_certificado_estado_id" value="6">
+                        <input type="hidden" class="mant" id="txt_certificado_estado_id" name="txt_certificado_estado_id" value="10">
                         <div class="form-group">
                             <label>¿Contestó el Alumno?</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_estado_contesto" name="slct_estado_contesto">
