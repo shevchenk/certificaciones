@@ -198,6 +198,7 @@ class CargarPR extends Controller
     public function CargarMatriculas() 
     { 
         ini_set('memory_limit', '512M');
+        set_time_limit(300);
         if (isset($_FILES['carga_m']) and $_FILES['carga_m']['size'] > 0) {
 
             $uploadFolder = 'txt/matricula';
@@ -236,9 +237,9 @@ class CargarPR extends Controller
 
                     $con = 0;
                     for ($j = 0; $j < count($detfile); $j++) {
-                        $buscar = array(chr(13) . chr(10), "\r\n", "\n", "�", "\r", "\n\n", "\xEF", "\xBB", "\xBF");
-                        $reemplazar = "";
-                        $detfile[$j] = trim(str_replace($buscar, $reemplazar, $detfile[$j]));
+                        $buscar = array(chr(13) . chr(10), "\r\n", "\n", "�", "\r", "\n\n", "\xEF", "\xBB", "\xBF", "ÿ", '�');
+                        $reemplazar = array('','','','','','','','','','','');
+                        $detfile[$j] = trim(str_replace($buscar, $reemplazar, $detfile[$j]) );
                         $array[$i][$j] = $detfile[$j];
                         $con++;
                     }
@@ -322,18 +323,29 @@ class CargarPR extends Controller
                     // --
 
                     // Persona
-                        $persona = Persona::where('dni', '=', trim($detfile[6]))
+                        $persona = Persona::where('dni', '=', str_pad(trim($detfile[6]),8,'0',0))
                                             ->first();
+
+                        if( count($persona) == 0 ){
+                            $persona = Persona::where('paterno', '=', utf8_encode(trim($detfile[7])) )
+                                            ->where('materno','=', utf8_encode(trim($detfile[8])) )
+                                            ->where('nombre','=', utf8_encode(trim($detfile[9])) )
+                                            ->first();
+                        }
                         
                         if (count($persona) == 0) 
                         {
-                            if($detfile[12])
+                            if( trim($detfile[12])!='' AND strlen(trim($detfile[12]))==10 AND count(explode("/",$detfile[12]))==3 )
                             {
                                 $fecha_nacimiento = explode('/', trim(@$detfile[12]));
                                 $fecha_naci = @$fecha_nacimiento[2].'-'.@$fecha_nacimiento[1].'-'.@$fecha_nacimiento[0];
                             }
                             else
                                 $fecha_naci = NULL;
+
+                            if(trim($detfile[6])=='' OR strlen(trim($detfile[6]))!=8){
+                                $detfile[6]='99999999';
+                            }
 
                             $persona = new Persona;
                             $persona->dni = trim($detfile[6]);
@@ -344,7 +356,8 @@ class CargarPR extends Controller
                             $persona->celular = trim($detfile[11]);
                             $persona->fecha_nacimiento = $fecha_naci;
                             $persona->sexo= substr(trim($detfile[13]), 0,1);
-                            $persona->password = '';                
+                            $bcryptpassword = bcrypt(trim($detfile[6]));
+                            $persona->password=$bcryptpassword;
                             $persona->estado = 1;
                             $persona->persona_id_created_at = Auth::user()->id;
                             $persona->save();
@@ -394,17 +407,17 @@ class CargarPR extends Controller
                         else
                             $fecha_matricula = '';
 
-                        $matricula = Matricula::where('persona_matricula_id', '=', $persona->id)
+                        $matricula = Matricula::where('persona_matricula_id', '=', $responsable_matricula->id)
                                                 ->where('sucursal_id','=', $sucursal->id)
-                                                ->where('persona_marketing_id','=', $trabajador->persona_id)
                                                 ->where('fecha_matricula', '=', $fecha_matricula)
+                                                ->where('alumno_id', '=', $alumno->id)
                                                 ->first();
 
                         if (count($matricula) == 0) 
                         {
                             $month = date('m');
                             $year = date('Y');
-                            $fecha_matricula = date('Y-m-d', mktime(0,0,0, $month, 1, $year));
+                            //$fecha_matricula = date('Y-m-d', mktime(0,0,0, $month, 1, $year));
 
                             $matricula = new Matricula;
                             $matricula->tipo_participante_id = $tipo_participante->id;
