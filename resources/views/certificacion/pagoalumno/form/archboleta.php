@@ -18,7 +18,7 @@
                 <div class="col-sm-12"> 
     <!--            <div class="col-md-2 form-group">-->
                   <label>Tipo de Pago:</label>
-                    <select id="slct_tipo_pago" name="slct_tipo_pago">
+                    <select class="form-control" id="slct_tipo_pago" name="slct_tipo_pago">
                       <option value="1" selected>Boleta</option>
                       <option value="2">Voucher</option>
                       <option value="3">Factura</option>
