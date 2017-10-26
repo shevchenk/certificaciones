@@ -1,6 +1,0 @@
-1	1100	Nombre1	Paterno1	Materno1	99999900	PAE A	18	1	Pj. Las Dalias N 14	Parque Guillen	Lima	Lima	Comas
-2	2000	Nombre2	Paterno2	Materno2	99999901	PAE B	14	1	Jr. Los Claveles	Municipalidad Inpependencia	Lima	Lima	Independencia
-1	1100	Nombre3	Paterno3	Materno3	99999902	Constancia de Estudios A	16	2	Pj. Las Dalias N 14	Parque Guillen	Lima	Lima	Comas
-3	2000	Nombre4	Paterno4	Materno4	99999903	Constancia de Estudio B	17	2	Jr. Los Claveles	Municipalidad Inpependencia	Lima	Lima	Independencia
-1	1220	Nombre5	Paterno5	Materno5	99999904	Seminario A	15	3	Pj. Las Dalias N 14	Parque Guillen	Lima	Lima	Comas
-4	21331	Nombre6	Paterno6	Materno6	99999905	Seminario B	19	3	Jr. Los Claveles	Municipalidad Inpependencia	Lima	Lima	Independencia
