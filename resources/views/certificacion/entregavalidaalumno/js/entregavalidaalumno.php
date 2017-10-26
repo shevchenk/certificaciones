@@ -64,6 +64,9 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
     $('#TableBandeja').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
+        if(r.sucursal_id==1){
+            r.sucursal='A Domicilio';
+        }
         boton='<td> <a class="btn btn-success btn-sm" onClick="CambiarEstado('+r.id+')"><i class="fa fa-check fa-lg">Trabajo<br>Realizado</i></a> </td>'; 
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='check'>"+
