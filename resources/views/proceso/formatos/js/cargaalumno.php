@@ -6,8 +6,8 @@ $(document).ready(function() {
         language: 'es',
         showMeridian: false,
         time:false,
-        minView:3,
-        startView:3,
+        minView:2,
+        startView:2,
         autoclose: true,
         todayBtn: false
     });
@@ -36,7 +36,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
-            $(this).attr('href','ReportDinamic/Reporte.FormatoCargaAlumEM@Export'+'?formato='+data[0]['formato']+'&fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
+            $(this).attr('href','ReportDinamic/Reporte.FormatoCargaAlumEM@Export'+'?formato='+data[0]['formato']+'&fecha_inicial_dia='+data[0]['fecha_inicial']+'&fecha_final_dia='+data[0]['fecha_final']);
         }else{
             event.preventDefault();
         }

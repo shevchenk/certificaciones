@@ -63,6 +63,13 @@ class FormatoCargaAlum extends Model
                             $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
                         }
                     }
+                    if( $r->has("fecha_inicial_dia") AND $r->has("fecha_final_dia")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween(DB::raw('DATE(mm.fecha_matricula)'), array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
                 }
             );
             
