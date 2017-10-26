@@ -124,6 +124,7 @@ class Bandeja extends Model
                         LEFT JOIN mat_contesta mc ON mc.id=pad.contesta_id
                         WHERE pad.certificado_id=c.id
                         AND pad.estado=1
+                        AND pad.certificado_estado_id=".$r->certificado_estado_id."
                         ORDER BY pad.created_at DESC
                         LIMIT 0,1),'') as ultima_llamada"))
             ->where( 

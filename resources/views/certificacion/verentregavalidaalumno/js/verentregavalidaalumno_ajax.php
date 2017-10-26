@@ -21,7 +21,7 @@ var AjaxBandeja={
     },
     CargarDetalle:function(evento,certificado_id){
         url='AjaxDinamic/Certificacion.PagoAlumnoDetalleCE@Load';
-        data={certificado_id:certificado_id};
+        data={certificado_id:certificado_id,certificado_estado_id:10};
         masterG.postAjax(url,data,evento);
     },
 };

@@ -21,6 +21,7 @@ class PagoAlumnoDetalle extends Model
             ->select(DB::raw('IFNULL(mc.detalle,"") as detalle'),DB::raw('CASE pad.estado_contesta  WHEN 0 THEN "NO" WHEN 1 THEN "SI" END AS estado_contesta '),'pad.observacion','pad.created_at',
                     DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as usuario'))
             ->where('pad.certificado_id','=',$r->certificado_id)
+            ->where('pad.certificado_estado_id','=',$r->certificado_estado_id)
             ->where('pad.estado','=','1')
             ->orderBy('pad.id','desc')->get();
         return $result;
