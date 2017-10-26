@@ -197,8 +197,8 @@ class CargarPR extends Controller
 
     public function CargarMatriculas() 
     { 
-        ini_set('memory_limit', '512M');
-        set_time_limit(300);
+        ini_set('memory_limit', '1024M');
+        set_time_limit(600);
         if (isset($_FILES['carga_m']) and $_FILES['carga_m']['size'] > 0) {
 
             $uploadFolder = 'txt/matricula';
@@ -424,6 +424,8 @@ class CargarPR extends Controller
                             $matricula->persona_id = $persona->id;
                             $matricula->alumno_id = $alumno->id;
                             $matricula->sucursal_id = $sucursal->id;
+                            $matricula->sucursal_destino_id = $sucursal->id;
+                            $matricula->persona_caja_id = 2;
                             $matricula->persona_matricula_id = $responsable_matricula->id;
                             $matricula->persona_marketing_id = $trabajador->persona_id;
                             $matricula->fecha_matricula = $fecha_matricula;
