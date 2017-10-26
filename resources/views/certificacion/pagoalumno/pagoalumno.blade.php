@@ -59,11 +59,6 @@
                                                         <label><h4>[]</h4></label>
                                                     </div>
                                                 </th>
-                                                <th class="col-xs-2" style="min-width: 150px;">
-                                                    <div class="form-group">
-                                                        <label><h4>[]</h4></label>
-                                                    </div>
-                                                </th>
                                                 <th class="col-xs-2" style="min-width: 100px;">
                                                     <div class="form-group">
                                                         <label><h4>Destino del Documento:</h4></label>
