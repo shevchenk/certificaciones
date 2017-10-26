@@ -84,7 +84,7 @@ class CargarPR extends Controller
                                         ->where('paterno', '=', trim($detfile[3]))
                                         ->where('materno', '=', trim($detfile[4]))
                                         ->where('dni', '=', trim($detfile[5]))
-                                        ->where('certificado', '=', trim( mb_detect_encoding(utf8_encode($detfile[6])) ) )
+                                        ->where('certificado', '=', trim( utf8_encode($detfile[6]) ) )
                                         ->where('nota_certificado', '=', trim($detfile[7]))
                                         ->where('tipo_certificado', '=', trim($detfile[8]))
                                         ->where('estado', '=', 1)
@@ -100,7 +100,7 @@ class CargarPR extends Controller
                         $obj->paterno = trim( $detfile[3] );
                         $obj->materno = trim( $detfile[4] );
                         $obj->dni = trim( $detfile[5] );
-                        $obj->certificado = trim( mb_detect_encoding(utf8_encode($detfile[6])) );
+                        $obj->certificado = trim( utf8_encode($detfile[6]) );
                         $obj->nota_certificado = trim( $detfile[7] );
                         $obj->tipo_certificado = trim( $detfile[8] );
                         $obj->direccion = trim( $detfile[9] );
