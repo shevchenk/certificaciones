@@ -173,6 +173,9 @@ class BandejaCE extends Controller
     {
         if ( $r->ajax() ) {
             Bandeja::runEditStatus($r);
+            if( $r->has('nro_pago') AND trim($r->nro_pago)!='' ){
+                Bandeja::runEditStatus($r);
+            }
             $return['rst'] = 1;
             $return['msj'] = 'Entregado y Validado por Alumno correctamente';
             return response()->json($return);

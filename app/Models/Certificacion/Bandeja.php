@@ -239,6 +239,8 @@ class Bandeja extends Model
                 if( $r->has('nro_pago') AND trim($r->nro_pago)!='' ){
                     $certificado->nro_pago = $r->nro_pago;
                     $certificado->monto_pago = $r->monto_pago;
+                    $certificado->fecha_pago = $r->fecha_pago;
+                    $certificado->tipo_pago = $r->tipo_pago;
                 }
 
                 $certificado->persona_id_updated_at=$usuario_id;

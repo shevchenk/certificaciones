@@ -8,6 +8,21 @@ var BandejaG={  id:0,
                 tipo_curso:0,
                 estado:1}; // Datos Globales
 $(document).ready(function() {
+    $("#ModalBoletaForm #txt_fecha_pago").datetimepicker({
+        format: "yyyy-mm-dd",
+        language: 'es',
+        showMeridian: false,
+        time:false,
+        minView:2,
+        startView:2,
+        autoclose: true,
+        todayBtn: false
+    });
+
+    $('#ModalBoletaForm #spn_fecha_pago').on('click', function(){
+        $('#ModalBoletaForm #txt_fecha_pago').focus();
+    });
+
     $("#TableBandeja").DataTable({
         "paging": true,
         "lengthChange": false,
@@ -39,8 +54,8 @@ HTMLCambiarEstado=function(result){
 
 
 Abrir_archivoboleta=function(id){
-    $('#ModalBoletaForm #txt_nboleta').val( '' );
-    $('#ModalBoletaForm #txt_montboleta').val( '' );
+    $('#ModalBoletaForm #slct_tipo_pago').val( '1' );
+    $('#ModalBoletaForm #txt_monto_pago,#ModalBoletaForm #txt_fecha_pago,#ModalBoletaForm #txt_nro_pago').val( '' );
 
     $("#ModalBoletaForm").append("<input type='hidden' value='"+id+"' id='id' name='id'>");
 }
