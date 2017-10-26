@@ -60,6 +60,7 @@ HTMLCargarBandeja=function(result){ //INICIO HTML
         boton='<td> <a class="btn btn-success btn-sm" id="'+r.id+'" onClick="Abrir_archivoboleta('+r.id+')" data-estado="'+r.estado+'" class="btn btn-warning" data-toggle="modal" data-target="#ModalBoleta" return false;><i class="fa fa-check fa-lg">Iniciar<br>Pago Alumno</i></a> </td>';
         html+="<tr id='trid_"+r.id+"'>"+
             boton+
+            "<td class='ultima_llamada'>"+r.ultima_llamada+"</td>"+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='dni'>"+r.dni+"</td>"+
             "<td class='paterno'>"+r.paterno+"</td>"+

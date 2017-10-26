@@ -109,7 +109,7 @@ class BandejaCE extends Controller
         if ( $r->ajax() ) {
 
             $r->certificado_estado_id=6;
-            $renturnModel = Bandeja::runLoad($r);
+            $renturnModel = Bandeja::runLoadteleoperada($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
@@ -161,7 +161,7 @@ class BandejaCE extends Controller
         if ( $r->ajax() ) {
 
             $r->certificado_estado_id=10;
-            $renturnModel = Bandeja::runLoad($r);
+            $renturnModel = Bandeja::runLoadteleoperada($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
