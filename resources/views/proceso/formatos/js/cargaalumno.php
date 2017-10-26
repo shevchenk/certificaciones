@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
     $(".fecha").datetimepicker({
-        format: "yyyy-mm",
+        format: "yyyy-mm-dd",
         language: 'es',
         showMeridian: false,
         time:false,
