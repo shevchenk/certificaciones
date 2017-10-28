@@ -96,7 +96,7 @@ class Reporte extends Model
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago','mm.nro_promocion','mm.monto_promocion',
                      'pcaj.paterno','pcaj.materno','pcaj.nombre',
                      'pmar.paterno','pmar.materno','pmar.nombre',
-                     'pmat.paterno','pmat.materno','pmat.nombre');
+                     'pmat.paterno','pmat.materno','pmat.nombre','mm.observacion');
 
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
