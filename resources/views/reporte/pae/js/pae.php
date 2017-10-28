@@ -56,6 +56,15 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('click', '#btnexport2', function(event) {
+        var data = DataToFilter();
+        if(data.length > 0){
+            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportPAEDes'+'?fecha_ini='+data[0]['fecha_ini']+'&fecha_fin='+data[0]['fecha_fin']);
+        }else{
+            event.preventDefault();
+        }
+    });
+
 });
 
 
@@ -72,6 +81,7 @@ HTMLCargarPAE=function(result){
         var monto=r.monto_pago_certificado.split("\n").join('<br/>');
         var nro_c=r.nro_pago_c.split("\n").join('<br/>');
         var monto_c=r.monto_pago_c.split("\n").join('<br/>');
+        var modalidad=r.modalidad.split("\n").join('<br/>');
 
         html+="<tr id='trid_"+r.paterno+"'>"+
             "<td>"+r.dni+"</td>"+
@@ -90,6 +100,7 @@ HTMLCargarPAE=function(result){
             "<td>"+r.nro_pago+"</td>"+
             "<td>"+r.monto_pago+"</td>"+
 
+            "<td>"+modalidad+"</td>"+
             "<td>"+curso+"</td>"+
             "<td>"+nro_c+"</td>"+
             "<td>"+monto_c+"</td>"+

@@ -60,6 +60,9 @@
                                 <div class="col-sm-1" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
                                 </div>
+                                <div class="col-sm-1" style="padding:24px">
+                                    <a class='btn btn-success btn-md' id="btnexport2" name="btnexport2" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export Desglosado</i></a>
+                                </div>
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
@@ -94,6 +97,7 @@
                                             <th>Nro Pago Mat</th>
                                             <th>Monto Pago Mat</th>
 
+                                            <th>Modalidad</th>
                                             <th>Cursos</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
@@ -139,6 +143,7 @@
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
 
+                                            <th>Modalidad</th>
                                             <th>Cursos</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
