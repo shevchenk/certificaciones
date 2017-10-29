@@ -140,13 +140,19 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>DNI</label>
+                                            <input type="text" class="form-control" id="txt_codigo_interno" name="txt_codigo_interno">
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-5">
                                         <div class="form-group">
                                             <label>Direccion</label>
                                             <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_direccion" name="txt_direccion"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <div class="form-group">
                                             <label>Referencia</label>
                                             <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_referencia" name="txt_referencia"></textarea>

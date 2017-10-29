@@ -26,6 +26,7 @@ class Matricula extends Model
            $al->distrito_id=trim( $r->distrito_id);
            $al->direccion=trim( $r->direccion);
            $al->referencia=trim($r->referencia);
+           $al->codigo_interno=trim($r->codigo_interno);
            $al->persona_id_updated_at=Auth::user()->id;
            $al->save();
         }else {
@@ -36,6 +37,7 @@ class Matricula extends Model
            $al->region_id=trim( $r->region_id);
            $al->provincia_id=trim( $r->provincia_id);
            $al->distrito_id=trim( $r->distrito_id);
+           $al->codigo_interno=trim($r->codigo_interno);
            $al->persona_id_created_at=Auth::user()->id;
            $al->save();
         }
