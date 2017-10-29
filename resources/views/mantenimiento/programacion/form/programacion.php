@@ -35,13 +35,13 @@
                             </select>
                         </div> 
                     </div>
-                    <div class="col-md-12 txt_aula">
+                    <div class="col-md-3 txt_aula">
                         <div class="form-group">
                             <label>Aula</label>
                             <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_aula" name="txt_aula">
                         </div>
                     </div>
-                    <div class="col-md-12 slct_dia">
+                    <div class="col-md-9 slct_dia">
                         <div class="form-group">
                             <label>Horario</label>
                             <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_dia[]" id="slct_dia">
@@ -73,6 +73,18 @@
                             <input type="text" class="form-control fecha" id="txt_fecha_campaña" name="txt_fecha_campaña" readonly="" >
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Meta Max</label>
+                            <input type="text" onkeypress="return masterG.validaNumeros(event, this);" class="form-control" id="txt_meta_max" name="txt_meta_max">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Meta Min</label>
+                            <input type="text" onkeypress="return masterG.validaNumeros(event, this);" class="form-control" id="txt_meta_min" name="txt_meta_min">
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Estado</label>
@@ -89,7 +101,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default active pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary pull-right">Save</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

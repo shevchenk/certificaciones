@@ -1,7 +1,8 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
 var ProgramacionG={id:0,dia:"",persona_id:0,persona:"",docente_id:0,sucursal_id:"",
-               curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",fecha_campaña:"",estado:1}; // Datos Globales
+               curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",fecha_campaña:"",
+               meta_max:"",meta_min:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     $(".fechas").datetimepicker({
         format: "yyyy-mm-dd hh:ii:00",
@@ -67,6 +68,8 @@ $(document).ready(function() {
         $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio );
         $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final );
         $('#ModalProgramacionForm #txt_fecha_campaña').val( ProgramacionG.fecha_campaña );
+        $('#ModalProgramacionForm #txt_meta_max').val( ProgramacionG.meta_max );
+        $('#ModalProgramacionForm #txt_meta_min').val( ProgramacionG.meta_min );
         $('#ModalProgramacionForm #slct_estado').selectpicker( 'val',ProgramacionG.estado );
         $('#ModalProgramacionForm #slct_docente_id').focus();
     });
@@ -115,6 +118,8 @@ AgregarEditar=function(val,id){
     ProgramacionG.fecha_inicio='';
     ProgramacionG.fecha_final='';
     ProgramacionG.fecha_campaña='';
+    ProgramacionG.meta_max='';
+    ProgramacionG.meta_min='';
     ProgramacionG.estado='1';
     if( val==0 ){
         ProgramacionG.id=id;
@@ -128,6 +133,8 @@ AgregarEditar=function(val,id){
         ProgramacionG.fecha_inicio=$("#TableProgramacion #trid_"+id+" .fecha_inicio").text();
         ProgramacionG.fecha_final=$("#TableProgramacion #trid_"+id+" .fecha_final").text();
         ProgramacionG.fecha_campaña=$("#TableProgramacion #trid_"+id+" .fecha_campaña").text();
+        ProgramacionG.meta_max=$("#TableProgramacion #trid_"+id+" .meta_max").val();
+        ProgramacionG.meta_min=$("#TableProgramacion #trid_"+id+" .meta_min").val();
         ProgramacionG.estado=$("#TableProgramacion #trid_"+id+" .estado").val();
     }
     $('#ModalProgramacion').modal('show');
@@ -180,6 +187,8 @@ HTMLCargarProgramacion=function(result){
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
             "<td class='fecha_campaña'>"+r.fecha_campaña+"</td>"+
             "<td>"+
+            "<input type='hidden' class='meta_max' value='"+r.meta_max+"'>"+
+            "<input type='hidden' class='meta_min' value='"+r.meta_min+"'>"+
             "<input type='hidden' class='dia' value='"+r.dia+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+

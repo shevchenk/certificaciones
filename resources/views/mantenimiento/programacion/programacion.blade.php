@@ -51,6 +51,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <form id="ProgramacionForm">
+                    <input type="hidden" class="mant" name="txt_tipo_curso" value="1">
                     <div class="box-body table-responsive no-padding">
                         <table id="TableProgramacion" class="table table-bordered table-hover">
                             <thead>
