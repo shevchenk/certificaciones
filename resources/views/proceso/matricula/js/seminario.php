@@ -238,6 +238,7 @@ CargarAlumno=function(result){
     if(result.data!=null){
         $("#ModalMatriculaForm #txt_direccion").val(result.data.direccion); 
         $("#ModalMatriculaForm #txt_referencia").val(result.data.referencia);
+        $("#ModalMatriculaForm #txt_codigo_interno").val(result.data.codigo_interno);
         
         $("#ModalMatriculaForm #slct_region_id").selectpicker('val',result.data.region_id);
         $("#ModalMatriculaForm #slct_region_id").change();

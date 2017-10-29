@@ -142,7 +142,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>DNI</label>
+                                            <label>Código del Alumno</label>
                                             <input type="text" class="form-control" id="txt_codigo_interno" name="txt_codigo_interno">
                                         </div> 
                                     </div>
