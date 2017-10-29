@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
 var ProgramacionG={id:0,dia:"",persona_id:0,persona:"",docente_id:0,sucursal_id:"",
-               curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
+               curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",fecha_campaña:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     $(".fechas").datetimepicker({
         format: "yyyy-mm-dd hh:ii:00",
@@ -66,6 +66,7 @@ $(document).ready(function() {
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',dia);
         $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio );
         $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final );
+        $('#ModalProgramacionForm #txt_fecha_campaña').val( ProgramacionG.fecha_campaña );
         $('#ModalProgramacionForm #slct_estado').selectpicker( 'val',ProgramacionG.estado );
         $('#ModalProgramacionForm #slct_docente_id').focus();
     });
@@ -113,6 +114,7 @@ AgregarEditar=function(val,id){
     ProgramacionG.dia='';
     ProgramacionG.fecha_inicio='';
     ProgramacionG.fecha_final='';
+    ProgramacionG.fecha_campaña='';
     ProgramacionG.estado='1';
     if( val==0 ){
         ProgramacionG.id=id;
@@ -124,7 +126,8 @@ AgregarEditar=function(val,id){
         ProgramacionG.aula=$("#TableProgramacion #trid_"+id+" .aula").text();
         ProgramacionG.dia=$("#TableProgramacion #trid_"+id+" .dia").val();  
         ProgramacionG.fecha_inicio=$("#TableProgramacion #trid_"+id+" .fecha_inicio").text();
-        ProgramacionG.fecha_final=$("#TableProgramacion #trid_"+id+" .fecha_final").text();  
+        ProgramacionG.fecha_final=$("#TableProgramacion #trid_"+id+" .fecha_final").text();
+        ProgramacionG.fecha_campaña=$("#TableProgramacion #trid_"+id+" .fecha_campaña").text();
         ProgramacionG.estado=$("#TableProgramacion #trid_"+id+" .estado").val();
     }
     $('#ModalProgramacion').modal('show');
@@ -175,6 +178,7 @@ HTMLCargarProgramacion=function(result){
             "<td class='dias'>"+r.dia+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
+            "<td class='fecha_campaña'>"+r.fecha_campaña+"</td>"+
             "<td>"+
             "<input type='hidden' class='dia' value='"+r.dia+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+

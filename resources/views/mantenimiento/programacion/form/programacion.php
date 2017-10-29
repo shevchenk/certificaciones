@@ -67,6 +67,12 @@
                             <input type="text" class="form-control fechas" id="txt_fecha_final" name="txt_fecha_final" readonly="" >
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Fecha Campaña</label>
+                            <input type="text" class="form-control fecha" id="txt_fecha_campaña" name="txt_fecha_campaña" readonly="" >
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Estado</label>

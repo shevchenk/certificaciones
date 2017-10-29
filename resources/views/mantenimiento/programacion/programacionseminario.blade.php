@@ -118,6 +118,15 @@
                                             </div>
                                         </div>
                                     </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Campaña:</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_campaña" id="txt_campaña" placeholder="Campaña" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                            </div>
+                                        </div>
+                                    </th>
                                     
                                     <th class="col-xs-2">
                                         <div class="form-group">
@@ -145,6 +154,7 @@
                                   <th>Días</th>
                                   <th>Inicio</th>
                                   <th>Final</th>
+                                  <th>Campaña</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>
