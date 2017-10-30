@@ -97,7 +97,7 @@ HTMLCargarIndiceMat=function(result){
             "<td>"+indice_x_dia+"</td>"+
             "<td>"+r.dias_falta+"</td>"+
             "<td>"+mat_prog_x_dia+"</td>"+
-            "<td bgcolor='FFFF48'>"+proy_fin_cam+"</td>"+
+            "<td bgcolor='"+color+"'>"+proy_fin_cam+"</td>"+
             "<td>"+mat_falt_meta+"</td>";
         html+="</tr>";
     });
