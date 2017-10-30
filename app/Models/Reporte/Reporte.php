@@ -166,31 +166,127 @@ class Reporte extends Model
         return $r;
     }
 
-    /*
-    public static function runExportPAE2($r)
+    public static function runLoadIndiceMat($r)
     {
-        $rsql= DB::table('mat_cursos as c')
-                ->select('curso','certificado_curso','curso_apocope',
-                DB::raw('IF(tipo_curso=1,"Curso","Seminario") tipo_curso')
-                );
+        $id=Auth::user()->id;
+        $sql=DB::table('mat_matriculas AS mm')
+            ->join('mat_matriculas_detalles AS mmd',function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado',1);
+            })
+            ->join('mat_programaciones AS mp',function($join){
+                $join->on('mp.id','=','mmd.programacion_id');
+
+            })
+            ->join('sucursales AS s1',function($join){
+                $join->on('s1.id','=','mm.sucursal_id');
+
+            })
+            ->join('sucursales AS s2',function($join){
+                $join->on('s2.id','=','mp.sucursal_id');
+
+            })
+            ->join('mat_cursos AS mc',function($join){
+                $join->on('mc.id','=','mp.curso_id');
+
+            })
+            ->select('s1.sucursal as ode','s2.sucursal as odeclase','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final','mm.fecha_matricula',DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
+            )
+            ->where( 
+                function($query) use ($r){
+
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin")){
+                        $inicial=trim($r->fecha_ini);
+                        $final=trim($r->fecha_fin);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_ini,$r->fecha_fin));
+                        }
+                    }
+
+                    if( $r->has('tipo_curso') ){
+                        $query->where('mc.tipo_curso','=',$r->tipo_curso);
+                    }
+                }
+            )
+            ->where('mm.estado',1)
+            ->groupBy('mm.sucursal_id','mp.id','mm.fecha_matricula');
+
+        $result = $sql->orderBy('s1.sucursal','asc')
+                    ->orderBy('s2.sucursal','asc')
+                    ->orderBy('mc.curso','asc')
+                    ->get();
+        return $result;
+    }
+
+    public static function runExportIndiceMat($r)
+    {
+        $rsql= Reporte::runLoadPAE($r);
 
         $length=array(
-            5,20,20,15,
-            17
+            'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,'G'=>15,'H'=>25,'I'=>30,
+            'J'=>15,'K'=>15,'L'=>15,
+            'M'=>15,'N'=>15,
+            'O'=>15,'P'=>15,
+            'Q'=>15,'R'=>15,'S'=>15, 'T'=>15, 'U'=>15,'V'=>15,
+            'W'=>20,'X'=>20,
+            'Y'=>20,'Z'=>20,
+            'AA'=>20,'AB'=>20,'AC'=>20,'AD'=>30
         );
-        $cabecera=array(
-            'N°','Curso','Certificado','Apocope',
-            'Tipo Curso',
+
+        $cabecera1=array(
+            'Alumnos','Matrícula','Inscripción','Matrícula',
+            'Cursos','Promociones','Pagos','Responsable'
+        );
+
+        $cabecantNro=array(
+            9,3,2,2,
+            5,2,2,4
+        );
+
+        $cabecantLetra=array(
+            'A3:I3','J3:L3','M3:N3','O3:P3',
+            'Q3:V3','W3:X3','Y3:Z3','AA3:AD3'
+        );
+
+        $cabecera2=array(
+            'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
+            'Fecha Matrícula','Sucursal','Tipo Participante',
+            'Nro Pago Ins','Monto Pago Ins',
+            'Nro Pago Mat','Monto Pago Mat',
+            'Modalidad','Cursos','Nro Pago','Monto Pago','Nro Pago Certificado','Monto Pago Certificado',
+            'Nro Pago Promoción','Monto Pago Promoción',
+            'Sub Total Curso','Total Pagado',
+            'Cajera','Marketing','Matrícula',
+            'Observacion'
         );
         $campos=array(
-            '','curso','certificado_curso','curso_apocope',
-            'tipo_curso'
+             'id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
+             'fecha_matricula','sucursal','tipo_participante',
+             'nro_pago_inscripcion','monto_pago_inscripcion',
+             'nro_pago','monto_pago',
+             'modalidad','cursos','nro_pago_c','monto_pago_c','nro_pago_certificado','monto_pago_certificado',
+             'nro_promocion','monto_promocion',
+             'subtotal','total',
+             'cajera','marketing','matricula',
+             'observacion'
         );
+
         $r['data']=$rsql;
-        $r['cabecera']=$cabecera;
+        $r['cabecera1']=$cabecera1;
+        $r['cabecantLetra']=$cabecantLetra;
+        $r['cabecantNro']=$cabecantNro;
+        $r['cabecera2']=$cabecera2;
         $r['campos']=$campos;
         $r['length']=$length;
+        $r['max']='AD';
         return $r;
     }
-    */
 }
