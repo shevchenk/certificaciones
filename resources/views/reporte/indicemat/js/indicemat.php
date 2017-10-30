@@ -68,7 +68,7 @@ HTMLCargarIndiceMat=function(result){
         proy_fin_cam=0;
         if(r.ndias>0){
             indice_x_dia = Math.round( (r.mat/r.ndias)*100 )/100;
-            mat_prog_x_dia=indice_x_dia*r.dias_falta;
+            mat_prog_x_dia=Math.round( (indice_x_dia*r.dias_falta)*100 )/100;
         }
         proy_fin_cam=r.mat+mat_prog_x_dia;
         color="FF4848";
