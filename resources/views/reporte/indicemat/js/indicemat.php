@@ -70,7 +70,7 @@ HTMLCargarIndiceMat=function(result){
             indice_x_dia = Math.round( (r.mat/r.ndias)*100 )/100;
             mat_prog_x_dia=Math.round( (indice_x_dia*r.dias_falta)*100 )/100;
         }
-        proy_fin_cam=r.mat+mat_prog_x_dia;
+        proy_fin_cam=Math.round( (r.mat+mat_prog_x_dia)*100)/100;
         color="FF4848";
         if( proy_fin_cam>=r.meta_max ){
             color="35FF35";
@@ -78,7 +78,7 @@ HTMLCargarIndiceMat=function(result){
         else if( proy_fin_cam>=r.meta_min ){
             color="FFFF48";
         }
-        mat_falt_meta = r.meta_max - proy_fin_cam;
+        mat_falt_meta = Math.round( (r.meta_max - proy_fin_cam)*100)/100;
         html+="<tr id='trid_"+r.ode+"'>"+
             "<td>"+(index+1)+"</td>"+
             "<td>"+r.ode+"</td>"+
