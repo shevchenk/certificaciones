@@ -194,6 +194,8 @@ class Reporte extends Model
                 ,DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
                 ,DB::raw('DATEDIFF(CURDATE(),mp.fecha_campaña) AS ndias')
                 ,DB::raw('IF(DATEDIFF( CURDATE(),DATE(mp.fecha_inicio) ) >=0,0,(DATEDIFF(mp.fecha_inicio,CURDATE()) )) AS dias_falta')
+                ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->ult_dia.'",mmd.id,NULL )) ult_dia')
+                ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->penult_dia.'",mmd.id,NULL )) penult_dia') 
             )
             ->where( 
                 function($query) use ($r){

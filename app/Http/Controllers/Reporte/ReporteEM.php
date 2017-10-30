@@ -27,6 +27,10 @@ class ReporteEM extends Controller
     public function LoadIndiceMat(Request $r )
     {
         if ( $r->ajax() ) {
+            if( $r->has("fecha_ini") AND $r->has("fecha_fin")){
+                $r->ult_dia=$r->fecha_fin;
+                $r->penult_dia=date('Y-m-d',strtotime('-1 day',strtotime($r->fecha_fin)));
+            }
             $renturnModel = Reporte::runLoadIndiceMat($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;

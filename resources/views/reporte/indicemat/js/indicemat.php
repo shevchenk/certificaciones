@@ -87,8 +87,8 @@ HTMLCargarIndiceMat=function(result){
             "<td>"+r.dia+"</td>"+
             "<td>"+r.fecha_inicio+" <hr> "+r.fecha_final+"</td>"+
             "<td>"+r.fecha_inicio.substr(0,10)+"</td>"+
-            "<td>"+1+"</td>"+
-            "<td>"+2+"</td>"+
+            "<td>"+r.penult_dia+"</td>"+
+            "<td>"+r.ult_dia+"</td>"+
             "<td>"+r.mat+"</td>"+
             "<td>"+r.meta_max+"</td>"+
             "<td>"+r.meta_min+"</td>"+
