@@ -190,7 +190,8 @@ class Reporte extends Model
                 $join->on('mc.id','=','mp.curso_id');
 
             })
-            ->select('s1.sucursal as ode','s2.sucursal as odeclase','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final','mm.fecha_matricula',DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
+            ->select('s1.sucursal as ode','s2.sucursal as odeclase','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
+                ,DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
             )
             ->where( 
                 function($query) use ($r){
@@ -217,7 +218,7 @@ class Reporte extends Model
                 }
             )
             ->where('mm.estado',1)
-            ->groupBy('mm.sucursal_id','mp.id','s1.sucursal','s2.sucursal','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final','mm.fecha_matricula','mp.meta_max','mp.meta_min','mp.fecha_campaña');
+            ->groupBy('mm.sucursal_id','mp.id');
 
         $result = $sql->orderBy('s1.sucursal','asc')
                     ->orderBy('s2.sucursal','asc')
