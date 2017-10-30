@@ -192,6 +192,8 @@ class Reporte extends Model
             })
             ->select('s1.sucursal as ode','s2.sucursal as odeclase','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
                 ,DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
+                ,DB::raw('DATEDIFF(CURDATE(),mp.fecha_campaña) AS ndias')
+                ,DB::raw('IF(DATEDIFF( CURDATE(),DATE(mp.fecha_inicio) ) >=0,0,(DATEDIFF(mp.fecha_inicio,CURDATE()) )) AS dias_falta')
             )
             ->where( 
                 function($query) use ($r){

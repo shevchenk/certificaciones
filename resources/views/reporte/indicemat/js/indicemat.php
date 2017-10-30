@@ -63,7 +63,22 @@ HTMLCargarIndiceMat=function(result){
     $('#TableIndiceMat').DataTable().destroy();
     //swal('tittle','hola');
     $.each(result.data,function(index,r){
-
+        indice_x_dia=0;
+        mat_prog_x_dia=0;
+        proy_fin_cam=0;
+        if(r.ndias>0){
+            indice_x_dia = Math.round( (r.mat/r.ndias)*100 )/100;
+            mat_prog_x_dia=indice_x_dia*r.dias_falta;
+        }
+        proy_fin_cam=r.mat+mat_prog_x_dia;
+        color="FF4848";
+        if( proy_fin_cam>=r.meta_max ){
+            color="35FF35";
+        }
+        else if( proy_fin_cam>=r.meta_min ){
+            color="FFFF48";
+        }
+        mat_falt_meta = r.meta_max - proy_fin_cam;
         html+="<tr id='trid_"+r.ode+"'>"+
             "<td>"+(index+1)+"</td>"+
             "<td>"+r.ode+"</td>"+
@@ -78,12 +93,12 @@ HTMLCargarIndiceMat=function(result){
             "<td>"+r.meta_max+"</td>"+
             "<td>"+r.meta_min+"</td>"+
             "<td>"+r.fecha_campaña+"</td>"+
-            "<td>"+10+"</td>"+
-            "<td>"+10+"</td>"+
-            "<td>"+10+"</td>"+
-            "<td>"+10+"</td>"+
-            "<td>"+10+"</td>"+
-            "<td>"+10+"</td>";
+            "<td>"+r.ndias+"</td>"+
+            "<td>"+indice_x_dia+"</td>"+
+            "<td>"+r.dias_falta+"</td>"+
+            "<td>"+mat_prog_x_dia+"</td>"+
+            "<td bgcolor='FFFF48'>"+proy_fin_cam+"</td>"+
+            "<td>"+mat_falt_meta+"</td>";
         html+="</tr>";
     });
     $("#TableIndiceMat tbody").html(html); 
