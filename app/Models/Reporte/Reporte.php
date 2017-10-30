@@ -217,7 +217,7 @@ class Reporte extends Model
                 }
             )
             ->where('mm.estado',1)
-            ->groupBy('mm.sucursal_id','mp.id','mm.fecha_matricula');
+            ->groupBy('mm.sucursal_id','mp.id','mm.fecha_matricula','s1.sucursal','s2.sucursal');
 
         $result = $sql->orderBy('s1.sucursal','asc')
                     ->orderBy('s2.sucursal','asc')
