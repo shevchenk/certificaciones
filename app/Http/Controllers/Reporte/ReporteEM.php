@@ -304,6 +304,8 @@ class ReporteEM extends Controller
 
     public function ExportIndiceMat(Request $r )
     {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(300);
         $renturnModel = Reporte::runExportIndiceMat($r);
         
         Excel::create('Matricula', function($excel) use($renturnModel,$r) {
@@ -332,7 +334,7 @@ class ReporteEM extends Controller
                 $titulo=" PAE";
             }
 
-            $sheet->cell('A1', function($cell) {
+            $sheet->cell('A1', function($cell) use ($titulo) {
                 $cell->setValue('REPORTE DE INDICE DE MATRICULAS -'.$titulo);
                 $cell->setFont(array(
                     'family'     => 'Bookman Old Style',
@@ -354,16 +356,54 @@ class ReporteEM extends Controller
             $data=json_decode(json_encode($renturnModel['data']), true);
             //$sheet->rows($data);
             $pos=3;
+            $auxode="";
             for ($i=0; $i<count($data); $i++) {
-                $ndet=$data[$i]['ndet'];
                 $pos++;
-                //unset($data[$i]['ndet']);
                 $data[$i]['id']=$i+1;
 
+                if( $data[$i]['fecha_inicio']!='' ){
+                    $data[$i]['fecha_inicio']=$data[$i]['fecha_inicio']." al ".$data[$i]['fecha_final'];
+                    $data[$i]['fecha_final']=substr($data[$i]['fecha_inicio'], 0,10);
+                }
+
+                $indice_x_dia=0;
+                $mat_prog_x_dia=0;
+                $proy_fin_cam=0;
+                $dias_falta=$data[$i]['dias_falta'];
+                if($data[$i]['ndias']>0){
+                    $indice_x_dia = round( ($data[$i]['mat']/$data[$i]['ndias']),2 );
+                    $mat_prog_x_dia=round( ($indice_x_dia*$dias_falta),2 );
+                }
+                $proy_fin_cam=round( ($data[$i]['mat']+$mat_prog_x_dia),2 );
+                $color="FF4848";
+                if( $proy_fin_cam>=$data[$i]['meta_max'] ){
+                    $color="35FF35";
+                }
+                else if( $proy_fin_cam>=$data[$i]['meta_min'] ){
+                    $color="FFFF48";
+                }
+                $mat_falt_meta = round( ($data[$i]['meta_max'] - $proy_fin_cam),2 );
+                unset($data[$i]['dias_falta']);
+                array_push($data[$i], $indice_x_dia);
+                array_push($data[$i], $dias_falta);
+                array_push($data[$i], $mat_prog_x_dia);
+                array_push($data[$i], $proy_fin_cam);
+                array_push($data[$i], $mat_falt_meta);
+
+                if( $auxode!=$data[$i]['ode'] ){
+                    if( $auxode!='' ){
+
+                    }
+                    $auxode=$data[$i]['ode'];
+                }
+
                 $sheet->row( $pos, $data[$i] );
+                $sheet->cells('R'.$pos.':R'.$pos, function($cells) use($color){
+                    $cells->setBackground('#'.$color);
+                });
             }
 
-            $sheet->cells('A4:'.$renturnModel['max'].'4', function($cells) {
+            $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
                 $cells->setValignment('center');

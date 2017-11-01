@@ -49,7 +49,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var r = DataToFilter();
         if( r ){
-            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportIndiceMat'+'?fecha_ini='+data[0]['fecha_ini']+'&fecha_fin='+data[0]['fecha_fin']);
+            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportIndiceMat'+'?fecha_ini='+$('#txt_fecha_ini').val()+'&fecha_fin='+$('#txt_fecha_fin').val()+'&tipo_curso='+$('#slct_tipo_curso').val());
         }else{
             event.preventDefault();
         }

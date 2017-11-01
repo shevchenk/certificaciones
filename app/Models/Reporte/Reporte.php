@@ -190,12 +190,12 @@ class Reporte extends Model
                 $join->on('mc.id','=','mp.curso_id');
 
             })
-            ->select('s1.sucursal as ode','s2.sucursal as odeclase','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
+            ->select('mp.id','s1.sucursal as ode','s2.sucursal as odeclase','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
+                ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->ult_dia.'",mmd.id,NULL )) ult_dia')
+                ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->penult_dia.'",mmd.id,NULL )) penult_dia') 
                 ,DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
                 ,DB::raw('DATEDIFF(CURDATE(),mp.fecha_campaña) AS ndias')
                 ,DB::raw('IF(DATEDIFF( CURDATE(),DATE(mp.fecha_inicio) ) >=0,0,(DATEDIFF(mp.fecha_inicio,CURDATE()) )) AS dias_falta')
-                ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->ult_dia.'",mmd.id,NULL )) ult_dia')
-                ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->penult_dia.'",mmd.id,NULL )) penult_dia') 
             )
             ->where( 
                 function($query) use ($r){
@@ -233,17 +233,15 @@ class Reporte extends Model
 
     public static function runExportIndiceMat($r)
     {
-        $rsql= Reporte::runLoadPAE($r);
+        $rsql= Reporte::runLoadIndiceMat($r);
 
         $length=array(
-            'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,'G'=>15,'H'=>25,'I'=>30,
-            'J'=>15,'K'=>15,'L'=>15,
-            'M'=>15,'N'=>15,
-            'O'=>15,'P'=>15,
-            'Q'=>15,'R'=>15,'S'=>15, 'T'=>15, 'U'=>15,'V'=>15,
-            'W'=>20,'X'=>20,
-            'Y'=>20,'Z'=>20,
-            'AA'=>20,'AB'=>20,'AC'=>20,'AD'=>30
+            'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,
+            'G'=>15,'H'=>25,'I'=>30,'J'=>15,'K'=>15,
+            'L'=>15,'M'=>15,
+            'N'=>15,'O'=>15,
+            'P'=>15,'Q'=>15,'R'=>15,'S'=>15, 
+            'T'=>15, 'U'=>15
         );
 
         $cabecera1=array(
@@ -262,26 +260,15 @@ class Reporte extends Model
         );
 
         $cabecera2=array(
-            'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
-            'Fecha Matrícula','Sucursal','Tipo Participante',
-            'Nro Pago Ins','Monto Pago Ins',
-            'Nro Pago Mat','Monto Pago Mat',
-            'Modalidad','Cursos','Nro Pago','Monto Pago','Nro Pago Certificado','Monto Pago Certificado',
-            'Nro Pago Promoción','Monto Pago Promoción',
-            'Sub Total Curso','Total Pagado',
-            'Cajera','Marketing','Matrícula',
-            'Observacion'
+            'N°','ODE Matrícula','ODE Clase','Cursos','FREC','Programación',
+            'Fecha Inicio','Matric. Penult Día','Matric. Ult Día','Total Matric.',
+            'Meta Max','Meta Min',
+            'Inicio Campaña','Días Campaña',
+            'Indice X Día','Días Que Falta','Proy. Días Faltantes','Proy. Final',
+            'Falta Lograr Meta','Observación'
         );
         $campos=array(
-             'id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
-             'fecha_matricula','sucursal','tipo_participante',
-             'nro_pago_inscripcion','monto_pago_inscripcion',
-             'nro_pago','monto_pago',
-             'modalidad','cursos','nro_pago_c','monto_pago_c','nro_pago_certificado','monto_pago_certificado',
-             'nro_promocion','monto_promocion',
-             'subtotal','total',
-             'cajera','marketing','matricula',
-             'observacion'
+             ''
         );
 
         $r['data']=$rsql;
@@ -291,7 +278,7 @@ class Reporte extends Model
         $r['cabecera2']=$cabecera2;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='AD';
+        $r['max']='T';
         return $r;
     }
 }
