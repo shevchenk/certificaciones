@@ -178,10 +178,6 @@ class Reporte extends Model
                 $join->on('mp.id','=','mmd.programacion_id');
 
             })
-            ->join('sucursales AS s1',function($join){
-                $join->on('s1.id','=','mm.sucursal_id');
-
-            })
             ->join('sucursales AS s2',function($join){
                 $join->on('s2.id','=','mp.sucursal_id');
 
@@ -190,7 +186,7 @@ class Reporte extends Model
                 $join->on('mc.id','=','mp.curso_id');
 
             })
-            ->select('mp.id','s1.sucursal as ode','s2.sucursal as odeclase','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
+            ->select('mp.id','s2.sucursal as odeclase',DB::raw(' IF(s2.id=1,"PAE-VIR","PAE-PRE") instituto '),'mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
                 ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->ult_dia.'",mmd.id,NULL )) ult_dia')
                 ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->penult_dia.'",mmd.id,NULL )) penult_dia') 
                 ,DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
@@ -222,10 +218,9 @@ class Reporte extends Model
                 }
             )
             ->where('mm.estado',1)
-            ->groupBy('mm.sucursal_id','mp.id','s1.sucursal','s2.sucursal','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final','mp.meta_max','mp.meta_min','mp.fecha_campaña');
+            ->groupBy('mp.sucursal_id','mp.id','s2.sucursal','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final','mp.meta_max','mp.meta_min','mp.fecha_campaña');
 
-        $result = $sql->orderBy('s1.sucursal','asc')
-                    ->orderBy('s2.sucursal','asc')
+        $result = $sql->orderBy('s2.sucursal','asc')
                     ->orderBy('mc.curso','asc')
                     ->get();
         return $result;
@@ -236,12 +231,12 @@ class Reporte extends Model
         $rsql= Reporte::runLoadIndiceMat($r);
 
         $length=array(
-            'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,
-            'G'=>15,'H'=>25,'I'=>30,'J'=>15,'K'=>15,
-            'L'=>15,'M'=>15,
-            'N'=>15,'O'=>15,
-            'P'=>15,'Q'=>15,'R'=>15,'S'=>15, 
-            'T'=>15, 'U'=>15
+            'A'=>5,'B'=>13,'C'=>14,'D'=>40,'E'=>21.5,'F'=>23.5,
+            'G'=>11,'H'=>5.5,'I'=>5.5,'J'=>10.5,
+            'K'=>6.5,'L'=>6.5,
+            'M'=>11,'N'=>5,
+            'O'=>5,'P'=>5,'Q'=>6.5,'R'=>5.5,
+            'S'=>7, 'T'=>18
         );
 
         $cabecera1=array(
@@ -260,11 +255,11 @@ class Reporte extends Model
         );
 
         $cabecera2=array(
-            'N°','ODE Matrícula','ODE Clase','Cursos','FREC','Programación',
-            'Fecha Inicio','Matric. Penult Día','Matric. Ult Día','Total Matric.',
+            'N°','Local de Estudios','Institución','Curso','FREC','Hora',
+            'Fecha Inicio','Inscritos Últimos 2Días','','Total Inscritos.',
             'Meta Max','Meta Min',
             'Inicio Campaña','Días Campaña',
-            'Indice X Día','Días Que Falta','Proy. Días Faltantes','Proy. Final',
+            'Indice Por Día','Días Que Falta','Proy. Días Faltantes','Proy. Final',
             'Falta Lograr Meta','Observación'
         );
         $campos=array(

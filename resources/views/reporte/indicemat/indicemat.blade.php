@@ -75,15 +75,15 @@
                                     <thead>
                                         <tr class="cabecera">
                                             <th>N°</th>
-                                            <th>ODE Matrícula</th>
-                                            <th>ODE Clases</th>
-                                            <th>Cursos</th>
+                                            <th>Local de Estudios</th>
+                                            <th>Instituto</th>
+                                            <th>Curso</th>
                                             <th>FREC</th>
-                                            <th>Programación</th>
+                                            <th>Hora</th>
                                             <th>Fecha Inicio</th>
-                                            <th>Matric <br>Penult Día</th>
-                                            <th>Matric <br>Ult Día</th>
-                                            <th>Total Matric.</th>
+                                            <th>Inscritos Últimos 2 Días</th>
+                                            <th>Inscritos Último Día</th>
+                                            <th>Total Inscritos</th>
                                             <th>Meta MAX</th>
                                             <th>Meta MIN</th>
                                             <th>Inicio Campaña</th>
@@ -100,15 +100,15 @@
                                     <tfoot>
                                         <tr class="cabecera">
                                             <th>N°</th>
-                                            <th>ODE Matrícula</th>
-                                            <th>ODE Clases</th>
-                                            <th>Cursos</th>
+                                            <th>Local de Estudios</th>
+                                            <th>Instituto</th>
+                                            <th>Curso</th>
                                             <th>FREC</th>
-                                            <th>Programación</th>
+                                            <th>Hora</th>
                                             <th>Fecha Inicio</th>
-                                            <th>Matric <br>Penult Día</th>
-                                            <th>Matric <br>Ult Día</th>
-                                            <th>Total Matric.</th>
+                                            <th>Inscritos Últimos 2 Días</th>
+                                            <th>Inscritos Último Día</th>
+                                            <th>Total Inscritos</th>
                                             <th>Meta MAX</th>
                                             <th>Meta MIN</th>
                                             <th>Inicio Campaña</th>
