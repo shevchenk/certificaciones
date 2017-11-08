@@ -282,7 +282,11 @@ class CargarPR extends Controller
                         
                         if (count($responsable_matricula) == 0) 
                         {
-                            $responsable_matricula = new Persona;
+                            $msg_error = trim($detfile[9]).': No se encontro responsable registrado: '.$mat_person_paterno.' '.$mat_person_materno.' '.$mat_person_nombre.'<br>'; 
+                            array_push($array_error, $msg_error);
+                            DB::rollBack();
+                            continue;
+                            /*$responsable_matricula = new Persona;
                             $responsable_matricula->paterno = trim( $mat_person_paterno );
                             $responsable_matricula->materno = trim( $mat_person_materno );
                             $responsable_matricula->nombre = trim( $mat_person_nombre );
@@ -291,7 +295,7 @@ class CargarPR extends Controller
                             $responsable_matricula->password = '';                
                             $responsable_matricula->estado = 1;
                             $responsable_matricula->persona_id_created_at = Auth::user()->id;
-                            $responsable_matricula->save();
+                            $responsable_matricula->save();*/
                         }
                     // --
 
@@ -345,7 +349,11 @@ class CargarPR extends Controller
                                 $fecha_naci = NULL;
 
                             if(trim($detfile[6])=='' OR strlen(trim($detfile[6]))!=8){
-                                $detfile[6]='99999999';
+                                //$detfile[6]='99999999';
+                                $msg_error = trim($detfile[9]).': DNI inválido: '.$detfile[6].'<br>'; 
+                                array_push($array_error, $msg_error);
+                                DB::rollBack();
+                                continue;
                             }
 
                             $persona = new Persona;
