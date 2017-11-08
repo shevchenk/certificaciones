@@ -186,9 +186,9 @@ class Reporte extends Model
                 $join->on('mc.id','=','mp.curso_id');
 
             })
-            ->select('mp.id','s2.sucursal as odeclase',DB::raw(' IF(mp.sucursal_id=1,"PAE-VIR","PAE-PRE") instituto '),'mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
-                ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->ult_dia.'",mmd.id,NULL )) ult_dia')
-                ,DB::raw('COUNT(IF( mm.fecha_matricula="'.$r->penult_dia.'",mmd.id,NULL )) penult_dia') 
+            ->select('mp.id','s2.sucursal as odeclase',DB::raw(" IF(mp.sucursal_id=1,'PAE-VIR','PAE-PRE') instituto "),'mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
+                ,DB::raw("COUNT(IF( mm.fecha_matricula='".$r->ult_dia."',mmd.id,NULL )) ult_dia")
+                ,DB::raw("COUNT(IF( mm.fecha_matricula='".$r->penult_dia."',mmd.id,NULL )) penult_dia") 
                 ,DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
                 ,DB::raw('DATEDIFF(CURDATE(),mp.fecha_campaña) AS ndias')
                 ,DB::raw('IF(DATEDIFF( CURDATE(),DATE(mp.fecha_inicio) ) >=0,0,(DATEDIFF(mp.fecha_inicio,CURDATE()) )) AS dias_falta')
@@ -206,7 +206,7 @@ class Reporte extends Model
 
                     if( $r->has("fecha_ini") AND $r->has("fecha_fin") AND $r->has('tipo_fecha')){
                         if( $r->tipo_fecha==1 ){
-                            $query ->whereBetween('mp.fecha_inicio', array($r->fecha_ini,$r->fecha_fin));
+                            $query ->whereRaw("DATE(mp.fecha_inicio) BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."' ");
                         }
                         else{
                             $query ->whereBetween('mm.fecha_matricula', array($r->fecha_ini,$r->fecha_fin));
