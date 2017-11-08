@@ -39,12 +39,18 @@
                     <form id="IndiceMatForm">
                         <div class="box-body no-padding">
                             <div class="col-sm-12">
-                                <div class="col-sm-3"></div>
                                 <div class="col-sm-2 text-center">
                                     <label class="control-label">Tipo</label>
                                     <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tipo_curso" name="slct_tipo_curso">
                                         <option value="1" selected>PAE</option>
                                         <option value="2">Seminario</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Tipo Fecha</label>
+                                    <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tipo_fecha" name="slct_tipo_fecha">
+                                        <option value="1" selected>Programación</option>
+                                        <option value="2">Matrícula</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-2 text-center">

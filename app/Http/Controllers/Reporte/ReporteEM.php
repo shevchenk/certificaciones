@@ -374,13 +374,21 @@ class ReporteEM extends Controller
                 0,'',0,0,
                 0,''
             );
+            $totales=array(
+                '','','','','','',
+                'Totales',0,0,0,
+                0,0,
+                '','',
+                0,'',0,0,
+                0,''
+            );
             for ($i=0; $i<count($data); $i++) {
                 $pos++;
                 $contador++;
 
                 if( $data[$i]['fecha_inicio']!='' ){
                     $fini=substr($data[$i]['fecha_inicio'], 0,10);
-                    $data[$i]['fecha_inicio']=substr($data[$i]['fecha_inicio'],11)." a ".substr($data[$i]['fecha_final'],11);
+                    $data[$i]['fecha_inicio']=substr($data[$i]['fecha_inicio'],11,5)." a ".substr($data[$i]['fecha_final'],11,5);
                     $data[$i]['fecha_final']=$fini;
                 }
 
@@ -422,7 +430,7 @@ class ReporteEM extends Controller
                                 'size'       => '10',
                                 'bold'       =>  true
                             ));
-                            $cells->setBackground('#95B3D7');
+                            $cells->setBackground('#DCE6F1');
                         });
 
                         $subtotal=array(
@@ -447,6 +455,16 @@ class ReporteEM extends Controller
                 $subtotal[16]+=$mat_prog_x_dia;
                 $subtotal[17]+=$proy_fin_cam;
                 $subtotal[18]+=$mat_falt_meta;
+
+                $totales[7]+=$data[$i]['ult_dia'];
+                $totales[8]+=$data[$i]['penult_dia'];
+                $totales[9]+=$data[$i]['mat'];
+                $totales[10]+=$data[$i]['meta_max'];
+                $totales[11]+=$data[$i]['meta_min'];
+                $totales[14]+=$indice_x_dia;
+                $totales[16]+=$mat_prog_x_dia;
+                $totales[17]+=$proy_fin_cam;
+                $totales[18]+=$mat_falt_meta;
                 $data[$i]['id']=$contador;
 
                 $sheet->row( $pos, $data[$i] );
@@ -466,7 +484,23 @@ class ReporteEM extends Controller
                     'size'       => '10',
                     'bold'       =>  true
                 ));
-                $cells->setBackground('#95B3D7');
+                $cells->setBackground('#DCE6F1');
+            });
+
+            $count = $sheet->getHighestRow();
+            $pos++;
+            $pos++;
+            $sheet->row( $pos, $totales );
+            $sheet->cells('G'.$pos.':'.$renturnModel['max'].$pos, function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#DCE6F1');
             });
 
             $sheet->mergeCells('H3:I3');
@@ -480,10 +514,9 @@ class ReporteEM extends Controller
                     'size'       => '10',
                     'bold'       =>  true
                 ));
-                $cells->setBackground('#95B3D7');
+                $cells->setBackground('#DCE6F1');
             });
 
-            $count = $sheet->getHighestRow();
             $sheet->cells('J4:J'.$count, function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
@@ -493,7 +526,7 @@ class ReporteEM extends Controller
                     'size'       => '10',
                     'bold'       =>  true
                 ));
-                $cells->setBackground('#95B3D7');
+                $cells->setBackground('#DCE6F1');
             });
 
             

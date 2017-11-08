@@ -204,10 +204,11 @@ class Reporte extends Model
                         }
                     }
 
-                    if( $r->has("fecha_ini") AND $r->has("fecha_fin")){
-                        $inicial=trim($r->fecha_ini);
-                        $final=trim($r->fecha_fin);
-                        if( $inicial !=''AND $final!=''){
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") AND $r->has('tipo_fecha')){
+                        if( $r->tipo_fecha==1 ){
+                            $query ->whereBetween('mp.fecha_inicio', array($r->fecha_ini,$r->fecha_fin));
+                        }
+                        else{
                             $query ->whereBetween('mm.fecha_matricula', array($r->fecha_ini,$r->fecha_fin));
                         }
                     }
@@ -231,7 +232,7 @@ class Reporte extends Model
         $rsql= Reporte::runLoadIndiceMat($r);
 
         $length=array(
-            'A'=>5,'B'=>13,'C'=>14,'D'=>40,'E'=>21.5,'F'=>23.5,
+            'A'=>5,'B'=>13,'C'=>14,'D'=>40,'E'=>21.5,'F'=>12.5,
             'G'=>11,'H'=>5.5,'I'=>5.5,'J'=>10.5,
             'K'=>6.5,'L'=>6.5,
             'M'=>11,'N'=>5,
