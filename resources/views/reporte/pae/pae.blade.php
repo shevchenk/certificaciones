@@ -39,7 +39,6 @@
                     <form id="PaeForm">
                         <div class="box-body table-responsive no-padding">
                             <div class="col-sm-12">
-                                <div class="col-sm-3"></div>
                                 <div class="col-sm-2 text-center">
                                     <label class="control-label">Fecha Inicial</label>
                                     <div class="input-group">
@@ -57,13 +56,13 @@
                                 <div class="col-sm-1" style="padding:24px">
                                     <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
+                                <div class="col-sm-2" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
+                                <div class="col-sm-2" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexport2" name="btnexport2" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export Desglosado</i></a>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
+                                <div class="col-sm-2" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexport3" name="btnexport3" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Matrícula Moodle</i></a>
                                 </div>
                             </div>

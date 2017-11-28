@@ -103,14 +103,9 @@ class Reporte extends Model
             ->where('mc.tipo_curso',1)
             ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
                             FROM personas_privilegios_sucursales ppv
-                            WHERE ppv.persona_id='.$id.')')
-            ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
-                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago','mm.nro_promocion','mm.monto_promocion',
-                     'pcaj.paterno','pcaj.materno','pcaj.nombre',
-                     'pmar.paterno','pmar.materno','pmar.nombre',
-                     'pmat.paterno','pmat.materno','pmat.nombre','mm.observacion');
+                            WHERE ppv.persona_id='.$id.')');
 
-        $result = $sql->orderBy('mm.id','asc')->get();
+        $result = $sql->orderBy('mm.ids','asc')->get();
         return $result;
     }
 
