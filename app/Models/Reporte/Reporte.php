@@ -52,8 +52,7 @@ class Reporte extends Model
 
                 })
                 ->join('mat_cursos AS mc'.$i,function($join) use($i){
-                    $join->on('mc'..$i'.id','=','mp.curso_id');
-
+                    $join->on('mc'.$i.'.id','=','mp.curso_id');
                 });
             }
 
