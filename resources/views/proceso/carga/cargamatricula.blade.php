@@ -24,10 +24,9 @@
         <section class="content">
             <!-- Inicia contenido -->
             <div class="form-group">
-                <form id="form_file" name="form_file" action="" enctype="multipart/form-data" method="post">
+                <!--form id="form_file" name="form_file" action="" enctype="multipart/form-data" method="post">
                     <div class="col-sm-12">
                         <div class="col-sm-4">
-                            <!-- <label>Archivo TXT</label> -->
                             <input type="file" class="filestyle" data-buttonText="&nbsp;Archivo .TXT (Programación)" id="carga" name="carga" data-buttonName="btn-info">
                         </div>
                         <div class="col-sm-2 ">
@@ -36,7 +35,7 @@
                             </button>
                         </div>
                     </div>
-                </form>
+                </form-->
 
                 <div class="col-sm-12">&nbsp;</div>
                 <form id="form_file_m" name="form_file_m" action="" enctype="multipart/form-data" method="post">

@@ -65,7 +65,7 @@ $(document).ready(function() {
         }
     });
 
-    $(document).on('click', '#btnexport2', function(event) {
+    $(document).on('click', '#btnexport3', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
             $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportPAECab'+'?fecha_ini='+data[0]['fecha_ini']+'&fecha_fin='+data[0]['fecha_fin']);
