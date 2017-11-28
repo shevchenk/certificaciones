@@ -60,7 +60,7 @@ class Reporte extends Model
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago');
 
             for ($i=1; $i <= $cab; $i++) { 
-                $sql->select(
+                $sql->addSelect(
                          DB::raw('IF(mp'.$i.'.sucursal_id=1,"OnLine","Presencial") modalidad'.$i),
                          DB::raw('mc'.$i.'.curso  curso'.$i),
                          DB::raw('IFNULL(mmd'.$i.'.nro_pago,"")  nro_pago_c'.$i),
@@ -70,7 +70,7 @@ class Reporte extends Model
                     );
             }
 
-            $sql->select(
+            $sql->addSelect(
                      'mm.nro_promocion','mm.monto_promocion',
                      DB::raw('1 subtotal'),
                      DB::raw('1 total'),
