@@ -48,11 +48,11 @@ class Reporte extends Model
                     ->where('mmd.estado',1);
                 })
                 ->join('mat_programaciones AS mp'.$i,function($join) use($i){
-                    $join->on('mp'.$i.'.id','=','mmd.programacion_id');
+                    $join->on('mp'.$i.'.id','=','mmd'.$i.'.programacion_id');
 
                 })
                 ->join('mat_cursos AS mc'.$i,function($join) use($i){
-                    $join->on('mc'.$i.'.id','=','mp.curso_id');
+                    $join->on('mc'.$i.'.id','=','mp'.$i.'.curso_id');
                 });
             }
 
