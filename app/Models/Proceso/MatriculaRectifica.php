@@ -132,7 +132,7 @@ class MatriculaRectifica extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('mm.idss','asc')->paginate(10);
+        $result = $sql->orderBy('mm.id','asc')->paginate(10);
         return $result;
     }
 
