@@ -9,6 +9,111 @@ class Reporte extends Model
 {
     protected   $table = 'mat_promocion';
     
+    public static function runLoadCabPAE($r)
+    {
+        $id=Auth::user()->id;
+        $sql=DB::table('mat_matriculas AS mm')
+            ->join('personas AS p',function($join){
+                $join->on('p.id','=','mm.persona_id');
+            })
+            ->join('mat_alumnos AS ma',function($join){
+                $join->on('ma.persona_id','=','p.id');
+
+            })
+            ->join('sucursales AS s',function($join){
+                $join->on('s.id','=','mm.sucursal_id');
+
+            })
+            ->join('mat_tipos_participantes AS mtp',function($join){
+                $join->on('mtp.id','=','mm.tipo_participante_id');
+
+            })
+            ->join('personas AS pcaj',function($join){
+                $join->on('pcaj.id','=','mm.persona_caja_id');
+
+            })
+            ->join('personas AS pmar',function($join){
+                $join->on('pmar.id','=','mm.persona_marketing_id');
+
+            })
+            ->join('personas AS pmat',function($join){
+                $join->on('pmat.id','=','mm.persona_matricula_id');
+
+            });
+
+            $cab=3;
+            for ($i=1; $i <= $cab; $i++) { 
+                $sql->join('mat_matriculas_detalles AS mmd'.$i,function($join) use($i){
+                    $join->on('mmd'.$i.'.matricula_id','=','mm.id')
+                    ->where('mmd.estado',1);
+                })
+                ->join('mat_programaciones AS mp'.$i,function($join) use($i){
+                    $join->on('mp'.$i.'.id','=','mmd.programacion_id');
+
+                })
+                ->join('mat_cursos AS mc'.$i,function($join) use($i){
+                    $join->on('mc'..$i'.id','=','mp.curso_id');
+
+                });
+            }
+
+            $sql->select('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
+                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago');
+
+            for ($i=1; $i <= $cab; $i++) { 
+                $sql->select(
+                         DB::raw('IF(mp'.$i.'.sucursal_id=1,"OnLine","Presencial") modalidad'.$i),
+                         DB::raw('mc'.$i.'.curso  curso'.$i),
+                         DB::raw('IFNULL(mmd'.$i.'.nro_pago,"")  nro_pago_c'.$i),
+                         DB::raw('IFNULL(mmd'.$i.'.monto_pago,0)  monto_pago_c'.$i),
+                         DB::raw('mmd'.$i.'.nro_pago_certificado  nro_pago_certificado'.$i),
+                         DB::raw('mmd'.$i.'.monto_pago_certificado  monto_pago_certificado'.$i)
+                    );
+            }
+
+            $sql->select(
+                     'mm.nro_promocion','mm.monto_promocion',
+                     DB::raw('1 subtotal'),
+                     DB::raw('1 total'),
+                     DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
+                     DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
+                     DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
+                    'mm.observacion',DB::raw('COUNT(mmd.id) ndet'))
+            ->where( 
+                function($query) use ($r){
+
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin")){
+                        $inicial=trim($r->fecha_ini);
+                        $final=trim($r->fecha_fin);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_ini,$r->fecha_fin));
+                        }
+                    }
+                }
+            )
+            ->where('mm.estado',1)
+            ->where('mc.tipo_curso',1)
+            ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
+                            FROM personas_privilegios_sucursales ppv
+                            WHERE ppv.persona_id='.$id.')')
+            ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
+                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.nro_pago','mm.monto_pago','mm.nro_promocion','mm.monto_promocion',
+                     'pcaj.paterno','pcaj.materno','pcaj.nombre',
+                     'pmar.paterno','pmar.materno','pmar.nombre',
+                     'pmat.paterno','pmat.materno','pmat.nombre','mm.observacion');
+
+        $result = $sql->orderBy('mm.id','asc')->get();
+        return $result;
+    }
+
     public static function runLoadPAE($r)
     {
         $id=Auth::user()->id;

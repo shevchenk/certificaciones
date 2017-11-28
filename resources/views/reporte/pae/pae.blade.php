@@ -63,6 +63,9 @@
                                 <div class="col-sm-1" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexport2" name="btnexport2" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export Desglosado</i></a>
                                 </div>
+                                <div class="col-sm-1" style="padding:24px">
+                                    <a class='btn btn-success btn-md' id="btnexport3" name="btnexport2" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Matrícula Moodle</i></a>
+                                </div>
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
