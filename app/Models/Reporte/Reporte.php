@@ -9,7 +9,7 @@ class Reporte extends Model
 {
     protected   $table = 'mat_promocion';
 
-    public static function runLoadTotalPAE{
+    public static function runLoadTotalPAE(){
         $id=Auth::user()->id;
         $sql=DB::table('mat_matriculas AS mm')
             ->join('mat_matriculas_detalles AS mmd',function($join){
