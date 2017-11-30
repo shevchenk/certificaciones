@@ -344,7 +344,7 @@ class Reporte extends Model
         $r['cabecera2']=$cabecera2;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='AD';
+        $r['max']=$az[$pos];
         $r['total']=$total->ndet;
         return $r;
     }

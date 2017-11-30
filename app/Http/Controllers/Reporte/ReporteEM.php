@@ -81,7 +81,7 @@ class ReporteEM extends Controller
                 $cells->setValignment('center');
             });
 
-            //$sheet->setWidth($renturnModel['length']);
+            $sheet->setWidth($renturnModel['length']);
 
             /*for ($i=0; $i < count($renturnModel['cabecera1']); $i++) { 
                 //$campoinicial= explode(":",$renturnModel['cabecantLetra'][$i]);
