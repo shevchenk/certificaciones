@@ -9,7 +9,7 @@ class Reporte extends Model
 {
     protected   $table = 'mat_promocion';
 
-    public static function runLoadTotalPAE(){
+    public static function runLoadTotalPAE( $r ){
         $id=Auth::user()->id;
         $sql=DB::table('mat_matriculas AS mm')
             ->join('mat_matriculas_detalles AS mmd',function($join){
@@ -263,7 +263,7 @@ class Reporte extends Model
 
     public static function runExportPAECab($r)
     {
-        $total=Reporte::runLoadTotalPAE();
+        $total=Reporte::runLoadTotalPAE($r);
         $rsql= Reporte::runLoadPAECab($r,$total->ndet);
 
         $length=array(
