@@ -305,7 +305,7 @@ class Reporte extends Model
             array_push($cabecantNro, 2,2,4);
 
         $pos2=0;
-        $cabecantLetra=array( $az[$pos2].'3:'.$az[$pos2+9].'3' ); $pos2+=10;
+        $cabecantLetra=array( $az[$pos2].'3:'.$az[$pos2+8].'3' ); $pos2+=9;
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+2].'3' ); $pos2+=3;
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
