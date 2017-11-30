@@ -288,7 +288,7 @@ class Reporte extends Model
             
                 $length[$az[$pos++]]=20; $length[$az[$pos++]]=20;
                 $length[$az[$pos++]]=20; $length[$az[$pos++]]=20;
-                $length[$az[$pos++]]=20; $length[$az[$pos++]]=20; $length[$az[$pos++]]=20; $length[$az[$pos++]]=30;
+                $length[$az[$pos++]]=20; $length[$az[$pos++]]=20; $length[$az[$pos++]]=20; $length[$az[$pos]]=30;
 
         $cabecera1=array('Alumnos','Matrícula','Inscripción','Matrícula');
 
@@ -316,7 +316,7 @@ class Reporte extends Model
 
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+4].'3' ); $pos2+=5;
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+3].'3' ); $pos2+=4;
 
         $cabecera2=array(
             'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
