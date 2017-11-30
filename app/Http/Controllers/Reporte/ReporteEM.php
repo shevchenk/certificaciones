@@ -108,7 +108,7 @@ class ReporteEM extends Controller
                 unset($data[$i]['ndet']);
                 $data[$i]['id']=$i+1;
                 if($ndet>1){
-                    $desglosar[0]=explode("\n",$data[$i]['cursos1']);
+                    $desglosar[0]=explode("\n",$data[$i]['curso1']);
                     $desglosar[1]=explode("\n",$data[$i]['nro_pago_c1']);
                     $desglosar[2]=explode("\n",$data[$i]['monto_pago_c1']);
                     $desglosar[3]=explode("\n",$data[$i]['nro_pago_certificado1']);
