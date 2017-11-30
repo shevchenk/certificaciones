@@ -271,7 +271,7 @@ class Reporte extends Model
         $pos=0;
 
         $length=array(
-            $az[$pos]=>5,$az[$pos++]=>15,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>15,$az[$pos++]=>15,$az[$pos++]=>25,$az[$pos++]=>30,
+            $az[$pos++]=>5,$az[$pos++]=>15,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>15,$az[$pos++]=>15,$az[$pos++]=>25,$az[$pos++]=>30,
             $az[$pos++]=>15,$az[$pos++]=>15,$az[$pos++]=>15,
             $az[$pos++]=>15,$az[$pos++]=>15,
             $az[$pos++]=>15,$az[$pos++]=>15
@@ -310,7 +310,7 @@ class Reporte extends Model
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
 
-        for ($i=1; $i <= $total->ndet; $i++); { 
+        for ($i=1; $i <= $total->ndet; $i++) { 
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+6].'3' ); $pos2+=7;
         }
 
