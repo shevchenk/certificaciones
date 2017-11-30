@@ -305,18 +305,18 @@ class Reporte extends Model
             array_push($cabecantNro, 2,2,4);
 
         $pos2=0;
-        $cabecantLetra=array( $az[$pos2].'3:'.$az[$pos2+9].'3' ); $pos+=10;
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+2].'3' ) $pos2+=3;
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ) $pos2+=2;
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ) $pos2+=2;
+        $cabecantLetra=array( $az[$pos2].'3:'.$az[$pos2+9].'3' ); $pos2+=10;
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+2].'3' ); $pos2+=3;
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
 
-        for ($i=1; $i <= $total->ndet; $i++) { 
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+6].'3' ) $pos2+=7;
+        for ($i=1; $i <= $total->ndet; $i++); { 
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+6].'3' ); $pos2+=7;
         }
 
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ) $pos2+=2;
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ) $pos2+=2;
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+4].'3' ) $pos2+=5;
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+4].'3' ); $pos2+=5;
 
         $cabecera2=array(
             'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
