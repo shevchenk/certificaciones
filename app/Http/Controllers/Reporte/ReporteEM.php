@@ -43,7 +43,7 @@ class ReporteEM extends Controller
     {
         ini_set('memory_limit', '1024M');
         set_time_limit(300);
-        $renturnModel = Reporte::runLoadCabPAE($r);
+        $renturnModel = Reporte::runExportPAECab($r);
         
         Excel::create('Matricula', function($excel) use($renturnModel) {
 
@@ -101,50 +101,34 @@ class ReporteEM extends Controller
             $data=json_decode(json_encode($renturnModel['data']), true);
             //$sheet->rows($data);
             $pos=4;
-            //$desglosar=array(array(),array(),array(),array(),array(),array());
+            $desglosar=array(array(),array(),array(),array(),array(),array());
             for ($i=0; $i<count($data); $i++) {
                 $ndet=$data[$i]['ndet'];
                 $pos++;
                 unset($data[$i]['ndet']);
                 $data[$i]['id']=$i+1;
-                /*if($ndet>1){
-                    $desglosar[0]=explode("\n",$data[$i]['cursos']);
-                    $desglosar[1]=explode("\n",$data[$i]['nro_pago_c']);
-                    $desglosar[2]=explode("\n",$data[$i]['monto_pago_c']);
-                    $desglosar[3]=explode("\n",$data[$i]['nro_pago_certificado']);
-                    $desglosar[4]=explode("\n",$data[$i]['monto_pago_certificado']);
-                    $desglosar[5]=explode("\n",$data[$i]['modalidad']);
-                    $data[$i]['cursos']=$desglosar[0][0];
-                    $data[$i]['nro_pago_c']=$desglosar[1][0];
-                    $data[$i]['monto_pago_c']=$desglosar[2][0];
-                    $data[$i]['nro_pago_certificado']=$desglosar[3][0];
-                    $data[$i]['monto_pago_certificado']=$desglosar[4][0];
-                    $data[$i]['modalidad']=$desglosar[5][0];
-                }*/
+                if($ndet>1){
+                    $desglosar[0]=explode("\n",$data[$i]['cursos1']);
+                    $desglosar[1]=explode("\n",$data[$i]['nro_pago_c1']);
+                    $desglosar[2]=explode("\n",$data[$i]['monto_pago_c1']);
+                    $desglosar[3]=explode("\n",$data[$i]['nro_pago_certificado1']);
+                    $desglosar[4]=explode("\n",$data[$i]['monto_pago_certificado1']);
+                    $desglosar[5]=explode("\n",$data[$i]['modalidad1']);
+                    $data[$i]['cursos1']=$desglosar[0][0];
+                    $data[$i]['nro_pago_c1']=$desglosar[1][0];
+                    $data[$i]['monto_pago_c1']=$desglosar[2][0];
+                    $data[$i]['nro_pago_certificado1']=$desglosar[3][0];
+                    $data[$i]['monto_pago_certificado1']=$desglosar[4][0];
+                    $data[$i]['modalidad1']=$desglosar[5][0];
+                }
+                else{
+                    /*for ($i=0; $i < ; $i++) { 
+                        # code...
+                    }*/
+                }
+
+
                 $sheet->row( $pos, $data[$i] );
-                /*if($ndet>1){
-                    for ($j=1; $j < count($desglosar[0]); $j++) { 
-                        $pos++;
-                        $sheet->cell("Q".$pos, function($cell) use($desglosar,$j) {
-                                $cell->setValue($desglosar[5][$j]);
-                        });
-                        $sheet->cell("R".$pos, function($cell) use($desglosar,$j) {
-                                $cell->setValue($desglosar[0][$j]);
-                        });
-                        $sheet->cell("S".$pos, function($cell) use($desglosar,$j) {
-                                $cell->setValue($desglosar[1][$j]);
-                        });
-                        $sheet->cell("T".$pos, function($cell) use($desglosar,$j) {
-                                $cell->setValue($desglosar[2][$j]);
-                        });
-                        $sheet->cell("U".$pos, function($cell) use($desglosar,$j) {
-                                $cell->setValue($desglosar[3][$j]);
-                        });
-                        $sheet->cell("V".$pos, function($cell) use($desglosar,$j) {
-                                $cell->setValue($desglosar[4][$j]);
-                        });
-                    }
-                }*/
 
             }
 
