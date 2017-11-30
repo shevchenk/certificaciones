@@ -278,12 +278,17 @@ class Reporte extends Model
         );
 
             for ($i=1; $i <= $total->ndet; $i++) { 
-                array_push($length,$az[$pos++]=>15,$az[$pos++]=>15,$az[$pos++]=>15, $az[$pos++]=>15, $az[$pos++]=>15,$az[$pos++]=>15);
+                $length[$az[$pos++]]=15;
+                $length[$az[$pos++]]=15;
+                $length[$az[$pos++]]=15;
+                $length[$az[$pos++]]=15;
+                $length[$az[$pos++]]=15;
+                $length[$az[$pos++]]=15;
             }
             
-            array_push($length, $az[$pos++]=>20,$az[$pos++]=>20 );
-            array_push($length, $az[$pos++]=>20,$az[$pos++]=>20 );
-            array_push($length, $az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>30 );
+                $length[$az[$pos++]]=20; $length[$az[$pos++]]=20;
+                $length[$az[$pos++]]=20; $length[$az[$pos++]]=20;
+                $length[$az[$pos++]]=20; $length[$az[$pos++]]=20; $length[$az[$pos++]]=20; $length[$az[$pos++]]=30;
 
         $cabecera1=array('Alumnos','Matrícula','Inscripción','Matrícula');
 
