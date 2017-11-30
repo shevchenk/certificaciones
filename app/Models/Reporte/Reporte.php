@@ -113,7 +113,7 @@ class Reporte extends Model
                      DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago_certificado1')
                 );
 
-            for ($i=2; $i < $total; $i++) { 
+            for ($i=2; $i <= $total; $i++) { 
                 $sql->addSelect(
                      DB::raw('COUNT(mmd.id) modalidad'.$i),
                      DB::raw('COUNT(mmd.id) cursos'.$i),
@@ -277,15 +277,19 @@ class Reporte extends Model
             'AA'=>20,'AB'=>20,'AC'=>20,'AD'=>30
         );
 
-        $cabecera1=array(
-            'Alumnos','Matrícula','Inscripción','Matrícula',
-            'Cursos','Promociones','Pagos','Responsable'
-        );
+        $cabecera1=array('Alumnos','Matrícula','Inscripción','Matrícula');
 
-        $cabecantNro=array(
-            9,3,2,2,
-            5,2,2,4
-        );
+        for ($i=1; $i <= $total->ndet; $i++) { 
+            array_push($cabecera1,'Curso '.$i);
+        }
+            array_push($cabecera1, 'Promociones','Pagos','Responsable');
+            
+        $cabecantNro=array(9,3,2,2);
+
+        for ($i=1; $i <= $total->ndet; $i++) { 
+            array_push($cabecantNro, 5);
+        }
+            array_push($cabecantNro, 2,2,4);
 
         $cabecantLetra=array(
             'A3:I3','J3:L3','M3:N3','O3:P3',
@@ -296,13 +300,18 @@ class Reporte extends Model
             'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
             'Fecha Matrícula','Sucursal','Tipo Participante',
             'Nro Pago Ins','Monto Pago Ins',
-            'Nro Pago Mat','Monto Pago Mat',
-            'Modalidad','Cursos','Nro Pago','Monto Pago','Nro Pago Certificado','Monto Pago Certificado',
-            'Nro Pago Promoción','Monto Pago Promoción',
-            'Sub Total Curso','Total Pagado',
-            'Cajera','Marketing','Matrícula',
-            'Observacion'
+            'Nro Pago Mat','Monto Pago Mat'
         );
+
+        for ($i=1; $i <= $total->ndet; $i++) { 
+         array_push($cabecera2, 'Modalidad'.$i,'Cursos'.$i,'Nro Pago'.$i,'Monto Pago'.$i,'Nro Pago Certificado'.$i,'Monto Pago Certificado'.$i);
+        }
+            
+            array_push($cabecera2,'Nro Pago Promoción','Monto Pago Promoción');
+            array_push($cabecera2,'Sub Total Curso','Total Pagado');
+            array_push($cabecera2,'Cajera','Marketing','Matrícula');
+            array_push($cabecera2,'Observacion');
+        
         $campos=array(
              'id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
              'fecha_matricula','sucursal','tipo_participante',
