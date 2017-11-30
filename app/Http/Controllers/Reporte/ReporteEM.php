@@ -124,12 +124,12 @@ class ReporteEM extends Controller
 
                 for ($j=2; $j <= $renturnModel['total']; $j++) { 
                     if($ndet>1 AND $j<=$ndet){
-                        $data[$i]['curso'.$j]=$desglosar[0][($j-1))];
-                        $data[$i]['nro_pago_c'.$j]=$desglosar[1][($j-1))];
-                        $data[$i]['monto_pago_c'.$j]=$desglosar[2][($j-1))];
-                        $data[$i]['nro_pago_certificado'.$j]=$desglosar[3][($j-1))];
-                        $data[$i]['monto_pago_certificado'.$j]=$desglosar[4][($j-1))];
-                        $data[$i]['modalidad'.$j]=$desglosar[5][($j-1))];
+                        $data[$i]['curso'.$j]=$desglosar[0][($j-1)];
+                        $data[$i]['nro_pago_c'.$j]=$desglosar[1][($j-1)];
+                        $data[$i]['monto_pago_c'.$j]=$desglosar[2][($j-1)];
+                        $data[$i]['nro_pago_certificado'.$j]=$desglosar[3][($j-1)];
+                        $data[$i]['monto_pago_certificado'.$j]=$desglosar[4][($j-1)];
+                        $data[$i]['modalidad'.$j]=$desglosar[5][($j-1)];
                     }
                     else{
                         $data[$i]['curso'.$j]='';
