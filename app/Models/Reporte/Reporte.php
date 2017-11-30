@@ -311,7 +311,7 @@ class Reporte extends Model
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
 
         for ($i=1; $i <= $total->ndet; $i++) { 
-            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+6].'3' ); $pos2+=7;
+            array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+5].'3' ); $pos2+=6;
         }
 
             array_push($cabecantLetra, $az[$pos2].'3:'.$az[$pos2+1].'3' ); $pos2+=2;
