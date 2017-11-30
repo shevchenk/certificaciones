@@ -269,27 +269,21 @@ class Reporte extends Model
         $az=array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BW','BX','BY','BZ','CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CW','CX','CY','CZ','DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM','DN','DO','DP','DQ','DR','DS','DT','DU','DV','DW','DX','DY','DZ');
 
         $pos=0;
-        $length=array(
-            $az[$pos]=>5,$az[$pos+1]=>15,$az[$pos+2]=>20,$az[$pos+3]=>20,$az[$pos+4]=>20,$az[$pos+5]=>15,$az[$pos+6]=>15,$az[$pos+7]=>25,$az[$pos+8]=>30,
-            $az[$pos+9]=>15,$az[$pos+10]=>15,$az[$pos+11]=>15,
-            $az[$pos+12]=>15,$az[$pos+13]=>15,
-            $az[$pos+14]=>15,$az[$pos+15]=>15,
-            $az[$pos+16]=>15,$az[$pos+17]=>15,$az[$pos+18]=>15, $az[$pos+19]=>15, $az[$pos+20]=>15,$az[$pos+21]=>15,
-            $az[$pos+22]=>20,$az[$pos+23]=>20,
-            $az[$pos+24]=>20,$az[$pos+25]=>20,
-            $az[$pos+26]=>20,$az[$pos+27]=>20,$az[$pos+28]=>20,$az[$pos+29]=>30
-        );
 
         $length=array(
             $az[$pos]=>5,$az[$pos++]=>15,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>15,$az[$pos++]=>15,$az[$pos++]=>25,$az[$pos++]=>30,
             $az[$pos++]=>15,$az[$pos++]=>15,$az[$pos++]=>15,
             $az[$pos++]=>15,$az[$pos++]=>15,
-            $az[$pos++]=>15,$az[$pos++]=>15,
-            $az[$pos++]=>15,$az[$pos++]=>15,$az[$pos++]=>15, $az[$pos++]=>15, $az[$pos++]=>15,$az[$pos++]=>15,
-            $az[$pos++]=>20,$az[$pos++]=>20,
-            $az[$pos++]=>20,$az[$pos++]=>20,
-            $az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>30
+            $az[$pos++]=>15,$az[$pos++]=>15
         );
+
+            for ($i=1; $i <= $total->ndet; $i++) { 
+                array_push($length,$az[$pos++]=>15,$az[$pos++]=>15,$az[$pos++]=>15, $az[$pos++]=>15, $az[$pos++]=>15,$az[$pos++]=>15);
+            }
+            
+            array_push($length, $az[$pos++]=>20,$az[$pos++]=>20 );
+            array_push($length, $az[$pos++]=>20,$az[$pos++]=>20 );
+            array_push($length, $az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>20,$az[$pos++]=>30 );
 
         $cabecera1=array('Alumnos','Matrícula','Inscripción','Matrícula');
 
