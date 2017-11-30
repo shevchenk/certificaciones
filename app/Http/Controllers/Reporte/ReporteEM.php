@@ -81,8 +81,6 @@ class ReporteEM extends Controller
                 $cells->setValignment('center');
             });
 
-            $sheet->setWidth($renturnModel['length']);
-
             /*for ($i=0; $i < count($renturnModel['cabecera1']); $i++) { 
                 //$campoinicial= explode(":",$renturnModel['cabecantLetra'][$i]);
                 $sheet->cell($campoinicial[0], function($cell) use($renturnModel,$i) {
@@ -97,6 +95,7 @@ class ReporteEM extends Controller
             }*/
 
             $sheet->row( 4, $renturnModel['cabecera2'] );
+            $sheet->setWidth($renturnModel['length']);
 
             $data=json_decode(json_encode($renturnModel['data']), true);
             //$sheet->rows($data);
@@ -157,13 +156,13 @@ class ReporteEM extends Controller
                 ));
             });
             
-            $sheet->setAutoSize(array(
+            /*$sheet->setAutoSize(array(
                 'Q', 'R','S','T','U'
-            ));
+            ));*/
 
             $count = $sheet->getHighestRow();
 
-            $sheet->getStyle('Q4:U'.$count)->getAlignment()->setWrapText(true);
+            //$sheet->getStyle('Q4:U'.$count)->getAlignment()->setWrapText(true);
             
             $sheet->setBorder('A3:'.$renturnModel['max'].$count, 'thin');
 
