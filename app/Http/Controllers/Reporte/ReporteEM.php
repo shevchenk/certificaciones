@@ -114,17 +114,31 @@ class ReporteEM extends Controller
                     $desglosar[3]=explode("\n",$data[$i]['nro_pago_certificado1']);
                     $desglosar[4]=explode("\n",$data[$i]['monto_pago_certificado1']);
                     $desglosar[5]=explode("\n",$data[$i]['modalidad1']);
-                    $data[$i]['cursos1']=$desglosar[0][0];
+                    $data[$i]['curso1']=$desglosar[0][0];
                     $data[$i]['nro_pago_c1']=$desglosar[1][0];
                     $data[$i]['monto_pago_c1']=$desglosar[2][0];
                     $data[$i]['nro_pago_certificado1']=$desglosar[3][0];
                     $data[$i]['monto_pago_certificado1']=$desglosar[4][0];
                     $data[$i]['modalidad1']=$desglosar[5][0];
                 }
-                else{
-                    /*for ($i=0; $i < ; $i++) { 
-                        # code...
-                    }*/
+
+                for ($j=2; $j <= $renturnModel['total']; $j++) { 
+                    if($ndet>1 AND $j<=$ndet){
+                        $data[$i]['curso'.$j]=$desglosar[0][($j-1))];
+                        $data[$i]['nro_pago_c'.$j]=$desglosar[1][($j-1))];
+                        $data[$i]['monto_pago_c'.$j]=$desglosar[2][($j-1))];
+                        $data[$i]['nro_pago_certificado'.$j]=$desglosar[3][($j-1))];
+                        $data[$i]['monto_pago_certificado'.$j]=$desglosar[4][($j-1))];
+                        $data[$i]['modalidad'.$j]=$desglosar[5][($j-1))];
+                    }
+                    else{
+                        $data[$i]['curso'.$j]='';
+                        $data[$i]['nro_pago_c'.$j]='';
+                        $data[$i]['monto_pago_c'.$j]='';
+                        $data[$i]['nro_pago_certificado'.$j]='';
+                        $data[$i]['monto_pago_certificado'.$j]='';
+                        $data[$i]['modalidad'.$j]='';
+                    }
                 }
 
 
