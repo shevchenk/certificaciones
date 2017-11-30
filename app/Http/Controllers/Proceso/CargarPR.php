@@ -328,7 +328,7 @@ class CargarPR extends Controller
                     // --
 
                     // Persona
-                        $persona = Persona::where('dni', '=', str_pad(trim($detfile[6]),8,'0',0))
+                        $persona = Persona::where('dni', '=', trim($detfile[6]))
                                             ->first();
 
                         if( count($persona) == 0 ){
@@ -348,7 +348,7 @@ class CargarPR extends Controller
                             else
                                 $fecha_naci = NULL;
 
-                            if(trim($detfile[6])=='' OR strlen(trim($detfile[6]))!=8){
+                            if(strlen(trim($detfile[6]))!=10 AND strlen(trim($detfile[6]))!=8){
                                 //$detfile[6]='99999999';
                                 $msg_error = trim($detfile[9]).': DNI inválido: '.$detfile[6].'<br>'; 
                                 array_push($array_error, $msg_error);
