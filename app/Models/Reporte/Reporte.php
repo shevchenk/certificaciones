@@ -106,7 +106,7 @@ class Reporte extends Model
 
                 $sql->addSelect(
                      DB::raw('GROUP_CONCAT( IF(mp.sucursal_id=1,"OnLine","Presencial") ORDER BY mmd.id SEPARATOR "\n") modalidad1'),
-                     DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") cursos1'),
+                     DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") curso1'),
                      DB::raw('GROUP_CONCAT( IFNULL(mmd.nro_pago,"") ORDER BY mmd.id SEPARATOR "\n") nro_pago_c1'),
                      DB::raw('GROUP_CONCAT( IFNULL(mmd.monto_pago,0) ORDER BY mmd.id SEPARATOR "\n") monto_pago_c1'),
                      DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago_certificado1'),
@@ -116,7 +116,7 @@ class Reporte extends Model
             for ($i=2; $i <= $total; $i++) { 
                 $sql->addSelect(
                      DB::raw('COUNT(mmd.id) modalidad'.$i),
-                     DB::raw('COUNT(mmd.id) cursos'.$i),
+                     DB::raw('COUNT(mmd.id) curso'.$i),
                      DB::raw('COUNT(mmd.id) nro_pago_c'.$i),
                      DB::raw('COUNT(mmd.id) monto_pago_c'.$i),
                      DB::raw('COUNT(mmd.id) nro_pago_certificado'.$i),
