@@ -418,7 +418,7 @@ class CargarPR extends Controller
                                 $fecha_matricula = $fecha_matri[2].'-'.$fecha_matri[1].'-'.$fecha_matri[0];
                             }
                             else{
-                                $fecha_matri=trim($detfile[4]);
+                                $fecha_matricula=trim($detfile[4]);
                             }
                         }
                         else
