@@ -345,6 +345,9 @@ class CargarPR extends Controller
                                 $fecha_nacimiento = explode('/', trim(@$detfile[12]));
                                 $fecha_naci = @$fecha_nacimiento[2].'-'.@$fecha_nacimiento[1].'-'.@$fecha_nacimiento[0];
                             }
+                            elseif( trim($detfile[12])!='' AND strlen(trim($detfile[12]))==10 AND count(explode("-",$detfile[12]))==3){
+                                $fecha_naci = trim(@$detfile[12]);
+                            }
                             else
                                 $fecha_naci = NULL;
 
@@ -411,7 +414,12 @@ class CargarPR extends Controller
                         if($detfile[4])
                         {
                             $fecha_matri = explode('/', trim($detfile[4]));
-                            $fecha_matricula = $fecha_matri[2].'-'.$fecha_matri[1].'-'.$fecha_matri[0];
+                            if( count($fecha_matri)>1){
+                                $fecha_matricula = $fecha_matri[2].'-'.$fecha_matri[1].'-'.$fecha_matri[0];
+                            }
+                            else{
+                                $fecha_matri=trim($detfile[4]);
+                            }
                         }
                         else
                             $fecha_matricula = '';
