@@ -110,6 +110,11 @@ SeleccionarProgramacion = function(val,id){
             "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]' value='0'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<td><select class='form-control'  id='slct_tipo_pago"+id+"' name='slct_tipo_pago[]'>"+
+                "<option value=''>.::Seleccione::.</option>"+
+                "<option value='1'>Transferencia</option>"+
+                "<option value='2'>Depósito</option>"+
+                "</select></td>"+
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
@@ -129,15 +134,20 @@ SeleccionarProgramacion = function(val,id){
         }else {
           html1+="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
-            "<div class='input-group margin'>"+
-                "<span class='input-group-btn'><label>"+
+            "<div class=''>"+
+                "<span class='input-group-btn' style='display:none;'><label>"+
                   "<input type='checkbox' name='checks[]' value='100' class='flattodo"+id+"'>"+
                 "</label></span>"+
-                "<input type='text' class='form-control'  value='"+curso+"'  disabled>"+
+                "<textarea type='text' class='form-control' rows='1' disabled>"+curso+"</textarea>"+
             "</div>"+
             "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<td><select class='form-control'  id='slct_tipo_pago"+id+"' name='slct_tipo_pago[]'>"+
+                "<option value=''>.::Seleccione::.</option>"+
+                "<option value='1'>Transferencia</option>"+
+                "<option value='2'>Depósito</option>"+
+                "</select></td>"+
             "<td>"+
             '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                     '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
@@ -148,7 +158,7 @@ SeleccionarProgramacion = function(val,id){
                     '<input type="file" style="display: none;" onchange="onPagos('+id+',1);" >'+
              '</label>'+ 
             "</td>"+
-            "<td>"+
+            "<td style='display:none;'>"+
                 "<label>"+
                   "<input type='checkbox' name='checks[]' value='100' class='flat"+id+" promo' "+checkedlocal+">"+
                 "</label>"+
@@ -156,6 +166,15 @@ SeleccionarProgramacion = function(val,id){
           html1+="</tr>";
         }
         $("#t_pago").append(html1);
+        $("#promocion_seminario").text('');
+        $("#t_pago textarea").each(function(){
+            salto='';
+            if( $("#promocion_seminario").text()!='' ){
+                salto='<hr>';
+            }
+            $("#promocion_seminario").append(salto+$(this).text());
+        })
+
         $('input[type="checkbox"].flat'+id).iCheck({
           checkboxClass: 'icheckbox_flat-green'
         }).on('ifChanged', function(e) {

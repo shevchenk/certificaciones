@@ -62,7 +62,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Persona',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #slct_region_id").val() )=='0'){
+    /*else if( $.trim( $("#ModalMatriculaForm #slct_region_id").val() )=='0'){
         r=false;
         msjG.mensaje('warning','Seleccione Región',4000);
     }
@@ -81,7 +81,7 @@ ValidaForm=function(){
     else if( $.trim( $("#ModalMatriculaForm #txt_referencia").val() )==''){
         r=false;
         msjG.mensaje('warning','Ingrese Referencia',4000);
-    }
+    }*/
     else if( $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Teleoperadora',4000);
@@ -117,7 +117,7 @@ ValidaTabla=function(){
 
                   if($(this).find("td:eq(1) input[type='text']").val()==''){
                       r=false;
-                      msjG.mensaje('warning','Ingrese N° Boleta del Seminario',4000);
+                      msjG.mensaje('warning','Ingrese N° Recibo del Seminario',4000);
                   }
                   else if($(this).find("td:eq(2) input[type='text']").val()==''){
                       r=false;
@@ -256,4 +256,15 @@ CargarAlumno=function(result){
         $("#ModalMatriculaForm #slct_distrito_id").selectpicker('val',0);
     }
 };
+
+ActivarPago=function(id){
+    if(id==1){
+        $("#t_pago").hide(1500);
+        $("#t_pago_promocion").show(1500);
+    }
+    else{
+        $("#t_pago_promocion").hide(1500);
+        $("#t_pago").show(1500);
+    }
+}
 </script>

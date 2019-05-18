@@ -116,7 +116,7 @@
                                             </span>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" style="display: none;">
                                         <div class="form-group">
                                             <label>Región</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_region_id" name="slct_region_id">
@@ -124,7 +124,7 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" style="display: none;">
                                         <div class="form-group">
                                             <label>Provincia</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_provincia_id" name="slct_provincia_id">
@@ -132,7 +132,7 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" style="display: none;">
                                         <div class="form-group">
                                             <label>Distrito</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_distrito_id" name="slct_distrito_id">
@@ -140,19 +140,19 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="display: none;">
                                         <div class="form-group">
                                             <label>Código del Alumno</label>
                                             <input type="text" class="form-control" id="txt_codigo_interno" name="txt_codigo_interno">
                                         </div> 
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-5" style="display: none;">
                                         <div class="form-group">
                                             <label>Direccion</label>
                                             <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_direccion" name="txt_direccion"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-5" style="display: none;">
                                         <div class="form-group">
                                             <label>Referencia</label>
                                             <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_referencia" name="txt_referencia"></textarea>
@@ -198,7 +198,7 @@
                                                     <th>Seminarios</th>
                                                     <th>Fecha de Inicio</th>
                                                     <th>Horario</th>
-                                                    <th>Local de Estudios</th>
+                                                    <th>Local del Seminario</th>
                                                     <th>[]</th>
                                                 </tr>
                                             </thead>
@@ -235,45 +235,19 @@
                                             </span>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>&nbsp;&nbsp;&nbsp;</label>
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group" id="t_pago_promocion">
-                                            <label>Promoción:</label>
-                                            <br>
-                                            <div class="col-sm-4">
-                                                <label>Nro:</label>
-                                                <input type="text" class="form-control" id="txt_nro_promocion" name="txt_nro_promocion" placeholder="Nro" disabled>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <label>Monto:</label>
-                                                <input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" placeholder="Monto" disabled>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="text" readonly class="form-control" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">
-                                                <input type="text" style="display: none;" id="pago_archivo_promocion" name="pago_archivo_promocion">
-                                                <label class="btn btn-warning  btn-flat margin">
-                                                    <i class="fa fa-file-pdf-o fa-lg"></i>
-                                                    <i class="fa fa-file-word-o fa-lg"></i>
-                                                    <i class="fa fa-file-image-o fa-lg"></i>
-                                                    <input type="file" style="display: none;" onchange="onPagos(null, 5);" id="file_promocion">
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-md-12">
                                         <table class="table" id="t_pago">
                                             <thead>
                                                 <tr>
-                                                    <th colspan="4" style="text-align:center;">Pago de los Seminarios</th>
+                                                    <th colspan="4" style="text-align:center;">Pago del Seminario &nbsp;&nbsp;
+                                                        <button type="button" onclick="ActivarPago(1);" class="btn btn-warning btn-flat">Activar Pago por Promoción</button>
+                                                    </th>
                                                 </tr>
                                                 <tr>
                                                     <th>Nombre del Seminario</th>
-                                                    <th>N° de Boleta</th>
+                                                    <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
+                                                    <th>Tipo Operación</th>
                                                     <th>Archivo</th>
                                                     <th>[]</th>
                                                 </tr>
@@ -282,11 +256,52 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="col-md-12">
+                                        <table class="table" id="t_pago_promocion" style="display:none;">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="4" style="text-align:center;">Promoción del Seminario &nbsp;&nbsp;
+                                                        <button type="button" onclick="ActivarPago();" class="btn btn-warning btn-flat">Activar Pago Independiente</button>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nombre del Seminario</th>
+                                                    <th>N° de Boleta/N° de Operación</th>
+                                                    <th>Importe</th>
+                                                    <th>Tipo Operación</th>
+                                                    <th>Archivo</th>
+                                                    <th>[]</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_pago_promocion">
+                                                <tr>
+                                                    <td id="promocion_seminario"></td>
+                                                    <td><input type="text" class="form-control" id="txt_nro_promocion" name="txt_nro_promocion" placeholder="Nro" disabled></td>
+                                                    <td><input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" placeholder="Monto" disabled></td>
+                                                    <td><select class='form-control'  id='slct_tipo_pago"+id+"' name='slct_tipo_pago[]'>
+                                                        <option value=''>.::Seleccione::.</option>
+                                                        <option value='1'>Transferencia</option>
+                                                        <option value='2'>Depósito</option>
+                                                        </select></td>
+                                                    <td>
+                                                        <input type="text" readonly class="form-control" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">
+                                                        <input type="text" style="display: none;" id="pago_archivo_promocion" name="pago_archivo_promocion">
+                                                        <label class="btn btn-warning  btn-flat margin">
+                                                            <i class="fa fa-file-pdf-o fa-lg"></i>
+                                                            <i class="fa fa-file-word-o fa-lg"></i>
+                                                            <i class="fa fa-file-image-o fa-lg"></i>
+                                                        <input type="file" style="display: none;" onchange="onPagos(null, 5);" id="file_promocion" >
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="display: none;">
                             <div class="panel panel-warning">
                                 <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE FUT</center></div>
                                 <div class="panel-body">
