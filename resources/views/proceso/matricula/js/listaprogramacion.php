@@ -110,7 +110,7 @@ SeleccionarProgramacion = function(val,id){
             "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]' value='0'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
-            "<td><select class='form-control'  id='slct_tipo_pago"+id+"' name='slct_tipo_pago[]'>"+
+            "<td><select class='form-control'  id='slct_tipo_pago_detalle"+id+"' name='slct_tipo_pago_detalle[]'>"+
                 "<option value=''>.::Seleccione::.</option>"+
                 "<option value='1'>Transferencia</option>"+
                 "<option value='2'>Depósito</option>"+
@@ -143,8 +143,8 @@ SeleccionarProgramacion = function(val,id){
             "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
-            "<td><select class='form-control'  id='slct_tipo_pago"+id+"' name='slct_tipo_pago[]'>"+
-                "<option value=''>.::Seleccione::.</option>"+
+            "<td><select class='form-control'  id='slct_tipo_pago_detalle"+id+"' name='slct_tipo_pago_detalle[]'>"+
+                "<option value='0'>.::Seleccione::.</option>"+
                 "<option value='1'>Transferencia</option>"+
                 "<option value='2'>Depósito</option>"+
                 "</select></td>"+
@@ -155,7 +155,17 @@ SeleccionarProgramacion = function(val,id){
                         '<i class="fa fa-file-pdf-o fa-lg"></i>'+
                         '<i class="fa fa-file-word-o fa-lg"></i>'+
                         '<i class="fa fa-file-image-o fa-lg"></i>'+
-                    '<input type="file" style="display: none;" onchange="onPagos('+id+',1);" >'+
+                    '<input type="file" style="display: none;" onchange="onImagen(event,pago_nombre_certificado'+id+',pago_archivo_certificado'+id+',1);" >'+
+             '</label>'+ 
+            "</td>"+
+            "<td>"+
+            '<input type="text" readonly class="form-control" id="dni_nombre_detalle'+id+'"  name="dni_nombre_detale[]" value="">'+
+                    '<input type="text" style="display: none;" id="dni_archivo_detalle'+id+'" name="dni_archivo_detalle[]">'+
+                    '<label class="btn btn-warning  btn-flat margin">'+
+                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
+                        '<i class="fa fa-file-word-o fa-lg"></i>'+
+                        '<i class="fa fa-file-image-o fa-lg"></i>'+
+                    '<input type="file" style="display: none;" onchange="onImagen(event,dni_nombre_detalle'+id+',dni_archivo_detalle'+id+',1);" >'+
              '</label>'+ 
             "</td>"+
             "<td style='display:none;'>"+
@@ -168,6 +178,7 @@ SeleccionarProgramacion = function(val,id){
         $("#t_pago").append(html1);
         $("#promocion_seminario").text('');
         $("#t_pago textarea").each(function(){
+            console.log($(this).text());
             salto='';
             if( $("#promocion_seminario").text()!='' ){
                 salto='<hr>';
@@ -275,6 +286,24 @@ SeleccionarProgramacion = function(val,id){
         msjG.mensaje('warning',"Ya se agregó el  Curso",3000);
     }
 };
+
+onImagen= function (ev,nombre,archivo,src) {
+        var files = ev.target.files || ev.dataTransfer.files;
+        if (!files.length)
+            return;
+        var image = new Image();
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            $(archivo).val(e.target.result);
+            $(src).attr('src',e.target.result);
+        };
+        reader.onprogress=() => {
+            //msjG.mensaje('warning','Cargando yo ando',2000);
+        }
+        reader.readAsDataURL(files[0]);
+        $(nombre).val(files[0].name);
+        console.log(files[0].name);
+    }
     
 onPagos=function(item,val){
     if(val==1){ etiqueta="_certificado";}
@@ -327,6 +356,16 @@ Eliminar = function (tr) {
             $("#t_pago #trid_"+tr+"").remove();
             CheckG--;
         }
+
+        $("#promocion_seminario").text('');
+        $("#t_pago textarea").each(function(){
+            console.log($(this).text());
+            salto='';
+            if( $("#promocion_seminario").text()!='' ){
+                salto='<hr>';
+            }
+            $("#promocion_seminario").append(salto+$(this).text());
+        })
 };
     
     

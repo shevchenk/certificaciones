@@ -21,9 +21,11 @@ class Matricula extends Model
         DB::beginTransaction();
         if($alumno){
            $al= Alumno::find($alumno->id);
-           $al->region_id=trim( $r->region_id);
-           $al->provincia_id=trim( $r->provincia_id);
-           $al->distrito_id=trim( $r->distrito_id);
+           if( trim($r->region_id)!='' and trim($r->region_id)!='0' ){
+               $al->region_id=trim( $r->region_id);
+               $al->provincia_id=trim( $r->provincia_id);
+               $al->distrito_id=trim( $r->distrito_id);
+           }
            $al->direccion=trim( $r->direccion);
            $al->referencia=trim($r->referencia);
            $al->codigo_interno=trim($r->codigo_interno);
@@ -34,9 +36,11 @@ class Matricula extends Model
            $al->persona_id=trim( $r->persona_id);
            $al->direccion=trim( $r->direccion);
            $al->referencia=trim($r->referencia);
-           $al->region_id=trim( $r->region_id);
-           $al->provincia_id=trim( $r->provincia_id);
-           $al->distrito_id=trim( $r->distrito_id);
+           if( trim($r->region_id)!='' and trim($r->region_id)!='0' ){
+               $al->region_id=trim( $r->region_id);
+               $al->provincia_id=trim( $r->provincia_id);
+               $al->distrito_id=trim( $r->distrito_id);
+           }
            $al->codigo_interno=trim($r->codigo_interno);
            $al->persona_id_created_at=Auth::user()->id;
            $al->save();
@@ -72,6 +76,7 @@ class Matricula extends Model
         if( trim($r->nro_promocion)!=''){
             $matricula->nro_promocion = trim( $r->nro_promocion);
             $matricula->monto_promocion = trim( $r->monto_promocion);
+            $matricula->tipo_pago = trim( $r->tipo_pago);
         }
     
         $matricula->persona_id_created_at=Auth::user()->id;
@@ -96,6 +101,12 @@ class Matricula extends Model
                 $ruta_promocion = $este->fileToFile($r->pago_archivo_promocion,'m'.$matricula->id, $url_promocion);
                 $matricula->archivo_promocion=$ruta_promocion;
             }
+            if(trim($r->dni_nombre)!=''){
+                $este = new Matricula;
+                $url_promocion = "upload/m$matricula->id/pro_dni_0.";
+                $ruta_promocion = $este->fileToFile($r->dni_archivo,'m'.$matricula->id, $url_promocion);
+                $matricula->archivo_dni=$ruta_promocion;
+            }
         $matricula->save();
         
         if(Input::has('programacion_id')){
@@ -113,6 +124,9 @@ class Matricula extends Model
         $pago_nombre=$r->pago_nombre;
         $pago_archivo_certificado=$r->pago_archivo_certificado;
         $pago_nombre_certificado=$r->pago_nombre_certificado;
+        $tipo_pago=$r->tipo_pago_detalle;
+        $dni_nombre_detalle=$r->dni_nombre_detalle;
+        $dni_archivo_detalle=$r->dni_archivo_detalle;
         $checks= $r->checks;
         if(count($checks)==0){
             $checks=array();
@@ -150,6 +164,7 @@ class Matricula extends Model
                 $mtdetalle->monto_pago=$monto_pago[$i];
                 $mtdetalle->nro_pago_certificado=$nro_pago_certificado[$i];
                 $mtdetalle->monto_pago_certificado=$monto_pago_certificado[$i];
+                $mtdetalle->tipo_pago=$tipo_pago[$i];
                 
                 $este = new Matricula;
                     if(trim($pago_nombre[$i])!=''){
@@ -162,6 +177,12 @@ class Matricula extends Model
                         $url_certificado = "upload/m$matricula->id/ce_".$i.'.';
                         $ruta_certificado = $este->fileToFile($pago_archivo_certificado[$i],'m'.$matricula->id, $url_certificado);
                         $mtdetalle->archivo_pago_certificado=$ruta_certificado;
+                    }
+
+                    if(trim($dni_archivo_detalle[$i])!=''){
+                        $url_certificado = "upload/m$matricula->id/dni_".$i.'.';
+                        $ruta_certificado = $este->fileToFile($dni_archivo_detalle[$i],'m'.$matricula->id, $url_certificado);
+                        $mtdetalle->archivo_dni=$ruta_certificado;
                     }
                 $mtdetalle->persona_id_created_at=Auth::user()->id;
                 $mtdetalle->save();

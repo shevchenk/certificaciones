@@ -1,5 +1,6 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
+var PromocionGeneral=0;
 var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
                curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
 $(document).ready(function() {
@@ -137,6 +138,19 @@ ValidaTabla=function(){
             msjG.mensaje('warning','La oferta existente tiene un máximo de '+PromocionG+' seminarios en promoción. Verifique y actualice los seminarios seleccionados.',9000);
          }
 
+         if( $('#txt_nro_promocion').val()=='' && PromocionGeneral==1 ){
+            r=false;
+            msjG.mensaje('warning','Ingrese N° Recibo de la Promoción',4000);
+         }
+         else if( $('#txt_monto_promocion').val()=='' && PromocionGeneral==1){
+            r=false;
+            msjG.mensaje('warning','Ingrese monto de la Promoción',4000);
+         }
+         else if( $('#slct_tipo_pago').val()=='0' && PromocionGeneral==1){
+            r=false;
+            msjG.mensaje('warning','Seleccione tipo de Operación',4000);
+         }
+
     return r;     
 }
 AgregarEditarAjax=function(){
@@ -153,6 +167,7 @@ HTMLAgregarEditar=function(result){
         $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
         $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
         $("#txt_observacion").val('S/O');
+        ActivarPago();
     }else{
         msjG.mensaje('warning',result.msj,3000);
     }
@@ -258,13 +273,54 @@ CargarAlumno=function(result){
 };
 
 ActivarPago=function(id){
+    PromocionGeneral=0;
     if(id==1){
-        $("#t_pago").hide(1500);
-        $("#t_pago_promocion").show(1500);
+        var contador=0;
+        $("#t_pago textarea").each(function(){ contador++; });
+        if(contador==PromocionG){
+            PromocionGeneral=1;
+            $("#t_pago").hide(1500);
+            $("#t_pago_promocion").show(1500);
+
+            $("#t_pago>tbody tr").each(function(){
+                $(this).find("td:eq(1) input[type='text']").val('0');
+                $(this).find("td:eq(2) input[type='text']").val('0');
+                $(this).find("td:eq(3) select").val('0');
+
+                $(this).find("td:eq(1) input[type='text']").attr('readOnly','true');
+                $(this).find("td:eq(2) input[type='text']").attr('readOnly','true');
+            });
+
+            $("#txt_nro_promocion").removeAttr('disabled');
+            $("#txt_monto_promocion").removeAttr('disabled');
+            $("#slct_tipo_pago").removeAttr('disabled');
+            $("#txt_nro_promocion").val('');
+            $("#txt_monto_promocion").val('');
+            $("#slct_tipo_pago").val('');
+        }
+        else{
+            msjG.mensaje('warning','Para activar la promoción, requiere de '+PromocionG+' seminarios seleccionados',3000);
+        }
     }
     else{
         $("#t_pago_promocion").hide(1500);
         $("#t_pago").show(1500);
+        $("#t_pago>tbody tr").each(function(){
+            $(this).find("td:eq(1) input[type='text']").val('');
+            $(this).find("td:eq(2) input[type='text']").val('');
+            $(this).find("td:eq(3) select").val('');
+
+            $(this).find("td:eq(1) input[type='text']").removeAttr('readOnly');
+            $(this).find("td:eq(2) input[type='text']").removeAttr('readOnly');
+        });
+        $("#txt_nro_promocion").attr('disabled','true');
+        $("#txt_monto_promocion").attr('disabled','true');
+        $("#slct_tipo_pago").attr('disabled','true');
+
+        $("#txt_nro_promocion").val('0');
+        $("#txt_monto_promocion").val('0');
+        $("#slct_tipo_pago").val('0');
     }
+    $("#slct_tipo_pago").selectpicker('refresh');
 }
 </script>

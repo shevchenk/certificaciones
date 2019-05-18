@@ -248,7 +248,8 @@
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>
-                                                    <th>Archivo</th>
+                                                    <th>Archivo Pago</th>
+                                                    <th>Archivo DNI</th>
                                                     <th>[]</th>
                                                 </tr>
                                             </thead>
@@ -269,17 +270,18 @@
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>
-                                                    <th>Archivo</th>
+                                                    <th>Archivo Pago</th>
+                                                    <th>Archivo DNI</th>
                                                     <th>[]</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_pago_promocion">
                                                 <tr>
                                                     <td id="promocion_seminario"></td>
-                                                    <td><input type="text" class="form-control" id="txt_nro_promocion" name="txt_nro_promocion" placeholder="Nro" disabled></td>
-                                                    <td><input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" placeholder="Monto" disabled></td>
-                                                    <td><select class='form-control'  id='slct_tipo_pago"+id+"' name='slct_tipo_pago[]'>
-                                                        <option value=''>.::Seleccione::.</option>
+                                                    <td><input type="text" class="form-control" id="txt_nro_promocion" name="txt_nro_promocion" value="0" placeholder="Nro" disabled></td>
+                                                    <td><input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" value="0" placeholder="Monto" disabled></td>
+                                                    <td><select class='form-control'  id='slct_tipo_pago' name='slct_tipo_pago' disabled>
+                                                        <option value='0'>.::Seleccione::.</option>
                                                         <option value='1'>Transferencia</option>
                                                         <option value='2'>Depósito</option>
                                                         </select></td>
@@ -290,7 +292,17 @@
                                                             <i class="fa fa-file-pdf-o fa-lg"></i>
                                                             <i class="fa fa-file-word-o fa-lg"></i>
                                                             <i class="fa fa-file-image-o fa-lg"></i>
-                                                        <input type="file" style="display: none;" onchange="onPagos(null, 5);" id="file_promocion" >
+                                                        <input type="file" style="display: none;" onchange="onImagen(event,'#pago_nombre_promocion','#pago_archivo_promocion',5);" id="file_promocion" >
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" readonly class="form-control" id="dni_nombre"  name="dni_nombre" value="">
+                                                        <input type="text" style="display: none;" id="dni_archivo" name="dni_archivo">
+                                                        <label class="btn btn-warning  btn-flat margin">
+                                                            <i class="fa fa-file-pdf-o fa-lg"></i>
+                                                            <i class="fa fa-file-word-o fa-lg"></i>
+                                                            <i class="fa fa-file-image-o fa-lg"></i>
+                                                        <input type="file" style="display: none;" onchange="onImagen(event,'#dni_nombre','#dni_archivo',5);" id="file_promocion" >
                                                         </label>
                                                     </td>
                                                 </tr>
