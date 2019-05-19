@@ -1,4 +1,5 @@
 <script type="text/javascript">
+var ComentarioG='';
 $(document).ready(function() {
     $(".fecha").datetimepicker({
         format: "yyyy-mm-dd",
@@ -12,6 +13,17 @@ $(document).ready(function() {
 
     AjaxAlumnoCurso.CargarAlumno(HTMLCargarAlumno);
     AjaxAlumnoCurso.CargarCurso(HTMLCargarCurso);
+
+    $('#ModalComentario').on('shown.bs.modal', function (event) {
+        $(this).find('.modal-footer .btn-primary').text('Confirmar').attr('onClick','ValidarComentario();');
+        $("#ModalComentarioForm").append("<input type='hidden' value='"+ComentarioG+"' name='id'>");
+        $("#ModalComentarioForm #txt_comentario").focus();
+    });
+
+    $('#ModalComentario').on('hidden.bs.modal', function (event) {
+        $("#ModalComentarioForm input[type='hidden']").not('.mant').remove();
+        $("#ModalComentarioForm #txt_comentario").val('');
+    });
 });
 
 HTMLCargarAlumno=function(result){
@@ -25,15 +37,54 @@ HTMLCargarCurso=function(result){
     var html="";
     
     $.each(result.data,function(index,r){
-        html+="<tr>";
+        html+="<tr id='tr"+r.id+"'>";
         html+="<td>"+r.modalidad+"</td>";
-        html+="<td>"+r.curso+"</td>";
+        html+="<td class='curso'>"+r.curso+"</td>";
         html+="<td>"+r.profesor+"</td>";
-        html+="<td>"+r.fecha+"</td>";
+        html+="<td class='fecha'>"+r.fecha+"</td>";
         html+="<td>"+r.horario+"</td>";
         html+="<td>"+r.sucursal+"</td>";
+        if( $.trim(r.link)!='' ){
+            html+="<td><a class='btn btn-lg btn-google' onClick='ValidarVideo("+r.id+")' href='"+r.link+"' target='__blank'><i class='fa fa-youtube-play'></i></a></td>";
+        }
+        else{
+            html+="<td>&nbsp;</td>";
+        }
+        if( $.trim(r.comentario)!='' ){
+            html+="<td><textarea rows='4' cols='30' class='form-control' disabled>"+$.trim(r.comentario)+"</textarea></td>";
+        }
+        else{
+            html+="<td><a class='btn btn-lg btn-dropbox' onClick='ComentarSeminario("+r.id+")'><i class='fa fa-pencil-square-o'></i></a></td>";
+        }
         html+="</tr>";
     });
     $("#t_matricula tbody").html(html); 
 };
+
+ValidarVideo=function(id){
+    AjaxAlumnoCurso.ValidarVideo(id);
+}
+
+ValidarComentario=function(){
+    var cantidad= $("#ModalComentarioForm #txt_comentario").val().length;
+    if( $("#ModalComentarioForm #txt_fecha").val()!='' && cantidad>99 ){
+        AjaxAlumnoCurso.ValidarComentario(ComentarioG,$("#ModalComentarioForm #txt_comentario").val(),HTMLConfirmacion);
+    }
+    else{
+        msjG.mensaje('warning','El comentario ingresado, debe contener mínimo 100 caracteres',4000);
+    }
+}
+
+HTMLConfirmacion=function(){
+    $('#ModalComentario').modal('hide');
+    msjG.mensaje('success','Comentario Confirmado',4000);
+    AjaxAlumnoCurso.CargarCurso(HTMLCargarCurso);
+}
+
+ComentarSeminario=function(id){
+    ComentarioG=id;
+    $("#ModalComentarioForm #txt_curso").val( $("#tr"+id+" .curso").text() );
+    $("#ModalComentarioForm #txt_fecha").val( $("#tr"+id+" .fecha").text() );
+    $('#ModalComentario').modal('show');
+}
 </script>

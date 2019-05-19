@@ -6,12 +6,33 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Persona;
+use App\Models\Proceso\MatriculaDetalle;
 
 use Illuminate\Support\Facades\DB; //BD
 
 class Alumno extends Model
 {
     protected   $table = 'mat_alumnos';
+
+    public static function ValidarVideo($r)
+    {
+        $matriculaDetalle= MatriculaDetalle::find($r->id);
+        $matriculaDetalle->validavideo=$matriculaDetalle->validavideo+1;
+        $matriculaDetalle->persona_id_updated_at=Auth::user()->id;
+        $matriculaDetalle->save();
+        $result = 'ok';
+        return $result;
+    }
+
+    public static function ValidarComentario($r)
+    {
+        $matriculaDetalle= MatriculaDetalle::find($r->id);
+        $matriculaDetalle->comentario=trim($r->comentario);
+        $matriculaDetalle->persona_id_updated_at=Auth::user()->id;
+        $matriculaDetalle->save();
+        $result = 'ok';
+        return $result;
+    }
 
     public static function BuscarPersona($r)
     {
@@ -51,8 +72,8 @@ class Alumno extends Model
                 $join->on('s.id','=','mp.sucursal_id');
             })
             ->select(
-            'mmd.id as matricula_detalle_id',
-            'mc.curso','mp.link','mm.fecha_matricula',
+            'mmd.id',
+            'mc.curso','mp.link','mm.fecha_matricula','mmd.comentario',
             DB::raw('IF(mp.sucursal_id=1,"Virtual","Presencial") as modalidad'),
             DB::raw('CONCAT(p.nombre," ", p.paterno," ", p.materno) as profesor'),
             DB::raw('DATE(mp.fecha_inicio) as fecha'),

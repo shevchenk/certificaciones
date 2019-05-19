@@ -25,6 +25,26 @@ class AlumnoPR extends Controller
         }
     }
 
+    public function ValidarVideo(Request $r )
+    {
+        if ( $r->ajax() ) {
+            Alumno::ValidarVideo($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
+
+    public function ValidarComentario(Request $r )
+    {
+        if ( $r->ajax() ) {
+            Alumno::ValidarComentario($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
+
     public function BuscarPersona(Request $r )
     {
         if ( $r->ajax() ) {

@@ -73,8 +73,8 @@
                             <div class="panel panel-success">
                                 <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>SEMINARIOS MATRICULADOS</center></div>
                                 <div class="panel-body">
-                                    <div class="col-md-12">
-                                        <table id="t_matricula" class="table">
+                                    <div class="col-md-12 table-responsive">
+                                        <table id="t_matricula" class="table table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>Mod.</th>
@@ -83,7 +83,8 @@
                                                     <th>Fecha de Seminario</th>
                                                     <th>Horario</th>
                                                     <th>Local del Seminario</th>
-                                                    <th>[]</th>
+                                                    <th>Link del Video</th>
+                                                    <th>Comentario del Video</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_matricula">
@@ -103,5 +104,5 @@
 @stop
 
 @section('form')
-
+@include( 'proceso.alumnocurso.form.alumnocurso' )
 @stop
