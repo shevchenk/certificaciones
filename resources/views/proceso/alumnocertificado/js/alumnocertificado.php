@@ -202,7 +202,7 @@ HTMLCargaCurso=function(result){ //INICIO HTML
         html+="</tr>";
     });
 
-    $("#tb_cursos tbody").html(html); 
+    $("#tb_matricula").html(html); 
 };
 
 btnregresar_curso = function(){
