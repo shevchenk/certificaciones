@@ -198,7 +198,7 @@ HTMLCargaCurso=function(result){ //INICIO HTML
         html+="<td>"+r.horario+"</td>";
         html+="<td>"+r.sucursal+"</td>";
 
-        html+="<td><a class='btn btn-lg btn-google'><i class='fa fa-donwload'></i></a></td>";
+        html+="<td><a class='btn btn-lg btn-dropbox'><i class='fa fa-download'></i></a></td>";
         html+="</tr>";
     });
 
