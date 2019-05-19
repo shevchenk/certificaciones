@@ -138,7 +138,7 @@ SeleccionarProgramacion = function(val,id){
                 "<span class='input-group-btn' style='display:none;'><label>"+
                   "<input type='checkbox' name='checks[]' value='100' class='flattodo"+id+"'>"+
                 "</label></span>"+
-                curso+
+                "<textarea type='text' class='form-control' rows='3' disabled>"+curso+"</textarea>"+
             "</div>"+
             "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]'></td>"+
