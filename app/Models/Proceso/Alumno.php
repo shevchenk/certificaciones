@@ -92,7 +92,7 @@ class Alumno extends Model
         return $result;
     }
 
-    public static function MisSeminarios($r)
+    public static function ListarSeminarios($r)
     {
         $sql=DB::table('mat_matriculas as mm')
             ->Join('mat_matriculas_detalles AS mmd', function($join){
