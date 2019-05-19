@@ -66,6 +66,17 @@ class AlumnoPR extends Controller
             return response()->json($return);
         }
     }
+
+    public function ListarSeminarios(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::ListarSeminarios($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
     /*
     public function New(Request $r )
     {

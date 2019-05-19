@@ -177,6 +177,9 @@
                             <tbody id="tb_matricula">
                             </tbody>
                         </table>
+                        <div class="row" style="padding: 5px 15px; text-align: right; padding-top: 0px;">
+                            <input type="button" class="btn btn-default" onClick="btnregresar_curso();" id="btnregresar" name="" value="Regresar">
+                        </div>
                     </div>
                 </div>
 

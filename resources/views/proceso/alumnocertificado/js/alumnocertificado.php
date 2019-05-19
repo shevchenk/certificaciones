@@ -143,7 +143,7 @@ HTMLCargar=function(result){ //INICIO HTML
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }
 
-        html+="<tr id='trid_"+r.id+"'>";
+        html+="<tr id='trid_"+r.persona_id+"'>";
    
         html+="</td>"+
                 "<td class='dni'>"+r.dni+"</td>"+
@@ -159,7 +159,7 @@ HTMLCargar=function(result){ //INICIO HTML
         //html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
         html+=""+
                 //'<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
-                '<td><a id="btn_'+r.id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verCursos(HTMLCargaCurso, '+r.id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
+                '<td><a id="btn_'+r.id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verCursos(HTMLCargaCurso, '+r.persona_id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
 

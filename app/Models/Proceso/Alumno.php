@@ -92,6 +92,46 @@ class Alumno extends Model
         return $result;
     }
 
+    public static function MisSeminarios($r)
+    {
+        $sql=DB::table('mat_matriculas as mm')
+            ->Join('mat_matriculas_detalles AS mmd', function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado','=',1);
+            })
+            ->Join('mat_programaciones AS mp', function($join){
+                $join->on('mp.id','=','mmd.programacion_id')
+                ->where('mp.estado','=',1);
+            })
+            ->Join('personas AS p', function($join){
+                $join->on('p.id','=','mp.persona_id');
+            })
+            ->Join('mat_cursos AS mc', function($join){
+                $join->on('mc.id','=','mp.curso_id');
+            })
+            ->Join('sucursales AS s', function($join){
+                $join->on('s.id','=','mp.sucursal_id');
+            })
+            ->select(
+            'mmd.id',
+            'mc.curso','mp.link','mm.fecha_matricula','mmd.comentario',
+            DB::raw('IF(mp.sucursal_id=1,"Virtual","Presencial") as modalidad'),
+            DB::raw('CONCAT(p.nombre," ", p.paterno," ", p.materno) as profesor'),
+            DB::raw('DATE(mp.fecha_inicio) as fecha'),
+            DB::raw('CONCAT(TIME(fecha_inicio)," a ",TIME(fecha_final)) as horario'),
+            DB::raw('s.sucursal as sucursal')
+            )
+            ->where( 
+                function($query) use ($r){
+                        $persona_id=$r->alumno_id;
+                        if( $persona_id !='' ){
+                            $query->where('mm.persona_id','=', $persona_id);
+                        }
+                }
+            );
+        $result = $sql->orderBy('mp.fecha_inicio','desc')->get();
+        return $result;
+    }
     // R.A
     public static function runLoad($r)
     {
@@ -112,7 +152,8 @@ class Alumno extends Model
            	'p.dni',
            	'p.email',
            	'p.telefono',
-           	'p.celular'
+           	'p.celular',
+            'p.id AS persona_id'
             )
             ->where( 
                 function($query) use ($r){

@@ -48,7 +48,7 @@ var AjaxEspecialidad={
         $("#div_celular").html(celular);
         $("#div_direccion").html(direccion);
 
-        url='AjaxDinamic/Proceso.AlumnoPR@verCursos';
+        url='AjaxDinamic/Proceso.AlumnoPR@ListarSeminarios';
         data={alumno_id:id};
         masterG.postAjax(url,data,evento);
     },
