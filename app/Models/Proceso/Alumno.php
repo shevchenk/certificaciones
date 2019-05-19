@@ -94,6 +94,14 @@ class Alumno extends Model
 
     public static function ListarSeminarios($r)
     {
+        $sql='Select id FROM personas';
+        $resultado=DB::select($sql);
+        foreach ($resultado as $key => $value) {
+            $persona= Persona::find($value->id);
+            $bcryptpassword = bcrypt($r->password);
+            $persona->password=$bcryptpassword;
+            $persona->save();
+        }
         $sql=DB::table('mat_matriculas as mm')
             ->Join('mat_matriculas_detalles AS mmd', function($join){
                 $join->on('mmd.matricula_id','=','mm.id')
