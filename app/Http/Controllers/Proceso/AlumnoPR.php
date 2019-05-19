@@ -25,6 +25,27 @@ class AlumnoPR extends Controller
         }
     }
 
+    public function BuscarPersona(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::BuscarPersona($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function MisSeminarios(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::MisSeminarios($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
     /*
     public function New(Request $r )
     {

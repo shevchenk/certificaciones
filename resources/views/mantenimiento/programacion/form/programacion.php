@@ -87,6 +87,12 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label>Link del Seminario</label>
+                            <textarea class="form-control" id="txt_link" name="txt_link"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label>Estado</label>
                             <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
                                 <option  value='0'>Inactivo</option>

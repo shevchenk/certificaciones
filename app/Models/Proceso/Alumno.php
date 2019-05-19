@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use App\Models\Mantenimiento\Persona;
 
 use Illuminate\Support\Facades\DB; //BD
 
@@ -12,12 +13,61 @@ class Alumno extends Model
 {
     protected   $table = 'mat_alumnos';
 
+    public static function BuscarPersona($r)
+    {
+        $id=Auth::user()->id;
+        $persona= Persona::find($id);
+        $result = $persona;
+        return $result;
+    }
+
     public static function BuscarAlumno($r)
     {
-        $sql=Alumno::select('id','codigo_interno','direccion','referencia','region_id','provincia_id','distrito_id')
+        $sql=Persona::select('id','codigo_interno','direccion','referencia','region_id','provincia_id','distrito_id')
             ->where('estado','=','1')
             ->where('persona_id','=',$r->persona_id);
         $result = $sql->orderBy('id','asc')->first();
+        return $result;
+    }
+
+    public static function MisSeminarios($r)
+    {
+        $sql=DB::table('mat_matriculas as mm')
+            ->Join('mat_matriculas_detalles AS mmd', function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado','=',1);
+            })
+            ->Join('mat_programaciones AS mp', function($join){
+                $join->on('mp.id','=','mmd.programacion_id')
+                ->where('mp.estado','=',1);
+            })
+            ->Join('personas AS p', function($join){
+                $join->on('p.id','=','mp.persona_id');
+            })
+            ->Join('mat_cursos AS mc', function($join){
+                $join->on('mc.id','=','mp.curso_id');
+            })
+            ->Join('sucursales AS s', function($join){
+                $join->on('s.id','=','mp.sucursal_id');
+            })
+            ->select(
+            'mmd.id as matricula_detalle_id',
+            'mc.curso','mp.link','mm.fecha_matricula',
+            DB::raw('IF(mp.sucursal_id=1,"Virtual","Presencial") as modalidad'),
+            DB::raw('CONCAT(p.nombre," ", p.paterno," ", p.materno) as profesor'),
+            DB::raw('DATE(mp.fecha_inicio) as fecha'),
+            DB::raw('CONCAT(TIME(fecha_inicio)," a ",TIME(fecha_final)) as horario'),
+            DB::raw('s.sucursal as sucursal')
+            )
+            ->where( 
+                function($query) use ($r){
+                        $persona_id=Auth::user()->id;
+                        if( $persona_id !='' ){
+                            $query->where('mm.persona_id','=', $persona_id);
+                        }
+                }
+            );
+        $result = $sql->orderBy('mp.fecha_inicio','desc')->get();
         return $result;
     }
 
