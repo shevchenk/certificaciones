@@ -94,6 +94,7 @@ class Alumno extends Model
 
     public static function ListarSeminarios($r)
     {
+        ini_set('max_execution_time', 300);
         $sql='Select id FROM personas';
         $resultado=DB::select($sql);
         foreach ($resultado as $key => $value) {
