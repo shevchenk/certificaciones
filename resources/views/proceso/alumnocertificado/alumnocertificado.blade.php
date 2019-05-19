@@ -10,8 +10,8 @@
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
-    @include( 'proceso.alumno.js.alumnocertificado_ajax' )
-    @include( 'proceso.alumno.js.alumnocertificado' )
+    @include( 'proceso.alumnocertificado.js.alumnocertificado_ajax' )
+    @include( 'proceso.alumnocertificado.js.alumnocertificado' )
 @stop
 
 @section('content')
