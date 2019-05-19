@@ -197,14 +197,14 @@ class Matricula extends Model
         $parametros=array(
             'id'=>'123',
         );
-        Mail::send('email.matricula', $parametros , 
+        /*Mail::send('email.matricula', $parametros , 
             function($message) use( $email,$emailseguimiento,$texto ) {
                 $message
                 ->to($email)
                 ->cc($emailseguimiento)
                 ->subject($texto);
             }
-        );
+        );*/
     }
     
         public function fileToFile($file,$id, $url){
