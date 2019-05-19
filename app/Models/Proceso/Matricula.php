@@ -8,6 +8,7 @@ use App\Models\Proceso\Alumno;
 use App\Models\Proceso\MatriculaDetalle;
 use Illuminate\Support\Facades\Input;
 use DB;
+use Mail;
 
 class Matricula extends Model
 {
@@ -190,6 +191,20 @@ class Matricula extends Model
 
         }
         DB::commit();
+        $email='jorgeshevchenk@gmail.com';
+        $emailseguimiento='jorgeshevchenk1988@gmail.com';
+        $texto='.::Inscripción de Seminarios::.';
+        $parametros=array(
+            'id'=>'123',
+        );
+        Mail::send('email.matricula', $parametros , 
+            function($message) use( $email,$emailseguimiento,$texto ) {
+                $message
+                ->to($email)
+                ->cc($emailseguimiento)
+                ->subject($texto);
+            }
+        );
     }
     
         public function fileToFile($file,$id, $url){

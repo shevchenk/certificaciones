@@ -44,7 +44,7 @@ class Alumno extends Model
 
     public static function BuscarAlumno($r)
     {
-        $sql=Persona::select('id','codigo_interno','direccion','referencia','region_id','provincia_id','distrito_id')
+        $sql=Alumno::select('id','codigo_interno','direccion','referencia','region_id','provincia_id','distrito_id')
             ->where('estado','=','1')
             ->where('persona_id','=',$r->persona_id);
         $result = $sql->orderBy('id','asc')->first();
