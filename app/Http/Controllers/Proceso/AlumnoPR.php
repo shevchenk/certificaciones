@@ -25,6 +25,44 @@ class AlumnoPR extends Controller
         }
     }
 
+    public function DescargarCertificado(Request $r )
+    {
+        $templateWord = new \PhpOffice\PhpWord\TemplateProcessor('certificado/Formato Certificado.docx');
+
+        // --- Asignamos valores
+        $templateWord->setValue('persona', "Jorge Luis Salcedo Franco");
+        $templateWord->setValue('seminario', "Inteligencia de Negocios");
+        $templateWord->setValue('dia', "01");
+        $templateWord->setValue('mes', "Mayo");
+        $templateWord->setValue('año', "2019");
+        $templateWord->setValue('diahoy', date("d")); 
+        $templateWord->setValue('meshoy', "Mayo"); 
+        $templateWord->setValue('añohoy', "2019"); 
+
+        // --- Guardamos el documento
+        $filename='certificado/Doc'.$r->id.'.docx';
+        $templateWord->saveAs($filename);
+        /*$phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        $section->addImage("http://itsolutionstuff.com/frontTheme/images/logo.png");
+        $section->addText($description);
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save('helloWorld.docx');
+        } catch (Exception $e) {
+        }*/
+        //return response()->download('certificado/Doc'.$r->id.'.docx');
+        header("Content-Disposition: attachment; filename=$filename"); // Vamos a dar la opcion para descargar el archivo
+        readfile($filename);  // leemos el archivo para que se "descargue"
+        @unlink($filename);
+    }
+
     public function ValidarVideo(Request $r )
     {
         if ( $r->ajax() ) {

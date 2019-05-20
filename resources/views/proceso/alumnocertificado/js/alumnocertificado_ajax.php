@@ -57,6 +57,11 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';
         data={};
         masterG.postAjax(url,data,evento);
+    },
+    DescargarCertificado:function(id){
+        url='AjaxDinamic/Proceso.AlumnoPR@DescargarCertificado';
+        data={id:id};
+        masterG.postAjax(url,data,evento);
     }
     
 };

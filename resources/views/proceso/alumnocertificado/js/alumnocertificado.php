@@ -198,7 +198,7 @@ HTMLCargaCurso=function(result){ //INICIO HTML
         html+="<td>"+r.horario+"</td>";
         html+="<td>"+r.sucursal+"</td>";
 
-        html+="<td><a class='btn btn-lg btn-dropbox'><i class='fa fa-download'></i></a></td>";
+        html+="<td><a class='btn btn-lg btn-dropbox' href='ReportDinamic/Proceso.AlumnoPR@DescargarCertificado?id="+r.id+"' target='__blank'><i class='fa fa-download'></i></a></td>";
         html+="</tr>";
     });
 
@@ -212,6 +212,10 @@ btnregresar_curso = function(){
 
 btnguardar_curso = function(){
     AjaxEspecialidad.guardarNotasProg(HTMLCambiarNotaCurso);
+}
+
+DescargarCertificado=function(id){
+    AjaxEspecialidad.DescargarCertificado();
 }
 // --
 
