@@ -27,17 +27,20 @@ class AlumnoPR extends Controller
 
     public function DescargarCertificado(Request $r )
     {
+        $miSeminario=Alumno::MiSeminario($r);
+        $fecha= explode("-",$miSeminario->fecha);
         $templateWord = new \PhpOffice\PhpWord\TemplateProcessor('certificado/Formato Certificado.docx');
+        $mes=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
 
         // --- Asignamos valores
-        $templateWord->setValue('persona', "Jorge Luis Salcedo Franco");
-        $templateWord->setValue('seminario', "Inteligencia de Negocios");
-        $templateWord->setValue('dia', "01");
-        $templateWord->setValue('mes', "Mayo");
-        $templateWord->setValue('año', "2019");
+        $templateWord->setValue('persona', $miSeminario->persona);
+        $templateWord->setValue('seminario', $miSeminario->curso);
+        $templateWord->setValue('dia', $fecha[2]);
+        $templateWord->setValue('mes', $mes[ $fecha[1]*1 ]);
+        $templateWord->setValue('año', $fecha[0]);
         $templateWord->setValue('diahoy', date("d")); 
-        $templateWord->setValue('meshoy', "Mayo"); 
-        $templateWord->setValue('añohoy', "2019"); 
+        $templateWord->setValue('meshoy', $mes[ date("m")*1 ]); 
+        $templateWord->setValue('añohoy', date("Y")); 
 
         // --- Guardamos el documento
         $filename='certificado/Doc'.$r->id.'.docx';

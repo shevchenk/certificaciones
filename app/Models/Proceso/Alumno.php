@@ -92,6 +92,42 @@ class Alumno extends Model
         return $result;
     }
 
+    public static function MiSeminario($r)
+    {
+        $sql=DB::table('mat_matriculas as mm')
+            ->Join('mat_matriculas_detalles AS mmd', function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado','=',1);
+            })
+            ->Join('mat_programaciones AS mp', function($join){
+                $join->on('mp.id','=','mmd.programacion_id')
+                ->where('mp.estado','=',1);
+            })
+            ->Join('personas AS p', function($join){
+                $join->on('p.id','=','mm.persona_id');
+            })
+            ->Join('mat_cursos AS mc', function($join){
+                $join->on('mc.id','=','mp.curso_id');
+            })
+            ->select(
+            'mmd.id',
+            'mc.curso',
+            DB::raw('CONCAT(p.nombre," ", p.paterno," ", p.materno) as persona'),
+            DB::raw('DATE(mp.fecha_inicio) as fecha'),
+            DB::raw('CONCAT(TIME(fecha_inicio)," a ",TIME(fecha_final)) as horario')
+            )
+            ->where( 
+                function($query) use ($r){
+                        $matricula_detalle_id=$r->id;
+                        if( $matricula_detalle_id !='' ){
+                            $query->where('mmd.id','=', $matricula_detalle_id);
+                        }
+                }
+            );
+        $result = $sql->first();
+        return $result;
+    }
+
     public static function ListarSeminarios($r)
     {
         ini_set('max_execution_time', 300);
