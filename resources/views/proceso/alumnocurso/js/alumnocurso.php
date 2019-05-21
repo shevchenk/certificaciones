@@ -45,7 +45,11 @@ HTMLCargarCurso=function(result){
         html+="<td>"+r.horario+"</td>";
         html+="<td>"+r.sucursal+"</td>";
         if( $.trim(r.link)!='' ){
-            html+="<td><a class='btn btn-lg btn-google' onClick='ValidarVideo("+r.id+")' href='"+r.link+"' target='__blank'><i class='fa fa-youtube-play'></i></a></td>";
+            colorbtn='google';
+            if(r.validavideo*1>0){
+                colorbtn='success';
+            }
+            html+="<td><a class='btn btn-lg btn-"+colorbtn+"' onClick='ValidarVideo("+r.id+")' href='"+r.link+"' target='__blank'><i class='fa fa-youtube-play'></i></a></td>";
         }
         else{
             html+="<td>&nbsp;</td>";
