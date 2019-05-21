@@ -72,7 +72,7 @@ class Alumno extends Model
                 $join->on('s.id','=','mp.sucursal_id');
             })
             ->select(
-            'mmd.id',
+            'mmd.id','mmd.validavideo',
             'mc.curso','mp.link','mm.fecha_matricula','mmd.comentario',
             DB::raw('IF(mp.sucursal_id=1,"Virtual","Presencial") as modalidad'),
             DB::raw('CONCAT(p.nombre," ", p.paterno," ", p.materno) as profesor'),
