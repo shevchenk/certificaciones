@@ -10,18 +10,18 @@
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
-    @include( 'proceso.atencioncliente.js.atencioncliente_ajax' )
-    @include( 'proceso.atencioncliente.js.atencioncliente' )
+    @include( 'proceso.llamada.js.llamada_ajax' )
+    @include( 'proceso.llamada.js.llamada' )
 @stop
 
 @section('content')
 <section class="content-header">
     <h1>Alumnos
-        <small>Cursos Programados</small>
+        <small>Llamada</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Alumnos</a></li>
-        <li class="active">Cursos Programados</li>
+        <li class="active">Llamada</li>
     </ol>
 </section>
 
@@ -130,63 +130,9 @@
         </div><!-- .col -->
     </div><!-- .row -->
 
-    <!-- NUEVOS PROCESOS -->
-    <div id="div_cursos_progra" class="row" style="display: none;">
-        <div class="col-xs-12">
-            <div class="well well-lg" style="background-color: #FFF;">
-                <form class="form-horizontal">
-                  <div class="form-group has-primary has-feedback">
-                    <label class="control-label col-sm-1" for="" style="text-align: left;">DNI:</label>
-                    <div class="col-sm-4" id="div_dni" style="padding-top: 7px;"></div>
-                    <label class="control-label col-sm-1" for="" style="text-align: left;">EMAIL:</label>
-                    <div class="col-sm-4" id="div_email" style="padding-top: 7px;"></div>
-                  </div>
-                  <div class="form-group has-primary has-feedback">
-                    <label class="control-label col-sm-1" for="" style="text-align: left;">NOMBRES: </label>
-                    <div class="col-sm-4" id="div_nombres" style="padding-top: 7px;"></div>
-                    <label class="control-label col-sm-1" for="" style="text-align: left;">CELULAR:</label>
-                    <div class="col-sm-4" id="div_celular" style="padding-top: 7px;"></div>
-                  </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="panel panel-success">
-                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>SEMINARIOS MATRICULADOS</center></div>
-                <div class="panel-body">
-                    <div class="col-md-12 table-responsive">
-                        <table id="t_matricula" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Mod.</th>
-                                    <th>Seminarios</th>
-                                    <th>Docente</th>
-                                    <th>Fecha de Seminario</th>
-                                    <th>Horario</th>
-                                    <th>Local del Seminario</th>
-                                    <th>Descargar</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tb_matricula">
-                            </tbody>
-                        </table>
-                        <div class="row" style="padding: 5px 15px; text-align: right; padding-top: 0px;">
-                            <input type="button" class="btn btn-default" onClick="btnregresar_curso();" id="btnregresar" name="" value="Regresar">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- -->
-
 </section><!-- .content -->
-
-<!--
 @stop
 @section('form')
-     @include( 'proceso.alumno.form.alumno' )
+     @include( 'proceso.llamada.form.llamada' )
 @stop
 
