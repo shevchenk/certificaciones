@@ -13,20 +13,15 @@
 
                 <div class="col-md-12"><!-- INICIO CLASS 12 -->       
                   <div class="col-md-6">       
-                    <label>Curso</label>
+                    <label>Seminario</label>
                     <input type="text" class="form-control" id="txt_curso" name="txt_curso" placeholder="Curso">
                   </div>
 
                   <div class="col-md-6">          
-                    <label>Certificado Curso</label>
+                    <label>Certificado del Seminario</label>
                     <input type="text" class="form-control" id="txt_certificado_curso" name="txt_certificado_curso" placeholder="Certificado Curso">       
                   </div>
                 </div><!-- FIN CLASS 12 -->
-
-                
-
-
-              
 
                 <div class="col-md-12"> <!-- INICIO CLASS 12 -->
                   <div class="col-sm-5" style="display: none;">     
@@ -37,7 +32,7 @@
 
                   <div class="col-sm-5" style="display: none;">     
                   <br>         
-                      <label>Tipo Curso</label>
+                      <label>Tipo</label>
                         <select class="form-control selectpicker show-menu-arrow" data-live-search="true" name="slct_tipo_curso" id="slct_tipo_curso">
                           <option value="0">.::Seleccione::.</option>
                           <option value='1'>Curso</option>
