@@ -48,7 +48,7 @@ ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalCursoForm #txt_curso").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Curso',4000);
+        msjG.mensaje('warning','Ingrese Seminario',4000);
     }
     else if( $.trim( $("#ModalCursoForm #txt_certificado_curso").val() )=='' ){
         r=false;
