@@ -12,7 +12,7 @@ var AjaxCurso={
         if( typeof(pag)!='undefined' ){
             $("#CursoForm").append("<input type='hidden' value='"+pag+"' name='page'>");
         }
-        $("#CursoForm").append("<input type='hidden' value='1' name='tipo_curso'>");
+        $("#CursoForm").append("<input type='hidden' value='2' name='tipo_curso'>");
         data=$("#CursoForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#CursoForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Mantenimiento.CursoEM@Load';
