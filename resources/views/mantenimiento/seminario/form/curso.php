@@ -4,7 +4,7 @@
         <div class="modal-header btn-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title">Curso</h4>
+           <h4 class="modal-title">Seminario</h4>
         </div>
         <div class="modal-body"><!-- INICIO BODY-->
             <form id="ModalCursoForm" name="ModalCursoForm"><!-- INICIO FORM-->
@@ -29,13 +29,13 @@
               
 
                 <div class="col-md-12"> <!-- INICIO CLASS 12 -->
-                  <div class="col-sm-5">     
+                  <div class="col-sm-5" style="display: none;">     
                   <br>         
                       <label>Apocope</label>
                         <input type="text" class="form-control" id="txt_curso_apocope" name="txt_curso_apocope" placeholder="Curso Apocope">
                   </div>
 
-                  <div class="col-sm-5">     
+                  <div class="col-sm-5" style="display: none;">     
                   <br>         
                       <label>Tipo Curso</label>
                         <select class="form-control selectpicker show-menu-arrow" data-live-search="true" name="slct_tipo_curso" id="slct_tipo_curso">
