@@ -115,20 +115,17 @@ HTMLCargaCurso=function(result){ //INICIO HTML
         html+="<td>"+r.horario+"</td>";
         html+="<td>"+r.sucursal+"</td>";
 
-        html+="<td><a class='btn btn-lg btn-dropbox' href='ReportDinamic/Proceso.AlumnoPR@DescargarCertificado?id="+r.id+"' onClick='ValidarDescarga("+r.id+")' target='__blank'>( "+r.validadescarga+" )<i class='fa fa-download'></i></a></td>";
+        if( $.trim(r.fecha_entrega) !='' ){
+            html+='<td><textarea rows=4 class="form-control" disabled>'+r.comentario_entrega+'</textarea></td>';
+        }
+        else{
+            html+='<td><a class="btn btn-success btn-lg" onClick="ConfirmarEntrega('+r.id+','+PersonaIdG+')"><i class="fa fa-save fa-lg"></i> </a></td>';
+        }
         html+="</tr>";
     });
 
     $("#tb_matricula").html(html); 
 };
-
-ValidarDescarga=function(id){
-    AjaxEspecialidad.ValidarDescarga(id,HTMLValidarDescarga);
-}
-
-HTMLValidarDescarga=function(){
-    AjaxEspecialidad.verCursos(HTMLCargaCurso, PersonaIdG);
-}
 
 btnregresar_curso = function(){
     $("#div_alumnos_mat").slideDown();

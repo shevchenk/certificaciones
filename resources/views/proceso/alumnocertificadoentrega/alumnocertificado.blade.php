@@ -10,8 +10,8 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-    @include( 'proceso.alumnocertificado.js.alumnocertificado_ajax' )
-    @include( 'proceso.alumnocertificado.js.alumnocertificado' )
+    @include( 'proceso.alumnocertificadoentrega.js.alumnocertificado_ajax' )
+    @include( 'proceso.alumnocertificadoentrega.js.alumnocertificado' )
 @stop
 
 @section('content')
@@ -165,7 +165,7 @@
                                     <th>Fecha de Seminario</th>
                                     <th>Horario</th>
                                     <th>Local del Seminario</th>
-                                    <th>Descargar(Nro Descargas)</th>
+                                    <th>Confirmar Entrega</th>
                                 </tr>
                             </thead>
                             <tbody id="tb_matricula">
@@ -185,6 +185,6 @@
 </section><!-- .content -->
 @stop
 @section('form')
-     @include( 'proceso.alumnocertificado.form.alumno' )
+     @include( 'proceso.alumnocertificadoentrega.form.alumno' )
 @stop
 
