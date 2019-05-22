@@ -129,7 +129,7 @@ HTMLCargar=function(result){ //INICIO HTML
     $('#TableDatos').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
-        html+="<tr id='trid_"+r.persona_id+"'>";
+        html+="<tr id='trid_"+r.id+"'>";
    
         html+="</td>"+
                 "<td class='dni'>"+r.dni+"</td>"+
@@ -144,7 +144,7 @@ HTMLCargar=function(result){ //INICIO HTML
 
         //html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
         html+=""+
-                '<td><a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.persona_id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
+                '<td><a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
 

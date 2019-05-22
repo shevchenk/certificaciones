@@ -6,7 +6,7 @@ var AjaxEspecialidad={
         }
         data=$("#EspecialidadForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#EspecialidadForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Proceso.AlumnoPR@Load';
+        url='AjaxDinamic/Mantenimiento.PersonaEM@Load';
         masterG.postAjax(url,data,evento);
     },
     ObtenerHora:function(evento){
