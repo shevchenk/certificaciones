@@ -10,8 +10,8 @@
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
-    @include( 'mantenimiento.curso.js.curso_ajax' )
-    @include( 'mantenimiento.curso.js.curso' )
+    @include( 'mantenimiento.seminario.js.curso_ajax' )
+    @include( 'mantenimiento.seminario.js.curso' )
 @stop
 
 @section('content')
@@ -93,5 +93,5 @@
 @stop
 
 @section('form')
-     @include( 'mantenimiento.curso.form.curso' )
+     @include( 'mantenimiento.seminario.form.curso' )
 @stop
