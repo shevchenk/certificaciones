@@ -3,21 +3,21 @@ namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Trabajador;
+use App\Models\Mantenimiento\TipoLlamada;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class TrabajadorEM extends Controller
+class TipoLlamadaMA extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
     } 
-    
+
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Trabajador::runEditStatus($r);
+            TipoLlamada::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
@@ -30,15 +30,13 @@ class TrabajadorEM extends Controller
 
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => 'Persona ya existe como Trabajador',
+                'unique'      => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'persona_id' => 
+                'privilegio' => 
                        ['required',
-                        Rule::unique('mat_trabajadores','persona_id')->where(function ($query) use($r) {
-                                $query->where('rol_id',$r->rol_id );
-                        }),
+                        Rule::unique('privilegios','privilegio'),
                         ],
             );
 
@@ -46,7 +44,7 @@ class TrabajadorEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Trabajador::runNew($r);
+                TipoLlamada::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -63,22 +61,20 @@ class TrabajadorEM extends Controller
         if ( $r->ajax() ) {
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => 'Persona ya existe como Trabajador',
+                'unique'        => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'persona_id' => 
+                'privilegio' => 
                        ['required',
-                        Rule::unique('mat_trabajadores','persona_id')->ignore($r->id)->where(function ($query) use($r) {
-                                $query->where('rol_id',$r->rol_id );
-                        }),
+                        Rule::unique('privilegios','privilegio')->ignore($r->id),
                         ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Trabajador::runEdit($r);
+                TipoLlamada::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -93,22 +89,23 @@ class TrabajadorEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Trabajador::runLoad($r);
+            $renturnModel = TipoLlamada::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
+            $return['msj'] = "No hay registros aún";    
+            return response()->json($return);   
         }
     }
     
-    public function ListarTeleoperadora(Request $r )
+    public function ListTipoLlamada (Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Trabajador::ListarTeleoperadora($r);
+            $renturnModel = TipoLlamada::ListTipoLlamada($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
             return response()->json($return);
         }
     }
+
 }

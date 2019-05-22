@@ -9,11 +9,15 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Proceso.AlumnoPR@Load';
         masterG.postAjax(url,data,evento);
     },
-    CargarCurso:function(evento){
-        url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';
-        data={};
+    ListarTeleoperadora:function(evento){
+        url='AjaxDinamic/Mantenimiento.TrabajadorEM@ListarTeleoperadora';
+        data={rol_id:1};
+        masterG.postAjax(url,data,evento);
+    },
+    ListarTipoLlamada:function(evento){
+        url='AjaxDinamic/Mantenimiento.TipoLlamadaMA@ListTipoLlamada';
+        data={rol_id:1};
         masterG.postAjax(url,data,evento);
     }
-    
 };
 </script>

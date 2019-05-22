@@ -86,5 +86,44 @@ class Trabajador extends Model
         return $result;
     }
     
+    public static function ListarTeleoperadora($r)
+    {
+        $sql=Trabajador::select('mat_trabajadores.codigo','mat_trabajadores.id','mat_trabajadores.persona_id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre ) as trabajador')
+                                ,'mat_trabajadores.rol_id','r.rol','mat_trabajadores.estado')
+             ->join('personas as p','p.id','=','mat_trabajadores.persona_id')
+             ->join('mat_roles as r','r.id','=','mat_trabajadores.rol_id')
+             ->where( 
+                function($query) use ($r){
+                    if( $r->has("trabajador") ){
+                        $trabajador=trim($r->trabajador);
+                        if( $trabajador !='' ){
+                            $query->whereRaw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre ) like "%'.$trabajador.'%"');
+                        }
+                    }
+                    if( $r->has("rol") ){
+                        $rol=trim($r->rol);
+                        if( $rol !='' ){
+                            $query->where('r.rol','like','%'.$rol.'%');
+                        }
+                    }
+                    if( $r->has("rol_id") ){
+                        $rol_id=trim($r->rol_id);
+                        if( $rol_id !='' ){
+                            $query->where('mat_trabajadores.rol_id','=',$rol_id);
+                        }
+                    }
+                    if( $r->has("codigo") ){
+                        $codigo=trim($r->codigo);
+                        if( $codigo !='' ){
+                            $query->where('mat_trabajadores.codigo','like','%'.$codigo.'%');
+                        }
+                    }
+                    
+                    $query->where('mat_trabajadores.estado','=',1);
+                }
+            );
+        $result = $sql->orderBy('trabajador','asc')->get();
+        return $result;
+    }
 
 }

@@ -17,7 +17,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Teleoperadora:</label>
-                            <input class="form-control" type="text" id="txt_teleoperadora" name="txt_teleoperadora" value="" disabled>
+                            <select class="selectpicker form-control show-menu-arrow" data-live-search="true" id="slct_teleoperadora" name="slct_teleoperadora">
+                                <option>.::Seleccione::.</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -29,7 +31,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Tipo Llamada:</label>
-                            <select class="selectpicker form-control" id="slct_tipo_llamada" name="slct_tipo_llamada">
+                            <select class="selectpicker form-control show-menu-arrow" onchange="ActivarComentario()" id="slct_tipo_llamada" name="slct_tipo_llamada">
                                 <option>.::Seleccione::.</option>
                             </select>
                         </div>
@@ -37,7 +39,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Comentario:</label>
-                            <textarea rows="5" class="form-control" id="txt_comentario" name="txt_comentario">
+                            <textarea rows="5" class="form-control" id="txt_comentario" name="txt_comentario" disabled>
                             </textarea>
                         </div>
                     </div>

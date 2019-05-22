@@ -18,6 +18,9 @@ $(document).ready(function() {
         "autoWidth": false
     });
     AjaxEspecialidad.Cargar(HTMLCargar);
+    AjaxEspecialidad.ListarTeleoperadora(SlctListarTeleoperadora);
+    AjaxEspecialidad.ListarTipoLlamada(SlctListarTipoLlamada);
+
     $("#EspecialidadForm #TableDatos select").change(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
     $("#EspecialidadForm #TableDatos input").blur(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
 
@@ -30,6 +33,32 @@ $(document).ready(function() {
        // $("ModalEspecialidadForm input").val('');
     });
 });
+
+
+SlctListarTeleoperadora=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.trabajador+"</option>";
+    });
+    $("#ModalLlamadaForm #slct_teleoperadora").html(html); 
+    $("#ModalLlamadaForm #slct_teleoperadora").selectpicker('refresh');
+
+};
+
+SlctListarTipoLlamada=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option data-obs='"+r.obs+"' value="+r.id+">"+r.tipo_llamada+"</option>";
+    });
+    $("#ModalLlamadaForm #slct_tipo_llamada").html(html); 
+    $("#ModalLlamadaForm #slct_tipo_llamada").selectpicker('refresh');
+
+};
+
+ActivarComentario=function(){
+    codigo=$("#slct_tipo_llamada option:selected").find("data-obs");
+    alert(codigo);
+}
 
 HTMLCargar=function(result){ //INICIO HTML
     var html="";
