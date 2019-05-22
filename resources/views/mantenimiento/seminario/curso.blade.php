@@ -53,15 +53,6 @@
                                             </div>                                          
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Seminario Apocope:</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_curso_apocope" id="txt_curso_apocope" placeholder="Buscar Curso Apocope" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>                                          
-                                        </div>
-                                    </th>
 
 
                                     <th class="col-xs-2">
@@ -85,7 +76,6 @@
                                 <tr class="cabecera">
                                   <th>Seminario</th>
                                   <th>Certificado Seminario</th>
-                                  <th>Seminario Apocope</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

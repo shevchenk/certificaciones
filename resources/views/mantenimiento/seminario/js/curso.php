@@ -30,7 +30,7 @@ $(document).ready(function() {
 
         $('#ModalCursoForm #txt_curso').val( CursoG.curso );
         $('#ModalCursoForm #txt_certificado_curso').val( CursoG.certificado_curso );
-        $('#ModalCursoForm #txt_curso_apocope').val( CursoG.curso_apocope );
+        $('#ModalCursoForm #txt_curso_apocope').val( '' );
         $('#ModalCursoForm #slct_tipo_curso').selectpicker( 'val',2 );
         $('#ModalCursoForm #slct_estado').selectpicker( 'val',CursoG.estado );
         
@@ -74,8 +74,6 @@ AgregarEditar=function(val,id){
         CursoG.id=id;
         CursoG.curso=$("#TableCurso #trid_"+id+" .curso").text();
         CursoG.certificado_curso=$("#TableCurso #trid_"+id+" .certificado_curso").text();
-        CursoG.curso_apocope=$("#TableCurso #trid_"+id+" .curso_apocope").text();
-        CursoG.tipo_curso=$("#TableCurso #trid_"+id+" .tipo_curso").val();
         CursoG.estado=$("#TableCurso #trid_"+id+" .estado").val();
     }
     $('#ModalCurso').modal('show');
@@ -122,8 +120,6 @@ HTMLCargarCurso=function(result){ //INICIO HTML
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='curso'>"+r.curso+"</td>"+
             "<td class='certificado_curso'>"+r.certificado_curso+"</td>"+
-            "<td class='curso_apocope'>"+r.curso_apocope+"</td>"+
-
             "<td>"+
             "<input type='hidden' class='tipo_curso' value='"+r.tc+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
