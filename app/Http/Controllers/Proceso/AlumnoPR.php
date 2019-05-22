@@ -191,6 +191,16 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
         }
     }
     */
+    public function RegistrarEntrega(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::RegistrarEntrega($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
 
     public function Load(Request $r )
     {

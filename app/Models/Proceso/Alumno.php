@@ -34,6 +34,17 @@ class Alumno extends Model
         return $result;
     }
 
+    public static function RegistrarEntrega($r)
+    {
+        $matriculaDetalle= MatriculaDetalle::find($r->id);
+        $matriculaDetalle->fecha_entrega=trim($r->fecha_entrega);
+        $matriculaDetalle->comentario_entrega=trim($r->comentario_entrega);
+        $matriculaDetalle->persona_id_updated_at=Auth::user()->id;
+        $matriculaDetalle->save();
+        $result = 'ok';
+        return $result;
+    }
+
     public static function BuscarPersona($r)
     {
         $id=Auth::user()->id;
@@ -150,8 +161,8 @@ class Alumno extends Model
                 $join->on('s.id','=','mp.sucursal_id');
             })
             ->select(
-            'mmd.id',
-            'mc.curso','mp.link','mm.fecha_matricula','mmd.comentario',
+            'mmd.id','mc.curso','mp.link','mm.fecha_matricula','mmd.comentario',
+            'mmd.fecha_entrega','mmd.comentario_entrega','mmd.validadescarga',
             DB::raw('IF(mp.sucursal_id=1,"Virtual","Presencial") as modalidad'),
             DB::raw('CONCAT(p.nombre," ", p.paterno," ", p.materno) as profesor'),
             DB::raw('DATE(mp.fecha_inicio) as fecha'),

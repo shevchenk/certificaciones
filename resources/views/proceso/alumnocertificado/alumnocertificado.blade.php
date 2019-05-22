@@ -6,9 +6,9 @@
     {{ Html::script('lib/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('lib/datatables/dataTables.bootstrap.min.js') }}
 
-    {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
-    {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
-    {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
+    {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
     @include( 'proceso.alumnocertificado.js.alumnocertificado_ajax' )
     @include( 'proceso.alumnocertificado.js.alumnocertificado' )
@@ -165,7 +165,8 @@
                                     <th>Fecha de Seminario</th>
                                     <th>Horario</th>
                                     <th>Local del Seminario</th>
-                                    <th>Descargar</th>
+                                    <th>Descargar(Nro Descargas)</th>
+                                    <th>Confirmar Entrega</th>
                                 </tr>
                             </thead>
                             <tbody id="tb_matricula">
@@ -183,10 +184,8 @@
     <!-- -->
 
 </section><!-- .content -->
-
-<!--
 @stop
 @section('form')
-     @include( 'proceso.alumno.form.alumno' )
+     @include( 'proceso.alumnocertificado.form.alumno' )
 @stop
 

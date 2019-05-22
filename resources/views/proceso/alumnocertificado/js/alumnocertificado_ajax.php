@@ -28,6 +28,7 @@ var AjaxEspecialidad={
         masterG.postAjax(url,data,evento);
     },
     verCursos:function(evento, id){
+        PersonaIdG=id;
         $("#div_alumnos_mat").slideUp();
         $("#div_cursos_progra").slideDown();
 
@@ -48,9 +49,9 @@ var AjaxEspecialidad={
         data={alumno_id:id};
         masterG.postAjax(url,data,evento);
     },
-    guardarNotasProg:function(evento){
-        var data=$("#frmcursoprogramdos").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Proceso.AlumnoPR@guardarNotas';
+    RegistrarEntrega:function(evento){
+        var data=$("#ModalEntregaForm").serialize().split("txt_").join("").split("slct_").join("");
+        url='AjaxDinamic/Proceso.AlumnoPR@RegistrarEntrega';
         masterG.postAjax(url,data, evento);
     },
     CargarCurso:function(evento){

@@ -205,10 +205,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Detalle Tipo de Llamada',4000);
     }
-    else if( codigo>0  && $.trim( $("#ModalLlamadaForm #txt_comentario").val() )=='' ){
+    /*else if( codigo>0  && $.trim( $("#ModalLlamadaForm #txt_comentario").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Comentario',4000);
-    }
+    }*/
     return r;
 }
 
