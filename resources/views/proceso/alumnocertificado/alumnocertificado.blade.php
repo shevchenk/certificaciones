@@ -16,12 +16,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Alumnos
-        <small>Cursos Programados</small>
+    <h1>Descarga de Certificados
+        <small>  </small>
     </h1>
     <ol class="breadcrumb">
-        <li><i class="fa fa-sitemap"></i> Alumnos</a></li>
-        <li class="active">Cursos Programados</li>
+        <li><i class="fa fa-sitemap"></i> - </a></li>
+        <li class="active">Descarga de Certificados</li>
     </ol>
 </section>
 
