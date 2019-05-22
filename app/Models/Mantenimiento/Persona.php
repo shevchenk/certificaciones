@@ -4,6 +4,7 @@ namespace App\Models\Mantenimiento;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use DB;
 
 class Persona extends Model
@@ -23,6 +24,7 @@ class Persona extends Model
 
     public static function runNew($r)
     {
+        DB::beginTransaction();
         $persona_id = Auth::user()->id;
         $persona = new Persona;
         $persona->paterno = trim( $r->paterno );
@@ -43,6 +45,19 @@ class Persona extends Model
         $persona->estado = trim( $r->estado );
         $persona->persona_id_created_at=$persona_id;
         $persona->save();
+
+        if( Input::has('alumnonuevo') AND $r->alumnonuevo!='' ){
+            DB::table('personas_privilegios_sucursales')->insert(
+                array(
+                    'privilegio_id' => 14,
+                    'persona_id' => $persona->id,
+                    'created_at'=> date('Y-m-d h:m:s'),
+                    'persona_id_created_at'=> Auth::user()->id,
+                    'estado' => 1,
+                    'persona_id_updated_at' => Auth::user()->id
+                )
+            );
+        }
         
         if ($r->cargos_selec) {
                 $cargos=$r->cargos_selec;
@@ -71,6 +86,7 @@ class Persona extends Model
                     }
                 }
             }
+        DB::commit();
     }
 
     public static function runEdit($r)

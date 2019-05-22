@@ -6,6 +6,7 @@ var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
 $(document).ready(function() {
 
     $('#exonerar_matricula').prop('checked', true);
+    $('#ModalPersonaForm').append("<input type='hidden' class='mant' name='alumnonuevo' value='1'>");
     CargarSlct(1);CargarSlct(2);CargarSlct(3);
     var responsable='<?php echo Auth::user()->paterno .' '. Auth::user()->materno .' '. Auth::user()->nombre ?>';
     var responsable_id='<?php echo Auth::user()->id ?>';
