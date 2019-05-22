@@ -24,6 +24,16 @@ class Alumno extends Model
         return $result;
     }
 
+    public static function ValidarDescarga($r)
+    {
+        $matriculaDetalle= MatriculaDetalle::find($r->id);
+        $matriculaDetalle->validadescarga=$matriculaDetalle->validadescarga+1;
+        $matriculaDetalle->persona_id_updated_at=Auth::user()->id;
+        $matriculaDetalle->save();
+        $result = 'ok';
+        return $result;
+    }
+
     public static function ValidarComentario($r)
     {
         $matriculaDetalle= MatriculaDetalle::find($r->id);

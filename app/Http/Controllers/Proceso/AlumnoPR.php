@@ -76,6 +76,16 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
         }
     }
 
+    public function ValidarDescarga(Request $r )
+    {
+        if ( $r->ajax() ) {
+            Alumno::ValidarDescarga($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
+
     public function ObtenerHora(Request $r )
     {
         if ( $r->ajax() ) {

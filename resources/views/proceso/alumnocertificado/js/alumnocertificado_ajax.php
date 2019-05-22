@@ -63,7 +63,12 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Proceso.AlumnoPR@DescargarCertificado';
         data={id:id};
         masterG.postAjax(url,data,evento);
-    }
+    },
+    ValidarDescarga:function(id,evento){
+        url='AjaxDinamic/Proceso.AlumnoPR@ValidarDescarga';
+        data={id:id};
+        masterG.postAjax(url,data,evento);
+    },
     
 };
 </script>
