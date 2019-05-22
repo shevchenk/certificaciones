@@ -76,6 +76,16 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
         }
     }
 
+    public function ObtenerHora(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $hora= date('Y-m-d H:i:s');
+            $return['rst'] = 1;
+            $return['hora'] = $hora;
+            return response()->json($return);
+        }
+    }
+
     public function ValidarComentario(Request $r )
     {
         if ( $r->ajax() ) {
