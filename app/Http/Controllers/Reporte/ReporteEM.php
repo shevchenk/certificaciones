@@ -675,7 +675,7 @@ class ReporteEM extends Controller
     {
         ini_set('memory_limit', '1024M');
         set_time_limit(300);
-        //$renturnModel = Reporte::runExportLlamadas($r);
+        $renturnModel = Reporte::runExportLlamadas($r);
         
         Excel::create('Llamadas', function($excel) use($renturnModel,$r) {
 
@@ -685,7 +685,7 @@ class ReporteEM extends Controller
               ->setDescription('Resumen estadístico de llamadas realizadas');
 
         $excel->sheet('DATA', function($sheet) use($renturnModel,$r) {
-            $sheet->setOrientation('portrait');
+            $sheet->setOrientation('landscape'); //portrait
             $sheet->setPageMargin(array(
                 0.25, 0.50, 0.25, 0.30
             ));
@@ -701,8 +701,8 @@ class ReporteEM extends Controller
             $fecha_ini=$r->fecha_ini;
             $fecha_fin=$r->fecha_fin;
 
-            $sheet->cell('A2', function($cell) use ($titulo) {
-                $cell->setValue('REPORTE GENERAL DE LLAMADAS DE'.$fecha_ini.' AL '.$fecha_fin);
+            $sheet->cell('A2', function($cell) use ($fecha_ini,$fecha_fin) {
+                $cell->setValue('REPORTE GENERAL DE LLAMADAS DEL '.$fecha_ini.' AL '.$fecha_fin);
                 $cell->setFont(array(
                     'family'     => 'Bookman Old Style',
                     'size'       => '14',
@@ -717,146 +717,20 @@ class ReporteEM extends Controller
             });
 
             $sheet->setWidth($renturnModel['length']);
-            $sheet->setHeight(2, 18.5);
-            $sheet->setHeight(3, 33.5);
-
-
+            $sheet->setHeight(2, 34.5);
+            $sheet->setHeight(3, 68.5);
             $sheet->row( 3, $renturnModel['cabecera2'] );
-
-            /*$sheet->cells('N3:S3', function($cells) {
+            $sheet->cells('C3:'.$renturnModel['max'].'3', function($cells) {
                 $cells->setAlignment('center');
                 $cells->setValignment('center');
                 $cells->setTextRotation(90);
-            });*/
+            });
 
             $data=json_decode(json_encode($renturnModel['data']), true);
-            //$sheet->rows($data);
-            $pos=3;
+            $sheet->rows($data);
+            //$pos=3;
             $contador=0;
             
-            for ($i=0; $i<count($data); $i++) {
-                $pos++;
-                $contador++;
-
-                if( $data[$i]['fecha_inicio']!='' ){
-                    $fini=substr($data[$i]['fecha_inicio'], 0,10);
-                    $data[$i]['fecha_inicio']=substr($data[$i]['fecha_inicio'],11,5)." a ".substr($data[$i]['fecha_final'],11,5);
-                    $data[$i]['fecha_final']=$fini;
-                }
-
-                $indice_x_dia=0;
-                $mat_prog_x_dia=0;
-                $proy_fin_cam=0;
-                $dias_falta=$data[$i]['dias_falta'];
-                if($data[$i]['ndias']>0){
-                    $indice_x_dia = round( ($data[$i]['mat']/$data[$i]['ndias']),2 );
-                    $mat_prog_x_dia=round( ($indice_x_dia*$dias_falta),2 );
-                }
-                $proy_fin_cam=round( ($data[$i]['mat']+$mat_prog_x_dia),2 );
-                $color="FF4848";
-                if( $proy_fin_cam>=$data[$i]['meta_max'] ){
-                    $color="35FF35";
-                }
-                else if( $proy_fin_cam>=$data[$i]['meta_min'] ){
-                    $color="FFFF48";
-                }
-                $mat_falt_meta = round( ($data[$i]['meta_max'] - $proy_fin_cam),2 );
-                unset($data[$i]['dias_falta']);
-                array_push($data[$i], $indice_x_dia);
-                array_push($data[$i], $dias_falta);
-                array_push($data[$i], $mat_prog_x_dia);
-                array_push($data[$i], $proy_fin_cam);
-                array_push($data[$i], $mat_falt_meta);
-
-                if( $auxode!=$data[$i]['odeclase'] ){
-                    if( $auxode!='' ){
-                        $contador=1;
-                        $sheet->row( $pos, $subtotal );
-
-                        $sheet->cells('A'.$pos.':'.$renturnModel['max'].$pos, function($cells) {
-                            $cells->setBorder('solid', 'none', 'none', 'solid');
-                            $cells->setAlignment('center');
-                            $cells->setValignment('center');
-                            $cells->setFont(array(
-                                'family'     => 'Bookman Old Style',
-                                'size'       => '10',
-                                'bold'       =>  true
-                            ));
-                            $cells->setBackground('#DCE6F1');
-                        });
-
-                        $subtotal=array(
-                            '','','','','','',
-                            '',0,0,0,
-                            0,0,
-                            '','',
-                            0,'',0,0,
-                            0,''
-                        );
-                        $pos++;
-                    }
-
-                    $auxode=$data[$i]['odeclase'];
-                }
-                $subtotal[7]+=$data[$i]['ult_dia'];
-                $subtotal[8]+=$data[$i]['penult_dia'];
-                $subtotal[9]+=$data[$i]['mat'];
-                $subtotal[10]+=$data[$i]['meta_max'];
-                $subtotal[11]+=$data[$i]['meta_min'];
-                $subtotal[14]+=$indice_x_dia;
-                $subtotal[16]+=$mat_prog_x_dia;
-                $subtotal[17]+=$proy_fin_cam;
-                $subtotal[18]+=$mat_falt_meta;
-
-                $totales[7]+=$data[$i]['ult_dia'];
-                $totales[8]+=$data[$i]['penult_dia'];
-                $totales[9]+=$data[$i]['mat'];
-                $totales[10]+=$data[$i]['meta_max'];
-                $totales[11]+=$data[$i]['meta_min'];
-                $totales[14]+=$indice_x_dia;
-                $totales[16]+=$mat_prog_x_dia;
-                $totales[17]+=$proy_fin_cam;
-                $totales[18]+=$mat_falt_meta;
-                $data[$i]['id']=$contador;
-
-                $sheet->row( $pos, $data[$i] );
-                $sheet->cells('R'.$pos.':R'.$pos, function($cells) use($color){
-                    $cells->setBackground('#'.$color);
-                });
-            }
-
-            $pos++;
-            $sheet->row( $pos, $subtotal );
-            $sheet->cells('A'.$pos.':'.$renturnModel['max'].$pos, function($cells) {
-                $cells->setBorder('solid', 'none', 'none', 'solid');
-                $cells->setAlignment('center');
-                $cells->setValignment('center');
-                $cells->setFont(array(
-                    'family'     => 'Bookman Old Style',
-                    'size'       => '10',
-                    'bold'       =>  true
-                ));
-                $cells->setBackground('#DCE6F1');
-            });
-
-            $count = $sheet->getHighestRow();
-            $pos++;
-            $pos++;
-            $sheet->row( $pos, $totales );
-            $sheet->cells('G'.$pos.':'.$renturnModel['max'].$pos, function($cells) {
-                $cells->setBorder('solid', 'none', 'none', 'solid');
-                $cells->setAlignment('center');
-                $cells->setValignment('center');
-                $cells->setFont(array(
-                    'family'     => 'Bookman Old Style',
-                    'size'       => '10',
-                    'bold'       =>  true
-                ));
-                $cells->setBackground('#DCE6F1');
-            });
-
-            $sheet->mergeCells('H3:I3');
-
             $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
@@ -866,10 +740,12 @@ class ReporteEM extends Controller
                     'size'       => '10',
                     'bold'       =>  true
                 ));
-                $cells->setBackground('#DCE6F1');
+                $cells->setBackground('#95B3D7');
             });
 
-            $sheet->cells('J4:J'.$count, function($cells) {
+            $count = $sheet->getHighestRow();
+            $sheet->cell('A'.$count,'Total General');
+            $sheet->cells('A'.$count.':'.$renturnModel['max'].$count, function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
                 $cells->setValignment('center');
@@ -878,13 +754,11 @@ class ReporteEM extends Controller
                     'size'       => '10',
                     'bold'       =>  true
                 ));
-                $cells->setBackground('#DCE6F1');
+                $cells->setBackground('#95B3D7');
             });
 
-            
-            $sheet->getStyle('A3:'.$renturnModel['max'].$count)->getAlignment()->setWrapText(true);
-            $sheet->setBorder('A3:'.$renturnModel['max'].$count, 'thin');
-
+            $sheet->getStyle('A2:'.$renturnModel['max'].'2')->getAlignment()->setWrapText(true);
+            $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
         });
         
         })->export('xlsx');

@@ -56,6 +56,7 @@ HTMLCargarDocente=function(result){
     $('#TableListadocente').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){
+            estadohtml='<span id="'+r.id+'" onClick="CambiarEstadoDocente(0,'+r.id+')" class="btn btn-success">Activo</span>';
 
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='docente'>"+r.docente+"</td>"+
@@ -64,7 +65,7 @@ HTMLCargarDocente=function(result){
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+
             "</td>"+
-            '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar1(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
+            '<td>'+estadohtml+'</td>';
 
         html+="</tr>";
     });
@@ -87,4 +88,15 @@ HTMLCargarDocente=function(result){
         } 
     });
 };
+
+CambiarEstadoDocente=function(estado,id){
+    AjaxListadocente.CambiarEstadoDocente(HTMLCambiarEstadoDocente,estado,id);
+}
+
+HTMLCambiarEstadoDocente=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        AjaxListadocente.Cargar(HTMLCargarDocente);
+    }
+}
 </script>

@@ -15,12 +15,12 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Indice Matrticulación
+        <h1>General de Llamadas
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-sitemap"></i> Reporte</li>
-            <li class="active">Indice Matrticulación</li>
+            <li class="active">General de Llamadas</li>
         </ol>
     </section>
 

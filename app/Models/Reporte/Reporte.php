@@ -533,4 +533,74 @@ class Reporte extends Model
         $r['max']='T';
         return $r;
     }
+
+    public static function runLoadLlamadas($r)
+    {
+        $id=Auth::user()->id;
+        $fechaaux=$r->fecha_ini;
+
+        $sql=DB::table('tipo_llamadas AS tl')
+            ->Leftjoin('llamadas AS ll',function($join) use( $r ){
+                $join->on('ll.tipo_llamada_id','=','tl.id')
+                ->where('ll.estado',1);
+                if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
+                    $join->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
+                }
+            })
+            ->select('tl.tipo_llamada', DB::raw('COUNT(ll.id) AS total'))
+            ->where('tl.estado',1)
+            ->groupBy(DB::raw('tl.tipo_llamada WITH ROLLUP'));
+
+        $cont=0;
+        while($fechaaux<=$r->fecha_fin){
+            $cont++;
+            $sql->addSelect( DB::raw('COUNT(f'.$cont.'.id) AS \''.$fechaaux.'\'') );
+            $sql->Leftjoin('llamadas AS f'.$cont,function($join) use ( $fechaaux,$cont ){
+                $join->on('f'.$cont.'.id','=','ll.id')
+                ->where('ll.estado','=','1')
+                ->whereRaw('DATE(f'.$cont.'.fecha_llamada)=\''.$fechaaux.'\'');
+            });
+            $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        $result = $sql->get();
+        return $result;
+    }
+
+    public static function runExportLlamadas($r)
+    {
+        $rsql= Reporte::runLoadLlamadas($r);
+
+        $length=array(
+            'A'=>28,'B'=>7.3
+        );
+
+        $cabecera2=array(
+            'Motivo','Total'
+        );
+
+        $fechaaux=$r->fecha_ini;
+        $cont=0;
+        $min=66;//65
+        $max=90;
+        $estatico='';
+        //char(65) = A al char(90)=Z
+        while($fechaaux<=$r->fecha_fin){
+            if($min==$max){
+                $min=64;
+                $estatico='A';
+            }
+            $cont++;
+            $min++;
+            $length[$estatico.chr($min)]=5;
+            array_push($cabecera2, $fechaaux);
+            $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        $r['data']=$rsql;
+        $r['cabecera2']=$cabecera2;
+        $r['length']=$length;
+        $r['max']=$estatico.chr($min);
+        return $r;
+    }
 }

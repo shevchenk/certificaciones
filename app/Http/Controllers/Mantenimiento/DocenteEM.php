@@ -40,13 +40,30 @@ class DocenteEM extends Controller
                         ],
             );
 
+            $rulesestado = array(
+                'persona_id' => 
+                       ['required',
+                        Rule::unique('mat_docentes','persona_id')->where('estado',1),
+                        ],
+            );
+
             
             $validator=Validator::make($r->all(), $rules,$mensaje);
+            $validatorestado=Validator::make($r->all(), $rulesestado,$mensaje);
 
             if ( !$validator->fails() ) {
                 Docente::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
+            }
+            else if( !$validatorestado->fails()){
+                $docente=Docente::where('persona_id',$r->persona_id)->first();
+                $r['id']=$docente->id;
+                $r['estadof']=1;
+                Docente::runEditStatus($r);
+
+                $return['rst'] = 1;
+                $return['msj'] = 'Persona reactivado como Docente';
             }
             else{
                 $return['rst'] = 2;
