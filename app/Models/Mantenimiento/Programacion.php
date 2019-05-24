@@ -189,7 +189,7 @@ class Programacion extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('mp.id','asc')->paginate(10);
+        $result = $sql->orderBy('mp.fecha_inicio','desc')->paginate(10);
         return $result;
     }
         
