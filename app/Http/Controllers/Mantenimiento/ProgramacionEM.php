@@ -117,5 +117,16 @@ class ProgramacionEM extends Controller
         }
     }
 
+    public function RegistrarArchivo(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Programacion::RegistrarArchivo($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "Archivos Cargados Correctamente";
+            return response()->json($return);
+        }
+    }
+
     
 }

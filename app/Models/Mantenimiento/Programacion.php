@@ -192,5 +192,31 @@ class Programacion extends Model
         $result = $sql->orderBy('mp.fecha_inicio','desc')->paginate(10);
         return $result;
     }
-        
+    
+    public static function RegistrarArchivo($r)
+    {
+        $programacion= Programacion::find($r->id);
+        $extension='';
+        if( trim($r->cv_nombre)!='' ){
+            $type=explode(".",$r->cv_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/programacion/cv_".$programacion->id.$extension; 
+        if( trim($r->cv_archivo)!='' ){
+            $programacion->cv_archivo=$url;
+            Menu::fileToFile($r->cv_archivo, $url);
+        }
+
+        if( trim($r->temario_nombre)!='' ){
+            $type=explode(".",$r->temario_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/programacion/temario_".$programacion->id.$extension; 
+        if( trim($r->temario_archivo)!='' ){
+            $programacion->temario_archivo=$url;
+            Menu::fileToFile($r->temario_archivo, $url);
+        }
+        $programacion->persona_id_created_at=Auth::user()->id;
+        $programacion->save();
+    }
 }

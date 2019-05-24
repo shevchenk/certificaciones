@@ -346,7 +346,44 @@ var masterG ={
         if( pos!= -1 && t.value!='' && t.value.substring(pos+1).length>=2 ){
           t.value = parseFloat(t.value).toFixed(n);
         }
-    }
+    },
+    onImagen: function (ev,nombre,archivo,src) {
+        var files = ev.target.files || ev.dataTransfer.files;
+        if (!files.length)
+            return;
+        var image = new Image();
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            $(archivo).val(e.target.result);
+            if(files[0].name.split('.')[1]=='pdf'){
+              $(src).attr('src','archivo/pdf.jpg');
+            }
+            else if(files[0].name.split('.')[1]=='docx' || files[0].name.split('.')[1]=='doc'){
+              $(src).attr('src','archivo/word.png');
+            }
+            else if(files[0].name.split('.')[1]=='xlsx' || files[0].name.split('.')[1]=='xls'){
+              $(src).attr('src','archivo/excel.jpg');
+            }
+            else if(files[0].name.split('.')[1]=='pptx' || files[0].name.split('.')[1]=='ppt'){
+              $(src).attr('src','archivo/ppt.png');
+            }
+            else if(files[0].name.split('.')[1]=='txt'){
+              $(src).attr('src','archivo/txt.jpg');
+            }
+            else{
+              $(src).attr('src',e.target.result);
+            }
+            $(src).fadeOut(1000,function(){
+                $(src).fadeIn(1800);
+            });
+        };
+        reader.onprogress=() => {
+            //msjG.mensaje('warning','Cargando yo ando',2000);
+        }
+        reader.readAsDataURL(files[0]);
+        $(nombre).val(files[0].name);
+        console.log(files[0].name);
+    },
 }
 
 var msjG = {
