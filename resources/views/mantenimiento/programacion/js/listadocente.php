@@ -90,7 +90,7 @@ HTMLCargarDocente=function(result){
         },
         "initComplete": function () {
             $('#TableListadocente_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarDocente','AjaxDocente',result.data,'#TableListadocente_paginate');
+            masterG.CargarPaginacion('HTMLCargarDocente','AjaxListadocente',result.data,'#TableListadocente_paginate');
         } 
     });
 };

@@ -25,15 +25,15 @@ $(document).ready(function() {
         var r=true;
         if ( fecha_inicial=="" || fecha_final=="") {
             r=false;
-            swal("Mensaje", "Por favor seleccione todos los campos!")
+            swal("Mensaje", "Por favor seleccione la fecha inicial y la fecha final!")
         }
         return r;
     }
 
-    $(document).on('click', '#btnexport', function(event) {
+    $(document).on('click', '.btnexport', function(event) {
         var r = DataToFilter();
         if( r ){
-            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@ExportLlamadas'+'?fecha_ini='+$('#txt_fecha_ini').val()+'&fecha_fin='+$('#txt_fecha_fin').val());
+            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@'+$(this).attr('data-reporte')+'?fecha_ini='+$('#txt_fecha_ini').val()+'&fecha_fin='+$('#txt_fecha_fin').val());
         }else{
             event.preventDefault();
         }

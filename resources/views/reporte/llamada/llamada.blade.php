@@ -15,12 +15,12 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>General de Llamadas
+        <h1>Betsayda
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-sitemap"></i> Reporte</li>
-            <li class="active">General de Llamadas</li>
+            <li class="active">Betsayda</li>
         </ol>
     </section>
 
@@ -45,15 +45,45 @@
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
-                                    <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
-                                </div>
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
                     </div><!-- .box -->
                 </div><!-- .col -->
             </div><!-- .row -->
-        </section><!-- .content -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-body no-padding">
+                        <div class="col-md-8 col-sm-12">
+                            <table class="table table-striped">
+                                <head>
+                                    <th colspan="2" style="text-align: center;">Listado de Reportes</th>
+                                </head>
+                                <tbody>
+                                    <tr>
+                                        <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportLlamadas'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
+                                        <td>Reporte General de Llamadas</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportNoInteresados'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
+                                        <td>Reporte de Llamadas no Interesado Resumen</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportNoInteresadosDetalle'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
+                                        <td>Reporte de Llamadas no Interesado Detalle</td>
+                                    </tr>
+                                    <tr>
+                                    <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportInteresados'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
+                                        <td>Reporte de Llamadas Interesados</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- .box-body -->
+                </div><!-- .box -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </section><!-- .content -->
         @stop
 
