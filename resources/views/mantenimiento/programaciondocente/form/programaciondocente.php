@@ -40,7 +40,9 @@
                         </label>
                       </div>
                       <div class="col-md-4">
+                        <a id="cv_href">
                         <img id="cv_img" class="img-circle" style="height: 142px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                        </a>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -56,7 +58,9 @@
                         </label>
                       </div>
                       <div class="col-md-4">
+                        <a id="temario_href">
                         <img id="temario_img" class="img-circle" style="height: 142px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                        </a>
                       </div>
                     </div>
                 </form>

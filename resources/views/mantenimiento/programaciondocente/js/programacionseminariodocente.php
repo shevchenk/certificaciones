@@ -21,6 +21,7 @@ $(document).ready(function() {
 
     $('#ModalProgramacion').on('hidden.bs.modal', function (event) {
         $("#ModalProgramacionForm input[type='hidden']").not('.mant').remove();
+        $("#ModalProgramacionForm input").val('');
     });
     
 });
@@ -41,7 +42,8 @@ HTMLCargarProgramacion=function(result){
             "<td class='curso'>"+r.curso+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
-            "<td>";
+            "<td><input type='hidden' class='cv_archivo' value='"+r.cv_archivo+"'>"+
+                "<input type='hidden' class='temario_archivo' value='"+r.temario_archivo+"'>";
         html+='<a class="btn btn-primary btn-sm" onClick="SubirArchivos('+r.id+')"><i class="fa fa-upload fa-lg"></i></a></td>';
         html+="</tr>";
     });
@@ -70,12 +72,18 @@ SubirArchivos=function(id){
     docente=$("#trid_"+id+" .persona").text();
     seminario=$("#trid_"+id+" .curso").text();
     fecha_seminario=$("#trid_"+id+" .fecha_inicio").text().split(' ')[0];
+    cv_archivo=$("#trid_"+id+" .cv_archivo").val();
+    temario_archivo=$("#trid_"+id+" .temario_archivo").val();
 
+    masterG.SelectImagen(cv_archivo,'#cv_img','#cv_href');
+    masterG.SelectImagen(temario_archivo,'#temario_img','#temario_href');
 
     $("#ModalArchivoForm #txt_seminario").val( seminario );
     $("#ModalArchivoForm #txt_fecha_seminario").val( fecha_seminario );
     $("#ModalArchivoForm #txt_id").val( id );
     $("#ModalArchivoForm #txt_docente").val( docente );
+    $("#ModalArchivoForm #txt_cv_nombre").val( cv_archivo );
+    $("#ModalArchivoForm #txt_temario_nombre").val( temario_archivo );
     $('#ModalArchivo').modal('show');
 }
 

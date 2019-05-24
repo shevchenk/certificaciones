@@ -347,6 +347,30 @@ var masterG ={
           t.value = parseFloat(t.value).toFixed(n);
         }
     },
+    SelectImagen: function(archivo,src,carga){
+      if( $.trim(archivo)!='' && archivo.split('.')[1]=='pdf' ){
+        $(src).attr('src','archivo/pdf.jpg');
+      }
+      else if( $.trim(archivo)!='' && (archivo.split('.')[1]=='docx' || archivo.split('.')[1]=='doc') ){
+        $(src).attr('src','archivo/word.png');
+      }
+      else if( $.trim(archivo)!='' && (archivo.split('.')[1]=='xlsx' || archivo.split('.')[1]=='xls') ){
+        $(src).attr('src','archivo/excel.jpg');
+      }
+      else if( $.trim(archivo)!='' && (archivo.split('.')[1]=='pptx' || archivo.split('.')[1]=='ppt') ){
+        $(src).attr('src','archivo/ppt.png');
+      }
+      else if( $.trim(archivo)!='' && archivo.split('.')[1]=='txt' ){
+        $(src).attr('src','archivo/txt.jpg');
+      }
+      else{
+        $(src).attr('src',archivo);
+      }
+        $(carga).removeAttr('href').removeAttr('target');
+        if( $.trim(archivo)!='' ){
+          $(carga).attr('href',archivo).attr('target','__blank');
+        }
+    },
     onImagen: function (ev,nombre,archivo,src) {
         var files = ev.target.files || ev.dataTransfer.files;
         if (!files.length)
