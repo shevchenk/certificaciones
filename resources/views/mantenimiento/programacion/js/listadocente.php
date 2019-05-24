@@ -56,12 +56,18 @@ HTMLCargarDocente=function(result){
     $('#TableListadocente').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){
+        estadohtml='<span id="'+r.id+'" onClick="CambiarEstadoDocente(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
+        seleccionar='';
+        if(r.estado==1){
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstadoDocente(0,'+r.id+')" class="btn btn-success">Activo</span>';
+            seleccionar='<span class="btn btn-primary btn-sm" onClick="SeleccionarDocente(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>';
+        }
+            
 
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='docente'>"+r.docente+"</td>"+
             "<td class='dni'>"+r.dni+"</td>"+
-           '<td><span class="btn btn-primary btn-sm" onClick="SeleccionarDocente(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
+           '<td>'+seleccionar+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+
             "</td>"+
