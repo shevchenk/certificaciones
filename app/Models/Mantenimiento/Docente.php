@@ -64,7 +64,7 @@ class Docente extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('mat_docentes.id','asc')->paginate(10);
+        $result = $sql->orderBy('docente','asc')->paginate(10);
         return $result;
     }
     
