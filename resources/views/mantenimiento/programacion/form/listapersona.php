@@ -53,7 +53,7 @@
                                                 </div>
                                             </th>                                    
                                             <th class="col-xs-1">[-]</th>
-                                             <th class="col-xs-1">[-]</th>
+                                             <th class="col-xs-1 epersona">[-]</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -65,7 +65,7 @@
                                             <th>Nombre</th>
                                             <th>DNI</th>
                                             <th>[-]</th>
-                                            <th>[-]</th>
+                                            <th class="epersona">[-]</th>
                                         </tr>
                                     </tfoot>
                                 </table>

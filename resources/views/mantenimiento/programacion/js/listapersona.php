@@ -30,6 +30,7 @@ $(document).ready(function() {
       
       if( typeof (button.data('epersona'))!='undefined'){
            LTEpersona=0;
+           $('.epersona').css('display','none');
       }
       if( typeof (button.data('buscaralumno'))!='undefined'){
            LTBuscarAlumno=button.data('buscaralumno');  
