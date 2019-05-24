@@ -45,6 +45,15 @@
                                 <tr class="cabecera">
                                     <th class="col-xs-2">
                                         <div class="form-group">
+                                            <label><h4>Docente:</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_docente" id="txt_docente" placeholder="Docente" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
                                             <label><h4>Local de Estudios:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
@@ -86,6 +95,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
+                                  <th>Docente</th>
                                   <th>ODE</th>
                                   <th>Seminario</th>
                                   <th>Inicio</th>

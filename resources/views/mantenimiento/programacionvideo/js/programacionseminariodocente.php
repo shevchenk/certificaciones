@@ -37,12 +37,12 @@ HTMLCargarProgramacion=function(result){
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td class='persona'>"+r.persona+"</td>"+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='curso'>"+r.curso+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
-            "<td><input type='hidden' class='persona' value='"+r.persona+"'>"+
-                "<input type='hidden' class='cv_archivo' value='"+r.cv_archivo+"'>"+
+            "<td><input type='hidden' class='cv_archivo' value='"+r.cv_archivo+"'>"+
                 "<input type='hidden' class='temario_archivo' value='"+r.temario_archivo+"'>";
         html+='<a class="btn btn-primary btn-sm" onClick="SubirArchivos('+r.id+')"><i class="fa fa-upload fa-lg"></i></a></td>';
         html+="</tr>";
@@ -69,7 +69,7 @@ HTMLCargarProgramacion=function(result){
 };
 
 SubirArchivos=function(id){
-    docente=$("#trid_"+id+" .persona").val();
+    docente=$("#trid_"+id+" .persona").text();
     seminario=$("#trid_"+id+" .curso").text();
     fecha_seminario=$("#trid_"+id+" .fecha_inicio").text().split(' ')[0];
     cv_archivo=$("#trid_"+id+" .cv_archivo").val();

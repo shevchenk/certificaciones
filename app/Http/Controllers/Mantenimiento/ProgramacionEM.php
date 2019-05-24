@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mantenimiento\Programacion;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Auth;
 
 class ProgramacionEM extends Controller
 {
@@ -109,6 +110,18 @@ class ProgramacionEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
+            $renturnModel = Programacion::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function LoadMiProgramacion(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['persona_id'] = Auth::user()->id;
             $renturnModel = Programacion::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;

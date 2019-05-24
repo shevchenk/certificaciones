@@ -98,6 +98,12 @@ class Programacion extends Model
              ->join('mat_cursos as c','c.id','=','mp.curso_id')
              ->where( 
                 function($query) use ($r){
+                    if( $r->has("persona_id") ){
+                        $persona_id=trim($r->persona_id);
+                        if( $persona_id !='' ){
+                            $query->where('p.id','=',$persona_id);
+                        }
+                    }
                     if( $r->has("docente") ){
                         $docente=trim($r->docente);
                         if( $docente !='' ){
