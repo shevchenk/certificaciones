@@ -763,4 +763,223 @@ class ReporteEM extends Controller
         
         })->export('xlsx');
     }
+
+    public function ExportNoInteresados(Request $r )
+    {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(300);
+        $renturnModel = Reporte::runExportNoInteresados($r);
+        
+        Excel::create('No Interesados', function($excel) use($renturnModel,$r) {
+
+        $excel->setTitle('Reporte de No Interesados')
+              ->setCreator('Jorge Salcedo')
+              ->setCompany('JS Soluciones')
+              ->setDescription('Resumen estadístico de llamadas realizadas');
+
+        $excel->sheet('DATA', function($sheet) use($renturnModel,$r) {
+            $sheet->setOrientation('landscape'); //portrait
+            $sheet->setPageMargin(array(
+                0.25, 0.50, 0.25, 0.30
+            ));
+
+            $sheet->setStyle(array(
+                'font' => array(
+                    'name'      =>  'Bookman Old Style',
+                    'size'      =>  10,
+                    'bold'      =>  false
+                )
+            ));
+
+            $fecha_ini=$r->fecha_ini;
+            $fecha_fin=$r->fecha_fin;
+
+            $sheet->cell('A2', function($cell) use ($fecha_ini,$fecha_fin) {
+                $cell->setValue('REPORTE DE LLAMADAS NO INTERESADOS DEL '.$fecha_ini.' AL '.$fecha_fin);
+                $cell->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '14',
+                    'bold'       =>  true
+                ));
+            });
+            $sheet->mergeCells('A2:'.$renturnModel['max'].'2');
+            $sheet->cells('A2:'.$renturnModel['max'].'2', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+            });
+
+            $sheet->setWidth($renturnModel['length']);
+            $sheet->setHeight(2, 34.5);
+            $sheet->setHeight(3, 68.5);
+            $sheet->row( 3, $renturnModel['cabecera2'] );
+            $sheet->cells('C3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setTextRotation(90);
+            });
+
+            $data=json_decode(json_encode($renturnModel['data']), true);
+            $sheet->rows($data);
+            //$pos=3;
+            $contador=0;
+            
+            $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#95B3D7');
+            });
+
+            $count = $sheet->getHighestRow();
+            $sheet->cell('A'.$count,'Total General');
+            $sheet->cells('A'.$count.':'.$renturnModel['max'].$count, function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#95B3D7');
+            });
+
+            $sheet->getStyle('A2:'.$renturnModel['max'].'2')->getAlignment()->setWrapText(true);
+            $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
+        });
+        
+        })->export('xlsx');
+    }
+
+    public function ExportNoInteresadosDetalle(Request $r )
+    {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(300);
+        $renturnModel = Reporte::runExportNoInteresadosDetalle($r);
+        
+        Excel::create('No Interesados Detalle', function($excel) use($renturnModel,$r) {
+
+        $excel->setTitle('Reporte de No Interesados Detalle')
+              ->setCreator('Jorge Salcedo')
+              ->setCompany('JS Soluciones')
+              ->setDescription('Resumen estadístico de llamadas realizadas');
+
+        $excel->sheet('DATA', function($sheet) use($renturnModel,$r) {
+            $sheet->setOrientation('landscape'); //portrait
+            $sheet->setPageMargin(array(
+                0.25, 0.50, 0.25, 0.30
+            ));
+
+            $sheet->setStyle(array(
+                'font' => array(
+                    'name'      =>  'Bookman Old Style',
+                    'size'      =>  10,
+                    'bold'      =>  false
+                )
+            ));
+
+            $fecha_ini=$r->fecha_ini;
+            $fecha_fin=$r->fecha_fin;
+
+            $sheet->cell('A2', function($cell) use ($fecha_ini,$fecha_fin) {
+                $cell->setValue('REPORTE DE LLAMADAS NO INTERESADOS DETALLE DEL '.$fecha_ini.' AL '.$fecha_fin);
+                $cell->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '14',
+                    'bold'       =>  true
+                ));
+            });
+            $sheet->mergeCells('A2:'.$renturnModel['max'].'2');
+            $sheet->cells('A2:'.$renturnModel['max'].'2', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+            });
+
+            $sheet->setWidth($renturnModel['length']);
+            $sheet->setHeight(2, 34.5);
+            $sheet->setHeight(3, 68.5);
+            $sheet->row( 3, $renturnModel['cabecera2'] );
+            $sheet->cells('C3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setTextRotation(90);
+            });
+
+            $data=json_decode(json_encode($renturnModel['data']), true);
+            //$sheet->rows($data);
+            $pos=3;
+            $posaux=0;
+            for ($i=0; $i<count($data); $i++) {
+                if( $data[$i]['tipo_llamada_sub_detalle']!='' OR ($i+1)==count($data) ){
+                    $pos++;
+                    if($posaux==0){
+                        $posaux=$pos;
+                    }
+                    $data[$i]['tipo_llamada_sub']='';
+                    $sheet->row( $pos, $data[$i] );
+                }
+                else{
+                    $sheet->mergeCells('A'.$posaux.':A'.$pos);
+                    $sheet->cells('A'.$posaux.':A'.$pos, function($cells) {
+                        $cells->setAlignment('center');
+                        $cells->setValignment('center');
+                        $cells->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '8',
+                            'bold'       =>  true
+                        ));
+                    });
+                    $sheet->cell('A'.$posaux, $data[$i]['tipo_llamada_sub']);
+                    $posaux=0;
+                }
+            }
+                $sheet->cells('A1:'.$renturnModel['max'].'1', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                    $cells->setTextRotation(90);
+                });
+            
+            $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#95B3D7');
+            });
+
+            $count = $sheet->getHighestRow();
+            $sheet->cell('A'.$count,'Total General');
+            $sheet->cells('A'.$count.':'.$renturnModel['max'].$count, function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#95B3D7');
+            });
+
+            $sheet->setAutoSize(array(
+                'A'
+            ));
+            $sheet->getStyle('A2:'.$renturnModel['max'].'2')->getAlignment()->setWrapText(true);
+            $sheet->getStyle('A2:A'.$count)->getAlignment()->setWrapText(true);
+            $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
+        });
+        
+        })->export('xlsx');
+    }
 }

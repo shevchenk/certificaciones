@@ -603,4 +603,151 @@ class Reporte extends Model
         $r['max']=$estatico.chr($min);
         return $r;
     }
+
+    public static function runLoadNoInteresados($r)
+    {
+        $id=Auth::user()->id;
+        $fechaaux=$r->fecha_ini;
+
+        $sql=DB::table('tipo_llamadas_sub AS tl')
+            ->Leftjoin('llamadas AS ll',function($join) use( $r ){
+                $join->on('ll.tipo_llamada_sub_id','=','tl.id')
+                ->where('ll.estado',1);
+                if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
+                    $join->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
+                }
+            })
+            ->select('tl.tipo_llamada_sub', DB::raw('COUNT(ll.id) AS total'))
+            ->where('tl.estado',1)
+            ->where('tl.tipo_llamada_id',8)
+            ->groupBy(DB::raw('tl.tipo_llamada_sub WITH ROLLUP'));
+
+        $cont=0;
+        while($fechaaux<=$r->fecha_fin){
+            $cont++;
+            $sql->addSelect( DB::raw('COUNT(f'.$cont.'.id) AS \''.$fechaaux.'\'') );
+            $sql->Leftjoin('llamadas AS f'.$cont,function($join) use ( $fechaaux,$cont ){
+                $join->on('f'.$cont.'.id','=','ll.id')
+                ->where('ll.estado','=','1')
+                ->whereRaw('DATE(f'.$cont.'.fecha_llamada)=\''.$fechaaux.'\'');
+            });
+            $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        $result = $sql->get();
+        return $result;
+    }
+
+    public static function runExportNoInteresados($r)
+    {
+        $rsql= Reporte::runLoadNoInteresados($r);
+
+        $length=array(
+            'A'=>28,'B'=>7.3
+        );
+
+        $cabecera2=array(
+            'Motivo','Total'
+        );
+
+        $fechaaux=$r->fecha_ini;
+        $cont=0;
+        $min=66;//65
+        $max=90;
+        $estatico='';
+        //char(65) = A al char(90)=Z
+        while($fechaaux<=$r->fecha_fin){
+            if($min==$max){
+                $min=64;
+                $estatico='A';
+            }
+            $cont++;
+            $min++;
+            $length[$estatico.chr($min)]=5;
+            array_push($cabecera2, $fechaaux);
+            $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        $r['data']=$rsql;
+        $r['cabecera2']=$cabecera2;
+        $r['length']=$length;
+        $r['max']=$estatico.chr($min);
+        return $r;
+    }
+
+    public static function runLoadNoInteresadosDetalle($r)
+    {
+        $id=Auth::user()->id;
+        $fechaaux=$r->fecha_ini;
+
+        $sql=DB::table('tipo_llamadas_sub_detalle AS tl')
+            ->join('tipo_llamadas_sub AS tls',function($join){
+                $join->on('tls.id','=','tl.tipo_llamada_sub_id')
+                ->where('tls.estado',1)
+                ->where('tls.tipo_llamada_id',8);
+                
+            })
+            ->Leftjoin('llamadas AS ll',function($join) use( $r ){
+                $join->on('ll.tipo_llamada_sub_detalle_id','=','tl.id')
+                ->where('ll.estado',1);
+                if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
+                    $join->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
+                }
+            })
+            ->select('tls.tipo_llamada_sub','tl.tipo_llamada_sub_detalle', DB::raw('COUNT(ll.id) AS total'))
+            ->where('tl.estado',1)
+            ->groupBy(DB::raw('tls.tipo_llamada_sub,tl.tipo_llamada_sub_detalle WITH ROLLUP'));
+
+        $cont=0;
+        while($fechaaux<=$r->fecha_fin){
+            $cont++;
+            $sql->addSelect( DB::raw('COUNT(f'.$cont.'.id) AS \''.$fechaaux.'\'') );
+            $sql->Leftjoin('llamadas AS f'.$cont,function($join) use ( $fechaaux,$cont ){
+                $join->on('f'.$cont.'.id','=','ll.id')
+                ->where('ll.estado','=','1')
+                ->whereRaw('DATE(f'.$cont.'.fecha_llamada)=\''.$fechaaux.'\'');
+            });
+            $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        $result = $sql->get();
+        return $result;
+    }
+
+    public static function runExportNoInteresadosDetalle($r)
+    {
+        $rsql= Reporte::runLoadNoInteresadosDetalle($r);
+
+        $length=array(
+            'A'=>7,'B'=>28,'C'=>7.3
+        );
+
+        $cabecera2=array(
+            '','Detalle','Total'
+        );
+
+        $fechaaux=$r->fecha_ini;
+        $cont=0;
+        $min=67;//65
+        $max=90;
+        $estatico='';
+        //char(65) = A al char(90)=Z
+        while($fechaaux<=$r->fecha_fin){
+            if($min==$max){
+                $min=64;
+                $estatico='A';
+            }
+            $cont++;
+            $min++;
+            $length[$estatico.chr($min)]=5;
+            array_push($cabecera2, $fechaaux);
+            $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        $r['data']=$rsql;
+        $r['cabecera2']=$cabecera2;
+        $r['length']=$length;
+        $r['max']=$estatico.chr($min);
+        return $r;
+    }
 }
