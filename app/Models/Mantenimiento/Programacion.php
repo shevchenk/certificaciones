@@ -4,6 +4,7 @@ namespace App\Models\Mantenimiento;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use DB;
 
 class Programacion extends Model
@@ -92,7 +93,8 @@ class Programacion extends Model
 
         $sql=DB::table('mat_programaciones as mp')
              ->select('mp.dia','mp.id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona'),'mp.persona_id','mp.docente_id','c.curso','mp.curso_id','mp.sucursal_id','s.sucursal','mp.aula','mp.fecha_inicio','mp.fecha_final','mp.fecha_campaña','mp.meta_max','mp.meta_min','mp.estado','mp.link',
-                'mp.cv_archivo','mp.temario_archivo')
+                'mp.cv_archivo','mp.temario_archivo','mp.diapo_archivo','mp.diapoedit_archivo',
+                'mp.grabo','mp.publico','mp.expositor','mp.situaciones')
              ->join('personas as p','p.id','=','mp.persona_id')
              ->join('sucursales as s','s.id','=','mp.sucursal_id')
              ->join('mat_cursos as c','c.id','=','mp.curso_id')
@@ -222,6 +224,39 @@ class Programacion extends Model
         if( trim($r->temario_archivo)!='' ){
             $programacion->temario_archivo=$url;
             Menu::fileToFile($r->temario_archivo, $url);
+        }
+
+        if( trim($r->diapo_nombre)!='' ){
+            $type=explode(".",$r->diapo_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/programacion/diapo_".$programacion->id.$extension; 
+        if( trim($r->diapo_archivo)!='' ){
+            $programacion->diapo_archivo=$url;
+            Menu::fileToFile($r->diapo_archivo, $url);
+        }
+
+        if( trim($r->diapoedit_nombre)!='' ){
+            $type=explode(".",$r->diapoedit_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/programacion/diapoedit_".$programacion->id.$extension; 
+        if( trim($r->diapoedit_archivo)!='' ){
+            $programacion->diapoedit_archivo=$url;
+            Menu::fileToFile($r->diapoedit_archivo, $url);
+        }
+
+        if( Input::has('grabo') AND trim($r->grabo)!='' ){
+            $programacion->grabo=$r->grabo;
+        }
+        if( Input::has('publico') AND trim($r->publico)!='' ){
+            $programacion->publico=$r->publico;
+        }
+        if( Input::has('expositor') AND trim($r->expositor)!='' ){
+            $programacion->expositor=$r->expositor;
+        }
+        if( Input::has('situaciones') AND trim($r->situaciones)!='' ){
+            $programacion->situaciones=$r->situaciones;
         }
         $programacion->persona_id_created_at=Auth::user()->id;
         $programacion->save();

@@ -10,8 +10,8 @@
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
-    @include( 'mantenimiento.programaciondocente.js.programacionseminariodocente_ajax' )
-    @include( 'mantenimiento.programaciondocente.js.programacionseminariodocente' )
+    @include( 'mantenimiento.programacionvideo.js.programacionseminariovideo_ajax' )
+    @include( 'mantenimiento.programacionvideo.js.programacionseminariovideo' )
 
 @stop
 
@@ -24,12 +24,12 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Mis Seminarios Programados
+    <h1>Seminarios Programados
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Mis Seminarios Programados</li>
+        <li class="active">Seminarios Programados</li>
     </ol>
 </section>
 
@@ -113,5 +113,5 @@
 @stop
 
 @section('form')
-     @include( 'mantenimiento.programaciondocente.form.programaciondocente' )
+     @include( 'mantenimiento.programacionvideo.form.programacionvideo' )
 @stop

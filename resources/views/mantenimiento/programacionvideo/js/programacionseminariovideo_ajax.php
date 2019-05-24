@@ -6,7 +6,7 @@ var AjaxProgramacion={
         }
         data=$("#ProgramacionForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ProgramacionForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.ProgramacionEM@LoadMiProgramacion';
+        url='AjaxDinamic/Mantenimiento.ProgramacionEM@Load';
         masterG.postAjax(url,data,evento);
     },
     RegistrarArchivo:function(evento){
