@@ -27,7 +27,7 @@
                             <input class="form-control" type="text" id="txt_fecha_seminario" name="txt_fecha_seminario" value="" disabled>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6 col-sm-12">
                       <div class="col-md-6">
                         <label>Mi CV:</label>
                         <input type="text"  readOnly class="form-control input-sm" id="txt_cv_nombre"  name="txt_cv_nombre" value="">
@@ -39,13 +39,13 @@
                             <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#txt_cv_nombre','#txt_cv_archivo','#cv_img');" >
                         </label>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-4 col-sm-6">
                         <a id="cv_href">
                         <img id="cv_img" class="img-circle" style="height: 142px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
                         </a>
                       </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6 col-sm-12">
                       <div class="col-md-6">
                         <label>Mi Temario:</label>
                         <input type="text"  readOnly class="form-control input-sm" id="txt_temario_nombre"  name="txt_temario_nombre" value="">
@@ -57,7 +57,7 @@
                             <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#txt_temario_nombre','#txt_temario_archivo','#temario_img');" >
                         </label>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-4 col-sm-6" >
                         <a id="temario_href">
                         <img id="temario_img" class="img-circle" style="height: 142px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
                         </a>
