@@ -104,9 +104,6 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        <div class='btn btn-primary btn-sm' class="btn btn-primary" onClick="AgregarEditar(1)" >
-                            <i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                        </div>
                     </div><!-- .box-body -->
                 </form><!-- .form -->
             </div><!-- .box -->
