@@ -99,14 +99,17 @@ SeleccionarProgramacion = function(val,id){
             "<td><input type='text' class='form-control'  id='txt_nro_pago"+id+"' name='txt_nro_pago[]'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago"+id+"' name='txt_monto_pago[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td>"+
-            '<input type="text" readonly class="form-control" id="pago_nombre'+id+'"" name="pago_nombre[]" value="">'+
-                    '<input type="text" style="display: none;" id="pago_archivo'+id+'" name="pago_archivo[]">'+
-                    '<label class="btn btn-warning  btn-flat margin">'+
-                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
-                        '<i class="fa fa-file-word-o fa-lg"></i>'+
-                        '<i class="fa fa-file-image-o fa-lg"></i>'+
-                    '<input type="file" style="display: none;" onchange="onPagos('+id+',2);" >'+
-             '</label>'+ 
+                '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre'+id+'"  name="pago_nombre[]" value="">'+
+                '<input type="text" style="display: none;" id="pago_archivo'+id+'" name="pago_archivo[]">'+
+                '<label class="btn btn-default btn-flat margin btn-xs">'+
+                    '<i class="fa fa-file-image-o fa-3x"></i>'+
+                    '<i class="fa fa-file-pdf-o fa-3x"></i>'+
+                    '<i class="fa fa-file-word-o fa-3x"></i>'+
+                    '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre'+id+'\',\'#pago_archivo'+id+'\',\'#pago_img'+id+'\');" >'+
+                '</label>'+
+                '<div><a id="pago_href'+id+'">'+
+            '<img id="pago_img'+id+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                '</a></div>'+
             "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]' value='0'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
@@ -116,14 +119,17 @@ SeleccionarProgramacion = function(val,id){
                 "<option value='2'>Depósito</option>"+
                 "</select></td>"+
             "<td>"+
-            '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
-                    '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
-                    '<label class="btn btn-warning  btn-flat margin">'+
-                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
-                        '<i class="fa fa-file-word-o fa-lg"></i>'+
-                        '<i class="fa fa-file-image-o fa-lg"></i>'+
-                    '<input type="file" style="display: none;" onchange="onPagos('+id+',1);" >'+
-             '</label>'+ 
+                '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
+                '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
+                '<label class="btn btn-default btn-flat margin btn-xs">'+
+                    '<i class="fa fa-file-image-o fa-3x"></i>'+
+                    '<i class="fa fa-file-pdf-o fa-3x"></i>'+
+                    '<i class="fa fa-file-word-o fa-3x"></i>'+
+                    '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre_certificado'+id+'\',\'#pago_archivo_certificado'+id+'\',\'#pago_certificado_img'+id+'\');" >'+
+                '</label>'+
+                '<div><a id="pago_certificado_href'+id+'">'+
+            '<img id="pago_certificado_img'+id+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                '</a></div>'+
             "</td>"+
             "<td>"+
                 "<label>"+
@@ -149,24 +155,30 @@ SeleccionarProgramacion = function(val,id){
                 "<option value='2'>Depósito</option>"+
                 "</select></td>"+
             "<td>"+
-            '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
-                    '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
-                    '<label class="btn btn-warning  btn-flat margin">'+
-                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
-                        '<i class="fa fa-file-word-o fa-lg"></i>'+
-                        '<i class="fa fa-file-image-o fa-lg"></i>'+
-                    '<input type="file" style="display: none;" onchange="onImagen(event,pago_nombre_certificado'+id+',pago_archivo_certificado'+id+',1);" >'+
-             '</label>'+ 
+                '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
+                '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
+                '<label class="btn btn-default btn-flat margin btn-xs">'+
+                    '<i class="fa fa-file-image-o fa-3x"></i>'+
+                    '<i class="fa fa-file-pdf-o fa-3x"></i>'+
+                    '<i class="fa fa-file-word-o fa-3x"></i>'+
+                    '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre_certificado'+id+'\',\'#pago_archivo_certificado'+id+'\',\'#pago_certificado_img'+id+'\');" >'+
+                '</label>'+
+                '<div><a id="pago_certificado_href'+id+'">'+
+            '<img id="pago_certificado_img'+id+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                '</a></div>'+
             "</td>"+
             "<td>"+
-            '<input type="text" readonly class="form-control" id="dni_nombre_detalle'+id+'"  name="dni_nombre_detale[]" value="">'+
-                    '<input type="text" style="display: none;" id="dni_archivo_detalle'+id+'" name="dni_archivo_detalle[]">'+
-                    '<label class="btn btn-warning  btn-flat margin">'+
-                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
-                        '<i class="fa fa-file-word-o fa-lg"></i>'+
-                        '<i class="fa fa-file-image-o fa-lg"></i>'+
-                    '<input type="file" style="display: none;" onchange="onImagen(event,dni_nombre_detalle'+id+',dni_archivo_detalle'+id+',1);" >'+
-             '</label>'+ 
+                '<input type="text"  readOnly class="form-control input-sm" id="dni_nombre_detalle'+id+'"  name="dni_nombre_detalle[]" value="">'+
+                '<input type="text" style="display: none;" id="dni_archivo_detalle'+id+'" name="dni_archivo_detalle[]">'+
+                '<label class="btn btn-default btn-flat margin btn-xs">'+
+                    '<i class="fa fa-file-image-o fa-3x"></i>'+
+                    '<i class="fa fa-file-pdf-o fa-3x"></i>'+
+                    '<i class="fa fa-file-word-o fa-3x"></i>'+
+                    '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#dni_nombre_detalle'+id+'\',\'#dni_archivo_detalle'+id+'\',\'#dni_archivo_img'+id+'\');" >'+
+                '</label>'+
+                '<div><a id="dni_archivo_href'+id+'">'+
+            '<img id="dni_archivo_img'+id+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                '</a></div>'+
             "</td>"+
             "<td style='display:none;'>"+
                 "<label>"+

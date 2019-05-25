@@ -286,24 +286,34 @@
                                                         <option value='2'>Depósito</option>
                                                         </select></td>
                                                     <td>
-                                                        <input type="text" readonly class="form-control" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">
+                                                        <input type="text"  readOnly class="form-control input-sm" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">
                                                         <input type="text" style="display: none;" id="pago_archivo_promocion" name="pago_archivo_promocion">
-                                                        <label class="btn btn-warning  btn-flat margin">
-                                                            <i class="fa fa-file-pdf-o fa-lg"></i>
-                                                            <i class="fa fa-file-word-o fa-lg"></i>
-                                                            <i class="fa fa-file-image-o fa-lg"></i>
-                                                        <input type="file" style="display: none;" onchange="onImagen(event,'#pago_nombre_promocion','#pago_archivo_promocion',5);" id="file_promocion" >
+                                                        <label class="btn btn-default btn-flat margin btn-xs">
+                                                            <i class="fa fa-file-image-o fa-3x"></i>
+                                                            <i class="fa fa-file-pdf-o fa-3x"></i>
+                                                            <i class="fa fa-file-word-o fa-3x"></i>
+                                                            <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#pago_nombre_promocion','#pago_archivo_promocion','#pago_img');" >
                                                         </label>
+                                                        <div>
+                                                        <a id="pago_href">
+                                                        <img id="pago_img" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                                                        </a>
+                                                        </div>
                                                     </td>
                                                     <td>
-                                                        <input type="text" readonly class="form-control" id="dni_nombre"  name="dni_nombre" value="">
+                                                        <input type="text"  readOnly class="form-control input-sm" id="dni_nombre"  name="dni_nombre" value="">
                                                         <input type="text" style="display: none;" id="dni_archivo" name="dni_archivo">
-                                                        <label class="btn btn-warning  btn-flat margin">
-                                                            <i class="fa fa-file-pdf-o fa-lg"></i>
-                                                            <i class="fa fa-file-word-o fa-lg"></i>
-                                                            <i class="fa fa-file-image-o fa-lg"></i>
-                                                        <input type="file" style="display: none;" onchange="onImagen(event,'#dni_nombre','#dni_archivo',5);" id="file_promocion" >
+                                                        <label class="btn btn-default btn-flat margin btn-xs">
+                                                            <i class="fa fa-file-image-o fa-3x"></i>
+                                                            <i class="fa fa-file-pdf-o fa-3x"></i>
+                                                            <i class="fa fa-file-word-o fa-3x"></i>
+                                                            <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#dni_nombre','#dni_archivo','#dni_img');" >
                                                         </label>
+                                                        <div>
+                                                        <a id="dni_href">
+                                                        <img id="dni_img" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                                                        </a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </tbody>
