@@ -6,9 +6,9 @@
     {{ Html::script('lib/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('lib/datatables/dataTables.bootstrap.min.js') }}
 
-    {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
-    {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
-    {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
+    {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
     @include( 'proceso.atencioncliente.js.atencioncliente_ajax' )
     @include( 'proceso.atencioncliente.js.atencioncliente' )
@@ -16,12 +16,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Alumnos
-        <small>Cursos Programados</small>
+    <h1>Atención al Cliente - Matriculados
+        <small></small>
     </h1>
     <ol class="breadcrumb">
-        <li><i class="fa fa-sitemap"></i> Alumnos</a></li>
-        <li class="active">Cursos Programados</li>
+        <li><i class="fa fa-sitemap"></i> - </a></li>
+        <li class="active">Atención al Cliente</li>
     </ol>
 </section>
 
@@ -165,7 +165,7 @@
                                     <th>Fecha de Seminario</th>
                                     <th>Horario</th>
                                     <th>Local del Seminario</th>
-                                    <th>Descargar</th>
+                                    <th>Registrar</th>
                                 </tr>
                             </thead>
                             <tbody id="tb_matricula">
@@ -183,10 +183,8 @@
     <!-- -->
 
 </section><!-- .content -->
-
-<!--
 @stop
 @section('form')
-     @include( 'proceso.alumno.form.alumno' )
+     @include( 'proceso.atencioncliente.form.atencioncliente' )
 @stop
 

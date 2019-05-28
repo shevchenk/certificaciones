@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Proceso;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Proceso\Alumno;
-//use App\Models\Mantenimiento\CursoEspecialidad;
+use App\Models\Proceso\LlamadaAtencionCliente;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -205,6 +205,28 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
     {
         if ( $r->ajax() ) {
             $renturnModel = Alumno::RegistrarEntrega($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function RegistrarLlamada(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = LlamadaAtencionCliente::RegistrarLlamada($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "Registro realizado";
+            return response()->json($return);
+        }
+    }
+
+    public function CargarLlamada(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = LlamadaAtencionCliente::CargarLlamada($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
