@@ -178,7 +178,7 @@ HTMLAgregarEditar=function(result){
 CargarSlct=function(slct){
     if(slct==1){
         AjaxMatricula.CargarSucursal(SlctCargarSucursal1);
-        AjaxMatricula.CargarSucursal(SlctCargarSucursalTotal);
+        AjaxMatricula.CargarSucursalTotal(SlctCargarSucursalTotal);
     }
     if(slct==2){
         AjaxMatricula.CargarRegion(SlctCargarRegion);
