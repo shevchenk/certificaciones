@@ -169,7 +169,7 @@
             <form id="frmcursoprogramdos">
                 <div class="box-body table-responsive no-padding">
                     <table id="tb_cursos" class="table table-striped">
-                        <thead>
+                        <thead style="background-color: #A9D08E;color:black">
                             <tr class="cabecera">
                             <th>#</th>
                             <th>Profesor</th>

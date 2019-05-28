@@ -75,7 +75,7 @@
                                 <div class="panel-body">
                                     <div class="col-md-12 table-responsive">
                                         <table id="t_matricula" class="table table-striped">
-                                            <thead>
+                                            <thead style="background-color: #A9D08E;color:black">
                                                 <tr>
                                                     <th>Mod.</th>
                                                     <th>Seminarios</th>
