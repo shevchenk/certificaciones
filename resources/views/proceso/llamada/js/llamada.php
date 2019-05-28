@@ -133,9 +133,9 @@ HTMLCargar=function(result){ //INICIO HTML
    
         html+="</td>"+
                 "<td class='dni'>"+r.dni+"</td>"+
-                "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
+                "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='email'>"+r.email+"</td>"+
                 "<td class='telefono'>"+r.telefono+"</td>"+
                 "<td class='celular'>"+r.celular+"</td>";
