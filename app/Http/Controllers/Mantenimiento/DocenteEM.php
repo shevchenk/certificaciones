@@ -24,6 +24,22 @@ class DocenteEM extends Controller
         }
     }
 
+    public function EditPersona(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $return=Docente::runEditPersona($r);
+            return response()->json($return);
+        }
+    }
+
+    public function NewPersona(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $return=Docente::runNewPersona($r);
+            return response()->json($return);
+        }
+    }
+
    public function New(Request $r )
     {
         if ( $r->ajax() ) {
@@ -107,6 +123,17 @@ class DocenteEM extends Controller
     {
         if ( $r->ajax() ) {
             $renturnModel = Docente::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function LoadDocente(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Docente::runLoadDocente($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";

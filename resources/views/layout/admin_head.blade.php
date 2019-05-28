@@ -12,7 +12,7 @@
 
     <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-            <li class="dropdown tasks-menu">
+            <!--li class="dropdown tasks-menu">
                 <strong>Formación Contínua - Dirección de Extensión Universitaria y Responsabilidad Social</strong>
             </li-->
             <li class="dropdown user user-menu">

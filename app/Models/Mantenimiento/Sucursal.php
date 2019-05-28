@@ -151,8 +151,9 @@ class Sucursal extends Model
     
     public static function ListSucursalandUsuario($r)
     {
-        $sql= PersonaPrivilegioSucursal::select('s.id','s.sucursal','s.estado')
+        $sql= DB::table('personas_privilegios_sucursales AS pps')
             ->join('sucursales as s','s.id','=','pps.sucursal_id')
+            ->select('s.id','s.sucursal','s.estado')
             ->where('pps.estado','=','1')
             ->where('pps.persona_id','=', Auth::user()->id);
         $result = $sql->orderBy('sucursal','asc')->get();

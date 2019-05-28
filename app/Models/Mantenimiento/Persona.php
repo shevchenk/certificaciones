@@ -91,6 +91,7 @@ class Persona extends Model
 
     public static function runEdit($r)
     {
+        DB::beginTransaction();
         $persona_id = Auth::user()->id;
         $persona = Persona::find($r->id);
         $persona->paterno = trim( $r->paterno );
@@ -177,7 +178,7 @@ class Persona extends Model
                     }
                 }
             }
-        
+        DB::commit();
     }
 
 
