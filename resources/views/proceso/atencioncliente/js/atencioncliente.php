@@ -119,7 +119,7 @@ HTMLCargaCurso=function(result){ //INICIO HTML
         html+="<td class='fecha'>"+r.fecha+"</td>";
         html+="<td>"+r.horario+"</td>";
         html+="<td>"+r.sucursal+"</td>";
-        html+='<td><a class="btn btn-success btn-lg" onClick="ConfirmarEntrega('+r.id+','+PersonaIdG+')"><i class="fa fa-save fa-lg"></i> </a></td>';
+        html+='<td><a class="btn btn-success btn-lg" onClick="ConfirmarEntrega('+r.id+','+PersonaIdG+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
         html+="</tr>";
     });
 
