@@ -168,6 +168,7 @@ HTMLAgregarEditar=function(result){
         $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
         $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
         $("#txt_observacion").val('S/O');
+        $("#pago_img,#dni_img").attr('src','');
         ActivarPago();
     }else{
         msjG.mensaje('warning',result.msj,3000);
