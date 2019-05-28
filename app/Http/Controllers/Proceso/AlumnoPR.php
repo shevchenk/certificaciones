@@ -223,6 +223,17 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
         }
     }
 
+    public function ResponderLlamada(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = LlamadaAtencionCliente::ResponderLlamada($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "Registro realizado";
+            return response()->json($return);
+        }
+    }
+
     public function CargarLlamada(Request $r )
     {
         if ( $r->ajax() ) {

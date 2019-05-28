@@ -43,18 +43,55 @@ class LlamadaAtencionCliente extends Model
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','llac.persona_id');
             })
+            ->Join('mat_programaciones AS mp', function($join){
+                $join->on('mp.id','=','mmd.programacion_id');
+            })
+            ->Join('mat_cursos AS c', function($join){
+                $join->on('c.id','=','mp.curso_id');
+            })
             ->select(
             'llac.id','llac.fecha_registro','llac.comentario',
-            'llac.fecha_respuesta','llac.respuesta'
+            'llac.fecha_respuesta','llac.respuesta',
+            'p.paterno','p.materno','p.nombre','llac.persona_id','p.dni',
+            DB::raw('DATE(mp.fecha_inicio) AS fecha_seminario'),'c.curso AS seminario'
             )
             ->where( 
                 function($query) use ($r){
                         if( Input::has('matricula_detalle_id') AND trim($r->matricula_detalle_id) !='' ){
                             $query->where('mmd.id','=', $r->matricula_detalle_id);
                         }
+                        if( $r->has("nombre") ){
+                            $nombre=trim($r->nombre);
+                            if( $nombre !='' ){
+                                $query->where('p.nombre','like','%'.$nombre.'%');
+                            }
+                        }
+                        if( $r->has("paterno") ){
+                            $paterno=trim($r->paterno);
+                            if( $paterno !='' ){
+                                $query->where('p.paterno','like','%'.$paterno.'%');
+                            }
+                        }
+                        if( $r->has("materno") ){
+                            $materno=trim($r->materno);
+                            if( $materno !='' ){
+                                $query->where('p.materno','like','%'.$materno.'%');
+                            }
+                        }
+                        if( $r->has('solopendiente') AND trim($r->solopendiente)==1 ){
+                            $query->whereNull('llac.respuesta');
+                        }
                 }
             );
-        $result = $sql->orderBy('llac.fecha_registro','desc')->get();
+
+            $result=array();
+            if( Input::has('solopendiente') AND trim($r->solopendiente)==1 ){
+                $result = $sql->orderBy('llac.fecha_registro','desc')->paginate(10);
+            }
+            else{
+                $result = $sql->orderBy('llac.fecha_registro','desc')->get();
+            }
+
         return $result;
     }
     // --

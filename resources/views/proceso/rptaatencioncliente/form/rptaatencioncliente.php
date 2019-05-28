@@ -4,7 +4,7 @@
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Atención al Cliente</h4>
+                <h4 class="modal-title">Respuesta de Atención al Cliente</h4>
             </div>
             <div class="modal-body">
                 <form id="ModalEntregaForm">
@@ -18,7 +18,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Seminario:</label>
-                            <input type="hidden" class="mant" name="txt_matricula_detalle_id" id="txt_matricula_detalle_id" value="">
+                            <input type="hidden" class="mant" name="txt_id" id="txt_id" value="">
                             <input class="form-control fecha" type="text" id="txt_seminario" name="txt_seminario" value="" disabled>
                         </div>
                     </div>
@@ -28,33 +28,26 @@
                             <input class="form-control" type="text" id="txt_fecha_seminario" name="txt_fecha_seminario" value="" disabled>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Comentario:</label>
-                            <textarea rows="5" class="form-control" id="txt_comentario" name="txt_comentario">
+                            <textarea class="form-control" id="txt_comentario" name="txt_comentario" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Fecha de Registro:</label>
+                            <input class="form-control fecha" type="text" id="txt_fecha_registro" name="txt_fecha_registro" value="" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Respuesta:</label>
+                            <textarea rows="5" class="form-control" id="txt_respuesta" name="txt_respuesta">
                             </textarea>
                         </div>
                     </div>
                 </form>
-                <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead style="background-color: #A9D08E;color:black">
-                                <tr>
-                                    <th colspan="4" style="text-align: center;"> Historico </th>
-                                </tr>
-                                <tr>
-                                    <th>Fecha de Registro</th>
-                                    <th>Comentario</th>
-                                    <th>Fecha de Respuesta</th>
-                                    <th>Respuesta</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tb_llamada">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default active pull-left" data-dismiss="modal">Cerrar</button>
