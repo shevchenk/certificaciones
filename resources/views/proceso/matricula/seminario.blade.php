@@ -35,12 +35,12 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Matrícula de Seminarios
+    <h1>Inscripción de Seminarios
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Proceso</li>
-        <li class="active">Matrícula PAE</li>
+        <li class="active">Inscripción</li>
     </ol>
 </section>
 

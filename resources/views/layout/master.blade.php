@@ -17,7 +17,7 @@
         @show
         <title>
             @section('title')
-                PAE
+                Formación Contínua
             @show
         </title>
 
@@ -61,7 +61,7 @@
                 <div class="pull-right hidden-xs">
                   <b>Version</b> 1.0
                 </div>
-                <strong>Copyright &copy; 2017 PAE - Escuela de Posgrado Universidad Privada TELESUP by JS</strong>
+                <strong>Copyright &copy; 2019 Formación Contínua - Dirección de Extensión Universitaria y Responsabilidad Social</strong>
             </footer>
         </div><!-- ./wrapper -->
 
