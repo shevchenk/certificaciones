@@ -46,6 +46,9 @@ HTMLCargarProgramacion=function(result){
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
             "<td><input type='hidden' class='diapo_archivo' value='"+r.diapo_archivo+"'>"+
                 "<input type='hidden' class='cv_archivo' value='"+r.cv_archivo+"'>"+
+                "<input type='hidden' class='telefono' value='"+$.trim(r.telefono)+"'>"+
+                "<input type='hidden' class='celular' value='"+$.trim(r.celular)+"'>"+
+                "<input type='hidden' class='email' value='"+$.trim(r.email)+"'>"+
                 "<input type='hidden' class='grabo' value='"+r.grabo+"'>"+
                 "<input type='hidden' class='publico' value='"+r.publico+"'>"+
                 "<input type='hidden' class='expositor' value='"+$.trim(r.expositor)+"'>"+
@@ -88,6 +91,9 @@ SubirArchivos=function(id){
     situaciones=$("#trid_"+id+" .situaciones").val();
     grabo=$("#trid_"+id+" .grabo").val();
     publico=$("#trid_"+id+" .publico").val();
+    telefono=$("#trid_"+id+" .telefono").val();
+    celular=$("#trid_"+id+" .celular").val();
+    email=$("#trid_"+id+" .email").val();
 
     masterG.SelectImagen(cv_archivo,'#cv_img','#cv_href');
     masterG.SelectImagen(temario_archivo,'#temario_img','#temario_href');
@@ -104,6 +110,8 @@ SubirArchivos=function(id){
     $("#ModalArchivoForm #txt_diapoedit_nombre").val( diapoedit_archivo );
     $("#ModalArchivoForm #txt_expositor").val( expositor );
     $("#ModalArchivoForm #txt_situaciones").val( situaciones );
+    $("#ModalArchivoForm #txt_celular").val( telefono+'/'+celular );
+    $("#ModalArchivoForm #txt_email").val( email );
     if(grabo>=0){
         $("#ModalArchivoForm .slct_grabo:eq("+grabo+")").prop('checked','true');
     }

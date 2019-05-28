@@ -8,10 +8,22 @@
             </div>
             <div class="modal-body">
                 <form id="ModalArchivoForm">
-                    <div class="col-md-10">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Docente:</label>
                             <input class="form-control" type="text" id="txt_docente" name="txt_docente" value="" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Teléfono/Celular:</label>
+                            <textarea class="form-control" id="txt_celular" name="txt_celular" value="" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input class="form-control" type="text" id="txt_email" name="txt_email" value="" disabled>
                         </div>
                     </div>
                     <div class="col-md-6">

@@ -4,6 +4,7 @@ var AjaxProgramacion={
         if( typeof(pag)!='undefined' ){
             $("#ProgramacionForm").append("<input type='hidden' value='"+pag+"' name='page'>");
         }
+        $("#ProgramacionForm").append("<input type='hidden' value='1' name='estado'>");
         data=$("#ProgramacionForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ProgramacionForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Mantenimiento.ProgramacionEM@Load';
