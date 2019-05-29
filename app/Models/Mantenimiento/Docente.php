@@ -91,6 +91,14 @@ class Docente extends Model
             $docente->estado = trim( $r->estado );
             $docente->persona_id_created_at=Auth::user()->id;
             $docente->save();
+
+            $pps=new PersonaPrivilegioSucursal;
+            $pps->persona_id=$docente->persona_id;
+            $pps->privilegio_id='20';
+            $pps->estado= '1';
+            $pps->persona_id_created_at=Auth::user()->id;
+            $pps->save();
+
             DB::commit();
         }
         else{
