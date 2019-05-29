@@ -83,24 +83,6 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Aula:</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_aula" id="txt_aula" placeholder="Aula" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Días:</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_dia" id="txt_dia" placeholder="Días" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>
-                                        </div>
-                                    </th>
                                      <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Inicio:</h4></label>
@@ -141,7 +123,8 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-1">[-]</th>
+                                    <th class="col-xs-1">Programar</th>
+                                    <th class="col-xs-1">Subir Archivo</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,13 +134,12 @@
                                   <th>Docente</th>
                                   <th>ODE</th>
                                   <th>Seminario</th>
-                                  <th>Aula</th>
-                                  <th>Días</th>
                                   <th>Inicio</th>
                                   <th>Final</th>
                                   <th>Campaña</th>
                                   <th>Estado</th>
-                                  <th>[-]</th>
+                                  <th>Programar</th>
+                                  <th>Subir Archivo</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -176,6 +158,7 @@
      @include( 'mantenimiento.programacion.form.programacion' )
      @include( 'mantenimiento.programacion.form.listadocente' )
      @include( 'mantenimiento.programacion.form.listapersona' )
+     @include( 'mantenimiento.programacion.form.programaciondocente' )
      @include( 'mantenimiento.docente.form.docente' )
      @include( 'mantenimiento.persona.form.persona' )
 @stop

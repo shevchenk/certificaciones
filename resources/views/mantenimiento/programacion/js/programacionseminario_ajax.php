@@ -34,6 +34,11 @@ var AjaxProgramacion={
         url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';
         data={tipo_curso:2};
         masterG.postAjax(url,data,evento);
-    }
+    },
+    RegistrarArchivo:function(evento){
+        var data=$("#ModalArchivoForm").serialize().split("txt_").join("").split("slct_").join("");
+        url='AjaxDinamic/Mantenimiento.ProgramacionEM@RegistrarArchivo';
+        masterG.postAjax(url,data, evento);
+    },
 };
 </script>
