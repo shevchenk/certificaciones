@@ -7,12 +7,25 @@
                 <h4 class="modal-title">Registro de llamada</h4>
             </div>
             <div class="modal-body">
+                <div class="row">
                 <form id="ModalLlamadaForm">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Alumno:</label>
                             <input class="form-control mant" type="hidden" id="txt_persona_id" name="txt_persona_id" value="">
                             <input class="form-control" type="text" id="txt_alumno" name="txt_alumno" value="" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Teléfono/Celular:</label>
+                            <textarea class="form-control fecha" id="txt_celular" name="txt_celular" value="" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Fecha de Llamada:</label>
+                            <input class="form-control fecha" type="text" id="txt_fecha" name="txt_fecha" value="" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -21,12 +34,6 @@
                             <select class="selectpicker form-control show-menu-arrow" data-live-search="true" id="slct_teleoperadora" name="slct_teleoperadora">
                                 <option>.::Seleccione::.</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Fecha de Llamada:</label>
-                            <input class="form-control fecha" type="text" id="txt_fecha" name="txt_fecha" value="" readonly>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -63,6 +70,7 @@
                         </div>
                     </div>
                 </form>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default active pull-left" data-dismiss="modal">Cerrar</button>

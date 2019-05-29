@@ -136,9 +136,9 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
                 "<td class='nombre'>"+r.nombre+"</td>"+
-                "<td class='email'>"+r.email+"</td>"+
-                "<td class='telefono'>"+r.telefono+"</td>"+
-                "<td class='celular'>"+r.celular+"</td>";
+                "<td class='email'>"+$.trim(r.email)+"</td>"+
+                "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
+                "<td class='celular'>"+$.trim(r.celular)+"</td>";
                 //"<td>";
                 //"<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 
@@ -173,8 +173,11 @@ AbrirLlamada=function(id){
     paterno=$("#trid_"+id+" .paterno").text();
     materno=$("#trid_"+id+" .materno").text();
     nombre=$("#trid_"+id+" .nombre").text();
+    telefono=$("#trid_"+id+" .telefono").text();
+    celular=$("#trid_"+id+" .celular").text();
     $("#ModalLlamadaForm #txt_persona_id").val( id );
     $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
+    $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
     $('#ModalLlamada').modal('show');
 }
 
