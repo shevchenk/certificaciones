@@ -717,7 +717,7 @@ class ReporteEM extends Controller
             });
 
             $sheet->setWidth($renturnModel['length']);
-            $sheet->setHeight(2, 34.5);
+            $sheet->setHeight(2, 54.5);
             $sheet->setHeight(3, 68.5);
             $sheet->row( 3, $renturnModel['cabecera2'] );
             $sheet->cells('C3:'.$renturnModel['max'].'3', function($cells) {
@@ -755,6 +755,18 @@ class ReporteEM extends Controller
                     'bold'       =>  true
                 ));
                 $cells->setBackground('#95B3D7');
+            });
+
+            $sheet->cells('B4:B'.($count-1), function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#DCE6F1');
             });
 
             $sheet->getStyle('A2:'.$renturnModel['max'].'2')->getAlignment()->setWrapText(true);
@@ -810,7 +822,7 @@ class ReporteEM extends Controller
             });
 
             $sheet->setWidth($renturnModel['length']);
-            $sheet->setHeight(2, 34.5);
+            $sheet->setHeight(2, 54.5);
             $sheet->setHeight(3, 68.5);
             $sheet->row( 3, $renturnModel['cabecera2'] );
             $sheet->cells('C3:'.$renturnModel['max'].'3', function($cells) {
@@ -848,6 +860,18 @@ class ReporteEM extends Controller
                     'bold'       =>  true
                 ));
                 $cells->setBackground('#95B3D7');
+            });
+
+            $sheet->cells('B4:B'.($count-1), function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#DCE6F1');
             });
 
             $sheet->getStyle('A2:'.$renturnModel['max'].'2')->getAlignment()->setWrapText(true);
@@ -903,7 +927,7 @@ class ReporteEM extends Controller
             });
 
             $sheet->setWidth($renturnModel['length']);
-            $sheet->setHeight(2, 34.5);
+            $sheet->setHeight(2, 54.5);
             $sheet->setHeight(3, 68.5);
             $sheet->row( 3, $renturnModel['cabecera2'] );
             $sheet->cells('C3:'.$renturnModel['max'].'3', function($cells) {
@@ -970,6 +994,18 @@ class ReporteEM extends Controller
                     'bold'       =>  true
                 ));
                 $cells->setBackground('#95B3D7');
+            });
+
+            $sheet->cells('C4:C'.($count-1), function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#DCE6F1');
             });
 
             $sheet->setAutoSize(array(
@@ -1067,6 +1103,18 @@ class ReporteEM extends Controller
                     'bold'       =>  true
                 ));
                 $cells->setBackground('#95B3D7');
+            });
+
+            $sheet->cells('B4:B'.($count-1), function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+                $cells->setBackground('#DCE6F1');
             });
 
             $sheet->getStyle('A2:'.$renturnModel['max'].'2')->getAlignment()->setWrapText(true);
