@@ -47,9 +47,9 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
-                "<td class='email'>"+r.email+"</td>"+
-                "<td class='telefono'>"+r.telefono+"</td>"+
-                "<td class='celular'>"+r.celular+"</td>";
+                "<td class='email'>"+$.trim(r.email)+"</td>"+
+                "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
+                "<td class='celular'>"+$.trim(r.celular)+"</td>";
         html+=""+
                 '<td><a id="btn_'+r.persona_id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verCursos(HTMLCargaCurso, '+r.persona_id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
         html+="</tr>";
@@ -79,6 +79,8 @@ ConfirmarEntrega=function(id,persona_id){
     paterno=$("#trid_"+persona_id+" .paterno").text();
     materno=$("#trid_"+persona_id+" .materno").text();
     nombre=$("#trid_"+persona_id+" .nombre").text();
+    telefono=$("#trid_"+persona_id+" .telefono").text();
+    celular=$("#trid_"+persona_id+" .celular").text();
     seminario=$("#tr"+id+" .curso").text();
     fecha_seminario=$("#tr"+id+" .fecha").text();
 
@@ -88,6 +90,7 @@ ConfirmarEntrega=function(id,persona_id){
     $("#ModalEntregaForm #txt_persona_id").val( persona_id );
     $("#ModalEntregaForm #txt_matricula_detalle_id").val( id );
     $("#ModalEntregaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
+    $("#ModalEntregaForm #txt_celular").val( telefono +' / '+celular );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
     $('#ModalEntrega').modal('show');
 }

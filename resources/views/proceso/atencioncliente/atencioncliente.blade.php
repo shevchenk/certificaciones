@@ -144,7 +144,7 @@
                   <div class="form-group has-primary has-feedback">
                     <label class="control-label col-sm-1" for="" style="text-align: left;">NOMBRES: </label>
                     <div class="col-sm-4" id="div_nombres" style="padding-top: 7px;"></div>
-                    <label class="control-label col-sm-1" for="" style="text-align: left;">CELULAR:</label>
+                    <label class="control-label col-sm-1" for="" style="text-align: left;">TELÉFONO / CELULAR:</label>
                     <div class="col-sm-4" id="div_celular" style="padding-top: 7px;"></div>
                   </div>
                 </form>

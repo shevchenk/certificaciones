@@ -20,12 +20,13 @@ var AjaxEspecialidad={
         materno = $("#btn_"+id).parents("tr").find("td").eq(3).html();
 
         email = $("#btn_"+id).parents("tr").find("td").eq(4).html();
+        telefono = $("#btn_"+id).parents("tr").find("td").eq(5).html();
         celular = $("#btn_"+id).parents("tr").find("td").eq(6).html();
         
         $("#div_dni").html(dni);
         $("#div_nombres").html(nombre+' '+paterno+' '+materno);
         $("#div_email").html(email);
-        $("#div_celular").html(celular);
+        $("#div_celular").html(telefono+' / '+celular);
 
         url='AjaxDinamic/Proceso.AlumnoPR@ListarSeminarios';
         data={alumno_id:id};

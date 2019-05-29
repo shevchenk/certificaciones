@@ -8,11 +8,18 @@
             </div>
             <div class="modal-body">
                 <form id="ModalEntregaForm">
-                    <div class="col-md-10">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Alumno:</label>
                             <input class="form-control mant" type="hidden" id="txt_persona_id" name="txt_persona_id" value="">
                             <input class="form-control" type="text" id="txt_alumno" name="txt_alumno" value="" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Teléfono / Celular:</label>
+                            <textarea class="form-control" id="txt_celular" name="txt_celular" disabled>
+                            </textarea>
                         </div>
                     </div>
                     <div class="col-md-6">
