@@ -69,6 +69,26 @@
                             </textarea>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead style="background-color: #A9D08E;color:black">
+                                <tr>
+                                    <th colspan="5" style="text-align: center;"> Historico </th>
+                                </tr>
+                                <tr>
+                                    <th>Fecha de Llamada</th>
+                                    <th>Teleoperador(a)</th>
+                                    <th>Tipo Llamada</th>
+                                    <th>Fecha Programada</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb_llamada">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 </form>
                 </div>
             </div>

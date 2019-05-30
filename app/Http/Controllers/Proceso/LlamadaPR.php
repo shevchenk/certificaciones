@@ -25,4 +25,15 @@ class LlamadaPR extends Controller
         }
     }
 
+    public function CargarLlamada(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Llamada::CargarLlamada($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
 }

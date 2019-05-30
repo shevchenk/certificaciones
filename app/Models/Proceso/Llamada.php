@@ -37,5 +37,38 @@ class Llamada extends Model
         $llamada->save();
         return $llamada;
     }
+
+    public static function CargarLlamada($r)
+    {
+        $sql=DB::table('llamadas AS ll')
+            ->Join('tipo_llamadas AS tl', function($join){
+                $join->on('tl.id','=','ll.tipo_llamada_id');
+            })
+            ->Join('mat_trabajadores AS tr', function($join){
+                $join->on('tr.id','=','ll.trabajador_id');
+            })
+            ->Join('personas AS p', function($join){
+                $join->on('p.id','=','tr.persona_id');
+            })
+            ->select(
+            'll.fecha_llamada',DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
+            'tl.tipo_llamada','ll.fechas','ll.comentario'
+            )
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("persona_id") ){
+                        $persona_id=trim($r->persona_id);
+                        if( $persona_id !='' ){
+                            $query->where('ll.persona_id',$persona_id);
+                        }
+                    }
+                }
+            );
+
+ 
+            $result = $sql->orderBy('ll.fecha_llamada','desc')->get();
+
+        return $result;
+    }
     // --
 }

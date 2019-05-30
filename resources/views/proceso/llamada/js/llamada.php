@@ -178,7 +178,23 @@ AbrirLlamada=function(id){
     $("#ModalLlamadaForm #txt_persona_id").val( id );
     $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
     $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+    AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
     $('#ModalLlamada').modal('show');
+}
+
+HTMLCargarLlamada=function(result){
+    var html='';
+    $.each(result.data,function(index,r){
+        html+="<tr id='tr"+r.id+"'>";
+        html+="<td>"+r.fecha_llamada+"</td>";
+        html+="<td>"+r.teleoperador+"</td>";
+        html+="<td>"+$.trim(r.tipo_llamada)+"</td>";
+        html+="<td>"+$.trim(r.fechas)+"</td>";
+        html+="<td>"+$.trim(r.comentario)+"</td>";
+        html+="</tr>";
+    });
+
+    $("#tb_llamada").html(html); 
 }
 
 ValidaForm=function(){

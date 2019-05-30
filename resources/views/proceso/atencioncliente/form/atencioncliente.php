@@ -8,6 +8,7 @@
             </div>
             <div class="modal-body">
                 <form id="ModalEntregaForm">
+                    <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Alumno:</label>
@@ -15,7 +16,7 @@
                             <input class="form-control" type="text" id="txt_alumno" name="txt_alumno" value="" disabled>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Teléfono / Celular:</label>
                             <textarea class="form-control" id="txt_celular" name="txt_celular" disabled>
@@ -61,6 +62,7 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
                 </div>
             </div>
             <div class="modal-footer">
