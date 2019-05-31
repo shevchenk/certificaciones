@@ -820,4 +820,60 @@ class Reporte extends Model
         $r['max']=$estatico.chr($min);
         return $r;
     }
+
+    public static function runLoadLlamadasDetalle($r)
+    {
+        $sql=DB::table('llamadas AS ll')
+            ->Join('tipo_llamadas AS tl', function($join){
+                $join->on('tl.id','=','ll.tipo_llamada_id');
+            })
+            ->Join('mat_trabajadores AS tr', function($join){
+                $join->on('tr.id','=','ll.trabajador_id');
+            })
+            ->Join('personas AS p', function($join){
+                $join->on('p.id','=','tr.persona_id');
+            })
+            ->Join('personas AS p2', function($join){
+                $join->on('p2.id','=','ll.persona_id');
+            })
+            ->leftJoin('tipo_llamadas_sub AS tls', function($join){
+                $join->on('tls.id','=','ll.tipo_llamada_sub_id');
+            })
+            ->leftJoin('tipo_llamadas_sub_detalle AS tlsd', function($join){
+                $join->on('tlsd.id','=','ll.tipo_llamada_sub_detalle_id');
+            })
+            ->select(
+            'll.fecha_llamada',DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
+            DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),
+            'tl.tipo_llamada','tls.tipo_llamada_sub','tlsd.tipo_llamada_sub_detalle',
+            'll.fechas','ll.comentario'
+            );
+
+
+        $result = $sql->orderBy('ll.fecha_llamada','desc')->get();
+        return $result;
+    }
+
+    public static function runExportLlamadasDetalle($r)
+    {
+        $rsql= Reporte::runLoadLlamadasDetalle($r);
+
+        $length=array(
+            'A'=>18,'B'=>30,'C'=>30,
+            'D'=>16,'E'=>20,'F'=>20,
+            'G'=>16,'H'=>25
+        );
+
+        $cabecera2=array(
+            'Fecha Llamada','Teleoperador(a)','Cliente',
+            'Tipo Llamada','Sub Tipo Llamada','Detalle Sub Tipo',
+            'Fecha Programada','Comentario'
+        );
+
+        $r['data']=$rsql;
+        $r['cabecera2']=$cabecera2;
+        $r['length']=$length;
+        $r['max']='H';
+        return $r;
+    }
 }

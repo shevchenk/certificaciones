@@ -74,8 +74,12 @@
                                         <td>Reporte de Llamadas no Interesado Detalle</td>
                                     </tr>
                                     <tr>
-                                    <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportInteresados'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
+                                        <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportInteresados'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
                                         <td>Reporte de Llamadas Interesados</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportLlamadasDetalle'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
+                                        <td>Reporte de Llamadas Detalle</td>
                                     </tr>
                                 </tbody>
                             </table>
