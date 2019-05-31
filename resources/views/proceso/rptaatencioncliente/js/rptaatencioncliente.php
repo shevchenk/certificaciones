@@ -32,6 +32,7 @@ $(document).ready(function() {
 
     $('#ModalEntrega').on('hidden.bs.modal', function (event) {
         $("#ModalEntregaForm input[type='hidden']").not('.mant').remove();
+        $("#ModalEntregaForm .seminario").show();
     });
 });
 
@@ -47,11 +48,14 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
-                "<td class='seminario'>"+r.seminario+"</td>"+
-                "<td class='fecha_seminario'>"+r.fecha_seminario+"</td>"+
+                "<td class='seminario'>"+$.trim(r.seminario)+"</td>"+
+                "<td class='fecha_seminario'>"+$.trim(r.fecha_seminario)+"</td>"+
                 "<td class='fecha_registro'>"+r.fecha_registro+"</td>"+
                 "<td class='comentario'>"+r.comentario+"</td>";
-        html+='<td><a class="btn btn-success btn-lg" onClick="ConfirmarEntrega('+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
+        html+='<td>'+
+                "<input type='hidden' class='telefono' value='r.telefono'>"+
+                "<input type='hidden' class='celular' value='r.celular'>"+
+                '<a class="btn btn-success btn-lg" onClick="ConfirmarEntrega('+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
 
@@ -80,9 +84,15 @@ ConfirmarEntrega=function(id){
     materno=$("#trid_"+id+" .materno").text();
     nombre=$("#trid_"+id+" .nombre").text();
     seminario=$("#trid_"+id+" .seminario").text();
+    telefono=$("#trid_"+id+" .telefono").val();
+    celular=$("#trid_"+id+" .celular").val();
     fecha_seminario=$("#trid_"+id+" .fecha_seminario").text();
     fecha_registro=$("#trid_"+id+" .fecha_registro").text();
     comentario=$("#trid_"+id+" .comentario").text();
+
+    if( seminario=='' ){
+        $("#ModalEntregaForm .seminario").hide();
+    }
 
     $("#ModalEntregaForm #txt_seminario").val( seminario );
     $("#ModalEntregaForm #txt_fecha_seminario").val( fecha_seminario );
