@@ -53,8 +53,8 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='fecha_registro'>"+r.fecha_registro+"</td>"+
                 "<td class='comentario'>"+r.comentario+"</td>";
         html+='<td>'+
-                "<input type='hidden' class='telefono' value='r.telefono'>"+
-                "<input type='hidden' class='celular' value='r.celular'>"+
+                "<input type='hidden' class='telefono' value='"+$.trim(r.telefono)+"'>"+
+                "<input type='hidden' class='celular' value='"+$.trim(r.celular)+"'>"+
                 '<a class="btn btn-success btn-lg" onClick="ConfirmarEntrega('+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
@@ -98,6 +98,7 @@ ConfirmarEntrega=function(id){
     $("#ModalEntregaForm #txt_fecha_seminario").val( fecha_seminario );
     $("#ModalEntregaForm #txt_fecha_registro").val( fecha_registro );
     $("#ModalEntregaForm #txt_comentario").val( comentario );
+    $("#ModalEntregaForm #txt_celular").val( telefono +' / '+celular );
     $("#ModalEntregaForm #txt_id").val( id );
     $("#ModalEntregaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
     $('#ModalEntrega').modal('show');
