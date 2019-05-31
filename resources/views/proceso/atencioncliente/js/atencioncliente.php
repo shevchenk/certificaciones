@@ -23,6 +23,7 @@ $(document).ready(function() {
     });
 
     AjaxEspecialidad.Cargar(HTMLCargar);
+    AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
     $("#EspecialidadForm #TableDatos select").change(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
     $("#EspecialidadForm #TableDatos input").blur(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
 
@@ -32,6 +33,7 @@ $(document).ready(function() {
 
     $('#ModalEntrega').on('hidden.bs.modal', function (event) {
         $("#ModalEntregaForm input[type='hidden']").not('.mant').remove();
+        $("#ModalEntregaForm .seminario").show();
     });
 });
 
@@ -44,9 +46,9 @@ HTMLCargar=function(result){ //INICIO HTML
    
         html+="</td>"+
                 "<td class='dni'>"+r.dni+"</td>"+
-                "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
+                "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='email'>"+$.trim(r.email)+"</td>"+
                 "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
                 "<td class='celular'>"+$.trim(r.celular)+"</td>";
@@ -95,10 +97,49 @@ ConfirmarEntrega=function(id,persona_id){
     $('#ModalEntrega').modal('show');
 }
 
+ConfirmarEntregaPersonal=function(persona_id){
+    paterno=$("#trid_"+persona_id+" .paterno").text();
+    materno=$("#trid_"+persona_id+" .materno").text();
+    nombre=$("#trid_"+persona_id+" .nombre").text();
+    telefono=$("#trid_"+persona_id+" .telefono").text();
+    celular=$("#trid_"+persona_id+" .celular").text();
+    $("#ModalEntregaForm .seminario").hide();
+
+    $("#ModalEntregaForm #txt_persona_id").val( persona_id );
+    $("#ModalEntregaForm #txt_matricula_detalle_id").val( '' );
+    $("#ModalEntregaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
+    $("#ModalEntregaForm #txt_celular").val( telefono +' / '+celular );
+    AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
+    $('#ModalEntrega').modal('show');
+}
+
+ConfirmarEntregaPendiente=function(id,matricula_detalle_id,persona_id){
+    persona=$("#trp_"+id+" .persona").text();
+    telefono=$("#trp_"+id+" .telefono").val();
+    celular=$("#trp_"+id+" .celular").val();
+
+    if( matricula_detalle_id>0 ){
+        seminario=$("#trp_"+id+" .curso").text();
+        fecha_seminario=$("#trp_"+id+" .fecha").val();
+        $("#ModalEntregaForm #txt_seminario").val( seminario );
+        $("#ModalEntregaForm #txt_fecha_seminario").val( fecha_seminario );
+    }
+    else{
+        $("#ModalEntregaForm .seminario").hide();
+    }
+
+    $("#ModalEntregaForm #txt_persona_id").val( persona_id );
+    $("#ModalEntregaForm #txt_matricula_detalle_id").val( matricula_detalle_id );
+    $("#ModalEntregaForm #txt_alumno").val( persona );
+    $("#ModalEntregaForm #txt_celular").val( telefono +' / '+celular );
+    AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
+    $('#ModalEntrega').modal('show');
+}
+
 HTMLCargarLlamada=function(result){
     var html='';
     $.each(result.data,function(index,r){
-        html+="<tr id='tr"+r.id+"'>";
+        html+="<tr>";
         html+="<td>"+r.fecha_registro+"</td>";
         html+="<td>"+r.comentario+"</td>";
         html+="<td>"+$.trim(r.fecha_respuesta)+"</td>";
@@ -107,6 +148,34 @@ HTMLCargarLlamada=function(result){
     });
 
     $("#tb_llamada").html(html); 
+}
+
+HTMLCargarLlamadaPendiente=function(result){
+    var html='';
+    $.each(result.data,function(index,r){
+        tipo_registro=r.seminario;
+        if( $.trim(r.matricula_detalle_id)=='' ){
+            tipo_registro='Personal';
+            r.matricula_detalle_id='';
+        }
+
+        html+="<tr id='trp_"+r.id+"'>";
+        html+="<td>"+r.dni+"</td>";
+        html+="<td class='persona'>"+r.paterno+' '+r.materno+', '+r.nombre+"</td>";
+        html+="<td class='curso'>"+tipo_registro+"</td>";
+        html+="<td>"+r.fecha_registro+"</td>";
+        html+="<td>"+r.comentario+"</td>";
+        html+="<td>"+$.trim(r.fecha_respuesta)+"</td>";
+        html+="<td>"+$.trim(r.respuesta)+
+            "<input type='hidden' class='fecha' value='"+$.trim(r.fecha_seminario)+"'>"+
+            "<input type='hidden' class='telefono' value='"+$.trim(r.telefono)+"'>"+
+            "<input type='hidden' class='celular' value='"+$.trim(r.celular)+"'>"+
+            "</td>";
+        html+='<td><a class="btn btn-success btn-lg" onClick="ConfirmarEntregaPendiente('+r.id+',\''+r.matricula_detalle_id+'\','+r.persona_id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
+        html+="</tr>";
+    });
+
+    $("#tb_llamada_pendiente").html(html); 
 }
 
 // PROCESOS NUEVOS
@@ -149,10 +218,17 @@ RegistrarEntrega=function(){
     }
 }
 
+CerrarLlamada=function(){
+    if( ValidaForm() ){
+        AjaxEspecialidad.CerrarLlamada(HTMLRegistrarEntrega);
+    }
+}
+
 HTMLRegistrarEntrega=function(result){
     if( result.rst==1 ){
-        msjG.mensaje('success',result.msj,4000);
+        msjG.mensaje('success',result.msj,5500);
         $('#ModalEntrega').modal('hide');
+        AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
     }
     else{
         msjG.mensaje('warning',result.msj,3000);

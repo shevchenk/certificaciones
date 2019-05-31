@@ -43,15 +43,6 @@
                                     </th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Nombres</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Buscar Nombres" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
                                             <label><h4>Ape. Paterno</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
@@ -66,6 +57,15 @@
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Buscar Materno" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>   
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Nombres</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Buscar Nombres" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                            </div>
                                         </div>
                                     </th>
 
@@ -107,9 +107,9 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th># DNI</th>
-                                  <th>Nombres</th>
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
+                                  <th>Nombres</th>
                                   <th>Email</th>
                                   <th>Telefono</th>
                                   <th>Celular</th>
@@ -172,11 +172,40 @@
                             </tbody>
                         </table>
                         <div class="row" style="padding: 5px 15px; text-align: right; padding-top: 0px;">
-                            <input type="button" class="btn btn-default" onClick="btnregresar_curso();" id="btnregresar" name="" value="Regresar">
+                            <input type="button" class="btn btn-success btn-lg" onClick="ConfirmarEntregaPersonal(0);" id="btnpersonal" name="" value="Registrar Llamada Personal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="button" class="btn btn-default btn-lg" onClick="btnregresar_curso();" id="btnregresar" name="" value="Regresar">
                         </div>
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-warning">
+                <div class="panel-heading" style="background-color: #FFBC9B;color:black"><center>ATENCIÓN PENDIENTE</center></div>
+                <div class="panel-body">
+                    <div class="col-md-12 table-responsive">
+                        <table id="t_matricula" class="table table-striped">
+                            <thead style="background-color: #FFBC9B;color:black">
+                                <tr>
+                                    <th>DNI</th>
+                                    <th>Persona</th>
+                                    <th>Tipo Registro</th>
+                                    <th>Fecha de Registro</th>
+                                    <th>Comentario</th>
+                                    <th>Fecha de Respuesta</th>
+                                    <th>Respuesta</th>
+                                    <th>Registrar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb_llamada_pendiente">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -22,6 +22,8 @@ var AjaxEspecialidad={
         email = $("#btn_"+id).parents("tr").find("td").eq(4).html();
         telefono = $("#btn_"+id).parents("tr").find("td").eq(5).html();
         celular = $("#btn_"+id).parents("tr").find("td").eq(6).html();
+
+        $("#btnpersonal").attr('onClick','ConfirmarEntregaPersonal('+PersonaIdG+')');
         
         $("#div_dni").html(dni);
         $("#div_nombres").html(nombre+' '+paterno+' '+materno);
@@ -37,9 +39,19 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Proceso.AlumnoPR@RegistrarLlamada';
         masterG.postAjax(url,data, evento);
     },
+    CerrarLlamada:function(evento){
+        var data=$("#ModalEntregaForm").serialize().split("txt_").join("").split("slct_").join("");
+        url='AjaxDinamic/Proceso.AlumnoPR@CerrarLlamada';
+        masterG.postAjax(url,data, evento);
+    },
     CargarLlamada:function(evento){
         var data=$("#ModalEntregaForm").serialize().split("txt_").join("").split("slct_").join("");
         url='AjaxDinamic/Proceso.AlumnoPR@CargarLlamada';
+        masterG.postAjax(url,data, evento);
+    },
+    CargarLlamadaPendiente:function(evento){
+        var data={};
+        url='AjaxDinamic/Proceso.AlumnoPR@CargarLlamadaPendiente';
         masterG.postAjax(url,data, evento);
     },
     CargarCurso:function(evento){

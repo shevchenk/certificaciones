@@ -23,14 +23,14 @@
                             </textarea>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 seminario">
                         <div class="form-group">
                             <label>Seminario:</label>
                             <input type="hidden" class="mant" name="txt_matricula_detalle_id" id="txt_matricula_detalle_id" value="">
                             <input class="form-control fecha" type="text" id="txt_seminario" name="txt_seminario" value="" disabled>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 seminario">
                         <div class="form-group">
                             <label>Fecha de Seminario:</label>
                             <input class="form-control" type="text" id="txt_fecha_seminario" name="txt_fecha_seminario" value="" disabled>
@@ -67,6 +67,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default active pull-left" data-dismiss="modal">Cerrar</button>
+                <button type="button" onclick="CerrarLlamada();" class="btn btn-warning">Cerrar Llamada</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" onclick="RegistrarEntrega();" class="btn btn-primary pull-right">Confirmar</button>
             </div>
         </div><!-- /.modal-content -->

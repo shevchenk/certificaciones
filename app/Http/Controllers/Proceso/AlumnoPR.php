@@ -223,6 +223,14 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
         }
     }
 
+    public function CerrarLlamada(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $return = LlamadaAtencionCliente::CerrarLlamada($r);
+            return response()->json($return);
+        }
+    }
+
     public function ResponderLlamada(Request $r )
     {
         if ( $r->ajax() ) {
@@ -237,6 +245,18 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
     public function CargarLlamada(Request $r )
     {
         if ( $r->ajax() ) {
+            $renturnModel = LlamadaAtencionCliente::CargarLlamada($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function CargarLlamadaPendiente(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['pendiente']=1;
             $renturnModel = LlamadaAtencionCliente::CargarLlamada($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
