@@ -238,9 +238,9 @@ class Persona extends Model
                 $join->on('pd.persona_id','=','p.id')
                 ->where('pd.estado',1);
             })
-            ->select('id','paterno','materno','nombre','dni',
-            'email',DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),'sexo','telefono',
-            'celular','password','estado')
+            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni',
+            'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono',
+            'p.celular','p.password','p.estado')
             ->where( 
                 function($query) use ($r){
                     if( $r->has("paterno") ){
@@ -287,7 +287,7 @@ class Persona extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('paterno','asc')->paginate(10);
+        $result = $sql->orderBy('p.paterno','asc')->paginate(10);
         return $result;
     }
     
