@@ -76,16 +76,28 @@
                                     <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Email</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Buscar Email" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                            </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-1">
                                         <div class="form-group">
-                                            <label><h4>Telefono</h4></label>
+                                            <label><h4>Teléfono</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Buscar Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                            </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Celular</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Buscar Celular" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                            </div>
                                         </div>
                                     </th>
 

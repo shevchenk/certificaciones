@@ -285,6 +285,18 @@ class Persona extends Model
                             $query->where('pd.trabajador_id','=',$teleoperadora);
                         }
                     }
+                    if( $r->has("telefono") ){
+                        $telefono=trim($r->telefono);
+                        if( $telefono !='' ){
+                            $query->where('p.telefono','like',$telefono.'%');
+                        }
+                    }
+                    if( $r->has("celular") ){
+                        $celular=trim($r->celular);
+                        if( $celular !='' ){
+                            $query->where('p.celular','like',$celular.'%');
+                        }
+                    }
                 }
             );
         $result = $sql->orderBy('p.paterno','asc')->paginate(10);
