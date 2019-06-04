@@ -83,7 +83,15 @@
                                             </div>
                                         </div>
                                     </th>
-
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
+                                            <label><h4>Carrera</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Buscar Carrera" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Email</h4></label>
@@ -138,6 +146,7 @@
                                   <th>Nombres</th>
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
+                                  <th>Carrera</th>
                                   <th>Email</th>
                                   <th>Telefono</th>
                                   <th>Celular</th>

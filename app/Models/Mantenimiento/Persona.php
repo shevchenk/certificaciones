@@ -239,7 +239,7 @@ class Persona extends Model
                 ->where('pd.estado',1);
             })
             ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
-            'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono',
+            'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
             'p.celular','p.password','p.estado')
             ->where( 
                 function($query) use ($r){
@@ -301,6 +301,12 @@ class Persona extends Model
                         $fecha_distribucion=trim($r->fecha_distribucion);
                         if( $fecha_distribucion !='' ){
                             $query->where('pd.fecha_distribucion','like','%'.$fecha_distribucion.'%');
+                        }
+                    }
+                    if( $r->has("carrera") ){
+                        $carrera=trim($r->carrera);
+                        if( $carrera !='' ){
+                            $query->where('p.carrera','like','%'.$carrera.'%');
                         }
                     }
                 }

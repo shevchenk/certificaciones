@@ -138,6 +138,7 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
                 "<td class='nombre'>"+r.nombre+"</td>"+
+                "<td class='carrera'>"+r.carrera+"</td>"+
                 "<td class='email'>"+$.trim(r.email)+"</td>"+
                 "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
                 "<td class='celular'>"+$.trim(r.celular)+"</td>";
