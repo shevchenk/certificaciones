@@ -297,6 +297,12 @@ class Persona extends Model
                             $query->where('p.celular','like','%'.$celular.'%');
                         }
                     }
+                    if( $r->has("fecha_distribucion") ){
+                        $fecha_distribucion=trim($r->fecha_distribucion);
+                        if( $fecha_distribucion !='' ){
+                            $query->where('pd.fecha_distribucion','like','%'.$fecha_distribucion.'%');
+                        }
+                    }
                 }
             );
         $result = $sql->orderBy('p.paterno','asc')->paginate(10);

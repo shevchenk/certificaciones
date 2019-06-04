@@ -40,6 +40,15 @@
                                 <tr class="cabecera">
                                     <th class="col-xs-1">
                                         <div class="form-group">
+                                            <label><h4># Fecha Distribuida</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Buscar Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
                                             <label><h4># DNI</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
