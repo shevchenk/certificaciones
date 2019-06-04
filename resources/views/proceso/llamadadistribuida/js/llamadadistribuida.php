@@ -105,8 +105,9 @@ ActivarComentario=function(){
     $('#ModalLlamadaForm #txt_comentario').removeAttr('disabled');
     /*if( codigo==0 ){
         $('#ModalLlamadaForm #txt_comentario').attr('disabled','true');
-    }*/
-    else if(codigo==1 || codigo==2){
+    }
+    else */
+    if(codigo==1 || codigo==2){
         $('.tipo1').css('display','block');
         $('.fechadinamica').text('Fecha a Volver a Llamar');
         if( codigo==1 ){
