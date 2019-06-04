@@ -121,10 +121,11 @@ class PersonaEM extends Controller
         if ( $r->ajax() ) {
             $id=Auth::user()->id;
             $trabajador= Trabajador::where('persona_id',$id)->first();
-            if( !isset($trabajador->id) ){
-                $trabajador->id=0;
+            $trabajadorid=0;
+            if( isset($trabajador->id) ){
+                $trabajadorid=$trabajador->id;
             }
-            $r['teleoperadora']=$trabajador->id;
+            $r['teleoperadora']=$trabajadorid;
             $r['estado']=1;
             $renturnModel = Persona::runLoadDistribuida($r);
             $return['rst'] = 1;
