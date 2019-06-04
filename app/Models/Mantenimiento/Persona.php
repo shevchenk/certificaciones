@@ -288,13 +288,13 @@ class Persona extends Model
                     if( $r->has("telefono") ){
                         $telefono=trim($r->telefono);
                         if( $telefono !='' ){
-                            $query->where('p.telefono','like',$telefono.'%');
+                            $query->where('p.telefono','like','%'.$telefono.'%');
                         }
                     }
                     if( $r->has("celular") ){
                         $celular=trim($r->celular);
                         if( $celular !='' ){
-                            $query->where('p.celular','like',$celular.'%');
+                            $query->where('p.celular','like','%'.$celular.'%');
                         }
                     }
                 }
