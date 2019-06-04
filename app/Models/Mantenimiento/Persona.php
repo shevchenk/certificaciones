@@ -238,7 +238,7 @@ class Persona extends Model
                 $join->on('pd.persona_id','=','p.id')
                 ->where('pd.estado',1);
             })
-            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni',
+            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono',
             'p.celular','p.password','p.estado')
             ->where( 
