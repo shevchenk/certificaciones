@@ -103,9 +103,9 @@ ActivarComentario=function(){
     id=$("#slct_tipo_llamada").val();
     $('.tipo1, .tipo2').css('display','none');
     $('#ModalLlamadaForm #txt_comentario').removeAttr('disabled');
-    if( codigo==0 ){
+    /*if( codigo==0 ){
         $('#ModalLlamadaForm #txt_comentario').attr('disabled','true');
-    }
+    }*/
     else if(codigo==1 || codigo==2){
         $('.tipo1').css('display','block');
         $('.fechadinamica').text('Fecha a Volver a Llamar');
