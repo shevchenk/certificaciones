@@ -230,6 +230,66 @@ class Persona extends Model
         $result = $sql->orderBy('paterno','asc')->paginate(10);
         return $result;
     }
+
+    public static function runLoadDistribuida($r)
+    {
+        $sql=DB::table('personas AS p')
+            ->Join('personas_distribuciones AS pd', function($join){
+                $join->on('pd.persona_id','=','p.id')
+                ->where('pd.estado',1);
+            })
+            ->select('id','paterno','materno','nombre','dni',
+            'email',DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),'sexo','telefono',
+            'celular','password','estado')
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("paterno") ){
+                        $paterno=trim($r->paterno);
+                        if( $paterno !='' ){
+                            $query->where('p.paterno','like','%'.$paterno.'%');
+                        }
+                    }
+                    if( $r->has("materno") ){
+                        $materno=trim($r->materno);
+                        if( $materno !='' ){
+                            $query->where('p.materno','like','%'.$materno.'%');
+                        }
+                    }
+                    if( $r->has("nombre") ){
+                        $nombre=trim($r->nombre);
+                        if( $nombre !='' ){
+                            $query->where('p.nombre','like','%'.$nombre.'%');
+                        }
+                    }
+                    if( $r->has("dni") ){
+                        $dni=trim($r->dni);
+                        if( $dni !='' ){
+                            $query->where('p.dni','like','%'.$dni.'%');
+                        }
+                    }
+                    if( $r->has("email") ){
+                        $email=trim($r->email);
+                        if( $email !='' ){
+                            $query->where('p.email','like','%'.$email.'%');
+                        }
+                    }
+                    if( $r->has("estado") ){
+                        $estado=trim($r->estado);
+                        if( $estado !='' ){
+                            $query->where('p.estado','=',$estado);
+                        }
+                    }
+                    if( $r->has("teleoperadora") ){
+                        $teleoperadora=trim($r->teleoperadora);
+                        if( $teleoperadora !='' ){
+                            $query->where('pd.trabajador_id','=',$teleoperadora);
+                        }
+                    }
+                }
+            );
+        $result = $sql->orderBy('paterno','asc')->paginate(10);
+        return $result;
+    }
     
      public static function getAreas($personaId) {
         //subconsulta

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Mantenimiento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mantenimiento\Persona;
+use App\Models\Mantenimiento\Trabajador;
 use App\Models\Mantenimiento\Privilegio;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Auth;
 
 class PersonaEM extends Controller
 {
@@ -107,6 +109,22 @@ class PersonaEM extends Controller
     {
         if ( $r->ajax() ) {
             $renturnModel = Persona::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function LoadDistribuida(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $id=Auth::user()->id;
+            $trabajador= Trabajador::where('persona_id',$id)
+                         ->first();
+            $r['teleoperadora']=$trabajador->id;
+            $r['estado']=1;
+            $renturnModel = Persona::runLoadDistribuida($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
