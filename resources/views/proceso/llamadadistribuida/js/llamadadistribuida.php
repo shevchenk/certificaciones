@@ -293,6 +293,7 @@ HTMLRegistrarLlamada=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
         $('#ModalLlamada').modal('hide');
+        AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
     }
     else{
         msjG.mensaje('warning',result.msj,3000);
