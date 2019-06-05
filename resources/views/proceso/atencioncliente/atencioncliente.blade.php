@@ -38,67 +38,74 @@
                                         <div class="form-group">
                                             <label><h4># DNI</h4></label>
                                             <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_dni" id="txt_dni" placeholder="Buscar DNI" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Ape. Paterno</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Buscar Paterno" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Buscar Paterno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                             </div>                                          
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Ape. Materno</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Buscar Materno" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Buscar Materno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                             </div>   
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Nombres</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Buscar Nombres" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Buscar Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);">
                                             </div>
                                         </div>
                                     </th>
-
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
+                                            <label><h4>Carrera</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Buscar Carrera" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Email</h4></label>
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Telefono</h4></label>
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Celular</h4></label>
-                                        </div>
-                                    </th>
-
-                                <!--
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Estado</h4></label>
                                             <div class="input-group">
-                                                <select class="form-control" name="slct_estado" id="slct_estado">
-                                                    <option value='' selected>.::Todo::.</option>
-                                                    <option value='0'>Inactivo</option>
-                                                    <option value='1'>Activo</option>
-                                                </select>
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Buscar Email" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                             </div>
                                         </div>
                                     </th>
-                                -->
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
+                                            <label><h4>Teléfono</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Buscar Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Celular</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Buscar Celular" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th class="col-xs-1">[-]</th>
                                 </tr>
                             </thead>
@@ -107,9 +114,10 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th># DNI</th>
+                                  <th>Nombres</th>
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
-                                  <th>Nombres</th>
+                                  <th>Carrera</th>
                                   <th>Email</th>
                                   <th>Telefono</th>
                                   <th>Celular</th>

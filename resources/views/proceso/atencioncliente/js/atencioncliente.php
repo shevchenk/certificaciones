@@ -42,18 +42,21 @@ HTMLCargar=function(result){ //INICIO HTML
     $('#TableDatos').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
-        html+="<tr id='trid_"+r.persona_id+"'>";
+        html+="<tr id='trid_"+r.id+"'>";
    
         html+="</td>"+
                 "<td class='dni'>"+r.dni+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
                 "<td class='nombre'>"+r.nombre+"</td>"+
+                "<td class='carrera'>"+r.carrera+"</td>"+
                 "<td class='email'>"+$.trim(r.email)+"</td>"+
                 "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
                 "<td class='celular'>"+$.trim(r.celular)+"</td>";
-        html+=""+
-                '<td><a id="btn_'+r.persona_id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verCursos(HTMLCargaCurso, '+r.persona_id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
+        html+="<td>"+
+                "<input type='hidden' class='empresa' value='"+r.empresa+"'>"+
+                "<input type='hidden' class='fuente' value='"+r.fuente+"'>"+
+                '<a id="btn_'+r.id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verCursos(HTMLCargaCurso, '+r.id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
 

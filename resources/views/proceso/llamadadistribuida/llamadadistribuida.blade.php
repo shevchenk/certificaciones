@@ -167,6 +167,34 @@
         </div><!-- .col -->
     </div><!-- .row -->
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-warning">
+                <div class="panel-heading" style="background-color: #FFBC9B;color:black"><center>ATENCIÓN PENDIENTE</center></div>
+                <div class="panel-body">
+                    <div class="col-md-12 table-responsive">
+                        <table id="t_matricula" class="table table-striped">
+                            <thead style="background-color: #FFBC9B;color:black">
+                                <tr>
+                                    <th>DNI</th>
+                                    <th>Persona</th>
+                                    <th>Fecha de Llamada</th>
+                                    <th>Teleoperador(a)</th>
+                                    <th>Tipo Llamada</th>
+                                    <th>Fecha Programada</th>
+                                    <th>Comentario</th>
+                                    <th>Llamar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb_llamada_pendiente">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section><!-- .content -->
 @stop
 @section('form')

@@ -39,6 +39,7 @@ $(document).ready(function() {
     $('#ModalLlamadaForm #txt_fecha').val(fecha);
     AjaxEspecialidad.Cargar(HTMLCargar);
     AjaxEspecialidad.ListarTipoLlamada(SlctListarTipoLlamada);
+    AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
 
     $("#EspecialidadForm #TableDatos select").change(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
     $("#EspecialidadForm #TableDatos input").blur(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
@@ -54,6 +55,37 @@ $(document).ready(function() {
         $("#ModalLlamadaForm input[type='hidden']").not('.mant').remove();
     });
 });
+
+HTMLCargarLlamadaPendiente=function(result){
+    var html='';
+    $.each(result.data,function(index,r){
+        success='';
+        if( r.fechas==r.hoy ){
+            success='success';
+        }
+        html+="<tr id='llp_"+r.id+"' class='"+success+"'>";
+        html+="<td>"+r.dni+"</td>";
+        html+="<td class='persona'>"+r.persona+"</td>";
+
+         html+="<td>"+r.fecha_llamada+"</td>";
+        html+="<td>"+r.teleoperador+"</td>";
+        html+="<td>"+$.trim(r.tipo_llamada)+"</td>";
+        html+="<td>"+$.trim(r.fechas)+"</td>";
+        html+="<td>"+$.trim(r.comentario)+"</td>";
+        html+="<td>"+
+                "<input type='hidden' class='telefono' value='"+$.trim(r.telefono)+"'>"+
+                "<input type='hidden' class='celular' value='"+$.trim(r.celular)+"'>"+
+                "<input type='hidden' class='carrera' value='"+r.carrera+"'>"+
+                "<input type='hidden' class='fecha_distribucion' value='"+$.trim(r.fecha_distribucion)+"'>"+
+                "<input type='hidden' class='empresa' value='"+r.empresa+"'>"+
+                "<input type='hidden' class='fuente' value='"+r.fuente+"'>"+
+                "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
+                '<a class="btn btn-primary btn-sm" onClick="AbrirLlamadaPendiente('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
+        html+="</tr>";
+    });
+
+    $("#tb_llamada_pendiente").html(html); 
+}
 
 CargarHora=function(result){
     $('#ModalLlamadaForm #txt_fecha').val(result.hora);
@@ -176,6 +208,27 @@ AbrirLlamada=function(id){
 
     $("#ModalLlamadaForm #txt_persona_id").val( id );
     $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
+    $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+    $("#ModalLlamadaForm #txt_carrera").val( carrera );
+    $("#ModalLlamadaForm #txt_fecha_distribucion").val( fecha_distribucion );
+    $("#ModalLlamadaForm #txt_empresa").val( empresa );
+    $("#ModalLlamadaForm #txt_fuente").val( fuente );
+    AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
+    $('#ModalLlamada').modal('show');
+}
+
+AbrirLlamadaPendiente=function(id){
+    PersonaIdG=$("#llp_"+id+" .persona_id").val();
+    persona=$("#llp_"+id+" .persona").text();
+    telefono=$("#llp_"+id+" .telefono").val();
+    celular=$("#llp_"+id+" .celular").val();
+    carrera=$("#llp_"+id+" .carrera").val();
+    fecha_distribucion=$("#llp_"+id+" .fecha_distribucion").val();
+    empresa=$("#llp_"+id+" .empresa").val();
+    fuente=$("#llp_"+id+" .fuente").val();
+
+    $("#ModalLlamadaForm #txt_persona_id").val( PersonaIdG );
+    $("#ModalLlamadaForm #txt_alumno").val( persona );
     $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
     $("#ModalLlamadaForm #txt_carrera").val( carrera );
     $("#ModalLlamadaForm #txt_fecha_distribucion").val( fecha_distribucion );

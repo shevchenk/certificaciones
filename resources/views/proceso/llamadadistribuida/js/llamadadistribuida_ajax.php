@@ -44,5 +44,10 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Proceso.LlamadaPR@CargarLlamada';
         masterG.postAjax(url,data, evento);
     },
+    CargarLlamadaPendiente:function(evento){
+        var data={};
+        url='AjaxDinamic/Proceso.LlamadaPR@CargarLlamadaPendiente';
+        masterG.postAjax(url,data, evento);
+    },
 };
 </script>

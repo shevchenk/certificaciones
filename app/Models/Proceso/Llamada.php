@@ -66,9 +66,13 @@ class Llamada extends Model
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','tr.persona_id');
             })
+            ->Join('personas AS p2', function($join){
+                $join->on('p2.id','=','ll.persona_id');
+            })
             ->select(
-            'll.fecha_llamada',DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
-            'tl.tipo_llamada','ll.fechas','ll.comentario'
+            'll.fecha_llamada',DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador')
+            ,DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),'p2.dni'
+            ,'tl.tipo_llamada','ll.fechas','ll.comentario','ll.id'
             )
             ->where( 
                 function($query) use ($r){
@@ -78,11 +82,26 @@ class Llamada extends Model
                             $query->where('ll.persona_id',$persona_id);
                         }
                     }
+                    if( $r->has('pendiente') AND $r->pendiente==1 ){
+                        $query->where('ll.fechas','>=',date('Y-m-d'));
+                    }
                 }
             );
 
- 
-            $result = $sql->orderBy('ll.fecha_llamada','desc')->get();
+            $result=array();
+            if( $r->has('pendiente') AND $r->pendiente==1 ){
+                $sql->Join('personas_distribuciones AS pd', function($join) use( $r ){
+                    $join->on('pd.persona_id','=','p2.id')
+                    ->where('pd.estado',1)
+                    ->where('pd.trabajador_id',$r->teleoperadora);
+                });
+                $sql->addSelect(DB::raw('p2.id AS persona_id,p2.carrera,p2.empresa,p2.fuente,pd.fecha_distribucion,p2.telefono,p2.celular,current_date() AS hoy'));
+                $result= $sql->orderBy('ll.fechas','asc')->get();
+            }
+            else{
+                $result = $sql->orderBy('ll.fecha_llamada','desc')->get();
+            }
+            
 
         return $result;
     }

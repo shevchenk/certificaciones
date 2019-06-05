@@ -181,7 +181,7 @@ class Alumno extends Model
             )
             ->where( 
                 function($query) use ($r){
-                        $persona_id=$r->alumno_id;
+                        $persona_id=$r->persona_id;
                         if( $persona_id !='' ){
                             $query->where('mm.persona_id','=', $persona_id);
                         }

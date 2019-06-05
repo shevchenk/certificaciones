@@ -184,7 +184,7 @@ class Persona extends Model
 
     public static function runLoad($r)
     {
-        $sql=Persona::select('id','paterno','materno','nombre','dni',
+        $sql=Persona::select('id','paterno','materno','nombre','dni','carrera','fuente','empresa',
             'email',DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),'sexo','telefono',
             'celular','password','estado')
             ->where( 
@@ -223,6 +223,24 @@ class Persona extends Model
                         $estado=trim($r->estado);
                         if( $estado !='' ){
                             $query->where('estado','=',$estado);
+                        }
+                    }
+                    if( $r->has("telefono") ){
+                        $telefono=trim($r->telefono);
+                        if( $telefono !='' ){
+                            $query->where('p.telefono','like','%'.$telefono.'%');
+                        }
+                    }
+                    if( $r->has("celular") ){
+                        $celular=trim($r->celular);
+                        if( $celular !='' ){
+                            $query->where('p.celular','like','%'.$celular.'%');
+                        }
+                    }
+                    if( $r->has("carrera") ){
+                        $carrera=trim($r->carrera);
+                        if( $carrera !='' ){
+                            $query->where('p.carrera','like','%'.$carrera.'%');
                         }
                     }
                 }

@@ -56,4 +56,23 @@ class LlamadaPR extends Controller
         }
     }
 
+    public function CargarLlamadaPendiente(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $id=Auth::user()->id;
+            $trabajador= Trabajador::where('persona_id',$id)->first();
+            $trabajadorid=0;
+            if( isset($trabajador->id) ){
+                $trabajadorid=$trabajador->id;
+            }
+            $r['teleoperadora']=$trabajadorid;
+            $r['pendiente']=1;
+            $renturnModel = Llamada::CargarLlamada($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
 }
