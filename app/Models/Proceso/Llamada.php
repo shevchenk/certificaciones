@@ -13,6 +13,22 @@ class Llamada extends Model
 
     public static function RegistrarLlamada($r)
     {
+        DB::beginTransaction();
+        DB::table('llamadas')
+        ->where( 
+            function($query) use ($r){
+                if( $r->has('persona_id') AND $r->persona_id!='' ){
+                    $query->where('persona_id','=', $r->persona_id);
+                }
+            }
+        )
+        ->where('ultimo_registro',1)
+        ->update([
+            'ultimo_registro' => 0,
+            'persona_id_updated_at' => Auth::user()->id,
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
         $llamada= new Llamada;
         $llamada->trabajador_id=$r->teleoperadora;
         $llamada->persona_id=$r->persona_id;
@@ -32,9 +48,9 @@ class Llamada extends Model
             $llamada->tipo_llamada_sub_detalle_id=$r->detalle_tipo_llamada;
         }
 
-
         $llamada->persona_id_created_at=Auth::user()->id;
         $llamada->save();
+        DB::commit();
         return $llamada;
     }
 

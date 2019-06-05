@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Proceso;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Proceso\Llamada;
+use App\Models\Mantenimiento\Trabajador;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Auth;
 
 class LlamadaPR extends Controller
 {
@@ -17,6 +19,24 @@ class LlamadaPR extends Controller
     public function RegistrarLlamada (Request $r )
     {
         if ( $r->ajax() ) {
+            $renturnModel = Llamada::RegistrarLlamada($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "Registro realizado correctamente";
+            return response()->json($return);
+        }
+    }
+
+    public function RegistrarLlamadaDistribuida (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $id=Auth::user()->id;
+            $trabajador= Trabajador::where('persona_id',$id)->first();
+            $trabajadorid=0;
+            if( isset($trabajador->id) ){
+                $trabajadorid=$trabajador->id;
+            }
+            $r['teleoperadora']=$trabajadorid;
             $renturnModel = Llamada::RegistrarLlamada($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
