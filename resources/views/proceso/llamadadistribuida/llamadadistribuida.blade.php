@@ -38,86 +38,45 @@
                         <table id="TableDatos" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Fecha Distribuida</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Buscar Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                            </div>
-                                        </div>
+                                    <th>
+                                        <label><h4>Fecha Distribuida</h4></label>
+                                        <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Buscar Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4># DNI</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_dni" id="txt_dni" placeholder="Buscar DNI" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                            </div>
-                                        </div>
+                                    <th>
+                                        <label><h4>Ultimo Estado</h4></label>
+                                        <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Buscar Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Ape. Paterno</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Buscar Paterno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                            </div>                                          
-                                        </div>
+                                    <th>
+                                        <label><h4># DNI</h4></label>
+                                        <input type="text" class="form-control" name="txt_dni" id="txt_dni" placeholder="Buscar DNI" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Ape. Materno</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Buscar Materno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                            </div>   
-                                        </div>
+                                    <th>
+                                        <label><h4>Ape. Paterno</h4></label>
+                                        <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Buscar Paterno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Nombres</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Buscar Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);">
-                                            </div>
-                                        </div>
+                                    <th>
+                                        <label><h4>Ape. Materno</h4></label>
+                                        <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Buscar Materno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Carrera</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Buscar Carrera" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                            </div>
-                                        </div>
+                                    <th>
+                                        <label><h4>Nombres</h4></label>
+                                        <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Buscar Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);">
                                     </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Email</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Buscar Email" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                            </div>
-                                        </div>
+                                    <th>
+                                        <label><h4>Carrera</h4></label>
+                                        <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Buscar Carrera" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
-                                    <th class="col-xs-1">
-                                        <div class="form-group">
-                                            <label><h4>Teléfono</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Buscar Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                            </div>
-                                        </div>
+                                    <th>
+                                        <label><h4>Email</h4></label>
+                                        <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Buscar Email" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Celular</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Buscar Celular" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                            </div>
-                                        </div>
+                                    <th>
+                                        <label><h4>Teléfono</h4></label>
+                                        <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Buscar Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                    </th>
+                                    <th class="col-md-2">
+                                        <label><h4>Celular</h4></label>
+                                        <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Buscar Celular" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
 
                                 <!--
@@ -134,7 +93,7 @@
                                         </div>
                                     </th>
                                 -->
-                                    <th class="col-xs-1">[-]</th>
+                                    <th class="col-md-1">[-]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -142,6 +101,7 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th>Fecha Distribuida</th>
+                                  <th>Último Estado</th>
                                   <th># DNI</th>
                                   <th>Nombres</th>
                                   <th>Ape. Paterno</th>

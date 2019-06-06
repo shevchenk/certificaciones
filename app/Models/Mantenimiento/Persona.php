@@ -256,9 +256,17 @@ class Persona extends Model
                 $join->on('pd.persona_id','=','p.id')
                 ->where('pd.estado',1);
             })
+            ->leftJoin('llamadas AS ll', function($join){
+                $join->on('ll.persona_id','=','p.id')
+                ->where('ll.estado',1)
+                ->where('ll.ultimo_registro',1);
+            })
+            ->leftJoin('tipo_llamadas AS tl', function($join){
+                $join->on('tl.id','=','ll.tipo_llamada_id');
+            })
             ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
-            'p.celular','p.password','p.estado','p.empresa','p.fuente')
+            'p.celular','p.password','p.estado','p.empresa','p.fuente','tl.tipo_llamada')
             ->where( 
                 function($query) use ($r){
                     if( $r->has("paterno") ){
@@ -325,6 +333,12 @@ class Persona extends Model
                         $carrera=trim($r->carrera);
                         if( $carrera !='' ){
                             $query->where('p.carrera','like','%'.$carrera.'%');
+                        }
+                    }
+                    if( $r->has("tipo_llamada") ){
+                        $tipo_llamada=trim($r->tipo_llamada);
+                        if( $tipo_llamada !='' ){
+                            $query->where('tl.tipo_llamada','like','%'.$tipo_llamada.'%');
                         }
                     }
                 }
