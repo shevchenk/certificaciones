@@ -156,7 +156,6 @@ HTMLCargar=function(result){ //INICIO HTML
         html+="</td>"+
                 "<td class='fecha_distribucion'>"+r.fecha_distribucion+"</td>"+
                 "<td class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
-                "<td class='dni'>"+r.dni+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
                 "<td class='nombre'>"+r.nombre+"</td>"+
