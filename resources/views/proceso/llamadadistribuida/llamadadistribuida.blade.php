@@ -154,5 +154,6 @@
 @stop
 @section('form')
      @include( 'proceso.llamadadistribuida.form.llamadadistribuida' )
+     @include( 'proceso.llamadadistribuida.form.persona' )
 @stop
 

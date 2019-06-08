@@ -181,6 +181,24 @@ class Persona extends Model
         DB::commit();
     }
 
+    public static function runEditLibre($r)
+    {
+        DB::beginTransaction();
+        $persona_id = Auth::user()->id;
+        $persona = Persona::find($r->id);
+        $persona->paterno = trim( $r->paterno );
+        $persona->materno = trim( $r->materno );
+        $persona->nombre = trim( $r->nombre );
+        $persona->dni = trim( $r->dni );
+        $persona->sexo = trim( $r->sexo );
+        $persona->email = trim( $r->email );
+        $persona->telefono = trim( $r->telefono );
+        $persona->celular = trim( $r->celular );
+        $persona->carrera = trim( $r->carrera );
+        $persona->persona_id_updated_at=$persona_id;
+        $persona->save();
+        DB::commit();
+    }
 
     public static function runLoad($r)
     {
@@ -266,7 +284,8 @@ class Persona extends Model
             })
             ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
-            'p.celular','p.password','p.estado','p.empresa','p.fuente','tl.tipo_llamada')
+            'p.celular','p.password','p.estado','p.empresa','p.fuente','tl.tipo_llamada',
+            DB::raw(' (SELECT count(id) FROM mat_matriculas AS m WHERE m.persona_id=p.id AND m.estado=1) AS matricula '))
             ->where( 
                 function($query) use ($r){
                     if( $r->has("paterno") ){

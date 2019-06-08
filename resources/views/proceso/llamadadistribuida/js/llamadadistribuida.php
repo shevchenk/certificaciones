@@ -168,8 +168,11 @@ HTMLCargar=function(result){ //INICIO HTML
 
         //html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
         html+="<td>"+
-                "<input type='hidden' class='empresa' value='"+r.empresa+"'>"+
-                "<input type='hidden' class='fuente' value='"+r.fuente+"'>"+
+                "<input type='hidden' class='empresa' value='"+$.trim(r.empresa)+"'>"+
+                "<input type='hidden' class='fuente' value='"+$.trim(r.fuente)+"'>"+
+                "<input type='hidden' class='dni' value='"+r.dni+"'>"+
+                "<input type='hidden' class='matricula' value='"+r.matricula+"'>"+
+                "<input type='hidden' class='sexo' value='"+$.trim(r.sexo)+"'>"+
                 '<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
@@ -205,6 +208,12 @@ AbrirLlamada=function(id){
     fecha_distribucion=$("#trid_"+id+" .fecha_distribucion").text();
     empresa=$("#trid_"+id+" .empresa").val();
     fuente=$("#trid_"+id+" .fuente").val();
+    matricula=$("#trid_"+id+" .matricula").val();
+
+    $("#ModalLlamadaForm #btnEditPersona").css('display','block');
+    if( matricula==1 ){
+        $("#ModalLlamadaForm #btnEditPersona").css('display','none');
+    }
 
     $("#ModalLlamadaForm #txt_persona_id").val( id );
     $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
@@ -215,6 +224,54 @@ AbrirLlamada=function(id){
     $("#ModalLlamadaForm #txt_fuente").val( fuente );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
     $('#ModalLlamada').modal('show');
+}
+
+EditarPersona=function(){
+    id= $('#ModalLlamadaForm #txt_persona_id').val();
+    paterno=$("#trid_"+id+" .paterno").text();
+    materno=$("#trid_"+id+" .materno").text();
+    nombre=$("#trid_"+id+" .nombre").text();
+    celular=$("#trid_"+id+" .celular").text();
+    telefono=$("#trid_"+id+" .telefono").text();
+    carrera=$("#trid_"+id+" .carrera").text();
+    dni=$("#trid_"+id+" .dni").val();
+    sexo=$("#trid_"+id+" .sexo").val();
+    email=$("#trid_"+id+" .email").text();
+
+    $('#ModalPersonaForm #txt_paterno').val(paterno);
+    $('#ModalPersonaForm #txt_materno').val(materno);
+    $('#ModalPersonaForm #txt_nombre').val(nombre);
+    $('#ModalPersonaForm #txt_dni').val(dni);
+    $('#ModalPersonaForm #slct_sexo').selectpicker('val',sexo);
+    $('#ModalPersonaForm #txt_email').val(email);
+    $('#ModalPersonaForm #txt_celular').val(celular);
+    $('#ModalPersonaForm #txt_telefono').val(telefono);
+    $('#ModalPersonaForm #txt_carrera').val(carrera);
+    $('#ModalPersona').modal('show');
+}
+
+ActualizarPersona=function(){
+    AjaxEspecialidad.ActualizarPersona(HTMLActualizarPersona);
+}
+
+HTMLActualizarPersona=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        AjaxEspecialidad.Cargar(HTMLCargar);
+        paterno=$('#ModalPersonaForm #txt_paterno').val();
+        materno=$('#ModalPersonaForm #txt_materno').val();
+        nombre=$('#ModalPersonaForm #txt_nombre').val();
+        telefono=$('#ModalPersonaForm #txt_telefono').val()
+        celular=$('#ModalPersonaForm #txt_celular').val()
+        carrera=$('#ModalPersonaForm #txt_carrera').val()
+        $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
+        $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+        $("#ModalLlamadaForm #txt_carrera").val( carrera );
+        $('#ModalPersona').modal('hide');
+    }
+    else{
+        msjG.mensaje('warning',result.msj,3000);
+    }
 }
 
 AbrirLlamadaPendiente=function(id){
