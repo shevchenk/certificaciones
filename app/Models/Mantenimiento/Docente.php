@@ -196,7 +196,7 @@ class Docente extends Model
     {
         $sql=DB::table('personas AS p')
             ->leftJoin('mat_docentes as d','d.persona_id','=','p.id')
-            ->select('d.id','d.persona_id','p.dni','p.paterno','p.materno','p.nombre',
+            ->select('d.id','p.id AS persona_id','p.dni','p.paterno','p.materno','p.nombre',
                 'd.estado','p.email','p.celular','p.sexo','p.telefono',
                 DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento')
             )
