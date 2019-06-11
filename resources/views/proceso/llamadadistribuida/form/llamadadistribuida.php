@@ -15,6 +15,7 @@
                             <label>Alumno:</label>
                             <input class="form-control mant" type="hidden" id="txt_persona_id" name="txt_persona_id" value="">
                             <input class="form-control" type="text" id="txt_alumno" name="txt_alumno" value="" disabled>
+                            <a class="btn btn-primary btn-sm" id="btnEditPersona" onClick="EditarPersona()"><i class="fa fa-edit fa-lg"></i> </a>
                         </div>
                     </div>
                     <div class="col-md-4">
