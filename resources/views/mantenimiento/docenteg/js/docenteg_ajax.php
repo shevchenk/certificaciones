@@ -19,9 +19,10 @@ var AjaxPersona={
         url='AjaxDinamic/Mantenimiento.DocenteEM@LoadDocente';
         masterG.postAjax(url,data,evento);
     },
-    CambiarEstado:function(evento,AI,id){
+    CambiarEstado:function(evento,AI,id,persona_id){
         $("#ModalPersonaForm").append("<input type='hidden' value='"+AI+"' name='estadof'>");
         $("#ModalPersonaForm").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#ModalPersonaForm").append("<input type='hidden' value='"+persona_id+"' name='persona_id'>");
         var data=$("#ModalPersonaForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ModalPersonaForm input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Mantenimiento.DocenteEM@EditStatus';
