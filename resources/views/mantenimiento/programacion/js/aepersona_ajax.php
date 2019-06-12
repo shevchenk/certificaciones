@@ -6,7 +6,7 @@ var AjaxAEPersona={
         var data=$("#ModalPersonaForm").serialize().split("txt_").join("").split("slct_").join("");
         url='AjaxDinamic/Mantenimiento.PersonaEM@New';
         if(AddEdit2==0){
-            url='AjaxDinamic/Mantenimiento.PersonaEM@Edit';
+            url='AjaxDinamic/Mantenimiento.PersonaEM@EditLibre';
         }
         masterG.postAjax(url,data,evento);
     },
