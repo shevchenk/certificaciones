@@ -36,7 +36,7 @@ var AjaxEspecialidad={
     },
     RegistrarLlamada:function(evento){
         var data=$("#ModalLlamadaForm").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Proceso.LlamadaPR@RegistrarLlamada';
+        url='AjaxDinamic/Proceso.LlamadaPR@RegistrarLlamadaDistribuida';
         masterG.postAjax(url,data,evento);
     },
     CargarLlamada:function(evento){
