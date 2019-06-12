@@ -15,6 +15,13 @@ Route::get('/salir','SecureAccess\PersonaSA@logout');
 
 Route::get(
     '/{ruta}', function ($ruta) {
+        $valida=DB::table('personas_privilegios_sucursales')
+            ->where('persona_id',Auth::user()->id)
+            ->where('privilegio_id',14)
+            ->exists();
+        if( $ruta=='secureaccess.inicio' AND $valida==true ){
+            return redirect('proceso.alumnocurso.alumnocurso');
+        }
         if( session()->has('dni') && session()->has('menu') 
             && session()->has('opciones') 
         ){
