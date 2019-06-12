@@ -33,13 +33,12 @@ class LlamadaPR extends Controller
             $id=Auth::user()->id;
             $trabajador= Trabajador::where('persona_id',$id)->first();
             $trabajadorid=0;
+            $return['rst'] = 1;
+            $return['msj'] = "Registro realizado correctamente";
             if( isset($trabajador->id) ){
                 $trabajadorid=$trabajador->id;
                 $r['teleoperadora']=$trabajadorid;
                 $renturnModel = Llamada::RegistrarLlamada($r);
-                $return['rst'] = 1;
-                //$return['data'] = $renturnModel;
-                $return['msj'] = "Registro realizado correctamente";
             }
             else{
                 $return['rst'] = 2;
