@@ -14,9 +14,16 @@ class Docente extends Model
     public static function runEditStatus($r)
     {
         DB::beginTransaction();
-        $docente = Docente::find($r->id);
+        if( $r->has('id') AND trim($r->id)>'0' ){
+            $docente = Docente::find($r->id);
+            $docente->persona_id_updated_at=Auth::user()->id;
+        }
+        else{
+            $docente = new Docente;
+            $docente->persona_id= $r->persona_id;
+            $docente->persona_id_created_at=Auth::user()->id;
+        }
         $docente->estado = trim( $r->estadof );
-        $docente->persona_id_updated_at=Auth::user()->id;
         $docente->save();
 
         $privilegio=DB::table('personas_privilegios_sucursales AS pps')
@@ -196,7 +203,7 @@ class Docente extends Model
     {
         $sql=DB::table('personas AS p')
             ->leftJoin('mat_docentes as d','d.persona_id','=','p.id')
-            ->select('d.id','d.persona_id','p.dni','p.paterno','p.materno','p.nombre',
+            ->select('d.id','p.id AS persona_id','p.dni','p.paterno','p.materno','p.nombre',
                 'd.estado','p.email','p.celular','p.sexo','p.telefono',
                 DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento')
             )

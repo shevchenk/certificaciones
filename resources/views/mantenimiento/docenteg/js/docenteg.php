@@ -130,8 +130,8 @@ AgregarEditar=function(val,id){
     $('#ModalPersona').modal('show');
 }
 
-CambiarEstado=function(estado,id){
-    AjaxPersona.CambiarEstado(HTMLCambiarEstado,estado,id);
+CambiarEstado=function(estado,id,persona_id){
+    AjaxPersona.CambiarEstado(HTMLCambiarEstado,estado,id,persona_id);
 }
 
 HTMLCambiarEstado=function(result){
@@ -164,10 +164,13 @@ HTMLCargarPersona=function(result){
     $('#TablePersona').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){        
-        estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(1,'+r.id+')" class="btn btn-warning">Persona</span>';
+        if( $.trim(r.id)==''){
+            r.id=0;
+        }
+        estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(1,'+r.id+','+r.persona_id+')" class="btn btn-warning">Persona</span>';
         btn='';
         if(r.estado==1){
-            estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Docente</span>';
+            estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+','+r.persona_id+')" class="btn btn-success">Docente</span>';
             btn='<a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a>';
         }
 
