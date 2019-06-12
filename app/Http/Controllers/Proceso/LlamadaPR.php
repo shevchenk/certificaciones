@@ -35,12 +35,16 @@ class LlamadaPR extends Controller
             $trabajadorid=0;
             if( isset($trabajador->id) ){
                 $trabajadorid=$trabajador->id;
+                $r['teleoperadora']=$trabajadorid;
+                $renturnModel = Llamada::RegistrarLlamada($r);
+                $return['rst'] = 1;
+                //$return['data'] = $renturnModel;
+                $return['msj'] = "Registro realizado correctamente";
             }
-            $r['teleoperadora']=$trabajadorid;
-            $renturnModel = Llamada::RegistrarLlamada($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "Registro realizado correctamente";
+            else{
+                $return['rst'] = 2;
+                $return['msj'] = "Ud, no esta registrado como Trabajador";
+            }
             return response()->json($return);
         }
     }
