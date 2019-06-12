@@ -14,15 +14,16 @@ class Docente extends Model
     public static function runEditStatus($r)
     {
         DB::beginTransaction();
-        if( $r->has('id') AND $r->id!='' ){
+        if( $r->has('id') AND trim($r->id)!='' ){
             $docente = Docente::find($r->id);
+            $docente->persona_id_updated_at=Auth::user()->id;
         }
         else{
             $docente = new Docente;
             $docente->persona_id= $r->persona_id;
+            $docente->persona_id_created_at=Auth::user()->id;
         }
         $docente->estado = trim( $r->estadof );
-        $docente->persona_id_updated_at=Auth::user()->id;
         $docente->save();
 
         $privilegio=DB::table('personas_privilegios_sucursales AS pps')
