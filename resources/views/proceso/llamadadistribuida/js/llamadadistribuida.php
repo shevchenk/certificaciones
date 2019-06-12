@@ -171,7 +171,7 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<input type='hidden' class='empresa' value='"+$.trim(r.empresa)+"'>"+
                 "<input type='hidden' class='fuente' value='"+$.trim(r.fuente)+"'>"+
                 "<input type='hidden' class='dni' value='"+r.dni+"'>"+
-                "<input type='hidden' class='matricula' value='"+r.matricula+"'>"+
+                "<input type='hidden' class='matricula' value='"+$.trim(r.matricula)+"'>"+
                 "<input type='hidden' class='sexo' value='"+$.trim(r.sexo)+"'>"+
                 '<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
         html+="</tr>";
