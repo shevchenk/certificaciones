@@ -97,12 +97,16 @@ class Persona extends Model
         $persona->paterno = trim( $r->paterno );
         $persona->materno = trim( $r->materno );
         $persona->nombre = trim( $r->nombre );
-        $persona->dni = trim( $r->dni );
         $persona->sexo = trim( $r->sexo );
         $persona->email = trim( $r->email );
         if(trim( $r->password )!=''){
-        $persona->password=bcrypt($r->password);}
+        $persona->password=bcrypt($r->password);
+        }
+        else if( $r->dni!=$persona->dni){
+            $persona->password=bcrypt($r->dni);
+        }
         
+        $persona->dni = trim( $r->dni );
         $persona->telefono = trim( $r->telefono );
         $persona->celular = trim( $r->celular );
 
