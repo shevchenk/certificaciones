@@ -71,8 +71,14 @@ ValidarVideo=function(id){
 
 ValidarComentario=function(){
     var cantidad= $("#ModalComentarioForm #txt_comentario").val().length;
-    if( $("#ModalComentarioForm #txt_fecha").val()!=''){
+    if( $("#ModalComentarioForm #txt_fecha").val()!='' && cantidad>=50 && cantidad<=750){
         AjaxAlumnoCurso.ValidarComentario(ComentarioG,$("#ModalComentarioForm #txt_comentario").val(),HTMLConfirmacion);
+    }
+    else if( cantidad<50 ){
+        msjG.mensaje('warning','El comentario, debe contener un mínimo de 50 caracteres',4000);
+    }
+    else if( cantidad>750 ){
+        msjG.mensaje('warning','El comentario, debe contener un máximo de 750 caracteres',4000);
     }
     else{
         msjG.mensaje('warning','Ingrese Comentario del Seminario',4000);
