@@ -39,10 +39,6 @@
                             <thead>
                                 <tr class="cabecera">
                                     <th>
-                                        <label><h4>Fecha Distribuida</h4></label>
-                                        <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Buscar Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
-                                    </th>
-                                    <th>
                                         <label><h4>Ultimo Estado</h4></label>
                                         <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Buscar Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
@@ -96,7 +92,6 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Fecha Distribuida</th>
                                   <th>Último Estado</th>
                                   <th>Nombres</th>
                                   <th>Ape. Paterno</th>
