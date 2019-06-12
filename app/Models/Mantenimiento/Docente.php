@@ -14,7 +14,7 @@ class Docente extends Model
     public static function runEditStatus($r)
     {
         DB::beginTransaction();
-        if( $r->has('id') AND trim($r->id)!='' ){
+        if( $r->has('id') AND trim($r->id)>'0' ){
             $docente = Docente::find($r->id);
             $docente->persona_id_updated_at=Auth::user()->id;
         }

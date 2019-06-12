@@ -164,6 +164,9 @@ HTMLCargarPersona=function(result){
     $('#TablePersona').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){        
+        if( $.trim(r.id)==''){
+            r.id=0;
+        }
         estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(1,'+r.id+','+r.persona_id+')" class="btn btn-warning">Persona</span>';
         btn='';
         if(r.estado==1){
