@@ -44,5 +44,17 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Proceso.LlamadaPR@CargarLlamada';
         masterG.postAjax(url,data, evento);
     },
+    CargarLlamadaPendiente:function(evento){
+        var data={};
+        url='AjaxDinamic/Proceso.LlamadaPR@CargarLlamadaPendiente';
+        masterG.postAjax(url,data, evento);
+    },
+    ActualizarPersona:function(evento){
+        $("#ModalPersonaForm").append("<input type='hidden' value='"+$('#ModalLlamadaForm #txt_persona_id').val()+"' name='id'>");
+        var data=$("#ModalPersonaForm").serialize().split("txt_").join("").split("slct_").join("");
+        $("#ModalPersonaForm input[type='hidden']").not('.mant').remove();
+        url='AjaxDinamic/Mantenimiento.PersonaEM@EditLibre';
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

@@ -38,8 +38,8 @@ $(document).ready(function() {
     var fecha='<?php echo date("Y-m-d H:i:s"); ?>';
     $('#ModalLlamadaForm #txt_fecha').val(fecha);
     AjaxEspecialidad.Cargar(HTMLCargar);
-    AjaxEspecialidad.ListarTeleoperadora(SlctListarTeleoperadora);
     AjaxEspecialidad.ListarTipoLlamada(SlctListarTipoLlamada);
+    AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
 
     $("#EspecialidadForm #TableDatos select").change(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
     $("#EspecialidadForm #TableDatos input").blur(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
@@ -56,19 +56,40 @@ $(document).ready(function() {
     });
 });
 
+HTMLCargarLlamadaPendiente=function(result){
+    var html='';
+    $.each(result.data,function(index,r){
+        success='';
+        if( r.fechas==r.hoy ){
+            success='success';
+        }
+        html+="<tr id='llp_"+r.id+"' class='"+success+"'>";
+        html+="<td>"+r.dni+"</td>";
+        html+="<td class='persona'>"+r.persona+"</td>";
+
+         html+="<td>"+r.fecha_llamada+"</td>";
+        html+="<td>"+r.teleoperador+"</td>";
+        html+="<td>"+$.trim(r.tipo_llamada)+"</td>";
+        html+="<td>"+$.trim(r.fechas)+"</td>";
+        html+="<td>"+$.trim(r.comentario)+"</td>";
+        html+="<td>"+
+                "<input type='hidden' class='telefono' value='"+$.trim(r.telefono)+"'>"+
+                "<input type='hidden' class='celular' value='"+$.trim(r.celular)+"'>"+
+                "<input type='hidden' class='carrera' value='"+r.carrera+"'>"+
+                "<input type='hidden' class='fecha_distribucion' value='"+$.trim(r.fecha_distribucion)+"'>"+
+                "<input type='hidden' class='empresa' value='"+r.empresa+"'>"+
+                "<input type='hidden' class='fuente' value='"+r.fuente+"'>"+
+                "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
+                '<a class="btn btn-primary btn-sm" onClick="AbrirLlamadaPendiente('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
+        html+="</tr>";
+    });
+
+    $("#tb_llamada_pendiente").html(html); 
+}
+
 CargarHora=function(result){
     $('#ModalLlamadaForm #txt_fecha').val(result.hora);
 }
-
-SlctListarTeleoperadora=function(result){
-    var html="<option value=''>.::Seleccione::.</option>";
-    $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.trabajador+"</option>";
-    });
-    $("#ModalLlamadaForm #slct_teleoperadora").html(html); 
-    $("#ModalLlamadaForm #slct_teleoperadora").selectpicker('refresh');
-
-};
 
 SlctListarTipoLlamada=function(result){
     var html="<option value=''>.::Seleccione::.</option>";
@@ -103,10 +124,11 @@ ActivarComentario=function(){
     id=$("#slct_tipo_llamada").val();
     $('.tipo1, .tipo2').css('display','none');
     $('#ModalLlamadaForm #txt_comentario').removeAttr('disabled');
-    if( codigo==0 ){
+    /*if( codigo==0 ){
         $('#ModalLlamadaForm #txt_comentario').attr('disabled','true');
     }
-    else if(codigo==1 || codigo==2){
+    else */
+    if(codigo==1 || codigo==2){
         $('.tipo1').css('display','block');
         $('.fechadinamica').text('Fecha a Volver a Llamar');
         if( codigo==1 ){
@@ -132,10 +154,12 @@ HTMLCargar=function(result){ //INICIO HTML
         html+="<tr id='trid_"+r.id+"'>";
    
         html+="</td>"+
-                "<td class='dni'>"+r.dni+"</td>"+
+                "<td class='fecha_distribucion'>"+r.fecha_distribucion+"</td>"+
+                "<td class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
                 "<td class='nombre'>"+r.nombre+"</td>"+
+                "<td class='carrera'>"+r.carrera+"</td>"+
                 "<td class='email'>"+$.trim(r.email)+"</td>"+
                 "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
                 "<td class='celular'>"+$.trim(r.celular)+"</td>";
@@ -143,8 +167,13 @@ HTMLCargar=function(result){ //INICIO HTML
                 //"<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 
         //html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
-        html+=""+
-                '<td><a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
+        html+="<td>"+
+                "<input type='hidden' class='empresa' value='"+$.trim(r.empresa)+"'>"+
+                "<input type='hidden' class='fuente' value='"+$.trim(r.fuente)+"'>"+
+                "<input type='hidden' class='dni' value='"+r.dni+"'>"+
+                "<input type='hidden' class='matricula' value='"+r.matricula+"'>"+
+                "<input type='hidden' class='sexo' value='"+$.trim(r.sexo)+"'>"+
+                '<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
 
@@ -175,9 +204,93 @@ AbrirLlamada=function(id){
     nombre=$("#trid_"+id+" .nombre").text();
     telefono=$("#trid_"+id+" .telefono").text();
     celular=$("#trid_"+id+" .celular").text();
+    carrera=$("#trid_"+id+" .carrera").text();
+    fecha_distribucion=$("#trid_"+id+" .fecha_distribucion").text();
+    empresa=$("#trid_"+id+" .empresa").val();
+    fuente=$("#trid_"+id+" .fuente").val();
+    matricula=$("#trid_"+id+" .matricula").val();
+
+    $("#ModalLlamadaForm #btnEditPersona").css('display','block');
+    if( matricula==1 ){
+        $("#ModalLlamadaForm #btnEditPersona").css('display','none');
+    }
+
     $("#ModalLlamadaForm #txt_persona_id").val( id );
     $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
     $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+    $("#ModalLlamadaForm #txt_carrera").val( carrera );
+    $("#ModalLlamadaForm #txt_fecha_distribucion").val( fecha_distribucion );
+    $("#ModalLlamadaForm #txt_empresa").val( empresa );
+    $("#ModalLlamadaForm #txt_fuente").val( fuente );
+    AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
+    $('#ModalLlamada').modal('show');
+}
+
+EditarPersona=function(){
+    id= $('#ModalLlamadaForm #txt_persona_id').val();
+    paterno=$("#trid_"+id+" .paterno").text();
+    materno=$("#trid_"+id+" .materno").text();
+    nombre=$("#trid_"+id+" .nombre").text();
+    celular=$("#trid_"+id+" .celular").text();
+    telefono=$("#trid_"+id+" .telefono").text();
+    carrera=$("#trid_"+id+" .carrera").text();
+    dni=$("#trid_"+id+" .dni").val();
+    sexo=$("#trid_"+id+" .sexo").val();
+    email=$("#trid_"+id+" .email").text();
+
+    $('#ModalPersonaForm #txt_paterno').val(paterno);
+    $('#ModalPersonaForm #txt_materno').val(materno);
+    $('#ModalPersonaForm #txt_nombre').val(nombre);
+    $('#ModalPersonaForm #txt_dni').val(dni);
+    $('#ModalPersonaForm #slct_sexo').selectpicker('val',sexo);
+    $('#ModalPersonaForm #txt_email').val(email);
+    $('#ModalPersonaForm #txt_celular').val(celular);
+    $('#ModalPersonaForm #txt_telefono').val(telefono);
+    $('#ModalPersonaForm #txt_carrera').val(carrera);
+    $('#ModalPersona').modal('show');
+}
+
+ActualizarPersona=function(){
+    AjaxEspecialidad.ActualizarPersona(HTMLActualizarPersona);
+}
+
+HTMLActualizarPersona=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        AjaxEspecialidad.Cargar(HTMLCargar);
+        paterno=$('#ModalPersonaForm #txt_paterno').val();
+        materno=$('#ModalPersonaForm #txt_materno').val();
+        nombre=$('#ModalPersonaForm #txt_nombre').val();
+        telefono=$('#ModalPersonaForm #txt_telefono').val()
+        celular=$('#ModalPersonaForm #txt_celular').val()
+        carrera=$('#ModalPersonaForm #txt_carrera').val()
+        $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
+        $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+        $("#ModalLlamadaForm #txt_carrera").val( carrera );
+        $('#ModalPersona').modal('hide');
+    }
+    else{
+        msjG.mensaje('warning',result.msj,3000);
+    }
+}
+
+AbrirLlamadaPendiente=function(id){
+    PersonaIdG=$("#llp_"+id+" .persona_id").val();
+    persona=$("#llp_"+id+" .persona").text();
+    telefono=$("#llp_"+id+" .telefono").val();
+    celular=$("#llp_"+id+" .celular").val();
+    carrera=$("#llp_"+id+" .carrera").val();
+    fecha_distribucion=$("#llp_"+id+" .fecha_distribucion").val();
+    empresa=$("#llp_"+id+" .empresa").val();
+    fuente=$("#llp_"+id+" .fuente").val();
+
+    $("#ModalLlamadaForm #txt_persona_id").val( PersonaIdG );
+    $("#ModalLlamadaForm #txt_alumno").val( persona );
+    $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+    $("#ModalLlamadaForm #txt_carrera").val( carrera );
+    $("#ModalLlamadaForm #txt_fecha_distribucion").val( fecha_distribucion );
+    $("#ModalLlamadaForm #txt_empresa").val( empresa );
+    $("#ModalLlamadaForm #txt_fuente").val( fuente );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
     $('#ModalLlamada').modal('show');
 }
@@ -200,11 +313,7 @@ HTMLCargarLlamada=function(result){
 ValidaForm=function(){
     var r=true;
     codigo=$("#slct_tipo_llamada option:selected").attr('data-obs');
-    if( $.trim( $("#ModalLlamadaForm #slct_teleoperadora").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Seleccione Teleoperador(a)',4000);
-    }
-    else if( $.trim( $("#ModalLlamadaForm #txt_fecha").val() )=='' ){
+    if( $.trim( $("#ModalLlamadaForm #txt_fecha").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Fecha de Llamada',4000);
     }
@@ -241,6 +350,7 @@ HTMLRegistrarLlamada=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
         $('#ModalLlamada').modal('hide');
+        AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
     }
     else{
         msjG.mensaje('warning',result.msj,3000);

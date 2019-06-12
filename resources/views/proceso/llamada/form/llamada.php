@@ -9,17 +9,45 @@
             <div class="modal-body">
                 <div class="row">
                 <form id="ModalLlamadaForm">
+                    <div class="col-md-12">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Alumno:</label>
                             <input class="form-control mant" type="hidden" id="txt_persona_id" name="txt_persona_id" value="">
                             <input class="form-control" type="text" id="txt_alumno" name="txt_alumno" value="" disabled>
+                            <a class="btn btn-primary btn-sm" id="btnEditPersona" onClick="EditarPersona()"><i class="fa fa-edit fa-lg"></i> </a>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Teléfono/Celular:</label>
-                            <textarea class="form-control fecha" id="txt_celular" name="txt_celular" value="" disabled></textarea>
+                            <textarea class="form-control" id="txt_celular" name="txt_celular" value="" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Fecha distribuida:</label>
+                            <input class="form-control" type="text" id="txt_fecha_distribucion" name="txt_fecha_distribucion" value="" disabled>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Carrera:</label>
+                            <input class="form-control" type="text" id="txt_carrera" name="txt_carrera" value="" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Empresa:</label>
+                            <input class="form-control" type="text" id="txt_empresa" name="txt_empresa" value="" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Fuente:</label>
+                            <input class="form-control" type="text" id="txt_fuente" name="txt_fuente" value="" disabled>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -28,12 +56,10 @@
                             <input class="form-control fecha" type="text" id="txt_fecha" name="txt_fecha" value="" readonly>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label>Teleoperadora:</label>
-                            <select class="selectpicker form-control show-menu-arrow" data-live-search="true" id="slct_teleoperadora" name="slct_teleoperadora">
-                                <option>.::Seleccione::.</option>
-                            </select>
+                            <label>Teleoperador(a):</label>
+                            <input class="form-control" type="text" id="txt_teleoperadora" name="txt_teleoperadora" value="<?php echo Auth::user()->paterno.' '.Auth::user()->materno.', '.Auth::user()->nombre; ?>" disabled>
                         </div>
                     </div>
                     <div class="col-md-4">
