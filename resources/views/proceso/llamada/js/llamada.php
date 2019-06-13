@@ -154,6 +154,8 @@ HTMLCargar=function(result){ //INICIO HTML
         html+="<tr id='trid_"+r.id+"'>";
    
         html+="</td>"+
+                "<td class='fecha_distribucion'>"+$.trim(r.fecha_distribucion)+"</td>"+
+                "<td class='vendedor'>"+$.trim(r.vendedor)+"</td>"+
                 "<td class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+

@@ -277,9 +277,17 @@ class Persona extends Model
     public static function runLoadDistribuida($r)
     {
         $sql=DB::table('personas AS p')
-            ->Join('personas_distribuciones AS pd', function($join){
+            ->leftJoin('personas_distribuciones AS pd', function($join){
                 $join->on('pd.persona_id','=','p.id')
                 ->where('pd.estado',1);
+            })
+            ->leftJoin('mat_trabajadores AS t', function($join){
+                $join->on('t.id','=','pd.trabajador_id')
+                ->where('t.estado',1);
+            })
+            ->leftJoin('personas AS p2', function($join){
+                $join->on('p2.id','=','t.persona_id')
+                ->where('p2.estado',1);
             })
             ->leftJoin('llamadas AS ll', function($join){
                 $join->on('ll.persona_id','=','p.id')
@@ -292,7 +300,8 @@ class Persona extends Model
             ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
             'p.celular','p.password','p.estado','p.empresa','p.fuente','tl.tipo_llamada',
-            DB::raw(' (SELECT count(id) FROM mat_matriculas AS m WHERE m.persona_id=p.id AND m.estado=1) AS matricula '))
+            DB::raw(' (SELECT count(id) FROM mat_matriculas AS m WHERE m.persona_id=p.id AND m.estado=1) AS matricula,
+            CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor'))
             ->where( 
                 function($query) use ($r){
                     if( $r->has("paterno") ){
@@ -365,6 +374,12 @@ class Persona extends Model
                         $tipo_llamada=trim($r->tipo_llamada);
                         if( $tipo_llamada !='' ){
                             $query->where('tl.tipo_llamada','like','%'.$tipo_llamada.'%');
+                        }
+                    }
+                    if( $r->has("vendedor") ){
+                        $vendedor=trim($r->vendedor);
+                        if( $vendedor !='' ){
+                            $query->whereRaw('CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) LIKE "%'.$vendedor.'%"');
                         }
                     }
                 }
