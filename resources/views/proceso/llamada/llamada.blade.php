@@ -20,12 +20,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Personas Distribuidas
-        <small>Llamada</small>
+    <h1>Realizar Llamadas
+        <small>Personas</small>
     </h1>
     <ol class="breadcrumb">
-        <li><i class="fa fa-sitemap"></i> Personas Distribuidas</a></li>
-        <li class="active">Llamada</li>
+        <li><i class="fa fa-sitemap"></i> Realizar Llamadas</a></li>
+        <li class="active">Personas</li>
     </ol>
 </section>
 
