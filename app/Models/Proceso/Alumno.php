@@ -98,7 +98,7 @@ class Alumno extends Model
             DB::raw('IF(mp.sucursal_id=1,"Virtual","Presencial") as modalidad'),
             DB::raw('CONCAT(p.nombre," ", p.paterno," ", p.materno) as profesor'),
             DB::raw('DATE(mp.fecha_inicio) as fecha'),
-            DB::raw('CONCAT(TIME(fecha_inicio)," a ",TIME(fecha_final)) as horario'),
+            DB::raw('CONCAT(TIME(mp.fecha_inicio)," a ",TIME(mp.fecha_final)) as horario'),
             DB::raw('s.sucursal as sucursal')
             )
             ->where( 
