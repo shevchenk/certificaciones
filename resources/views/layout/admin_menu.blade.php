@@ -30,4 +30,9 @@
             <li><a href="secureaccess.myself"><i class="fa fa-lock"></i> Datos Personales </a></li>
         </ul>
     </li>
+    <li class="treeview">
+        <a href="salir">
+            <i class="fa fa-undo"></i> <span>Salir</span>
+        </a>
+    </li>
 </ul>
