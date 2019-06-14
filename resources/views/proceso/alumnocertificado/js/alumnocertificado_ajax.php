@@ -46,7 +46,7 @@ var AjaxEspecialidad={
         $("#div_celular").html(celular);
 
         url='AjaxDinamic/Proceso.AlumnoPR@ListarSeminarios';
-        data={alumno_id:id};
+        data={persona_id:id};
         masterG.postAjax(url,data,evento);
     },
     RegistrarEntrega:function(evento){
