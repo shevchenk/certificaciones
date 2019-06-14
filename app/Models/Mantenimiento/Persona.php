@@ -33,16 +33,23 @@ class Persona extends Model
         $persona->dni = trim( $r->dni );
         $persona->sexo = trim( $r->sexo );
         $persona->email = trim( $r->email );
-        $bcryptpassword = bcrypt($r->password);
-        $persona->password=$bcryptpassword;
+        if(trim( $r->password )!=''){
+            $persona->password=bcrypt($r->password);
+        }
+        else{
+            $persona->password=bcrypt($r->dni);
+        }
         $persona->telefono = trim( $r->telefono );
         $persona->celular = trim( $r->celular );
+        if( $r->has('carrera') AND $r->carrera!='' ){
+            $persona->carrera = trim( $r->carrera );
+        }
         if(trim( $r->fecha_nacimiento )!=''){
         $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );}
         else {
         $persona->fecha_nacimiento = null;
         }
-        $persona->estado = trim( $r->estado );
+        $persona->estado = '1';
         $persona->persona_id_created_at=$persona_id;
         $persona->save();
 

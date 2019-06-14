@@ -49,9 +49,6 @@ class PersonaEM extends Controller
                             }
                         }),
                         ],
-                'password' => 
-                       ['required',
-                       ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
