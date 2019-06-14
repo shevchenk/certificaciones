@@ -43,7 +43,7 @@ $(document).ready(function() {
         }
         else{
             AjaxPersona.CargarAreas(SlctCargarAreas,PersonaG.id); //no es multiselect
-            $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','ActualizarPersona();');
+            $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalPersonaForm").append("<input type='hidden' value='"+PersonaG.id+"' name='id'>");
         }
 
@@ -57,7 +57,6 @@ $(document).ready(function() {
         $('#ModalPersonaForm #txt_password').val( PersonaG.password );
         $('#ModalPersonaForm #txt_celular').val( PersonaG.celular );        
         $('#ModalPersonaForm #txt_fecha_nacimiento').val( PersonaG.fecha_nacimiento );
-        $('#ModalPersonaForm #txt_carrera').val( PersonaG.carrera );
         $('#ModalPersonaForm #slct_estado').val( PersonaG.estado );
         $("#ModalPersona select").selectpicker('refresh');
         $('#ModalPersonaForm #txt_nombre').focus();
@@ -69,10 +68,6 @@ $(document).ready(function() {
         $("#ModalPersonaForm #t_cargoPersona").html('');
     });
 });
-
-ActualizarPersona=function(){
-    AjaxPersona.ActualizarPersona(HTMLAgregarEditar);
-}
 
 ValidaForm=function(){
     var r=true;
@@ -115,7 +110,6 @@ AgregarEditar=function(val,id){
     PersonaG.telefono='';
     PersonaG.celular='';
     PersonaG.fecha_nacimiento='';
-    PersonaG.carrera='';
     PersonaG.estado='1';
     if( val==0 ){
 
@@ -129,7 +123,6 @@ AgregarEditar=function(val,id){
         PersonaG.telefono=$("#TablePersona #trid_"+id+" .telefono").val();
         PersonaG.celular=$("#TablePersona #trid_"+id+" .celular").val();
         PersonaG.fecha_nacimiento=$("#TablePersona #trid_"+id+" .fecha_nacimiento").val();
-        PersonaG.carrera=$("#TablePersona #trid_"+id+" .carrera").val();
         PersonaG.estado=$("#TablePersona #trid_"+id+" .estado").val();
       
     }
@@ -234,7 +227,6 @@ HTMLCargarPersona=function(result){
             "<td class='email'>"+r.email+"</td>"+
             "<td>"+
             "<input type='hidden' class='fecha_nacimiento' value='"+r.fecha_nacimiento+"'>"+
-            "<input type='hidden' class='carrera' value='"+r.carrera+"'>"+
             "<input type='hidden' class='sexo' value='"+r.sexo+"'>"+
             "<input type='hidden' class='telefono' value='"+r.telefono+"'>"+
             "<input type='hidden' class='celular' value='"+r.celular+"'>"+

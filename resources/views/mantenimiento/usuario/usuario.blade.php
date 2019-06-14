@@ -14,20 +14,20 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-    @include( 'mantenimiento.persona.js.persona_ajax' )
-    @include( 'mantenimiento.persona.js.persona' )
+    @include( 'mantenimiento.usuario.js.usuario_ajax' )
+    @include( 'mantenimiento.usuario.js.usuario' )
     
 
 @stop
 
 @section('content')
 <section class="content-header">
-    <h1>Personas
+    <h1>Usuarios
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Personas</li>
+        <li class="active">Usuarios</li>
     </ol>
 </section>
 
@@ -115,7 +115,9 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        
+                        <div class='btn btn-primary btn-sm' class="btn btn-primary" onClick="AgregarEditar(1)" >
+                            <i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                        </div>
                     </div><!-- .box-body -->
                 </form><!-- .form -->
             </div><!-- .box -->
@@ -125,6 +127,6 @@
 @stop
 
 @section('form')
-     @include( 'mantenimiento.persona.form.persona' )
+     @include( 'mantenimiento.usuario.form.usuario' )
      
 @stop
