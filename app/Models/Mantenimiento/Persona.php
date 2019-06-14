@@ -212,6 +212,7 @@ class Persona extends Model
         $sql=Persona::select('id','paterno','materno','nombre','dni','carrera','fuente','empresa',
             'email',DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),'sexo','telefono',
             'celular','password','estado')
+            ->where('id','!=',1)
             ->where( 
                 function($query) use ($r){
                     if( $r->has("paterno") ){
@@ -302,6 +303,7 @@ class Persona extends Model
             'p.celular','p.password','p.estado','p.empresa','p.fuente','tl.tipo_llamada',
             DB::raw(' (SELECT count(id) FROM mat_matriculas AS m WHERE m.persona_id=p.id AND m.estado=1) AS matricula,
             CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor'))
+            ->where('p.id','!=',1)
             ->where( 
                 function($query) use ($r){
                     if( $r->has("paterno") ){
