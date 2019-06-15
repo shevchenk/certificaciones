@@ -111,4 +111,16 @@ class TrabajadorEM extends Controller
             return response()->json($return);
         }
     }
+
+    public function ListarTeleoperadores(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['rol_id']=1;
+            $renturnModel = Trabajador::ListarTeleoperadora($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
 }

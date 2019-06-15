@@ -428,7 +428,36 @@ class Persona extends Model
 
         return $areas;
     }
+
+    public static function ListarFuente($personaId) {
+        //subconsulta
+        $sql = DB::table('personas')
+                ->select(DB::raw('DISTINCT(fuente) AS fuente'))
+                ->where('fuente','!=','')
+                ->get();
+
+        return $sql;
+    }
+
+    public static function ListarTipo($personaId) {
+        //subconsulta
+        $sql = DB::table('personas')
+                ->select(DB::raw('DISTINCT(tipo) AS tipo'))
+                ->where('tipo','!=','')
+                ->get();
+
+        return $sql;
+    }
     
+    public static function ListarEmpresa($personaId) {
+        //subconsulta
+        $sql = DB::table('personas')
+                ->select(DB::raw('DISTINCT(empresa) AS empresa'))
+                ->where('empresa','!=','')
+                ->get();
+
+        return $sql;
+    }
 
 
 }

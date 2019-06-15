@@ -189,7 +189,7 @@ class PersonaEM extends Controller
         }
     }
     
-     public function ListPrivilegio (Request $r )
+    public function ListPrivilegio (Request $r )
     {
         if ( $r->ajax() ) {
             $renturnModel = Privilegio::ListPrivilegio($r);
@@ -200,7 +200,7 @@ class PersonaEM extends Controller
         }
     }
     
-        public function CargarAreas(Request $r)
+    public function CargarAreas(Request $r)
     {
             if ( $r->ajax() ) {
                 $personaId =$r->persona_id;
@@ -210,5 +210,37 @@ class PersonaEM extends Controller
 
     }
     
+    public function ListarFuente (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Persona::ListarFuente($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function ListarTipo (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Persona::ListarTipo($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function ListarEmpresa (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Persona::ListarEmpresa($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
 
 }

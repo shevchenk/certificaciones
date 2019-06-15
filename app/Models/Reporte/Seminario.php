@@ -255,4 +255,71 @@ class Seminario extends Model
         $r['max']='Y'; // Max. Celda en LETRA
         return $r;
     }
+
+    public static function runLoadAlumnosInscritos($r)
+    {
+        DB::statement(DB::raw('SET lc_time_names = \'es_ES\''));
+        $sql=DB::table('mat_matriculas AS m')
+            ->Join('mat_matriculas_detalles AS md', function($join){
+                $join->on('md.matricula_id','=','m.id')
+                ->where('md.estado',1);
+            })
+            ->Join('personas AS p', function($join){
+                $join->on('p.id','=','m.persona_id');
+            })
+            ->Join('mat_programaciones AS pr', function($join){
+                $join->on('pr.id','=','md.programacion_id');
+            })
+            ->Join('mat_cursos AS c', function($join){
+                $join->on('c.id','=','pr.curso_id');
+            })
+            ->select(
+            DB::raw('UPPER(CONCAT(p.paterno,\' \',p.materno,\' \',p.nombre)) AS persona')
+            ,DB::raw('UPPER(c.curso) AS tema'),DB::raw('DATE_FORMAT(pr.fecha_inicio, \'el %d de %M del %Y\') AS fecha_seminario'),
+            'm.fecha_matricula AS fecha_inscripcion')
+            ->where('m.estado',1)
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
+                        $query->whereBetween('m.fecha_matricula', array($r->fecha_ini,$r->fecha_fin));
+                    }
+                }
+            );
+        $result = $sql->orderBy('persona','asc')->get();
+
+            $sql="  UPDATE mat_matriculas m
+                    INNER JOIN mat_matriculas_detalles md ON md.matricula_id= m.id 
+                    INNER JOIN personas p ON p.id=m.persona_id
+                    INNER JOIN mat_programaciones pr ON pr.id=md.programacion_id
+                    INNER JOIN mat_cursos c ON c.id=pr.curso_id
+                    SET md.validadescarga= md.validadescarga+1, 
+                    md.persona_id_updated_at='".Auth::user()->id."',
+                    md.updated_at='".date("Y-m-d H:i:s")."'
+                    WHERE m.fecha_matricula BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."'";
+            DB::update($sql);
+        return $result;
+    }
+
+    public static function runExportAlumnosInscritos($r)
+    {
+        $rsql= Seminario::runLoadAlumnosInscritos($r);
+        $min=65;
+        $length=array(
+            chr($min)=>40,
+        );
+
+        $min++; $length[chr($min)]=50;
+        $min++; $length[chr($min)]=35;
+        $min++; $length[chr($min)]=20;
+
+        $cabecera2=array(
+            'Apellidos y Nombre del Pagante','Tema','Fecha del Seminario','Fecha de Inscripción'
+        );
+
+        $r['data']=$rsql;
+        $r['cabecera2']=$cabecera2;
+        $r['length']=$length;
+        $r['max']=chr($min);
+        return $r;
+    }
 }

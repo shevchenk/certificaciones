@@ -546,6 +546,10 @@ class Reporte extends Model
                 if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
                     $join->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
                 }
+                if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
+                    $vendedor=explode(',',$r->vendedor);
+                    $join->whereIn('ll.trabajador_id',$vendedor);
+                }
             })
             ->select('tl.tipo_llamada', DB::raw('COUNT(ll.id) AS total'))
             ->where('tl.estado',1)
@@ -561,6 +565,28 @@ class Reporte extends Model
                 ->whereRaw('DATE(f'.$cont.'.fecha_llamada)=\''.$fechaaux.'\'');
             });
             $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        if( ($r->has("fuente") AND trim($r->fuente)!='') OR 
+            ($r->has("tipo") AND trim($r->tipo)!='') OR 
+            ($r->has("empresa") AND trim($r->empresa)!='') OR 
+            ( $r->has("fecha_ini_dis") AND $r->has("fecha_fin_dis") AND trim($r->fecha_ini_dis)!='' AND trim($r->fecha_fin_dis)!='' )
+        ){
+            $sql->join('personas AS p',function($join) use ( $r ){
+                $join->on('p.id','=','ll.persona_id');
+                if( $r->has("fuente") AND trim($r->fuente)!='' ){
+                    $fuente=explode(',',$r->fuente);
+                    $join->whereIn('p.fuente',$fuente);
+                }
+                if( $r->has("tipo") AND trim($r->tipo)!='' ){
+                    $tipo=explode(',',$r->tipo);
+                    $join->whereIn('p.tipo',$tipo);
+                }
+                if( $r->has("empresa") AND trim($r->empresa)!='' ){
+                    $empresa=explode(',',$r->empresa);
+                    $join->whereIn('p.empresa',$empresa);
+                }
+            });
         }
 
         $result = $sql->get();
@@ -616,6 +642,10 @@ class Reporte extends Model
                 if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
                     $join->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
                 }
+                if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
+                    $vendedor=explode(',',$r->vendedor);
+                    $join->whereIn('ll.trabajador_id',$vendedor);
+                }
             })
             ->select('tl.tipo_llamada_sub', DB::raw('COUNT(ll.id) AS total'))
             ->where('tl.estado',1)
@@ -632,6 +662,28 @@ class Reporte extends Model
                 ->whereRaw('DATE(f'.$cont.'.fecha_llamada)=\''.$fechaaux.'\'');
             });
             $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        if( ($r->has("fuente") AND trim($r->fuente)!='') OR 
+            ($r->has("tipo") AND trim($r->tipo)!='') OR 
+            ($r->has("empresa") AND trim($r->empresa)!='') OR 
+            ( $r->has("fecha_ini_dis") AND $r->has("fecha_fin_dis") AND trim($r->fecha_ini_dis)!='' AND trim($r->fecha_fin_dis)!='' )
+        ){
+            $sql->join('personas AS p',function($join) use ( $r ){
+                $join->on('p.id','=','ll.persona_id');
+                if( $r->has("fuente") AND trim($r->fuente)!='' ){
+                    $fuente=explode(',',$r->fuente);
+                    $join->whereIn('p.fuente',$fuente);
+                }
+                if( $r->has("tipo") AND trim($r->tipo)!='' ){
+                    $tipo=explode(',',$r->tipo);
+                    $join->whereIn('p.tipo',$tipo);
+                }
+                if( $r->has("empresa") AND trim($r->empresa)!='' ){
+                    $empresa=explode(',',$r->empresa);
+                    $join->whereIn('p.empresa',$empresa);
+                }
+            });
         }
 
         $result = $sql->get();
@@ -693,6 +745,10 @@ class Reporte extends Model
                 if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
                     $join->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
                 }
+                if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
+                    $vendedor=explode(',',$r->vendedor);
+                    $join->whereIn('ll.trabajador_id',$vendedor);
+                }
             })
             ->select('tls.tipo_llamada_sub','tl.tipo_llamada_sub_detalle', DB::raw('COUNT(ll.id) AS total'))
             ->where('tl.estado',1)
@@ -708,6 +764,28 @@ class Reporte extends Model
                 ->whereRaw('DATE(f'.$cont.'.fecha_llamada)=\''.$fechaaux.'\'');
             });
             $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        if( ($r->has("fuente") AND trim($r->fuente)!='') OR 
+            ($r->has("tipo") AND trim($r->tipo)!='') OR 
+            ($r->has("empresa") AND trim($r->empresa)!='') OR 
+            ( $r->has("fecha_ini_dis") AND $r->has("fecha_fin_dis") AND trim($r->fecha_ini_dis)!='' AND trim($r->fecha_fin_dis)!='' )
+        ){
+            $sql->join('personas AS p',function($join) use ( $r ){
+                $join->on('p.id','=','ll.persona_id');
+                if( $r->has("fuente") AND trim($r->fuente)!='' ){
+                    $fuente=explode(',',$r->fuente);
+                    $join->whereIn('p.fuente',$fuente);
+                }
+                if( $r->has("tipo") AND trim($r->tipo)!='' ){
+                    $tipo=explode(',',$r->tipo);
+                    $join->whereIn('p.tipo',$tipo);
+                }
+                if( $r->has("empresa") AND trim($r->empresa)!='' ){
+                    $empresa=explode(',',$r->empresa);
+                    $join->whereIn('p.empresa',$empresa);
+                }
+            });
         }
 
         $result = $sql->get();
@@ -763,6 +841,10 @@ class Reporte extends Model
                     if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
                         $query->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
                     }
+                    if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
+                        $vendedor=explode(',',$r->vendedor);
+                        $query->whereIn('ll.trabajador_id',$vendedor);
+                    }
                 }
             )
             ->where('ll.estado',1)
@@ -778,6 +860,28 @@ class Reporte extends Model
                 ->whereRaw('DATE(f'.$cont.'.fecha_llamada)=\''.$fechaaux.'\'');
             });
             $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        if( ($r->has("fuente") AND trim($r->fuente)!='') OR 
+            ($r->has("tipo") AND trim($r->tipo)!='') OR 
+            ($r->has("empresa") AND trim($r->empresa)!='') OR 
+            ( $r->has("fecha_ini_dis") AND $r->has("fecha_fin_dis") AND trim($r->fecha_ini_dis)!='' AND trim($r->fecha_fin_dis)!='' )
+        ){
+            $sql->join('personas AS p',function($join) use ( $r ){
+                $join->on('p.id','=','ll.persona_id');
+                if( $r->has("fuente") AND trim($r->fuente)!='' ){
+                    $fuente=explode(',',$r->fuente);
+                    $join->whereIn('p.fuente',$fuente);
+                }
+                if( $r->has("tipo") AND trim($r->tipo)!='' ){
+                    $tipo=explode(',',$r->tipo);
+                    $join->whereIn('p.tipo',$tipo);
+                }
+                if( $r->has("empresa") AND trim($r->empresa)!='' ){
+                    $empresa=explode(',',$r->empresa);
+                    $join->whereIn('p.empresa',$empresa);
+                }
+            });
         }
 
         $result = $sql->get();
@@ -843,10 +947,34 @@ class Reporte extends Model
                 $join->on('tlsd.id','=','ll.tipo_llamada_sub_detalle_id');
             })
             ->select(
-            'll.fecha_llamada',DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
+            DB::raw('DATE(ll.fecha_llamada) AS fecha_llamada'),DB::raw('TIME(ll.fecha_llamada) AS hora_llamada')
+            ,DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
             DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),
             'tl.tipo_llamada','tls.tipo_llamada_sub','tlsd.tipo_llamada_sub_detalle',
             'll.fechas','ll.comentario'
+            )
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
+                        $query->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
+                    }
+                    if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
+                        $vendedor=explode(',',$r->vendedor);
+                        $query->whereIn('ll.trabajador_id',$vendedor);
+                    }
+                    if( $r->has("fuente") AND trim($r->fuente)!='' ){
+                        $fuente=explode(',',$r->fuente);
+                        $join->whereIn('p.fuente',$fuente);
+                    }
+                    if( $r->has("tipo") AND trim($r->tipo)!='' ){
+                        $tipo=explode(',',$r->tipo);
+                        $join->whereIn('p.tipo',$tipo);
+                    }
+                    if( $r->has("empresa") AND trim($r->empresa)!='' ){
+                        $empresa=explode(',',$r->empresa);
+                        $join->whereIn('p.empresa',$empresa);
+                    }
+                }
             );
 
 
@@ -857,15 +985,22 @@ class Reporte extends Model
     public static function runExportLlamadasDetalle($r)
     {
         $rsql= Reporte::runLoadLlamadasDetalle($r);
-
+        $min=65;
         $length=array(
-            'A'=>18,'B'=>30,'C'=>30,
-            'D'=>16,'E'=>20,'F'=>20,
-            'G'=>16,'H'=>25
+            chr($min)=>12,
         );
 
+        $min++; $length[chr($min)]=12;
+        $min++; $length[chr($min)]=30;
+        $min++; $length[chr($min)]=30;
+        $min++; $length[chr($min)]=16;
+        $min++; $length[chr($min)]=20;
+        $min++; $length[chr($min)]=20;
+        $min++; $length[chr($min)]=16;
+        $min++; $length[chr($min)]=25;
+
         $cabecera2=array(
-            'Fecha Llamada','Teleoperador(a)','Cliente',
+            'Fecha Llamada','Hora Llamada','Teleoperador(a)','Cliente',
             'Tipo Llamada','Sub Tipo Llamada','Detalle Sub Tipo',
             'Fecha Programada','Comentario'
         );
@@ -873,7 +1008,7 @@ class Reporte extends Model
         $r['data']=$rsql;
         $r['cabecera2']=$cabecera2;
         $r['length']=$length;
-        $r['max']='H';
+        $r['max']=chr($min);
         return $r;
     }
 }

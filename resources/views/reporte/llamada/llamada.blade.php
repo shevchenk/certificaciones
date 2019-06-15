@@ -2,12 +2,16 @@
 
 @section('include')
 @parent
+{{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
+{{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
+{{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
 {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
 @include( 'reporte.llamada.js.llamada' )
+@include( 'reporte.llamada.js.llamada_ajax' )
 @stop
 
 @section('content')
@@ -32,18 +36,60 @@
                         <div class="box-body no-padding">
                             <div class="col-sm-12">
                                 <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Inicial</label>
+                                    <label class="control-label">Fecha Inicial - Llamada</label>
                                     <div class="input-group">
                                       <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini" name="txt_fecha_ini" readonly/>
                                     </div>
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Final</label>
+                                    <label class="control-label">Fecha Final - Llamada</label>
                                     <div class="input-group">
                                       <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
                                     </div>
+                                </div>
+                            </div>
+                            <!--div class="col-sm-12">
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Fecha Inicial - Distribuida</label>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_ini_dis" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini_dis" name="txt_fecha_ini_dis" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Fecha Final - Distribuida</label>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_fin_dis" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin_dis" name="txt_fecha_fin_dis" readonly/>
+                                    </div>
+                                </div>
+                            </div-->
+                            <div class="col-sm-12">
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Vendedor</label>
+                                    <select class="form-control selectpicker show-menu-arrow" data-actions-box='true' data-live-search="true" id="slct_vendedor" name="slct_vendedor[]" multiple>
+                                        <option>.::Todo::.</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Fuente</label>
+                                    <select class="form-control selectpicker show-menu-arrow" data-actions-box='true' id="slct_fuente" name="slct_fuente[]" multiple>
+                                        <option>.::Todo::.</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Tipo</label>
+                                    <select class="form-control selectpicker show-menu-arrow" data-actions-box='true' id="slct_tipo" name="slct_tipo[]" multiple>
+                                        <option>.::Todo::.</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Empresa</label>
+                                    <select class="form-control selectpicker show-menu-arrow" data-actions-box='true' id="slct_empresa" name="slct_empresa[]" multiple>
+                                        <option>.::Todo::.</option>
+                                    </select>
                                 </div>
                             </div>
                         </div><!-- .box-body -->
