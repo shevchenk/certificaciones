@@ -951,7 +951,7 @@ class Reporte extends Model
             ,DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
             DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),
             'tl.tipo_llamada','tls.tipo_llamada_sub','tlsd.tipo_llamada_sub_detalle',
-            'll.fechas','ll.comentario'
+            'll.fechas','ll.comentario','p2.fuente','p2.tipo','p2.empresa'
             )
             ->where( 
                 function($query) use ($r){
@@ -998,11 +998,14 @@ class Reporte extends Model
         $min++; $length[chr($min)]=20;
         $min++; $length[chr($min)]=16;
         $min++; $length[chr($min)]=25;
+        $min++; $length[chr($min)]=15;
+        $min++; $length[chr($min)]=15;
+        $min++; $length[chr($min)]=15;
 
         $cabecera2=array(
             'Fecha Llamada','Hora Llamada','Teleoperador(a)','Cliente',
             'Tipo Llamada','Sub Tipo Llamada','Detalle Sub Tipo',
-            'Fecha Programada','Comentario'
+            'Fecha Programada','Comentario','Fuente','Tipo','Carrera'
         );
 
         $r['data']=$rsql;
