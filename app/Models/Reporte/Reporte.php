@@ -964,15 +964,15 @@ class Reporte extends Model
                     }
                     if( $r->has("fuente") AND trim($r->fuente)!='' ){
                         $fuente=explode(',',$r->fuente);
-                        $join->whereIn('p.fuente',$fuente);
+                        $query->whereIn('p.fuente',$fuente);
                     }
                     if( $r->has("tipo") AND trim($r->tipo)!='' ){
                         $tipo=explode(',',$r->tipo);
-                        $join->whereIn('p.tipo',$tipo);
+                        $query->whereIn('p.tipo',$tipo);
                     }
                     if( $r->has("empresa") AND trim($r->empresa)!='' ){
                         $empresa=explode(',',$r->empresa);
-                        $join->whereIn('p.empresa',$empresa);
+                        $query->whereIn('p.empresa',$empresa);
                     }
                 }
             );
