@@ -1005,7 +1005,7 @@ class Reporte extends Model
         $cabecera2=array(
             'Fecha Llamada','Hora Llamada','Teleoperador(a)','Cliente',
             'Tipo Llamada','Sub Tipo Llamada','Detalle Sub Tipo',
-            'Fecha Programada','Comentario','Fuente','Tipo','Carrera'
+            'Fecha Programada','Comentario','Fuente','Tipo','Empresa'
         );
 
         $r['data']=$rsql;
