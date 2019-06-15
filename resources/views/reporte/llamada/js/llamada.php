@@ -64,7 +64,7 @@ SlctListarVendedor=function(result){
 SlctListarFuente=function(result){
     var html="";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.fuente+">"+r.fuente+"</option>";
+        html+="<option value='"+r.fuente+"'>"+r.fuente+"</option>";
     });
     $("#slct_fuente").html(html); 
     $("#slct_fuente").selectpicker('refresh');
@@ -73,7 +73,7 @@ SlctListarFuente=function(result){
 SlctListarTipo=function(result){
     var html="";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.tipo+">"+r.tipo+"</option>";
+        html+="<option value='"+r.tipo+"'>"+r.tipo+"</option>";
     });
     $("#slct_tipo").html(html); 
     $("#slct_tipo").selectpicker('refresh');
@@ -82,7 +82,7 @@ SlctListarTipo=function(result){
 SlctListarEmpresa=function(result){
     var html="";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.empresa+">"+r.empresa+"</option>";
+        html+="<option value='"+r.empresa+"'>"+r.empresa+"</option>";
     });
     $("#slct_empresa").html(html); 
     $("#slct_empresa").selectpicker('refresh');
