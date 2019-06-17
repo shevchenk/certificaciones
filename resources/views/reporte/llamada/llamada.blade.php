@@ -49,15 +49,15 @@
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
                                     </div>
                                 </div>
+                                <div class="col-sm-2 text-center">
+                                    <label class="control-label">Registro de Llamadas</label>
+                                    <select class="form-control selectpicker show-menu-arrow" id="slct_ultimo_registro" name="slct_ultimo_registro">
+                                        <option value="0" selected>.::Todas las Llamadas::.</option>
+                                        <option value="1">.::Último Registro::.</option>
+                                    </select>
+                                </div>
                             </div>
                             <!--div class="col-sm-12">
-                                <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Inicial - Distribuida</label>
-                                    <div class="input-group">
-                                      <span id="spn_fecha_ini_dis" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini_dis" name="txt_fecha_ini_dis" readonly/>
-                                    </div>
-                                </div>
                                 <div class="col-sm-2 text-center">
                                     <label class="control-label">Fecha Final - Distribuida</label>
                                     <div class="input-group">

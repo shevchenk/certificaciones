@@ -550,6 +550,9 @@ class Reporte extends Model
                     $vendedor=explode(',',$r->vendedor);
                     $join->whereIn('ll.trabajador_id',$vendedor);
                 }
+                if( $r->has("ultimo_registro") AND trim($r->ultimo_registro)=='1' ){
+                    $join->where('ll.ultimo_registro','1');
+                }
             })
             ->select('tl.tipo_llamada', DB::raw('COUNT(ll.id) AS total'))
             ->where('tl.estado',1)
@@ -645,6 +648,9 @@ class Reporte extends Model
                 if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
                     $vendedor=explode(',',$r->vendedor);
                     $join->whereIn('ll.trabajador_id',$vendedor);
+                }
+                if( $r->has("ultimo_registro") AND trim($r->ultimo_registro)=='1' ){
+                    $join->where('ll.ultimo_registro','1');
                 }
             })
             ->select('tl.tipo_llamada_sub', DB::raw('COUNT(ll.id) AS total'))
@@ -749,6 +755,9 @@ class Reporte extends Model
                     $vendedor=explode(',',$r->vendedor);
                     $join->whereIn('ll.trabajador_id',$vendedor);
                 }
+                if( $r->has("ultimo_registro") AND trim($r->ultimo_registro)=='1' ){
+                    $join->where('ll.ultimo_registro','1');
+                }
             })
             ->select('tls.tipo_llamada_sub','tl.tipo_llamada_sub_detalle', DB::raw('COUNT(ll.id) AS total'))
             ->where('tl.estado',1)
@@ -844,6 +853,9 @@ class Reporte extends Model
                     if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
                         $vendedor=explode(',',$r->vendedor);
                         $query->whereIn('ll.trabajador_id',$vendedor);
+                    }
+                    if( $r->has("ultimo_registro") AND trim($r->ultimo_registro)=='1' ){
+                        $query->where('ll.ultimo_registro','1');
                     }
                 }
             )
@@ -973,6 +985,9 @@ class Reporte extends Model
                     if( $r->has("empresa") AND trim($r->empresa)!='' ){
                         $empresa=explode(',',$r->empresa);
                         $query->whereIn('p.empresa',$empresa);
+                    }
+                    if( $r->has("ultimo_registro") AND trim($r->ultimo_registro)=='1' ){
+                        $query->where('ll.ultimo_registro','1');
                     }
                 }
             );
