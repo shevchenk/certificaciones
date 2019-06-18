@@ -138,6 +138,7 @@ class Alumno extends Model
             DB::raw('DATE(mp.fecha_inicio) as fecha'),
             DB::raw('CONCAT(TIME(mp.fecha_inicio)," a ",TIME(mp.fecha_final)) as horario')
             )
+            ->where('mm.estado','1')
             ->where( 
                 function($query) use ($r){
                         $matricula_detalle_id=$r->id;
@@ -180,6 +181,7 @@ class Alumno extends Model
             DB::raw('CONCAT(TIME(mp.fecha_inicio)," a ",TIME(mp.fecha_final)) as horario'),
             DB::raw('s.sucursal as sucursal')
             )
+            ->where('mm.estado','1')
             ->where( 
                 function($query) use ($r){
                         $persona_id=$r->persona_id;
