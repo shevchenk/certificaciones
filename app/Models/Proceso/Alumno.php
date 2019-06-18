@@ -101,6 +101,7 @@ class Alumno extends Model
             DB::raw('CONCAT(TIME(mp.fecha_inicio)," a ",TIME(mp.fecha_final)) as horario'),
             DB::raw('s.sucursal as sucursal')
             )
+            ->where('mm.estado','1')
             ->where( 
                 function($query) use ($r){
                         $persona_id=Auth::user()->id;
