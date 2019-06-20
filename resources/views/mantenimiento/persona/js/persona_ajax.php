@@ -45,7 +45,7 @@ var AjaxPersona={
     ActualizarPersona:function(evento){
         var data=$("#ModalPersonaForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ModalPersonaForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.PersonaEM@EditLibre';
+        url='AjaxDinamic/Mantenimiento.PersonaEM@EditLibreG';
         masterG.postAjax(url,data,evento);
     },
 };
