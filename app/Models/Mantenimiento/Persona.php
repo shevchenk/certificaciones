@@ -307,7 +307,7 @@ class Persona extends Model
             })
             ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
-            'p.celular','p.password','p.estado','p.empresa','p.fuente','tl.tipo_llamada',
+            'p.celular','p.password','p.estado','p.empresa','p.fuente','p.tipo','tl.tipo_llamada','p.fecha_registro',
             DB::raw(' (SELECT count(id) FROM mat_matriculas AS m WHERE m.persona_id=p.id AND m.estado=1) AS matricula,
             CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor'))
             ->where('p.id','!=',1)
@@ -389,6 +389,30 @@ class Persona extends Model
                         $vendedor=trim($r->vendedor);
                         if( $vendedor !='' ){
                             $query->whereRaw('CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) LIKE "%'.$vendedor.'%"');
+                        }
+                    }
+                    if( $r->has("fuente") ){
+                        $fuente=trim($r->fuente);
+                        if( $fuente !='' ){
+                            $query->where('p.fuente','like','%'.$fuente.'%');
+                        }
+                    }
+                    if( $r->has("tipo") ){
+                        $tipo=trim($r->tipo);
+                        if( $tipo !='' ){
+                            $query->where('p.tipo','like','%'.$tipo.'%');
+                        }
+                    }
+                    if( $r->has("empresa") ){
+                        $empresa=trim($r->empresa);
+                        if( $empresa !='' ){
+                            $query->where('p.empresa','like','%'.$empresa.'%');
+                        }
+                    }
+                    if( $r->has("fecha_registro") ){
+                        $fecha_registro=trim($r->fecha_registro);
+                        if( $fecha_registro !='' ){
+                            $query->where('p.fecha_registro','like','%'.$fecha_registro.'%');
                         }
                     }
                 }

@@ -39,40 +39,64 @@
                             <thead>
                                 <tr class="cabecera">
                                     <th>
+                                        <label><h4>Fecha Registro</h4></label>
+                                        <input type="text" class="form-control" name="txt_fecha_registro" id="txt_fecha_registro" placeholder="Fecha Registro" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                    </th>
+                                    <th>
                                         <label><h4>Fecha Distribuida</h4></label>
-                                        <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Buscar Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                        <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Fuente</h4></label>
+                                        <input type="text" class="form-control" name="txt_fuente" id="txt_fuente" placeholder="Fuente" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Tipo</h4></label>
+                                        <input type="text" class="form-control" name="txt_tipo" id="txt_tipo" placeholder="Tipo" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Empresa</h4></label>
+                                        <input type="text" class="form-control" name="txt_empresa" id="txt_empresa" placeholder="Empresa" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Fecha Distribuida</h4></label>
+                                        <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Vendedor</h4></label>
+                                        <input type="text" class="form-control" name="txt_vendedor" id="txt_vendedor" placeholder="Vendedor" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
                                     </th>
                                     <th>
                                         <label><h4>Ultimo Estado</h4></label>
-                                        <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Buscar Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                        <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
                                         <label><h4>Ape. Paterno</h4></label>
-                                        <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Buscar Paterno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                        <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Paterno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
                                         <label><h4>Ape. Materno</h4></label>
-                                        <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Buscar Materno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                        <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Materno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
                                         <label><h4>Nombres</h4></label>
-                                        <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Buscar Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);" style="width: 130px;">
+                                        <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);" style="width: 130px;">
                                     </th>
                                     <th>
                                         <label><h4>Carrera</h4></label>
-                                        <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Buscar Carrera" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                        <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Carrera" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
                                     <th>
                                         <label><h4>Email</h4></label>
-                                        <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Buscar Email" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
+                                        <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Email" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
                                     <th>
                                         <label><h4>Teléfono</h4></label>
-                                        <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Buscar Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                        <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
                                     </th>
                                     <th>
                                         <label><h4>Celular</h4></label>
-                                        <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Buscar Celular" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                        <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Celular" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
                                     </th>
 
                                 <!--

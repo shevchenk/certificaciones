@@ -1029,4 +1029,97 @@ class Reporte extends Model
         $r['max']=chr($min);
         return $r;
     }
+
+    public static function runLoadClientePotencial($r)
+    {
+        $sql=DB::table('llamadas AS ll')
+            ->Join('tipo_llamadas AS tl', function($join){
+                $join->on('tl.id','=','ll.tipo_llamada_id');
+            })
+            ->Join('mat_trabajadores AS tr', function($join){
+                $join->on('tr.id','=','ll.trabajador_id');
+            })
+            ->Join('personas AS p', function($join){
+                $join->on('p.id','=','tr.persona_id');
+            })
+            ->Join('personas AS p2', function($join){
+                $join->on('p2.id','=','ll.persona_id');
+            })
+            ->leftJoin('tipo_llamadas_sub AS tls', function($join){
+                $join->on('tls.id','=','ll.tipo_llamada_sub_id');
+            })
+            ->leftJoin('tipo_llamadas_sub_detalle AS tlsd', function($join){
+                $join->on('tlsd.id','=','ll.tipo_llamada_sub_detalle_id');
+            })
+            ->select(
+            DB::raw('DATE(ll.fecha_llamada) AS fecha_llamada'),DB::raw('TIME(ll.fecha_llamada) AS hora_llamada')
+            ,DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
+            DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),
+            'tl.tipo_llamada','tls.tipo_llamada_sub','tlsd.tipo_llamada_sub_detalle',
+            'll.fechas','ll.comentario','p2.fuente','p2.tipo','p2.empresa'
+            )
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
+                        $query->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
+                    }
+                    if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
+                        $vendedor=explode(',',$r->vendedor);
+                        $query->whereIn('ll.trabajador_id',$vendedor);
+                    }
+                    if( $r->has("fuente") AND trim($r->fuente)!='' ){
+                        $fuente=explode(',',$r->fuente);
+                        $query->whereIn('p.fuente',$fuente);
+                    }
+                    if( $r->has("tipo") AND trim($r->tipo)!='' ){
+                        $tipo=explode(',',$r->tipo);
+                        $query->whereIn('p.tipo',$tipo);
+                    }
+                    if( $r->has("empresa") AND trim($r->empresa)!='' ){
+                        $empresa=explode(',',$r->empresa);
+                        $query->whereIn('p.empresa',$empresa);
+                    }
+                    if( $r->has("ultimo_registro") AND trim($r->ultimo_registro)=='1' ){
+                        $query->where('ll.ultimo_registro','1');
+                    }
+                }
+            );
+
+
+        $result = $sql->orderBy('ll.fecha_llamada','desc')->get();
+        return $result;
+    }
+
+    public static function runExportClientePotencial($r)
+    {
+        $rsql= Reporte::runLoadClientePotencial($r);
+        $min=65;
+        $length=array(
+            chr($min)=>12,
+        );
+
+        $min++; $length[chr($min)]=12;
+        $min++; $length[chr($min)]=30;
+        $min++; $length[chr($min)]=30;
+        $min++; $length[chr($min)]=16;
+        $min++; $length[chr($min)]=20;
+        $min++; $length[chr($min)]=20;
+        $min++; $length[chr($min)]=16;
+        $min++; $length[chr($min)]=25;
+        $min++; $length[chr($min)]=15;
+        $min++; $length[chr($min)]=15;
+        $min++; $length[chr($min)]=15;
+
+        $cabecera2=array(
+            'Fecha Llamada','Hora Llamada','Teleoperador(a)','Cliente',
+            'Tipo Llamada','Sub Tipo Llamada','Detalle Sub Tipo',
+            'Fecha Programada','Comentario','Fuente','Tipo','Empresa'
+        );
+
+        $r['data']=$rsql;
+        $r['cabecera2']=$cabecera2;
+        $r['length']=$length;
+        $r['max']=chr($min);
+        return $r;
+    }
 }
