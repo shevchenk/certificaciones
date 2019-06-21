@@ -59,16 +59,12 @@
                                         <input type="text" class="form-control" name="txt_empresa" id="txt_empresa" placeholder="Empresa" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
                                     </th>
                                     <th>
-                                        <label><h4>Fecha Distribuida</h4></label>
-                                        <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                        <label><h4>Ultimo Estado</h4></label>
+                                        <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
                                         <label><h4>Vendedor</h4></label>
                                         <input type="text" class="form-control" name="txt_vendedor" id="txt_vendedor" placeholder="Vendedor" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
-                                    </th>
-                                    <th>
-                                        <label><h4>Ultimo Estado</h4></label>
-                                        <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
                                         <label><h4>Ape. Paterno</h4></label>
@@ -127,9 +123,9 @@
                                   <th>Empresa</th>
                                   <th>Último Estado</th>
                                   <th>Vendedor</th>
-                                  <th>Nombres</th>
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
+                                  <th>Nombres</th>
                                   <th>Carrera</th>
                                   <th>Email</th>
                                   <th>Telefono</th>
