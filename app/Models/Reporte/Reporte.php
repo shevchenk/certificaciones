@@ -1032,61 +1032,93 @@ class Reporte extends Model
 
     public static function runLoadClientePotencial($r)
     {
-        $sql=DB::table('llamadas AS ll')
-            ->Join('tipo_llamadas AS tl', function($join){
-                $join->on('tl.id','=','ll.tipo_llamada_id');
-            })
-            ->Join('mat_trabajadores AS tr', function($join){
-                $join->on('tr.id','=','ll.trabajador_id');
-            })
-            ->Join('personas AS p', function($join){
-                $join->on('p.id','=','tr.persona_id');
-            })
-            ->Join('personas AS p2', function($join){
-                $join->on('p2.id','=','ll.persona_id');
-            })
-            ->leftJoin('tipo_llamadas_sub AS tls', function($join){
-                $join->on('tls.id','=','ll.tipo_llamada_sub_id');
-            })
-            ->leftJoin('tipo_llamadas_sub_detalle AS tlsd', function($join){
-                $join->on('tlsd.id','=','ll.tipo_llamada_sub_detalle_id');
-            })
-            ->select(
-            DB::raw('DATE(ll.fecha_llamada) AS fecha_llamada'),DB::raw('TIME(ll.fecha_llamada) AS hora_llamada')
-            ,DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
-            DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),
-            'tl.tipo_llamada','tls.tipo_llamada_sub','tlsd.tipo_llamada_sub_detalle',
-            'll.fechas','ll.comentario','p2.fuente','p2.tipo','p2.empresa'
-            )
-            ->where( 
-                function($query) use ($r){
-                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
-                        $query->whereBetween(DB::raw('DATE(ll.fecha_llamada)'), array($r->fecha_ini,$r->fecha_fin));
-                    }
-                    if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
-                        $vendedor=explode(',',$r->vendedor);
-                        $query->whereIn('ll.trabajador_id',$vendedor);
-                    }
-                    if( $r->has("fuente") AND trim($r->fuente)!='' ){
-                        $fuente=explode(',',$r->fuente);
-                        $query->whereIn('p.fuente',$fuente);
-                    }
-                    if( $r->has("tipo") AND trim($r->tipo)!='' ){
-                        $tipo=explode(',',$r->tipo);
-                        $query->whereIn('p.tipo',$tipo);
-                    }
-                    if( $r->has("empresa") AND trim($r->empresa)!='' ){
-                        $empresa=explode(',',$r->empresa);
-                        $query->whereIn('p.empresa',$empresa);
-                    }
-                    if( $r->has("ultimo_registro") AND trim($r->ultimo_registro)=='1' ){
-                        $query->where('ll.ultimo_registro','1');
-                    }
-                }
-            );
+        $sql=DB::table('tipo_llamadas')->where('estado','1')->get();
+        $whereaux="";$ultimoRegistro="";
+        if( $r->has("vendedor") AND trim($r->vendedor)!='' ){
+            $vendedor= str_replace(',', "','", $r->vendedor);
+            $whereaux.='
+            AND t.id IN (\''.$vendedor.'\')';
+        }
+        if( $r->has("fuente") AND trim($r->fuente)!='' ){
+            $fuente= str_replace(',', "','", $r->fuente);
+            $whereaux.='
+            AND p2.fuente IN (\''.$fuente.'\')';
+        }
+        if( $r->has("tipo") AND trim($r->tipo)!='' ){
+            $tipo= str_replace(',', "','", $r->tipo);
+            $whereaux.='
+            AND p2.tipo IN (\''.$tipo.'\')';
+        }
+        if( $r->has("empresa") AND trim($r->empresa)!='' ){
+            $empresa= str_replace(',', "','", $r->empresa);
+            $whereaux.='
+            AND p2.empresa IN (\''.$empresa.'\')';
+        }
+        if( $r->has("ultimo_registro") AND trim($r->ultimo_registro)=='1' ){
+            $ultimoRegistro=" AND ll.ultimo_registro=1 ";
+        }
 
+        $selectaux1="";$selectaux2="";$fromaux="";$tipo_llamada=array();
+        $contador=0;
+        foreach ($sql as $key => $value) {
+            $contador++;
+            $selectaux1.="
+            , count( DISTINCT( if(ll.tipo_llamada_id=".$contador.",ll.id,NULL) ) ) AS tp".$contador;
+            array_push($tipo_llamada, $value->tipo_llamada);
+        }
 
-        $result = $sql->orderBy('ll.fecha_llamada','desc')->get();
+        $fechaaux=$r->fecha_ini;
+        $cont=0;
+        while($fechaaux<=$r->fecha_fin){
+            $cont++;
+            $selectaux2.="
+            , count(DISTINCT(ll".$cont.".persona_id)) data_llamada".$cont."
+            , (IF(count(DISTINCT(IF(pd.fecha_distribucion='".$fechaaux."',pd.persona_id,NULL)))<=count(DISTINCT(ll".$cont.".persona_id)), count(DISTINCT(ll".$cont.".persona_id)), count(DISTINCT(IF(pd.fecha_distribucion='".$fechaaux."',pd.persona_id,NULL)))) - count(DISTINCT(ll".$cont.".persona_id))) falta_llamada".$cont;
+            $fromaux.="
+            LEFT JOIN llamadas ll".$cont." ON ll".$cont.".id=ll.id AND DATE(ll".$cont.".fecha_llamada)='".$fechaaux."'";
+            $contador=0;
+            foreach ($sql as $key => $value) {
+                $contador++;
+                $selectaux2.="
+                , count( DISTINCT( if(ll".$cont.".tipo_llamada_id=".$contador.",ll".$cont.".id,NULL) ) ) AS ".$cont."tp".$contador;
+            }
+            $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        $select="
+        SELECT @numero:=@numero+1 nro,CONCAT(p.paterno,' ', p.materno,', ', p.nombre) trabajador, t.codigo, p2.empresa
+        , IFNULL(count(DISTINCT(m.id))/count(DISTINCT(ta.id)),0) pro_dia, count(DISTINCT(ta.id)) total_dias 
+        , IFNULL(count(DISTINCT(m.id))/count(DISTINCT(pd.id)),0) pro_data, count(DISTINCT(pd.persona_id)) total_data
+        , count(DISTINCT(m.id)) total_insc
+        , count(DISTINCT(ll.persona_id)) data_llamada, (IF(count(DISTINCT(pd.persona_id))<=count(DISTINCT(ll.persona_id)), count(DISTINCT(ll.persona_id)), count(DISTINCT(pd.persona_id))) - count(DISTINCT(ll.persona_id))) falta_llamada 
+        ";
+        $select.=$selectaux1.$selectaux2;
+
+        $from="
+        FROM mat_trabajadores t 
+        INNER JOIN personas p ON p.id=t.persona_id
+        INNER JOIN llamadas ll ON ll.trabajador_id=t.id ".$ultimoRegistro."
+        INNER JOIN personas p2 ON p2.id=ll.persona_id
+        INNER JOIN personas_distribuciones pd ON pd.trabajador_id=t.id AND pd.persona_id=ll.persona_id AND pd.fecha_distribucion BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."'
+        LEFT JOIN mat_trabajadores_asistencias ta ON ta.trabajador_id=t.id AND ta.fecha_asistencia BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."'
+        LEFT JOIN mat_matriculas m ON m.persona_marketing_id=t.id AND m.fecha_matricula BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."'
+        ";
+        $from.=$fromaux;
+
+        $where="
+        WHERE t.rol_id=1
+        AND DATE(ll.fecha_llamada) BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."'
+        ";
+        $where.=$whereaux;
+
+        $group="
+        GROUP BY t.id,p2.empresa";
+        //dd($select.$from.$where.$group);
+        DB::statement(DB::raw('SET @numero=0'));
+        $result['data']=DB::select($select.$from.$where.$group);
+        $result['cont']=$cont;
+        $result['contador']=$contador;
+        $result['tipo_llamada']=$tipo_llamada;
         return $result;
     }
 
@@ -1094,32 +1126,98 @@ class Reporte extends Model
     {
         $rsql= Reporte::runLoadClientePotencial($r);
         $min=65;
+        $max=90;
+        $estatico='';
+        $minestatico=64;
+        
         $length=array(
-            chr($min)=>12,
+            chr($min)=>3,
         );
 
-        $min++; $length[chr($min)]=12;
-        $min++; $length[chr($min)]=30;
-        $min++; $length[chr($min)]=30;
-        $min++; $length[chr($min)]=16;
-        $min++; $length[chr($min)]=20;
-        $min++; $length[chr($min)]=20;
-        $min++; $length[chr($min)]=16;
-        $min++; $length[chr($min)]=25;
-        $min++; $length[chr($min)]=15;
-        $min++; $length[chr($min)]=15;
-        $min++; $length[chr($min)]=15;
+        $min++; $length[chr($min)]=35;
+        $min++; $length[chr($min)]=11;
+        $min++; $length[chr($min)]=11;
+        $min++; $length[chr($min)]=14;
+        $min++; $length[chr($min)]=11;
+        $min++; $length[chr($min)]=14;
+        $min++; $length[chr($min)]=11;
+        $min++; $length[chr($min)]=11;
 
         $cabecera2=array(
-            'Fecha Llamada','Hora Llamada','Teleoperador(a)','Cliente',
-            'Tipo Llamada','Sub Tipo Llamada','Detalle Sub Tipo',
-            'Fecha Programada','Comentario','Fuente','Tipo','Empresa'
+            'N°','Nombre','Código','Empresa'
+            ,'Promedio','Dias Trab.','Promedio', 'Total Data'
+            ,'Total Inscritos'
         );
 
-        $r['data']=$rsql;
-        $r['cabecera2']=$cabecera2;
+        $cabecera1=array(
+            'Promedio por Días','Promedio por Data','Consolidado'
+        );
+
+        $inicantLetra=64+10;
+        $fincantLetra=64;
+        $cabecantLetra=array( 'E3:F3' ,'G3:H3',chr($inicantLetra).'3:'.chr($inicantLetra+1+$rsql['contador']).'3');
+        array_push($cabecera2, 'Data Llamda');
+        array_push($cabecera2, 'Falta Llamar');
+        $min++; $length[$estatico.chr($min)]=4.5;
+        $min++; $length[$estatico.chr($min)]=4.5;
+        for( $i=1; $i<=$rsql['contador']; $i++ ){
+            $min++; $length[chr($min)]=4.5;
+            array_push($cabecera2, $rsql['tipo_llamada'][($i-1)]);
+        }
+
+        $fechaaux=$r->fecha_ini;
+        $estatico='';$estaticofin='';
+        $iniestatico=64;$finestatico=64;
+        $max=90;
+        while($fechaaux<=$r->fecha_fin){
+            if( $inicantLetra+1+$rsql['contador']+1>90 ){
+                $inicantLetra=$inicantLetra+1+$rsql['contador']+1-90+64;
+                $iniestatico++;
+                $estatico=chr($iniestatico);
+                if($iniestatico>$finestatico){
+                    $finestatico++;
+                    $estaticofin=chr($finestatico);
+                }
+            }
+            else{
+                $inicantLetra=$inicantLetra+1+$rsql['contador']+1;
+            }
+
+            if( $inicantLetra+1+$rsql['contador']>90 ){
+                $fincantLetra=$inicantLetra+1+$rsql['contador']-90+64;
+                $finestatico++;
+                $estaticofin=chr($finestatico);
+            }
+            else{
+                $fincantLetra=$inicantLetra+1+$rsql['contador'];
+            }
+
+            array_push($cabecantLetra, $estatico.chr($inicantLetra).'3:'.$estaticofin.chr($fincantLetra).'3');
+            array_push($cabecera1, $fechaaux);
+            array_push($cabecera2, 'Data Llamda');
+            array_push($cabecera2, 'Falta Llamar');
+            $min++; $length[$estatico.chr($min)]=4.5;
+            $min++; $length[$estatico.chr($min)]=4.5;
+            for( $j=1; $j<=$rsql['contador']; $j++ ){
+                $min++; $length[$estatico.chr($min)]=4.5;
+                if($min==$max){
+                    $min=64;
+                    $minestatico++;
+                    $estatico=chr($minestatico);
+                }
+                array_push($cabecera2, $rsql['tipo_llamada'][($j-1)]);
+            }
+            $fechaaux=date("Y-m-d",strtotime($fechaaux."+ 1 days"));
+        }
+
+        $r['data']=$rsql['data'];
+        $r['cabecera1']=$cabecera1;
+        $r['cabecantLetra']=$cabecantLetra;
+        $r['cabecera2']=$cabecera2; 
         $r['length']=$length;
-        $r['max']=chr($min);
+        $r['max']=$estatico.chr($min);
+
+        //dd($cabecantLetra);
         return $r;
     }
 }

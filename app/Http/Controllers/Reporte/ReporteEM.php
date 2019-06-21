@@ -1243,9 +1243,22 @@ class ReporteEM extends Controller
                 $cells->setValignment('center');
             });
 
+            for ($i=0; $i < count($renturnModel['cabecera1']); $i++) { 
+                $campoinicial= explode(":",$renturnModel['cabecantLetra'][$i]);
+                $sheet->cell($campoinicial[0], function($cell) use($renturnModel,$i) {
+                    $cell->setValue($renturnModel['cabecera1'][$i]);
+                });
+                $sheet->mergeCells($renturnModel['cabecantLetra'][$i]);
+                $sheet->cells($renturnModel['cabecantLetra'][$i], function($cells) {
+                    $cells->setBorder('solid', 'none', 'none', 'solid');
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                });
+            }
+
             $sheet->setWidth($renturnModel['length']);
             $sheet->setHeight(2, 54.5);
-            $sheet->setHeight(4, 68.5);
+            $sheet->setHeight(4, 83.5);
             $sheet->row( 4, $renturnModel['cabecera2'] );
             $sheet->cells('J4:'.$renturnModel['max'].'4', function($cells) {
                 $cells->setAlignment('center');
@@ -1271,8 +1284,8 @@ class ReporteEM extends Controller
             });
 
             $count = $sheet->getHighestRow();
-            $sheet->cell('A'.$count,'Total General');
-            $sheet->cells('A'.$count.':'.$renturnModel['max'].$count, function($cells) {
+            $sheet->cell('A'.($count+1),'Total General');
+            $sheet->cells('A'.($count+1).':'.$renturnModel['max'].$count, function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
                 $cells->setValignment('center');
@@ -1296,7 +1309,8 @@ class ReporteEM extends Controller
                 $cells->setBackground('#DCE6F1');
             });*/
 
-            $sheet->getStyle('A2:'.$renturnModel['max'].'2')->getAlignment()->setWrapText(true);
+            $sheet->getStyle('A2:'.$renturnModel['max'].'4')->getAlignment()->setWrapText(true);
+            //$sheet->getStyle('A3:'.$renturnModel['max'].'4')->getAlignment()->setWrapText(true);            
             $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
         });
         
