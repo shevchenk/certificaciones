@@ -120,8 +120,13 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
+                                  <th>Fecha Registro</th>
                                   <th>Fecha Distribuida</th>
+                                  <th>Fuente</th>
+                                  <th>Tipo</th>
+                                  <th>Empresa</th>
                                   <th>Último Estado</th>
+                                  <th>Vendedor</th>
                                   <th>Nombres</th>
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
