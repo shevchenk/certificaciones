@@ -420,6 +420,115 @@ class Persona extends Model
         $result = $sql->orderBy('p.paterno','asc')->paginate(10);
         return $result;
     }
+
+    public static function runLoadDistribuidaTotal($r)
+    {
+        $sql=DB::table('personas AS p')
+            ->leftJoin('llamadas AS ll', function($join){
+                $join->on('ll.persona_id','=','p.id')
+                ->where('ll.estado',1)
+                ->where('ll.ultimo_registro',1);
+            })
+            ->leftJoin('tipo_llamadas AS tl', function($join){
+                $join->on('tl.id','=','ll.tipo_llamada_id');
+            })
+            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni',
+            'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
+            'p.celular','p.password','p.estado','p.empresa','p.fuente','p.tipo','tl.tipo_llamada','p.fecha_registro',
+            DB::raw(' (SELECT count(id) FROM mat_matriculas AS m WHERE m.persona_id=p.id AND m.estado=1) AS matricula ')
+            )
+            ->where('p.id','!=',1)
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("paterno") ){
+                        $paterno=trim($r->paterno);
+                        if( $paterno !='' ){
+                            $query->where('p.paterno','like','%'.$paterno.'%');
+                        }
+                    }
+                    if( $r->has("materno") ){
+                        $materno=trim($r->materno);
+                        if( $materno !='' ){
+                            $query->where('p.materno','like','%'.$materno.'%');
+                        }
+                    }
+                    if( $r->has("nombre") ){
+                        $nombre=trim($r->nombre);
+                        if( $nombre !='' ){
+                            $query->where('p.nombre','like','%'.$nombre.'%');
+                        }
+                    }
+                    if( $r->has("dni") ){
+                        $dni=trim($r->dni);
+                        if( $dni !='' ){
+                            $query->where('p.dni','like','%'.$dni.'%');
+                        }
+                    }
+                    if( $r->has("email") ){
+                        $email=trim($r->email);
+                        if( $email !='' ){
+                            $query->where('p.email','like','%'.$email.'%');
+                        }
+                    }
+                    if( $r->has("estado") ){
+                        $estado=trim($r->estado);
+                        if( $estado !='' ){
+                            $query->where('p.estado','=',$estado);
+                        }
+                    }
+                    if( $r->has("telefono") ){
+                        $telefono=trim($r->telefono);
+                        if( $telefono !='' ){
+                            $query->where('p.telefono','like','%'.$telefono.'%');
+                        }
+                    }
+                    if( $r->has("celular") ){
+                        $celular=trim($r->celular);
+                        if( $celular !='' ){
+                            $query->where('p.celular','like','%'.$celular.'%');
+                        }
+                    }
+                    if( $r->has("carrera") ){
+                        $carrera=trim($r->carrera);
+                        if( $carrera !='' ){
+                            $query->where('p.carrera','like','%'.$carrera.'%');
+                        }
+                    }
+                    if( $r->has("tipo_llamada") ){
+                        $tipo_llamada=trim($r->tipo_llamada);
+                        if( $tipo_llamada !='' ){
+                            $query->where('tl.tipo_llamada','like','%'.$tipo_llamada.'%');
+                        }
+                    }
+                    if( $r->has("fuente") ){
+                        $fuente=trim($r->fuente);
+                        if( $fuente !='' ){
+                            $query->where('p.fuente','like','%'.$fuente.'%');
+                        }
+                    }
+                    if( $r->has("tipo") ){
+                        $tipo=trim($r->tipo);
+                        if( $tipo !='' ){
+                            $query->where('p.tipo','like','%'.$tipo.'%');
+                        }
+                    }
+                    if( $r->has("empresa") ){
+                        $empresa=trim($r->empresa);
+                        if( $empresa !='' ){
+                            $query->where('p.empresa','like','%'.$empresa.'%');
+                        }
+                    }
+                    if( $r->has("fecha_registro") ){
+                        $fecha_registro=trim($r->fecha_registro);
+                        if( $fecha_registro !='' ){
+                            $query->where('p.fecha_registro','like','%'.$fecha_registro.'%');
+                        }
+                    }
+                }
+            );
+        $result = $sql->orderBy('p.paterno','asc')->paginate(10);
+        return $result;
+    }
     
      public static function getAreas($personaId) {
         //subconsulta

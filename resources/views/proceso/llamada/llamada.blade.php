@@ -39,12 +39,16 @@
                             <thead>
                                 <tr class="cabecera">
                                     <th>
-                                        <label><h4>Fecha Distribuida</h4></label>
-                                        <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                        <label><h4>Fuente</h4></label>
+                                        <input type="text" class="form-control" name="txt_fuente" id="txt_fuente" placeholder="Fuente" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
-                                        <label><h4>Vendedor</h4></label>
-                                        <input type="text" class="form-control" name="txt_vendedor" id="txt_vendedor" placeholder="Vendedor" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                        <label><h4>Tipo</h4></label>
+                                        <input type="text" class="form-control" name="txt_tipo" id="txt_tipo" placeholder="Tipo" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Empresa</h4></label>
+                                        <input type="text" class="form-control" name="txt_empresa" id="txt_empresa" placeholder="Empresa" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
                                         <label><h4>Ultimo Estado</h4></label>
@@ -100,12 +104,13 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Fecha Distribuida</th>
-                                  <th>Vendedor</th>
+                                  <th>Fuente</th>
+                                  <th>Tipo</th>
+                                  <th>Empresa</th>
                                   <th>Último Estado</th>
-                                  <th>Nombres</th>
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
+                                  <th>Nombres</th>
                                   <th>Carrera</th>
                                   <th>Email</th>
                                   <th>Telefono</th>

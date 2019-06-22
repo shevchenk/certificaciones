@@ -199,7 +199,7 @@ class PersonaEM extends Controller
     {
         if ( $r->ajax() ) {
             $r['estado']=1;
-            $renturnModel = Persona::runLoadDistribuida($r);
+            $renturnModel = Persona::runLoadDistribuidaTotal($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
