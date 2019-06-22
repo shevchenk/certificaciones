@@ -39,6 +39,14 @@
                             <thead>
                                 <tr class="cabecera">
                                     <th>
+                                        <label><h4>Fecha Registro</h4></label>
+                                        <input type="text" class="form-control" name="txt_fecha_registro" id="txt_fecha_registro" placeholder="Fecha Registro" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Fecha Distribución</h4></label>
+                                        <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Fecha Distribución" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                    </th>
+                                    <th>
                                         <label><h4>Fuente</h4></label>
                                         <input type="text" class="form-control" name="txt_fuente" id="txt_fuente" placeholder="Fuente" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
@@ -53,6 +61,10 @@
                                     <th>
                                         <label><h4>Ultimo Estado</h4></label>
                                         <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Vendedor</h4></label>
+                                        <input type="text" class="form-control" name="txt_vendedor" id="txt_vendedor" placeholder="Vendedor" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
                                         <label><h4>Ape. Paterno</h4></label>
@@ -104,10 +116,13 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
+                                  <th>Fecha Registro</th>
+                                  <th>Fecha Distribución</th>
                                   <th>Fuente</th>
                                   <th>Tipo</th>
                                   <th>Empresa</th>
                                   <th>Último Estado</th>
+                                  <th>Vendedor</th>
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
                                   <th>Nombres</th>
