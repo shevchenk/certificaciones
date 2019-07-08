@@ -87,7 +87,7 @@ class Persona extends Authenticatable
                         ->where('c.estado',1);
                 })
                 ->where($tabla.'.persona_id',$persona)
-                ->where('p.fecha_inicio','<=',$date)
+                //->where('p.fecha_inicio','<=',$date)
                 ->where('p.fecha_final','>=',$date)
                 ->exists();
         return $valida;
