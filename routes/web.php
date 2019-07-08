@@ -4,6 +4,9 @@
 //Route::match(['post'], 'input', 'Proceso\ServicioCargaPR@index');
 Route::resource('alumnosws', 'Proceso\ServicioCargaPR',
                 ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+Route::resource('apiaula', 'Proceso\ApiPR',
+    ['only' => ['index', 'store', 'update', 'destroy', 'show']]
+);
 
 // --
 
@@ -28,7 +31,10 @@ Route::get(
         
             $valores['valida_ruta_url'] = $ruta;
             $valores['menu'] = session('menu');
-
+            $valores['dni'] = session('dni');
+            $valores['aula'] = session('aula');
+            $valores['activaraula'] = session('activaraula');
+            
             if( strpos( session('opciones'),$ruta )!==false 
                 || $ruta=='secureaccess.inicio'
                 || $ruta=='secureaccess.myself' ){
