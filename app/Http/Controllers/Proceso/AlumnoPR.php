@@ -120,6 +120,19 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
     public function MisSeminarios(Request $r )
     {
         if ( $r->ajax() ) {
+            $r['tipo_curso']=2;
+            $renturnModel = Alumno::MisSeminarios($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function MisCursos(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $r['tipo_curso']=1;
             $renturnModel = Alumno::MisSeminarios($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;

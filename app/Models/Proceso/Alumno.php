@@ -86,8 +86,11 @@ class Alumno extends Model
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','mp.persona_id');
             })
-            ->Join('mat_cursos AS mc', function($join){
+            ->Join('mat_cursos AS mc', function($join) use ($r){
                 $join->on('mc.id','=','mp.curso_id');
+                if( $r->has('tipo_curso') AND $r->tipo_curso!='' ){
+                    $join->where('mc.tipo_curso',$r->tipo_curso);
+                }
             })
             ->Join('sucursales AS s', function($join){
                 $join->on('s.id','=','mp.sucursal_id');
