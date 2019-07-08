@@ -10,16 +10,21 @@ use DB;
 class Api extends Model
 {
     protected   $table = 'apiaula';
+
+    public static function mibdaux(){
+        dd($_SERVER);
+        return 'telesup_pae';
+    }
     
     public static function ObtenerKey()
     {
-        $key= DB::table('telesup_pae.apiaula')->where('estado',1)->select('key')->first();
+        $key= DB::table(Api::mibdaux().'.apiaula')->where('estado',1)->select('key')->first();
         return $key;
     }
 
     public static function ObtenerPersona($r)
     {
-        $key= DB::table('telesup_pae.personas')
+        $key= DB::table(Api::mibdaux().'.personas')
                 ->select('paterno','materno','nombre','sexo','email','telefono'
                 ,'celular',DB::raw('IFNULL(fecha_nacimiento,"") AS fecha_nacimiento')
                 )
@@ -30,7 +35,7 @@ class Api extends Model
 
     public static function ObtenerCursos($r)
     {
-        $key= DB::table('telesup_pae.apiaula')
+        $key= DB::table(Api::mibdaux().'.apiaula')
                 ->where('estado',1)
                 ->select('idaula AS id','key AS token')
                 ->where('keycli',$r->keycli)
@@ -38,34 +43,34 @@ class Api extends Model
 
         $grupos=array();
         if( count($key)>0 ){
-            $persona =  DB::table('telesup_pae.personas')
+            $persona =  DB::table(Api::mibdaux().'.personas')
                         ->select('paterno','materno','nombre','sexo','email','telefono','dni'
                         ,'celular',DB::raw('IFNULL(fecha_nacimiento,"") AS fecha_nacimiento'),'id'
                         )
                         ->where('dni',$r->dni)
                         ->get();
 
-            $grupos=DB::table('telesup_pae.mat_matriculas AS mm')
-                    ->Join('telesup_pae.mat_matriculas_detalles AS mmd', function($join){
+            $grupos=DB::table(Api::mibdaux().'.mat_matriculas AS mm')
+                    ->Join(Api::mibdaux().'.mat_matriculas_detalles AS mmd', function($join){
                         $join->on('mmd.matricula_id','=','mm.id')
                         ->where('mmd.estado','=',1);
                     })
-                    ->Join('telesup_pae.mat_programaciones AS mp', function($join){
+                    ->Join(Api::mibdaux().'.mat_programaciones AS mp', function($join){
                     $join->on('mp.id','=','mmd.programacion_id')
                     ->where('mp.estado','=',1);
                     })
-                    ->Join('telesup_pae.personas AS p', function($join){
+                    ->Join(Api::mibdaux().'.personas AS p', function($join){
                         $join->on('p.id','=','mp.persona_id');
                     })
-                    ->Join('telesup_pae.mat_cursos AS mc', function($join){
+                    ->Join(Api::mibdaux().'.mat_cursos AS mc', function($join){
                         $join->on('mc.id','=','mp.curso_id')
                         ->where('mc.tipo_curso',1);
                     })
-                    ->Join('telesup_pae.mat_cursos_especialidades AS mce', function($join){
+                    ->Join(Api::mibdaux().'.mat_cursos_especialidades AS mce', function($join){
                         $join->on('mce.curso_id','=','mc.id')
                         ->where('mce.estado',1);
                     })
-                    ->Join('telesup_pae.mat_especialidades AS me', function($join){
+                    ->Join(Api::mibdaux().'.mat_especialidades AS me', function($join){
                         $join->on('me.id','=','mce.especialidad_id')
                         ->where('me.estado',1);
                     })
@@ -92,7 +97,7 @@ class Api extends Model
 
     public static function ObtenerTiposEvaluaciones($r)
     {
-        $key= DB::table('telesup_pae.apiaula')
+        $key= DB::table(Api::mibdaux().'.apiaula')
                 ->where('estado',1)
                 ->select('idaula AS id','key AS token')
                 ->where('keycli',$r->keycli)
@@ -100,27 +105,27 @@ class Api extends Model
 
         $grupos=array();
         if( count($key)>0 ){
-            $persona =  DB::table('telesup_pae.personas')
+            $persona =  DB::table(Api::mibdaux().'.personas')
                         ->select('paterno','materno','nombre','sexo','email','telefono','dni'
                         ,'celular',DB::raw('IFNULL(fecha_nacimiento,"") AS fecha_nacimiento'),'id'
                         )
                         ->where('dni',$r->dni)
                         ->get();
 
-            $tipos=DB::table('telesup_pae.mat_matriculas AS mm')
-                    ->Join('telesup_pae.mat_matriculas_detalles AS mmd', function($join){
+            $tipos=DB::table(Api::mibdaux().'.mat_matriculas AS mm')
+                    ->Join(Api::mibdaux().'.mat_matriculas_detalles AS mmd', function($join){
                         $join->on('mmd.matricula_id','=','mm.id')
                         ->where('mmd.estado','=',1);
                     })
-                    ->Join('telesup_pae.mat_programaciones AS mp', function($join){
+                    ->Join(Api::mibdaux().'.mat_programaciones AS mp', function($join){
                     $join->on('mp.id','=','mmd.programacion_id')
                     ->where('mp.estado','=',1);
                     })
-                    ->Join('telesup_pae.mat_programaciones_evaluaciones AS mpe', function($join){
+                    ->Join(Api::mibdaux().'.mat_programaciones_evaluaciones AS mpe', function($join){
                         $join->on('mpe.programacion_id','=','mp.id')
                         ->where('mpe.estado',1);
                     })
-                    ->Join('telesup_pae.tipos_evaluaciones AS te', function($join){
+                    ->Join(Api::mibdaux().'.tipos_evaluaciones AS te', function($join){
                         $join->on('te.id','=','mpe.tipo_evaluacion_id');
                     })
                     ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id'
@@ -150,7 +155,7 @@ class Api extends Model
 
     public static function ObtenerTiposEvaluacionesTotales($r)
     {
-        $key= DB::table('telesup_pae.apiaula')
+        $key= DB::table(Api::mibdaux().'.apiaula')
                 ->where('estado',1)
                 ->select('idaula AS id','key AS token')
                 ->where('keycli',$r->keycli)
@@ -158,16 +163,16 @@ class Api extends Model
 
         $grupos=array();
         if( count($key)>0 ){
-            $tipos=DB::table('telesup_pae.mat_programaciones AS mp')
-                    ->Join('telesup_pae.mat_cursos AS mc', function($join){
+            $tipos=DB::table(Api::mibdaux().'.mat_programaciones AS mp')
+                    ->Join(Api::mibdaux().'.mat_cursos AS mc', function($join){
                         $join->on('mc.id','=','mp.curso_id')
                         ->where('mc.tipo_curso',1);
                     })
-                    ->Join('telesup_pae.mat_programaciones_evaluaciones AS mpe', function($join){
+                    ->Join(Api::mibdaux().'.mat_programaciones_evaluaciones AS mpe', function($join){
                         $join->on('mpe.programacion_id','=','mp.id')
                         ->where('mpe.estado',1);
                     })
-                    ->Join('telesup_pae.tipos_evaluaciones AS te', function($join){
+                    ->Join(Api::mibdaux().'.tipos_evaluaciones AS te', function($join){
                         $join->on('te.id','=','mpe.tipo_evaluacion_id');
                     })
                     ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id'
@@ -197,7 +202,7 @@ class Api extends Model
 
     public static function ObtenerCursosDocente($r)
     {
-        $key= DB::table('telesup_pae.apiaula')
+        $key= DB::table(Api::mibdaux().'.apiaula')
                 ->where('estado',1)
                 ->select('idaula AS id','key AS token')
                 ->where('keycli',$r->keycli)
@@ -205,26 +210,26 @@ class Api extends Model
 
         $grupos=array();
         if( count($key)>0 ){
-            $persona =  DB::table('telesup_pae.personas')
+            $persona =  DB::table(Api::mibdaux().'.personas')
                         ->select('paterno','materno','nombre','sexo','email','telefono','dni'
                         ,'celular',DB::raw('IFNULL(fecha_nacimiento,"") AS fecha_nacimiento'),'id'
                         )
                         ->where('dni',$r->dni)
                         ->get();
 
-            $grupos=DB::table('telesup_pae.mat_programaciones AS mp')
-                    ->Join('telesup_pae.personas AS p', function($join){
+            $grupos=DB::table(Api::mibdaux().'.mat_programaciones AS mp')
+                    ->Join(Api::mibdaux().'.personas AS p', function($join){
                         $join->on('p.id','=','mp.persona_id');
                     })
-                    ->Join('telesup_pae.mat_cursos AS mc', function($join){
+                    ->Join(Api::mibdaux().'.mat_cursos AS mc', function($join){
                         $join->on('mc.id','=','mp.curso_id')
                         ->where('mc.tipo_curso',1);
                     })
-                    ->Join('telesup_pae.mat_cursos_especialidades AS mce', function($join){
+                    ->Join(Api::mibdaux().'.mat_cursos_especialidades AS mce', function($join){
                         $join->on('mce.curso_id','=','mc.id')
                         ->where('mce.estado',1);
                     })
-                    ->Join('telesup_pae.mat_especialidades AS me', function($join){
+                    ->Join(Api::mibdaux().'.mat_especialidades AS me', function($join){
                         $join->on('me.id','=','mce.especialidad_id')
                         ->where('me.estado',1);
                     })
