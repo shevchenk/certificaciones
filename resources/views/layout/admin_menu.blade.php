@@ -26,12 +26,6 @@
             <i class="fa fa-university"></i> <span>Mi Aula</span>
         </a>
     </li>
-    @else
-    <li class="treeview">
-        <a href="#">
-            <i class="fa fa-university"></i> <span>{{ $activaraula . $menu[0]->cargo }}</span>
-        </a>
-    </li>
     @endif
     <li class="treeview">
         <a href="#">
