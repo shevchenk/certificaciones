@@ -82,9 +82,9 @@
                                                     <th>Docente</th>
                                                     <th>Fecha de Seminario</th>
                                                     <th>Horario</th>
-                                                    <th>Local del Seminario</th>
-                                                    <th>Link del Video</th>
-                                                    <th>Comentario del Video</th>
+                                                    <th>Tipo Seminario</th>
+                                                    <th>Link del Seminario</th>
+                                                    <th>Comentario del Seminario</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_matricula">
