@@ -12,8 +12,11 @@ class Api extends Model
     protected   $table = 'apiaula';
 
     public static function mibdaux(){
-        dd($_SERVER);
-        return 'telesup_pae';
+        $bd='prabtoea_telesup_pae';
+        if( $_SERVER['SERVER_NAME']=='localhost' ){
+            $bd= 'telesup_pae';
+        }
+        return $bd;
     }
     
     public static function ObtenerKey()
