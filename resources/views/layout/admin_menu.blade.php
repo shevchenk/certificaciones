@@ -1,5 +1,6 @@
 <ul class="sidebar-menu">
         @if (isset($menu))
+            {{ $cargo='' }}
             @foreach ( $menu as $key => $val)
                 <li class="treeview">
                     <a href="#">
@@ -19,6 +20,19 @@
                 </li>
             @endforeach
         @endif
+    @if ( $activaraula AND $menu[0]->cargo > 0 )
+    <li class="treeview">
+        <a href="{{ $aula->aulaurl }}/ReportDinamic/Api.ApiCurso@Validaracceso?id={{ $aula->idaula }}&dni={{ $dni }}&cargo={{ $menu[0]->cargo }}" target="__blank">
+            <i class="fa fa-university"></i> <span>Mi Aula</span>
+        </a>
+    </li>
+    @else
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-university"></i> <span>{{ $activaraula . $menu[0]->cargo }}</span>
+        </a>
+    </li>
+    @endif
     <li class="treeview">
         <a href="#">
             <i class="fa fa-user-secret"></i> <span>Mis datos</span>

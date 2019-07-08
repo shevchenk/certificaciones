@@ -16,6 +16,12 @@ class PersonaSA extends Controller
     {
         $result['rst']=1;
         $menu = Persona::Menu();
+        $valida='m';
+        if($menu[0]->cargo==2){
+            $valida='p';
+        }
+        $activaraula = Persona::ValidaActivarAula($valida);
+        $aula=Persona::ValidarAula();
         $opciones=array();
         foreach ($menu as $key => $value) {
             array_push($opciones, $value->opciones);
@@ -24,7 +30,9 @@ class PersonaSA extends Controller
         $session= array(
             'menu'=>$menu,
             'opciones'=>$opciones,
-            'dni'=>$r->dni
+            'dni'=>$r->dni,
+            'activaraula'=>$activaraula,
+            'aula'=>$aula,
         );
         session($session);
         return response()->json($result);

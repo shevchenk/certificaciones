@@ -51,7 +51,7 @@ class Persona extends Authenticatable
                         $join->on('pps.privilegio_id','p.id')
                         ->where('pps.estado',1);
                 })
-                ->select('m.menu',
+                ->select('m.menu','p.cargo',
                     DB::raw(
                     'GROUP_CONCAT( 
                         DISTINCT( CONCAT_WS("|",o.opcion,o.ruta,o.class_icono) )
@@ -61,10 +61,43 @@ class Persona extends Authenticatable
                 )
                 ->where('pps.persona_id',$persona)
                 ->where('o.estado',1)
-                ->groupBy('m.menu')
+                ->groupBy('m.menu','p.cargo')
                 ->orderBy('m.menu')
                 ->get();
 
         return $result;
+    }
+
+    public static function ValidaActivarAula( $tabla )
+    {
+        $persona=Auth::user()->id;
+        $date=date('Y-m-d H:i:s');
+        $valida=DB::table('mat_matriculas AS m')
+                ->join('mat_matriculas_detalles AS md', function($join){
+                        $join->on('md.matricula_id','m.id')
+                        ->where('md.estado',1);
+                })
+                ->join('mat_programaciones AS p', function($join){
+                        $join->on('p.id','md.programacion_id')
+                        ->where('p.estado',1);
+                })
+                ->join('mat_cursos as c', function($join){
+                        $join->on('c.id','p.curso_id')
+                        ->where('c.tipo_curso',1)
+                        ->where('c.estado',1);
+                })
+                ->where($tabla.'.persona_id',$persona)
+                ->where('p.fecha_inicio','<=',$date)
+                ->where('p.fecha_final','>=',$date)
+                ->exists();
+        return $valida;
+    }
+
+    public static function ValidarAula()
+    {
+        $aula= DB::table('apiaula')
+                ->where('estado',1)
+                ->first();
+        return $aula;
     }
 }

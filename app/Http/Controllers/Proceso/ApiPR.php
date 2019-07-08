@@ -1,0 +1,120 @@
+<?php
+namespace App\Http\Controllers\Proceso;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Proceso\Api;
+use Illuminate\Support\Facades\Validator;
+use Auth;
+
+class ApiPR extends Controller
+{
+    public function __construct()
+    {
+        //$this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
+    }
+
+    public function index(Request $r)
+    {
+        $result=array();
+        if($r->opcion=='ObtenerPersona'){
+            $result = $this->ObtenerPersona($r);
+        }
+        elseif($r->opcion=='ObtenerCursos'){
+            $result = $this->ObtenerCursos($r);
+        }
+        elseif($r->opcion=='ObtenerTiposEvaluaciones'){
+            $result = $this->ObtenerTiposEvaluaciones($r);
+        }
+        elseif($r->opcion=='ObtenerTiposEvaluacionesTotales'){
+            $result = $this->ObtenerTiposEvaluacionesTotales($r);
+        }
+        elseif($r->opcion=='ObtenerCursosDocente'){
+            $result = $this->ObtenerCursosDocente($r);
+        }
+        return $result;
+    }
+
+    public function Show($opcion)
+    {
+        $result=array();
+        if($opcion=='ObtenerKey'){
+            $result = $this->ObtenerKey();
+        }
+        return $result;
+    }
+
+    public function Store()
+    {
+        //return 'hgola';
+    }
+
+    public function response($code=200, $status="", $message="")
+    {
+        http_response_code($code);
+        if( !empty($status) && !empty($message) )
+        {
+            $response = array(
+                        "status" => $status ,
+                        "message"=>$message,
+                        "server" => $_SERVER['REMOTE_ADDR']
+                    );  
+            echo json_encode($response, JSON_PRETTY_PRINT);    
+        }            
+    }
+    
+    public function ObtenerKey ()
+    {
+        $renturnModel = Api::ObtenerKey();
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+    public function ObtenerPersona ( $r )
+    {
+        $renturnModel = Api::ObtenerPersona($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+    public function ObtenerCursos ( $r )
+    {
+        $renturnModel = Api::ObtenerCursos($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+    public function ObtenerTiposEvaluaciones ( $r )
+    {
+        $renturnModel = Api::ObtenerTiposEvaluaciones($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+    public function ObtenerTiposEvaluacionesTotales ( $r )
+    {
+        $renturnModel = Api::ObtenerTiposEvaluacionesTotales($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+    public function ObtenerCursosDocente ( $r )
+    {
+        $renturnModel = Api::ObtenerCursosDocente($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+}
