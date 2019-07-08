@@ -72,24 +72,39 @@ class Persona extends Authenticatable
     {
         $persona=Auth::user()->id;
         $date=date('Y-m-d H:i:s');
-        $valida=DB::table('mat_matriculas AS m')
-                ->join('mat_matriculas_detalles AS md', function($join){
-                        $join->on('md.matricula_id','m.id')
-                        ->where('md.estado',1);
-                })
-                ->join('mat_programaciones AS p', function($join){
-                        $join->on('p.id','md.programacion_id')
-                        ->where('p.estado',1);
-                })
-                ->join('mat_cursos as c', function($join){
-                        $join->on('c.id','p.curso_id')
-                        ->where('c.tipo_curso',1)
-                        ->where('c.estado',1);
-                })
-                ->where($tabla.'.persona_id',$persona)
-                //->where('p.fecha_inicio','<=',$date)
-                ->where('p.fecha_final','>=',$date)
-                ->exists();
+        if( $tabla=='m' ){
+            $valida=DB::table('mat_matriculas AS m')
+                    ->join('mat_matriculas_detalles AS md', function($join){
+                            $join->on('md.matricula_id','m.id')
+                            ->where('md.estado',1);
+                    })
+                    ->join('mat_programaciones AS p', function($join){
+                            $join->on('p.id','md.programacion_id')
+                            ->where('p.estado',1);
+                    })
+                    ->join('mat_cursos as c', function($join){
+                            $join->on('c.id','p.curso_id')
+                            ->where('c.tipo_curso',1)
+                            ->where('c.estado',1);
+                    })
+                    ->where('m.persona_id',$persona)
+                    //->where('p.fecha_inicio','<=',$date)
+                    ->where('p.fecha_final','>=',$date)
+                    ->exists();
+        }
+        else{
+            $valida=DB::table('mat_programaciones AS p')
+                    ->join('mat_cursos as c', function($join){
+                            $join->on('c.id','p.curso_id')
+                            ->where('c.tipo_curso',1)
+                            ->where('c.estado',1);
+                    })
+                    ->where('p.estado',1)
+                    ->where('p.persona_id',$persona)
+                    //->where('p.fecha_inicio','<=',$date)
+                    ->where('p.fecha_final','>=',$date)
+                    ->exists();
+        }
         return $valida;
     }
 
