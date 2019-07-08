@@ -121,6 +121,7 @@ class ProgramacionEM extends Controller
     public function LoadMiProgramacion(Request $r )
     {
         if ( $r->ajax() ) {
+            $r['estado'] = 1;
             $r['persona_id'] = Auth::user()->id;
             $renturnModel = Programacion::runLoad($r);
             $return['rst'] = 1;
