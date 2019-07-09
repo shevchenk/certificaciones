@@ -23,7 +23,7 @@
     @if ( $activaraula AND $menu[0]->cargo > 0 )
     <li class="treeview">
         <a href="{{ $aula->aulaurl }}/ReportDinamic/Api.ApiCurso@Validaracceso?id={{ $aula->idaula }}&dni={{ $dni }}&cargo={{ $menu[0]->cargo }}" target="__blank">
-            <i class="fa fa-university"></i> <span>Mi Aula</span>
+            <i class="fa fa-university"></i> <span>Mis Cursos</span>
         </a>
     </li>
     @endif
