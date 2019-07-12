@@ -59,7 +59,7 @@ HTMLCambiarNotaCurso=function(result){
 }
 */
 AnularMatri=function(alumno_id, id_matri){
-    sweetalertG.confirm("Confirmación!", "Desea anular la Matricula?", function(){
+    sweetalertG.confirm("Confirmación!", "Desea anular la Inscripción?", function(){
         window.alumno_id = alumno_id;
         window.id_matri = id_matri;
         AjaxEspecialidad.anularMatricula(HTMLAnularMatri, id_matri);
@@ -174,7 +174,7 @@ HTMLCargaMatri=function(result){ //INICIO HTML
                 "<td class=''>"+r.fecha_matricula+"</td>"+
 
                 '<td><a id="btnvermatri_'+r.id+'" class="btn btn-primary btn-sm" onClick="CargaMatriDeta('+r.id+')"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> </a>&nbsp;&nbsp;'+
-                '<a id="btnanular_'+r.id+'" class="btn btn-danger btn-sm" onClick="AnularMatri('+r.alumno_id+', '+r.id+')"><i class="glyphicon glyphicon-ban-circle"></i> </a></td>';
+                '<a id="btnanular_'+r.id+'" class="btn btn-danger btn-sm" onClick="AnularMatri('+r.alumno_id+', '+r.id+')"><i class="fa fa-flat fa-trash"></i> </a></td>';
 
         html+="</tr>";
     });//FIN FUNCTION

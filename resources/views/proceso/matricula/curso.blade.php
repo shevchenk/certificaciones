@@ -167,7 +167,7 @@
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:2" data-tipotabla="1">Agregar Cursos Programados</button>
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Agregar Cursos Programados</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -187,7 +187,6 @@
                                         </div> 
                                     </div>
                                     <div class="col-md-12">
-                                        <input type='hidden' id='txt_seminario' name='txt_seminario' value="|" readOnly>
                                         <table id="t_matricula" class="table">
                                             <thead>
                                                 <tr>
@@ -440,7 +439,7 @@
 
 @section('form')
 @include( 'mantenimiento.programacion.form.listapersona' )
-@include( 'proceso.matricula.form.listaprogramacion' )
+@include( 'proceso.matricula.form.listaprogramacioncurso' )
 @include( 'mantenimiento.persona.form.persona' )
 @include( 'mantenimiento.trabajador.form.listatrabajador' )
 @stop

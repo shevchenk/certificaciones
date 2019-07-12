@@ -6,7 +6,7 @@
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Lista de seminarios programados</h4>
+                <h4 class="modal-title">Lista de cursos programados</h4>
             </div>
             <div class="modal-body">
                 <section class="content">
@@ -46,10 +46,10 @@
                                             </th>
                                             <th class="col-xs-2">
                                                 <div class="form-group">
-                                                    <label><h4>Seminario:</h4></label>
+                                                    <label><h4>Curso:</h4></label>
                                                     <div class="input-group">
                                                         <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                        <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Seminario" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                        <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Curso" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
                                                     </div>
                                                 </div>
                                             </th>
@@ -90,7 +90,7 @@
                                         <tr class="cabecera">
                                             <th>Docente</th>
                                             <th>ODE</th>
-                                            <th>Semianrio</th>
+                                            <th>Curso</th>
                                             <th>Aula</th>
                                             <th>Inicio</th>
                                             <th>Final</th>
