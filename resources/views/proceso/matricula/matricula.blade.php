@@ -35,12 +35,12 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Matrícula de Cursos
+    <h1>Inscripción de Cursos
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Proceso</li>
-        <li class="active">Matrícula PAE</li>
+        <li class="active">Inscripción PAE</li>
     </ol>
 </section>
 
@@ -59,7 +59,7 @@
                                 <div class="panel-body">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>ODE Matrícula</label>
+                                            <label>ODE Inscripción</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
                                                 <option value="0">.::Seleccione::.</option>
                                             </select>
@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Resp. de la Matrícula</label>
+                                            <label>Resp. de la Inscripción</label>
                                             <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
                                             <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
                                         </div> 
