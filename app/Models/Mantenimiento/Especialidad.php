@@ -29,7 +29,7 @@ class Especialidad extends Model
             'me.especialidad',
             'me.certificado_especialidad',
             'me.estado',
-            DB::raw('GROUP_CONCAT(mc.curso ORDER BY curso) cursos'),
+            DB::raw('GROUP_CONCAT(mc.curso ORDER BY mce.orden SEPARATOR "|") cursos'),
             DB::raw('GROUP_CONCAT(mc.id) curso_id')
             )
             ->where( 
@@ -72,6 +72,7 @@ class Especialidad extends Model
 
     public static function runNew($r)
     {
+        DB::beginTransaction();
         $especialidad_id = Auth::user()->id;
         $especialidad = new Especialidad;
         $especialidad->especialidad = trim( $r->especialidad );
@@ -86,14 +87,17 @@ class Especialidad extends Model
         {
             $curso_especialidad = new CursoEspecialidad;
             $curso_especialidad->curso_id = $curso[$i];
+            $curso_especialidad->orden = $i+1;
             $curso_especialidad->especialidad_id = $especialidad -> id;
             $curso_especialidad->persona_id_created_at = Auth::user()->id;
             $curso_especialidad->save();
         }
+        DB::commit();
     }
 
     public static function runEdit($r)
     {
+        DB::beginTransaction();
         $especialidad_id = Auth::user()->id;
         $especialidad = Especialidad::find($r->id);
         $especialidad->especialidad = trim( $r->especialidad );
@@ -124,17 +128,20 @@ class Especialidad extends Model
             if( count($curso_especialidad)==0 ){
                 $curso_especialidad = new CursoEspecialidad;
                 $curso_especialidad->curso_id = $curso[$i];
+                $curso_especialidad->orden = $i+1;
                 $curso_especialidad->especialidad_id = $especialidad->id;
                 $curso_especialidad->persona_id_created_at = Auth::user()->id;
             }
             else{
                 $curso_especialidad = CursoEspecialidad::find($curso_especialidad->id);
                 $curso_especialidad->estado = 1;
+                $curso_especialidad->orden = $i+1;
                 $curso_especialidad->persona_id_updated_at = Auth::user()->id;
             }
             $curso_especialidad->save();
         }
-    }    
+        DB::commit();
+    }
 
     
     public static function ListEspecialidad($r)
@@ -142,6 +149,23 @@ class Especialidad extends Model
         $sql=Especialidad::select('id','especialidad','certificado_especialidad','estado')
             ->where('estado','=','1');
         $result = $sql->orderBy('especialidad','asc')->get();
+        return $result;
+    }
+
+    public static function CargarEspecialidadCurso($r)
+    {
+        $result=DB::table('mat_cursos_especialidades')
+            ->where('estado','=','1')
+            ->where( function($query) use ($r){
+                    if( $r->has("especialidad_id") ){
+                        $especialidad_id=trim($r->especialidad_id);
+                        if( $especialidad_id !='' ){
+                            $query->where('especialidad_id','=',$especialidad_id);
+                        }
+                    }
+            })
+            ->orderBy('orden','asc')
+            ->get();
         return $result;
     }
     

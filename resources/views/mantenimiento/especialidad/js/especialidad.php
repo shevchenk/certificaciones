@@ -33,20 +33,20 @@ $(document).ready(function() {
     $("#EspecialidadForm #TableEspecialidad input").blur(function(){ AjaxEspecialidad.Cargar(HTMLCargarEspecialidad); });
 
     $('#ModalEspecialidad').on('shown.bs.modal', function (event) {
-
+        $('#sortable').html('');
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalEspecialidadForm").append("<input type='hidden' value='"+EspecialidadG.id+"' name='id'>");
+            AjaxEspecialidad.CargarEspecialidadCurso(CargarCursosHTML,EspecialidadG.id);
         }
         
         $('#ModalEspecialidadForm #txt_especialidad').val( EspecialidadG.especialidad );
         $('#ModalEspecialidadForm #txt_certificado_especialidad').val( EspecialidadG.certificado_especialidad );
         var curso = EspecialidadG.curso_id.split(',');
         $('#ModalEspecialidadForm #slct_curso_id').selectpicker( 'val',curso );
-        AjaxEspecialidad.CargarCursos(CargarCursosHTML,EspecialidadG.id);
         $('#ModalEspecialidadForm #slct_estado').selectpicker( 'val',EspecialidadG.estado );
         $('#ModalEspecialidadForm #txt_especialidad').focus();
     });
@@ -66,10 +66,6 @@ ValidaForm=function(){
     else if( $.trim( $("#ModalEspecialidadForm #txt_certificado_especialidad").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Nombre del Certificado',4000);
-    }
-    else if( $.trim( $("#ModalEspecialidadForm #slct_curso_id").val() )=='' ){
-        r=false;
-        msjG.mensaje('warning','Seleccione almenos 1 Curso',4000);
     }
 
     return r;
@@ -110,7 +106,7 @@ AgregarCurso=function(){
         msjG.mensaje('warning','Seleccione un curso',4000);
     }
     else if( $.trim( $('#sortable #trid_'+cursoid).html() ) == '' ){
-        $('#sortable').append('<tr id="trid_'+cursoid+'"><td>N° '+cantidad+'</td><td><input type="hidden" name="curso_ids[]" value="'+cursoid+'">'+curso+'</td><td><a onClick="EliminarTr(\'#trid_'+cursoid+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
+        $('#sortable').append('<tr id="trid_'+cursoid+'"><td>N° '+cantidad+'</td><td><input type="hidden" name="curso_id[]" value="'+cursoid+'">'+curso+'</td><td><a onClick="EliminarTr(\'#trid_'+cursoid+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
     }
     else{
         msjG.mensaje('warning','El curso seleccionado ya fue agregado',4000);
@@ -182,7 +178,7 @@ HTMLCargarEspecialidad=function(result){ //INICIO HTML
             html+="</td>"+
             "<td class='especialidad'>"+r.especialidad+"</td>"+
             "<td class='certificado_especialidad'>"+r.certificado_especialidad+"</td>"+
-            "<td class='cursos'>"+$.trim(r.cursos).split(",").join("<br>")+"</td>"+
+            "<td class='cursos'><ol><li>"+$.trim(r.cursos).split("|").join("</li><li>")+"</li></ol></td>"+
             "<td>"+
             "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 

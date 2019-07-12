@@ -98,7 +98,7 @@ class EspecialidadEM extends Controller
         }
     }
     
-            public function ListEspecialidad (Request $r )
+    public function ListEspecialidad (Request $r )
     {
         if ( $r->ajax() ) {
             $renturnModel = Especialidad::ListEspecialidad($r);
@@ -109,10 +109,21 @@ class EspecialidadEM extends Controller
         }
     }
     
-                public function ListEspecialidadDisponible (Request $r )
+    public function ListEspecialidadDisponible (Request $r )
     {
         if ( $r->ajax() ) {
             $renturnModel = Especialidad::ListEspecialidadDisponible($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function CargarEspecialidadCurso (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Especialidad::CargarEspecialidadCurso($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";

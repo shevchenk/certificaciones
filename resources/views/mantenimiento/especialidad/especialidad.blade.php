@@ -36,30 +36,28 @@
                         <table id="TableEspecialidad" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-2" style="width:15% !important;">
                                         <div class="form-group">
                                             <label><h4>Especialidad:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Buscar Especialidad" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>                                          
+                                                <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Buscar Especialidad" onkeypress="return masterG.enterGlobal(event,'#txt_certificado_especialidad',1);">
+                                            </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-2" style="width:15% !important;">
                                         <div class="form-group">
                                             <label><h4>Certificado Especialidad:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_certificado_especialidad" id="txt_certificado_especialidad" placeholder="Buscar Certificado Especialidad" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>                                          
+                                                <input type="text" class="form-control" name="txt_certificado_especialidad" id="txt_certificado_especialidad" placeholder="Buscar Certificado Especialidad" onkeypress="return masterG.enterGlobal(event,'#txt_especialidad',1);">
+                                            </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-6" style="width:50% !important;">
                                         <div class="form-group">
                                             <label><h4>Cursos Asignados:</h4></label>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-1" style="width:10% !important;">
                                         <div class="form-group">
                                             <label><h4>Estado:</h4></label>
                                             <div class="input-group">
@@ -71,7 +69,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-1">[-]</th>
+                                    <th class="col-xs-1" style="width:10% !important;">[-]</th>
                                 </tr>
                             </thead>
                             <tbody>
