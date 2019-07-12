@@ -16,7 +16,7 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Atención al Cliente - Matriculados
+    <h1>Atención al Cliente
         <small></small>
     </h1>
     <ol class="breadcrumb">

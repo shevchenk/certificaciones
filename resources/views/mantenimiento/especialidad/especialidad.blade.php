@@ -10,6 +10,8 @@
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
+    {{ Html::script('lib/jQueryUI/jquery-ui.min.js') }}
+
     @include( 'mantenimiento.especialidad.js.especialidad_ajax' )
     @include( 'mantenimiento.especialidad.js.especialidad' )
 @stop
@@ -34,7 +36,6 @@
                         <table id="TableEspecialidad" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-
                                     <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Especialidad:</h4></label>
@@ -58,7 +59,6 @@
                                             <label><h4>Cursos Asignados:</h4></label>
                                         </div>
                                     </th>
-
                                     <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Estado:</h4></label>
@@ -78,7 +78,6 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-
                                   <th>Especialidad</th>
                                   <th>Certificado Especialidad</th>
                                   <th>Cursos Asignados</th>
