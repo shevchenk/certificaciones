@@ -68,7 +68,7 @@ AgregarEditar=function(val,id){
     CursoG.curso='';
     CursoG.certificado_curso='';
     CursoG.curso_apocope='';
-    CursoG.tipo_curso='0';
+    CursoG.tipo_curso='2';
     CursoG.estado='1';
     if( val==0 ){
         CursoG.id=id;
