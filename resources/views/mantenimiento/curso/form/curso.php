@@ -35,13 +35,13 @@
                         <input type="text" class="form-control" id="txt_curso_apocope" name="txt_curso_apocope" placeholder="Curso Apocope">
                   </div>
 
-                  <div class="col-sm-5">     
+                  <div class="col-sm-5" style="display: none;">     
                   <br>         
                       <label>Tipo Curso</label>
                         <select class="form-control selectpicker show-menu-arrow" data-live-search="true" name="slct_tipo_curso" id="slct_tipo_curso">
                           <option value="0">.::Seleccione::.</option>
-                          <option value='1'>Curso</option>
-                          <option value='2' selected>Seminario</option>
+                          <option value='1' selected>Curso</option>
+                          <option value='2'>Seminario</option>
                         </select>     
                   </div>
 

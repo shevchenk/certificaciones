@@ -16,12 +16,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Seminario
+    <h1>Curso
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Seminario</li>
+        <li class="active">Curso</li>
     </ol>
 </section>
 
@@ -37,7 +37,7 @@
 
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Seminario:</h4></label>
+                                            <label><h4>Curso:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Buscar Curso" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
@@ -46,7 +46,7 @@
                                     </th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Certificado Seminario:</h4></label>
+                                            <label><h4>Certificado Curso:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_certificado_curso" id="txt_certificado_curso" placeholder="Buscar Certificado Curso" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
@@ -55,27 +55,13 @@
                                     </th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Seminario Apocope:</h4></label>
+                                            <label><h4>Curso Apocope:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_curso_apocope" id="txt_curso_apocope" placeholder="Buscar Curso Apocope" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>                                          
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Tipo:</h4></label>
-                                            <div class="input-group">
-                                                <select class="form-control" name="slct_tipo_curso" id="slct_tipo_curso">
-                                                    <option value='' selected>.::Todo::.</option>
-                                                    <option value='1'>Curso</option>
-                                                    <option value='2'>Seminario</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </th>
-
-
                                     <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Estado:</h4></label>
@@ -95,9 +81,9 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Seminario</th>
-                                  <th>Certificado Seminario</th>
-                                  <th>Tipo</th>
+                                  <th>Curso</th>
+                                  <th>Certificado Curso</th>
+                                  <th>Curso Apocope</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

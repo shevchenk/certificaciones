@@ -54,11 +54,6 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Nombre del Certificado',4000);
     }
-    else if( $.trim( $("#ModalCursoForm #slct_tipo_curso").val() )=='0' ){
-        r=false;
-        msjG.mensaje('warning','Seleccione Tipo',4000);
-    }
-
     return r;
 }
 
@@ -123,7 +118,6 @@ HTMLCargarCurso=function(result){ //INICIO HTML
             "<td class='curso'>"+r.curso+"</td>"+
             "<td class='certificado_curso'>"+r.certificado_curso+"</td>"+
             "<td class='curso_apocope'>"+r.curso_apocope+"</td>"+
-            "<td class='tipo_cursoFORM'>"+r.tipo_curso+"</td>"+
 
             "<td>"+
             "<input type='hidden' class='tipo_curso' value='"+r.tc+"'>"+
