@@ -120,6 +120,7 @@ class Privilegio extends Model
                     }
                 }
             )
+            ->where('p.id','!=',1)
             ->groupBy('p.id','p.privilegio','p.estado');
         $result = $sql->orderBy('p.privilegio','asc')->paginate(10);
         return $result;
@@ -128,7 +129,8 @@ class Privilegio extends Model
     public static function ListPrivilegio($r)
     {  
         $sql=Privilegio::select('id','privilegio','estado')
-            ->where('estado','=','1');
+            ->where('estado','=','1')
+            ->where('id','!=',1);
         $result = $sql->orderBy('privilegio','asc')->get();
         return $result;
     }
