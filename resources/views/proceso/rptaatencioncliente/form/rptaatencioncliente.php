@@ -58,7 +58,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default active pull-left" data-dismiss="modal">Cerrar</button>
-                <button type="button" onclick="RegistrarEntrega();" class="btn btn-primary pull-right">Confirmar</button>
+                <button type="button" onclick="RegistrarEntrega();" class="btn btn-primary pull-right">Guardar</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
