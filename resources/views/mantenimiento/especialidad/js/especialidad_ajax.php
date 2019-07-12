@@ -29,6 +29,11 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';
         data={};
         masterG.postAjax(url,data,evento);
+    },
+    CargarEspecialidadCurso:function(evento,id){
+        url='AjaxDinamic/Mantenimiento.EspecialidadEM@CargarEspecialidadCurso';
+        data={id:id};
+        masterG.postAjax(url,data,evento);
     }
 };
 </script>
