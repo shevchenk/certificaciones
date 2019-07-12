@@ -19,12 +19,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Rectificaci&oacute;n de Matriculas
+    <h1>Rectificaci&oacute;n de Inscripciones de Cursos
         <small>Alumnos</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Alumnos</a></li>
-        <li class="active">Rectificaci&oacute;n de Matriculas</li>
+        <li class="active">Rectificaci&oacute;n de Inscripción</li>
     </ol>
 </section>
 
