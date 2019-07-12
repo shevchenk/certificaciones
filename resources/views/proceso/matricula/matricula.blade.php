@@ -409,7 +409,7 @@
 
 @section('form')
 @include( 'mantenimiento.programacion.form.listapersona' )
-@include( 'proceso.matricula.form.listaprogramacion' )
+@include( 'proceso.matricula.form.listaprogramacioncurso' )
 @include( 'mantenimiento.persona.form.persona' )
 @include( 'mantenimiento.trabajador.form.listatrabajador' )
 @stop

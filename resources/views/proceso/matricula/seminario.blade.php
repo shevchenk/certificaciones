@@ -35,7 +35,7 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Inscripción de Seminarios
+    <h1>Inscripción a Seminarios
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
@@ -48,9 +48,6 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">SEMINARIOS</h3>
-                </div>
                 <div class="box-body with-border">
                     <form id="ModalMatriculaForm">
                         <div class="col-md-12">
@@ -59,7 +56,7 @@
                                 <div class="panel-body">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>ODE Matrícula</label>
+                                            <label>ODE Inscripción</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
                                                 <option value="0">.::Seleccione::.</option>
                                             </select>
@@ -75,7 +72,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Resp. de la Matrícula</label>
+                                            <label>Resp. de la Inscripción</label>
                                             <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
                                             <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
                                         </div> 
@@ -164,13 +161,13 @@
                         </div>
                         <div class="col-md-12">
                             <div class="panel panel-success">
-                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>SEMINARIOS MATRICULADOS</center></div>
+                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>SEMINARIOS SELECCIONADOS</center></div>
                                 <div class="panel-body">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:2" data-tipotabla="1">Agregar Seminario con Programación</button>
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:2" data-tipotabla="1">Agregar Seminarios Programados</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -433,7 +430,7 @@
                     </form>
                 </div>
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Matricula</button>
+                    <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Inscripción</button>
                 </div>
             </div><!-- .box -->
         </div><!-- .col -->
