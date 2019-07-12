@@ -24,7 +24,7 @@
             @include( 'secureaccess/js/login_ajax' )
     </head>
 
-<body  bgcolor="#FFF" onkeyup="return masterG.enterGlobal(event,'btnIniciar');">
+<body  bgcolor="#FFF" onkeyup="return masterG.enterGlobal(event,'#btnIniciar');">
 <div id="mainWrap">
     <div class="content">
     <div id="loggit">
