@@ -17,7 +17,6 @@ class Api extends Model
             $bd= 'telesup_pae';
         }
         elseif( $_SERVER['SERVER_NAME']=='capafc.jssoluciones.pe' ){
-            dd($_SERVER['SERVER_NAME']);
             $bd='prabtoea_pae';
         }
         return $bd;
