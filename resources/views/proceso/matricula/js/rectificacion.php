@@ -226,7 +226,7 @@ HTMLCargaMatriDeta=function(result){ //INICIO HTML
                 "<td class=''>"+archivopagoc+"</td>"+
                 //'<td><a id="btnv_'+r.id+'" class="btn btn-primary btn-sm" onClick="AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, '+r.id+')"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> </a></td>';
                 '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:'+r.tipo_curso+'|id_matri:'+r.id_matri+'|id_matri_deta:'+r.id+'"><i class="glyphicon glyphicon-refresh"></i> Programación</button>'+
-                '<td><a id="btndm_'+r.id+'" class="btn btn-primary btn-sm" onClick="actualizarPagosDM(0,'+r.id+','+r.id_matri+','+r.tipo_curso+')"><i class="fa fa-edit fa-lg"></i> </a></td>'+
+                '<td>&nbsp;</td>'+
                 '<td><a id="btnrm_'+r.id+'" class="btn btn-danger btn-sm" onClick="eliminaDetalle('+r.id+','+r.id_matri+','+"'"+r.curso+"'"+')"><i class="fa fa-trash fa-lg"></i> </a></td>';
 
         html+="</tr>";
