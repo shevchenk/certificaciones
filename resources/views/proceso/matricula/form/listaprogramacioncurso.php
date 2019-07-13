@@ -30,8 +30,7 @@
                                                 <div class="form-group">
                                                     <label><h4>Docente:</h4></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                        <input type="text" class="form-control" name="txt_docente" id="txt_docente" placeholder="Docente" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                        <input type="text" class="form-control" name="txt_docente" id="txt_docente" placeholder="Docente" onkeypress="return masterG.enterGlobal(event, '#txt_sucursal', 1);">
                                                     </div>
                                                 </div>
                                             </th>
@@ -39,8 +38,7 @@
                                                 <div class="form-group">
                                                     <label><h4>Local De Estudios:</h4></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                        <input type="text" class="form-control" name="txt_sucursal" id="txt_sucursal" placeholder="ODE" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                        <input type="text" class="form-control" name="txt_sucursal" id="txt_sucursal" placeholder="ODE" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
                                                 </div>
                                             </th>
@@ -48,8 +46,7 @@
                                                 <div class="form-group">
                                                     <label><h4>Curso:</h4></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                        <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Curso" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                        <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Curso" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
                                                 </div>
                                             </th>
@@ -57,8 +54,7 @@
                                                 <div class="form-group">
                                                     <label><h4>Aula:</h4></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                        <input type="text" class="form-control" name="txt_aula" id="txt_aula" placeholder="Aula" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                        <input type="text" class="form-control" name="txt_aula" id="txt_aula" placeholder="Aula" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
                                                 </div>
                                             </th>
@@ -66,8 +62,7 @@
                                                 <div class="form-group">
                                                     <label><h4>Inicio:</h4></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                        <input type="text" class="form-control" name="txt_inicio" id="txt_inicio" placeholder="Inicio" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                        <input type="text" class="form-control" name="txt_inicio" id="txt_inicio" placeholder="Inicio" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
                                                 </div>
                                             </th>
@@ -75,8 +70,7 @@
                                                 <div class="form-group">
                                                     <label><h4>Final:</h4></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                        <input type="text" class="form-control" name="txt_final" id="txt_final" placeholder="Final" onkeypress="return masterG.enterGlobal(event, '.input-group', 1);">
+                                                        <input type="text" class="form-control" name="txt_final" id="txt_final" placeholder="Final" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
                                                 </div>
                                             </th>

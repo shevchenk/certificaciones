@@ -386,12 +386,15 @@ HTMLCargarProgramacion=function(result){
     $('#TableListaprogramacion').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){
-
+        validasem="style='display:none;'";
+        if(r.tipo_curso==1){
+            validasem='';
+        }
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='persona'>"+r.persona+"</td>"+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='curso'>"+r.curso+"</td>"+
-            "<td class='aula'>"+r.aula+"</td>"+
+            "<td class='aula' "+validasem+">"+r.aula+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
             "<td>"+
