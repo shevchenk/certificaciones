@@ -16,6 +16,9 @@ class Api extends Model
         if( $_SERVER['SERVER_NAME']=='localhost' ){
             $bd= 'telesup_pae';
         }
+        elseif( strpos($_SERVER['SERVER_NAME'], 'capafs.jssoluciones.pe')!==false ){
+            $bd='prabtoea_pae';
+        }
         return $bd;
     }
     
