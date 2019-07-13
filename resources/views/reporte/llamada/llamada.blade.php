@@ -19,12 +19,12 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Betsayda
+        <h1>Estadistico de llamadas
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-sitemap"></i> Reporte</li>
-            <li class="active">Betsayda</li>
+            <li class="active">Estadistico de llamadas</li>
         </ol>
     </section>
 
