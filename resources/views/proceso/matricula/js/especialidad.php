@@ -94,7 +94,7 @@ ValidaForm=function(){
     }
     else if( $.trim( $("#ModalMatriculaForm #txt_programacion_id").val() )=='' && $.trim( $("#ModalMatriculaForm #txt_especialidad_id").val() )==''){
         r=false;
-        msjG.mensaje('warning','Seleccione al menos una programación',4000);
+        msjG.mensaje('warning','Seleccione al menos una especialidad',4000);
     }
     else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==false){
         r=false;
@@ -134,10 +134,10 @@ ValidaTabla=function(){
                   contador++;
           
          });
-         if( (ValidaTotal>PromocionG) || (ValidaTotal<PromocionG && ValidaTotal>0) ){
+         /*if( (ValidaTotal>PromocionG) || (ValidaTotal<PromocionG && ValidaTotal>0) ){
             r=false;
             msjG.mensaje('warning','La oferta existente tiene un máximo de '+PromocionG+' seminarios en promoción. Verifique y actualice los seminarios seleccionados.',9000);
-         }
+         }*/
 
          if( $('#txt_nro_promocion').val()=='' && PromocionGeneral==1 ){
             r=false;
@@ -169,7 +169,8 @@ HTMLAgregarEditar=function(result){
         $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
         $("#txt_observacion").val('S/O');
         $("#pago_img,#dni_img").attr('src','');
-        ActivarPago();
+        $("#t_matricula").html('');
+        ActivarPago(1);
     }else{
         msjG.mensaje('warning',result.msj,3000);
     }

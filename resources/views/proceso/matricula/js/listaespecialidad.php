@@ -111,19 +111,19 @@ SeleccionarEspecialidad=function(id){
           html+="<tr id='tres_"+id+"_"+$(this).find('td:eq(0) .curso_id').val()+"'>"+
             "<td><input type='text' class='form-control' value='"+$('#trides_'+id+' .especialidad').text()+"' disabled></td>"+
             "<td><input type='text' class='form-control' value='"+$(this).find('td:eq(1)').text()+"' disabled></td>"+
-            "<td><input type='hidden' class='form-control' name='txt_programacion_id[]' value=''><input type='text' class='form-control' value='' disabled></td>"+
+            "<td><input type='hidden' class='form-control' id='txt_programacion_id' name='txt_programacion_id[]' value=''><input type='text' class='form-control' value='' disabled></td>"+
             "<td><input type='text' class='form-control' value='' disabled></td>"+
             "<td><input type='text' class='form-control' value='' disabled></td>"+
             "<td><input type='text' class='form-control' value='' disabled>"+
                 "<input type='hidden' class='form-control' name='txt_curso_id[]' value='"+$(this).find('td:eq(0) .curso_id').val()+"'>"+
-                "<input type='hidden' class='form-control' name='txt_especialidad_id[]' value='"+id+"'>"+
+                "<input type='hidden' class='form-control' id='txt_especialidad_id' name='txt_especialidad_id[]' value='"+id+"'>"+
             "</td>"+
             '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1|curso_id:'+$(this).find('td:eq(0) .curso_id').val()+'" data-tipotabla="1">Seleccionar Programación</button></td>';
           html+="</tr>";
 
           cursos+="<li>"+$(this).find('td:eq(1)').text()+"</li>";
         })
-        
+
         $("#promocion_seminario").html("<ol>"+cursos+"</ol>");
         $("#t_matricula").html(html);
         $("#ModalListaespecialidad").modal('hide');

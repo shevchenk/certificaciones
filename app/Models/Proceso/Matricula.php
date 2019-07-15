@@ -135,6 +135,9 @@ class Matricula extends Model
         if(Input::has('especialidad_id')){
                 $especialidad_id=$r->especialidad_id;
             }
+        if(Input::has('curso_id')){
+                $curso_id=$r->curso_id;
+            }
         
         $nro_pago=$r->nro_pago;
         $monto_pago=$r->monto_pago;
@@ -153,7 +156,7 @@ class Matricula extends Model
         }
             
         if($matricula){
-            for($i=0;$i<count($nro_pago_certificado);$i++){
+            for($i=0;$i<count($programacion_id);$i++){
                 
                 $mtdetalle=new MatriculaDetalle;
                 $mtdetalle->norden=$i+1;
@@ -170,10 +173,6 @@ class Matricula extends Model
                         }
                     }
                 }
-                if(Input::has('especialidad_id')){
-                        $mtdetalle->especialidad_id=$especialidad_id[$i];
-                        $mtdetalle->tipo_matricula_detalle=2;
-                }
 
                 foreach ($checks as $key => $value) {
                     if($value==$i){
@@ -185,6 +184,15 @@ class Matricula extends Model
                 $mtdetalle->nro_pago_certificado=$nro_pago_certificado[$i];
                 $mtdetalle->monto_pago_certificado=$monto_pago_certificado[$i];
                 $mtdetalle->tipo_pago=$tipo_pago[$i];
+
+                if(Input::has('especialidad_id')){
+                        $mtdetalle->especialidad_id=$especialidad_id[$i];
+                        $mtdetalle->curso_id=$curso_id[$i];
+                        $mtdetalle->tipo_matricula_detalle=2;
+                        $mtdetalle->nro_pago_certificado=0;
+                        $mtdetalle->monto_pago_certificado=0;
+                        $mtdetalle->tipo_pago=0;
+                }
                 
                 if( trim($r->nro_promocion)==''){
                     if( trim($pago_nombre[$i])!='' ){
