@@ -10,6 +10,11 @@ var AjaxMatricula={
         data={};
         masterG.postAjax(url,data,evento);
     },
+    CargarSucursalTotal:function(evento){
+        url='AjaxDinamic/Mantenimiento.SucursalEM@ListSucursal';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
     CargarRegion:function(evento){
         url='AjaxDinamic/Mantenimiento.RegionEM@ListRegion';
         data={};

@@ -106,6 +106,12 @@ class Programacion extends Model
                             $query->where('p.id','=',$persona_id);
                         }
                     }
+                    if( $r->has("curso_id") ){
+                        $curso_id=trim($r->curso_id);
+                        if( $curso_id !='' ){
+                            $query->where('mp.curso_id','=',$curso_id);
+                        }
+                    }
                     if( $r->has("docente") ){
                         $docente=trim($r->docente);
                         if( $docente !='' ){

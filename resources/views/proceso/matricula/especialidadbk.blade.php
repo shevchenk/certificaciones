@@ -10,9 +10,6 @@
 {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
 {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
-{{ Html::style('lib/iCheck/all.css') }}
-{{ Html::script('lib/iCheck/icheck.min.js') }}
-
 {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
@@ -23,7 +20,6 @@
 @include( 'mantenimiento.programacion.js.listapersona' )
 @include( 'proceso.matricula.js.listaespecialidad_ajax' )
 @include( 'proceso.matricula.js.listaespecialidad' )
-@include( 'proceso.matricula.js.listaprogramacion_ajax' )
 @include( 'mantenimiento.programacion.js.aepersona_ajax' )
 @include( 'mantenimiento.programacion.js.aepersona' )
 @include( 'mantenimiento.trabajador.js.listatrabajador_ajax' )
@@ -36,12 +32,12 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Inscripción a Especialidades
+    <h1>Matrícula de Especialidades
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Proceso</li>
-        <li class="active">Inscripción</li>
+        <li class="active">Matrícula PAE</li>
     </ol>
 </section>
 
@@ -49,31 +45,26 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">CERTIFICACIONES</h3>
+                </div>
                 <div class="box-body with-border">
                     <form id="ModalMatriculaForm">
                         <div class="col-md-12">
                             <div class="panel panel-primary">
                                 <div class="panel-heading"><center>DATOS DEL ALUMNO</center></div>
                                 <div class="panel-body">
-                                    <div class="col-md-3">
+                                    <div class="col-md-5">
                                         <div class="form-group">
-                                            <label>ODE Inscripción</label>
+                                            <label>ODE</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
                                                 <option value="0">.::Seleccione::.</option>
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-5">
                                         <div class="form-group">
-                                            <label>Lugar Recojo Documento</label>
-                                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_destino_id" name="slct_sucursal_destino_id">
-                                                <option value="0">.::Seleccione::.</option>
-                                            </select>
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Resp. de la Inscripción</label>
+                                            <label>Resp. de la Matrícula</label>
                                             <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
                                             <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
                                         </div> 
@@ -110,11 +101,11 @@
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id" data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni" data-buscaralumno="1">Buscar Persona</button>
+                                                <button type="button" class="btn btn-info btn-flat"  data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id"  data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni" data-validarpersona="1" data-buscaralumno="1">Buscar Persona</button>
                                             </span>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4" style="display: none;">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Región</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_region_id" name="slct_region_id">
@@ -122,7 +113,7 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4" style="display: none;">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Provincia</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_provincia_id" name="slct_provincia_id">
@@ -130,7 +121,7 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4" style="display: none;">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Distrito</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_distrito_id" name="slct_distrito_id">
@@ -138,37 +129,30 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-2" style="display: none;">
-                                        <div class="form-group">
-                                            <label>Código del Alumno</label>
-                                            <input type="text" class="form-control" id="txt_codigo_interno" name="txt_codigo_interno">
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-5" style="display: none;">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Direccion</label>
                                             <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_direccion" name="txt_direccion"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-5" style="display: none;">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Referencia</label>
                                             <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_referencia" name="txt_referencia"></textarea>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="panel panel-success">
-                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>SEMINARIOS SELECCIONADOS</center></div>
+                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>ESPECIALIZACIONES MATRICULADAS</center></div>
                                 <div class="panel-body">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaespecialidad">Agregar Especialidad</button>
+                                                <button type="button" class="btn btn-success btn-flat" onclick="ValidarPersona(this)" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id">Agregar Especialización Disponible</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -183,7 +167,7 @@
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
+                                                <button type="button" class="btn btn-success btn-flat"  data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -192,12 +176,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Especialidad</th>
-                                                    <th>Cursos</th>
-                                                    <th>Mod.</th>
-                                                    <th>Fecha de Inicio</th>
-                                                    <th>Horario</th>
-                                                    <th>Local del Curso</th>
-                                                    <th>[ * ]</th>
+                                                    <th>Certificado de Especialidad</th>
+                                                    <th>[]</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_matricula">
@@ -237,83 +217,16 @@
                                         <table class="table" id="t_pago">
                                             <thead>
                                                 <tr>
-                                                    <th colspan="4" style="text-align:center;">Pago del Curso &nbsp;&nbsp;
-                                                        <button type="button" onclick="ActivarPago(1);" class="btn btn-warning btn-flat">Activar Pago por Promoción</button>
-                                                    </th>
+                                                    <th colspan="4" style="text-align:center;">Pago por Certificados</th>
                                                 </tr>
                                                 <tr>
-                                                    <th>Nombre del Curso</th>
-                                                    <th>N° de Boleta/N° de Operación</th>
+                                                    <th>Especialidad.</th>
+                                                    <th>N° de Boleta</th>
                                                     <th>Importe</th>
-                                                    <th>Tipo Operación</th>
-                                                    <th>Archivo Pago</th>
-                                                    <th>Archivo DNI</th>
-                                                    <th>[]</th>
+                                                    <th>Archivo</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_pago">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <table class="table" id="t_pago_promocion" style="display:none;">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="4" style="text-align:center;">Promoción del Curso &nbsp;&nbsp;
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Nombre del Curso</th>
-                                                    <th>N° de Boleta/N° de Operación</th>
-                                                    <th>Importe</th>
-                                                    <th>Tipo Operación</th>
-                                                    <th>Archivo Pago</th>
-                                                    <th>Archivo DNI</th>
-                                                    <th>[]</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tb_pago_promocion">
-                                                <tr>
-                                                    <td id="promocion_seminario"></td>
-                                                    <td><input type="text" class="form-control" id="txt_nro_promocion" name="txt_nro_promocion" value="0" placeholder="Nro" disabled></td>
-                                                    <td><input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" value="0" placeholder="Monto" disabled></td>
-                                                    <td><select class='form-control'  id='slct_tipo_pago' name='slct_tipo_pago' disabled>
-                                                        <option value='0'>.::Seleccione::.</option>
-                                                        <option value='1'>Transferencia</option>
-                                                        <option value='2'>Depósito</option>
-                                                        <option value='3'>Caja</option>
-                                                        </select></td>
-                                                    <td>
-                                                        <input type="text"  readOnly class="form-control input-sm" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">
-                                                        <input type="text" style="display: none;" id="pago_archivo_promocion" name="pago_archivo_promocion">
-                                                        <label class="btn btn-default btn-flat margin btn-xs">
-                                                            <i class="fa fa-file-image-o fa-3x"></i>
-                                                            <i class="fa fa-file-pdf-o fa-3x"></i>
-                                                            <i class="fa fa-file-word-o fa-3x"></i>
-                                                            <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#pago_nombre_promocion','#pago_archivo_promocion','#pago_img');" >
-                                                        </label>
-                                                        <div>
-                                                        <a id="pago_href">
-                                                        <img id="pago_img" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
-                                                        </a>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text"  readOnly class="form-control input-sm" id="dni_nombre"  name="dni_nombre" value="">
-                                                        <input type="text" style="display: none;" id="dni_archivo" name="dni_archivo">
-                                                        <label class="btn btn-default btn-flat margin btn-xs">
-                                                            <i class="fa fa-file-image-o fa-3x"></i>
-                                                            <i class="fa fa-file-pdf-o fa-3x"></i>
-                                                            <i class="fa fa-file-word-o fa-3x"></i>
-                                                            <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#dni_nombre','#dni_archivo','#dni_img');" >
-                                                        </label>
-                                                        <div>
-                                                        <a id="dni_href">
-                                                        <img id="dni_img" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
-                                                        </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -321,15 +234,15 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12" style="display: none;">
+                        <div class="col-md-12">
                             <div class="panel panel-warning">
-                                <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE FUT</center></div>
+                                <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE MATRÍCULA</center></div>
                                 <div class="panel-body">
                                     <div class="col-md-12">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="exonerar_matricula" id="exonerar_matricula" >
-                                                Exonerar FUT
+                                                <input type="checkbox" name="exonerar_matricula" id="exonerar_matricula">
+                                                Exonerar Matrícula
                                             </label>
                                         </div>
                                     </div>
@@ -337,7 +250,7 @@
                                         <table class="table" id="t_pago_matricula">
                                             <thead>
                                                 <tr>
-                                                    <th colspan="3" style="text-align:center;">Pago de FUT</th>
+                                                    <th colspan="3" style="text-align:center;">Pago de Matricula</th>
                                                 </tr>
                                                 <tr>
                                                     <th>N° de Boleta</th>
@@ -367,7 +280,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12 hidden">
+                        <div class="col-md-12">
                             <div class="panel panel-warning">
                                 <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE INSCRIPCIÓN</center></div>
                                 <div class="panel-body">
@@ -413,17 +326,6 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading"><center>OBSERVACIONES:</center></div>
-                                <div class="panel-body">
-                                    <div class="col-md-12">
-                                        <textarea class="form-control" id="txt_observacion" name="txt_observacion">S/O</textarea>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
                         <div class="form-group"> 
                             <label></label>
                         </div>
@@ -431,7 +333,7 @@
                     </form>
                 </div>
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Inscripción</button>
+                    <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Matricula</button>
                 </div>
             </div><!-- .box -->
         </div><!-- .col -->
@@ -442,7 +344,6 @@
 @section('form')
 @include( 'mantenimiento.programacion.form.listapersona' )
 @include( 'proceso.matricula.form.listaespecialidad' )
-@include( 'proceso.matricula.form.listaprogramacioncurso' )
 @include( 'mantenimiento.persona.form.persona' )
 @include( 'mantenimiento.trabajador.form.listatrabajador' )
 @stop

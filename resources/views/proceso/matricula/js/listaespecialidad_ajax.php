@@ -4,13 +4,7 @@ var AjaxListaespecialidad={
         if( typeof(pag)!='undefined' ){
             $("#ListaespecialidadForm").append("<input type='hidden' value='"+pag+"' name='page'>");
         }
-        if( LDfiltrosG!='' ){
-          filtros=LDfiltrosG;
-          dfiltros=filtros.split("|");
-          for(i=0;i<dfiltros.length;i++){
-              $("#ListaespecialidadForm").append("<input type='hidden' value='"+dfiltros[i].split(":")[1]+"' name='"+dfiltros[i].split(":")[0]+"'>");
-          }
-        }
+        $("#ListaespecialidadForm").append("<input type='hidden' value='"+$("#ModalMatriculaForm #txt_persona_id").val()+"' name='persona_id'>");
         data=$("#ListaespecialidadForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ListaespecialidadForm input[type='hidden']").remove();
         url='AjaxDinamic/Mantenimiento.EspecialidadEM@ListEspecialidadDisponible';

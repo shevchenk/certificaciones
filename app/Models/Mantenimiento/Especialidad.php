@@ -172,57 +172,50 @@ class Especialidad extends Model
     public static function ListEspecialidadDisponible($r)
     {
         DB::statement(DB::raw('SET @@group_concat_max_len = 4294967295'));
-        $sql=DB::table(DB::raw(
-                '(SELECT me.id, me.especialidad,me.certificado_especialidad, COUNT(mce.curso_id) ncursos, GROUP_CONCAT( mce.curso_id ) cursos
+        /*$sql= 'SELECT me.id, me.especialidad
+                , GROUP_CONCAT( mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos
                 FROM mat_especialidades me
                 INNER JOIN mat_cursos_especialidades mce ON mce.especialidad_id=me.id AND mce.estado=1
-                AND me.estado=1
-                GROUP BY me.id, me.especialidad,me.certificado_especialidad) as a'
-                ))
-                ->select('a.id','a.especialidad','a.certificado_especialidad','a.ncursos','a.cursos',
-                DB::raw('ValidaCursos( CONCAT(a.cursos,","),'.$r->persona_id.' ) as validar'),
-                DB::raw('(
-                        SELECT GROUP_CONCAT(mc.curso, "|", IFNULL(cll.nota,"") ) cursos
-                        FROM mat_cursos mc
-                        LEFT JOIN 
-                        (
-                        SELECT mp.curso_id,MAX(mmd.nota_curso_alum) nota
-                        FROM mat_programaciones mp 
-                        INNER JOIN mat_matriculas_detalles mmd ON mmd.programacion_id=mp.id
-                        INNER JOIN mat_matriculas mm ON mm.id=mmd.matricula_id AND mm.persona_id=12
-                        GROUP BY mp.curso_id
-                        ) cll ON cll.curso_id=mc.id
-                        WHERE FIND_IN_SET(mc.id,a.cursos)
-                    ) as notas
-                '),
-                DB::raw('IFNULL(
-                    (SELECT COUNT(mt.id) 
-                     FROM mat_matriculas mt
-                     INNER JOIN mat_matriculas_detalles mmd ON mmd.matricula_id=mt.id AND mmd.estado=1
-                     WHERE mt.persona_id='.$r->persona_id.' 
-                     AND mt.estado=1
-                     AND mmd.especialidad_id=a.id 
-                     GROUP BY mt.persona_id
-                    ),0
-                ) as nveces')
+                INNER JOIN mat_cursos mc ON mc.id=mce.curso_id
+                LEFT JOIN (
+                    SELECT mp.curso_id, COUNT(mmd.id) cant, MAX(mmd.nota_curso_alum) nota
+                    FROM mat_programaciones mp 
+                    INNER JOIN mat_matriculas_detalles mmd ON mmd.programacion_id=mp.id AND mmd.estado=1
+                    INNER JOIN mat_matriculas mm ON mm.id=mmd.matricula_id AND mm.persona_id=\'.$r->persona_id.\' AND mm.estado=1
+                    GROUP BY mp.curso_id
+                ) AS mps ON mps.curso_id=mc.id
+                WHERE me.estado=1
+                GROUP BY me.id,me.especialidad';*/
+        $sql =  DB::table('mat_especialidades AS me')
+                ->Join('mat_cursos_especialidades AS mce',function($join){
+                    $join->on('mce.especialidad_id','=','me.id')
+                    ->where('mce.estado','=',1);
+                })
+                ->Join('mat_cursos AS mc',function($join){
+                    $join->on('mc.id','=','mce.curso_id');
+                })
+                ->leftJoin(DB::raw(
+                    '(SELECT mp.curso_id, COUNT(mmd.id) cant, MAX(mmd.nota_curso_alum) nota
+                    FROM mat_programaciones mp 
+                    INNER JOIN mat_matriculas_detalles mmd ON mmd.programacion_id=mp.id AND mmd.estado=1
+                    INNER JOIN mat_matriculas mm ON mm.id=mmd.matricula_id AND mm.persona_id='.$r->persona_id.' AND mm.estado=1
+                    GROUP BY mp.curso_id) AS mps'
+                    ),function($join){
+                    $join->on('mps.curso_id','=','mc.id');
+                })
+                ->select('me.id','me.especialidad'
+                ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')
                 )
-                ->where( 
-                function($query) use ($r){
+                ->where( function($query) use ($r){
                     if( $r->has("especialidad") ){
                         $especialidad=trim($r->especialidad);
                         if( $especialidad !='' ){
-                            $query->where('a.especialidad','like','%'.$especialidad.'%');
+                            $query->where('me.especialidad','like','%'.$especialidad.'%');
                         }
                     }
-                    if( $r->has("certificado_especialidad") ){
-                        $certificado_especialidad=trim($r->certificado_especialidad);
-                        if( $certificado_especialidad !='' ){
-                            $query->where('a.certificado_especialidad','like','%'.$certificado_especialidad.'%');
-                        }
-                    }
-                }
-                );
-        $result = $sql->orderBy('especialidad','asc')->paginate(10);
+                })
+                ->groupBy('me.id','me.especialidad');
+        $result = $sql->orderBy('me.especialidad','asc')->paginate(10);
         return $result;
     }
 }
