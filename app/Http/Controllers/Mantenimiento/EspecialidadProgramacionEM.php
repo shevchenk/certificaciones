@@ -3,12 +3,11 @@ namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Especialidad;
-use App\Models\Mantenimiento\CursoEspecialidad;
+use App\Models\Mantenimiento\EspecialidadProgramacion;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class EspecialidadEM extends Controller
+class EspecialidadProgramacionEM extends Controller
 {
     public function __construct()
     {
@@ -18,7 +17,7 @@ class EspecialidadEM extends Controller
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Especialidad::runEditStatus($r);
+            EspecialidadProgramacion::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
@@ -35,9 +34,9 @@ class EspecialidadEM extends Controller
             );
 
             $rules = array(
-                'especialidad' => 
+                'especialidad_id' => 
                        ['required',
-                        Rule::unique('mat_especialidades','especialidad'),
+                        Rule::unique('mat_especialidades','especialidad_id'),
                         ],
             );
 
@@ -45,7 +44,7 @@ class EspecialidadEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Especialidad::runNew($r);
+                EspecialidadProgramacion::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -66,16 +65,14 @@ class EspecialidadEM extends Controller
             );
 
             $rules = array(
-                'especialidad' => 
-                       ['required',
-                        Rule::unique('mat_especialidades','especialidad')->ignore($r->id),
-                        ],
+                'especialidad_id' => 
+                       ['required'],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Especialidad::runEdit($r);
+                EspecialidadProgramacion::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -90,40 +87,7 @@ class EspecialidadEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Especialidad::runLoad($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-    
-    public function ListEspecialidad (Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Especialidad::ListEspecialidad($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-    
-    public function ListEspecialidadDisponible (Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Especialidad::ListEspecialidadDisponible($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-
-    public function CargarEspecialidadCurso (Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Especialidad::CargarEspecialidadCurso($r);
+            $renturnModel = EspecialidadProgramacion::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
