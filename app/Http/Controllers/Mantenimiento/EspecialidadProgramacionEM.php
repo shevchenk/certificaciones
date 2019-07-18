@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Mantenimiento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mantenimiento\EspecialidadProgramacion;
+use App\Models\Mantenimiento\EspecialidadProgramacionCronograma;
+use App\Models\Mantenimiento\EspecialidadProgramacionSucursal;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -35,9 +37,7 @@ class EspecialidadProgramacionEM extends Controller
 
             $rules = array(
                 'especialidad_id' => 
-                       ['required',
-                        Rule::unique('mat_especialidades','especialidad_id'),
-                        ],
+                       ['required'],
             );
 
             
@@ -65,7 +65,7 @@ class EspecialidadProgramacionEM extends Controller
             );
 
             $rules = array(
-                'especialidad_id' => 
+                'id' => 
                        ['required'],
             );
 
@@ -88,6 +88,17 @@ class EspecialidadProgramacionEM extends Controller
     {
         if ( $r->ajax() ) {
             $renturnModel = EspecialidadProgramacion::runLoad($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function CargarCronograma(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = EspecialidadProgramacion::CargarCronograma($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";

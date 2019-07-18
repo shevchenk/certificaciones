@@ -29,6 +29,16 @@ var AjaxEspecialidadProgramacion={
         url='AjaxDinamic/Mantenimiento.EspecialidadEM@ListEspecialidad';
         data={};
         masterG.postAjax(url,data,evento);
+    },
+    CargarOde:function(evento){
+        url='AjaxDinamic/Mantenimiento.SucursalEM@ListSucursalandusuario';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarCronograma:function(evento){
+        url='AjaxDinamic/Mantenimiento.EspecialidadProgramacionEM@CargarCronograma';
+        var data=$("#ModalEspecialidadProgramacionForm").serialize().split("txt_").join("").split("slct_").join("");
+        masterG.postAjax(url,data,evento);
     }
 };
 </script>

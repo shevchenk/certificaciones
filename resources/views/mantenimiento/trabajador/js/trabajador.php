@@ -34,7 +34,7 @@ $(document).ready(function() {
     });
 
     $('#ModalTrabajador').on('hidden.bs.modal', function (event) {
-        $("ModalTrabajadorForm input[type='hidden']").not('.mant').remove();
+        $("#ModalTrabajadorForm input[type='hidden']").not('.mant').remove();
        // $("ModalTrabajadorForm input").val('');
     });
 });

@@ -36,7 +36,7 @@ $(document).ready(function() {
     });
 
     $('#ModalCertificadoEstado').on('hidden.bs.modal', function (event) {
-        $("ModalCertificadoEstadoForm input[type='hidden']").not('.mant').remove();
+        $("#ModalCertificadoEstadoForm input[type='hidden']").not('.mant').remove();
        // $("ModalCertificadoEstadoForm input").val('');
     });
 });

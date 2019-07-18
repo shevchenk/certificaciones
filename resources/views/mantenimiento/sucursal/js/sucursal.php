@@ -46,7 +46,7 @@ $(document).ready(function() {
     });
 
     $('#ModalSucursal').on('hidden.bs.modal', function (event) {
-        $("ModalSucursalForm input[type='hidden']").not('.mant').remove();
+        $("#ModalSucursalForm input[type='hidden']").not('.mant').remove();
        // $("ModalSucursalForm input").val('');
     });
 

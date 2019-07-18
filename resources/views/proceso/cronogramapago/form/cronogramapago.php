@@ -1,58 +1,70 @@
-<div class="modal" id="ModalEspecialidadProgramacion" tabindex="-1" role="dialog">
+<div class="modal" id="ModalEspecialidadProgramacion" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false" data-keyboard="false">
     <div class="modal-dialog modal-lg">
       <div class="modal-content"> 
         <div class="modal-header btn-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Especialidad</h4>
+          <h4 class="modal-title">Especialidad - Programación</h4>
         </div>
         <div class="modal-body"><!-- INICIO BODY-->
             <form id="ModalEspecialidadProgramacionForm"><!-- INICIO FORM-->
           <fieldset>
             <div class="form-group"><!-- INICIO FORM GROUP-->
 
-              <div class="col-md-12">   
-
-                <div class="col-sm-6">       
-                  <label>Especialidad</label>
-                  <input type="text" class="form-control" id="txt_especialidad" name="txt_especialidad" placeholder="Especialidad">
-                </div>
-
+              <div class="col-md-12">
+                <label>Especialidad:</label>
+                <select class="form-control" id="slct_especialidad_id" name="slct_especialidad_id"></select>
+              </div>
+              <div class="col-md-12">
                 <div class="col-md-6">
-                  <label>Certificado Especialidad</label>
-                  <input type="text" class="form-control" id="txt_certificado_especialidad" name="txt_certificado_especialidad" placeholder="Certificado Especialidad">
-                  </div>
-
+                  <label>Odes:</label>
+                  <select class="form-control selectpicker show-menu-arrow" multiple data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple id="slct_sucursal_id" name="slct_sucursal_id[]"></select>
+                </div>
+                <div class="col-md-6">
+                  <label>Fecha de Inicio:</label>
+                  <input type="text" class="form-control fecha" id="txt_fecha_inicio" name="txt_fecha_inicio" placeholder="YYYY-MM-DD">
+                </div>
               </div>
-            <div class="col-md-12">  
-              <div class="col-md-6">
+              <!--div class="col-md-12">
+                  <label>Horario:</label>
+                  <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_horario[]" id="slct_horario">
+                      <option value="LU">Lunes</option>
+                      <option value="MA">Martes</option>
+                      <option value="MI">Miercoles</option>
+                      <option value="JU">Jueves</option>
+                      <option value="VI">Viernes</option>
+                      <option value="SA">Sabado</option>
+                      <option value="DO">Domingo</option>
+                  </select>
+              </div-->
+              <div class="col-md-12">  
+                <div class="col-md-6">
                   <br>         
-                      <label>Curso</label>
-                      <br>
-                        <select class="selectpicker form-control show-menu-arrow"  data-actions-box="true" data-live-search="true" name="slct_curso_id" id="slct_curso_id">
-                        </select>
-              </div>
-              <div class="col-md-2">
+                    <label>Fecha de Cronograma:</label>
+                    <br>
+                    <input type="text" class="form-control fecha" id="txt_fecha_cronograma" placeholder="YYYY-MM-DD">
+                </div>
+                <div class="col-md-2">
                   <br>
                   <br>
-                  <a onclick="AgregarCurso();" class="btn btn-info btn-flat">Agregar Curso<i class="fa fa-plus fa-lg"></i></a>
+                  <a onclick="CargarCronograma();" class="btn btn-info btn-flat">Agregar Cronograma<i class="fa fa-plus fa-lg"></i></a>
+                </div>
+                <div class="col-md-6" style="display: none;">    
+                <br>
+                  <label>Estado</label>
+                  <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
+                    <option value='0'>Inactivo</option>
+                    <option value='1' selected>Activo</option>
+                  </select>
+                </div>
               </div>
-              <div class="col-md-6" style="display: none;">    
-              <br>                    
-                      <label>Estado</label>
-                        <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
-                          <option value='0'>Inactivo</option>
-                          <option value='1' selected>Activo</option>
-                        </select>               
-              </div>
-            </div>
             <div class="col-md-12">
               <br>
                 <table class="table table-bordered table-striped">
                   <thead class="bg-info">
                     <tr>
-                      <th style='width:10% !important;'>Nro</th>
-                      <th style='width:80% !important;'>Curso</th>
+                      <th style='width:10% !important;'>Nro Cuota</th>
+                      <th style='width:80% !important;'>Fecha</th>
                       <th style='width:10% !important;'>Eliminar</th>
                     </tr>
                   </thead>

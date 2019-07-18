@@ -39,7 +39,7 @@ $(document).ready(function() {
     });
 
     $('#ModalOpcion').on('hidden.bs.modal', function (event) {
-        $("ModalOpcionForm input[type='hidden']").not('.mant').remove();
+        $("#ModalOpcionForm input[type='hidden']").not('.mant').remove();
 
        // $("ModalOpcionForm input").val('');
     });

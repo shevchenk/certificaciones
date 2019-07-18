@@ -6,11 +6,13 @@
     {{ Html::script('lib/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('lib/datatables/dataTables.bootstrap.min.js') }}
 
+    {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
+    {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
+
     {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
-
-    {{ Html::script('lib/jQueryUI/jquery-ui.min.js') }}
 
     @include( 'proceso.cronogramapago.js.cronogramapago_ajax' )
     @include( 'proceso.cronogramapago.js.cronogramapago' )
@@ -43,22 +45,22 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-6" style="width:5% !important;">
+                                    <th class="col-xs-6" style="width:20% !important;">
+                                        <div class="form-group">
+                                            <label><h4>Odes:</h4></label>
+                                        </div>
+                                    </th>
+                                    <!--th class="col-xs-6" style="width:5% !important;">
                                         <div class="form-group">
                                             <label><h4>Código Inicio:</h4></label>
                                         </div>
-                                    </th>
+                                    </th-->
                                     <th class="col-xs-6" style="width:10% !important;">
                                         <div class="form-group">
                                             <label><h4>Fecha Inicio:</h4></label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" placeholder="Fecha Inicio" onkeypress="return masterG.enterGlobal(event,'#txt_especialidad',1);">
                                             </div>
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-6" style="width:20% !important;">
-                                        <div class="form-group">
-                                            <label><h4>Horarios:</h4></label>
                                         </div>
                                     </th>
                                     <th class="col-xs-6" style="width:30% !important;">
@@ -86,9 +88,9 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th>Especialidad</th>
-                                  <th>Código de Inicio</th>
+                                  <th>Odes</th>
+                                  <!--th>Código de Inicio</th-->
                                   <th>Fecha de Inicio</th>
-                                  <th>Horarios</th>
                                   <th>Cronograma</th>
                                   <th>Estado</th>
                                   <th>[-]</th>

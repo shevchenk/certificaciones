@@ -32,7 +32,7 @@ $(document).ready(function() {
     });
 
     $('#ModalTipoParticipante').on('hidden.bs.modal', function (event) {
-        $("ModalTipoParticipanteForm input[type='hidden']").not('.mant').remove();
+        $("#ModalTipoParticipanteForm input[type='hidden']").not('.mant').remove();
        // $("ModalTipoParticipanteForm input").val('');
     });
 });

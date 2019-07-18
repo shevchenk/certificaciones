@@ -36,7 +36,7 @@ $(document).ready(function() {
     });
 
     $('#ModalPrivilegio').on('hidden.bs.modal', function (event) {
-        $("ModalPrivilegioForm input[type='hidden']").not('.mant').remove();
+        $("#ModalPrivilegioForm input[type='hidden']").not('.mant').remove();
        // $("ModalPrivilegioForm input").val('');
     });
 });

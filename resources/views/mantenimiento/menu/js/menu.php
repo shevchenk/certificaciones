@@ -34,7 +34,7 @@ $(document).ready(function() {
     });
 
     $('#ModalMenu').on('hidden.bs.modal', function (event) {
-        $("ModalMenuForm input[type='hidden']").not('.mant').remove();
+        $("#ModalMenuForm input[type='hidden']").not('.mant').remove();
        // $("ModalMenuForm input").val('');
     });
 });

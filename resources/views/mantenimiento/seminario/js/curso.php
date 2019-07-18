@@ -38,7 +38,7 @@ $(document).ready(function() {
     });
 
     $('#ModalCurso').on('hidden.bs.modal', function (event) {
-        $("ModalCursoForm input[type='hidden']").not('.mant').remove();
+        $("#ModalCursoForm input[type='hidden']").not('.mant').remove();
 
        // $("ModalCursoForm input").val('');
     });

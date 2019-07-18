@@ -40,7 +40,7 @@ $(document).ready(function() {
     });
 
     $('#ModalEspecialidad').on('hidden.bs.modal', function (event) {
-        $("ModalEspecialidadForm input[type='hidden']").not('.mant').remove();
+        $("#ModalEspecialidadForm input[type='hidden']").not('.mant').remove();
        // $("ModalEspecialidadForm input").val('');
     });
 });
