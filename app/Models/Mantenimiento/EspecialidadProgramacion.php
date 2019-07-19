@@ -64,7 +64,7 @@ class EspecialidadProgramacion extends Model
                     }
                 }
             );
-        $result = $sql->groupBy('mep.id','me.especialidad')
+        $result = $sql->groupBy('mep.id','me.especialidad','mep.especialidad_id','mep.fecha_inicio','mep.estado')
                         ->orderBy('mep.fecha_inicio','asc')
                         ->orderBy('me.especialidad','asc')
                         ->paginate(10);

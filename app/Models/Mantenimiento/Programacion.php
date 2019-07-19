@@ -273,7 +273,8 @@ class Programacion extends Model
                 }
             );
         $result = $sql->groupBy('mp.dia','mp.id','c.curso','s.sucursal','mp.aula',
-                'mp.fecha_inicio','mp.peso_proyecto_final','mp.proyecto_final'
+                'mp.fecha_inicio','mp.peso_proyecto_final','mp.proyecto_final',
+                'p.paterno','p.materno','p.nombre'
                 )
                 ->orderBy('mp.fecha_inicio','desc')->paginate(10);
         return $result;
