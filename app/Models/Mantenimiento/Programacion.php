@@ -90,7 +90,6 @@ class Programacion extends Model
 
     public static function runLoad($r)
     {
-
         $sql=DB::table('mat_programaciones as mp')
              ->select('mp.dia','mp.id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona'),'mp.persona_id','mp.docente_id','c.curso','mp.curso_id','mp.sucursal_id','s.sucursal','mp.aula','mp.fecha_inicio','mp.fecha_final','mp.fecha_campaña','mp.meta_max','mp.meta_min','mp.estado','mp.link','c.tipo_curso',
                 'mp.cv_archivo','mp.temario_archivo','mp.diapo_archivo','mp.diapoedit_archivo',
@@ -139,7 +138,7 @@ class Programacion extends Model
                     if( $r->has("dia") ){
                         $dia=trim($r->dia);
                         if( $dia !='' ){
-                            $query->where('mp.dia','like',$dia.'%');
+                            $query->where('mp.dia','like','%'.$dia.'%');
                         }
                     }
                     if( $r->has("inicio") ){
@@ -207,6 +206,75 @@ class Programacion extends Model
         $result = $sql->orderBy('mp.fecha_inicio','desc')->paginate(10);
         return $result;
     }
+
+    public static function runLoadEvaluaciones($r)
+    {
+        $sql=DB::table('mat_programaciones as mp')
+             ->select('mp.dia','mp.id','c.curso','s.sucursal','mp.aula','mp.fecha_inicio','mp.peso_proyecto_final','mp.proyecto_final',
+                DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) AS persona'),
+                DB::raw('GROUP_CONCAT(te.tipo_evaluacion," (",mpe.peso_evaluacion,") ", " desde ", 
+                mpe.fecha_evaluacion_ini, " al " ,mpe.fecha_evaluacion_fin ORDER BY mpe.fecha_evaluacion_ini,mpe.fecha_evaluacion_fin SEPARATOR "|") AS evaluacion')
+             )
+             ->join('personas as p','p.id','=','mp.persona_id')
+             ->join('sucursales as s','s.id','=','mp.sucursal_id')
+             ->join('mat_cursos as c','c.id','=','mp.curso_id')
+             ->leftJoin('mat_programaciones_evaluaciones AS mpe',function($join){
+                $join->on('mpe.programacion_id','=','mp.id')
+                ->where('mpe.estado','=',1);
+             })
+             ->leftJoin('tipos_evaluaciones AS te',function($join){
+                $join->on('te.id','=','mpe.tipo_evaluacion_id');
+             })
+             ->where('mp.estado',1)
+             ->where( 
+                function($query) use ($r){
+                    if( $r->has("docente") ){
+                        $docente=trim($r->docente);
+                        if( $docente !='' ){
+                            $query->whereRaw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) like "%'.$docente.'%"');
+                        }
+                    }
+                    if( $r->has("sucursal") ){
+                        $sucursal=trim($r->sucursal);
+                        if( $sucursal !='' ){
+                            $query->where('s.sucursal','like','%'.$sucursal.'%');
+                        }
+                    }
+                    if( $r->has("curso") ){
+                        $curso=trim($r->curso);
+                        if( $curso !='' ){
+                            $query->where('c.curso','like','%'.$curso.'%');
+                        }
+                    }
+                    if( $r->has("aula") ){
+                        $aula=trim($r->aula);
+                        if( $aula !='' ){
+                            $query->where('mp.aula','like',$aula.'%');
+                        }
+                    }
+                    if( $r->has("dia") ){
+                        $dia=trim($r->dia);
+                        if( $dia !='' ){
+                            $query->where('mp.dia','like','%'.$dia.'%');
+                        }
+                    }
+                    if( $r->has("inicio") ){
+                        $inicio=trim($r->inicio);
+                        if( $inicio !='' ){
+                            $query->where('mp.fecha_inicio','like','%'.$inicio.'%');
+                        }
+                    }
+                    if( $r->has("tipo_curso") ){
+                        $tipo_curso=trim($r->tipo_curso);
+                        if( $tipo_curso !='' ){
+                            $query->where('c.tipo_curso','=',$tipo_curso);
+                        }
+                    }
+                }
+            );
+        $result = $sql->groupBy('mp.id')->orderBy('mp.fecha_inicio','desc')->paginate(10);
+        return $result;
+    }
     
     public static function RegistrarArchivo($r)
     {
@@ -266,5 +334,70 @@ class Programacion extends Model
         }
         $programacion->persona_id_created_at=Auth::user()->id;
         $programacion->save();
+    }
+
+    public static function ProgramarEvaluacion($r)
+    {
+        DB::beginTransaction();
+        $usuario= Auth::user()->id;
+
+        $programacion= Programacion::find($r->id);
+        $programacion->proyecto_final= $r->proyecto_final;
+        $programacion->peso_proyecto_final= $r->peso_proyecto_final;
+        $programacion->persona_id_updated_at=$usuario;
+        $programacion->save();
+
+        $fecha_inicio= $r->fecha_inicio;
+        $fecha_final= $r->fecha_final;
+        $peso_evaluacion= $r->peso_evaluacion;
+        $tipo_evaluacion= $r->tipo_evaluacion;
+
+        DB::table('mat_programaciones_evaluaciones')
+        ->where('programacion_id','=', $r->id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => Auth::user()->id,
+                'updated_at' => date('Y-m-d H:i:s')
+                )
+            );
+
+        for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
+            $valida=DB::table('mat_programaciones_evaluaciones')
+            ->select('id')
+            ->where('programacion_id', '=', $r->id)
+            ->where('tipo_evaluacion_id',$tipo_evaluacion[$i])
+            ->first();
+
+            if( isset($valida->id) AND $valida->id!='' ){
+                $PE = ProgramacionEvaluacion::find($valida->id);
+                $PE->persona_id_updated_at = $usuario;
+            }
+            else{
+                $PE = new ProgramacionEvaluacion;
+                $PE->programacion_id = $r->id;
+                $PE->tipo_evaluacion_id = $tipo_evaluacion[$i];
+                $PE->persona_id_created_at = $usuario;
+            }
+            $PE->peso_evaluacion=$peso_evaluacion[$i];
+            $PE->fecha_evaluacion_ini=$fecha_inicio[$i];
+            $PE->fecha_evaluacion_fin=$fecha_final[$i];
+            $PE->estado=1;
+            $PE->save();
+        }
+        DB::commit();
+    }
+
+    public static function CargarEvaluaciones($r)
+    {
+        $sql=DB::table('mat_programaciones_evaluaciones as mpe')
+             ->join('tipos_evaluaciones as te','te.id','=','mpe.tipo_evaluacion_id')
+             ->select('te.id','te.tipo_evaluacion','mpe.peso_evaluacion',
+                'mpe.fecha_evaluacion_ini','mpe.fecha_evaluacion_fin'
+             )
+             ->where('mpe.programacion_id',$r->id)
+             ->where('mpe.estado',1)
+             ->get();
+        return $sql;
     }
 }

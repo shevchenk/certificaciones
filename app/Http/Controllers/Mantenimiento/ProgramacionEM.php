@@ -118,6 +118,17 @@ class ProgramacionEM extends Controller
         }
     }
 
+    public function LoadEvaluaciones(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Programacion::runLoadEvaluaciones($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function LoadMiProgramacion(Request $r )
     {
         if ( $r->ajax() ) {
@@ -142,5 +153,25 @@ class ProgramacionEM extends Controller
         }
     }
 
-    
+    public function ProgramarEvaluacion(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Programacion::ProgramarEvaluacion($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "Evaluación Programada";
+            return response()->json($return);
+        }
+    }
+
+    public function CargarEvaluaciones(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Programacion::CargarEvaluaciones($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
 }

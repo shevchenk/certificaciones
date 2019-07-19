@@ -11,12 +11,17 @@ var AjaxProgramacion={
         }
         data=$("#ProgramacionForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ProgramacionForm input[type='hidden']").not('.mant').remove();
-        url='AjaxDinamic/Mantenimiento.ProgramacionEM@Load';
+        url='AjaxDinamic/Mantenimiento.ProgramacionEM@LoadEvaluaciones';
         masterG.postAjax(url,data,evento);
     },
     CargarTipoEvaluacion:function(evento){
         url='AjaxDinamic/Mantenimiento.TipoEvaluacionMA@ListTipoEvaluacion';
         data={};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarEvaluaciones:function(evento){
+        url='AjaxDinamic/Mantenimiento.ProgramacionEM@CargarEvaluaciones';
+        var data=$("#ModalProgramacionForm").serialize().split("txt_").join("").split("slct_").join("");
         masterG.postAjax(url,data,evento);
     },
 };

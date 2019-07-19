@@ -29,12 +29,12 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Programación de Cursos
+    <h1>Evaluación - Programación
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
-        <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Programación de Cursos</li>
+        <li><i class="fa fa-sitemap"></i>Evaluación</a></li>
+        <li class="active">Programación</li>
     </ol>
 </section>
 
@@ -49,66 +49,64 @@
                         <table id="TableProgramacion" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-                                    <th class="col-xs-2">
+                                    <th style="width:15%; ">
                                         <div class="form-group">
                                             <label><h4>Docente:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_docente" id="txt_docente" placeholder="Docente" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_docente" id="txt_docente" placeholder="Docente" onkeypress="return masterG.enterGlobal(event,'#txt_sucursal',1);">
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th style="width:10%; ">
                                         <div class="form-group">
                                             <label><h4>Local de Estudios:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_sucursal" id="txt_sucursal" placeholder="ODE" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_sucursal" id="txt_sucursal" placeholder="ODE" onkeypress="return masterG.enterGlobal(event,'#txt_docente',1);">
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th style="width:20%; ">
                                         <div class="form-group">
                                             <label><h4>Curso:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Curso" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Curso" onkeypress="return masterG.enterGlobal(event,'#txt_sucursal',1);">
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-1">
+                                    <!--th class="col-xs-1">
                                         <div class="form-group">
                                             <label><h4>Aula:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_aula" id="txt_aula" placeholder="Aula" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_aula" id="txt_aula" placeholder="Aula" onkeypress="return masterG.enterGlobal(event,'#txt_sucursal',1);">
                                             </div>
                                         </div>
-                                    </th>
-                                    <th class="col-xs-1">
+                                    </th-->
+                                    <th style="width:10%; ">
                                         <div class="form-group">
                                             <label><h4>Días:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_dia" id="txt_dia" placeholder="Días" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_dia" id="txt_dia" placeholder="Días" onkeypress="return masterG.enterGlobal(event,'#txt_sucursal',1);">
                                             </div>
                                         </div>
                                     </th>
-                                     <th class="col-xs-2">
+                                     <th style="width:10%; ">
                                         <div class="form-group">
                                             <label><h4>Inicio:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_inicio" id="txt_inicio" placeholder="Inicio" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_inicio" id="txt_inicio" placeholder="Inicio" onkeypress="return masterG.enterGlobal(event,'#txt_sucursal',1);">
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th style="width:30%; ">
+                                        <div class="form-group">
+                                            <label><h4>Evaluaciones Programadas:</h4></label>
+                                        </div>
+                                    </th>
+                                    <!--th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Final:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_final" id="txt_final" placeholder="Final" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_final" id="txt_final" placeholder="Final" onkeypress="return masterG.enterGlobal(event,'#txt_sucursal',1);">
                                             </div>
                                         </div>
                                     </th>
@@ -116,12 +114,11 @@
                                         <div class="form-group">
                                             <label><h4>Campaña:</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_campaña" id="txt_campaña" placeholder="Campaña" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_campaña" id="txt_campaña" placeholder="Campaña" onkeypress="return masterG.enterGlobal(event,'#txt_sucursal',1);">
                                             </div>
                                         </div>
-                                    </th>
-                                    <th class="col-xs-1">[-]</th>
+                                    </th-->
+                                    <th style="width:5%;">[-]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -131,11 +128,12 @@
                                   <th>Docente</th>
                                   <th>ODE</th>
                                   <th>Curso</th>
-                                  <th>Aula</th>
+                                  <!--th>Aula</th-->
                                   <th>Días</th>
                                   <th>Inicio</th>
-                                  <th>Final</th>
-                                  <th>Campaña</th>
+                                  <th>Evaluaciones Programadas</th>
+                                  <!--th>Final</th>
+                                  <th>Campaña</th-->
                                   <th>[-]</th>
                                 </tr>
                             </tfoot>
