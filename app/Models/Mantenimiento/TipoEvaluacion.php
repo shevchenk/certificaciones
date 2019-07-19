@@ -42,7 +42,7 @@ class TipoEvaluacion extends Model
 
     public static function runLoad($r)
     {   
-        $sql=DB::table('tipo_evaluacions AS te')
+        $sql=DB::table('tipos_evaluaciones AS te')
             ->select(
             'te.id',
             'te.tipo_evaluacion',

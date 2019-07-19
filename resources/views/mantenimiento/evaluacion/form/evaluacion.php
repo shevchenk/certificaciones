@@ -1,4 +1,4 @@
-<div class="modal" id="ModalProgramacion" tabindex="-1" role="dialog">
+<div class="modal" id="ModalProgramacion" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header btn-info">

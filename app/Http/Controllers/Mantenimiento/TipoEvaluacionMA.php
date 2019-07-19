@@ -36,7 +36,7 @@ class TipoEvaluacionMA extends Controller
             $rules = array(
                 'tipo_evaluacion' => 
                        ['required',
-                        Rule::unique('tipo_evaluaciones','tipo_evaluacion'),
+                        Rule::unique('tipos_evaluaciones','tipo_evaluacion'),
                         ],
             );
 
@@ -67,7 +67,7 @@ class TipoEvaluacionMA extends Controller
             $rules = array(
                 'tipo_evaluacion' => 
                        ['required',
-                        Rule::unique('tipo_evaluaciones','tipo_evaluacion')->ignore($r->id),
+                        Rule::unique('tipos_evaluaciones','tipo_evaluacion')->ignore($r->id),
                         ],
             );
 
