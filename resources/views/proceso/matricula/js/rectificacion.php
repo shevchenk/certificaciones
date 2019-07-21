@@ -117,9 +117,9 @@ HTMLCargar=function(result){ //INICIO HTML
    
         html+="</td>"+
                 "<td class='dni'>"+r.dni+"</td>"+
-                "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
+                "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='materno'>"+r.email+"</td>"+
                 "<td class='materno'>"+r.telefono+"</td>"+
                 "<td class='materno'>"+r.celular+"</td>"+
@@ -168,11 +168,8 @@ HTMLCargaMatri=function(result){ //INICIO HTML
                 "<td class=''>"+r.id+"</td>"+
                 "<td class=''>"+r.tipo_participante+"</td>"+
                 "<td class=''>"+r.ode+"</td>"+
-                "<td class=''>"+r.paterno+"</td>"+
-                "<td class=''>"+r.materno+"</td>"+
-                "<td class=''>"+r.nombre+"</td>"+
+                "<td class=''>"+r.paterno+' '+r.materno+', '+r.nombre+"</td>"+
                 "<td class=''>"+r.fecha_matricula+"</td>"+
-
                 '<td><a id="btnvermatri_'+r.id+'" class="btn btn-primary btn-sm" onClick="CargaMatriDeta('+r.id+')"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> </a>&nbsp;&nbsp;'+
                 '<a id="btnanular_'+r.id+'" class="btn btn-danger btn-sm" onClick="AnularMatri('+r.alumno_id+', '+r.id+')"><i class="fa fa-flat fa-trash"></i> </a></td>';
 

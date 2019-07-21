@@ -41,17 +41,7 @@
                                         <div class="form-group">
                                             <label><h4># DNI</h4></label>
                                             <div class="input-group">
-                                                <!-- <div class="input-group-addon"><i class="fa fa-search"></i></div> -->
-                                                <!-- <input type="text" class="form-control" name="txt_dni" id="txt_dni" placeholder="Buscar # DNI" onkeypress="return masterG.enterGlobal(event,'.input-group',1);"> -->
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Nombres</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Buscar Nombres" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_dni" id="txt_dni" placeholder="DNI" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);"> 
                                             </div>
                                         </div>
                                     </th>
@@ -59,8 +49,7 @@
                                         <div class="form-group">
                                             <label><h4>Ape. Paterno</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Buscar Paterno" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Paterno" onkeypress="return masterG.enterGlobal(event,'#txt_dni',1);">
                                             </div>                                          
                                         </div>
                                     </th>
@@ -68,9 +57,16 @@
                                         <div class="form-group">
                                             <label><h4>Ape. Materno</h4></label>
                                             <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Buscar Materno" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Materno" onkeypress="return masterG.enterGlobal(event,'#txt_dni',1);">
                                             </div>   
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Nombres</h4></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_dni',1);">
+                                            </div>
                                         </div>
                                     </th>
 
@@ -176,18 +172,14 @@
                             <tr class="cabecera">
                             <th>#</th>
                             <th>Tipo Participante</th>
-                            <th>ODE</th>
-                            <th>Paterno</th>
-                            <th>Materno</th>
-                            <th>Nombre</th>
-                            <th>Fecha Matri.</th>
-                            <th width="8%">[]</th>
+                            <th>Lugar de Inscripción</th>
+                            <th>Vendedor</th>
+                            <th>Fecha de Matricula</th>
+                            <th>[]</th>
                             </tr>
                         </thead>
                         <tbody id="tbody_cursos">
                             <tr>
-                            <td>#</td>
-                            <td>#</td>
                             <td>#</td>
                             <td>#</td>
                             <td>#</td>

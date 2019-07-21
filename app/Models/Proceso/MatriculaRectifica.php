@@ -105,7 +105,7 @@ class MatriculaRectifica extends Model
                 $join->on('mtp.id','=','mm.tipo_participante_id');
             })
             ->Join('personas AS p', function($join){
-                $join->on('p.id','=','mm.persona_id');
+                $join->on('p.id','=','mm.persona_marketing_id');
             })
             ->Join('sucursales AS s', function($join){
                 $join->on('s.id','=','mm.sucursal_id');
@@ -129,6 +129,16 @@ class MatriculaRectifica extends Model
                         if( $alumno_id !='' ){
                             $query->where('mm.alumno_id','=', $alumno_id);
                         }
+                    }
+
+                    if( $r->has('especialidad_programacion_id') ){
+                        $especialidad_programacion_id= trim($r->especialidad_programacion_id);
+                        if($especialidad_programacion_id!=''){
+                            $query->where('mm.especialidad_programacion_id',$especialidad_programacion_id);
+                        }
+                    }
+                    else{
+                        $query->whereNull('mm.especialidad_programacion_id');
                     }
                 }
             );
