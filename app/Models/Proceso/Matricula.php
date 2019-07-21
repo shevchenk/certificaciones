@@ -8,6 +8,7 @@ use App\Models\Proceso\Alumno;
 use App\Models\Proceso\MatriculaDetalle;
 use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Menu;
+use App\Models\Proceso\MatriculaCuota;
 use DB;
 use Mail;
 
@@ -127,6 +128,12 @@ class Matricula extends Model
                     Menu::fileToFile($r->dni_archivo, $url);
                 }
             }
+
+            if( Input::has('especialidad_programacion_id') ){
+                $especialidad_programacion_id= $r->especialidad_programacion_id;
+            }
+            $matricula->especialidad_programacion_id= $especialidad_programacion_id[0];
+
             $matricula->save();
         
         if(Input::has('programacion_id')){
@@ -229,7 +236,37 @@ class Matricula extends Model
                 $mtdetalle->persona_id_created_at=Auth::user()->id;
                 $mtdetalle->save();
             }
+        }
 
+        if( Input::has('cuota') ){
+            $cuota= $r->cuota;
+            $nro_cuota= $r->nro_cuota;
+            $monto_cuota= $r->monto_cuota;
+            $tipo_pago_cuota= $r->tipo_pago_cuota;
+            $pago_nombre_cuota= $r->pago_nombre_cuota;
+            $pago_archivo_cuota= $r->pago_archivo_cuota;
+
+            for ($i=0; $i < count($cuota) ; $i++) { 
+                if( trim($monto_cuota[$i])!='' ){
+                    $matriculaCuotas= new MatriculaCuota;
+                    $matriculaCuotas->matricula_id= $matricula->id;
+                    $matriculaCuotas->cuota= $cuota[$i];
+                    $matriculaCuotas->nro_cuota= $nro_cuota[$i];
+                    $matriculaCuotas->monto_cuota= $monto_cuota[$i];
+                    $matriculaCuotas->tipo_pago_cuota= $tipo_pago_cuota[$i];
+                    if( trim($pago_nombre_cuota[$i])!='' ){
+                        $type=explode(".",$pago_nombre_cuota[$i]);
+                        $extension=".".$type[1];
+                    }
+                    $url = "upload/m$matricula->id/cuotas/C".$cuota[$i].$extension; 
+                    if( trim($pago_archivo_cuota[$i])!='' ){
+                        $matriculaCuotas->archivo_cuota= $url;
+                        Menu::fileToFile($pago_archivo_cuota[$i], $url);
+                    }
+                    $matriculaCuotas->persona_id_created_at=Auth::user()->id;
+                    $matriculaCuotas->save();
+                }
+            }
         }
         DB::commit();
         $email='jorgeshevchenk@gmail.com';

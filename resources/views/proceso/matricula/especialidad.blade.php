@@ -193,7 +193,7 @@
                                                 <tr>
                                                     <th>Especialidad</th>
                                                     <th>Cursos</th>
-                                                    <th>Mod.</th>
+                                                    <th>Modalidad</th>
                                                     <th>Fecha de Inicio</th>
                                                     <th>Horario</th>
                                                     <th>Local del Curso</th>
@@ -257,9 +257,9 @@
                                     </div>
                                     <div class="col-md-12">
                                         <table class="table" id="t_pago_promocion" style="display:none;">
-                                            <thead>
+                                            <thead class="bg-info">
                                                 <tr>
-                                                    <th colspan="4" style="text-align:center;">Promoción del Curso &nbsp;&nbsp;
+                                                    <th colspan="6" style="text-align:center;">Inscripción del Curso &nbsp;&nbsp;
                                                     </th>
                                                 </tr>
                                                 <tr>
@@ -269,7 +269,6 @@
                                                     <th>Tipo Operación</th>
                                                     <th>Archivo Pago</th>
                                                     <th>Archivo DNI</th>
-                                                    <th>[]</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_pago_promocion">
@@ -314,6 +313,26 @@
                                                         </div>
                                                     </td>
                                                 </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <table class="table" id="t_pago_cuota">
+                                            <thead class="bg-info">
+                                                <tr>
+                                                    <th colspan="5" style="text-align:center;">Cuotas de la Especialidad &nbsp;&nbsp;
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Cuotas Programadas</th>
+                                                    <th>N° de Boleta/N° de Operación</th>
+                                                    <th>Importe</th>
+                                                    <th>Tipo Operación</th>
+                                                    <th>Archivo Pago</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_pago_cuota">
                                             </tbody>
                                         </table>
                                     </div>

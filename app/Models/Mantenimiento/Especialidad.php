@@ -172,21 +172,20 @@ class Especialidad extends Model
     public static function ListEspecialidadDisponible($r)
     {
         DB::statement(DB::raw('SET @@group_concat_max_len = 4294967295'));
-        /*$sql= 'SELECT me.id, me.especialidad
-                , GROUP_CONCAT( mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos
-                FROM mat_especialidades me
-                INNER JOIN mat_cursos_especialidades mce ON mce.especialidad_id=me.id AND mce.estado=1
-                INNER JOIN mat_cursos mc ON mc.id=mce.curso_id
-                LEFT JOIN (
-                    SELECT mp.curso_id, COUNT(mmd.id) cant, MAX(mmd.nota_curso_alum) nota
-                    FROM mat_programaciones mp 
-                    INNER JOIN mat_matriculas_detalles mmd ON mmd.programacion_id=mp.id AND mmd.estado=1
-                    INNER JOIN mat_matriculas mm ON mm.id=mmd.matricula_id AND mm.persona_id=\'.$r->persona_id.\' AND mm.estado=1
-                    GROUP BY mp.curso_id
-                ) AS mps ON mps.curso_id=mc.id
-                WHERE me.estado=1
-                GROUP BY me.id,me.especialidad';*/
         $sql =  DB::table('mat_especialidades AS me')
+                ->Join('mat_especialidades_programaciones AS mep',function($join){
+                    $join->on('mep.especialidad_id','=','me.id')
+                    ->where('mep.estado','=',1);
+                })
+                ->Join(DB::raw(
+                    '(SELECT mepc.especialidad_programacion_id
+                    , GROUP_CONCAT(mepc.fecha_cronograma ORDER BY mepc.cuota SEPARATOR \'|\') cronograma
+                    FROM mat_especialidades_programaciones_cronogramas AS mepc
+                    WHERE mepc.estado=1
+                    GROUP BY mepc.especialidad_programacion_id) AS cro'
+                    ),function($join){
+                    $join->on('cro.especialidad_programacion_id','=','mep.id');
+                })
                 ->Join('mat_cursos_especialidades AS mce',function($join){
                     $join->on('mce.especialidad_id','=','me.id')
                     ->where('mce.estado','=',1);
@@ -203,7 +202,7 @@ class Especialidad extends Model
                     ),function($join){
                     $join->on('mps.curso_id','=','mc.id');
                 })
-                ->select('me.id','me.especialidad'
+                ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','cro.cronograma'
                 ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')
                 )
                 ->where( function($query) use ($r){
@@ -213,8 +212,14 @@ class Especialidad extends Model
                             $query->where('me.especialidad','like','%'.$especialidad.'%');
                         }
                     }
+                    if( $r->has("fecha_inicio") ){
+                        $fecha_inicio=trim($r->fecha_inicio);
+                        if( $fecha_inicio !='' ){
+                            $query->where('mep.fecha_inicio','like','%'.$fecha_inicio.'%');
+                        }
+                    }
                 })
-                ->groupBy('me.id','me.especialidad');
+                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','cro.cronograma');
         $result = $sql->orderBy('me.especialidad','asc')->paginate(10);
         return $result;
     }

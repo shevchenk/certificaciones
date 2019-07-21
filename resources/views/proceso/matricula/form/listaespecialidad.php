@@ -16,20 +16,28 @@
                                 <table id="TableListaespecialidad" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
-                                            <th class="col-xs-2">
+                                            <th class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="input-group">
-                                                    <label><h4>Especialidad:<button id="btnbuscar" type="button" class="btn btn-default"><i class="fa fa-search"></i></button></h4></label>
+                                                    <label><h4>Especialidad:</h4></label>
                                                     </div>
-                                                    <input type="text" class="form-control" name="txt_docente" id="txt_docente" placeholder="Especialidad" onkeypress="return masterG.enterGlobal(event, '#btnbuscar', 1);">
+                                                    <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Especialidad" onkeypress="return masterG.enterGlobal(event, '#txt_fecha_inicio', 1);" style="width: 150px;">
                                                 </div>
                                             </th>
-                                            <th class="col-xs-9">
+                                            <th class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                    <label><h4>Fecha de Inicio:</h4></label>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" placeholder="Fecha de Inicio" onkeypress="return masterG.enterGlobal(event, '#txt_especialidad', 1);" style="width: 120px;">
+                                                </div>
+                                            </th>
+                                            <th class="col-md-9">
                                                 <div class="form-group">
                                                     <label><h4>Cursos:</h4></label>
                                                 </div>
                                             </th>
-                                            <th class="col-xs-1">[-]</th>
+                                            <th class="col-md-1">[-]</th>
                                         </tr>
                                     </thead>
                                     <tbody>

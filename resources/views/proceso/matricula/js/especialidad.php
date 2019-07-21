@@ -165,11 +165,11 @@ HTMLAgregarEditar=function(result){
         msjG.mensaje('success',result.msj,4000);
         $("#ModalMatriculaForm input[type='hidden'],#ModalMatriculaForm input[type='text'],#ModalMatriculaForm textarea").not('.mant').val('');
         $("#ModalMatriculaForm select").selectpicker('val','0');
-        $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
+        $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago, #ModalMatriculaForm #tb_pago_cuota, #ModalMatriculaForm #promocion_seminario').html('');
         $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
         $("#txt_observacion").val('S/O');
         $("#pago_img,#dni_img").attr('src','');
-        $("#t_matricula").html('');
+        $("#tb_matricula").html('');
         ActivarPago(1);
     }else{
         msjG.mensaje('warning',result.msj,3000);
