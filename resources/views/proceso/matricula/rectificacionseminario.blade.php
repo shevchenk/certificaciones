@@ -175,7 +175,7 @@
                             <th>Tipo Participante</th>
                             <th>Lugar de Inscripción</th>
                             <th>Vendedor</th>
-                            <th>Fecha de Matricula</th>
+                            <th>Fecha de Inscripción</th>
                             <th>[]</th>
                             </tr>
                         </thead>
