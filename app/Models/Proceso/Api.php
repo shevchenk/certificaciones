@@ -72,18 +72,14 @@ class Api extends Model
                         $join->on('mc.id','=','mp.curso_id')
                         ->where('mc.tipo_curso',1);
                     })
-                    ->Join(Api::mibdaux().'.mat_cursos_especialidades AS mce', function($join){
-                        $join->on('mce.curso_id','=','mc.id')
-                        ->where('mce.estado',1);
-                    })
-                    ->Join(Api::mibdaux().'.mat_especialidades AS me', function($join){
-                        $join->on('me.id','=','mce.especialidad_id')
+                    ->leftJoin(Api::mibdaux().'.mat_especialidades AS me', function($join){
+                        $join->on('me.id','=','mmd.especialidad_id')
                         ->where('me.estado',1);
                     })
                     ->select('mc.curso', 'mc.id AS curso_externo_id', 'mp.id AS programacion_unica_externo_id'
                     ,'mp.fecha_inicio', 'mp.fecha_final', 'p.dni AS docente_dni', 'p.paterno AS docente_paterno'
                     ,'p.materno AS docente_materno','p.nombre AS docente_nombre', 'mmd.id AS programacion_externo_id'
-                    ,'me.especialidad AS carrera'
+                    ,DB::raw('IFNULL(me.especialidad,"Curso Libre") AS carrera')
                     )
                     ->where('mm.estado',1)
                     ->where('mm.persona_id',$persona[0]->id)
