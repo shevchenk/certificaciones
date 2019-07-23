@@ -127,10 +127,10 @@
                                         <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportLlamadasDetalle'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
                                         <td>Reporte de Llamadas Detalle</td>
                                     </tr>
-                                    <tr>
+                                    <!--tr>
                                         <td><a class='btn btn-success btn-lg btnexport' href='' target="_blank" data-reporte='ExportClientePotencial'><i class="glyphicon glyphicon-download-alt"></i></i></a></td>
                                         <td>Reporte de Llamadas - Clientes Potenciales</td>
-                                    </tr>
+                                    </tr-->
                                 </tbody>
                             </table>
                         </div>
