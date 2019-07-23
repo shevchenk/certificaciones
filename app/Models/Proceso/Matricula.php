@@ -131,8 +131,8 @@ class Matricula extends Model
 
             if( Input::has('especialidad_programacion_id') ){
                 $especialidad_programacion_id= $r->especialidad_programacion_id;
+                $matricula->especialidad_programacion_id= $especialidad_programacion_id[0];
             }
-            $matricula->especialidad_programacion_id= $especialidad_programacion_id[0];
 
             $matricula->save();
         
