@@ -1112,7 +1112,7 @@ class Reporte extends Model
         $where.=$whereaux;
 
         $group="
-        GROUP BY t.id,p2.empresa";
+        GROUP BY t.id,p2.empresa,p.paterno, p.materno, p.nombre";
         //dd($select.$from.$where.$group);
         DB::statement(DB::raw('SET @numero=0'));
         $result['data']=DB::select($select.$from.$where.$group);
