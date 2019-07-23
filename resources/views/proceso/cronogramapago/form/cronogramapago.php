@@ -40,7 +40,7 @@
               <div class="col-md-12">  
                 <div class="col-md-6">
                   <br>         
-                    <label>Fecha de Cronograma:</label>
+                    <label>Fecha de cronograma de pago:</label>
                     <br>
                     <input type="text" class="form-control fecha" id="txt_fecha_cronograma" placeholder="YYYY-MM-DD">
                 </div>
