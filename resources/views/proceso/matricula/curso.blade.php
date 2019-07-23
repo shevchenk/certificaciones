@@ -161,7 +161,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="panel panel-success">
-                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>SEMINARIOS SELECCIONADOS</center></div>
+                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>CURSOS SELECCIONADOS</center></div>
                                 <div class="panel-body">
                                     <div class="col-md-4">
                                         <div class="form-group">
