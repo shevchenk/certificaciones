@@ -85,7 +85,7 @@
                             <input type="text" onkeypress="return masterG.validaNumeros(event, this);" class="form-control" id="txt_meta_min" name="txt_meta_min">
                         </div>
                     </div>
-                    <div class="col-md-12 txt_aula">
+                    <div class="col-md-12 txt_link">
                         <div class="form-group">
                             <label>Link del Seminario</label>
                             <textarea class="form-control" id="txt_link" name="txt_link"></textarea>

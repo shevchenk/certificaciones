@@ -46,7 +46,7 @@ $(document).ready(function() {
     $("#ProgramacionForm #TableProgramacion input").blur(function(){ AjaxProgramacion.Cargar(HTMLCargarProgramacion); });
     
     $('#ModalProgramacion').on('shown.bs.modal', function (event) {
-
+        $('#ModalProgramacionForm .txt_link').css( "display","none" );
         if( AddEdit==1 ){        
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
         }
