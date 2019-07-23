@@ -90,7 +90,7 @@ class MatriculaRectifica extends Model
                 ->where('mmd.norden',1);
             })
             ->Join('mat_programaciones AS mp', function($join){
-                $join->on('mp.id','=','mmd.programacion_id');
+                $join->on('mp.id','=','mmd.programacion_id');   
             })
             ->Join('mat_cursos AS mc', function($join) use ($r){
                 $join->on('mc.id','=','mp.curso_id');
@@ -137,6 +137,9 @@ class MatriculaRectifica extends Model
                             $query->where('mm.especialidad_programacion_id',$especialidad_programacion_id);
                         }
                     }
+                    elseif( $r->has('especialidad_matricula') ){
+                        $query->whereNotNull('mm.especialidad_programacion_id');
+                    }
                     else{
                         $query->whereNull('mm.especialidad_programacion_id');
                     }
@@ -168,7 +171,7 @@ class MatriculaRectifica extends Model
             'mmd.id',
             'm.id as id_matri',
             'mc.tipo_curso',
-            'mc.curso',
+            'mc.curso','mc.id AS curso_id',
              DB::raw("CONCAT(p.paterno,' ', p.materno,', ', p.nombre) as docente"),
              DB::raw("IF(s.id=1,'OnLine','Presencial') as modalidad"),
             's.sucursal',

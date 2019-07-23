@@ -36,6 +36,16 @@ class MatriculaRectificaPR extends Controller
         }
     }
 
+    public function EditDetalleEspecialidadStatus(Request $r )
+    {
+        if ( $r->ajax() ) {
+            MatriculaDetalle::runEditDetalleEspecialidadStatus($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro eliminado';
+            return response()->json($return);
+        }
+    }
+
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
