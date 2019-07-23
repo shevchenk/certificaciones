@@ -42,7 +42,7 @@
                                 <div class="col-sm-2 text-center">
                                     <label class="control-label">Tipo</label>
                                     <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tipo_curso" name="slct_tipo_curso">
-                                        <option value="1" selected>PAE</option>
+                                        <option value="1" selected>Curso</option>
                                         <option value="2">Seminario</option>
                                     </select>
                                 </div>

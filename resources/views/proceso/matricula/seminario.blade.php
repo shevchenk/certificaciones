@@ -281,6 +281,7 @@
                                                         <option value='0'>.::Seleccione::.</option>
                                                         <option value='1'>Transferencia</option>
                                                         <option value='2'>Depósito</option>
+                                                        <option value='3'>Caja</option>
                                                         </select></td>
                                                     <td>
                                                         <input type="text"  readOnly class="form-control input-sm" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">
