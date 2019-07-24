@@ -263,7 +263,7 @@
                                                     </th>
                                                 </tr>
                                                 <tr>
-                                                    <th>Nombre del Curso</th>
+                                                    <th>Nombre de la Especialidad</th>
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>

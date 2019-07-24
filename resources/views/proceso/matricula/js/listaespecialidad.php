@@ -106,7 +106,7 @@ HTMLCargarEspecialidad=function(result){
 
 SeleccionarEspecialidad=function(id){
     EspecialidadIDG=id;
-    var html=''; var cursos='';
+    var html=''; var cursos=''; var seminario='';
         $("#trides_"+id+" table>tbody>tr").each( function(){
           html+="<tr id='tres_"+id+"_"+$(this).find('td:eq(0) .curso_id').val()+"'>"+
             "<td><input type='text' class='form-control' value='"+$('#trides_'+id+' .especialidad').text()+"' disabled></td>"+
@@ -124,8 +124,9 @@ SeleccionarEspecialidad=function(id){
 
           cursos+="<li>"+$(this).find('td:eq(1)').text()+"</li>";
         })
+          seminario="<li>"+$('#trides_'+id+' .especialidad').text()+"</li>";
 
-        $("#promocion_seminario").html("<ol>"+cursos+"</ol>");
+        $("#promocion_seminario").html("<ul>"+seminario+"</ul>");
         $("#tb_matricula").html(html);
 
         html='';
