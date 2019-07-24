@@ -161,17 +161,19 @@ HTMLCargar=function(result){ //INICIO HTML
 // PROCESOS NUEVOS
 HTMLCargaMatri=function(result){ //INICIO HTML
     var html="";
-
+    $("#div_cursos_progra #txt_persona_id").val('');
+    $("#div_cursos_progra #txt_matricula_id").val('');
     $.each(result.data.data,function(index, r){ //INICIO FUNCTION
         html+="<tr id='trid_"+r.id+"'>";
         html+=""+
                 "<td class=''>"+r.id+"</td>"+
+                "<td class=''>"+r.especialidad+"</td>"+
                 "<td class=''>"+r.tipo_participante+"</td>"+
                 "<td class=''>"+r.ode+"</td>"+
                 "<td class=''>"+r.paterno+' '+r.materno+', '+r.nombre+"</td>"+
                 "<td class=''>"+r.fecha_matricula+"</td>"+
                 '<td><a id="btnvermatri_'+r.id+'" class="btn btn-primary btn-sm" onClick="CargaMatriDeta('+r.id+')"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> </a>&nbsp;&nbsp;'+
-                '<a id="btnanular_'+r.id+'" class="btn btn-danger btn-sm" onClick="AnularMatri('+r.alumno_id+', '+r.id+')"><i class="fa fa-flat fa-trash"></i> </a></td>';
+                '</td>';
 
         html+="</tr>";
     });//FIN FUNCTION
@@ -179,12 +181,17 @@ HTMLCargaMatri=function(result){ //INICIO HTML
     $("#tb_tabla2 tbody").html(html); 
 };
 
+RectificarEspecialidad=function(id,persona_id){
+    $("#div_cursos_progra #txt_matricula_id").val(id);
+    $("#div_cursos_progra #txt_persona_id").val(persona_id);
+}
+
 CargaMatriDeta=function(id_matri){
     AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, id_matri);
 };
 
 HTMLCargaMatriDeta=function(result){ //INICIO HTML
-    var html=""; var invi=1;
+    var html=""; var invi=1; var eliminar='';
     var archivopago=''; var archivopagoc='';
     $("#tb_tabla2_deta .curso").css('display','');
     $("#tb_tabla2_deta tbody").html('');
@@ -205,26 +212,32 @@ HTMLCargaMatriDeta=function(result){ //INICIO HTML
             archivopagoc="<a target='_blank' class='btn btn-sm' href='"+r.archivo_pago_certificado+"'><i class='fa fa-lg fa-download'><i></a>";
         }
 
+        eliminar='<a id="btnrm_'+r.id+'" class="btn btn-danger btn-sm" onClick="eliminaDetalle('+r.id+','+r.id_matri+','+"'"+r.curso+"'"+')"><i class="fa fa-trash fa-lg"></i> </a>';
+        if($.trim(r.sucursal)==''){
+            r.modalidad='';
+            eliminar='';
+        }
+
         html+=""+
                 "<td class=''>"+r.id+"</td>"+
+                "<td class=''>"+$.trim(r.curso)+"</td>"+
                 "<td class=''>"+r.modalidad+"</td>"+
-                "<td class=''>"+r.sucursal+"</td>"+
-                "<td class=''>"+r.curso+"</td>"+
-                "<td class=''>"+r.docente+"</td>"+
-                "<td class='curso'>"+r.dia+"</td>"+
-                "<td class=''>"+r.fecha_inicio+"</td>"+
-                "<td class=''>"+r.fecha_final+"</td>"+
+                "<td class=''>"+$.trim(r.sucursal)+"</td>"+
+                "<td class=''>"+$.trim(r.docente)+"</td>"+
+                "<td class=''>"+$.trim(r.dia)+"</td>"+
+                "<td class=''>"+$.trim(r.fecha_inicio)+"</td>"+
+                "<td class=''>"+$.trim(r.fecha_final)+"</td>"+
                 
                 /*"<td class='curso'>"+$.trim(r.nro_pago)+"</td>"+
                 "<td class='curso'>"+r.monto_pago+"</td>"+
-                "<td class='curso'>"+archivopago+"</td>"+*/
+                "<td class='curso'>"+archivopago+"</td>"+
                 "<td class=''>"+$.trim(r.nro_pago_certificado)+"</td>"+
                 "<td class=''>"+r.monto_pago_certificado+"</td>"+
-                "<td class=''>"+archivopagoc+"</td>"+
+                "<td class=''>"+archivopagoc+"</td>"+*/
                 //'<td><a id="btnv_'+r.id+'" class="btn btn-primary btn-sm" onClick="AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, '+r.id+')"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i> </a></td>';
-                '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:'+r.tipo_curso+'|id_matri:'+r.id_matri+'|id_matri_deta:'+r.id+'"><i class="glyphicon glyphicon-refresh"></i> Programación</button>'+
+                '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:'+r.tipo_curso+'|id_matri:'+r.id_matri+'|curso_id:'+r.curso_id+'|id_matri_deta:'+r.id+'"><i class="glyphicon glyphicon-refresh"></i> Programación</button>'+
                 '<td>&nbsp;</td>'+
-                '<td><a id="btnrm_'+r.id+'" class="btn btn-danger btn-sm" onClick="eliminaDetalle('+r.id+','+r.id_matri+','+"'"+r.curso+"'"+')"><i class="fa fa-trash fa-lg"></i> </a></td>';
+                '<td>'+eliminar+'</td>';
 
         html+="</tr>";
     });//FIN FUNCTION

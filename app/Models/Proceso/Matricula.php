@@ -163,7 +163,7 @@ class Matricula extends Model
         }
             
         if($matricula){
-            for($i=0;$i<count($programacion_id);$i++){
+            for($i=0;$i<count($curso_id);$i++){
                 
                 $mtdetalle=new MatriculaDetalle;
                 $mtdetalle->norden=$i+1;
@@ -181,20 +181,20 @@ class Matricula extends Model
                     }
                 }
 
-                foreach ($checks as $key => $value) {
+                /*foreach ($checks as $key => $value) {
                     if($value==$i){
                         $mtdetalle->gratis=1;
                     }
-                }
+                }*/
                 $mtdetalle->nro_pago=$nro_pago[$i];
                 $mtdetalle->monto_pago=$monto_pago[$i];
                 $mtdetalle->nro_pago_certificado=$nro_pago_certificado[$i];
                 $mtdetalle->monto_pago_certificado=$monto_pago_certificado[$i];
                 $mtdetalle->tipo_pago=$tipo_pago[$i];
+                $mtdetalle->curso_id=$curso_id[$i];
 
                 if(Input::has('especialidad_id')){
                         $mtdetalle->especialidad_id=$especialidad_id[$i];
-                        $mtdetalle->curso_id=$curso_id[$i];
                         $mtdetalle->tipo_matricula_detalle=2;
                         $mtdetalle->nro_pago_certificado=0;
                         $mtdetalle->monto_pago_certificado=0;

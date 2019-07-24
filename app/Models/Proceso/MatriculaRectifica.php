@@ -86,14 +86,10 @@ class MatriculaRectifica extends Model
     {
         $sql=DB::table('mat_matriculas as mm')
             ->Join('mat_matriculas_detalles AS mmd', function($join){
-                $join->on('mmd.matricula_id','=','mm.id')
-                ->where('mmd.norden',1);
-            })
-            ->Join('mat_programaciones AS mp', function($join){
-                $join->on('mp.id','=','mmd.programacion_id');   
+                $join->on('mmd.matricula_id','=','mm.id');
             })
             ->Join('mat_cursos AS mc', function($join) use ($r){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mmd.curso_id');
                 if( $r->has('tipo_curso') ){
                     $join->where('mc.tipo_curso',2);
                 }
@@ -110,15 +106,20 @@ class MatriculaRectifica extends Model
             ->Join('sucursales AS s', function($join){
                 $join->on('s.id','=','mm.sucursal_id');
             })
+            ->leftJoin('mat_especialidades AS me', function($join){
+                $join->on('me.id','=','mmd.especialidad_id');
+            })
             ->select(
             'mm.id',
             'mm.alumno_id',
+            'mm.persona_id',
             'mtp.tipo_participante',
             's.sucursal AS ode',
             'p.paterno',
             'p.materno',
             'p.nombre',
-            'mm.fecha_matricula'
+            'mm.fecha_matricula',
+            DB::raw('GROUP_CONCAT(DISTINCT(me.especialidad)) AS especialidad')
             )
             ->where( 
                 function($query) use ($r){
@@ -145,7 +146,9 @@ class MatriculaRectifica extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('mm.id','asc')->paginate(10);
+        $result = $sql->groupBy('mm.id','mm.alumno_id','mtp.tipo_participante',
+            's.sucursal','p.paterno','p.materno','p.nombre','mm.fecha_matricula')
+                    ->orderBy('mm.id','asc')->paginate(10);
         return $result;
     }
 
@@ -155,16 +158,16 @@ class MatriculaRectifica extends Model
             ->Join('mat_matriculas AS m', function($join){
                 $join->on('m.id','=','mmd.matricula_id');
             })
-            ->Join('mat_programaciones AS mp', function($join){
+            ->Join('mat_cursos AS mc', function($join){
+                $join->on('mc.id','=','mmd.curso_id');
+            })
+            ->leftJoin('mat_programaciones AS mp', function($join){
                 $join->on('mp.id','=','mmd.programacion_id');
             })
-            ->Join('sucursales AS s', function($join){
+            ->leftJoin('sucursales AS s', function($join){
                 $join->on('s.id','=','mp.sucursal_id');
             })
-            ->Join('mat_cursos AS mc', function($join){
-                $join->on('mc.id','=','mp.curso_id');
-            })
-            ->Join('personas AS p', function($join){
+            ->leftJoin('personas AS p', function($join){
                 $join->on('p.id','=','mp.persona_id');
             })
             ->select(
@@ -203,11 +206,54 @@ class MatriculaRectifica extends Model
 
     public static function runEditStatus($r)
     {
+        DB::beginTransaction();
         $user_id = Auth::user()->id;
         $especialidad = MatriculaRectifica::find($r->id);
         $especialidad->estado = 0;
         $especialidad->persona_id_updated_at=$user_id;
         $especialidad->save();
+
+        DB::table('mat_matriculas_detalles')
+        ->where('matricula_id', '=', $r->id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $user_id,
+                'updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+        DB::commit();
+    }
+
+    public static function runEditEspecialidadStatus($r)
+    {
+        DB::beginTransaction();
+        $user_id = Auth::user()->id;
+        $especialidad = MatriculaRectifica::find($r->id);
+        $especialidad->estado = 0;
+        $especialidad->persona_id_updated_at=$user_id;
+        $especialidad->save();
+
+        DB::table('mat_matriculas_detalles')
+        ->where('matricula_id', '=', $r->id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $user_id,
+                'updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+
+        DB::table('mat_matriculas_cuotas')
+        ->where('matricula_id', '=', $r->id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $user_id,
+                'updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+        DB::commit();
     }
 
     public static function UpdateMatriDeta($r)
@@ -215,6 +261,7 @@ class MatriculaRectifica extends Model
         $user_id = Auth::user()->id;
         $data = MatriculaDetalle::find($r->id);
         $data->programacion_id = $r->programacion_id;
+        $data->curso_id = $r->curso_id;
         $data->persona_id_updated_at=$user_id;
         $data->save();
         
@@ -241,6 +288,110 @@ class MatriculaRectifica extends Model
 
         $data->persona_id_updated_at=$user_id;
         $data->save();
+    }
+
+    public static function CambiarEspecialidad($r)
+    {
+        DB::beginTransaction();
+        $user_id = Auth::user()->id;
+        DB::table('mat_matriculas_detalles')
+        ->where('matricula_id', '=', $r->matricula_id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $user_id,
+                'updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+
+        DB::table('mat_matriculas_cuotas')
+        ->where('matricula_id', '=', $r->matricula_id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $user_id,
+                'updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+
+        $mat= Matricula::find($r->matricula_id);
+        $mat->estado= 0;
+        $mat->persona_id_updated_at= $user_id;
+        $mat->save();
+
+        $newMat= new Matricula;
+        $newMat->tipo_participante_id= $mat->tipo_participante_id;
+        $newMat->persona_id= $mat->persona_id;
+        $newMat->alumno_id= $mat->alumno_id;
+        $newMat->sucursal_id= $mat->sucursal_id;
+        $newMat->sucursal_destino_id= $mat->sucursal_destino_id;
+        $newMat->persona_caja_id= $mat->persona_caja_id;
+        $newMat->persona_matricula_id= $mat->persona_matricula_id;
+        $newMat->persona_marketing_id= $mat->persona_marketing_id;
+        $newMat->fecha_matricula= $mat->fecha_matricula;
+        $newMat->tipo_matricula= $mat->tipo_matricula;
+        $newMat->nro_pago= $mat->nro_pago;
+        $newMat->monto_pago= $mat->monto_pago;
+        $newMat->archivo_pago= $mat->archivo_pago;
+        $newMat->nro_pago_inscripcion= $mat->nro_pago_inscripcion;
+        $newMat->monto_pago_inscripcion= $mat->monto_pago_inscripcion;
+        $newMat->archivo_pago_inscripcion= $mat->archivo_pago_inscripcion;
+        $newMat->nro_promocion= $mat->nro_promocion;
+        $newMat->monto_promocion= $mat->monto_promocion;
+        $newMat->archivo_promocion= $mat->archivo_promocion;
+        $newMat->archivo_dni= $mat->archivo_dni;
+        $newMat->tipo_pago= $mat->tipo_pago;
+        $newMat->observacion= $mat->observacion.' - Especialidad Cambiada('.$mat->id.')';
+        $newMat->especialidad_programacion_id= $r->especialidad_programacion_id;
+        $newMat->estado=1;
+        $newMat->persona_id_created_at=$user_id;
+        $newMat->save();
+
+        $detMat=DB::table('mat_cursos_especialidades')
+        ->where('especialidad_id', '=', $r->especialidad_id)
+        ->where('estado',1)
+        ->orderBy('orden','asc')
+        ->get();
+
+        foreach ($detMat as $key => $value) {
+            $newDetMat= new MatriculaDetalle;
+            $newDetMat->matricula_id= $newMat->id;
+            $newDetMat->norden= $value->orden;
+            $newDetMat->curso_id= $value->curso_id;
+            $newDetMat->especialidad_id= $value->especialidad_id;
+            $newDetMat->nro_pago_certificado= 0;
+            $newDetMat->monto_pago_certificado= 0;
+            $newDetMat->tipo_matricula_detalle= 2;
+            $newDetMat->tipo_pago= 0;
+            $newDetMat->estado=1;
+            $newDetMat->persona_id_created_at=$user_id;
+            $newDetMat->save();
+        }
+
+        $detCuota=DB::table('mat_matriculas_cuotas')
+        ->where('matricula_id', '=', $r->matricula_id)
+        ->orderBy('cuota','asc')
+        ->get();
+
+        foreach ($detCuota as $key => $value) {
+            $newCuota= new MatriculaCuota;
+            $newCuota->matricula_id= $newMat->id;
+            $newCuota->cuota= $value->cuota;
+            $newCuota->nro_cuota= $value->nro_cuota;
+            $newCuota->monto_cuota= $value->monto_cuota;
+            $newCuota->tipo_pago_cuota= $value->tipo_pago_cuota;
+            $newCuota->archivo_cuota= $value->archivo_cuota;
+            $newCuota->estado=1;
+            $newCuota->persona_id_created_at=$user_id;
+            $newCuota->save();
+        }
+
+        DB::commit();
+        $return['rst'] = 1;
+        $return['msj'] = 'Registro actualizado';
+        $return['alumno_id'] = $newMat->alumno_id;
+        $return['matricula_id'] = $newMat->id;
+        return $return;
     }
     // --
 }

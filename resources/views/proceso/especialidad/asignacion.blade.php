@@ -10,11 +10,11 @@
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
 
-    @include( 'proceso.especialidad.js.rectificacion_ajax' )
-    @include( 'proceso.especialidad.js.rectificacion' )
+    @include( 'proceso.especialidad.js.asignacion_ajax' )
+    @include( 'proceso.especialidad.js.asignacion' )
 
-    @include( 'proceso.especialidad.js.listaespecialidad' )
-    @include( 'proceso.especialidad.js.listaespecialidad_ajax' )
+    @include( 'proceso.especialidad.js.rectificalistaprogramacion_ajax' )
+    @include( 'proceso.especialidad.js.rectificalistaprogramacion' )
 
 @stop
 
@@ -219,7 +219,7 @@
                 <table id="tb_tabla2_deta" class="table table-striped">
                     <thead>
                         <tr class="cabecera">
-                            <th colspan='8' style="text-align: center;">DETALLES DE LA INSCRIPCIÓN</th>
+                            <th colspan='11' style="text-align: center;">DETALLES DE LA INSCRIPCIÓN</th>
                         </tr>
 
                         <tr class="bg-info">
@@ -237,8 +237,8 @@
                         <th class="curso">Arch. Pago</th>
                         <th>Nro P Cerf.</th>
                         <th>Mto. P Cerf.</th>
-                        <th>Arch. P Cerf.</th>
-                        <th colspan="3">[]</th-->
+                        <th>Arch. P Cerf.</th-->
+                        <th colspan="3">[]</th>
                         </tr>
                     </thead>
                     <tbody id="tbody_tabla2">
@@ -256,8 +256,8 @@
                         <td class="curso">#</td>
                         <td>#</td>
                         <td>#</td>
-                        <td>#</td>
-                        <td colspan="3">#</td-->
+                        <td>#</td-->
+                        <td colspan="3">#</td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -277,5 +277,5 @@
 @stop
 
 @section('form')
-@include( 'proceso.especialidad.form.listaespecialidad' )
+@include( 'proceso.especialidad.form.rectificalistaprogramacion' )
 @stop

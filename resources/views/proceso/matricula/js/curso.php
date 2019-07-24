@@ -190,7 +190,7 @@ CargarSlct=function(slct){
 
 SlctCargarSucursalTotal=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
-    html+="<option value='0'>A Domicilio</option>";
+    html+="<option value='1'>A Domicilio</option>";
     $.each(result.data,function(index,r){
         if(r.id>1){
           html+="<option value="+r.id+">"+r.sucursal+"</option>";

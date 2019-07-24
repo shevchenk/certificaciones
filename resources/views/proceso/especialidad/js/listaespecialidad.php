@@ -16,7 +16,7 @@ $(document).ready(function() {
 
     $('#ModalListaespecialidad').on('shown.bs.modal', function (event) {
           var button = $(event.relatedTarget); // captura al boton
-          if( $("#ModalMatriculaForm #txt_persona_id").val()=='' ){
+          if( $.trim($("#div_cursos_progra #txt_persona_id").val())=='' ){
             msjG.mensaje('warning','Seleccione Persona',4000);
             $("#ModalListaespecialidad").modal('hide');
           }
@@ -29,7 +29,7 @@ $(document).ready(function() {
 //        $("ModalDocenteForm input[type='hidden']").remove();
     });
 
-    $("#TableListaprogramacion").DataTable({
+    /*$("#TableListaprogramacion").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -51,12 +51,13 @@ $(document).ready(function() {
         }
         $("#ModalListaprogramacion #slct_tipo_modalidad_id").selectpicker('val','0');
         ListaProgramacionModalidad();
-    });
+    });*/
 });
-
+/*
 ListaProgramacionModalidad=function(){
     AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
 }
+*/
 
 HTMLCargarEspecialidad=function(result){
     var html="";
@@ -106,63 +107,23 @@ HTMLCargarEspecialidad=function(result){
 
 SeleccionarEspecialidad=function(id){
     EspecialidadIDG=id;
-    var html=''; var cursos='';
-        $("#trides_"+id+" table>tbody>tr").each( function(){
-          html+="<tr id='tres_"+id+"_"+$(this).find('td:eq(0) .curso_id').val()+"'>"+
-            "<td><input type='text' class='form-control' value='"+$('#trides_'+id+' .especialidad').text()+"' disabled></td>"+
-            "<td><textarea rows='2' class='form-control' disabled>"+$(this).find('td:eq(1)').text()+"</textarea></td>"+
-            "<td><input type='hidden' class='form-control' id='txt_programacion_id' name='txt_programacion_id[]' value=''><input type='text' class='form-control' value='' disabled></td>"+
-            "<td><input type='text' class='form-control' value='' disabled></td>"+
-            "<td><input type='text' class='form-control' value='' disabled></td>"+
-            "<td><input type='text' class='form-control' value='' disabled>"+
-                "<input type='hidden' class='form-control' name='txt_curso_id[]' value='"+$(this).find('td:eq(0) .curso_id').val()+"'>"+
-                "<input type='hidden' class='form-control' id='txt_especialidad_id' name='txt_especialidad_id[]' value='"+id.split("_")[0]+"'>"+
-                "<input type='hidden' class='form-control' id='txt_especialidad_programacion_id' name='txt_especialidad_programacion_id[]' value='"+id.split("_")[1]+"'>"+
-            "</td>"+
-            '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1|curso_id:'+$(this).find('td:eq(0) .curso_id').val()+'" data-tipotabla="1">Seleccionar Programación</button></td>';
-          html+="</tr>";
-
-          cursos+="<li>"+$(this).find('td:eq(1)').text()+"</li>";
-        })
-
-        $("#promocion_seminario").html("<ol>"+cursos+"</ol>");
-        $("#tb_matricula").html(html);
-
-        html='';
-        $("#trides_"+id+" ol>li").each( function(index){
-            html+=''+
-            '<tr>'+
-                '<td><input type="hidden" value="'+(index*1+1)+'" name="txt_cuota[]">'+(index*1+1)+$(this).text()+'</td>'+
-                '<td><input type="text" class="form-control" id="txt_nro_cuota" name="txt_nro_cuota[]" value="" placeholder="Nro"></td>'+
-                '<td><input type="text" class="form-control" id="txt_monto_cuota" name="txt_monto_cuota[]" value="" placeholder="Monto"></td>'+
-                '<td><select class="form-control"  id="slct_tipo_pago_cuota" name="slct_tipo_pago_cuota[]">'+
-                    '<option value=\'0\'>.::Seleccione::.</option>'+
-                    '<option value=\'1\'>Transferencia</option>'+
-                    '<option value=\'2\'>Depósito</option>'+
-                    '<option value=\'3\'>Caja</option>'+
-                    '</select></td>'+
-                '<td>'+
-                    '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_cuota'+index+'"  name="pago_nombre_cuota[]" value="">'+
-                    '<input type="text" style="display: none;" id="pago_archivo_cuota'+index+'" name="pago_archivo_cuota[]">'+
-                    '<label class="btn btn-default btn-flat margin btn-xs">'+
-                        '<i class="fa fa-file-image-o fa-3x"></i>'+
-                        '<i class="fa fa-file-pdf-o fa-3x"></i>'+
-                        '<i class="fa fa-file-word-o fa-3x"></i>'+
-                        '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre_cuota'+index+'\',\'#pago_archivo_cuota'+index+'\',\'#pago_img_cuota'+index+'\');" >'+
-                    '</label>'+
-                    '<div>'+
-                    '<a id="pago_href">'+
-                    '<img id="pago_img_cuota'+index+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
-                    '</a>'+
-                    '</div>'+
-                '</td>'+
-            '</tr>';
-        })
-
-        $("#tb_pago_cuota").html(html);
-        $("#ModalListaespecialidad").modal('hide');
+    sweetalertG.confirm("Confirmación!", "Desea cambiar de especialidad a:'"+$("#trides_"+id+" .especialidad").text()+"' ?", function(){
+        AjaxListaespecialidad.CambiarEspecialidad(HTMLCambiarEspecialidad,id);
+    });
 }
 
+HTMLCambiarEspecialidad=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        $("#ModalListaespecialidad").modal('hide');
+        AjaxEspecialidad.verMatriculas(HTMLCargaMatri, result.alumno_id, null);
+        CargaMatriDeta(result.matricula_id);
+    }
+    else{
+        msjG.mensaje('warning',result.msj,3000);
+    }
+}
+/*
 HTMLCargarProgramacion=function(result){
     var html="";
     $('#TableListaprogramacion').DataTable().destroy();
@@ -233,5 +194,5 @@ SeleccionarProgramacion=function(id){
     $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(5)").val(sucursal);
 
     $("#ModalListaprogramacion").modal('hide');
-}
+}*/
 </script>

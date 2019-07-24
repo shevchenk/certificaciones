@@ -26,6 +26,16 @@ class MatriculaRectificaPR extends Controller
         }
     }
 
+    public function EditEspecialidadStatus(Request $r )
+    {
+        if ( $r->ajax() ) {
+            MatriculaRectifica::runEditEspecialidadStatus($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
+
     public function EditDetalleStatus(Request $r )
     {
         if ( $r->ajax() ) {
@@ -95,6 +105,14 @@ class MatriculaRectificaPR extends Controller
             MatriculaRectifica::UpdatePagosDM($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
+
+    public function CambiarEspecialidad(Request $r)
+    {
+        if ( $r->ajax() ) {
+            $return= MatriculaRectifica::CambiarEspecialidad($r);
             return response()->json($return);
         }
     }

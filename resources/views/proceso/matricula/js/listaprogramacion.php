@@ -86,6 +86,7 @@ SeleccionarProgramacion = function(val,id){
           if(LDTipoTabla==0){
           html1+="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
+            "<input type='hidden' name='txt_curso_id[]' class='form-control' value='"+curso_id+"' readOnly>"+
             "<div class='input-group margin'>"+
                 "<span class='input-group-btn'><label>"+
                   "<input type='checkbox' name='checks[]' value='100' class='flattodo"+id+"'>"+
@@ -141,6 +142,7 @@ SeleccionarProgramacion = function(val,id){
         }else {
           html1+="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
+            "<input type='hidden' name='txt_curso_id[]' class='form-control' value='"+curso_id+"' readOnly>"+
             "<div class=''>"+
                 "<span class='input-group-btn' style='display:none;'><label>"+
                   "<input type='checkbox' name='checks[]' value='100' class='flattodo"+id+"'>"+

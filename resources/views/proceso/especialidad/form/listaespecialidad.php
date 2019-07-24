@@ -32,7 +32,7 @@
                                                     <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" placeholder="Fecha de Inicio" onkeypress="return masterG.enterGlobal(event, '#txt_especialidad', 1);" style="width: 120px;">
                                                 </div>
                                             </th>
-                                            <th class="col-md-9">
+                                            <th class="col-md-7">
                                                 <div class="form-group">
                                                     <label><h4>Cursos:</h4></label>
                                                 </div>
@@ -45,6 +45,7 @@
                                     <tfoot>
                                         <tr class="cabecera">
                                             <th>Especialidad</th>
+                                            <th>Fecha de Inicio</th>
                                             <th>Cursos</th>
                                             <th>[-]</th>
                                         </tr>

@@ -170,6 +170,9 @@
                     <table id="tb_tabla2" class="table table-striped">
                         <thead>
                             <tr class="cabecera">
+                                <th colspan='6' style="text-align: center;">INSCRIPCIONES</th>
+                            </tr>
+                            <tr class="bg-info">
                             <th>#</th>
                             <th>Tipo Participante</th>
                             <th>Lugar de Inscripción</th>
@@ -204,16 +207,17 @@
 
     <!-- Detalles -->
     <br/><br/>
+    <div class="row">
     <div class="col-xs-12" id="div_tabla2_deta" style="display: none;">
         <form id="frmtabla2deta">
             <div class="box-body table-responsive no-padding">
                 <table id="tb_tabla2_deta" class="table table-striped">
                     <thead>
-                        <tr class="cabecera" style="text-align: center;">
-                            <th colspan='17'>DETALLES DE MATRICULA</th>
+                        <tr class="cabecera">
+                            <th colspan='14' style="text-align: center;">DETALLES DE LA INSCRIPCIÓN</th>
                         </tr>
 
-                        <tr class="cabecera">
+                        <tr class="bg-info">
                         <th>#</th>
                         <th>Modalidad</th>
                         <th>Sucursal</th>
@@ -223,12 +227,12 @@
                         <th>Fecha Inicio</th>
                         <th>Fecha Final</th>
 
-                        <th class="curso">Nro Pago</th>
+                        <!--th class="curso">Nro Pago</th>
                         <th class="curso">Mto. Pago</th>
-                        <th class="curso">Arch. Pago</th>
-                        <th>Nro P Cerf.</th>
-                        <th>Mto. P Cerf.</th>
-                        <th>Arch. P Cerf.</th>
+                        <th class="curso">Arch. Pago</th-->
+                        <th>Nro Pago</th>
+                        <th>Monto Pago</th>
+                        <th>Archivo Pago</th>
                         <th colspan="3">[]</th>
                         </tr>
                     </thead>
@@ -242,9 +246,9 @@
                         <td>#</td>
                         <td>#</td>
                         <td>#</td>
+                        <!--td class="curso">#</td>
                         <td class="curso">#</td>
-                        <td class="curso">#</td>
-                        <td class="curso">#</td>
+                        <td class="curso">#</td-->
                         <td>#</td>
                         <td>#</td>
                         <td>#</td>
@@ -259,6 +263,7 @@
                 </div>
             </div>
         </form>
+    </div>
     </div>
     <!-- -->    
 

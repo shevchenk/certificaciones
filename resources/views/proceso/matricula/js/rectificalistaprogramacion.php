@@ -55,8 +55,8 @@ SeleccionarProgramacion = function(val,id){
 
     if( val==0 && typeof(existe)=='undefined'){
         //data=$("#ListaprogramacionForm").serialize().split("txt_").join("").split("slct_").join("");
-        
-        AjaxEspecialidad.actualizarMatriDeta(IdMatriDetProG, id);
+        var curso_id=$("#TableListaprogramacion #trid_"+id+" .curso_id").val();
+        AjaxEspecialidad.actualizarMatriDeta(IdMatriDetProG, id, curso_id);
         AjaxEspecialidad.verMatriDeta(HTMLCargaMatriDeta, IdMatriProG);
 
         /*
