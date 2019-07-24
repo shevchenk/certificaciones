@@ -261,7 +261,9 @@ class MatriculaRectifica extends Model
         $user_id = Auth::user()->id;
         $data = MatriculaDetalle::find($r->id);
         $data->programacion_id = $r->programacion_id;
-        $data->curso_id = $r->curso_id;
+        if( $r->has('curso_id') AND trim($r->curso_id)!='' ){
+            $data->curso_id = $r->curso_id;
+        }
         $data->persona_id_updated_at=$user_id;
         $data->save();
         
