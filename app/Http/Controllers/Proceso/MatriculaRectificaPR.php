@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Proceso\MatriculaRectifica;
 use App\Models\Proceso\MatriculaDetalle;
+use App\Models\Proceso\MatriculaCuota;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -89,12 +90,39 @@ class MatriculaRectificaPR extends Controller
         }
     }
 
+    public function verMatriculaCuota(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = MatriculaRectifica::verMatriculaCuota($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function UpdateMatriDeta(Request $r )
     {
         if ( $r->ajax() ) {
             MatriculaRectifica::UpdateMatriDeta($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
+            return response()->json($return);
+        }
+    }
+
+    public function guardarPagoCuota(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $return=MatriculaCuota::guardarPagoCuota($r);
+            return response()->json($return);
+        }
+    }
+
+    public function actualizarPagoCuota(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $return=MatriculaCuota::actualizarPagoCuota($r);
             return response()->json($return);
         }
     }

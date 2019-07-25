@@ -118,6 +118,7 @@ class MatriculaRectifica extends Model
             'p.paterno',
             'p.materno',
             'p.nombre',
+            'mm.especialidad_programacion_id',
             'mm.fecha_matricula',
             DB::raw('GROUP_CONCAT(DISTINCT(me.especialidad)) AS especialidad')
             )
@@ -149,6 +150,28 @@ class MatriculaRectifica extends Model
         $result = $sql->groupBy('mm.id','mm.alumno_id','mtp.tipo_participante',
             's.sucursal','p.paterno','p.materno','p.nombre','mm.fecha_matricula')
                     ->orderBy('mm.id','asc')->paginate(10);
+        return $result;
+    }
+
+    public static function verMatriculaCuota($r)
+    {
+        $sql="
+        SELECT r.cuota, MAX(r.fecha_cronograma) fecha_cronograma, MAX(r.nro_cuota) nro_cuota, MAX(r.monto_cuota) monto_cuota, MAX(r.tipo_pago_cuota) tipo_pago, MAX(r.archivo_cuota) archivo_cuota, $r->matricula_id AS matricula_id
+        FROM (
+            SELECT cuota, fecha_cronograma, '' nro_cuota, '' monto_cuota, '' tipo_pago_cuota, '' archivo_cuota
+            FROM mat_especialidades_programaciones_cronogramas 
+            WHERE especialidad_programacion_id= $r->especialidad_programacion_id
+            AND estado=1
+            UNION 
+            SELECT cuota, '' fecha_programada, nro_cuota,monto_cuota,tipo_pago_cuota,archivo_cuota
+            FROM mat_matriculas_cuotas
+            WHERE matricula_id= $r->matricula_id
+            AND estado=1
+        ) r
+        GROUP BY r.cuota
+        ORDER BY r.cuota
+        ";
+        $result = DB::select($sql);
         return $result;
     }
 
