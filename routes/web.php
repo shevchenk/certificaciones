@@ -7,6 +7,9 @@ Route::resource('alumnosws', 'Proceso\ServicioCargaPR',
 Route::resource('apiaula', 'Proceso\ApiPR',
     ['only' => ['index', 'store', 'update', 'destroy', 'show']]
 );
+Route::resource('apifc', 'Proceso\ApiPR',
+    ['only' => ['index', 'store', 'update', 'destroy', 'show']]
+);
 
 // --
 
