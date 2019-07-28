@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use App\Models\Mantenimiento\Curso;
+use App\Models\Mantenimiento\Persona;
 use DB;
 
 class Api extends Model
@@ -253,5 +255,296 @@ class Api extends Model
             'programacion' => $grupos
         );
         return $data;
+    }
+
+    public static function ObtenerCursosProgramados($r)
+    {
+        $grupos=array();
+        $grupos=DB::table(Api::mibdaux().'.mat_programaciones AS mp')
+                ->Join(Api::mibdaux().'.personas AS p', function($join){
+                    $join->on('p.id','=','mp.persona_id');
+                })
+                ->Join(Api::mibdaux().'.mat_cursos AS mc', function($join){
+                    $join->on('mc.id','=','mp.curso_id');
+                })
+                ->leftJoin(Api::mibdaux().'.mat_cursos_especialidades AS mce', function($join){
+                    $join->on('mce.curso_id','=','mc.id')
+                    ->where('mce.estado',1);
+                })
+                ->leftJoin(Api::mibdaux().'.mat_especialidades AS me', function($join){
+                    $join->on('me.id','=','mce.especialidad_id')
+                    ->where('me.estado',1);
+                })
+                ->select('mp.curso_id', 'mc.curso', 'mp.id AS programacion_id', DB::raw('DATE(mp.fecha_inicio) AS fecha_inicio')
+                , DB::raw('TIME(mp.fecha_inicio) hora_inicio, TIME(mp.fecha_final) hora_final')
+                , 'p.paterno AS docente_paterno', 'p.materno AS docente_materno', 'p.nombre AS docente_nombre'
+                )
+                ->where('mp.estado',1)
+                ->whereRaw(' DATE(mp.fecha_inicio) + INTERVAL 7 DAY  >= CURDATE()')
+                ->where(function($query) use($r){
+                    if( $r->has('tipo_programacion') AND $r->tipo_programacion==1 ){
+                        $query->where('mc.tipo_curso',1);
+                    }
+                    elseif( $r->has('tipo_programacion') AND $r->tipo_programacion==2 ){
+                        $query->where('mc.tipo_curso',2);
+                    }
+                    elseif( $r->has('tipo_programacion') ){
+                        $query->where('mc.tipo_curso',1);
+                        if( $r->has('especialidad_id') AND $r->especialidad_id!='' ){
+                            $query->where('mce.especialidad_id', $r->especialidad_id);
+                        }
+                        else{
+                            $query->where('mce.especialidad_id', 0);
+                        }
+                    }
+                });
+
+                if( $r->has('tipo_programacion') AND $r->tipo_programacion==1 ){
+                    $grupos->addSelect('mp.dia');
+                }
+        $data = array(
+            'programacion' => $grupos->get()
+        );
+        return $data;
+    }
+
+    public static function ObtenerEspecialidadesProgramados($r)
+    {
+        $set=DB::statement('SET group_concat_max_len := @@max_allowed_packet');
+        $data=array();
+        $data=DB::table(Api::mibdaux().'.mat_especialidades AS me')
+                ->Join(Api::mibdaux().'.mat_cursos_especialidades AS mce', function($join){
+                    $join->on('mce.especialidad_id','=','me.id')
+                    ->where('mce.estado',1);
+                })
+                ->Join(Api::mibdaux().'.mat_cursos AS mc', function($join){
+                    $join->on('mc.id','=','mce.curso_id');
+                })
+                ->Join(Api::mibdaux().'.mat_especialidades_programaciones AS mep', function($join){
+                    $join->on('mep.especialidad_id','=','me.id')
+                    ->where('mep.estado',1);
+                })
+                ->Join(Api::mibdaux().'.mat_especialidades_programaciones_cronogramas AS mepc', function($join){
+                    $join->on('mepc.especialidad_programacion_id','=','mep.id')
+                    ->where('mepc.estado',1);
+                })
+                ->select('me.id AS especialidad_id', 'mep.id AS especialidad_programacion_id', 'me.especialidad', 'mep.fecha_inicio'
+                , DB::raw('GROUP_CONCAT( DISTINCT(mc.curso) SEPARATOR "|" ) cursos')
+                )
+                ->where('me.estado',1)
+                ->whereRaw(' mep.fecha_inicio + INTERVAL 7 DAY  >= CURDATE()')
+                ->groupBy('me.id', 'me.especialidad', 'mep.id', 'mep.fecha_inicio')
+                ->havingRaw('COUNT(DISTINCT(mepc.id))>1')
+                ->get();
+        $data = array(
+            'especialidades' => $data
+        );
+        return $data;
+    }
+
+    public static function RegistrarInscripciones( $r )
+    {
+        $return=array();
+        if( !$r->has('dni') ){
+            return 'dni => Falta DNI o Identificación de la persona';
+        }
+        elseif( !$r->has('paterno') ){
+            return 'paterno => Falta Paterno';
+        }
+        elseif( !$r->has('materno') ){
+            return 'materno => Falta Materno';
+        }
+        elseif( !$r->has('nombre') ){
+            return 'nombre => Falta Nombre';
+        }
+        elseif( !$r->has('nro_pago') ){
+            return 'nro_pago => Falta Nro Pago de Inscripción';
+        }
+        elseif( !$r->has('monto_pago') ){
+            return 'monto_pago => Falta Monto Pago de Inscripción';
+        }
+        elseif( !$r->has('observacion') ){
+            return 'observacion => Falta comentario de la venta( Aqui es para indicar de donde proviene la venta)';
+        }
+        elseif( !$r->has('programacion_id') ){
+            return 'programacion_id[] => Falta Programaciones Seleccionadas';
+        }
+        elseif( !$r->has('curso_id') ){
+            return 'curso_id[] => Falta Cursos Seleccionados';
+        }
+        elseif( !$r->has('nro_pago_programacion') AND !$r->has('especialidad_programacion_id') ){
+            return 'nro_pago_programacion[] => Falta Nro Pago del Curso Programado';
+        }
+        elseif( !$r->has('monto_pago_programacion') AND !$r->has('especialidad_programacion_id') ){
+            return 'monto_pago_programacion[] => Falta Monto Pago del Curso Programado';
+        }
+        elseif( !$r->has('especialidad_programacion_id') AND $r->has('especialidad_id') ){
+            return 'especialidad_programacion_id => Falta código de programación de la especialidad';
+        }
+        elseif( !$r->has('especialidad_id') AND $r->has('especialidad_programacion_id') ){
+            return 'especialidad_id => Falta código de especialidad';
+        }
+        elseif( !$r->has('nro_cuota') AND $r->has('especialidad_id') ){
+            return 'nro_cuota => Falta Nro Pago de la Primera Cuota';
+        }
+        elseif( !$r->has('monto_cuota') AND $r->has('especialidad_id') ){
+            return 'monto_cuota => Falta Monto Pago de la Primera Cuota';
+        }
+        $persona= Persona::where('dni',$r->dni)->first();
+        $usuario= 0;
+        $extension='';
+
+        DB::beginTransaction();
+        if( !isset($persona->id) ){
+            $persona= new Persona;
+            $persona->paterno= $r->paterno;
+            $persona->materno= $r->materno;
+            $persona->nombre= $r->nombre;
+            $persona->dni= $r->dni;
+            if( $r->has('email') ){
+                $persona->email= $r->email;
+            }
+            if( $r->has('celular') ){
+                $persona->celular= $r->celular;
+            }
+            $persona->password=bcrypt($r->dni);
+            $persona->persona_id_created_at= $usuario;
+            $persona->save();
+
+            DB::table('personas_privilegios_sucursales')->insert(
+                array(
+                    'privilegio_id' => 14,
+                    'sucursal_id' => 1,
+                    'persona_id' => $persona->id,
+                    'created_at'=> date('Y-m-d h:m:s'),
+                    'persona_id_created_at'=> $usuario,
+                    'estado' => 1,
+                    'persona_id_updated_at' => $usuario
+                )
+            );
+        }
+        $al=Alumno::where('persona_id',$persona->id)->first();
+
+        if( !isset($al->id) ){
+           $al= new Alumno;
+           $al->persona_id=$persona->id;
+           $al->persona_id_created_at= $usuario;
+           $al->save();
+        }
+
+        $matricula = new Matricula;
+        $matricula->alumno_id = $al->id;
+        $matricula->tipo_participante_id = 1;
+        $matricula->persona_id = $persona->id;
+        $matricula->sucursal_id = 1;
+        $matricula->sucursal_destino_id = 1;
+
+        $matricula->persona_caja_id = 12293; //12293 id persona banco
+        $matricula->persona_matricula_id = 12293;
+        $matricula->persona_marketing_id = 12293;
+
+        $matricula->fecha_matricula = date('Y-m-d');
+        $matricula->tipo_matricula = 2;
+        
+        if( trim($r->nro_pago)!=''){
+            $matricula->nro_promocion = trim( $r->nro_pago);
+            $matricula->monto_promocion = trim( $r->monto_pago);
+            $matricula->tipo_pago = 0;
+        }
+    
+        $matricula->persona_id_created_at= $usuario;
+        $matricula->observacion='Pago en Línea.'.$r->observacion;
+
+            if( Input::has('especialidad_programacion_id') ){
+                $matricula->especialidad_programacion_id= $r->especialidad_programacion_id;
+            }
+
+        $matricula->save();
+
+        $programacion_id= $r->programacion_id;
+        $curso_id= $r->curso_id;
+        
+        if( $r->has('especialidad_id') AND $r->especialidad_id!='' ){
+            $cursos= DB::table('mat_cursos_especialidades')
+                    ->where('estado', 1)
+                    ->where('especialidad_id', $r->especialidad_id)
+                    ->get();
+            foreach ($cursos as $key => $value) {
+                $mtdetalle=new MatriculaDetalle;
+                $mtdetalle->norden=$key+1;
+                $mtdetalle->matricula_id=$matricula->id;
+                $mtdetalle->especialidad_id=$r->especialidad_id;
+                $mtdetalle->tipo_matricula_detalle=2;
+                $mtdetalle->nro_pago=0;
+                $mtdetalle->monto_pago=0;
+                $mtdetalle->nro_pago_certificado=0;
+                $mtdetalle->monto_pago_certificado=0;
+                $mtdetalle->tipo_pago=0;
+                $mtdetalle->curso_id=$value->curso_id;
+
+                for ($i=0; $i < count($programacion_id); $i++) { 
+                    if( $curso_id[$i]==$value->curso_id ){
+                        $mtdetalle->programacion_id= $programacion_id[$i];
+                    }
+                }
+                $mtdetalle->persona_id_created_at= $usuario;
+                $mtdetalle->save();
+            }
+        }
+        else{
+            $nro_pago= $r->nro_pago_programacion;
+            $monto_pago= $r->monto_pago_programacion;
+            for ($i=0; $i < count($programacion_id); $i++) { 
+
+                $curso= Curso::find( $curso_id[$i] );
+
+                $mtdetalle=new MatriculaDetalle;
+                $mtdetalle->norden=$i+1;
+                $mtdetalle->matricula_id=$matricula->id;
+                $mtdetalle->programacion_id=$programacion_id[$i]; 
+                
+                if( $curso->tipo_curso==2 ){
+                    $mtdetalle->tipo_matricula_detalle=4;
+                }
+                else{
+                    $mtdetalle->tipo_matricula_detalle=3;
+                }
+
+                $mtdetalle->nro_pago=0;
+                $mtdetalle->monto_pago=0;
+                $mtdetalle->nro_pago_certificado=$nro_pago[$i];
+                $mtdetalle->monto_pago_certificado=$monto_pago[$i];
+                $mtdetalle->tipo_pago=0;
+                $mtdetalle->curso_id=$curso_id[$i];
+                $mtdetalle->persona_id_created_at= $usuario;
+                $mtdetalle->save();
+            }
+        }
+
+        if( $r->has('nro_cuota') AND $r->has('especialidad_id') ){
+            $matriculaCuotas= new MatriculaCuota;
+            $matriculaCuotas->matricula_id= $matricula->id;
+            $matriculaCuotas->cuota= 1;
+            $matriculaCuotas->nro_cuota= $r->nro_cuota;
+            $matriculaCuotas->monto_cuota= $r->monto_cuota;
+            $matriculaCuotas->tipo_pago_cuota= 0;
+            $matriculaCuotas->persona_id_created_at= $usuario;
+            $matriculaCuotas->save();
+        }
+        DB::commit();
+
+        $email='jorgeshevchenk@gmail.com';
+        $emailseguimiento='jorgeshevchenk1988@gmail.com';
+        $texto='.::Inscripción de Seminarios::.';
+        $parametros=array(
+            'id'=>'123',
+        );
+
+        $result= array(
+            'dni'=> $r->dni,
+            'msj'=> 'Inscripción realizada con éxito'
+        );
+
+        return $result;
     }
 }

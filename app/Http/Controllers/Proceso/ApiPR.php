@@ -32,6 +32,15 @@ class ApiPR extends Controller
         elseif($r->opcion=='ObtenerCursosDocente'){
             $result = $this->ObtenerCursosDocente($r);
         }
+        elseif($r->opcion=='ObtenerCursosProgramados'){
+            $result = $this->ObtenerCursosProgramados($r);
+        }
+        elseif($r->opcion=='ObtenerEspecialidadesProgramados'){
+            $result = $this->ObtenerEspecialidadesProgramados($r);
+        }
+        elseif($r->opcion=='RegistrarInscripciones'){
+            $result = $this->RegistrarInscripciones($r);
+        }
         return $result;
     }
 
@@ -59,7 +68,7 @@ class ApiPR extends Controller
                         "message"=>$message,
                         "server" => $_SERVER['REMOTE_ADDR']
                     );  
-            echo json_encode($response, JSON_PRETTY_PRINT);    
+            echo json_encode($response, JSON_PRETTY_PRINT);
         }            
     }
     
@@ -115,6 +124,24 @@ class ApiPR extends Controller
         $return['data'] = $renturnModel;
         $return['msj'] = "Registro realizado correctamente";
         return response()->json($return);
+    }
+
+    public function ObtenerCursosProgramados ( $r )
+    {
+        $renturnModel = Api::ObtenerCursosProgramados($r);
+        return response()->json($renturnModel);
+    }
+
+    public function ObtenerEspecialidadesProgramados ( $r )
+    {
+        $renturnModel = Api::ObtenerEspecialidadesProgramados($r);
+        return response()->json($renturnModel);
+    }
+
+    public function RegistrarInscripciones ( $r )
+    {
+        $renturnModel = Api::RegistrarInscripciones($r);
+        return response()->json($renturnModel);
     }
 
 }
