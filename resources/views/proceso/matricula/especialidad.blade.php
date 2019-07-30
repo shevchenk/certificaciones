@@ -259,7 +259,7 @@
                                         <table class="table" id="t_pago_promocion" style="display:none;">
                                             <thead class="bg-info">
                                                 <tr>
-                                                    <th colspan="6" style="text-align:center;">Inscripción del Curso &nbsp;&nbsp;
+                                                    <th colspan="6" style="text-align:center;">Inscripción a la Especialidad &nbsp;&nbsp;
                                                     </th>
                                                 </tr>
                                                 <tr>
