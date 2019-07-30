@@ -154,6 +154,12 @@ HTMLCargar=function(result){ //INICIO HTML
         html+="<tr id='trid_"+r.id+"'>";
    
         html+="</td>"+
+                "<td>"+'<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a>'+"</td>"+
+                "<td class='paterno'>"+r.paterno+"</td>"+
+                "<td class='materno'>"+r.materno+"</td>"+
+                "<td class='nombre'>"+r.nombre+"</td>"+
+                "<td class='celular'>"+$.trim(r.celular)+"</td>"+
+                "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
                 "<td class='fecha_registro'>"+$.trim(r.fecha_registro)+"</td>"+
                 "<td class='fecha_distribucion'>"+r.fecha_distribucion+"</td>"+
                 "<td class='fuente'>"+$.trim(r.fuente)+"</td>"+
@@ -161,13 +167,8 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='empresa'>"+$.trim(r.empresa)+"</td>"+
                 "<td class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
                 "<td class='vendedor'>"+$.trim(r.vendedor)+"</td>"+
-                "<td class='paterno'>"+r.paterno+"</td>"+
-                "<td class='materno'>"+r.materno+"</td>"+
-                "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='carrera'>"+r.carrera+"</td>"+
-                "<td class='email'>"+$.trim(r.email)+"</td>"+
-                "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
-                "<td class='celular'>"+$.trim(r.celular)+"</td>";
+                "<td class='email'>"+$.trim(r.email)+"</td>";
                 //"<td>";
                 //"<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 

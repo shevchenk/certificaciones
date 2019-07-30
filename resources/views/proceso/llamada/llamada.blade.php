@@ -38,6 +38,27 @@
                         <table id="TableDatos" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
+                                    <th>[-]</th>
+                                    <th>
+                                        <label><h4>Ape. Paterno</h4></label>
+                                        <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Paterno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Ape. Materno</h4></label>
+                                        <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Materno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Nombres</h4></label>
+                                        <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);" style="width: 130px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Celular</h4></label>
+                                        <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Celular" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Teléfono</h4></label>
+                                        <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
+                                    </th>
                                     <th>
                                         <label><h4>Fecha Registro</h4></label>
                                         <input type="text" class="form-control" name="txt_fecha_registro" id="txt_fecha_registro" placeholder="Fecha Registro" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
@@ -67,32 +88,12 @@
                                         <input type="text" class="form-control" name="txt_vendedor" id="txt_vendedor" placeholder="Vendedor" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
                                     </th>
                                     <th>
-                                        <label><h4>Ape. Paterno</h4></label>
-                                        <input type="text" class="form-control" name="txt_paterno" id="txt_paterno" placeholder="Paterno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
-                                    </th>
-                                    <th>
-                                        <label><h4>Ape. Materno</h4></label>
-                                        <input type="text" class="form-control" name="txt_materno" id="txt_materno" placeholder="Materno" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
-                                    </th>
-                                    <th>
-                                        <label><h4>Nombres</h4></label>
-                                        <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);" style="width: 130px;">
-                                    </th>
-                                    <th>
                                         <label><h4>Carrera</h4></label>
                                         <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Carrera" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
                                     </th>
                                     <th>
                                         <label><h4>Email</h4></label>
                                         <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Email" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);">
-                                    </th>
-                                    <th>
-                                        <label><h4>Teléfono</h4></label>
-                                        <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
-                                    </th>
-                                    <th>
-                                        <label><h4>Celular</h4></label>
-                                        <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Celular" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
                                     </th>
 
                                 <!--
@@ -116,6 +117,12 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
+                                  <th>[-]</th>
+                                  <th>Ape. Paterno</th>
+                                  <th>Ape. Materno</th>
+                                  <th>Nombres</th>
+                                  <th>Celular</th>
+                                  <th>Telefono</th>
                                   <th>Fecha Registro</th>
                                   <th>Fecha Distribución</th>
                                   <th>Fuente</th>
@@ -123,13 +130,8 @@
                                   <th>Empresa</th>
                                   <th>Último Estado</th>
                                   <th>Vendedor</th>
-                                  <th>Ape. Paterno</th>
-                                  <th>Ape. Materno</th>
-                                  <th>Nombres</th>
                                   <th>Carrera</th>
                                   <th>Email</th>
-                                  <th>Telefono</th>
-                                  <th>Celular</th>
 
                                   <!-- <th>Estado</th> -->
                                   <th>[-]</th>
