@@ -218,7 +218,8 @@ class Persona extends Model
     {
         $sql=Persona::select('id','paterno','materno','nombre','dni','carrera','fuente','empresa',
             'email',DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),'sexo','telefono',
-            'celular','password','estado')
+            'celular','password','estado','frecuencia','medio_publicitario_id','sucursal_id',
+            'hora_inicio','hora_final')
             ->where('id','!=',1)
             ->where( 
                 function($query) use ($r){
@@ -261,19 +262,25 @@ class Persona extends Model
                     if( $r->has("telefono") ){
                         $telefono=trim($r->telefono);
                         if( $telefono !='' ){
-                            $query->where('p.telefono','like','%'.$telefono.'%');
+                            $query->where('telefono','like','%'.$telefono.'%');
                         }
                     }
                     if( $r->has("celular") ){
                         $celular=trim($r->celular);
                         if( $celular !='' ){
-                            $query->where('p.celular','like','%'.$celular.'%');
+                            $query->where('celular','like','%'.$celular.'%');
                         }
                     }
                     if( $r->has("carrera") ){
                         $carrera=trim($r->carrera);
                         if( $carrera !='' ){
-                            $query->where('p.carrera','like','%'.$carrera.'%');
+                            $query->where('carrera','like','%'.$carrera.'%');
+                        }
+                    }
+                    if( $r->has("created_at") ){
+                        $created_at=trim($r->created_at);
+                        if( $created_at !='' ){
+                            $query->whereRaw('DATE(created_at)=?',$created_at);
                         }
                     }
                 }
@@ -530,24 +537,24 @@ class Persona extends Model
         return $result;
     }
     
-     public static function getAreas($personaId) {
+    public static function getAreas($personaId) {
         //subconsulta
-        $sql = DB::table('personas_privilegios_sucursales as cp')
+        $sql =  DB::table('personas_privilegios_sucursales as cp')
                 ->join(
                         'privilegios as c', 'cp.privilegio_id', '=', 'c.id'
                 )
-//                ->join(
-//                        'area_cargo_persona as acp', 'cp.id', '=', 'acp.cargo_persona_id'
-//                )
+                //->join(
+                //        'area_cargo_persona as acp', 'cp.id', '=', 'acp.cargo_persona_id'
+                //)
                 ->join(
                         'sucursales as a', 'cp.sucursal_id', '=', 'a.id'
                 )
                 ->select(
                         DB::raw(
                                 "
-                CONCAT(c.id, '-',
-                    GROUP_CONCAT(a.id)
-                ) AS info"
+                                CONCAT(c.id, '-',
+                                    GROUP_CONCAT(a.id)
+                                ) AS info"
                         )
                 )
                 ->whereRaw("cp.persona_id=$personaId AND cp.estado=1 AND c.estado=1 ")
@@ -592,5 +599,92 @@ class Persona extends Model
         return $sql;
     }
 
+    public static function runNewVisitante($r)
+    {
+        DB::beginTransaction();
+        $persona_id = Auth::user()->id;
+        $persona = new Persona;
+        $persona->paterno = trim( $r->paterno );
+        $persona->materno = trim( $r->materno );
+        $persona->nombre = trim( $r->nombre );
+        $persona->dni = trim( $r->dni );
+        $persona->sexo = trim( $r->sexo );
+        $persona->email = trim( $r->email );
+        if(trim( $r->password )!=''){
+            $persona->password=bcrypt($r->password);
+        }
+        else{
+            $persona->password=bcrypt($r->dni);
+        }
+        $persona->telefono = trim( $r->telefono );
+        $persona->celular = trim( $r->celular );
+        if(trim( $r->fecha_nacimiento )!=''){
+        $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );}
+        else {
+        $persona->fecha_nacimiento = null;
+        }
 
+        $persona->carrera = trim( $r->carrera );
+        $persona->sucursal_id = trim( $r->sucursal );
+        $persona->medio_publicitario_id= trim($r->medio_publicitario);
+        $persona->hora_inicio= trim($r->hora_inicio);
+        $persona->hora_final= trim($r->hora_final);
+        $dia= implode(",",$r->dia);
+        $persona->frecuencia= $dia;
+
+        $persona->estado = '1';
+        $persona->persona_id_created_at=$persona_id;
+        $persona->save();
+
+        DB::table('personas_privilegios_sucursales')->insert(
+            array(
+                'privilegio_id' => 14,
+                'persona_id' => $persona->id,
+                'created_at'=> date('Y-m-d h:m:s'),
+                'persona_id_created_at'=> Auth::user()->id,
+                'estado' => 1,
+                'persona_id_updated_at' => Auth::user()->id
+            )
+        );
+        DB::commit();
+    }
+
+    public static function runEditVisitante($r)
+    {
+        DB::beginTransaction();
+        $persona_id = Auth::user()->id;
+        $persona = Persona::find($r->id);
+        $persona->paterno = trim( $r->paterno );
+        $persona->materno = trim( $r->materno );
+        $persona->nombre = trim( $r->nombre );
+        $persona->dni = trim( $r->dni );
+        $persona->sexo = trim( $r->sexo );
+        $persona->email = trim( $r->email );
+        if(trim( $r->password )!=''){
+            $persona->password=bcrypt($r->password);
+        }
+        else{
+            $persona->password=bcrypt($r->dni);
+        }
+        $persona->telefono = trim( $r->telefono );
+        $persona->celular = trim( $r->celular );
+        if(trim( $r->fecha_nacimiento )!=''){
+        $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );}
+        else {
+        $persona->fecha_nacimiento = null;
+        }
+
+        $persona->carrera = trim( $r->carrera );
+        $persona->sucursal_id = trim( $r->sucursal );
+        $persona->medio_publicitario_id= trim($r->medio_publicitario);
+        $persona->hora_inicio= trim($r->hora_inicio);
+        $persona->hora_final= trim($r->hora_final);
+        $dia= implode(",",$r->dia);
+        $persona->frecuencia= $dia;
+
+        $persona->estado = '1';
+        $persona->persona_id_updated_at=$persona_id;
+        $persona->save();
+        DB::commit();
+    }
 }
