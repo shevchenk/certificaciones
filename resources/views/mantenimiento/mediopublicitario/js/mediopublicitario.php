@@ -41,7 +41,7 @@ ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalMedioPublicitarioForm #txt_medio_publicitario").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Tipo Evaluación',4000);
+        msjG.mensaje('warning','Ingrese Medio Publicitario',4000);
     }
 
     return r;

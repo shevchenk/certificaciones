@@ -34,9 +34,9 @@ class MedioPublicitarioMA extends Controller
             );
 
             $rules = array(
-                'tipo_evaluacion' => 
+                'medio_publicitario' => 
                        ['required',
-                        Rule::unique('tipos_evaluaciones','tipo_evaluacion'),
+                        Rule::unique('medios_publicitarios','medio_publicitario'),
                         ],
             );
 
@@ -65,9 +65,9 @@ class MedioPublicitarioMA extends Controller
             );
 
             $rules = array(
-                'tipo_evaluacion' => 
+                'medio_publicitario' => 
                        ['required',
-                        Rule::unique('tipos_evaluaciones','tipo_evaluacion')->ignore($r->id),
+                        Rule::unique('medios_publicitarios','medio_publicitario')->ignore($r->id),
                         ],
             );
 

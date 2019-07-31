@@ -4,14 +4,14 @@
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Tipo Evaluación</h4>
+                <h4 class="modal-title">Medio Publicitario</h4>
             </div>
             <div class="modal-body">
                 <form id="ModalMedioPublicitarioForm">
                     <div class="form-group">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Tipo Evaluación</label>
+                                <label>Medio Publicitario</label>
                                 <input type="text" class="form-control" id="txt_medio_publicitario" name="txt_medio_publicitario">
                             </div>
                         </div>
