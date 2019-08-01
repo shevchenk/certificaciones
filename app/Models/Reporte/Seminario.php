@@ -29,6 +29,10 @@ class Seminario extends Model
                 $join->on('s.id','=','mm.sucursal_id');
 
             })
+            ->join('sucursales AS s2',function($join){
+                $join->on('s2.id','=','mm.sucursal_destino_id');
+
+            })
             ->join('mat_tipos_participantes AS mtp',function($join){
                 $join->on('mtp.id','=','mm.tipo_participante_id');
 
@@ -67,7 +71,7 @@ class Seminario extends Model
                      DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
                      DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
                      DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
-                    'mm.nro_promocion','mm.monto_promocion','p.empresa')
+                    'mm.nro_promocion','mm.monto_promocion','p.empresa','s2.sucursal AS recogo_certificado')
             ->where( 
                 function($query) use ($r){
 
@@ -89,7 +93,7 @@ class Seminario extends Model
                      'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_promocion','mm.monto_promocion','p.empresa',
                      'pcaj.paterno','pcaj.materno','pcaj.nombre',
                      'pmar.paterno','pmar.materno','pmar.nombre',
-                     'pmat.paterno','pmat.materno','pmat.nombre');
+                     'pmat.paterno','pmat.materno','pmat.nombre','s2.sucursal');
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
     }
@@ -112,6 +116,10 @@ class Seminario extends Model
             })
             ->join('sucursales AS s',function($join){
                 $join->on('s.id','=','mm.sucursal_id');
+
+            })
+            ->join('sucursales AS s2',function($join){
+                $join->on('s2.id','=','mm.sucursal_destino_id');
 
             })
             ->join('mat_tipos_participantes AS mtp',function($join){
@@ -152,7 +160,7 @@ class Seminario extends Model
                      DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
                      DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
                      DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
-                    'mm.nro_promocion','mm.monto_promocion','p.empresa')
+                    'mm.nro_promocion','mm.monto_promocion','p.empresa','s.sucursal AS recogo_certificado')
             ->where( 
                 function($query) use ($r){
 
@@ -185,7 +193,7 @@ class Seminario extends Model
             'M'=>15,'N'=>15,'O'=>15,'P'=>15,'Q'=>15,//''=>15,''=>15,''=>15,''=>15,
             'R'=>15,'S'=>15,
             'T'=>20,'U'=>20,'V'=>20,
-            'W'=>15,'X'=>15,'Y'=>15
+            'W'=>15,'X'=>15,'Y'=>15,'Z'=>20
         );
         $cabecera=array(
             'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
@@ -194,7 +202,7 @@ class Seminario extends Model
             'Seminarios','Fecha Seminario','Nro Pago','Monto Pago','Tipo Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
             'Sub Total Sem','Total Pagado',
             'Cajero(a)','Teleoperador(a)','Supervisor(a)',
-            'Nro Recibo Promoción','Monto Promoción','Empresa'
+            'Nro Recibo Promoción','Monto Promoción','Empresa','Recogo del Certificado'
         );
         $campos=array(
             '','id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
@@ -204,14 +212,14 @@ class Seminario extends Model
              'seminario','fecha_inicio','nro_pago','monto_pago','tipo_pago',
              'subtotal','total',
              'cajera','marketing','matricula',
-             'nro_promocion','monto_promocion','empresa'
+             'nro_promocion','monto_promocion','empresa','recogo_certificado'
         );
 
         $r['data']=$rsql;
         $r['cabecera']=$cabecera;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='Y'; // Max. Celda en LETRA
+        $r['max']='Z'; // Max. Celda en LETRA
         return $r;
     }
 
@@ -226,7 +234,7 @@ class Seminario extends Model
             'M'=>15,'N'=>15,'O'=>15,'P'=>15,'Q'=>15,//''=>15,''=>15,''=>15,''=>15,
             'R'=>15,'S'=>15,
             'T'=>20,'U'=>20,'V'=>20,
-            'W'=>15,'X'=>15,'Y'=>15
+            'W'=>15,'X'=>15,'Y'=>15,'Z'=>20
         );
         $cabecera=array(
             'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
@@ -235,7 +243,7 @@ class Seminario extends Model
             'Seminarios','Fecha Seminario','Nro Pago','Monto Pago','Tipo Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
             'Sub Total Sem','Total Pagado',
             'Cajero(a)','Teleoperador(a)','Supervisor(a)',
-            'Nro Recibo Promoción','Monto Promoción','Empresa'
+            'Nro Recibo Promoción','Monto Promoción','Empresa','Recogo del Certificado'
         );
         $campos=array(
             '','id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
@@ -245,14 +253,14 @@ class Seminario extends Model
              'seminario','fecha_inicio','nro_pago','monto_pago','tipo_pago',
              'subtotal','total',
              'cajera','marketing','matricula',
-             'nro_promocion','monto_promocion','empresa'
+             'nro_promocion','monto_promocion','empresa','recogo_certificado'
         );
 
         $r['data']=$rsql;
         $r['cabecera']=$cabecera;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='Y'; // Max. Celda en LETRA
+        $r['max']='Z'; // Max. Celda en LETRA
         return $r;
     }
 
