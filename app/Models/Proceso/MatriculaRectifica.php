@@ -118,7 +118,7 @@ class MatriculaRectifica extends Model
             'p.paterno',
             'p.materno',
             'p.nombre',
-            DB::raw('GROUP_CONCAT(DISTINCT(mm.especialidad_programacion_id)) AS especialidad_programacion_id')
+            DB::raw('GROUP_CONCAT(DISTINCT(mm.especialidad_programacion_id)) AS especialidad_programacion_id'),
             'mm.fecha_matricula',
             DB::raw('GROUP_CONCAT(DISTINCT(me.especialidad)) AS especialidad')
             )
