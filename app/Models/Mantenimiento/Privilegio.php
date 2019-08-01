@@ -118,9 +118,12 @@ class Privilegio extends Model
                             $query->where('p.estado','like','%'.$estado.'%');
                         }
                     }
+
+                    if( Auth::user()->id!=1 ){
+                        $query->where('p.id','!=',1);
+                    }
                 }
             )
-            ->where('p.id','!=',1)
             ->groupBy('p.id','p.privilegio','p.estado');
         $result = $sql->orderBy('p.privilegio','asc')->paginate(10);
         return $result;
