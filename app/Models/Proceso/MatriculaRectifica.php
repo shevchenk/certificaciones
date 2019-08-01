@@ -118,7 +118,7 @@ class MatriculaRectifica extends Model
             'p.paterno',
             'p.materno',
             'p.nombre',
-            'mm.especialidad_programacion_id',
+            DB::raw('GROUP_CONCAT(DISTINCT(mm.especialidad_programacion_id)) AS especialidad_programacion_id')
             'mm.fecha_matricula',
             DB::raw('GROUP_CONCAT(DISTINCT(me.especialidad)) AS especialidad')
             )
@@ -147,7 +147,7 @@ class MatriculaRectifica extends Model
                     }
                 }
             );
-        $result = $sql->groupBy('mm.id','mm.alumno_id','mtp.tipo_participante',
+        $result = $sql->groupBy('mm.id','mm.alumno_id','mm.persona_id','mtp.tipo_participante',
             's.sucursal','p.paterno','p.materno','p.nombre','mm.fecha_matricula')
                     ->orderBy('mm.id','asc')->paginate(10);
         return $result;
