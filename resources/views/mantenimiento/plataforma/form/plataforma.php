@@ -53,9 +53,13 @@
                             </textarea>
                         </div>
                     </div>
+                    <div class="col-sm-12 panel">
+                        <hr>
+                        <div class="panel-heading bg-info"><center>PREFERENCIAS DEL VISITANTE</center></div>
+                    </div>
                     <div class="col-sm-12"><!--INICIO DE COL SM 12-->
                         <div class="col-sm-4">
-                            <label>Sede de Inscripción:</label>
+                            <label>Sede donde se registra al Visitante:</label>
                             <select class="form-control" id="slct_sucursal" name="slct_sucursal">
                                 <option>.::Seleccione::.</option>
                             </select>
@@ -73,7 +77,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="col-sm-4">
-                            <label>Frecucuencia:</label>
+                            <label>Frecuencia:</label>
                             <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_dia[]" id="slct_dia">
                                 <option value="LU">Lunes</option>
                                 <option value="MA">Martes</option>
