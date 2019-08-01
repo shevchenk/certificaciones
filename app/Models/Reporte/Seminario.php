@@ -160,7 +160,7 @@ class Seminario extends Model
                      DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
                      DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
                      DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
-                    'mm.nro_promocion','mm.monto_promocion','p.empresa','s.sucursal AS recogo_certificado')
+                    'mm.nro_promocion','mm.monto_promocion','p.empresa','s2.sucursal AS recogo_certificado')
             ->where( 
                 function($query) use ($r){
 
