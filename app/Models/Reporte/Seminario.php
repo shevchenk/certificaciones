@@ -264,6 +264,9 @@ class Seminario extends Model
                 $join->on('md.matricula_id','=','m.id')
                 ->where('md.estado',1);
             })
+            ->Join('sucursales AS s', function($join){
+                $join->on('s.id','=','m.sucursal_destino_id');
+            })
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','m.persona_id');
             })
@@ -276,7 +279,7 @@ class Seminario extends Model
             ->select(
             DB::raw('UPPER(CONCAT(p.paterno,\' \',p.materno,\' \',p.nombre)) AS persona')
             ,DB::raw('UPPER(c.curso) AS tema'),DB::raw('DATE_FORMAT(pr.fecha_inicio, \'el %d de %M del %Y\') AS fecha_seminario'),
-            'm.fecha_matricula AS fecha_inscripcion')
+            'm.fecha_matricula AS fecha_inscripcion','s.sucursal AS recogo_certificado')
             ->where('m.estado',1)
             ->where( 
                 function($query) use ($r){
@@ -311,9 +314,10 @@ class Seminario extends Model
         $min++; $length[chr($min)]=50;
         $min++; $length[chr($min)]=35;
         $min++; $length[chr($min)]=20;
+        $min++; $length[chr($min)]=20;
 
         $cabecera2=array(
-            'Apellidos y Nombre del Pagante','Tema','Fecha del Seminario','Fecha de Inscripción'
+            'Apellidos y Nombre del Pagante','Tema','Fecha del Seminario','Fecha de Inscripción','Recogo del Certificado'
         );
 
         $r['data']=$rsql;
