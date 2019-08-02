@@ -157,7 +157,7 @@ class Sucursal extends Model
             ->select('s.id','s.sucursal','s.estado')
             ->where('pps.estado','=','1')
             ->where('pps.persona_id','=', Auth::user()->id);
-        $result = $sql->orderBy('sucursal','asc')->get();
+        $result = $sql->groupBy('s.id','s.sucursal','s.estado')->orderBy('sucursal','asc')->get();
         return $result;
 
     }
