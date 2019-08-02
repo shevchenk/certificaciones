@@ -181,7 +181,7 @@ SlctCargarPrivilegio=function(result){
 }
 
 SlctCargarEmpresas=function(result){
-    var html="<option value=''>.::Seleccione::.</option>";
+    var html="";
     $.each(result.data,function(index,r){
         html+="<option value="+r.id+">"+r.empresa+"</option>";
     });
