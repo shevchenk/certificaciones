@@ -82,8 +82,19 @@
                         </div>
                     </fieldset>
                     <fieldset id="f_areas_cargo">
-                        <legend>Niveles de Acceso</legend>
-
+                        <legend>Niveles de Acceso al Software</legend>
+                        <div class="row form-group">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Empresa:<font color="red">*(No Válido para los Privilegios de Alumno ni Docente)</font></label>
+                                        <select  class="form-control selectpicker show-menu-arrow" id="slct_empresa" name="slct_empresa[]" multiple>
+                                            <option value="">.::Seleccione::.</option>
+                                        </select>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
                         <div class="row form-group">
                             <div class="col-sm-12">
                                 <div class="col-sm-6">

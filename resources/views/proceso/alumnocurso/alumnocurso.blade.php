@@ -32,7 +32,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Proceso</li>
-        <li class="active">Matrícula PAE</li>
+        <li class="active">FC</li>
     </ol>
 </section>
 

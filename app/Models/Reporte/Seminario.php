@@ -42,7 +42,8 @@ class Seminario extends Model
 
             })
             ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
 
             })
             ->join('personas AS pcaj',function($join){
@@ -131,7 +132,8 @@ class Seminario extends Model
 
             })
             ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
 
             })
             ->join('personas AS pcaj',function($join){
@@ -282,7 +284,9 @@ class Seminario extends Model
                 $join->on('pr.id','=','md.programacion_id');
             })
             ->Join('mat_cursos AS c', function($join){
-                $join->on('c.id','=','pr.curso_id');
+                $join->on('c.id','=','pr.curso_id')
+                ->where('c.tipo_curso',2)
+                ->where('c.empresa_id', Auth::user()->empresa_id);
             })
             ->select(
             DB::raw('UPPER(CONCAT(p.paterno,\' \',p.materno,\' \',p.nombre)) AS persona')

@@ -22,6 +22,7 @@ class Especialidad extends Model
             })
             ->leftJoin('mat_cursos AS mc',function($join){
                 $join->on('mc.id','=','mce.curso_id')
+                ->where('mc.empresa_id',Auth::user()->empresa_id)
                 ->where('mc.estado','=',1);
             })
             ->select(
@@ -32,6 +33,7 @@ class Especialidad extends Model
             DB::raw('GROUP_CONCAT(mc.curso ORDER BY mce.orden SEPARATOR "|") cursos'),
             DB::raw('GROUP_CONCAT(mc.id) curso_id')
             )
+            ->where('me.empresa_id',Auth::user()->empresa_id)
             ->where( 
                 function($query) use ($r){
                     if( $r->has("especialidad") ){
@@ -74,7 +76,9 @@ class Especialidad extends Model
     {
         DB::beginTransaction();
         $especialidad_id = Auth::user()->id;
+        $empresa_id = Auth::user()->empresa_id;
         $especialidad = new Especialidad;
+        $especialidad->empresa_id = $empresa_id;
         $especialidad->especialidad = trim( $r->especialidad );
         $especialidad->certificado_especialidad = trim( $r->certificado_especialidad );
         $especialidad->estado = trim( $r->estado );
@@ -147,7 +151,8 @@ class Especialidad extends Model
     public static function ListEspecialidad($r)
     {
         $sql=Especialidad::select('id','especialidad','certificado_especialidad','estado')
-            ->where('estado','=','1');
+            ->where('estado','=','1')
+            ->where('empresa_id',Auth::user()->empresa_id);
         $result = $sql->orderBy('especialidad','asc')->get();
         return $result;
     }
@@ -191,7 +196,8 @@ class Especialidad extends Model
                     ->where('mce.estado','=',1);
                 })
                 ->Join('mat_cursos AS mc',function($join){
-                    $join->on('mc.id','=','mce.curso_id');
+                    $join->on('mc.id','=','mce.curso_id')
+                    ->where('mc.empresa_id',Auth::user()->empresa_id);
                 })
                 ->leftJoin(DB::raw(
                     '(SELECT mp.curso_id, COUNT(mmd.id) cant, MAX(mmd.nota_curso_alum) nota
@@ -205,6 +211,7 @@ class Especialidad extends Model
                 ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','cro.cronograma'
                 ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')
                 )
+                ->where('me.empresa_id',Auth::user()->empresa_id)
                 ->where( function($query) use ($r){
                     if( $r->has("especialidad") ){
                         $especialidad=trim($r->especialidad);

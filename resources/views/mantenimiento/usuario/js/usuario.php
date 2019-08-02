@@ -35,7 +35,7 @@ $(document).ready(function() {
     AjaxPersona.Cargar(HTMLCargarPersona);
     $("#PersonaForm #TablePersona select").change(function(){ AjaxPersona.Cargar(HTMLCargarPersona); });
     $("#PersonaForm #TablePersona input").blur(function(){ AjaxPersona.Cargar(HTMLCargarPersona); });
-
+    AjaxPersona.CargarEmpresas(SlctCargarEmpresas); //no es multiselect
     $('#ModalPersona').on('shown.bs.modal', function (event) {
         CargarSlct();
         if( AddEdit==1 ){
@@ -43,6 +43,7 @@ $(document).ready(function() {
         }
         else{
             AjaxPersona.CargarAreas(SlctCargarAreas,PersonaG.id); //no es multiselect
+            AjaxPersona.ListarPersonaEmpresa(HTMLListarPersonaEmpresa,PersonaG.id);
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalPersonaForm").append("<input type='hidden' value='"+PersonaG.id+"' name='id'>");
         }
@@ -59,6 +60,7 @@ $(document).ready(function() {
         $('#ModalPersonaForm #txt_fecha_nacimiento').val( PersonaG.fecha_nacimiento );
         $('#ModalPersonaForm #slct_estado').val( PersonaG.estado );
         $("#ModalPersona select").selectpicker('refresh');
+        $('#ModalPersonaForm #slct_empresa').selectpicker( 'val', PersonaG.empresa_id.split(",") );
         $('#ModalPersonaForm #txt_nombre').focus();
     });
 
@@ -110,6 +112,7 @@ AgregarEditar=function(val,id){
     PersonaG.telefono='';
     PersonaG.celular='';
     PersonaG.fecha_nacimiento='';
+    PersonaG.empresa_id='';
     PersonaG.estado='1';
     if( val==0 ){
 
@@ -137,6 +140,12 @@ HTMLCambiarEstado=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
         AjaxPersona.Cargar(HTMLCargarPersona);
+    }
+}
+
+HTMLListarPersonaEmpresa=function(result){
+    if( result.rst==1 ){
+        PersonaG.empresa_id= result.data.empresa_id;
     }
 }
 
@@ -169,7 +178,15 @@ SlctCargarPrivilegio=function(result){
     });
     $("#ModalPersona #slct_cargos").html(html); 
     $("#ModalPersona #slct_cargos").selectpicker('refresh');
+}
 
+SlctCargarEmpresas=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.empresa+"</option>";
+    });
+    $("#ModalPersona #slct_empresa").html(html); 
+    $("#ModalPersona #slct_empresa").selectpicker('refresh');
 }
 
 SlctCargarSucursal=function(result){

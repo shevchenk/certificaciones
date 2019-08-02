@@ -168,6 +168,20 @@ $.ajaxSetup({
     }
 });
 
+ActualizarPrivilegioG=function(v){
+    url='ReportDinamic/SecureAccess.PersonaSA@ActualizarPrivilegio?privilegio_id='+v;
+    window.location=url;
+}
+
+ActualizarEmpresaG=function(v){
+    url='ReportDinamic/SecureAccess.PersonaSA@ActualizarEmpresa?empresa_id='+v;
+    window.location=url;
+}
+
+HTMLActualizarPrivilegioG=function(result){
+  window.onload();
+}
+
 var masterG ={
     change_skin:function(cls) {
         $.each(my_skinsG, function (i) {

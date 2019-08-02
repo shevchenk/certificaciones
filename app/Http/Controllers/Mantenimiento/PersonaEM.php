@@ -377,4 +377,18 @@ class PersonaEM extends Controller
         }
     }
 
+    public function ListarPersonaEmpresa (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $personaId= Auth::user()->id;
+            if( isset($r->persona_id) ){
+                $personaId= $r->persona_id;
+            }
+            $renturnModel = Persona::ListarPersonaEmpresa($personaId);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
 }

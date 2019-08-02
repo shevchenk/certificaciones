@@ -61,7 +61,8 @@ class Llamada extends Model
                 $join->on('tl.id','=','ll.tipo_llamada_id');
             })
             ->Join('mat_trabajadores AS tr', function($join){
-                $join->on('tr.id','=','ll.trabajador_id');
+                $join->on('tr.id','=','ll.trabajador_id')
+                ->where('tr.empresa_id', Auth::user()->empresa_id);
             })
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','tr.persona_id');

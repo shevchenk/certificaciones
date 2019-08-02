@@ -31,7 +31,9 @@ class LlamadaPR extends Controller
     {
         if ( $r->ajax() ) {
             $id=Auth::user()->id;
-            $trabajador= Trabajador::where('persona_id',$id)->first();
+            $trabajador=    Trabajador::where('persona_id',$id)
+                            ->where('empresa_id', Auth::user()->empresa_id)
+                            ->first();
             $trabajadorid=0;
             $return['rst'] = 1;
             $return['msj'] = "Registro realizado correctamente";
@@ -63,7 +65,9 @@ class LlamadaPR extends Controller
     {
         if ( $r->ajax() ) {
             $id=Auth::user()->id;
-            $trabajador= Trabajador::where('persona_id',$id)->first();
+            $trabajador=    Trabajador::where('persona_id',$id)
+                            ->where('empresa_id', Auth::user()->empresa_id)
+                            ->first();
             $trabajadorid=0;
             if( isset($trabajador->id) ){
                 $trabajadorid=$trabajador->id;

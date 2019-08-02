@@ -18,6 +18,7 @@ class EspecialidadProgramacion extends Model
         $sql=DB::table('mat_especialidades_programaciones AS mep')
             ->Join('mat_especialidades AS me',function($join){
                 $join->on('me.id','=','mep.especialidad_id')
+                ->where('me.empresa_id','=', Auth::user()->empresa_id)
                 ->where('me.estado','=',1);
             })
             ->Join('mat_especialidades_programaciones_sucursales AS meps',function($join){

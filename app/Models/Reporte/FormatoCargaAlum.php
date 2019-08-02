@@ -3,6 +3,7 @@ namespace App\Models\Reporte;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Auth;
 
 class FormatoCargaAlum extends Model
 {
@@ -29,7 +30,8 @@ class FormatoCargaAlum extends Model
               $join->on('mmd.programacion_id','=','mp.id');
           })
           ->join('mat_cursos AS mc',function($join){
-              $join->on('mp.curso_id','=','mc.id');
+              $join->on('mp.curso_id','=','mc.id')
+              ->where('mc.empresa_id', Auth::user()->empresa_id);
           })
           ->join('mat_ubicacion_region AS mur',function($join){
               $join->on('ma.region_id','=','mur.id');

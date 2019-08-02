@@ -13,7 +13,6 @@ class Programacion extends Model
 
     public static function runEditStatus($r)
     {
-
         $programacion= Programacion::find($r->id);
         $programacion->estado = trim( $r->estadof );
         $programacion->persona_id_updated_at=Auth::user()->id;
@@ -22,7 +21,7 @@ class Programacion extends Model
 
     public static function runNew($r)
     {
-        $sucursal = new Programacion;
+        $sucursal = new Programacion; 
         $sucursal->persona_id = trim( $r->persona_id);
         $sucursal->docente_id = trim( $r->docente_id );
         $sucursal->curso_id = trim( $r->curso_id);
@@ -96,7 +95,12 @@ class Programacion extends Model
                 'mp.grabo','mp.publico','mp.expositor','mp.situaciones','p.celular','p.telefono','p.email')
              ->join('personas as p','p.id','=','mp.persona_id')
              ->join('sucursales as s','s.id','=','mp.sucursal_id')
-             ->join('mat_cursos as c','c.id','=','mp.curso_id')
+             ->join('mat_cursos AS c',function($join) use( $r ){
+                $join->on('c.id','=','mp.curso_id');
+                if( !$r->has('habilita_docente') ){
+                    $join->where('c.empresa_id',Auth::user()->empresa_id);
+                }
+            })
              ->where( 
                 function($query) use ($r){
                     if( $r->has("persona_id") ){
@@ -217,7 +221,10 @@ class Programacion extends Model
              )
              ->join('personas as p','p.id','=','mp.persona_id')
              ->join('sucursales as s','s.id','=','mp.sucursal_id')
-             ->join('mat_cursos as c','c.id','=','mp.curso_id')
+             ->join('mat_cursos AS c',function($join){
+                $join->on('c.id','=','mp.curso_id')
+                ->where('c.empresa_id',Auth::user()->empresa_id);
+             })
              ->leftJoin('mat_programaciones_evaluaciones AS mpe',function($join){
                 $join->on('mpe.programacion_id','=','mp.id')
                 ->where('mpe.estado','=',1);

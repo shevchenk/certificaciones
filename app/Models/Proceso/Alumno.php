@@ -170,7 +170,8 @@ class Alumno extends Model
                 $join->on('p.id','=','mp.persona_id');
             })
             ->Join('mat_cursos AS mc', function($join){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
             })
             ->Join('sucursales AS s', function($join){
                 $join->on('s.id','=','mp.sucursal_id');
@@ -274,7 +275,8 @@ class Alumno extends Model
                 $join->on('p.id','=','mp.persona_id');
             })
             ->Join('mat_cursos AS mc', function($join){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
             })
             ->select(
             'mmd.id as matricula_detalle_id',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mantenimiento\Trabajador;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Auth;
 
 class TrabajadorEM extends Controller
 {
@@ -36,9 +37,11 @@ class TrabajadorEM extends Controller
             $rules = array(
                 'persona_id' => 
                        ['required',
-                        Rule::unique('mat_trabajadores','persona_id')->where(function ($query) use($r) {
+                        Rule::unique('mat_trabajadores','persona_id')
+                            ->where('empresa_id', Auth::user()->empresa_id)
+                            ->where(function ($query) use($r) {
                                 $query->where('rol_id',$r->rol_id );
-                        }),
+                            }),
                         ],
             );
 
@@ -69,7 +72,10 @@ class TrabajadorEM extends Controller
             $rules = array(
                 'persona_id' => 
                        ['required',
-                        Rule::unique('mat_trabajadores','persona_id')->ignore($r->id)->where(function ($query) use($r) {
+                        Rule::unique('mat_trabajadores','persona_id')
+                        ->where('empresa_id', Auth::user()->empresa_id)
+                        ->ignore($r->id)
+                        ->where(function ($query) use($r) {
                                 $query->where('rol_id',$r->rol_id );
                         }),
                         ],

@@ -12,7 +12,7 @@ class RolEM extends Controller
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
     } 
     
-            public function ListRol (Request $r )
+    public function ListRol (Request $r )
     {
         if ( $r->ajax() ) {
             $renturnModel = Rol::ListRol($r);

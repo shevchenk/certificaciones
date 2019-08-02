@@ -23,8 +23,7 @@ class Curso extends Model
         		END tipo_curso
         		'),
         	'estado')
-
-
+            ->where('empresa_id',Auth::user()->empresa_id)
             ->where( 
                 function($query) use ($r){
                     if( $r->has("curso") ){
@@ -76,7 +75,9 @@ class Curso extends Model
     public static function runNew($r)
     {
         $cursoe = Auth::user()->id;
+        $empresa_id = Auth::user()->empresa_id;
         $curso = new Curso;
+        $curso->empresa_id = $empresa_id;
         $curso->curso = trim( $r->curso );
         $curso->certificado_curso = trim( $r->certificado_curso );
         $curso->tipo_curso = trim( $r->tipo_curso );
@@ -104,6 +105,7 @@ class Curso extends Model
     {
         $sql=Curso::select('id','curso','certificado_curso','tipo_curso','estado')
             ->where('estado','=','1')
+            ->where('empresa_id',Auth::user()->empresa_id)
             ->where( 
                 function($query) use ($r){
                     if( $r->has("tipo_curso") ){

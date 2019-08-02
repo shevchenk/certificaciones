@@ -33,6 +33,7 @@ class Persona extends Authenticatable
     public static function Menu()
     {
         $persona=Auth::user()->id;
+        $privilegio_id=Auth::user()->privilegio_id;
         $set=DB::statement('SET group_concat_max_len := @@max_allowed_packet');
         $result=DB::table('opciones as o')
                 ->join('menus as m', function($join){
@@ -60,6 +61,7 @@ class Persona extends Authenticatable
                     )
                 )
                 ->where('pps.persona_id',$persona)
+                ->where('pps.privilegio_id',$privilegio_id)
                 ->where('o.estado',1)
                 ->groupBy('m.menu','p.cargo')
                 ->orderBy('m.menu')
@@ -114,5 +116,60 @@ class Persona extends Authenticatable
                 ->where('estado',1)
                 ->first();
         return $aula;
+    }
+
+    public static function ActivarEmpresa()
+    {
+        $persona_id= Auth::user()->id;
+        $result=DB::table('personas as p')
+                ->join('personas_empresas as pe', function($join){
+                        $join->on('pe.persona_id','p.id')
+                        ->where('pe.estado',1);
+                })
+                ->join('empresas AS e', function($join){
+                        $join->on('e.id','pe.empresa_id')
+                        ->where('e.estado',1);
+                })
+                ->select('e.id AS empresa_id','e.empresa')
+                ->where('pe.persona_id',$persona_id)
+                ->orderBy('e.empresa','asc')
+                ->get();
+
+        if( isset($result[0]->empresa_id) ){
+            DB::table('personas')
+            ->where('id', $persona_id)
+            ->update(array('empresa_id' => $result[0]->empresa_id));
+            Auth::loginUsingId($persona_id);
+        }
+
+        return $result;
+    }
+
+    public static function Privilegios()
+    {
+        $persona=Auth::user()->id;
+        $result=DB::table('personas as p')
+                ->join('personas_privilegios_sucursales as pps', function($join){
+                        $join->on('pps.persona_id','p.id')
+                        ->where('pps.estado',1);
+                })
+                ->join('privilegios as pr', function($join){
+                        $join->on('pr.id','pps.privilegio_id')
+                        ->where('pr.estado',1);
+                })
+                ->select('pr.id AS privilegio_id','pr.privilegio')
+                ->where('pps.persona_id',$persona)
+                ->groupBy('pr.id')
+                ->orderBy('pr.privilegio','asc')
+                ->get();
+
+        if( isset($result[0]->privilegio_id) ){
+            DB::table('personas')
+            ->where('id', $persona)
+            ->update(array('privilegio_id' => $result[0]->privilegio_id));
+            Auth::loginUsingId($persona);
+        }
+
+        return $result;
     }
 }

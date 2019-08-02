@@ -21,8 +21,8 @@ class Reporte extends Model
 
             })
             ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id');
-
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
             })
             ->select( 'mm.id',DB::raw('COUNT(mmd.id) ndet') )
             ->where( 
@@ -86,7 +86,8 @@ class Reporte extends Model
 
             })
             ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
 
             })
             ->join('personas AS pcaj',function($join){
@@ -196,7 +197,8 @@ class Reporte extends Model
 
             })
             ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
 
             })
             ->join('personas AS pcaj',function($join){
@@ -439,7 +441,8 @@ class Reporte extends Model
 
             })
             ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
 
             })
             ->select('mp.id','s2.sucursal as odeclase',DB::raw(" IF(mp.sucursal_id=1,'PAE-VIR','PAE-PRE') instituto "),'mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
@@ -944,7 +947,8 @@ class Reporte extends Model
                 $join->on('tl.id','=','ll.tipo_llamada_id');
             })
             ->Join('mat_trabajadores AS tr', function($join){
-                $join->on('tr.id','=','ll.trabajador_id');
+                $join->on('tr.id','=','ll.trabajador_id')
+                ->where('tr.empresa_id', Auth::user()->empresa_id);
             })
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','tr.persona_id');
@@ -1107,6 +1111,7 @@ class Reporte extends Model
 
         $where="
         WHERE t.rol_id=1
+        AND t.empresa_id='".Auth::user()->empresa_id."'
         AND DATE(ll.fecha_llamada) BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."'
         ";
         $where.=$whereaux;

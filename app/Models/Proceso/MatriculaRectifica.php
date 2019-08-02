@@ -89,7 +89,8 @@ class MatriculaRectifica extends Model
                 $join->on('mmd.matricula_id','=','mm.id');
             })
             ->Join('mat_cursos AS mc', function($join) use ($r){
-                $join->on('mc.id','=','mmd.curso_id');
+                $join->on('mc.id','=','mmd.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
                 if( $r->has('tipo_curso') ){
                     $join->where('mc.tipo_curso',2);
                 }
@@ -107,7 +108,8 @@ class MatriculaRectifica extends Model
                 $join->on('s.id','=','mm.sucursal_id');
             })
             ->leftJoin('mat_especialidades AS me', function($join){
-                $join->on('me.id','=','mmd.especialidad_id');
+                $join->on('me.id','=','mmd.especialidad_id')
+                ->where('me.empresa_id', Auth::user()->empresa_id);
             })
             ->select(
             'mm.id',
@@ -182,7 +184,8 @@ class MatriculaRectifica extends Model
                 $join->on('m.id','=','mmd.matricula_id');
             })
             ->Join('mat_cursos AS mc', function($join){
-                $join->on('mc.id','=','mmd.curso_id');
+                $join->on('mc.id','=','mmd.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
             })
             ->leftJoin('mat_programaciones AS mp', function($join){
                 $join->on('mp.id','=','mmd.programacion_id');

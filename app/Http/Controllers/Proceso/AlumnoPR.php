@@ -151,69 +151,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
             return response()->json($return);
         }
     }
-    /*
-    public function New(Request $r )
-    {
-        if ( $r->ajax() ) {
-
-            $mensaje= array(
-                'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
-            );
-
-            $rules = array(
-                'especialidad' => 
-                       ['required',
-                        Rule::unique('mat_especialidades','especialidad'),
-                        ],
-            );
-
-            
-            $validator=Validator::make($r->all(), $rules,$mensaje);
-
-            if ( !$validator->fails() ) {
-                Especialidad::runNew($r);
-                $return['rst'] = 1;
-                $return['msj'] = 'Registro creado';
-            }
-            else{
-                $return['rst'] = 2;
-                $return['msj'] = $validator->errors()->all()[0];
-            }
-            return response()->json($return);
-        }
-    }
-
-    public function Edit(Request $r )
-    {
-        if ( $r->ajax() ) {
-            $mensaje= array(
-                'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
-            );
-
-            $rules = array(
-                'especialidad' => 
-                       ['required',
-                        Rule::unique('mat_especialidades','especialidad')->ignore($r->id),
-                        ],
-            );
-
-            $validator=Validator::make($r->all(), $rules,$mensaje);
-
-            if ( !$validator->fails() ) {
-                Especialidad::runEdit($r);
-                $return['rst'] = 1;
-                $return['msj'] = 'Registro actualizado';
-            }
-            else{
-                $return['rst'] = 2;
-                $return['msj'] = $validator->errors()->all()[0];
-            }
-            return response()->json($return);
-        }
-    }
-    */
+    
     public function RegistrarEntrega(Request $r )
     {
         if ( $r->ajax() ) {

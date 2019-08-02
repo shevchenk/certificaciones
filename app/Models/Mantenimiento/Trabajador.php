@@ -21,8 +21,9 @@ class Trabajador extends Model
 
     public static function runNew($r)
     {
-
+        $empresa_id = Auth::user()->empresa_id;
         $trabajador = new Trabajador;
+        $trabajador->empresa_id = $empresa_id;
         $trabajador->persona_id = trim( $r->persona_id );
         $trabajador->rol_id = trim( $r->rol_id );
         $trabajador->codigo = trim( $r->codigo );
@@ -48,6 +49,7 @@ class Trabajador extends Model
                                 ,'mat_trabajadores.rol_id','r.rol','mat_trabajadores.estado')
              ->join('personas as p','p.id','=','mat_trabajadores.persona_id')
              ->join('mat_roles as r','r.id','=','mat_trabajadores.rol_id')
+             ->where('mat_trabajadores.empresa_id', Auth::user()->empresa_id)
              ->where( 
                 function($query) use ($r){
                     if( $r->has("trabajador") ){
@@ -92,6 +94,7 @@ class Trabajador extends Model
                                 ,'mat_trabajadores.rol_id','r.rol','mat_trabajadores.estado')
              ->join('personas as p','p.id','=','mat_trabajadores.persona_id')
              ->join('mat_roles as r','r.id','=','mat_trabajadores.rol_id')
+             ->where('mat_trabajadores.empresa_id', Auth::user()->empresa_id)
              ->where( 
                 function($query) use ($r){
                     if( $r->has("trabajador") ){

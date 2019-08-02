@@ -55,4 +55,8 @@ table>thead>tr.cabecera,
 table>tfoot>tr.cabecera{
     background-color:#A7C0DC;
 }
+
+li.dropdown>a>select{
+    color: black;
+}
 </style>

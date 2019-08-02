@@ -134,6 +134,7 @@ class ProgramacionEM extends Controller
         if ( $r->ajax() ) {
             $r['estado'] = 1;
             $r['persona_id'] = Auth::user()->id;
+            $r['habilita_docente']=1;
             $renturnModel = Programacion::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;

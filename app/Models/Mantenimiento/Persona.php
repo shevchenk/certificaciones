@@ -93,6 +93,18 @@ class Persona extends Model
                     }
                 }
             }
+
+        if( $r->has('empresa') ){
+            $empresa= $r->empresa;
+            for ($i=0; $i < count($empresa) ; $i++) { 
+                $PE= new PersonaEmpresa;
+                $PE->persona_id= $persona->id;
+                $PE->empresa_id= $empresa[$i];
+                $PE->estado=1;
+                $PE->persona_id_created_at= Auth::user()->id;
+                $PE->save();
+            }
+        }
         DB::commit();
     }
 
@@ -189,6 +201,38 @@ class Persona extends Model
                     }
                 }
             }
+
+
+        if( $r->has('empresa') ){
+            DB::table('personas_empresas')
+            ->where('persona_id', '=', $persona->id)
+            ->update(
+                array(
+                    'estado' => 0,
+                    'persona_id_updated_at' => Auth::user()->id
+                )
+            );
+
+            $empresa= $r->empresa;
+            $PE=array();
+            for ($i=0; $i < count($empresa) ; $i++) { 
+                $valida= PersonaEmpresa::where('persona_id',$persona->id)
+                        ->where('empresa_id',$empresa[$i])
+                        ->first();
+                if( isset($valida->id) ){
+                    $PE= PersonaEmpresa::find($valida->id);
+                    $PE->persona_id_updated_at= Auth::user()->id;
+                }
+                else{
+                    $PE= new PersonaEmpresa;
+                    $PE->persona_id= $persona->id;
+                    $PE->empresa_id= $empresa[$i];
+                    $PE->persona_id_created_at= Auth::user()->id;
+                }
+                $PE->estado=1;
+                $PE->save();
+            }
+        }
         DB::commit();
     }
 
@@ -298,6 +342,7 @@ class Persona extends Model
             })
             ->leftJoin('mat_trabajadores AS t', function($join){
                 $join->on('t.id','=','pd.trabajador_id')
+                ->where('t.empresa_id', Auth::user()->empresa_id)
                 ->where('t.estado',1);
             })
             ->leftJoin('personas AS p2', function($join){
@@ -686,5 +731,17 @@ class Persona extends Model
         $persona->persona_id_updated_at=$persona_id;
         $persona->save();
         DB::commit();
+    }
+
+    public static function ListarPersonaEmpresa($personaId) {
+        //subconsulta
+        $sql = DB::table('personas_empresas')
+                ->select( DB::raw('GROUP_CONCAT(empresa_id) empresa_id') )
+                ->where('persona_id',$personaId)
+                ->where('estado',1)
+                ->groupBy('persona_id')
+                ->first();
+
+        return $sql;
     }
 }

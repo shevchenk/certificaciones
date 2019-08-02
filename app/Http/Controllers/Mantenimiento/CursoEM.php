@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mantenimiento\Curso;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Auth;
 
 class CursoEM extends Controller
 {
@@ -36,7 +37,8 @@ class CursoEM extends Controller
             $rules = array(
                 'curso' => 
                        ['required',
-                        Rule::unique('mat_cursos','curso'),
+                        Rule::unique('mat_cursos','curso')
+                        ->where('empresa_id',Auth::user()->empresa_id),
                         ],
             );
 
@@ -67,7 +69,9 @@ class CursoEM extends Controller
             $rules = array(
                 'curso' => 
                        ['required',
-                        Rule::unique('mat_cursos','curso')->ignore($r->id),
+                        Rule::unique('mat_cursos','curso')
+                        ->where('empresa_id',Auth::user()->empresa_id)
+                        ->ignore($r->id),
                         ],
             );
 

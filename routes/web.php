@@ -24,11 +24,7 @@ Route::get(
         if( session()->has('dni') && session()->has('menu') 
             && session()->has('opciones') 
         ){
-            $valida=DB::table('personas_privilegios_sucursales')
-            ->where('persona_id',Auth::user()->id)
-            ->where('privilegio_id',14)
-            ->exists();
-            if( $ruta=='secureaccess.inicio' AND $valida==true ){
+            if( $ruta=='secureaccess.inicio' AND Auth::user()->privilegio_id==14 ){
                 return redirect('proceso.alumnocurso.alumnocurso');
             }
         
@@ -36,6 +32,8 @@ Route::get(
             $valores['menu'] = session('menu');
             $valores['dni'] = session('dni');
             $valores['aula'] = session('aula');
+            $valores['privilegios'] = session('privilegios');
+            $valores['empresas'] = session('empresas');
             $valores['activaraula'] = session('activaraula');
             
             if( strpos( session('opciones'),$ruta )!==false 

@@ -3,13 +3,11 @@ namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Especialidad;
-use App\Models\Mantenimiento\CursoEspecialidad;
+use App\Models\Mantenimiento\Empresa;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Auth;
 
-class EspecialidadEM extends Controller
+class EmpresaMA extends Controller
 {
     public function __construct()
     {
@@ -19,27 +17,26 @@ class EspecialidadEM extends Controller
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Especialidad::runEditStatus($r);
+            Empresa::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
         }
     }
 
-    public function New(Request $r )
+   public function New(Request $r )
     {
         if ( $r->ajax() ) {
 
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => ':attribute solo debe ser único',
+                'unique'      => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'especialidad' => 
+                'empresa' => 
                        ['required',
-                        Rule::unique('mat_especialidades','especialidad')
-                        ->where('empresa_id', Auth::user()->empresa_id),
+                        Rule::unique('empresas','empresa'),
                         ],
             );
 
@@ -47,7 +44,7 @@ class EspecialidadEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Especialidad::runNew($r);
+                Empresa::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -68,18 +65,16 @@ class EspecialidadEM extends Controller
             );
 
             $rules = array(
-                'especialidad' => 
+                'empresa' => 
                        ['required',
-                        Rule::unique('mat_especialidades','especialidad')
-                        ->where('empresa_id', Auth::user()->empresa_id)
-                        ->ignore($r->id),
+                        Rule::unique('empresas','empresa')->ignore($r->id),
                         ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Especialidad::runEdit($r);
+                Empresa::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -94,40 +89,18 @@ class EspecialidadEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Especialidad::runLoad($r);
+            $renturnModel = Empresa::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
+            $return['msj'] = "No hay registros aún";    
+            return response()->json($return);   
         }
     }
     
-    public function ListEspecialidad (Request $r )
+    public function ListEmpresa (Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Especialidad::ListEspecialidad($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-    
-    public function ListEspecialidadDisponible (Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Especialidad::ListEspecialidadDisponible($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-
-    public function CargarEspecialidadCurso (Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Especialidad::CargarEspecialidadCurso($r);
+            $renturnModel = Empresa::ListEmpresa($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";

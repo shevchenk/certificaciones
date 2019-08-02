@@ -3,6 +3,7 @@ namespace App\Models\Reporte;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Auth;
 
 class Notas extends Model
 {
@@ -41,24 +42,20 @@ class Notas extends Model
 
             })
             ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id');
-
+                $join->on('mc.id','=','mp.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
             })
             ->join('personas AS pcaj',function($join){
                 $join->on('pcaj.id','=','mm.persona_caja_id');
-
             })
             ->join('personas AS pmar',function($join){
                 $join->on('pmar.id','=','mm.persona_marketing_id');
-
             })
             ->join('personas AS pmat',function($join){
                 $join->on('pmat.id','=','mm.persona_matricula_id');
-
             })
             ->join('personas AS pdoc',function($join){
                 $join->on('pdoc.id','=','mp.persona_id');
-
             })
             ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email',
                      's.sucursal','mp.fecha_inicio','mp.fecha_final',
