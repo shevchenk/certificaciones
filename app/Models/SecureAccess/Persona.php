@@ -159,7 +159,7 @@ class Persona extends Authenticatable
                 })
                 ->select('pr.id AS privilegio_id','pr.privilegio')
                 ->where('pps.persona_id',$persona)
-                ->groupBy('pr.id')
+                ->groupBy('pr.id','pr.privilegio')
                 ->orderBy('pr.privilegio','asc')
                 ->get();
 
