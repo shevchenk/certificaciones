@@ -23,12 +23,12 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Reporte de Inscritos a Seminarios
+        <h1>Reporte de Inscritos de Formación Continua
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-sitemap"></i> Reporte</li>
-            <li class="active">Seminario</li>
+            <li class="active">FC</li>
         </ol>
     </section>
 
@@ -41,17 +41,17 @@
                             <div class="col-sm-12">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Inicial</label>
+                                    <label class="control-label">Fecha Inicial de Inscripción</label>
                                     <div class="input-group">
                                       <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_inicial" name="txt_fecha_inicial" readonly/>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_inicial" name="txt_fecha_inicial" readonly/>
                                     </div>
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Final</label>
+                                    <label class="control-label">Fecha Final de Inscripción</label>
                                     <div class="input-group">
                                       <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM" id="txt_fecha_final" name="txt_fecha_final" readonly/>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_final" name="txt_fecha_final" readonly/>
                                     </div>
                                 </div>
                                 <div class="col-sm-1" style="padding:24px">

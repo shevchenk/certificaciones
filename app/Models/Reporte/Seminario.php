@@ -19,60 +19,62 @@ class Seminario extends Model
             })
             ->join('personas AS p',function($join){
                 $join->on('p.id','=','mm.persona_id');
-
             })
             ->join('mat_alumnos AS ma',function($join){
                 $join->on('ma.persona_id','=','p.id');
-
             })
             ->join('sucursales AS s',function($join){
                 $join->on('s.id','=','mm.sucursal_id');
-
             })
             ->join('sucursales AS s2',function($join){
                 $join->on('s2.id','=','mm.sucursal_destino_id');
-
             })
             ->join('mat_tipos_participantes AS mtp',function($join){
                 $join->on('mtp.id','=','mm.tipo_participante_id');
-
             })
             ->join('mat_programaciones AS mp',function($join){
                 $join->on('mp.id','=','mmd.programacion_id');
-
+            })
+            ->join('sucursales AS s3',function($join){
+                $join->on('s3.id','=','mp.sucursal_id');
             })
             ->join('mat_cursos AS mc',function($join){
                 $join->on('mc.id','=','mp.curso_id')
                 ->where('mc.empresa_id', Auth::user()->empresa_id);
-
+            })
+            ->join('empresas AS e',function($join){
+                $join->on('e.id','=','mc.empresa_id');
             })
             ->join('personas AS pcaj',function($join){
                 $join->on('pcaj.id','=','mm.persona_caja_id');
-
             })
             ->join('personas AS pmar',function($join){
                 $join->on('pmar.id','=','mm.persona_marketing_id');
-
             })
             ->join('personas AS pmat',function($join){
                 $join->on('pmat.id','=','mm.persona_matricula_id');
-
             })
-            ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
-                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante',
-
-                     DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") seminario'),
-                     DB::raw('GROUP_CONCAT( mp.fecha_inicio ORDER BY mmd.id SEPARATOR "\n") fecha_inicio'),
-                     DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago'),
-                     DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago'),
-                     DB::raw('GROUP_CONCAT( mmd.tipo_pago ORDER BY mmd.id SEPARATOR "\n") tipo_pago'),
-                     DB::raw('SUM(mmd.monto_pago_certificado) subtotal'),
-                     DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total'),
-
-                     DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera'),
-                     DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing'),
-                     DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula'),
-                    'mm.nro_promocion','mm.monto_promocion','p.empresa','s2.sucursal AS recogo_certificado')
+            ->select('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email','ma.direccion'
+                    ,'mm.fecha_matricula','s3.sucursal AS lugar_estudio','e.empresa AS empresa_inscripcion'
+                    ,DB::raw(' GROUP_CONCAT(DISTINCT(IF( mm.especialidad_programacion_id IS NULL, 
+                        IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ),
+                        "Especialidad"
+                    ))) AS tipo_formacion ')
+                    ,DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") formacion')
+                    ,DB::raw('GROUP_CONCAT( mp.fecha_inicio ORDER BY mmd.id SEPARATOR "\n") fecha_inicio')
+                    ,DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago')
+                    ,DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago')
+                    ,DB::raw('GROUP_CONCAT( IF(mmd.tipo_pago=1,"Transferencia",
+                       IF(mmd.tipo_pago=2, "Depósito", "Caja")
+                    ) ORDER BY mmd.id SEPARATOR "\n") tipo_pago')
+                    ,DB::raw('SUM(mmd.monto_pago_certificado) subtotal')
+                    ,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
+                    ,'s.sucursal'
+                    ,DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera')
+                    ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
+                    ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
+                    ,'mm.nro_promocion','mm.monto_promocion','p.empresa','s2.sucursal AS recogo_certificado')
             ->where( 
                 function($query) use ($r){
 
@@ -80,21 +82,22 @@ class Seminario extends Model
                         $inicial=trim($r->fecha_inicial);
                         $final=trim($r->fecha_final);
                         if( $inicial !=''AND $final!=''){
-                            $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                            //$query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_inicial,$r->fecha_final));
                         }
                     }
                 }
             )
             ->where('mm.estado',1)
-            ->where('mc.tipo_curso',2)
             ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
                             FROM personas_privilegios_sucursales ppv
                             WHERE ppv.persona_id='.$id.')')
-            ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno','p.telefono','p.celular','p.email','ma.direccion',
-                     'mm.fecha_matricula','s.sucursal','mtp.tipo_participante','mm.nro_promocion','mm.monto_promocion','p.empresa',
-                     'pcaj.paterno','pcaj.materno','pcaj.nombre',
-                     'pmar.paterno','pmar.materno','pmar.nombre',
-                     'pmat.paterno','pmat.materno','pmat.nombre','s2.sucursal');
+            ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno'
+                    ,'p.materno','p.telefono','p.celular','p.email','ma.direccion','p.empresa'
+                    ,'mm.fecha_matricula','s.sucursal','s3.sucursal','mm.nro_promocion','mm.monto_promocion','e.empresa'
+                    ,'pcaj.paterno','pcaj.materno','pcaj.nombre'
+                    ,'pmar.paterno','pmar.materno','pmar.nombre'
+                    ,'pmat.paterno','pmat.materno','pmat.nombre','s2.sucursal');
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
     }
@@ -188,26 +191,39 @@ class Seminario extends Model
     {
         $rsql= Seminario::runLoadSeminario($r);
 
-        $length=array(
-            'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,'G'=>15,'H'=>25,'I'=>30,
-            'J'=>15,'K'=>15,'L'=>15,
-            //'M'=>15,'N'=>15,'O'=>15,'P'=>15,
-            'M'=>15,'N'=>15,'O'=>15,'P'=>15,'Q'=>15,//''=>15,''=>15,''=>15,''=>15,
-            'R'=>15,'S'=>15,
-            'T'=>20,'U'=>20,'V'=>20,
-            'W'=>15,'X'=>15,'Y'=>15,'Z'=>20
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,15,20,20,20,15,15,25,30,
+            15,15,15,15,
+            15,15,15,15,15,
+            15,15,15,
+            20,20,20,
+            15,15,15,20
         );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
         $cabecera=array(
-            'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
-            'Fecha Matrícula','Sucursal','Tipo Participante',
-            //'Nro Pago','Monto Pago','Nro Pago','Monto Pago',
-            'Seminarios','Fecha Seminario','Nro Pago','Monto Pago','Tipo Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
-            'Sub Total Sem','Total Pagado',
-            'Cajero(a)','Teleoperador(a)','Supervisor(a)',
-            'Nro Recibo Promoción','Monto Promoción','Empresa','Recogo del Certificado'
+            'N°','Fuente de Datos','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
+            'Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua',
+            'Formación Continua','Fecha a Realizarse','Nro Pago','Monto Pago','Tipo Pago',
+            'Sub Total Sem','Total Pagado','Sede De Inscripción',
+            'Cajero(a)','Vendedor(a)','Supervisor(a)',
+            'Nro Recibo Promoción','Monto Promoción','Fuente de Datos de Empresa','Recogo del Certificado'
         );
         $campos=array(
-            '','id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
+            'id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
              'fecha_matricula','sucursal','tipo_participante',
              //'nro_pago_inscripcion','monto_pago_inscripcion',
              //'nro_pago','monto_pago',
@@ -221,28 +237,42 @@ class Seminario extends Model
         $r['cabecera']=$cabecera;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='Z'; // Max. Celda en LETRA
+        $r['max']=$estatico.chr($min); // Max. Celda en LETRA
         return $r;
     }
 
     public static function runExportSeminarioDetalle($r)
     {
         $rsql= Seminario::runLoadSeminarioDetalle($r);
-
         $length=array(
-            'A'=>5,'B'=>15,'C'=>20,'D'=>20,'E'=>20,'F'=>15,'G'=>15,'H'=>25,'I'=>30,
-            'J'=>15,'K'=>15,'L'=>15,
-            //'M'=>15,'N'=>15,'O'=>15,'P'=>15,
-            'M'=>15,'N'=>15,'O'=>15,'P'=>15,'Q'=>15,//''=>15,''=>15,''=>15,''=>15,
-            'R'=>15,'S'=>15,
-            'T'=>20,'U'=>20,'V'=>20,
-            'W'=>15,'X'=>15,'Y'=>15,'Z'=>20
+            'A'=>28,
         );
+        $pos=array(
+            5,15,20,20,20,15,15,25,30,
+            15,15,15,
+            15,15,15,15,15,
+            15,15,
+            20,20,20,
+            15,15,15,20
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
         $cabecera=array(
-            'N°','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
+            'N°','IDS','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
             'Fecha Matrícula','Sucursal','Tipo Participante',
-            //'Nro Pago','Monto Pago','Nro Pago','Monto Pago',
-            'Seminarios','Fecha Seminario','Nro Pago','Monto Pago','Tipo Pago',//'Curso 2','Nro Pago','Monto Pago','Curso 3','Nro Pago','Monto Pago',
+            'Seminarios','Fecha Seminario','Nro Pago','Monto Pago','Tipo Pago',
             'Sub Total Sem','Total Pagado',
             'Cajero(a)','Teleoperador(a)','Supervisor(a)',
             'Nro Recibo Promoción','Monto Promoción','Empresa','Recogo del Certificado'
@@ -250,8 +280,6 @@ class Seminario extends Model
         $campos=array(
             '','id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
              'fecha_matricula','sucursal','tipo_participante',
-             //'nro_pago_inscripcion','monto_pago_inscripcion',
-             //'nro_pago','monto_pago',
              'seminario','fecha_inicio','nro_pago','monto_pago','tipo_pago',
              'subtotal','total',
              'cajera','marketing','matricula',

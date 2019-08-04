@@ -2,12 +2,12 @@
 $(document).ready(function() {
 
     $(".fecha").datetimepicker({
-        format: "yyyy-mm",
+        format: "yyyy-mm-dd",
         language: 'es',
         showMeridian: false,
         time:false,
-        minView:3,
-        startView:3,
+        minView:2,
+        startView:2,
         autoclose: true,
         todayBtn: false
     });
@@ -77,7 +77,7 @@ HTMLCargarReporte=function(result){
     $('#TableReporte').DataTable().destroy();
 
     $.each(result.data,function(index,r){
-        var seminario=r.seminario.split("\n").join('<br/>');
+        var seminario=r.formacion.split("\n").join('<br/>');
         var nro=r.nro_pago.split("\n").join('<br/>');
         var monto=r.monto_pago.split("\n").join('<br/>');
 

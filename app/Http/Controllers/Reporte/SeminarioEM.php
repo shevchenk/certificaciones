@@ -50,15 +50,15 @@ class SeminarioEM extends Controller
             ));
 
             $sheet->cell('A1', function($cell) {
-                $cell->setValue('REPORTE DE SEMINARIOS');
+                $cell->setValue('REPORTE DE INSCRITOS DE FORMACIÓN CONTINUA');
                 $cell->setFont(array(
                     'family'     => 'Bookman Old Style',
-                    'size'       => '20',
+                    'size'       => '24',
                     'bold'       =>  true
                 ));
             });
-            $sheet->mergeCells('A1:'.$renturnModel['max'].'1');
-            $sheet->cells('A1:'.$renturnModel['max'].'1', function($cells) {
+            $sheet->mergeCells('A1:J1');
+            $sheet->cells('A1:J1', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
                 $cells->setValignment('center');
@@ -71,7 +71,13 @@ class SeminarioEM extends Controller
             ));
 
             $data=json_decode(json_encode($renturnModel['data']), true);
-            $sheet->rows($data);
+            $pos=3;
+            for ($i=0; $i<count($data); $i++) {
+                //unset($data[$i]['ndet']);
+                $data[$i]['id']=$i+1;
+                $pos++;
+                $sheet->row( $pos, $data[$i] );
+            }
 
             $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
@@ -85,12 +91,12 @@ class SeminarioEM extends Controller
             });
             
             $sheet->setAutoSize(array(
-                'M', 'N','O','P','Q'
+                'O','P','Q','R','S','T'
             ));
 
             $count = $sheet->getHighestRow();
 
-            $sheet->getStyle('M4:Q'.$count)->getAlignment()->setWrapText(true);
+            $sheet->getStyle('O4:T'.$count)->getAlignment()->setWrapText(true);
             
             $sheet->setBorder('A3:'.$renturnModel['max'].$count, 'thin');
 
