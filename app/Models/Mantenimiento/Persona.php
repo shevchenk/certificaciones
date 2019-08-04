@@ -264,9 +264,11 @@ class Persona extends Model
             'email',DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),'sexo','telefono',
             'celular','password','estado','frecuencia','medio_publicitario_id','sucursal_id',
             'hora_inicio','hora_final')
-            ->where('id','!=',1)
             ->where( 
                 function($query) use ($r){
+                    if( Auth::user()->id!=1 ){
+                        $query->where('id','!=',1);
+                    }
                     if( $r->has("paterno") ){
                         $paterno=trim($r->paterno);
                         if( $paterno !='' ){
