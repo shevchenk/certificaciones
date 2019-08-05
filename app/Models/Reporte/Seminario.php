@@ -38,9 +38,11 @@ class Seminario extends Model
             ->join('sucursales AS s3',function($join){
                 $join->on('s3.id','=','mp.sucursal_id');
             })
-            ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id')
-                ->where('mc.empresa_id', Auth::user()->empresa_id);
+            ->join('mat_cursos AS mc',function($join) use($r){
+                $join->on('mc.id','=','mp.curso_id');
+                if( !$r->has('global') ){
+                    $join->where('mc.empresa_id', Auth::user()->empresa_id);
+                }
             })
             ->join('empresas AS e',function($join){
                 $join->on('e.id','=','mc.empresa_id');

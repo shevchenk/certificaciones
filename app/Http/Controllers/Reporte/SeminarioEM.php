@@ -26,6 +26,10 @@ class SeminarioEM extends Controller
 
     public function ExportSeminario(Request $r )
     {
+        $url=explode("/",$_SERVER['HTTP_REFERER']);
+        if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
+            $r['global']=1;
+        }
         $renturnModel = Seminario::runExportSeminario($r);
         
         Excel::create('Seminario', function($excel) use($renturnModel) {
