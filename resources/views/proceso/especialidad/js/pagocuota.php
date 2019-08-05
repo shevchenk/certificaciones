@@ -18,6 +18,7 @@ $(document).ready(function() {
     });
 
     AjaxEspecialidad.Cargar(HTMLCargar);
+    AjaxEspecialidad.ListSucursal(HTMLListSucursal);
     $("#EspecialidadForm #TableDatos select").change(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
     $("#EspecialidadForm #TableDatos input").blur(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
 });
@@ -76,6 +77,13 @@ HTMLCargar=function(result){ //INICIO HTML
     }); //FIN DATA TABLE
 }; //FIN HTML
 
+HTMLListSucursal=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.sucursal+"</option>";
+    });
+    $("#frm_pago_cuota #slct_sucursal").html(html); 
+}
 
 // PROCESOS NUEVOS
 HTMLCargaMatri=function(result){ //INICIO HTML
@@ -184,6 +192,9 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
         html+=""+
             '<td><input type="hidden" value="'+r.cuota+'" name="txt_cuota[]">'+r.cuota+'</td>'+
             '<td>'+r.fecha_cronograma+'</td>'+
+            '<td><select id="slct_sucursal_'+index+'" name="slct_sucursal[]" class="form-control">'+
+                $("#frm_pago_cuota #slct_sucursal").html()+
+                '</select></td>'+
             '<td><input type="text" class="form-control" id="txt_nro_cuota'+index+'" name="txt_nro_cuota[]" value="'+$.trim(r.nro_cuota)+'" placeholder="Nro"></td>'+
             '<td><input type="text" class="form-control" id="txt_monto_cuota'+index+'" name="txt_monto_cuota[]" value="'+$.trim(r.monto_cuota)+'" placeholder="Monto"></td>'+
             '<td><select class="form-control"  id="slct_tipo_pago_cuota'+index+'" name="slct_tipo_pago_cuota[]">'+
@@ -211,6 +222,9 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
         
         html+="</tr>";
         $("#t_pago_cuota").append(html);
+        if( $.trim(r.sucursal_id)!='' ){
+            $("#slct_sucursal_"+index).val(r.sucursal_id);
+        }
         if( $.trim(r.archivo_cuota)!='' ){
             $('#slct_tipo_pago_cuota'+index).val(r.tipo_pago);
             masterG.SelectImagen(r.archivo_cuota,'#pago_img_cuota'+index,'#pago_cuota'+index);
@@ -221,7 +235,10 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
 };
 
 guardarPagoCuota=function(id, matricula_id){
-    if( $("#txt_nro_cuota"+id).val()=='' ){
+    if( $("#slct_sucursal_"+id).val()=='' ){
+        msjG.mensaje('warning','Seleccione Sucursal',3000);
+    }
+    else if( $("#txt_nro_cuota"+id).val()=='' ){
         msjG.mensaje('warning','Ingrese el Nro del Recibo',3000);
     }
     else if( $("#txt_monto_cuota"+id).val()=='' ){
@@ -239,7 +256,10 @@ guardarPagoCuota=function(id, matricula_id){
 }
 
 actualizarPagoCuota=function(id, matricula_id){
-    if( $("#txt_nro_cuota"+id).val()=='' ){
+    if( $("#slct_sucursal_"+id).val()=='' ){
+        msjG.mensaje('warning','Seleccione Sucursal',3000);
+    }
+    else if( $("#txt_nro_cuota"+id).val()=='' ){
         msjG.mensaje('warning','Ingrese el Nro del Recibo',3000);
     }
     else if( $("#txt_monto_cuota"+id).val()=='' ){

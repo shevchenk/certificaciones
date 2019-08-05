@@ -275,27 +275,22 @@
                 <table id="tb_pago_cuota" class="table table-striped">
                     <thead>
                         <tr class="cabecera">
-                            <th colspan='6' style="text-align: center;">CUOTAS PROGRAMADAS DE LA ESPECIALIDAD</th>
+                            <select id="slct_sucursal" class="form-control">
+                            </select>
+                            <th colspan='7' style="text-align: center;">CUOTAS PROGRAMADAS DE LA ESPECIALIDAD</th>
                         </tr>
 
                         <tr class="bg-info">
                             <th>Nro Cuota</th>
                             <th>Fecha Programada</th>
+                            <th>Sede donde Pagó</th>
                             <th>Nro</th>
                             <th>Monto</th>
-                            <th>Tipo Pago</th>
+                            <th>Forma Pago</th>
                             <th>Archivo Pago</th>
                         </tr>
                     </thead>
                     <tbody id="t_pago_cuota">
-                        <tr>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        <td>#</td>
-                        </tr>
                     </tbody>
                     <tfoot>
                     </tfoot>

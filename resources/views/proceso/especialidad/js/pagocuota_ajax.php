@@ -96,7 +96,11 @@ var AjaxEspecialidad={
         $("#frm_pago_cuota input[type='hidden']").not('.mant').remove();
         url='AjaxDinamic/Proceso.MatriculaRectificaPR@actualizarPagoCuota';
         masterG.postAjax(url,data,evento,null,false);
-    }
-    
+    },
+    ListSucursal:function(evento){
+        url='AjaxDinamic/Mantenimiento.SucursalEM@ListSucursalandusuario';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

@@ -16,6 +16,7 @@ class MatriculaCuota extends Model
         $user_id = Auth::user()->id;
         $MC = new MatriculaCuota;
         $MC->matricula_id= $r->matricula_id;
+        $MC->sucursal_id= $r->sucursal[$r->index];
         $MC->cuota= $r->cuota[$r->index];
         $MC->nro_cuota= $r->nro_cuota[$r->index];
         $MC->monto_cuota= $r->monto_cuota[$r->index];
@@ -62,6 +63,7 @@ class MatriculaCuota extends Model
 
         $MC = new MatriculaCuota;
         $MC->matricula_id= $r->matricula_id;
+        $MC->sucursal_id= $r->sucursal[$r->index];
         $MC->cuota= $r->cuota[$r->index];
         $MC->nro_cuota= $r->nro_cuota[$r->index];
         $MC->monto_cuota= $r->monto_cuota[$r->index];
