@@ -32,6 +32,12 @@ class ApiPR extends Controller
         elseif($r->opcion=='ObtenerCursosDocente'){
             $result = $this->ObtenerCursosDocente($r);
         }
+        elseif($r->opcion=='ObtenerCursosGlobal'){
+            $result = $this->ObtenerCursosGlobal($r);
+        }
+        elseif($r->opcion=='ObtenerProgramacionesGlobal'){
+            $result = $this->ObtenerProgramacionesGlobal($r);
+        }
         elseif($r->opcion=='ObtenerCursosProgramados'){
             $result = $this->ObtenerCursosProgramados($r);
         }
@@ -120,6 +126,24 @@ class ApiPR extends Controller
     public function ObtenerCursosDocente ( $r )
     {
         $renturnModel = Api::ObtenerCursosDocente($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+    public function ObtenerCursosGlobal ( $r )
+    {
+        $renturnModel = Api::ObtenerCursosGlobal($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+    public function ObtenerProgramacionesGlobal ( $r )
+    {
+        $renturnModel = Api::ObtenerProgramacionesGlobal($r);
         $return['rst'] = 1;
         $return['data'] = $renturnModel;
         $return['msj'] = "Registro realizado correctamente";

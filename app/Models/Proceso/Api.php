@@ -257,6 +257,87 @@ class Api extends Model
         return $data;
     }
 
+    public static function ObtenerCursosGlobal($r)
+    {
+        $key= DB::table(Api::mibdaux().'.apiaula')
+                ->where('estado',1)
+                ->select('idaula AS id','key AS token')
+                ->where('keycli',$r->keycli)
+                ->first();
+
+        $grupos=array();
+        if( count($key)>0 ){
+            $grupos=DB::table(Api::mibdaux().'.mat_cursos AS mc')
+                    ->join(Api::mibdaux().'.empresas AS e', function($join) use($r){
+                        $join->on('e.id','=','mc.empresa_id');
+                        if( $r->has('empresa_id') ){
+                            $join->where('e.id',$r->empresa_id);
+                        }
+                    })
+                    ->select('mc.curso', 'mc.id AS curso_externo_id','e.id AS empresa_externo_id','e.empresa')
+                    ->where('mc.tipo_curso',1)
+                    ->where('mc.estado',1)
+                    ->get();
+        }
+        else{
+            $key=array( 'token'=>0, 'id'=>0 );
+        }
+
+        $data = array(
+            'key' => $key,
+            'cursos' => $grupos
+        );
+        return $data;
+    }
+
+    public static function ObtenerProgramacionesGlobal($r)
+    {
+        $key= DB::table(Api::mibdaux().'.apiaula')
+                ->where('estado',1)
+                ->select('idaula AS id','key AS token')
+                ->where('keycli',$r->keycli)
+                ->first();
+
+        $grupos=array();
+        if( count($key)>0 ){
+            $grupos=DB::table(Api::mibdaux().'.mat_programaciones AS mp')
+                    ->Join(Api::mibdaux().'.personas AS p', function($join){
+                        $join->on('p.id','=','mp.persona_id');
+                    })
+                    ->Join(Api::mibdaux().'.mat_cursos AS mc', function($join) use($r){
+                        $join->on('mc.id','=','mp.curso_id')
+                        ->where('mc.tipo_curso',1);
+                        if( $r->has('empresa_id') ){
+                            $join->where('mc.empresa_id',$r->empresa_id);
+                        }
+                    })
+                    ->leftJoin(Api::mibdaux().'.mat_cursos_especialidades AS mce', function($join){
+                        $join->on('mce.curso_id','=','mc.id')
+                        ->where('mce.estado',1);
+                    })
+                    ->leftJoin(Api::mibdaux().'.mat_especialidades AS me', function($join){
+                        $join->on('me.id','=','mce.especialidad_id')
+                        ->where('me.estado',1);
+                    })
+                    ->select('mc.curso', 'mc.id AS curso_externo_id', 'mp.id AS programacion_unica_externo_id'
+                    ,'mp.fecha_inicio', 'mp.fecha_final', 'p.dni AS docente_dni', 'p.paterno AS docente_paterno'
+                    ,'p.materno AS docente_materno','p.nombre AS docente_nombre', DB::raw('IFNULL(me.especialidad,"Curso Libre") AS carrera')
+                    ,'mc.empresa_id AS empresa_externo_id'
+                    )
+                    ->where('mp.estado',1)
+                    ->get();
+        }
+        else{
+            $key=array( 'token'=>0, 'id'=>0 );
+        }
+
+        $data = array(
+            'key' => $key,
+            'programacion' => $grupos
+        );
+        return $data;
+    }
+
     public static function ObtenerCursosProgramados($r)
     {
         $grupos=array();

@@ -20,10 +20,17 @@
                 </li>
             @endforeach
         @endif
-    @if ( $activaraula AND $menu[0]->cargo > 0 )
+    @if ( $activaraula AND (Auth::user()->privilegio_id==14 OR Auth::user()->privilegio_id==20) )
     <li class="treeview">
         <a href="{{ $aula->aulaurl }}/ReportDinamic/Api.ApiCurso@Validaracceso?id={{ $aula->idaula }}&dni={{ $dni }}&cargo={{ $menu[0]->cargo }}" target="__blank">
             <i class="fa fa-university"></i> <span>Mis Cursos</span>
+        </a>
+    </li>
+    @endif
+    @if ( Auth::user()->privilegio_id==4 OR Auth::user()->privilegio_id==5 )
+    <li class="treeview">
+        <a href="{{ $aula->aulaurl }}/ReportDinamic/Api.ApiCurso@Validaracceso?id={{ $aula->idaula }}&dni={{ $dni }}&cargo={{ $menu[0]->cargo }}&empresa_id={{ Auth::user()->empresa_id }}" target="__blank">
+            <i class="fa fa-university"></i> <span>Adm. Aula</span>
         </a>
     </li>
     @endif
