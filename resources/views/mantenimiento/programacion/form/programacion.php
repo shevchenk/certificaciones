@@ -22,12 +22,12 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>ODE</label>
-                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
+                            <select  class="form-control selectpicker show-menu-arrow" onchange="ValidaOde(this.value);" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
                                 <option value="0">.::Seleccione::.</option>
                             </select>
                         </div> 
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 validaode">
                         <div class="form-group">
                             <label id="label_curso">Curso</label>
                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_curso_id" name="slct_curso_id">
@@ -35,13 +35,13 @@
                             </select>
                         </div> 
                     </div>
-                    <div class="col-md-3 txt_aula">
+                    <div class="col-md-3 txt_aula validaode">
                         <div class="form-group">
                             <label>Aula</label>
                             <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_aula" name="txt_aula">
                         </div>
                     </div>
-                    <div class="col-md-9 slct_dia">
+                    <div class="col-md-9 slct_dia validaode">
                         <div class="form-group">
                             <label>Horario</label>
                             <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_dia[]" id="slct_dia">
@@ -55,13 +55,13 @@
                             </select>
                         </div>
                     </div>                 
-                    <div class="col-md-6">
+                    <div class="col-md-6 validaode">
                         <div class="form-group">
                             <label>Fecha de Inicio</label>
                             <input type="text" class="form-control fechas" id="txt_fecha_inicio" name="txt_fecha_inicio" readonly="" >
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 validaode">
                         <div class="form-group">
                             <label>Fecha Final</label>
                             <input type="text" class="form-control fechas" id="txt_fecha_final" name="txt_fecha_final" readonly="" >
