@@ -32,6 +32,133 @@ class CargarPR extends Controller
         //$this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
     }
 
+    public function CargarInteresados(Request $r) 
+    {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(600);
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            $uploadFolder = 'txt/interesados';
+
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder);
+            }
+
+            $nombreArchivo = explode(".", $_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0] . "_u" . Auth::user()->id . "_" . date("Ymd_His") . "." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                $return['rst'] = 2;
+                $return['msj'] = $m;
+                return response()->json($return);
+            }
+
+            $usuario= Auth::user()->id;
+            DB::connection()->getPdo()
+            ->exec("
+            LOAD DATA LOCAL INFILE '$file'
+            INTO TABLE interesados
+            FIELDS TERMINATED BY '\t'
+            LINES TERMINATED BY '\n'
+            (
+              EMPRESA, FUENTE, TIPO, FECHA_REGISTRO
+              , DNI, PATERNO, MATERNO, NOMBRE, CELULAR, EMAIL, DISTRITO
+              , SEDE, CARRERA, VENDEDOR, COD_VENDEDOR, FECHA_ENTREGA
+            ) 
+            SET usuario = ".$usuario.", file = '".$file."';");
+            
+            $sql="";
+            $correlativo= Persona::where('persona_id_created_at',0)
+                            ->select('dni')
+                            ->orderBy('dni','desc')
+                            ->first();
+            $inicial=0;
+            if( isset($correlativo->dni) ){
+                $inicial= $correlativo->dni;
+            }
+            $return['inicial']= $inicial;
+
+            DB::beginTransaction();
+
+            $sql="  UPDATE interesados i
+                    INNER JOIN personas p ON (p.email=i.EMAIL AND p.email!='') or (p.dni=i.DNI AND p.dni!='')
+                    SET i.dni_final=p.dni
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'";
+            DB::update($sql);
+
+            $sql="SET @numero=".$inicial.";";
+            DB::statement($sql);
+
+            $sql="  INSERT INTO personas (`password`, empresa, fuente, tipo, fecha_registro
+                    , dni, paterno, materno, nombre, celular, email, distrito_domicilio
+                    , sede, carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
+                    SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\", i.EMPRESA, i.FUENTE, i.TIPO, i.FECHA_REGISTRO
+                    ,IF(i.DNI='',LPAD(@numero:=@numero+1,10,'0'),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL, i.DISTRITO
+                    , i.SEDE, i.CARRERA, 3, NOW(), IF(i.DNI='',0,$usuario), $usuario
+                    FROM interesados AS i
+                    WHERE i.dni_final=''
+                    AND i.usuario=".$usuario."
+                    AND i.file='".$file."'";
+            DB::insert($sql);
+
+            $sql="SET @numero=".$inicial.";";
+            DB::statement($sql);
+
+            $sql="  UPDATE interesados
+                    SET dni_final=IF(DNI='',LPAD(@numero:=@numero+1,10,'0'),DNI)
+                    WHERE dni_final=''
+                    AND usuario=".$usuario."
+                    AND file='".$file."'";
+            DB::update($sql);
+
+            //Inserta los acceso apra los usuarios
+            $sql="  INSERT INTO personas_privilegios_sucursales 
+                    (persona_id, privilegio_id, sucursal_id, estado, created_at, persona_id_created_at, persona_id_updated_at)
+                    SELECT id, 14, 1,1 ,NOW() ,0, $usuario
+                    FROM personas
+                    WHERE estado=3";
+            DB::insert($sql);
+
+            //Actualiza a estado activo a los usuarios
+            $sql="  UPDATE personas
+                    SET estado=1
+                    WHERE estado=3";
+            DB::update($sql);
+
+            //-- Distribucion de los vendedores
+            $sql="   INSERT INTO personas_distribuciones 
+                    (persona_id, trabajador_id, fecha_distribucion,estado,created_at,persona_id_created_at, persona_id_updated_at)
+                    SELECT p.id,t.id,i.FECHA_ENTREGA,1,NOW(),0,$usuario
+                    FROM interesados i
+                    INNER JOIN personas p ON p.dni=i.dni_final
+                    INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'";
+            DB::insert($sql);
+
+            DB::commit();
+            if(@$no_pasa > 0)
+            {
+                $return['no_pasa'] = $no_pasa;
+                $return['rst'] = 3;
+                $return['msj'] = 'Algunos datos no procesaron';
+            }
+            else
+            {
+                $return['rst'] = 1;
+                $return['msj'] = 'Archivo procesado correctamente';
+            }
+            
+            return response()->json($return);
+        }
+    }
+
     public function CargarAlumnos(Request $r) 
     {
         ini_set('memory_limit', '1024M');
@@ -194,7 +321,6 @@ class CargarPR extends Controller
             return response()->json($return);
         }
     }
-
 
     public function CargarMatriculas() 
     { 
@@ -621,7 +747,6 @@ class CargarPR extends Controller
             return response()->json($return);
         }
     }
-
     
     public function CargaProgramacion() 
     {
