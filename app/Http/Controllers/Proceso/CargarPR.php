@@ -140,10 +140,10 @@ class CargarPR extends Controller
             //-- Distribucion de los vendedores
             $sql="   INSERT INTO personas_distribuciones 
                     (persona_id, trabajador_id, fecha_distribucion,estado,created_at,persona_id_created_at, persona_id_updated_at)
-                    SELECT p.id,t.id,i.FECHA_ENTREGA,1,NOW(),0,$usuario
+                    SELECT p.id,t.id,IF(i.FECHA_ENTREGA='0000-00-00',CURDATE(),i.FECHA_ENTREGA),1,NOW(),0,$usuario
                     FROM interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
-                    INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR
+                    INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!=''
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'";
             DB::insert($sql);
