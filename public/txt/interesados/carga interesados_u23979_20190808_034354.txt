@@ -1,0 +1,176 @@
+EIP	FACEBOOK		6/8/19	43298415	Huaman	Maldonado	Rainier	923599979	rainier.huaman@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	46174649	Rojas	Menacho	Henry Felix	992102140	henry.rojasm@pucp.pe		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	41354472	Urcos	Huari	jairzinho aquiles	993215376	cp_willi_23@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	45034124	Díaz		Apolonio	927267225	dadit.antrop@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	SITIO WEB		6/8/19		Rojas	Menacho	Henry Felix	992102140	henry.rojasm@pucp.pe		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	40656881	ALBARRAN	LOPEZ	ALEX RAFAEL	982504530	edajara4@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	40666978	Rivas	Pacheco	Heidi María	993176718	jayma_6666@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	40090002	Smith		César	992603359	csmith_c@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	41570673	Chávez	Canales	Lucy	949787871	patricia4296@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	40195250	Calderón	Anahua	Sergio	981535127	sergio_calderon42@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		6/8/19	43430976	chavarria		wilder	928894149	overcoming.1985@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUANA		
+EIP	FACEBOOK		6/8/19	20097909	Lopez	Caballero	Darwin John	975266521	yonsito16@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MARIANELA		
+EIP	FACEBOOK		6/8/19	10685949	Quito		Deniss	996216848	denissquitoleon@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	41472439	valenzuela		josé	934502752	profesor_jose0708@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	47500861	montes		Piero	989002199	pieromontes92@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		6/8/19	46790448	Valdera	Campos	Gustavo Adolfo	942780691	gustav_vc_18@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUANA		
+EIP	FACEBOOK		6/8/19	42440839	tello	macavilca	consuelo	941487832	consuelo19_1@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	40028811	Rivera	Rabanal	joanna	985192750	especialistagl09@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MARIANELA		
+EIP	FACEBOOK		6/8/19	42184887	Huaman	Balbuena	Joel	955508445	joelhb82@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	44179131	Morales		Cindy	916187869	cindynovella@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	45259685	Caccha	Colonia	Rosmeey	980290783	ross.caccha@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	45179465	aquituari	ahuanari	jorge luis	959269707	joluaa1304@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	10600377	vargas	fernandez	omar	936219190	homar_vf@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		6/8/19	40563297	jaramillo		jose	935992252	jaramillo_topo@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		6/8/19	738797	Delgado		Isabel	940397130	midelgadovg@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	40691484	Ansia		Doris	965773314	dorisbaca@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	974168	Machaca		Nelly	967130497	nellymiraflores@yahoo.es		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	71651354	Ramírez	Aguilar	Gaby	964569794	ramirezaguilargaby@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	9910621	Rodríguez	Huamani	María del Rosario	955416385	chary_rod@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		6/8/19	42184887	Huaman	Balbuena	Joel	955508445	joelhb82@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	27075653	vasquez	mejia	carlos	960101798	charlesvm12@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	21531635	hernamdez	piscomte	jose felix	967706641	jofeher_25@hotmail.com.pe		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	46850462	Soto	Montalva	Patricia	961844455	sr6a32@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	40732703	colina	gomez	miriam guadalupe	945505291	micoli_20@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	45189069	tantalean	susano	karol	992846053	karol_88_5@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	44426678	ruiz		joel	950293264	gedeon_ruiz@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	SITIO WEB		6/8/19		Farro	Jara	Roberto	945319192	robertofarroj@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	LUIS ALONZO		
+EIP	SITIO WEB		6/8/19		Colina	Gomez	Miriam Guadalupe	945505291	micoli_20@hotmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	47911650	Jiménez		Haydee	987796121	haydeejimenez1@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	16803081	luna	niño	rogger	928003547	roghel.02.02@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	40374421	Medina	Pacheco	Luisa Francisca	947576617	luisax19@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Velásquez	Calderón	Luis Alexander	989055262	lvelasquezc25@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	10025956	collanqui		pedro	942687017	matematicamente2011@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19	10646915	Melendez	Escamilo	Elisa	992046318	elimesca@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		HUARACA	ZEVALLOS	PERCILIO	954809387			JUNIN		ROSA BATALLA		
+EIP	FACEBOOK		6/8/19		ZEVALLOS		CRISTHIAN	937106247			JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		De	la	Marilú	985991484	marilu_ds@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		León	Mostacero	Antero Denis	949862192	denisleon1978@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		lucar		maria del carmen	914192509	mariadelcarmen_67@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		mau		jorge	922394602	jmau28@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Gamboa		Su	977446518	su17____@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		winder		jackelyne	986544579	jackelyne_1984@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		calderon	ludeña	karin	948559813	kj-calderon@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Barreda	Zagaceta	Jessica	960135025	jjbarza16@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Llanterhuay	Tello	Ayme	997284429	aymegisela20@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Latorre		Mónica	977778261	mlatorre13@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Velásquez	Veliz	Hugo illitch	966384476	hugovelasquezveliz@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		zuloeta		Ana	992833169	anazuviz_19@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		azabache		liliana	957362715	leazabache@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Gonzales	Garcia	Billy	982174224	gonabilly@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Sanchez	Quispe	Giselle	954741977	digersac.peru@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Vargas	Machuca	Nancibel	944631729	vnancibel@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Cornejo		Katia	980461459	katiacornejo@hotmail.com.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		medina		virginia	980679929	virginiavmm@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Tisnado	Mamani	luz Marina	951015056	luzmarina_jhujim@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Espezúa	Lara	Sandra Antuanett	997396329	antuanett05@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		ZEVALLOS	COSME	CRISTHIAN JOSÉ	937106247	cjzevallosc@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		aranda	onofre	xiomara	919041562	xiomi-94@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Salas	Loayza	Félix	945989851	fesalo1110@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		carhuayña	samame	judy magaly	941801986	ps.jcarhuayna@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		ruiz		luis	963300172	luisfel_ruiz@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		curi	riveros	jorge	978273311	roky688@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Huayanay	Sánchez	Jessica	934918687	jessicaangie3110@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Béjar	Purizaca	Enrique Paulo	980738107	paulobejar@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Casós		Juan	954412897	juan1046@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		roca		eva	998233479	eva_rocar@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Cielo		Lucía	980926566	caritosky@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Ferrer	Mejía	Mercedes Lulilea	956357765	mercedesferrer10@yahoo.es		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Bravo		Sara	946111956	sbravorioja@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Rodríguez		marianela	966784161	rodriguezmarianelaa@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		Raffo	López	Mariana	980975259	mariana_raffi@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		quintana	Dávila	Elvira Adela	950064736	elvira_quintana@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		6/8/19		alca		malena	944904110	helena_alca@yahoo.es		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		6/8/19		gonzales		frank	957254073	frank008_@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		6/8/19		Tiznado	Aguilar	jemima cesia	942269535	cesiatiznado@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		6/8/19		Perez	Mallco	Jessica Sara	997446590	js.perezmallco@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		6/8/19		Gutierrez	Neciosup	Daniela Milagros	937224713	gutierrezneciosup@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		06/08/19		Huacho	Cáceres	Jesús William	992231852	liam.163005@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		06/08/19		anyyapoma		yanet Adriana	991307803	ady_302@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		06/08/19		mayo	Condor	Daneri	980643880	djmc1502@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		06/08/19		BORDA	CHIPANA	adriel	938245088	adriel_bch@yahoo.es		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		06/08/19		Pimentel	Ramirez	Ludovina Loyola	945600625	livi_226@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		06/08/19		Bringas		Diana	993685247	dianabringas@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	SITIO WEB		06/08/19		matos		fiorella	950489688	fiorellamatosangulo@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		06/08/19		ZAMATA	YUCRA	JAVIER EDUARDO	981046739	javierzamatayucra@hotmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		06/08/19		Ganoza	Medrano	jluis	989466467	jluisganoza1979@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Correa		Ysabel	953348030	ysabelomega@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		mendoza	cabrejos	Daniela Patricia	969247806	dala.10815@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		avila	jorge	judith veronica	42090409	juve2611@yahoo.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		León	Otarola	john alvin	930738179	mentesbrillantespnl@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		suarez	romero	tatiana gisell	931705230	tatianasuarez26@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		monja		Giuliana	925140598	yhulita_85@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		aliaga		gunilla	999973620	gunilla2020@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Torres		guisella	975441122	guisellatorres01@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Chacón	Jara	Sara	984532116	sarita_chacon@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Villegas		karina	920532748	lkvillegas@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Villanueva	Aparco	Ruth	991689332	ruthvillanuevaaparco@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Hidalgo	Nuñez	Yuliana	987637056	yhidalgo_23@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		alva	olivera	estefania estrella	916704205	mie_2791@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Leiva	Gonzales	Eder	954810048	eder-leiva@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Zelarayan	Adauto	Marisol Edith	977282945	mzelarayanadauto@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Pantoja	Jara	Elizabeth	972626767	rossypantojita@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Albornoz	Garay	Marlene	990289290	marlenealy@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Aguilar	Quispe	Rique Danny	939145682	raguilarq@certus.edu.pe		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		quispe	Calderón	Luther genrhit	941815131	genrhit23@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		echevarria	López	chantall maria	992680871	marishantall@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		riofrio		Fiorella	946191863	fiore.riofrio@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Peche	Evangelista	viviana Ruth	989970847	vivi170779@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Janampa	Lopez	carmen	956063095	cjmariel17@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Cruz	gallegos	Luis	973547444	luis248134@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		BECERRA		melba	927666506	melbabecerra@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		Cárdenas	Fernández	magnolia	997396550	dmagnolia29@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19		chavez	manrique	carlos alberto	941303175	chavezc_20031@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Ramirez		Jesus	925 098 562	jesusravega@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		ubillus	toro	karla cecilia	994332565	karcelac@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Lolay	Mendoza	Felix	993351722	felix201129@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Perez	Leon	Maria Esperanza	945373609	esperanzapl@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		quispe	rimari	karina	940287903	kquisperimari@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		medina	Candia	Hernan	993787222	hernanmc270@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		MATUTE	Centeno	María Elena	978792129	elena_mc2@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Hurtado		Rosario	995440371	arq.rhurtado@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Gonzáles		Viviana	997743475	viviana.gonzales.roncal@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Quispe	Arenas	Abel Jerónimo	975744563	abel_wx@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		JAEN	MURRUGARRA	MARIA EUGENIA	956541573	maeujaen_09@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Diaz	Tasaico	Cesar Eduardo	971142443	cesar.diaztasaico@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Rueda	Caycho	Carlos	927068712	arueda120@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		ruiz	de	Lorenzo	931106766	lruizvt@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Ocampo	Escobedo	Rosa Llisel	939854416	lliselocampoe@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		ZAMATA	YUCRA	JAVIER EDUARDO	981046739	javierzamatayucra@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Ureta	Livias	Zulema	940389181	zulema_311@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		vitor		jose	993346979	osvimol@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		bazan	melendez	rocio	940601743	rbm10199@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19		Ruiz	Laos	María	949288463	marianruuz.2306@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Sanchez	Quispe	Giselle	954741977	digersca.peru@gmail.cim		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Vargas	Machuca	Nanci	944631729	vnancibel@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Zevallos	Cosme	Cristhian José	937106247	cjzevallosc@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Ramos		Joel	0	joefernandorp@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Peña		Cristina	941456514	bellipci1@gmail.com		JUNIN	EVALUACIÓN Y ACREDITACIÓN DE LA CALIDAD EDUCATIVA	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Tiznado	Aguilar	Jemima	942269535	Cesiatiznado@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Pimentel	Ramirez	Ludovina Loyola	945600625	livi_226@hotmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Arellano	Santos	Lorena	965980622	haybi.arellano.santos@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Villanueva	Aparco	Ruth	991689332	ruth.villanueva.aparco@outlook.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Hidalgo	Nuñez	Yuliana	987637056	Yhidalgo_23@hotmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Hidalgo	Nuñez	Yu6	987637056	Yhidalgo_23@hotmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		cortes		ana	929953925	annacortesbenitez@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	SITIO WEB		07/08/19		Aguilar	Moreno	Eder Aguilar Moreno	949905582	eder090887@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19	87654321	López		luis	934303859	metodo2007@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		07/08/19	45854440	Uchasara	Casavilca	Katherin Denisse	973859234	kd.uchasara@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	LUIS ALONZO		
+EIP	FACEBOOK		07/08/19	40333940	Martínez	Reyes	Carola Marcela	938491363	carolamartinez_11@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		07/08/19	40103253	Mosqueira	Ruiz	Margarita Jaquelin	974954179	maitomosqueira@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		07/08/19	1761545	Diaz		yuraima	928018891	yurdig@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	LUIS ALONZO		
+EIP	FACEBOOK		07/08/19	46188079	Salazar	samalvides	Julia Valeria	974604669	julivss26@gmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	MOGROVEJO		
+EIP	FACEBOOK		07/08/19	10834704	Arrieta	Salazar	Carmen Rosa Arrieta Salazar	935820615	carminho.salazar@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19	31678315	Chavez	Aparicio	Jorge	956147333	jchaparicio@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19	10200595	BELLIDO	CERDA	IRIS DEL ROSARIO	948081290	cristoredentor33@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19	25767271	García	Inga	Patricia	991452244	pattygarcia40@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	MOGROVEJO		
+EIP	FACEBOOK		07/08/19	44015566	Murga	Román	Alicia	930723952	alicia.murga@outlook.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19	70349185	lazo	alva	jorge	944826635	jorgelazoalva@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19	42239160	ramos		Ronald	997688910	ramos1800@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19	40028250	Segovia	Escobar	Jenny	977261134	jenny.04.12@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19	48223766	Portilla		Tatiana	997076399	tauro_1026@hotmail.com		JUNIN	gerencia_de_proyectos_y_programas_sociales	ROSA BATALLA		
+EIP	FACEBOOK		07/08/19	44160224	HUARCAYA	CRIBILLERO	LUIGI OMAR	953610232	luigi.huarcaya@gmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	GALLARDO		
+EIP	FACEBOOK		07/08/19	44854219	Romero	Laurente	Lesly	985 675 475	lesly_0865@hotmail.com		JUNIN	evaluación_y_acreditación_de_la_calidad_educativa	GALLARDO		
+EIP	SITIO WEB		07/08/19		Uchasara	Casavilca	Katherin Denisse	973859234	kd.uchasara@gmail.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	GALLARDO		
+EIP	SITIO WEB		07/08/19		Arrieta	Salazar	Carmen	935820615	carminho.salazar@gmail.com		JUNIN	EVALUACIÓN Y ACREDITACIÓN DE LA CALIDAD EDUCATIVA	GALLARDO		
+EIP	SITIO WEB		07/08/19		Cadillo		Amparo	937398749	amparocadi@outlook.com		JUNIN	GERENCIA DE PROYECTOS Y DE PROGRAMAS SOCIALES	GALLARDO		
