@@ -62,8 +62,8 @@ class CargarPR extends Controller
             }
 
             $usuario= Auth::user()->id;
-            $sql="SET GLOBAL local_infile := true;";
-            DB::statement($sql);
+            /*$sql="SET GLOBAL local_infile = 'ON';";
+            DB::statement($sql);*/
 
             DB::connection()->getPdo()
             ->exec("
