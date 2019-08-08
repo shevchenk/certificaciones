@@ -38,8 +38,11 @@ class CargarPR extends Controller
         set_time_limit(600);
         if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
+            $uploadFolder = 'txt';
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder);
+            }
             $uploadFolder = 'txt/interesados';
-
             if (!is_dir($uploadFolder)) {
                 mkdir($uploadFolder);
             }
