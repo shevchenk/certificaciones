@@ -78,7 +78,6 @@ class CargarPR extends Controller
               , SEDE, CARRERA, VENDEDOR, COD_VENDEDOR, FECHA_ENTREGA
             ) 
             SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1, 
-            dni_final = IF( FECHA_ENTREGA='0000-00-00' OR FECHA_REGISTRO='0000-00-00', 'xxxxx',''),
             FECHA_ENTREGA= IF(FECHA_ENTREGA='0000-00-00', CURDATE(), FECHA_ENTREGA),
             FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");
             
@@ -92,7 +91,7 @@ class CargarPR extends Controller
                 $inicial= $correlativo->dni;
             }
             $return['inicial']= $inicial;
-            
+
             DB::beginTransaction();
 
             $sql="  UPDATE interesados i
