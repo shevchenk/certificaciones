@@ -64,7 +64,8 @@ class CargarPR extends Controller
             $usuario= Auth::user()->id;
             /*$sql="SET GLOBAL local_infile = 'ON';";
             DB::statement($sql);*/
-
+            $sql="SET @numero=0";
+            DB::statement($sql);
             DB::connection()->getPdo()
             ->exec("
             LOAD DATA LOCAL INFILE '$file'
@@ -76,7 +77,10 @@ class CargarPR extends Controller
               , DNI, PATERNO, MATERNO, NOMBRE, CELULAR, EMAIL, DISTRITO
               , SEDE, CARRERA, VENDEDOR, COD_VENDEDOR, FECHA_ENTREGA
             ) 
-            SET usuario = ".$usuario.", file = '".$file."';");
+            SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1, 
+            dni_final = IF( FECHA_ENTREGA='0000-00-00' OR FECHA_REGISTRO='0000-00-00', 'xxxxx',''),
+            FECHA_ENTREGA= IF(FECHA_ENTREGA='0000-00-00', CURDATE(), FECHA_ENTREGA),
+            FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");
             
             $sql="";
             $correlativo= Persona::where('persona_id_created_at',0)
@@ -96,6 +100,22 @@ class CargarPR extends Controller
                     SET i.dni_final=p.dni
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'";
+            DB::update($sql);
+
+            $sql="  UPDATE interesados i
+                    SET i.dni_final='xxxx'
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'
+                    AND i.DNI=''
+                    AND i.EMAIL=''";
+            DB::update($sql);
+
+            $sql="  UPDATE interesados i 
+                    LEFT JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!=''
+                    SET i.dni_final='xxxxxxxx'
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'
+                    AND t.id IS NULL";
             DB::update($sql);
 
             $sql="SET @numero=".$inicial.";";
@@ -140,7 +160,7 @@ class CargarPR extends Controller
             //-- Distribucion de los vendedores
             $sql="   INSERT INTO personas_distribuciones 
                     (persona_id, trabajador_id, fecha_distribucion,estado,created_at,persona_id_created_at, persona_id_updated_at)
-                    SELECT p.id,t.id,IF(i.FECHA_ENTREGA='0000-00-00',CURDATE(),i.FECHA_ENTREGA),1,NOW(),0,$usuario
+                    SELECT p.id,t.id,i.FECHA_ENTREGA,1,NOW(),0,$usuario
                     FROM interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
                     INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!=''
@@ -149,9 +169,16 @@ class CargarPR extends Controller
             DB::insert($sql);
 
             DB::commit();
-            if(@$no_pasa > 0)
+
+            $data = DB::table('interesados')
+                    ->select('pos', 'DNI', 'EMAIL', 'COD_VENDEDOR', 'FECHA_REGISTRO','FECHA_ENTREGA','dni_final')
+                    ->where('usuario',$usuario)
+                    ->where('file',$file)
+                    ->where('dni_final','like','xxxx%')
+                    ->get();
+            if( count($data) > 0)
             {
-                $return['no_pasa'] = $no_pasa;
+                $return['data'] = $data;
                 $return['rst'] = 3;
                 $return['msj'] = 'Algunos datos no procesaron';
             }

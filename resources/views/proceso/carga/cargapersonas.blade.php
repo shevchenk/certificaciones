@@ -47,12 +47,13 @@
                 -->
                 <hr>
                 <br><br>
-                <div class="col-sm-12" style="display: none;">
-                    <div class="col-sm-4">
+                <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-8">
                     &nbsp;
                     </div>
-                    <div class="col-sm-4">
-                        <table class="table table-bordered table-striped">
+                    <div class="col-sm-8">
+                        <table class="table table-bordered">
                             <thead>
                                 <th style="text-align:center">No pasaron</th>
                             </head>
@@ -62,7 +63,22 @@
                                 </tr>
                             </body>
                         </table>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th> # Posición </th>
+                                <th> DNI </th>
+                                <th> EMAIL </th>
+                                <th> COD VENDEDOR </th>
+                                <th> FECHA_REGISTRO </th>
+                                <th> FECHA_ENTREGA </th>
+                            </tr>
+                            </head>
+                            <tbody id="resultado2">
+                            </body>
+                        </table>
                     </div>
+                </div>
                 </div>
             </div><!-- /.box -->
             <!-- Finaliza contenido -->

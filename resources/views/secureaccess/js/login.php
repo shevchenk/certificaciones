@@ -46,7 +46,7 @@ var masterG={
                     msjG.mensaje('warning','Dni o Password Inválido',4000);
                 }
                 else{
-                    msjG.mensaje('danger','',4000);
+                    msjG.mensaje('warning','',4000);
                 }
             }
         });
