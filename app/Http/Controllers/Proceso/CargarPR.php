@@ -92,7 +92,7 @@ class CargarPR extends Controller
                 $inicial= $correlativo->dni;
             }
             $return['inicial']= $inicial;
-
+            
             DB::beginTransaction();
 
             $sql="  UPDATE interesados i
