@@ -157,8 +157,17 @@ class CargarPR extends Controller
                     WHERE estado=3";
             DB::update($sql);
 
+            $sql="  UPDATE personas_distribuciones pd
+                    INNER JOIN personas p ON p.id=pd.persona_id
+                    INNER JOIN interesados i ON i.dni_final=p.dni
+                    INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!=''
+                    SET pd.estado=0
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'";
+            DB::update($sql);
+
             //-- Distribucion de los vendedores
-            $sql="   INSERT INTO personas_distribuciones 
+            $sql="  INSERT INTO personas_distribuciones 
                     (persona_id, trabajador_id, fecha_distribucion,estado,created_at,persona_id_created_at, persona_id_updated_at)
                     SELECT p.id,t.id,i.FECHA_ENTREGA,1,NOW(),0,$usuario
                     FROM interesados i
