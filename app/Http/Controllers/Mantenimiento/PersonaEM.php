@@ -211,7 +211,10 @@ class PersonaEM extends Controller
     {
         if ( $r->ajax() ) {
             $id=Auth::user()->id;
-            $trabajador= Trabajador::where('persona_id',$id)->first();
+            $empresa_id= Auth::user()->empresa_id;
+            $trabajador= Trabajador::where('persona_id',$id)
+                         ->where('empresa_id',$empresa_id)
+                         ->first();
             $trabajadorid=0;
             if( isset($trabajador->id) ){
                 $trabajadorid=$trabajador->id;
