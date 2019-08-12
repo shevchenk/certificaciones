@@ -32,14 +32,8 @@ class Seminario extends Model
             ->join('mat_tipos_participantes AS mtp',function($join){
                 $join->on('mtp.id','=','mm.tipo_participante_id');
             })
-            ->join('mat_programaciones AS mp',function($join){
-                $join->on('mp.id','=','mmd.programacion_id');
-            })
-            ->join('sucursales AS s3',function($join){
-                $join->on('s3.id','=','mp.sucursal_id');
-            })
             ->join('mat_cursos AS mc',function($join) use($r){
-                $join->on('mc.id','=','mp.curso_id');
+                $join->on('mc.id','=','mmd.curso_id');
                 if( !$r->has('global') ){
                     $join->where('mc.empresa_id', Auth::user()->empresa_id);
                 }
@@ -55,6 +49,12 @@ class Seminario extends Model
             })
             ->join('personas AS pmat',function($join){
                 $join->on('pmat.id','=','mm.persona_matricula_id');
+            })
+            ->leftJoin('mat_programaciones AS mp',function($join){
+                $join->on('mp.id','=','mmd.programacion_id');
+            })
+            ->leftJoin('sucursales AS s3',function($join){
+                $join->on('s3.id','=','mp.sucursal_id');
             })
             ->select('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','ma.direccion'
