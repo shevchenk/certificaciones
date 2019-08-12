@@ -57,7 +57,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-6" style="width:20% !important;">
+                                    <th class="col-xs-6" style="width:15% !important;">
                                         <div class="form-group">
                                             <label><h4>Odes:</h4></label>
                                         </div>
@@ -83,7 +83,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-6" style="width:30% !important;">
+                                    <th class="col-xs-6" style="width:20% !important;">
                                         <div class="form-group">
                                             <label><h4>Cronograma:</h4></label>
                                         </div>
