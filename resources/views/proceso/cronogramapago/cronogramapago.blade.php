@@ -112,6 +112,7 @@
                                   <th>Odes</th>
                                   <!--th>Código de Inicio</th-->
                                   <th>Fecha de Inicio</th>
+                                  <th>Escala</th>
                                   <th>Cronograma</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
