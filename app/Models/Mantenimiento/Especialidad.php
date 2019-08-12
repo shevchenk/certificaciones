@@ -208,8 +208,9 @@ class Especialidad extends Model
                     ),function($join){
                     $join->on('mps.curso_id','=','mc.id');
                 })
-                ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','cro.cronograma'
-                ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')
+                ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma'
+                /*,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')*/
+                ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso ORDER BY mce.orden SEPARATOR "^^" ) cursos')
                 )
                 ->where('me.empresa_id',Auth::user()->empresa_id)
                 ->where( function($query) use ($r){
@@ -226,7 +227,7 @@ class Especialidad extends Model
                         }
                     }
                 })
-                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','cro.cronograma');
+                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma');
         $result = $sql->orderBy('me.especialidad','asc')->paginate(10);
         return $result;
     }

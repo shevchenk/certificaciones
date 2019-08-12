@@ -321,11 +321,11 @@
                                         <table class="table" id="t_pago_cuota">
                                             <thead class="bg-info">
                                                 <tr>
-                                                    <th colspan="5" style="text-align:center;">Cuotas de la Especialidad &nbsp;&nbsp;
+                                                    <th colspan="5" style="text-align:center;" id="titpago">Pago de Cuotas de la Especialidad &nbsp;&nbsp;
                                                     </th>
                                                 </tr>
                                                 <tr>
-                                                    <th>Cuotas Programadas</th>
+                                                    <th id="subtitpago">Cuotas Programadas</th>
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>

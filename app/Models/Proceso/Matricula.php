@@ -158,9 +158,9 @@ class Matricula extends Model
         $dni_nombre_detalle=$r->dni_nombre_detalle;
         $dni_archivo_detalle=$r->dni_archivo_detalle;
         $checks= $r->checks;
-        if(count($checks)==0){
+        /*if(count($checks)==0){
             $checks=array();
-        }
+        }*/
             
         if($matricula){
             for($i=0;$i<count($curso_id);$i++){
@@ -193,12 +193,40 @@ class Matricula extends Model
                 $mtdetalle->tipo_pago=$tipo_pago[$i];
                 $mtdetalle->curso_id=$curso_id[$i];
 
-                if(Input::has('especialidad_id')){
+                if(Input::has('especialidad_id') AND !$r->has('nro_certificado')){
                         $mtdetalle->especialidad_id=$especialidad_id[$i];
                         $mtdetalle->tipo_matricula_detalle=2;
                         $mtdetalle->nro_pago_certificado=0;
                         $mtdetalle->monto_pago_certificado=0;
                         $mtdetalle->tipo_pago=0;
+                }
+                elseif( Input::has('especialidad_id') AND $r->has('nro_certificado') ){
+                    if( $r->nro_certificado[$i]!='' AND $r->monto_certificado[$i]!='' ){
+                        $mtdetalle->especialidad_id=$especialidad_id[$i];
+                        $mtdetalle->tipo_matricula_detalle=5;
+                        $mtdetalle->nro_pago_certificado=$r->nro_certificado[$i];
+                        $mtdetalle->monto_pago_certificado=$r->monto_certificado[$i];
+                        $mtdetalle->tipo_pago=$r->tipo_pago_certificado[$i];
+                    }
+                    else{
+                        $mtdetalle->especialidad_id=$especialidad_id[$i];
+                        $mtdetalle->tipo_matricula_detalle=5;
+                        $mtdetalle->nro_pago_certificado=0;
+                        $mtdetalle->monto_pago_certificado=0;
+                        $mtdetalle->tipo_pago=0;
+                    }
+
+                    if( trim($pago_nombre_certificado[$i])!='' ){
+                        $type=explode(".",$pago_nombre_certificado[$i]);
+                        $extension=".".$type[1];
+                    }
+                    $url = "upload/m$matricula->id/cer_".$i.$extension; 
+                    if( trim($pago_archivo_certificado[$i])!='' ){
+                        $mtdetalle->archivo_pago_certificado=$url;
+                        Menu::fileToFile($pago_archivo_certificado[$i], $url);
+                    }
+
+                    $mtdetalle->archivo_dni=$matricula->archivo_dni;
                 }
                 
                 if( trim($r->nro_promocion)==''){

@@ -63,23 +63,29 @@ HTMLCargarEspecialidad=function(result){
     $('#TableListaespecialidad').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){
+        detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Curso</span> </li></ul>";
+        cuota='';
+        if( r.tipo==1 ){
+            detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;'>"+r.nro_cuota+"</span> </li></ul>";
+            cuota="<ol><li>C - "+$.trim(r.cronograma).split("|").join("</li><li>C - ")+"</li></ol>";
+        }
         html+="<tr id='trides_"+r.id+"'>"+
-            "<td class='especialidad'>"+r.especialidad+"</td>"+
-            "<td class='fecha_inicio'>"+r.fecha_inicio+"<hr><ol><li>C - "+$.trim(r.cronograma).split("|").join("</li><li>C - ")+"</li></ol></td>"+
-            "<td class='curso'>"+
+            "<td class='col-md-4'><div class='especialidad'>"+r.especialidad+"</div><hr><input type='hidden' class='tipo' value='"+r.tipo+"'>"+detalle+"</td>"+
+            "<td class='fecha_inicio col-md-1'>"+r.fecha_inicio+"<hr>"+cuota+"</td>"+
+            "<td class='curso col-md-5'>"+
                 "<table class='table table-bordered table-hover'>"+
                     "<thead><tr>"+
-                        "<th>N° Orden</th>"+
-                        "<th>Curso</th>"+
-                        "<th>N Veces</th>"+
-                        "<th>Nota</th>"+
+                        "<th class='col-md-2'>N° Orden</th>"+
+                        "<th class='col-md-10'>Curso</th>"+
+                        /*"<th>N Veces</th>"+
+                        "<th>Nota</th>"+*/
                     "</tr></thead>"+
                     "<tbdoy id='table_"+r.id+"'><tr>"+
                         "<td>"+$.trim(r.cursos).split('|').join('</td><td>').split("^^").join("</td></tr><tr><td>")+"</td>"+
                     "</tr></tbody>"+
                 "</table>"+
             "</td>"+
-            "<td>"+
+            "<td class='col-md-1'>"+
             '<span class="btn btn-primary btn-sm" onClick="SeleccionarEspecialidad(\''+r.id+'\')"+><i class="glyphicon glyphicon-ok"></i></span>';
         html+="</td>";
         html+="</tr>";
@@ -106,8 +112,8 @@ HTMLCargarEspecialidad=function(result){
 
 SeleccionarEspecialidad=function(id){
     EspecialidadIDG=id;
-    var html=''; var cursos=''; var seminario='';
-        $("#trides_"+id+" table>tbody>tr").each( function(){
+    var html=''; var cursos=''; var seminario=''; var html2='';
+        $("#trides_"+id+" table>tbody>tr").each( function(index){
           html+="<tr id='tres_"+id+"_"+$(this).find('td:eq(0) .curso_id').val()+"'>"+
             "<td><input type='text' class='form-control' value='"+$('#trides_'+id+' .especialidad').text()+"' disabled></td>"+
             "<td><textarea rows='2' class='form-control' disabled>"+$(this).find('td:eq(1)').text()+"</textarea></td>"+
@@ -122,6 +128,34 @@ SeleccionarEspecialidad=function(id){
             '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1|curso_id:'+$(this).find('td:eq(0) .curso_id').val()+'" data-tipotabla="1">Seleccionar Programación</button></td>';
           html+="</tr>";
 
+          html2+=''+
+            '<tr>'+
+                '<td>'+$(this).find('td:eq(1)').text()+'</td>'+
+                '<td><input type="text" class="form-control" id="txt_nro_certificado" name="txt_nro_certificado[]" value="" placeholder="Nro"></td>'+
+                '<td><input type="text" class="form-control" id="txt_monto_certificado" name="txt_monto_certificado[]" value="" placeholder="Monto"></td>'+
+                '<td><select class="form-control"  id="slct_tipo_pago_certificado" name="slct_tipo_pago_certificado[]">'+
+                    '<option value=\'0\'>.::Seleccione::.</option>'+
+                    '<option value=\'1\'>Transferencia</option>'+
+                    '<option value=\'2\'>Depósito</option>'+
+                    '<option value=\'3\'>Caja</option>'+
+                    '</select></td>'+
+                '<td>'+
+                    '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_certificado'+index+'"  name="pago_nombre_certificado[]" value="">'+
+                    '<input type="text" style="display: none;" id="pago_archivo_certificado'+index+'" name="pago_archivo_certificado[]">'+
+                    '<label class="btn btn-default btn-flat margin btn-xs">'+
+                        '<i class="fa fa-file-image-o fa-3x"></i>'+
+                        '<i class="fa fa-file-pdf-o fa-3x"></i>'+
+                        '<i class="fa fa-file-word-o fa-3x"></i>'+
+                        '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre_certificado'+index+'\',\'#pago_archivo_certificado'+index+'\',\'#pago_img_certificado'+index+'\');" >'+
+                    '</label>'+
+                    '<div>'+
+                    '<a id="pago_href">'+
+                    '<img id="pago_img_certificado'+index+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                    '</a>'+
+                    '</div>'+
+                '</td>'+
+            '</tr>';
+
           cursos+="<li>"+$(this).find('td:eq(1)').text()+"</li>";
         })
           seminario="<li>"+$('#trides_'+id+' .especialidad').text()+"</li>";
@@ -130,35 +164,44 @@ SeleccionarEspecialidad=function(id){
         $("#tb_matricula").html(html);
 
         html='';
-        $("#trides_"+id+" ol>li").each( function(index){
-            html+=''+
-            '<tr>'+
-                '<td><input type="hidden" value="'+(index*1+1)+'" name="txt_cuota[]">'+(index*1+1)+$(this).text()+'</td>'+
-                '<td><input type="text" class="form-control" id="txt_nro_cuota" name="txt_nro_cuota[]" value="" placeholder="Nro"></td>'+
-                '<td><input type="text" class="form-control" id="txt_monto_cuota" name="txt_monto_cuota[]" value="" placeholder="Monto"></td>'+
-                '<td><select class="form-control"  id="slct_tipo_pago_cuota" name="slct_tipo_pago_cuota[]">'+
-                    '<option value=\'0\'>.::Seleccione::.</option>'+
-                    '<option value=\'1\'>Transferencia</option>'+
-                    '<option value=\'2\'>Depósito</option>'+
-                    '<option value=\'3\'>Caja</option>'+
-                    '</select></td>'+
-                '<td>'+
-                    '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_cuota'+index+'"  name="pago_nombre_cuota[]" value="">'+
-                    '<input type="text" style="display: none;" id="pago_archivo_cuota'+index+'" name="pago_archivo_cuota[]">'+
-                    '<label class="btn btn-default btn-flat margin btn-xs">'+
-                        '<i class="fa fa-file-image-o fa-3x"></i>'+
-                        '<i class="fa fa-file-pdf-o fa-3x"></i>'+
-                        '<i class="fa fa-file-word-o fa-3x"></i>'+
-                        '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre_cuota'+index+'\',\'#pago_archivo_cuota'+index+'\',\'#pago_img_cuota'+index+'\');" >'+
-                    '</label>'+
-                    '<div>'+
-                    '<a id="pago_href">'+
-                    '<img id="pago_img_cuota'+index+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
-                    '</a>'+
-                    '</div>'+
-                '</td>'+
-            '</tr>';
-        })
+        $("#titpago").text("Pago de Cuotas de la Especialidad");
+        $("#subtitpago").text("Cuota(s) Programadas");
+        if( $('#trides_'+id+' .tipo').val()==2 ){
+            $("#titpago").text("Pago por Curso de la Especialidad");
+            $("#subtitpago").text("Curso(s) de la Especialidad");
+            html= html2;
+        }
+        else{
+            $("#trides_"+id+" ol>li").each( function(index){
+                html+=''+
+                '<tr>'+
+                    '<td><input type="hidden" value="'+(index*1+1)+'" name="txt_cuota[]">'+(index*1+1)+$(this).text()+'</td>'+
+                    '<td><input type="text" class="form-control" id="txt_nro_cuota" name="txt_nro_cuota[]" value="" placeholder="Nro"></td>'+
+                    '<td><input type="text" class="form-control" id="txt_monto_cuota" name="txt_monto_cuota[]" value="" placeholder="Monto"></td>'+
+                    '<td><select class="form-control"  id="slct_tipo_pago_cuota" name="slct_tipo_pago_cuota[]">'+
+                        '<option value=\'0\'>.::Seleccione::.</option>'+
+                        '<option value=\'1\'>Transferencia</option>'+
+                        '<option value=\'2\'>Depósito</option>'+
+                        '<option value=\'3\'>Caja</option>'+
+                        '</select></td>'+
+                    '<td>'+
+                        '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_cuota'+index+'"  name="pago_nombre_cuota[]" value="">'+
+                        '<input type="text" style="display: none;" id="pago_archivo_cuota'+index+'" name="pago_archivo_cuota[]">'+
+                        '<label class="btn btn-default btn-flat margin btn-xs">'+
+                            '<i class="fa fa-file-image-o fa-3x"></i>'+
+                            '<i class="fa fa-file-pdf-o fa-3x"></i>'+
+                            '<i class="fa fa-file-word-o fa-3x"></i>'+
+                            '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre_cuota'+index+'\',\'#pago_archivo_cuota'+index+'\',\'#pago_img_cuota'+index+'\');" >'+
+                        '</label>'+
+                        '<div>'+
+                        '<a id="pago_href">'+
+                        '<img id="pago_img_cuota'+index+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                        '</a>'+
+                        '</div>'+
+                    '</td>'+
+                '</tr>';
+            })
+        }
 
         $("#tb_pago_cuota").html(html);
         $("#ModalListaespecialidad").modal('hide');
