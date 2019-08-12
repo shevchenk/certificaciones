@@ -133,7 +133,11 @@ class Privilegio extends Model
     {  
         $sql=Privilegio::select('id','privilegio','estado')
             ->where('estado','=','1')
-            ->where('id','!=',1);
+            ->where(function($query){
+                if( Auth::user()->id!=1 ){
+                    $query->where('id','!=',1)
+                }
+            });
         $result = $sql->orderBy('privilegio','asc')->get();
         return $result;
     }
