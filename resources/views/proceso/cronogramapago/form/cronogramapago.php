@@ -48,11 +48,17 @@
                   </select>
               </div-->
               <div class="col-md-12 validatipo">  
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <br>         
                     <label>Fecha de cronograma de pago:</label>
                     <br>
                     <input type="text" class="form-control fecha" id="txt_fecha_cronograma" placeholder="YYYY-MM-DD">
+                </div>
+                <div class="col-md-4">
+                  <br>         
+                    <label>Monto de cronograma de pago:</label>
+                    <br>
+                    <input type="text" class="form-control" id="txt_monto_cronograma" placeholder="0.00">
                 </div>
                 <div class="col-md-2">
                   <br>
@@ -74,7 +80,8 @@
                   <thead class="bg-info">
                     <tr>
                       <th style='width:10% !important;'>Nro Cuota</th>
-                      <th style='width:80% !important;'>Fecha</th>
+                      <th style='width:40% !important;'>Fecha</th>
+                      <th style='width:40% !important;'>Monto</th>
                       <th style='width:10% !important;'>Eliminar</th>
                     </tr>
                   </thead>

@@ -45,6 +45,7 @@ $(document).ready(function() {
         $('#ModalEspecialidadProgramacionForm #slct_estado').selectpicker( 'val',EPG.estado );
         $('#ModalEspecialidadProgramacionForm #txt_fecha_inicio').removeAttr( 'disabled' );
         $('#ModalEspecialidadProgramacionForm #slct_especialidad_id').removeAttr( 'disabled' );
+        ValidaTipo(EPG.tipo);
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
             $('#ModalEspecialidadProgramacionForm #slct_especialidad_id').focus();
@@ -66,9 +67,9 @@ $(document).ready(function() {
 });
 
 ValidaTipo=function(v){
-    $("#ModalEspecialidadProgramacionForm .validatipo").css('display','none');
-    if( v==1 ){
-        $("#ModalEspecialidadProgramacionForm .validatipo").css('display','block');
+    $("#ModalEspecialidadProgramacionForm .validatipo").css('display','block');
+    if( v==2 ){
+        $("#ModalEspecialidadProgramacionForm .validatipo").css('display','none');
     }
 }
 
@@ -115,6 +116,7 @@ AgregarEditar=function(val,id){
 HTMLCargarCronograma=function(result){
     $.each(result.data,function(index,r){
         $('#txt_fecha_cronograma').val(r.fecha_cronograma);
+        $('#txt_monto_cronograma').val(r.monto_cronograma);
         CargarCronograma();
     });
     $('#slct_curso_id').val('');
@@ -122,12 +124,13 @@ HTMLCargarCronograma=function(result){
 
 CargarCronograma=function(){
     fecha_cronograma = $('#txt_fecha_cronograma').val();
+    monto_cronograma = $('#txt_monto_cronograma').val();
     if( $.trim( $('#sortable #trid_'+fecha_cronograma).html() ) == '' ){
-        fechaCronogramaG.push(fecha_cronograma);
+        fechaCronogramaG.push(fecha_cronograma+"|"+monto_cronograma);
         fechaCronogramaG.sort();
         $('#sortable').html('');
         for (i=0; i<fechaCronogramaG.length; i++) {
-            $('#sortable').append('<tr id="trid_'+fechaCronogramaG[i]+'"><td>N° '+(i+1)+'</td><td><input type="hidden" name="txt_fecha_cronograma[]" value="'+fechaCronogramaG[i]+'">'+fechaCronogramaG[i]+'</td><td><a onClick="EliminarTr(\''+fechaCronogramaG[i]+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
+            $('#sortable').append('<tr id="trid_'+fechaCronogramaG[i].split("|")[0]+'"><td>N° '+(i+1)+'</td><td><input type="hidden" name="txt_fecha_cronograma[]" value="'+fechaCronogramaG[i].split("|")[0]+'">'+fechaCronogramaG[i].split("|")[0]+'</td><td><input type="text" name="txt_monto_cronograma[]" value="'+fechaCronogramaG[i].split("|")[1]+'"></td><td><a onClick="EliminarTr(\''+fechaCronogramaG[i].split("|")[0]+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
         }
     }
     else{

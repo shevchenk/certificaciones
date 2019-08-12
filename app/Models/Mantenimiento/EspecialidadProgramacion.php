@@ -40,7 +40,7 @@ class EspecialidadProgramacion extends Model
             'mep.tipo',
             'mep.fecha_inicio',
             'mep.estado',
-            DB::raw('GROUP_CONCAT( DISTINCT(mepc.fecha_cronograma) ORDER BY mepc.cuota) AS fecha_cronograma'),
+            DB::raw('GROUP_CONCAT( DISTINCT(CONCAT(mepc.fecha_cronograma," => S/ ",mepc.monto_cronograma)) ORDER BY mepc.cuota) AS fecha_cronograma'),
             DB::raw('GROUP_CONCAT( DISTINCT(s.sucursal) ORDER BY s.sucursal SEPARATOR "|") AS sucursal'),
             DB::raw('GROUP_CONCAT( DISTINCT(s.id) ) AS sucursal_id')
             )
@@ -114,11 +114,13 @@ class EspecialidadProgramacion extends Model
         $especialidadProgramacion->save();
         
         $fecha_cronograma = $r->fecha_cronograma;
+        $monto_cronograma = $r->monto_cronograma;
         for ($i=0; $i < count($fecha_cronograma); $i++) { 
             $EPC = new EspecialidadProgramacionCronograma;
             $EPC->especialidad_programacion_id = $especialidadProgramacion->id;
             $EPC->cuota = ($i+1);
             $EPC->fecha_cronograma = $fecha_cronograma[$i];
+            $EPC->monto_cronograma = $monto_cronograma[$i];
             $EPC->persona_id_created_at = $usuario;
             $EPC->save();
         }
@@ -149,6 +151,7 @@ class EspecialidadProgramacion extends Model
         $especialidadProgramacion->save();
 
         $fecha_cronograma = $r->fecha_cronograma;
+        $monto_cronograma = $r->monto_cronograma;
         for ($i=0; $i < count($fecha_cronograma); $i++) { 
             $validacronograma=DB::table('mat_especialidades_programaciones_cronogramas')
             ->select('fecha_cronograma','id')
@@ -174,7 +177,14 @@ class EspecialidadProgramacion extends Model
                 $EPC->especialidad_programacion_id = $especialidadProgramacion->id;
                 $EPC->cuota = ($i+1);
                 $EPC->fecha_cronograma = $fecha_cronograma[$i];
+                $EPC->monto_cronograma = $monto_cronograma[$i];
                 $EPC->persona_id_created_at = $usuario;
+                $EPC->save();
+            }
+            else{
+                $EPC = EspecialidadProgramacionCronograma::find($validacronograma->id);
+                $EPC->persona_id_updated_at = $usuario;
+                $EPC->monto_cronograma = $monto_cronograma[$i];
                 $EPC->save();
             }
         }
@@ -218,7 +228,8 @@ class EspecialidadProgramacion extends Model
         $sql=DB::table('mat_especialidades_programaciones_cronogramas AS mepc')
             ->select(
             'mepc.id',
-            'mepc.fecha_cronograma'
+            'mepc.fecha_cronograma',
+            'mepc.monto_cronograma'
             )
             ->where('mepc.estado','=',1)
             ->where( 

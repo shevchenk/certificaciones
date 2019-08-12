@@ -100,6 +100,7 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th>Especialidad</th>
+                                  <th>Tipo de Programación</th>
                                   <th>Odes</th>
                                   <!--th>Código de Inicio</th-->
                                   <th>Fecha de Inicio</th>
