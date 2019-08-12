@@ -17,6 +17,16 @@
               </div>
               <div class="col-md-12">
                 <div class="col-md-6">
+                  <label>Tipo de Programación:</label>
+                  <select class="form-control selectpicker show-menu-arrow" data-actions-box='true' onchange="ValidaTipo(this.value);" id="slct_tipo" name="slct_tipo">
+                    <option value="">.::Seleccione::.</option>
+                    <option value="1">Pago en Cuota(s)</option>
+                    <option value="2">Pago por Curso</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-6">
                   <label>Odes:</label>
                   <select class="form-control selectpicker show-menu-arrow" multiple data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple id="slct_sucursal_id" name="slct_sucursal_id[]"></select>
                 </div>
@@ -37,7 +47,7 @@
                       <option value="DO">Domingo</option>
                   </select>
               </div-->
-              <div class="col-md-12">  
+              <div class="col-md-12 validatipo">  
                 <div class="col-md-6">
                   <br>         
                     <label>Fecha de cronograma de pago:</label>
@@ -58,7 +68,7 @@
                   </select>
                 </div>
               </div>
-            <div class="col-md-12">
+            <div class="col-md-12 validatipo">
               <br>
                 <table class="table table-bordered table-striped">
                   <thead class="bg-info">

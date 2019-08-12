@@ -45,6 +45,18 @@
                                             </div>
                                         </div>
                                     </th>
+                                    <th class="col-xs-1" style="width:10% !important;">
+                                        <div class="form-group">
+                                            <label><h4>Tipo de Programación:</h4></label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="slct_tipo" id="slct_tipo">
+                                                    <option value='' selected>.::Todo::.</option>
+                                                    <option value='1'>Pago en Cuota(s)</option>
+                                                    <option value='2'>Pago por Curso</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th class="col-xs-6" style="width:20% !important;">
                                         <div class="form-group">
                                             <label><h4>Odes:</h4></label>

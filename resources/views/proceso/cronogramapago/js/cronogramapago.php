@@ -37,7 +37,7 @@ $(document).ready(function() {
         $('#sortable').html('');
         fechaCronogramaG=[];
         $("#ModalEspecialidadProgramacionForm #txt_fecha_cronograma").val(hoyG);
-        //$('#ModalEspecialidadProgramacionForm #txt_codigo_inicio').val( EPG.codigo_inicio );
+        $('#ModalEspecialidadProgramacionForm #slct_tipo').selectpicker( 'val',EPG.tipo );
         $('#ModalEspecialidadProgramacionForm #txt_fecha_inicio').val( EPG.fecha_inicio );
         $('#ModalEspecialidadProgramacionForm #slct_especialidad_id').selectpicker( 'val',EPG.especialidad_id );
         $('#ModalEspecialidadProgramacionForm #slct_sucursal_id').selectpicker( 'val',EPG.sucursal_id.split(',') );
@@ -65,11 +65,22 @@ $(document).ready(function() {
     });
 });
 
+ValidaTipo=function(v){
+    $("#ModalEspecialidadProgramacionForm .validatipo").css('display','none');
+    if( v==1 ){
+        $("#ModalEspecialidadProgramacionForm .validatipo").css('display','block');
+    }
+}
+
 ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalEspecialidadProgramacionForm #slct_especialidad_id").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Especialidad',4000);
+    }
+    else if( $.trim( $("#ModalEspecialidadProgramacionForm #slct_tipo").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Tipo de Programación',4000);
     }
     else if( $.trim( $("#ModalEspecialidadProgramacionForm #txt_fecha_inicio").val() )=='' ){
         r=false;
@@ -83,7 +94,7 @@ AgregarEditar=function(val,id){
     EPG.id='';
     EPG.especialidad_id='';
     EPG.fecha_inicio=hoyG;
-    //EPG.codigo_inicio='A';
+    EPG.tipo='';
     EPG.sucursal_id='';
     //EPG.horario='';
     EPG.cronograma='';
@@ -93,7 +104,7 @@ AgregarEditar=function(val,id){
         EPG.especialidad_id=$("#TableEspecialidad #trid_"+id+" .especialidad_id").val();
         EPG.sucursal_id=$("#TableEspecialidad #trid_"+id+" .sucursal_id").val();
         EPG.fecha_inicio=$("#TableEspecialidad #trid_"+id+" .fecha_inicio").text();
-        //EPG.codigo_inicio=$("#TableEspecialidad #trid_"+id+" .codigo_inicio").text();
+        EPG.tipo=$("#TableEspecialidad #trid_"+id+" .tipo").val();
         //EPG.horario=$("#TableEspecialidad #trid_"+id+" .horario").text();
         EPG.cronograma=$("#TableEspecialidad #trid_"+id+" .cronograma").text();
         EPG.estado=$("#TableEspecialidad #trid_"+id+" .estado").val();
@@ -168,7 +179,6 @@ CargarSlct=function(t){
     else if(t==2){
         AjaxEspecialidadProgramacion.CargarOde(HTMLCargarOde);
     }
-
 }
 
 HTMLCargarEspecialidad=function(result){
@@ -178,13 +188,14 @@ HTMLCargarEspecialidad=function(result){
     });
     $("#ModalEspecialidadProgramacion #slct_especialidad_id").html(html); 
     $("#ModalEspecialidadProgramacion #slct_especialidad_id").selectpicker('refresh');
-
 };
 
 HTMLCargarOde=function(result){
     var html="";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.sucursal+"</option>";
+        if( r.id!='1' ){
+            html+="<option value="+r.id+">"+r.sucursal+"</option>";
+        }
     });
     $("#ModalEspecialidadProgramacion #slct_sucursal_id").html(html); 
     $("#ModalEspecialidadProgramacion #slct_sucursal_id").selectpicker('refresh');
@@ -201,17 +212,26 @@ HTMLCargar=function(result){ //INICIO HTML
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }
 
+        tipo='Pago en Cuota(s)';
+        cronograma="<ol><li>C - "+$.trim(r.fecha_cronograma).split(",").join("</li><li>C - ")+"</li></ol>";
+        if( r.tipo==2 ){
+            tipo='Pago por Curso';
+            cronograma='';
+        }
+
         html+="<tr id='trid_"+r.id+"'>";
    
             html+="</td>"+
             "<td class='especialidad'>"+r.especialidad+"</td>"+
+            "<td>"+ tipo +"</td>"+
             "<td class='sucursal'><ul><li>"+$.trim(r.sucursal).split("|").join("</li><li>")+"</li></ul></td>"+
             //"<td class='codigo_inicio'>"+r.codigo_inicio+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             //"<td class='horario'>"+r.horario+"</td>"+
-            "<td><ol><li>C - "+$.trim(r.fecha_cronograma).split(",").join("</li><li>C - ")+"</li></ol></td>"+
+            "<td>"+cronograma+"</td>"+
             "<td>"+
             "<input type='hidden' class='especialidad_id' value='"+r.especialidad_id+"'>"+
+            "<input type='hidden' class='tipo' value='"+r.tipo+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>";
 
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+

@@ -37,6 +37,7 @@ class EspecialidadProgramacion extends Model
             'mep.id',
             'me.especialidad',
             'mep.especialidad_id',
+            'mep.tipo',
             'mep.fecha_inicio',
             'mep.estado',
             DB::raw('GROUP_CONCAT( DISTINCT(mepc.fecha_cronograma) ORDER BY mepc.cuota) AS fecha_cronograma'),
@@ -60,12 +61,18 @@ class EspecialidadProgramacion extends Model
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('me.estado','like','%'.$estado.'%');
+                            $query->where('me.estado','=',$estado);
+                        }
+                    }
+                    if( $r->has("tipo") ){
+                        $tipo=trim($r->tipo);
+                        if( $tipo !='' ){
+                            $query->where('mep.tipo','=',$tipo);
                         }
                     }
                 }
             );
-        $result = $sql->groupBy('mep.id','me.especialidad','mep.especialidad_id','mep.fecha_inicio','mep.estado')
+        $result = $sql->groupBy('mep.id','me.especialidad','mep.especialidad_id','mep.tipo','mep.fecha_inicio','mep.estado')
                         ->orderBy('mep.fecha_inicio','asc')
                         ->orderBy('me.especialidad','asc')
                         ->paginate(10);
@@ -96,6 +103,7 @@ class EspecialidadProgramacion extends Model
         }*/
         $especialidadProgramacion = new EspecialidadProgramacion;
         $especialidadProgramacion->especialidad_id = trim( $r->especialidad_id );
+        $especialidadProgramacion->tipo = trim( $r->tipo );
         $especialidadProgramacion->fecha_inicio = trim( $r->fecha_inicio );
         //$especialidadProgramacion->codigo_inicio = $codigo_inicio;
         /*if( $r->has('horario') AND count($r->horario) > 0 ){
@@ -132,6 +140,7 @@ class EspecialidadProgramacion extends Model
         $usuario = Auth::user()->id;
         $especialidadProgramacion = EspecialidadProgramacion::find($r->id);
         $especialidadProgramacion->fecha_inicio = trim( $r->fecha_inicio );
+        $especialidadProgramacion->tipo = trim( $r->tipo );
         /*if( $r->has('horario') AND count($r->horario) > 0){
             $especialidadProgramacion->horario = implode(",",$r->horario);
         }*/
