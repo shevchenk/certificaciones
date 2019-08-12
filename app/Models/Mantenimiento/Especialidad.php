@@ -182,15 +182,6 @@ class Especialidad extends Model
                     $join->on('mep.especialidad_id','=','me.id')
                     ->where('mep.estado','=',1);
                 })
-                ->Join(DB::raw(
-                    '(SELECT mepc.especialidad_programacion_id
-                    , GROUP_CONCAT(mepc.fecha_cronograma ORDER BY mepc.cuota SEPARATOR \'|\') cronograma
-                    FROM mat_especialidades_programaciones_cronogramas AS mepc
-                    WHERE mepc.estado=1
-                    GROUP BY mepc.especialidad_programacion_id) AS cro'
-                    ),function($join){
-                    $join->on('cro.especialidad_programacion_id','=','mep.id');
-                })
                 ->Join('mat_cursos_especialidades AS mce',function($join){
                     $join->on('mce.especialidad_id','=','me.id')
                     ->where('mce.estado','=',1);
@@ -198,6 +189,15 @@ class Especialidad extends Model
                 ->Join('mat_cursos AS mc',function($join){
                     $join->on('mc.id','=','mce.curso_id')
                     ->where('mc.empresa_id',Auth::user()->empresa_id);
+                })
+                ->leftJoin(DB::raw(
+                    '(SELECT mepc.especialidad_programacion_id
+                    , GROUP_CONCAT(mepc.fecha_cronograma ORDER BY mepc.cuota SEPARATOR \'|\') cronograma
+                    FROM mat_especialidades_programaciones_cronogramas AS mepc
+                    WHERE mepc.estado=1
+                    GROUP BY mepc.especialidad_programacion_id) AS cro'
+                    ),function($join){
+                    $join->on('cro.especialidad_programacion_id','=','mep.id');
                 })
                 ->leftJoin(DB::raw(
                     '(SELECT mp.curso_id, COUNT(mmd.id) cant, MAX(mmd.nota_curso_alum) nota
