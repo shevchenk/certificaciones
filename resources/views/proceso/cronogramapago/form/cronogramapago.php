@@ -10,7 +10,6 @@
             <form id="ModalEspecialidadProgramacionForm"><!-- INICIO FORM-->
           <fieldset>
             <div class="form-group"><!-- INICIO FORM GROUP-->
-
               <div class="col-md-12">
                 <label>Especialidad:</label>
                 <select class="form-control" id="slct_especialidad_id" name="slct_especialidad_id"></select>
@@ -35,19 +34,31 @@
                   <input type="text" class="form-control fecha" id="txt_fecha_inicio" name="txt_fecha_inicio" placeholder="YYYY-MM-DD">
                 </div>
               </div>
-              <!--div class="col-md-12">
-                  <label>Horario:</label>
-                  <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_horario[]" id="slct_horario">
-                      <option value="LU">Lunes</option>
-                      <option value="MA">Martes</option>
-                      <option value="MI">Miercoles</option>
-                      <option value="JU">Jueves</option>
-                      <option value="VI">Viernes</option>
-                      <option value="SA">Sabado</option>
-                      <option value="DO">Domingo</option>
-                  </select>
-              </div-->
-              <div class="col-md-12 validatipo">  
+            </div>
+          </fieldset>
+          <br><br>
+          <fieldset>
+            <div class="form-group validatipo">
+              <legend>Programación del Cronograma</legend>
+              <div class="col-md-12">  
+                <div class="col-md-4">
+                    <label>Escala:</label>
+                    <br>
+                    <div class="input-group">
+                      <select name="slct_nro_cuota" id="slct_nro_cuota" class="form-control selectpicker">
+                        <option value="">.::Seleccione::.</option>
+                        <?php 
+                          for($i=1; $i<=20; $i++){
+                            echo "<option value='".$i."C'>".$i."</option>";
+                          }
+                        ?>
+                      </select>
+                      <span class="input-group-addon"><i class="fa fa-repeat"></i></span>
+                      <input type="text" name="txt_monto_cuota" id="txt_monto_cuota" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-12">  
                 <div class="col-md-4">
                   <br>         
                     <label>Fecha de cronograma de pago:</label>
@@ -74,7 +85,7 @@
                   </select>
                 </div>
               </div>
-            <div class="col-md-12 validatipo">
+            <div class="col-md-12">
               <br>
                 <table class="table table-bordered table-striped">
                   <thead class="bg-info">
@@ -91,7 +102,7 @@
             </div>
 
           </div> <!-- FIN FORM GROUP-->
-          </fieldset>
+          
           </form><!-- FIN FORM-->
         </div><!-- FIN BOODY-->
         <div class="modal-footer">

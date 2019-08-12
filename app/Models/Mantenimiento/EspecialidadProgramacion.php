@@ -38,6 +38,7 @@ class EspecialidadProgramacion extends Model
             'me.especialidad',
             'mep.especialidad_id',
             'mep.tipo',
+            'mep.nro_cuota',
             'mep.fecha_inicio',
             'mep.estado',
             DB::raw('GROUP_CONCAT( DISTINCT(CONCAT(mepc.fecha_cronograma," => S/ ",mepc.monto_cronograma)) ORDER BY mepc.cuota) AS fecha_cronograma'),
@@ -58,6 +59,12 @@ class EspecialidadProgramacion extends Model
                             $query->where('mep.fecha_inicio','like',$fecha_inicio.'%');
                         }
                     }
+                    if( $r->has("nro_cuota") ){
+                        $nro_cuota=trim($r->nro_cuota);
+                        if( $nro_cuota !='' ){
+                            $query->where('mep.nro_cuota','like','%'.$nro_cuota.'%');
+                        }
+                    }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
@@ -72,7 +79,7 @@ class EspecialidadProgramacion extends Model
                     }
                 }
             );
-        $result = $sql->groupBy('mep.id','me.especialidad','mep.especialidad_id','mep.tipo','mep.fecha_inicio','mep.estado')
+        $result = $sql->groupBy('mep.id','me.especialidad','mep.especialidad_id','mep.tipo','mep.nro_cuota','mep.fecha_inicio','mep.estado')
                         ->orderBy('mep.fecha_inicio','asc')
                         ->orderBy('me.especialidad','asc')
                         ->paginate(10);
@@ -105,16 +112,16 @@ class EspecialidadProgramacion extends Model
         $especialidadProgramacion->especialidad_id = trim( $r->especialidad_id );
         $especialidadProgramacion->tipo = trim( $r->tipo );
         $especialidadProgramacion->fecha_inicio = trim( $r->fecha_inicio );
-        //$especialidadProgramacion->codigo_inicio = $codigo_inicio;
-        /*if( $r->has('horario') AND count($r->horario) > 0 ){
-            $especialidadProgramacion->horario = implode(",",$r->horario);
-        }*/
         $especialidadProgramacion->estado = trim( $r->estado );
         $especialidadProgramacion->persona_id_created_at=$usuario;
+        if( $r->has('nro_cuota') && $r->nro_cuota!='' ){
+            $especialidadProgramacion->nro_cuota= $r->nro_cuota."-".$r->monto_cuota;
+        }
         $especialidadProgramacion->save();
         
         $fecha_cronograma = $r->fecha_cronograma;
         $monto_cronograma = $r->monto_cronograma;
+
         for ($i=0; $i < count($fecha_cronograma); $i++) { 
             $EPC = new EspecialidadProgramacionCronograma;
             $EPC->especialidad_programacion_id = $especialidadProgramacion->id;
@@ -143,11 +150,11 @@ class EspecialidadProgramacion extends Model
         $especialidadProgramacion = EspecialidadProgramacion::find($r->id);
         $especialidadProgramacion->fecha_inicio = trim( $r->fecha_inicio );
         $especialidadProgramacion->tipo = trim( $r->tipo );
-        /*if( $r->has('horario') AND count($r->horario) > 0){
-            $especialidadProgramacion->horario = implode(",",$r->horario);
-        }*/
         $especialidadProgramacion->estado = trim( $r->estado );
         $especialidadProgramacion->persona_id_updated_at=$usuario;
+        if( $r->has('nro_cuota') && $r->nro_cuota!='' ){
+            $especialidadProgramacion->nro_cuota= $r->nro_cuota."-".$r->monto_cuota;
+        }
         $especialidadProgramacion->save();
 
         $fecha_cronograma = $r->fecha_cronograma;

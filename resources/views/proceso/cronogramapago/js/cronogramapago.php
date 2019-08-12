@@ -41,7 +41,8 @@ $(document).ready(function() {
         $('#ModalEspecialidadProgramacionForm #txt_fecha_inicio').val( EPG.fecha_inicio );
         $('#ModalEspecialidadProgramacionForm #slct_especialidad_id').selectpicker( 'val',EPG.especialidad_id );
         $('#ModalEspecialidadProgramacionForm #slct_sucursal_id').selectpicker( 'val',EPG.sucursal_id.split(',') );
-        //$('#ModalEspecialidadProgramacionForm #slct_horario').selectpicker( 'val',EPG.horario.split(',') );
+        $('#ModalEspecialidadProgramacionForm #slct_nro_cuota').selectpicker( 'val',EPG.nro_cuota.split('-')[0] );
+        $('#ModalEspecialidadProgramacionForm #txt_monto_cuota').val( EPG.nro_cuota.split('-')[1] );
         $('#ModalEspecialidadProgramacionForm #slct_estado').selectpicker( 'val',EPG.estado );
         $('#ModalEspecialidadProgramacionForm #txt_fecha_inicio').removeAttr( 'disabled' );
         $('#ModalEspecialidadProgramacionForm #slct_especialidad_id').removeAttr( 'disabled' );
@@ -87,6 +88,14 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Fecha de Inicio',4000);
     }
+    else if( $("#ModalEspecialidadProgramacionForm #slct_tipo").val()==1 && $.trim( $("#ModalEspecialidadProgramacionForm #slct_nro_cuota").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Nro Cuota de la Escala',4000);
+    }
+    else if( $("#ModalEspecialidadProgramacionForm #slct_tipo").val()==1 && $.trim( $("#ModalEspecialidadProgramacionForm #txt_monto_cuota").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Monto Cuota de la Escala',4000);
+    }
     return r;
 }
 
@@ -97,7 +106,7 @@ AgregarEditar=function(val,id){
     EPG.fecha_inicio=hoyG;
     EPG.tipo='';
     EPG.sucursal_id='';
-    //EPG.horario='';
+    EPG.nro_cuota='-';
     EPG.cronograma='';
     EPG.estado='1';
     if( val==0 ){
@@ -106,7 +115,7 @@ AgregarEditar=function(val,id){
         EPG.sucursal_id=$("#TableEspecialidad #trid_"+id+" .sucursal_id").val();
         EPG.fecha_inicio=$("#TableEspecialidad #trid_"+id+" .fecha_inicio").text();
         EPG.tipo=$("#TableEspecialidad #trid_"+id+" .tipo").val();
-        //EPG.horario=$("#TableEspecialidad #trid_"+id+" .horario").text();
+        EPG.nro_cuota=$("#TableEspecialidad #trid_"+id+" .nro_cuota").val();
         EPG.cronograma=$("#TableEspecialidad #trid_"+id+" .cronograma").text();
         EPG.estado=$("#TableEspecialidad #trid_"+id+" .estado").val();
     }
@@ -217,9 +226,11 @@ HTMLCargar=function(result){ //INICIO HTML
 
         tipo='Pago en Cuota(s)';
         cronograma="<ol><li>C - "+$.trim(r.fecha_cronograma).split(",").join("</li><li>C - ")+"</li></ol>";
+        nro_cuota=r.nro_cuota;
         if( r.tipo==2 ){
             tipo='Pago por Curso';
             cronograma='';
+            nro_cuota='';
         }
 
         html+="<tr id='trid_"+r.id+"'>";
@@ -230,11 +241,12 @@ HTMLCargar=function(result){ //INICIO HTML
             "<td class='sucursal'><ul><li>"+$.trim(r.sucursal).split("|").join("</li><li>")+"</li></ul></td>"+
             //"<td class='codigo_inicio'>"+r.codigo_inicio+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
-            //"<td class='horario'>"+r.horario+"</td>"+
+            "<td>"+nro_cuota+"</td>"+
             "<td>"+cronograma+"</td>"+
             "<td>"+
             "<input type='hidden' class='especialidad_id' value='"+r.especialidad_id+"'>"+
             "<input type='hidden' class='tipo' value='"+r.tipo+"'>"+
+            "<input type='hidden' class='nro_cuota' value='"+r.nro_cuota+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>";
 
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+

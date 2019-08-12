@@ -41,7 +41,7 @@
                                         <div class="form-group">
                                             <label><h4>Especialidad:</h4></label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Buscar Especialidad" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_inicio',1);">
+                                                <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Especialidad" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_inicio',1);">
                                             </div>
                                         </div>
                                     </th>
@@ -72,6 +72,14 @@
                                             <label><h4>Fecha Inicio:</h4></label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" placeholder="Fecha Inicio" onkeypress="return masterG.enterGlobal(event,'#txt_especialidad',1);">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2" style="width:10% !important;">
+                                        <div class="form-group">
+                                            <label><h4>Escala:</h4></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="txt_nro_cuota" id="txt_nro_cuota" placeholder="Escala" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_inicio',1);">
                                             </div>
                                         </div>
                                     </th>
