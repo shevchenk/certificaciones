@@ -72,72 +72,72 @@
                             <div class="box-body table-responsive no-padding">
                                 <table id="TableReporte" class="table table-bordered table-hover">
                                     <thead>
-                                        <tr class="cabecera">
-                                            <th colspan='5'>DATOS DEL INSCRITO</th>
-                                            <th colspan='6'>SOBRE LA INFORMACIÓN CONTINUA</th>
-                                            <th colspan='4'>PAGO POR CURSO</th>
-                                            <th colspan='2'>PAGO POR CONJUNTO DE CURSOS <hr> PAGO POR INSCRIPCIÓN DE ESPECIALIDAD</th>
-                                            <th colspan='6'>DATOS DE LA VENTA</th>
+                                        <tr>
+                                            <th style="background-color: #F2DCDB;" colspan='5'>DATOS DEL INSCRITO</th>
+                                            <th style="background-color: #C5D9F1;" colspan='6'>SOBRE LA INFORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #FFFF00;" colspan='4'>PAGO POR CURSO</th>
+                                            <th style="background-color: #8DB4E2;" colspan='2'>PAGO POR CONJUNTO DE CURSOS <hr> PAGO POR INSCRIPCIÓN DE ESPECIALIDAD</th>
+                                            <th style="background-color: #FCD5B4;" colspan='6'>DATOS DE LA VENTA</th>
                                         </tr>
-                                        <tr class="cabecera">
-                                            <th>Nombres</th>
-                                            <th>Paterno</th>
-                                            <th>Materno</th>
-                                            <th>Celular</th>
-                                            <th>Email</th>
+                                        <tr>
+                                            <th style="background-color: #F2DCDB;">Nombres</th>
+                                            <th style="background-color: #F2DCDB;">Paterno</th>
+                                            <th style="background-color: #F2DCDB;">Materno</th>
+                                            <th style="background-color: #F2DCDB;">Celular</th>
+                                            <th style="background-color: #F2DCDB;">Email</th>
 
-                                            <th>Fecha de Inscripción</th>
-                                            <th>Donde Estudiará</th>
-                                            <th>Empresa</th>
-                                            <th>Tipo de Formación Continua</th>
-                                            <th>Formación Continua</th>
-                                            <th>Fecha a Realizarse</th>
+                                            <th style="background-color: #C5D9F1;">Fecha de Inscripción</th>
+                                            <th style="background-color: #C5D9F1;">Donde Estudiará</th>
+                                            <th style="background-color: #C5D9F1;">Empresa</th>
+                                            <th style="background-color: #C5D9F1;">Tipo de Formación Continua</th>
+                                            <th style="background-color: #C5D9F1;">Formación Continua</th>
+                                            <th style="background-color: #C5D9F1;">Fecha a Realizarse</th>
                                         
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Tipo Pago</th>
-                                            <th>Total Pagado</th>
+                                            <th style="background-color: #FFFF00;">Nro Pago</th>
+                                            <th style="background-color: #FFFF00;">Monto Pago</th>
+                                            <th style="background-color: #FFFF00;">Tipo Pago</th>
+                                            <th style="background-color: #FFFF00;">Total Pagado</th>
 
-                                            <th>Nro Recibo PCC / ESP</th>
-                                            <th>Monto PCC / ESP</th>
+                                            <th style="background-color: #8DB4E2;">Nro Recibo PCC / ESP</th>
+                                            <th style="background-color: #8DB4E2;">Monto PCC / ESP</th>
 
-                                            <th>Sede de Inscripción</th>
-                                            <th>Recogo del Certificado</th>
-                                            <th>Cajero(a)</th>
-                                            <th>Vendedor(a)</th>
-                                            <th>Supervisor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Sede de Inscripción</th>
+                                            <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
+                                            <th style="background-color: #FCD5B4;">Cajero(a)</th>
+                                            <th style="background-color: #FCD5B4;">Vendedor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Supervisor(a)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                     <tfoot>
-                                        <tr class="cabecera">
-                                            <th>Nombres</th>
-                                            <th>Paterno</th>
-                                            <th>Materno</th>
-                                            <th>Celular</th>
-                                            <th>Email</th>
+                                        <tr>
+                                            <th style="background-color: #F2DCDB;">Nombres</th>
+                                            <th style="background-color: #F2DCDB;">Paterno</th>
+                                            <th style="background-color: #F2DCDB;">Materno</th>
+                                            <th style="background-color: #F2DCDB;">Celular</th>
+                                            <th style="background-color: #F2DCDB;">Email</th>
 
-                                            <th>Fecha de Inscripción</th>
-                                            <th>Donde Estudiará</th>
-                                            <th>Empresa</th>
-                                            <th>Tipo de Formación Continua</th>
-                                            <th>Formación Continua</th>
-                                            <th>Fecha a Realizarse</th>
+                                            <th style="background-color: #C5D9F1;">Fecha de Inscripción</th>
+                                            <th style="background-color: #C5D9F1;">Donde Estudiará</th>
+                                            <th style="background-color: #C5D9F1;">Empresa</th>
+                                            <th style="background-color: #C5D9F1;">Tipo de Formación Continua</th>
+                                            <th style="background-color: #C5D9F1;">Formación Continua</th>
+                                            <th style="background-color: #C5D9F1;">Fecha a Realizarse</th>
                                         
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Tipo Pago</th>
-                                            <th>Total Pagado</th>
+                                            <th style="background-color: #FFFF00;">Nro Pago</th>
+                                            <th style="background-color: #FFFF00;">Monto Pago</th>
+                                            <th style="background-color: #FFFF00;">Tipo Pago</th>
+                                            <th style="background-color: #FFFF00;">Total Pagado</th>
 
-                                            <th>Nro Recibo PCC / ESP</th>
-                                            <th>Monto PCC / ESP</th>
+                                            <th style="background-color: #8DB4E2;">Nro Recibo PCC / ESP</th>
+                                            <th style="background-color: #8DB4E2;">Monto PCC / ESP</th>
 
-                                            <th>Sede de Inscripción</th>
-                                            <th>Recogo del Certificado</th>
-                                            <th>Cajero(a)</th>
-                                            <th>Vendedor(a)</th>
-                                            <th>Supervisor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Sede de Inscripción</th>
+                                            <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
+                                            <th style="background-color: #FCD5B4;">Cajero(a)</th>
+                                            <th style="background-color: #FCD5B4;">Vendedor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Supervisor(a)</th>
                                         </tr>
                                     </tfoot>
                                 </table>
