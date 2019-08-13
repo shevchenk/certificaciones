@@ -471,12 +471,7 @@ class Persona extends Model
                     }
                 }
             );
-        $result = $sql->groupBy('p.id','p.paterno','p.materno','p.nombre','p.dni'
-                ,'pd.fecha_distribucion','p.email','p.fecha_nacimiento','p.sexo'
-                ,'p.telefono','p.carrera','p.celular','p.password','p.estado'
-                ,'p.empresa','p.fuente','p.tipo','tl.tipo_llamada','p.fecha_registro'
-                ,'p2.paterno','p2.materno','p2.nombre')
-                    ->orderBy('p.paterno','asc')->paginate(10);
+        $result = $sql->orderBy('p.paterno','asc')->paginate(10);
         return $result;
     }
 

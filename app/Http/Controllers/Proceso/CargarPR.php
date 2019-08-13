@@ -185,6 +185,19 @@ class CargarPR extends Controller
                     AND i.file='".$file."'";
             DB::insert($sql);
 
+            $sql="  UPDATE personas_distribuciones pd 
+                    INNER JOIN (
+                        SELECT MAX(id) idmax, persona_id, COUNT(id) cant
+                        FROM personas_distribuciones
+                        WHERE estado=1 
+                        GROUP BY persona_id,trabajador_id
+                        HAVING cant>1
+                    ) un on un.persona_id=pd.persona_id
+                    SET pd.estado=0
+                    WHERE pd.id!=un.idmax
+                    AND pd.estado=1";
+            DB::update($sql);
+            
             DB::commit();
 
             $data = DB::table('interesados')
