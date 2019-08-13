@@ -74,6 +74,25 @@ class SeminarioEM extends Controller
                 $renturnModel['cabecera']
             ));
 
+            for( $i=0; $i<COUNT($renturnModel['cabeceraTit']); $i++ ){
+                $posicion= explode(":",$renturnModel['lengthTit'][$i]);
+                $sheet->cell($posicion[0], function($cell) use( $renturnModel,$i ){
+                    $cell->setValue($renturnModel['cabeceraTit'][$i]);
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '12',
+                            'bold'       =>  true
+                    ));
+                });
+                $sheet->mergeCells($renturnModel['lengthTit'][$i]);
+                $sheet->cells($renturnModel['lengthTit'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBorder('solid', 'none', 'none', 'solid');
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+            }
+
             $data=json_decode(json_encode($renturnModel['data']), true);
             $pos=3;
             for ($i=0; $i<count($data); $i++) {
@@ -102,7 +121,7 @@ class SeminarioEM extends Controller
 
             $sheet->getStyle('O4:T'.$count)->getAlignment()->setWrapText(true);
             
-            $sheet->setBorder('A3:'.$renturnModel['max'].$count, 'thin');
+            $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
 
         });
         

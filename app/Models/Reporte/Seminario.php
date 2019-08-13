@@ -56,8 +56,8 @@ class Seminario extends Model
             ->leftJoin('sucursales AS s3',function($join){
                 $join->on('s3.id','=','mp.sucursal_id');
             })
-            ->select('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
-                    ,'p.telefono','p.celular','p.email','ma.direccion'
+            ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email'
                     ,'mm.fecha_matricula','s3.sucursal AS lugar_estudio','e.empresa AS empresa_inscripcion'
                     ,DB::raw(' GROUP_CONCAT(DISTINCT(IF( mm.especialidad_programacion_id IS NULL, 
                         IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ),
@@ -70,13 +70,13 @@ class Seminario extends Model
                     ,DB::raw('GROUP_CONCAT( IF(mmd.tipo_pago=1,"Transferencia",
                        IF(mmd.tipo_pago=2, "Depósito", "Caja")
                     ) ORDER BY mmd.id SEPARATOR "\n") tipo_pago')
-                    ,DB::raw('SUM(mmd.monto_pago_certificado) subtotal')
+                    //,DB::raw('SUM(mmd.monto_pago_certificado) subtotal')
                     ,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
-                    ,'s.sucursal'
+                    ,'s.sucursal','s2.sucursal AS recogo_certificado'
                     ,DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera')
                     ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
                     ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
-                    ,'mm.nro_promocion','mm.monto_promocion','p.empresa','s2.sucursal AS recogo_certificado')
+                    ,'mm.nro_promocion','mm.monto_promocion','p.empresa')
             ->where( 
                 function($query) use ($r){
 
@@ -216,29 +216,60 @@ class Seminario extends Model
             $length[$estatico.chr($min)] = $pos[$i];
         }
 
-        $cabecera=array(
-            'N°','Fuente de Datos','DNI','Nombre','Paterno','Materno','Telefono','Celular','Email','Dirección',
-            'Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua',
-            'Formación Continua','Fecha a Realizarse','Nro Pago','Monto Pago','Tipo Pago',
-            'Sub Total Sem','Total Pagado','Sede De Inscripción',
-            'Cajero(a)','Vendedor(a)','Supervisor(a)',
-            'Nro Recibo Promoción','Monto Promoción','Fuente de Datos de Empresa','Recogo del Certificado'
-        );
-        $campos=array(
-            'id','dni','nombre','paterno','materno','telefono','celular','email','direccion',
-             'fecha_matricula','sucursal','tipo_participante',
-             //'nro_pago_inscripcion','monto_pago_inscripcion',
-             //'nro_pago','monto_pago',
-             'seminario','fecha_inicio','nro_pago','monto_pago','tipo_pago',
-             'subtotal','total',
-             'cajera','marketing','matricula',
-             'nro_promocion','monto_promocion','empresa','recogo_certificado'
+        $cabeceraTit=array(
+            'DATOS','DATOS DEL INSCRITO','SOBRE LA FORMACIÓN CONTINUA','PAGO POR CURSO','DATOS DE LA VENTA','PAGO POR CONJUNTO DE CURSOS'
         );
 
+        $valIni=66;
+        $min=64;
+        $estatico='';
+        $posTit=2;
+        $nrocabeceraTit=array(1,6,5,3,4,1);
+        $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#FCD5B4','#8DB4E2');
+        $lengthTit=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min++;
+                $estaticoFin= chr($min);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min++;
+                    $estatico= chr($min);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°','Fuente de Datos','Fuente de Datos de Empresa'
+            ,'DNI','Nombre','Paterno','Materno','Telefono','Celular','Email',
+            'Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua','Formación Continua','Fecha a Realizarse'
+            ,'Nro Pago','Monto Pago','Tipo Pago','Total Pagado'
+            ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Supervisor(a)'
+            ,'Nro Recibo PCC','Monto PPC'
+        );
+        $campos=array('');
+
         $r['data']=$rsql;
-        $r['cabecera']=$cabecera;
         $r['campos']=$campos;
+        $r['cabecera']=$cabecera;
         $r['length']=$length;
+        $r['cabeceraTit']=$cabeceraTit;
+        $r['lengthTit']=$lengthTit;
+        $r['colorTit']=$colorTit;
         $r['max']=$estatico.chr($min); // Max. Celda en LETRA
         return $r;
     }
