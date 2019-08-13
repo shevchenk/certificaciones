@@ -77,35 +77,40 @@ HTMLCargarReporte=function(result){
     $('#TableReporte').DataTable().destroy();
 
     $.each(result.data,function(index,r){
-        var seminario=r.formacion.split("\n").join('<br/>');
-        var nro=r.nro_pago.split("\n").join('<br/>');
-        var monto=r.monto_pago.split("\n").join('<br/>');
+        var formacion="<ul><li>"+$.trim(r.formacion).split("\n").join('</li><li>')+"</li></ul>";
+        var fecha_inicio="<ul><li>"+$.trim(r.fecha_inicio).split("\n").join('</li><li>')+"</li></ul>";
+        var nro="<ul><li>"+$.trim(r.nro_pago).split("\n").join('</li><li>')+"</li></ul>";
+        var monto="<ul><li>"+$.trim(r.monto_pago).split("\n").join('</li><li>')+"</li></ul>";
+        var tipo_pago="<ul><li>"+$.trim(r.tipo_pago).split("\n").join('</li><li>')+"</li></ul>";
 
 
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td>"+r.dni+"</td>"+
             "<td>"+r.nombre+"</td>"+
             "<td>"+r.paterno+"</td>"+
             "<td>"+r.materno+"</td>"+
-            "<td>"+r.telefono+"</td>"+
+            "<td>"+r.celular+"</td>"+
             "<td>"+r.email+"</td>"+
-            "<td>"+r.direccion+"</td>"+
+
             "<td>"+r.fecha_matricula+"</td>"+
-            "<td>"+r.sucursal+"</td>"+
-            "<td>"+r.tipo_participante+"</td>"+
+            "<td>"+$.trim(r.lugar_estudio)+"</td>"+
+            "<td>"+r.empresa_inscripcion+"</td>"+
+            "<td>"+r.tipo_formacion+"</td>"+
+            "<td>"+formacion+"</td>"+
+            "<td>"+fecha_inicio+"</td>"+
             
-            "<td>"+seminario+"</td>"+
+            
             "<td>"+nro+"</td>"+
             "<td>"+monto+"</td>"+
+            "<td>"+tipo_pago+"</td>"+
+            "<td>"+$.trim(r.total)+"</td>"+
             
             "<td>"+$.trim(r.nro_promocion)+"</td>"+
             "<td>"+$.trim(r.monto_promocion)+"</td>"+
 
-            "<td>"+$.trim(r.subtotal)+"</td>"+
-            "<td>"+$.trim(r.total)+"</td>"+
-
-            "<td>"+r.marketing+"</td>"+
+            "<td>"+r.sucursal+"</td>"+
+            "<td>"+r.recogo_certificado+"</td>"+
             "<td>"+r.cajera+"</td>"+
+            "<td>"+r.marketing+"</td>"+
             "<td>"+r.matricula+"</td>";
         html+="</tr>";
     });

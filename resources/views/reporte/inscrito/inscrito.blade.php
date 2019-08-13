@@ -73,65 +73,71 @@
                                 <table id="TableReporte" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
-                                            <th colspan='7'>Alumnos</th>
-                                            <th colspan='3'>Matrícula</th>
-                                            <th colspan='3'>Seminario(s)</th>
-                                            <th colspan='2'>Promocion(es)</th>
-                                            <th colspan='2'>Pagos</th>
-                                            <th colspan='3'>Responsables</th>
+                                            <th colspan='5'>DATOS DEL INSCRITO</th>
+                                            <th colspan='6'>SOBRE LA INFORMACIÓN CONTINUA</th>
+                                            <th colspan='4'>PAGO POR CURSO</th>
+                                            <th colspan='2'>PAGO POR CONJUNTO DE CURSOS <hr> PAGO POR INSCRIPCIÓN DE ESPECIALIDAD</th>
+                                            <th colspan='6'>DATOS DE LA VENTA</th>
                                         </tr>
                                         <tr class="cabecera">
-                                            <th>DNI</th>
                                             <th>Nombres</th>
                                             <th>Paterno</th>
                                             <th>Materno</th>
-                                            <th>Teléfono</th>
+                                            <th>Celular</th>
                                             <th>Email</th>
-                                            <th>Dirección</th>
 
-                                            <th>Fecha  Matrícula</th>
-                                            <th>ODE</th>
-                                            <th>Tipo de Participante</th>
+                                            <th>Fecha de Inscripción</th>
+                                            <th>Donde Estudiará</th>
+                                            <th>Empresa</th>
+                                            <th>Tipo de Formación Continua</th>
+                                            <th>Formación Continua</th>
+                                            <th>Fecha a Realizarse</th>
                                         
-                                            <th>Seminario</th>
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
-                                           
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-
-                                            <th>Sub Total Sem</th>
+                                            <th>Tipo Pago</th>
                                             <th>Total Pagado</th>
 
-                                            <th>Marketing</th>
-                                            <th>Caja</th>
-                                            <th>Matrícula</th>
+                                            <th>Nro Recibo PCC / ESP</th>
+                                            <th>Monto PCC / ESP</th>
+
+                                            <th>Sede de Inscripción</th>
+                                            <th>Recogo del Certificado</th>
+                                            <th>Cajero(a)</th>
+                                            <th>Vendedor(a)</th>
+                                            <th>Supervisor(a)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                     <tfoot>
                                         <tr class="cabecera">
-                                            <th>DNI</th>
                                             <th>Nombres</th>
                                             <th>Paterno</th>
                                             <th>Materno</th>
-                                            <th>Teléfono</th>
+                                            <th>Celular</th>
                                             <th>Email</th>
-                                            <th>Dirección</th>
-                                            <th>Fecha  Matrícula</th>
-                                            <th>ODE</th>
-                                            <th>Tipo de Participante</th>
-                                            <th>Seminario</th>
+
+                                            <th>Fecha de Inscripción</th>
+                                            <th>Donde Estudiará</th>
+                                            <th>Empresa</th>
+                                            <th>Tipo de Formación Continua</th>
+                                            <th>Formación Continua</th>
+                                            <th>Fecha a Realizarse</th>
+                                        
                                             <th>Nro Pago</th>
                                             <th>Monto Pago</th>
-                                            <th>Nro Pago</th>
-                                            <th>Monto Pago</th>
-                                            <th>Sub Total Sem</th>
+                                            <th>Tipo Pago</th>
                                             <th>Total Pagado</th>
-                                            <th>Marketing</th>
-                                            <th>Caja</th>
-                                            <th>Matrícula</th>
+
+                                            <th>Nro Recibo PCC / ESP</th>
+                                            <th>Monto PCC / ESP</th>
+
+                                            <th>Sede de Inscripción</th>
+                                            <th>Recogo del Certificado</th>
+                                            <th>Cajero(a)</th>
+                                            <th>Vendedor(a)</th>
+                                            <th>Supervisor(a)</th>
                                         </tr>
                                     </tfoot>
                                 </table>
