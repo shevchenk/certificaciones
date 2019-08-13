@@ -70,13 +70,14 @@ class Seminario extends Model
                     ,DB::raw('GROUP_CONCAT( IF(mmd.tipo_pago=1,"Transferencia",
                        IF(mmd.tipo_pago=2, "Depósito", "Caja")
                     ) ORDER BY mmd.id SEPARATOR "\n") tipo_pago')
-                    //,DB::raw('SUM(mmd.monto_pago_certificado) subtotal')
-                    ,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
+                    ,DB::raw('SUM(mmd.monto_pago_certificado) total')
+                    ,'mm.nro_promocion','mm.monto_promocion'
+                    //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
                     ,'s.sucursal','s2.sucursal AS recogo_certificado'
                     ,DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera')
                     ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
                     ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
-                    ,'mm.nro_promocion','mm.monto_promocion','p.empresa')
+                    )
             ->where( 
                 function($query) use ($r){
 
@@ -217,16 +218,17 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS','DATOS DEL INSCRITO','SOBRE LA FORMACIÓN CONTINUA','PAGO POR CURSO','DATOS DE LA VENTA','PAGO POR CONJUNTO DE CURSOS'
+            'DATOS','DATOS DEL INSCRITO','SOBRE LA FORMACIÓN CONTINUA','PAGO POR CURSO','PAGO POR CONJUNTO DE CURSOS / PAGO POR INS. ESPECIALIDAD','DATOS DE LA VENTA'
         );
 
         $valIni=66;
         $min=64;
         $estatico='';
-        $posTit=2;
-        $nrocabeceraTit=array(1,6,5,3,4,1);
-        $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#FCD5B4','#8DB4E2');
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(1,6,5,3,1,4);
+        $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#FCD5B4');
         $lengthTit=array();
+        $lengthDet=array();
 
         for( $i=0; $i<count($cabeceraTit); $i++ ){
             $cambio=false;
@@ -239,6 +241,7 @@ class Seminario extends Model
                 $cambio=true;
             }
             array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
             $valIni=$valFin+1;
             if( $cambio ){
                 $estatico=$estaticoFin;
@@ -258,8 +261,8 @@ class Seminario extends Model
             ,'DNI','Nombre','Paterno','Materno','Telefono','Celular','Email',
             'Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua','Formación Continua','Fecha a Realizarse'
             ,'Nro Pago','Monto Pago','Tipo Pago','Total Pagado'
+            ,'Nro Recibo PCC/ESP','Monto PPC/ESP'
             ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Supervisor(a)'
-            ,'Nro Recibo PCC','Monto PPC'
         );
         $campos=array('');
 
@@ -270,6 +273,7 @@ class Seminario extends Model
         $r['cabeceraTit']=$cabeceraTit;
         $r['lengthTit']=$lengthTit;
         $r['colorTit']=$colorTit;
+        $r['lengthDet']=$lengthDet;
         $r['max']=$estatico.chr($min); // Max. Celda en LETRA
         return $r;
     }

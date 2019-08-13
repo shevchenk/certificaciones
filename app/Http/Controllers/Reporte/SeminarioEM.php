@@ -69,6 +69,7 @@ class SeminarioEM extends Controller
             });
 
             $sheet->setWidth($renturnModel['length']);
+            $sheet->setHeight(2, 33.5);
             $sheet->fromArray(array(
                 array(''),
                 $renturnModel['cabecera']
@@ -89,6 +90,10 @@ class SeminarioEM extends Controller
                     $cells->setBorder('solid', 'none', 'none', 'solid');
                     $cells->setAlignment('center');
                     $cells->setValignment('center');
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+
+                $sheet->cells($renturnModel['lengthDet'][$i], function($cells) use( $renturnModel,$i) {
                     $cells->setBackground($renturnModel['colorTit'][$i]);
                 });
             }
@@ -118,7 +123,7 @@ class SeminarioEM extends Controller
             ));
 
             $count = $sheet->getHighestRow();
-
+            $sheet->getStyle('A2:'.$renturnModel['max']."2")->getAlignment()->setWrapText(true);
             $sheet->getStyle('O4:T'.$count)->getAlignment()->setWrapText(true);
             
             $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
