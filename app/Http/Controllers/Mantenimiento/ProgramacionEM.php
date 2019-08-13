@@ -43,7 +43,7 @@ class ProgramacionEM extends Controller
                                 $query->where('curso_id',$r->curso_id );
                                 $query->where('fecha_inicio',$r->fecha_inicio );
                                 $query->where('fecha_final',$r->fecha_final );
-                                if( count($dia)>0 ){
+                                if( $r->has('dia') AND count($dia)>0 ){
                                     $dias= implode(",", $dia);
                                     $query->where('dia',$dias );
                                 }
@@ -84,7 +84,7 @@ class ProgramacionEM extends Controller
                                 $query->where('curso_id',$r->curso_id );
                                 $query->where('fecha_inicio',$r->fecha_inicio );
                                 $query->where('fecha_final',$r->fecha_final );
-                                if( count($dia)>0 ){
+                                if( $r->has('dia') AND count($dia)>0 ){
                                     $dias= implode(",", $dia);
                                     $query->where('dia',$dias );
                                 }

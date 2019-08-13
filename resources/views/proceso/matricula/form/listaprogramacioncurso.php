@@ -52,6 +52,14 @@
                                             </th>
                                             <th class="col-xs-2">
                                                 <div class="form-group">
+                                                    <label><h4>Frecuencia:</h4></label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="txt_dia" id="txt_dia" placeholder="Aula" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th class="col-xs-2">
+                                                <div class="form-group">
                                                     <label><h4>Aula:</h4></label>
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="txt_aula" id="txt_aula" placeholder="Aula" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
@@ -85,6 +93,7 @@
                                             <th>Docente</th>
                                             <th>ODE</th>
                                             <th>Curso</th>
+                                            <th>Frecuencia</th>
                                             <th>Aula</th>
                                             <th>Inicio</th>
                                             <th>Final</th>

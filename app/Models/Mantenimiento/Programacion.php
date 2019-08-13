@@ -27,7 +27,7 @@ class Programacion extends Model
         $sucursal->curso_id = trim( $r->curso_id);
         $sucursal->sucursal_id = trim( $r->sucursal_id );
         $sucursal->aula = trim( $r->aula );
-        if( count($r->dia)>0 ){
+        if( $r->has('dia') AND count($r->dia)>0 ){
             $dia=implode(",", $r->dia);
             $sucursal->dia = trim( $dia );
         }
@@ -61,7 +61,7 @@ class Programacion extends Model
         $sucursal->curso_id = trim( $r->curso_id);
         $sucursal->sucursal_id = trim( $r->sucursal_id );
         $sucursal->aula = trim( $r->aula );
-        if( count($r->dia)>0 ){
+        if( $r->has('dia') AND count($r->dia)>0 ){
             $dia=implode(",", $r->dia);
             $sucursal->dia = trim( $dia );
         }
