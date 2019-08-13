@@ -102,6 +102,15 @@ class CargarPR extends Controller
             DB::update($sql);
 
             $sql="  UPDATE interesados i
+                    INNER JOIN personas p ON p.dni=i.dni_final AND i.dni_final!=''
+                    LEFT JOIN mat_matriculas m ON m.persona_id=p.id
+                    SET p.paterno=i.PATERNO, p.materno=i.MATERNO, p.nombre=i.NOMBRE, p.carrera=i.CARRERA, p.empresa=i.EMPRESA, p.fuente=i.FUENTE
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'
+                    AND m.id IS NULL";
+            DB::update($sql);
+
+            $sql="  UPDATE interesados i
                     SET i.dni_final='xxxx'
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
