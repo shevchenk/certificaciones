@@ -79,18 +79,6 @@
                                         <option>.::Todo::.</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-2 text-center">
-                                    <label class="control-label">Tipo</label>
-                                    <select class="form-control selectpicker show-menu-arrow" data-actions-box='true' id="slct_tipo" name="slct_tipo[]" multiple>
-                                        <option>.::Todo::.</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-2 text-center">
-                                    <label class="control-label">Empresa</label>
-                                    <select class="form-control selectpicker show-menu-arrow" data-actions-box='true' id="slct_empresa" name="slct_empresa[]" multiple>
-                                        <option>.::Todo::.</option>
-                                    </select>
-                                </div>
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->

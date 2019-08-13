@@ -47,8 +47,6 @@ $(document).ready(function() {
     });
     AjaxLlamada.ListarVendedor(SlctListarVendedor);
     AjaxLlamada.ListarFuente(SlctListarFuente);
-    AjaxLlamada.ListarTipo(SlctListarTipo);
-    AjaxLlamada.ListarEmpresa(SlctListarEmpresa);
 
 });
 
@@ -68,24 +66,6 @@ SlctListarFuente=function(result){
     });
     $("#slct_fuente").html(html); 
     $("#slct_fuente").selectpicker('refresh');
-};
-
-SlctListarTipo=function(result){
-    var html="";
-    $.each(result.data,function(index,r){
-        html+="<option value='"+r.tipo+"'>"+r.tipo+"</option>";
-    });
-    $("#slct_tipo").html(html); 
-    $("#slct_tipo").selectpicker('refresh');
-};
-
-SlctListarEmpresa=function(result){
-    var html="";
-    $.each(result.data,function(index,r){
-        html+="<option value='"+r.empresa+"'>"+r.empresa+"</option>";
-    });
-    $("#slct_empresa").html(html); 
-    $("#slct_empresa").selectpicker('refresh');
 };
 
 </script>

@@ -620,7 +620,6 @@ class Persona extends Model
         //subconsulta
         $sql = DB::table('personas')
                 ->select(DB::raw('DISTINCT(fuente) AS fuente'))
-                ->where('fuente','!=','')
                 ->get();
 
         return $sql;
