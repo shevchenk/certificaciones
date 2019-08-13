@@ -21,11 +21,11 @@ class EspecialidadProgramacion extends Model
                 ->where('me.empresa_id','=', Auth::user()->empresa_id)
                 ->where('me.estado','=',1);
             })
-            ->Join('mat_especialidades_programaciones_sucursales AS meps',function($join){
+            ->leftJoin('mat_especialidades_programaciones_sucursales AS meps',function($join){
                 $join->on('meps.especialidad_programacion_id','=','mep.id')
                 ->where('meps.estado','=',1);
             })
-            ->Join('sucursales AS s',function($join){
+            ->leftJoin('sucursales AS s',function($join){
                 $join->on('s.id','=','meps.sucursal_id')
                 ->where('s.estado','=',1);
             })
@@ -80,7 +80,7 @@ class EspecialidadProgramacion extends Model
                 }
             );
         $result = $sql->groupBy('mep.id','me.especialidad','mep.especialidad_id','mep.tipo','mep.nro_cuota','mep.fecha_inicio','mep.estado')
-                        ->orderBy('mep.fecha_inicio','asc')
+                        ->orderBy('mep.fecha_inicio','desc')
                         ->orderBy('me.especialidad','asc')
                         ->paginate(10);
         return $result;
