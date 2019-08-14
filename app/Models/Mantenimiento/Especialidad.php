@@ -212,6 +212,7 @@ class Especialidad extends Model
                 /*,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')*/
                 ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso ORDER BY mce.orden SEPARATOR "^^" ) cursos')
                 )
+                ->where('me.estado',1)
                 ->where('me.empresa_id',Auth::user()->empresa_id)
                 ->where( function($query) use ($r){
                     if( $r->has("especialidad") ){
