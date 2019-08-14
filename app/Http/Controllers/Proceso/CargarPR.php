@@ -171,7 +171,8 @@ class CargarPR extends Controller
                     INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!=''
                     SET pd.estado=0
                     WHERE i.usuario=".$usuario."
-                    AND i.file='".$file."'";
+                    AND i.file='".$file."'
+                    AND t.empresa_id='".Auth::user()->empresa_id."'";
             DB::update($sql);
 
             //-- Distribucion de los vendedores
