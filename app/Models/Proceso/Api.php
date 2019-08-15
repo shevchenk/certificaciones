@@ -383,6 +383,9 @@ class Api extends Model
                     if( $r->has('empresa_id') ){
                         $query->where('mc.empresa_id',$r->empresa_id);
                     }
+                    else{
+                        $query->where('mc.empresa_id',0);
+                    }
                 });
 
                 if( $r->has('tipo_programacion') AND $r->tipo_programacion==1 ){
@@ -420,7 +423,10 @@ class Api extends Model
                 ->where('me.estado',1)
                 ->where(function($query) use($r){
                     if( $r->has('empresa_id') ){
-                        $query->where('mc.empresa_id',$r->empresa_id);
+                        $query->where('me.empresa_id',$r->empresa_id);
+                    }
+                    else{
+                        $query->where('me.empresa_id',0);
                     }
                 })
                 ->whereRaw(' mep.fecha_inicio + INTERVAL 7 DAY  >= CURDATE()')
