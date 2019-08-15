@@ -81,11 +81,10 @@ HTMLCargarIndiceMat=function(result){
         mat_falt_meta = Math.round( (r.meta_max - proy_fin_cam)*100)/100;
         html+="<tr id='trid_"+r.ode+"'>"+
             "<td>"+(index+1)+"</td>"+
-            "<td>"+r.odeclase+"</td>"+
-            "<td>"+r.instituto+"</td>"+
-            "<td>"+r.curso+"</td>"+
+            "<td>"+r.empresa+"</td>"+
+            "<td>"+r.tipo_formacion+"</td>"+
+            "<td>"+r.formacion+"</td>"+
             "<td>"+r.dia+"</td>"+
-            "<td>"+r.fecha_inicio.substr(11)+" a "+r.fecha_final.substr(11)+"</td>"+
             "<td>"+r.fecha_inicio.substr(0,10)+"</td>"+
             "<td>"+r.penult_dia+"</td>"+
             "<td>"+r.ult_dia+"</td>"+

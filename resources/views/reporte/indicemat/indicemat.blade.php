@@ -81,11 +81,10 @@
                                     <thead>
                                         <tr class="cabecera">
                                             <th>N°</th>
-                                            <th>Local de Estudios</th>
-                                            <th>Instituto</th>
-                                            <th>Curso</th>
+                                            <th>Empresa</th>
+                                            <th>Tipo Formación</th>
+                                            <th>Formación</th>
                                             <th>FREC</th>
-                                            <th>Hora</th>
                                             <th>Fecha Inicio</th>
                                             <th>Inscritos Últimos 2 Días</th>
                                             <th>Inscritos Último Día</th>
@@ -106,11 +105,10 @@
                                     <tfoot>
                                         <tr class="cabecera">
                                             <th>N°</th>
-                                            <th>Local de Estudios</th>
-                                            <th>Instituto</th>
-                                            <th>Curso</th>
+                                            <th>Empresa</th>
+                                            <th>Tipo Formación</th>
+                                            <th>Formación</th>
                                             <th>FREC</th>
-                                            <th>Hora</th>
                                             <th>Fecha Inicio</th>
                                             <th>Inscritos Últimos 2 Días</th>
                                             <th>Inscritos Último Día</th>
