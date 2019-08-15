@@ -379,6 +379,10 @@ class Api extends Model
                             $query->where('mce.especialidad_id', 0);
                         }
                     }
+
+                    if( $r->has('empresa_id') ){
+                        $query->where('mc.empresa_id',$r->empresa_id);
+                    }
                 });
 
                 if( $r->has('tipo_programacion') AND $r->tipo_programacion==1 ){
@@ -414,6 +418,11 @@ class Api extends Model
                 , DB::raw('GROUP_CONCAT( DISTINCT(mc.curso) SEPARATOR "|" ) cursos')
                 )
                 ->where('me.estado',1)
+                ->where(function($query) use($r){
+                    if( $r->has('empresa_id') ){
+                        $query->where('mc.empresa_id',$r->empresa_id);
+                    }
+                })
                 ->whereRaw(' mep.fecha_inicio + INTERVAL 7 DAY  >= CURDATE()')
                 ->groupBy('me.id', 'me.especialidad', 'mep.id', 'mep.fecha_inicio')
                 ->havingRaw('COUNT(DISTINCT(mepc.id))>1')
