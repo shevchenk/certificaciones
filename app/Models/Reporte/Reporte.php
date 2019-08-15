@@ -1102,6 +1102,8 @@ class Reporte extends Model
         $min++; $length[chr($min)]=16;
         $min++; $length[chr($min)]=25;
         $min++; $length[chr($min)]=15;
+        $min++; $length[chr($min)]=25;
+        $min++; $length[chr($min)]=15;
 
         $cabecera2=array(
             'Fecha Llamada','Hora Llamada','Teleoperador(a)','Cliente',
