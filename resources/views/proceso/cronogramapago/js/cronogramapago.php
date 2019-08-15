@@ -205,9 +205,7 @@ HTMLCargarEspecialidad=function(result){
 HTMLCargarOde=function(result){
     var html="";
     $.each(result.data,function(index,r){
-        if( r.id!='1' ){
-            html+="<option value="+r.id+">"+r.sucursal+"</option>";
-        }
+        html+="<option value="+r.id+">"+r.sucursal+"</option>";
     });
     $("#ModalEspecialidadProgramacion #slct_sucursal_id").html(html); 
     $("#ModalEspecialidadProgramacion #slct_sucursal_id").selectpicker('refresh');
