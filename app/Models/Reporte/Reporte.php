@@ -427,25 +427,26 @@ class Reporte extends Model
     public static function runLoadIndiceMat($r)
     {
         $id=Auth::user()->id;
-        $sql=DB::table('mat_matriculas AS mm')
+        $sql1=DB::table('mat_matriculas AS mm')
             ->join('mat_matriculas_detalles AS mmd',function($join){
                 $join->on('mmd.matricula_id','=','mm.id')
-                ->where('mmd.estado',1);
+                ->where('mmd.estado',1)
+                ->whereNull('mmd.especialidad_id');
+            })
+            ->join('mat_cursos AS mc',function($join){
+                $join->on('mc.id','=','mmd.curso_id')
+                ->where('mc.empresa_id', Auth::user()->empresa_id);
             })
             ->join('mat_programaciones AS mp',function($join){
                 $join->on('mp.id','=','mmd.programacion_id');
-
             })
-            ->join('sucursales AS s2',function($join){
-                $join->on('s2.id','=','mp.sucursal_id');
-
-            })
-            ->join('mat_cursos AS mc',function($join){
-                $join->on('mc.id','=','mp.curso_id')
-                ->where('mc.empresa_id', Auth::user()->empresa_id);
-
-            })
-            ->select('mp.id','s2.sucursal as odeclase',DB::raw(" IF(mp.sucursal_id=1,'PAE-VIR','PAE-PRE') instituto "),'mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final'
+            ->join('empresas AS e','e.id','=','mc.empresa_id')
+            ->select(DB::raw('"0" AS id'),'e.empresa' 
+                    ,DB::raw(' GROUP_CONCAT(DISTINCT(IF( mm.especialidad_programacion_id IS NULL, 
+                        IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ),
+                        "Especialidad"
+                    ))) AS tipo_formacion ')
+                    ,'mc.curso AS formacion' ,'mp.dia','mp.fecha_inicio','mp.fecha_final'
                 ,DB::raw("COUNT(IF( mm.fecha_matricula='".$r->ult_dia."',mmd.id,NULL )) ult_dia")
                 ,DB::raw("COUNT(IF( mm.fecha_matricula='".$r->penult_dia."',mmd.id,NULL )) penult_dia") 
                 ,DB::raw('COUNT(mmd.id) mat'),'mp.meta_max','mp.meta_min','mp.fecha_campaña'
@@ -478,11 +479,61 @@ class Reporte extends Model
                 }
             )
             ->where('mm.estado',1)
-            ->groupBy('mp.sucursal_id','mp.id','s2.sucursal','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final','mp.meta_max','mp.meta_min','mp.fecha_campaña');
+            ->groupBy('e.empresa','mc.curso','mp.dia','mp.fecha_inicio','mp.fecha_final','mp.meta_max','mp.meta_min','mp.fecha_campaña')
+            ->orderBy('mc.curso','asc')
+            ;
 
-        $result = $sql->orderBy('s2.sucursal','asc')
-                    ->orderBy('mc.curso','asc')
-                    ->get();
+        $sql2=DB::table('mat_matriculas AS mm')
+            ->join('mat_matriculas_detalles AS mmd',function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado',1)
+                ->whereNotNull('mmd.especialidad_id');
+            })
+            ->join('mat_especialidades_programaciones AS mep',function($join){
+                $join->on('mep.id','=','mm.especialidad_programacion_id');
+            })
+            ->join('mat_especialidades AS me',function($join){
+                $join->on('me.id','=','mep.especialidad_id')
+                ->where('me.empresa_id', Auth::user()->empresa_id);
+            })
+            ->join('empresas AS e','e.id','=','me.empresa_id')
+            ->select(DB::raw('"0" AS id'),'e.empresa' 
+                    ,DB::raw(' "Especialidad" AS tipo_formacion ')
+                    ,'me.especialidad AS formacion' ,DB::raw("'' AS dia"),'mep.fecha_inicio',DB::raw("'' AS fecha_final")
+                ,DB::raw("COUNT(IF( mm.fecha_matricula='".$r->ult_dia."',mm.id,NULL )) ult_dia")
+                ,DB::raw("COUNT(IF( mm.fecha_matricula='".$r->penult_dia."',mm.id,NULL )) penult_dia") 
+                ,DB::raw('COUNT(mm.id) mat'),'mep.meta_max','mep.meta_min','mep.fecha_campaña'
+                ,DB::raw('DATEDIFF(CURDATE(),mep.fecha_campaña) AS ndias')
+                ,DB::raw('IF(DATEDIFF( CURDATE(),DATE(mep.fecha_inicio) ) >=0,0,(DATEDIFF(mep.fecha_inicio,CURDATE()) )) AS dias_falta')
+            )
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") AND $r->has('tipo_fecha')){
+                        if( $r->tipo_fecha==1 ){
+                            $query ->whereRaw("DATE(mep.fecha_inicio) BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."' ");
+                        }
+                        else{
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_ini,$r->fecha_fin));
+                        }
+                    }
+                }
+            )
+            ->where('mm.estado',1)
+            ->groupBy('e.empresa','me.especialidad','mep.fecha_inicio','mep.fecha_campaña','mep.meta_max','mep.meta_min')
+            ->orderBy('me.especialidad','asc')
+            ->union($sql1)
+            ->get();
+
+        //$result=array($sql1,$sql2);
+            $result=$sql2;
         return $result;
     }
 
@@ -490,35 +541,71 @@ class Reporte extends Model
     {
         $rsql= Reporte::runLoadIndiceMat($r);
 
-        $length=array(
-            'A'=>5,'B'=>13,'C'=>14,'D'=>40,'E'=>21.5,'F'=>12.5,
-            'G'=>11,'H'=>5.5,'I'=>5.5,'J'=>10.5,
-            'K'=>6.5,'L'=>6.5,
-            'M'=>11,'N'=>5,
-            'O'=>5,'P'=>5,'Q'=>6.5,'R'=>5.5,
-            'S'=>7, 'T'=>18
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,15,20,15
+            ,15,10,10,10
+            ,10,10,10,10
+            ,15,15,15,15
+            ,15,15
         );
 
-        $cabecera1=array(
-            'Alumnos','Matrícula','Inscripción','Matrícula',
-            'Cursos','Promociones','Pagos','Responsable'
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        /*$cabeceraTit=array(
+            'DATOS','DATOS DEL INSCRITO','SOBRE LA FORMACIÓN CONTINUA','PAGO POR CURSO','PAGO POR CONJUNTO DE CURSOS / PAGO POR INS. ESPECIALIDAD','DATOS DE LA VENTA'
         );
 
-        $cabecantNro=array(
-            9,3,2,2,
-            5,2,2,4
-        );
+        $valIni=66;
+        $min=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(1,6,5,3,1,4);
+        $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#FCD5B4');
+        $lengthTit=array();
+        $lengthDet=array();
 
-        $cabecantLetra=array(
-            'A3:I3','J3:L3','M3:N3','O3:P3',
-            'Q3:V3','W3:X3','Y3:Z3','AA3:AD3'
-        );
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min++;
+                $estaticoFin= chr($min);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min++;
+                    $estatico= chr($min);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }*/
 
-        $cabecera2=array(
-            'N°','Local de Estudios','Institución','Curso','FREC','Hora',
+        $cabecera=array(
+            'N°','Empresa','Tipo de Formación','Formación','FREC',
             'Fecha Inicio','Inscritos Últimos 2Días','','Total Inscritos.',
-            'Meta Max','Meta Min',
-            'Inicio Campaña','Días Campaña',
+            'Meta Max','Meta Min','Inicio Campaña','Días Campaña',
             'Indice Por Día','Días Que Falta','Proy. Días Faltantes','Proy. Final',
             'Falta Lograr Meta','Observación'
         );
@@ -527,13 +614,10 @@ class Reporte extends Model
         );
 
         $r['data']=$rsql;
-        $r['cabecera1']=$cabecera1;
-        $r['cabecantLetra']=$cabecantLetra;
-        $r['cabecantNro']=$cabecantNro;
-        $r['cabecera2']=$cabecera2;
+        $r['cabecera']=$cabecera;
         $r['campos']=$campos;
         $r['length']=$length;
-        $r['max']='T';
+        $r['max']=$estatico.chr($min);;
         return $r;
     }
 
@@ -967,7 +1051,7 @@ class Reporte extends Model
             ,DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
             DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),
             'tl.tipo_llamada','tls.tipo_llamada_sub','tlsd.tipo_llamada_sub_detalle',
-            'll.fechas','ll.comentario','p2.fuente'
+            'll.fechas','ll.comentario','p2.fuente','p2.carrera','p2.celular'
             )
             ->where( 
                 function($query) use ($r){
@@ -1022,7 +1106,7 @@ class Reporte extends Model
         $cabecera2=array(
             'Fecha Llamada','Hora Llamada','Teleoperador(a)','Cliente',
             'Tipo Llamada','Sub Tipo Llamada','Detalle Sub Tipo',
-            'Fecha Programada','Comentario','Fuente'
+            'Fecha Programada','Comentario','Fuente','Carrera del Interesado','Celular'
         );
 
         $r['data']=$rsql;

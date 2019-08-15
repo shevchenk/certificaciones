@@ -39,29 +39,29 @@
                     <form id="IndiceMatForm">
                         <div class="box-body no-padding">
                             <div class="col-sm-12">
-                                <div class="col-sm-2 text-center">
+                                <!--div class="col-sm-2 text-center">
                                     <label class="control-label">Tipo</label>
                                     <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tipo_curso" name="slct_tipo_curso">
                                         <option value="1" selected>Curso</option>
                                         <option value="2">Seminario</option>
                                     </select>
-                                </div>
-                                <div class="col-sm-2 text-center">
+                                </div-->
+                                <!--div class="col-sm-2 text-center">
                                     <label class="control-label">Tipo Fecha</label>
                                     <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tipo_fecha" name="slct_tipo_fecha">
                                         <option value="1" selected>Programación</option>
                                         <option value="2">Matrícula</option>
                                     </select>
-                                </div>
+                                </div-->
                                 <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Inicial</label>
+                                    <label class="control-label">Fecha Inicial de Inscripción</label>
                                     <div class="input-group">
                                       <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini" name="txt_fecha_ini" readonly/>
                                     </div>
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Final</label>
+                                    <label class="control-label">Fecha Final de Inscripción</label>
                                     <div class="input-group">
                                       <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
@@ -71,7 +71,7 @@
                                     <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>
                                 <div class="col-sm-1" style="padding:24px">
-                                    <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
+                                    <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar</i></a>
                                 </div>
                             </div>
                         </div><!-- .box-body -->

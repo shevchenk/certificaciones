@@ -462,13 +462,8 @@ class ReporteEM extends Controller
                 )
             ));
 
-            $titulo=" Seminario";
-            if( $r->tipo_curso==1 ){
-                $titulo=" PAE";
-            }
-
-            $sheet->cell('A1', function($cell) use ($titulo) {
-                $cell->setValue('REPORTE DE INDICE DE MATRICULAS -'.$titulo);
+            $sheet->cell('A1', function($cell) {
+                $cell->setValue('REPORTE DE INDICE DE INSCRIPCIÓN');
                 $cell->setFont(array(
                     'family'     => 'Bookman Old Style',
                     'size'       => '20',
@@ -486,9 +481,9 @@ class ReporteEM extends Controller
             $sheet->setHeight(3, 79);
 
 
-            $sheet->row( 3, $renturnModel['cabecera2'] );
+            $sheet->row( 3, $renturnModel['cabecera'] );
 
-            $sheet->cells('N3:S3', function($cells) {
+            $sheet->cells('M3:R3', function($cells) {
                 $cells->setAlignment('center');
                 $cells->setValignment('center');
                 $cells->setTextRotation(90);
@@ -500,7 +495,7 @@ class ReporteEM extends Controller
             $contador=0;
             $auxode="";
             $subtotal=array(
-                '','','','','','',
+                '','','','','',
                 '',0,0,0,
                 0,0,
                 '','',
@@ -508,7 +503,7 @@ class ReporteEM extends Controller
                 0,''
             );
             $totales=array(
-                '','','','','','',
+                '','','','','',
                 'Totales',0,0,0,
                 0,0,
                 '','',
@@ -519,11 +514,12 @@ class ReporteEM extends Controller
                 $pos++;
                 $contador++;
 
-                if( $data[$i]['fecha_inicio']!='' ){
+                if( $data[$i]['fecha_final']!='' ){
                     $fini=substr($data[$i]['fecha_inicio'], 0,10);
                     $data[$i]['fecha_inicio']=substr($data[$i]['fecha_inicio'],11,5)." a ".substr($data[$i]['fecha_final'],11,5);
                     $data[$i]['fecha_final']=$fini;
                 }
+                unset($data[$i]['fecha_final']);
 
                 $indice_x_dia=0;
                 $mat_prog_x_dia=0;
@@ -549,7 +545,7 @@ class ReporteEM extends Controller
                 array_push($data[$i], $proy_fin_cam);
                 array_push($data[$i], $mat_falt_meta);
 
-                if( $auxode!=$data[$i]['odeclase'] ){
+                if( $auxode!=$data[$i]['empresa'] ){
                     if( $auxode!='' ){
                         $contador=1;
                         $sheet->row( $pos, $subtotal );
@@ -577,27 +573,27 @@ class ReporteEM extends Controller
                         $pos++;
                     }
 
-                    $auxode=$data[$i]['odeclase'];
+                    $auxode=$data[$i]['empresa'];
                 }
-                $subtotal[7]+=$data[$i]['ult_dia'];
-                $subtotal[8]+=$data[$i]['penult_dia'];
-                $subtotal[9]+=$data[$i]['mat'];
-                $subtotal[10]+=$data[$i]['meta_max'];
-                $subtotal[11]+=$data[$i]['meta_min'];
-                $subtotal[14]+=$indice_x_dia;
-                $subtotal[16]+=$mat_prog_x_dia;
-                $subtotal[17]+=$proy_fin_cam;
-                $subtotal[18]+=$mat_falt_meta;
+                $subtotal[6]+=$data[$i]['ult_dia'];
+                $subtotal[7]+=$data[$i]['penult_dia'];
+                $subtotal[8]+=$data[$i]['mat'];
+                $subtotal[9]+=$data[$i]['meta_max'];
+                $subtotal[10]+=$data[$i]['meta_min'];
+                $subtotal[13]+=$indice_x_dia;
+                $subtotal[15]+=$mat_prog_x_dia;
+                $subtotal[16]+=$proy_fin_cam;
+                $subtotal[17]+=$mat_falt_meta;
 
-                $totales[7]+=$data[$i]['ult_dia'];
-                $totales[8]+=$data[$i]['penult_dia'];
-                $totales[9]+=$data[$i]['mat'];
-                $totales[10]+=$data[$i]['meta_max'];
-                $totales[11]+=$data[$i]['meta_min'];
-                $totales[14]+=$indice_x_dia;
-                $totales[16]+=$mat_prog_x_dia;
-                $totales[17]+=$proy_fin_cam;
-                $totales[18]+=$mat_falt_meta;
+                $totales[6]+=$data[$i]['ult_dia'];
+                $totales[7]+=$data[$i]['penult_dia'];
+                $totales[8]+=$data[$i]['mat'];
+                $totales[9]+=$data[$i]['meta_max'];
+                $totales[10]+=$data[$i]['meta_min'];
+                $totales[13]+=$indice_x_dia;
+                $totales[15]+=$mat_prog_x_dia;
+                $totales[16]+=$proy_fin_cam;
+                $totales[17]+=$mat_falt_meta;
                 $data[$i]['id']=$contador;
 
                 $sheet->row( $pos, $data[$i] );
@@ -624,7 +620,7 @@ class ReporteEM extends Controller
             $pos++;
             $pos++;
             $sheet->row( $pos, $totales );
-            $sheet->cells('G'.$pos.':'.$renturnModel['max'].$pos, function($cells) {
+            $sheet->cells('F'.$pos.':'.$renturnModel['max'].$pos, function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
                 $cells->setValignment('center');
@@ -636,7 +632,7 @@ class ReporteEM extends Controller
                 $cells->setBackground('#DCE6F1');
             });
 
-            $sheet->mergeCells('H3:I3');
+            $sheet->mergeCells('G3:H3');
 
             $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
@@ -650,7 +646,7 @@ class ReporteEM extends Controller
                 $cells->setBackground('#DCE6F1');
             });
 
-            $sheet->cells('J4:J'.$count, function($cells) {
+            $sheet->cells('I4:I'.$count, function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
                 $cells->setAlignment('center');
                 $cells->setValignment('center');
