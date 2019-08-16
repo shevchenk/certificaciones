@@ -1,9 +1,7 @@
-storage/*
-vendor/*
-.env
-config/database.php
-config/mail.php
-public/upload/*
-public/txt/*
-
-
+/.env
+/storage
+/vendor
+/config/database.php
+/config/mail.php
+/public/upload
+/public/txt
