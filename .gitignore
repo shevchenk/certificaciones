@@ -1,3 +1,9 @@
 storage/*
+vendor/*
+.env
+config/database.php
+config/mail.php
+public/upload/*
+public/txt/*
 
 
