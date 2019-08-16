@@ -1,4 +1,4 @@
-/.env
+.env
 /storage
 /vendor
 /config/database.php
