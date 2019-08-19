@@ -442,7 +442,10 @@ class Api extends Model
     public static function RegistrarInscripciones( $r )
     {
         $return=array();
-        if( !$r->has('dni') ){
+        if( !$r->has('empresa_id') ){
+            return 'empresa_id => Falta Id de la Empresa';
+        }
+        elseif( !$r->has('dni') ){
             return 'dni => Falta DNI o Identificación de la persona';
         }
         elseif( !$r->has('paterno') ){
@@ -504,10 +507,74 @@ class Api extends Model
             if( $r->has('celular') ){
                 $persona->celular= $r->celular;
             }
+            $persona->empresa_interesado_id= $r->empresa_id;
             $persona->password=bcrypt($r->dni);
             $persona->persona_id_created_at= $usuario;
             $persona->save();
+        }
+        else{
+            $matricula= DB::table('mat_matriculas')
+                        ->where('persona_id',$persona->id)
+                        ->where('estado',1)
+                        ->first();
+            if( !isset($matricula->id) ){
+                $persona = Persona::find($persona->id);
+                $persona->paterno= $r->paterno;
+                $persona->materno= $r->materno;
+                $persona->nombre= $r->nombre;
+                $persona->dni= $r->dni;
+                if( $r->has('email') ){
+                    $persona->email= $r->email;
+                }
+                if( $r->has('celular') ){
+                    $persona->celular= $r->celular;
+                }
+                $persona->empresa_interesado_id= $r->empresa_id;
+                $persona->password=bcrypt($r->dni);
+                $persona->persona_id_updated_at= $usuario;
+                $persona->save();
+            }
+            else{
+                $persona = Persona::find($persona->id);
+                $persona->empresa_interesado_id= $r->empresa_id;
+                $persona->persona_id_updated_at= $usuario;
+                $persona->save();
+            }
+        }
 
+        DB::table('personas_captadas')
+        ->where('persona_id', '=', $persona->id)
+        ->where('empresa_id', '=', $r->empresa_id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $usuario,
+                'updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+
+        DB::table('personas_captadas')
+        ->insert(
+            array(
+                'persona_id' => $persona->id,
+                'empresa_id' => $r->empresa_id,
+                'fuente' => 'WEB',
+                'interesado' => 'Inscripción',
+                'comentario' => 'Inscripción',
+                'estado' => 1,
+                'created_at'=> date('Y-m-d h:m:s'),
+                'persona_id_created_at'=> $usuario,
+                'persona_id_updated_at' => $usuario
+            )
+        );
+
+        $privilegio =DB::table('personas_privilegios_sucursales')
+        ->where('privilegio_id',14)
+        ->where('sucursal_id',1)
+        ->where('persona_id',$persona->id)
+        ->first();
+
+        if( !isset($privilegio->id) ){
             DB::table('personas_privilegios_sucursales')->insert(
                 array(
                     'privilegio_id' => 14,
@@ -520,6 +587,7 @@ class Api extends Model
                 )
             );
         }
+
         $al=Alumno::where('persona_id',$persona->id)->first();
 
         if( !isset($al->id) ){
@@ -640,6 +708,186 @@ class Api extends Model
         $result= array(
             'dni'=> $r->dni,
             'msj'=> 'Inscripción realizada con éxito'
+        );
+
+        return $result;
+    }
+
+    public static function RegistrarInteresado( $r )
+    {
+        $return=array();
+        if( !$r->has('dni') ){
+            return 'dni => Falta DNI o Identificación de la persona';
+        }
+        elseif( !$r->has('paterno') ){
+            return 'paterno => Falta Paterno';
+        }
+        elseif( !$r->has('materno') ){
+            return 'materno => Falta Materno';
+        }
+        elseif( !$r->has('nombre') ){
+            return 'nombre => Falta Nombre';
+        }
+        elseif( !$r->has('email') ){
+            return 'email => Falta Email';
+        }
+        elseif( !$r->has('celular') ){
+            return 'celular => Falta Celular';
+        }
+        elseif( !$r->has('empresa_id') ){
+            return 'empresa_id => Falta Id Empresa';
+        }
+        elseif( !$r->has('carrera') AND !$r->has('curso')  ){
+            return 'carrera => Falta Carrera o Curso interesado';
+        }
+        elseif( !$r->has('comentario') ){
+            return 'comentario => Falta comentario del interesado';
+        }
+        
+        $persona= Persona::where('dni',$r->dni)
+                  ->orWhere('email', $r->email)
+                  ->first();
+        $usuario= 0;
+        $extension='';
+        $interesado='';
+        if( $r->has('carrera') or $r->has('curso') ){
+            if( $r->has('carrera') ){
+                $interesado= $r->carrera;
+            }
+            else{
+                $interesado= $r->curso;
+            }
+        }
+
+        DB::beginTransaction();
+        if( !isset($persona->id) ){
+            $persona= new Persona;
+            $persona->paterno= $r->paterno;
+            $persona->materno= $r->materno;
+            $persona->nombre= $r->nombre;
+            $persona->dni= $r->dni;
+            $persona->email= $r->email;
+            $persona->celular= $r->celular;
+            $persona->descripcion= $r->comentario;
+            $persona->carrera= $interesado;
+            $persona->empresa_interesado_id= $r->empresa_id;
+            $persona->password=bcrypt($r->dni);
+            $persona->persona_id_created_at= $usuario;
+            $persona->save();
+        }
+        else{
+            $matricula= DB::table('mat_matriculas')
+                        ->where('persona_id',$persona->id)
+                        ->where('estado',1)
+                        ->first();
+            if( !isset($matricula->id) ){
+                $persona = Persona::find($persona->id);
+                $persona->paterno= $r->paterno;
+                $persona->materno= $r->materno;
+                $persona->nombre= $r->nombre;
+                $persona->dni= $r->dni;
+                $persona->email= $r->email;
+                $persona->celular= $r->celular;
+                $persona->descripcion= $r->comentario;
+                $persona->carrera= $interesado;
+                $persona->empresa_interesado_id= $r->empresa_id;
+                $persona->password=bcrypt($r->dni);
+                $persona->persona_id_updated_at= $usuario;
+                $persona->save();
+            }
+            else{
+                $persona = Persona::find($persona->id);
+                $persona->empresa_interesado_id= $r->empresa_id;
+                $persona->persona_id_updated_at= $usuario;
+                $persona->descripcion= $r->comentario;
+                $persona->save();
+            }
+        }
+
+        DB::table('personas_captadas')
+        ->where('persona_id', '=', $persona->id)
+        ->where('empresa_id', '=', $r->empresa_id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $usuario,
+                'updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+
+        DB::table('personas_captadas')
+        ->insert(
+            array(
+                'persona_id' => $persona->id,
+                'empresa_id' => $r->empresa_id,
+                'fuente' => 'WEB',
+                'interesado' => $interesado,
+                'comentario' => $r->comentario,
+                'estado' => 1,
+                'created_at'=> date('Y-m-d h:m:s'),
+                'persona_id_created_at'=> $usuario,
+                'persona_id_updated_at' => $usuario
+            )
+        );
+
+        $privilegio =DB::table('personas_privilegios_sucursales')
+        ->where('privilegio_id',14)
+        ->where('sucursal_id',1)
+        ->where('persona_id',$persona->id)
+        ->first();
+
+        if( !isset($privilegio->id) ){
+            DB::table('personas_privilegios_sucursales')->insert(
+                array(
+                    'privilegio_id' => 14,
+                    'sucursal_id' => 1,
+                    'persona_id' => $persona->id,
+                    'created_at'=> date('Y-m-d h:m:s'),
+                    'persona_id_created_at'=> $usuario,
+                    'estado' => 1,
+                    'persona_id_updated_at' => $usuario
+                )
+            );
+        }
+
+        DB::table('personas_distribuciones AS pd')
+        ->join('mat_trabajadores AS mt','mt.id','=','pd.trabajador_id')
+        ->where('pd.persona_id', '=', $persona->id)
+        ->where('mt.empresa_id', '=', $r->empresa_id)
+        ->where('pd.estado', '=', 1)
+        ->update(
+            array(
+                'pd.estado' => 0,
+                'pd.persona_id_updated_at' => $usuario,
+                'pd.updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+
+        DB::table('personas_distribuciones')
+        ->insert(
+            array(
+                'persona_id' => $persona->id,
+                'trabajador_id' => (2+$r->empresa_id),
+                'fecha_distribucion' => date('Y-m-d'),
+                'estado' => 1,
+                'created_at'=> date('Y-m-d h:m:s'),
+                'persona_id_created_at'=> $usuario,
+                'persona_id_updated_at' => $usuario
+            )
+        );
+
+        DB::commit();
+
+        $email='jorgeshevchenk@gmail.com';
+        $emailseguimiento='jorgeshevchenk1988@gmail.com';
+        $texto='.::Inscripción de Seminarios::.';
+        $parametros=array(
+            'id'=>'123',
+        );
+
+        $result= array(
+            'dni'=> $r->dni,
+            'msj'=> 'Registro de Interesado(a) con éxito'
         );
 
         return $result;
