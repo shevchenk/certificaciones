@@ -11,6 +11,29 @@ Route::resource('apifc', 'Proceso\ApiPR',
     ['only' => ['index', 'store', 'update', 'destroy', 'show']]
 );
 
+Route::get('/email/{email}', function($email){
+    $email='jorgeshevchenk@gmail.com';
+        $emailseguimiento='jorgeshevchenk1988@gmail.com';
+        $texto='.::Inscripción de Seminarios::.';
+        $parametros=array(
+            'id'=>'123',
+        );
+        //try{
+        Mail::send('email.matricula', $parametros , 
+            function($message) use( $email,$emailseguimiento,$texto ) {
+                $message
+                ->to($email)
+                ->cc($emailseguimiento)
+                ->subject($texto);
+            }
+        );
+        /*}
+        catch(exception $e){
+            echo $e;
+        }*/
+    echo "Mensaje Enviado :V";
+});
+
 // --
 
 Route::get('/', function () {
