@@ -898,8 +898,8 @@ class Api extends Model
     public static function ValidarInteresado( $r )
     {
         $return=array();
-        $dni=0;
-        $email=0;
+        $dni=-1;
+        $email=-1;
         if( $r->has('dni') ){
             $dni=$r->dni;
         }
