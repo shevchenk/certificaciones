@@ -740,8 +740,10 @@ class Api extends Model
         elseif( !$r->has('carrera') AND !$r->has('curso')  ){
             return 'carrera => Falta Carrera o Curso interesado';
         }
-        elseif( !$r->has('comentario') ){
-            return 'comentario => Falta comentario del interesado';
+        
+        $comentario='';
+        if( $r->has('comentario') ){
+            $comentario= $r->comentario;
         }
         
         $persona= Persona::where('dni',$r->dni)
@@ -768,7 +770,7 @@ class Api extends Model
             $persona->dni= $r->dni;
             $persona->email= $r->email;
             $persona->celular= $r->celular;
-            $persona->descripcion= $r->comentario;
+            $persona->descripcion= $comentario;
             $persona->carrera= $interesado;
             $persona->empresa_interesado_id= $r->empresa_id;
             $persona->password=bcrypt($r->dni);
@@ -788,7 +790,7 @@ class Api extends Model
                 $persona->dni= $r->dni;
                 $persona->email= $r->email;
                 $persona->celular= $r->celular;
-                $persona->descripcion= $r->comentario;
+                $persona->descripcion= $comentario;
                 $persona->carrera= $interesado;
                 $persona->empresa_interesado_id= $r->empresa_id;
                 $persona->password=bcrypt($r->dni);
@@ -799,7 +801,7 @@ class Api extends Model
                 $persona = Persona::find($persona->id);
                 $persona->empresa_interesado_id= $r->empresa_id;
                 $persona->persona_id_updated_at= $usuario;
-                $persona->descripcion= $r->comentario;
+                $persona->descripcion= $comentario;
                 $persona->save();
             }
         }
@@ -822,7 +824,7 @@ class Api extends Model
                 'empresa_id' => $r->empresa_id,
                 'fuente' => 'WEB',
                 'interesado' => $interesado,
-                'comentario' => $r->comentario,
+                'comentario' => $comentario,
                 'estado' => 1,
                 'created_at'=> date('Y-m-d h:m:s'),
                 'persona_id_created_at'=> $usuario,
@@ -888,6 +890,33 @@ class Api extends Model
         $result= array(
             'dni'=> $r->dni,
             'msj'=> 'Registro de Interesado(a) con éxito'
+        );
+
+        return $result;
+    }
+
+    public static function ValidarInteresado( $r )
+    {
+        $return=array();
+        $dni=0;
+        $email=0;
+        if( $r->has('dni') ){
+            $dni=$r->dni;
+        }
+        elseif( $r->has('email') ){
+            $email=$r->email;
+        }
+
+        $persona= DB::table('personas AS p')
+                    ->join('empresas AS e','e.id','=','p.empresa_interesado_id')
+                    ->select('p.paterno','p.materno','p.nombre','p.dni','p.email','p.celular','p.descripcion AS comentario','p.carrera AS carrera_curso_interesado','e.empresa')
+                    ->where('dni',$dni)
+                    ->orWhere('email', $email)
+                    ->first();
+
+
+        $result= array(
+            'persona'=> $persona
         );
 
         return $result;
