@@ -67,6 +67,7 @@ class Alumno extends Model
     {
         $sql=Alumno::select('id','codigo_interno','direccion','referencia','region_id','provincia_id','distrito_id')
             ->where('estado','=','1')
+            ->where('empresa_id','=',Auth::user()->empresa_id)
             ->where('persona_id','=',$r->persona_id);
         $result = $sql->orderBy('id','asc')->first();
         return $result;

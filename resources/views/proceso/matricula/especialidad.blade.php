@@ -138,10 +138,11 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-2" style="display: none;">
+                                    <div class="col-md-2" <?php if(Auth::user()->empresa_id!=3){ echo 'style="display: none;"'; } ?> >
                                         <div class="form-group">
-                                            <label>Código del Alumno</label>
-                                            <input type="text" class="form-control" id="txt_codigo_interno" name="txt_codigo_interno">
+                                            <label class="col-md-12">Código del Alumno</label>
+                                            <input type="text" class="col-md-4 col-xs-4" id="txt_codigo_interno_base" value="EI112" disabled>
+                                            <input type="text" class="col-md-8 col-xs-8" id="txt_codigo_interno" name="txt_codigo_interno">
                                         </div> 
                                     </div>
                                     <div class="col-md-5" style="display: none;">
@@ -278,9 +279,13 @@
                                                     <td><input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" value="0" placeholder="Monto" disabled></td>
                                                     <td><select class='form-control'  id='slct_tipo_pago' name='slct_tipo_pago' disabled>
                                                         <option value='0'>.::Seleccione::.</option>
-                                                        <option value='1'>Transferencia</option>
-                                                        <option value='2'>Depósito</option>
-                                                        <option value='3'>Caja</option>
+                                                        <option value='1.1'>Transferencia - BCP</option>
+                                                        <option value='1.2'>Transferencia - Scotiabank</option>
+                                                        <option value='1.3'>Transferencia - BBVA</option>
+                                                        <option value='2.1'>Depósito - BCP</option>
+                                                        <option value='2.2'>Depósito - Scotiabank</option>
+                                                        <option value='2.3'>Depósito - BBVA</option>
+                                                        <option value='3.0'>Caja</option>
                                                         </select></td>
                                                     <td>
                                                         <input type="text"  readOnly class="form-control input-sm" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">

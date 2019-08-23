@@ -19,10 +19,16 @@ class Matricula extends Model
     public static function runNew($r)
     {
         /******Validar si alumno existe ***/
-        $alumno=Alumno::where('persona_id','=',$r->persona_id)->first();
+        $alumno=Alumno::where('persona_id','=',$r->persona_id)
+                ->where('empresa_id', Auth::user()->empresa_id)
+                ->first();
 
         DB::beginTransaction();
         $extension='';
+        $codini='';
+        if( Auth::user()->empresa_id==3 ){
+            $codini='EI112';
+        }
         if($alumno){
            $al= Alumno::find($alumno->id);
            if( trim($r->region_id)!='' and trim($r->region_id)!='0' ){
@@ -32,11 +38,12 @@ class Matricula extends Model
            }
            $al->direccion=trim( $r->direccion);
            $al->referencia=trim($r->referencia);
-           $al->codigo_interno=trim($r->codigo_interno);
+           $al->codigo_interno=$codini.trim($r->codigo_interno);
            $al->persona_id_updated_at=Auth::user()->id;
            $al->save();
         }else {
            $al= new Alumno;
+           $al->empresa_id=Auth::user()->empresa_id;
            $al->persona_id=trim( $r->persona_id);
            $al->direccion=trim( $r->direccion);
            $al->referencia=trim($r->referencia);
@@ -45,7 +52,7 @@ class Matricula extends Model
                $al->provincia_id=trim( $r->provincia_id);
                $al->distrito_id=trim( $r->distrito_id);
            }
-           $al->codigo_interno=trim($r->codigo_interno);
+           $al->codigo_interno=$codini.trim($r->codigo_interno);
            $al->persona_id_created_at=Auth::user()->id;
            $al->save();
         }
