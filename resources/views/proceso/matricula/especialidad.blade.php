@@ -141,8 +141,13 @@
                                     <div class="col-md-2" <?php if(Auth::user()->empresa_id!=3){ echo 'style="display: none;"'; } ?> >
                                         <div class="form-group">
                                             <label class="col-md-12">Código del Alumno</label>
-                                            <input type="text" class="col-md-4 col-xs-4" id="txt_codigo_interno_base" value="EI112" disabled>
-                                            <input type="text" class="col-md-8 col-xs-8" id="txt_codigo_interno" name="txt_codigo_interno">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i>EI112</i>
+                                                </div>
+                                            <input type="hidden" class="form-control col-md-4 col-xs-4 mant" id="txt_codigo_interno_base" value="EI112" disabled>
+                                            <input type="text" class="form-control col-md-8 col-xs-8" id="txt_codigo_interno" name="txt_codigo_interno">
+                                            </div>
                                         </div> 
                                     </div>
                                     <div class="col-md-5" style="display: none;">
