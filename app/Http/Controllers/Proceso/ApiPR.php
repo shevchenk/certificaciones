@@ -50,6 +50,9 @@ class ApiPR extends Controller
         elseif($r->opcion=='RegistrarInteresado'){
             $result = $this->RegistrarInteresado($r);
         }
+        elseif($r->opcion=='ValidarInteresado'){
+            $result = $this->ValidarInteresado($r);
+        }
         return $result;
     }
 
@@ -174,6 +177,12 @@ class ApiPR extends Controller
     public function RegistrarInteresado ( $r )
     {
         $renturnModel = Api::RegistrarInteresado($r);
+        return response()->json($renturnModel);
+    }
+
+    public function ValidarInteresado ( $r )
+    {
+        $renturnModel = Api::ValidarInteresado($r);
         return response()->json($renturnModel);
     }
 
