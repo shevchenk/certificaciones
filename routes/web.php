@@ -18,7 +18,7 @@ Route::get('/email/{email}', function($email){
         $parametros=array(
             'id'=>'123',
         );
-        //try{
+        try{
         Mail::send('email.matricula', $parametros , 
             function($message) use( $email,$emailseguimiento,$texto ) {
                 $message
@@ -28,10 +28,10 @@ Route::get('/email/{email}', function($email){
                 ->subject($texto);
             }
         );
-        /*}
+        }
         catch(exception $e){
             echo $e;
-        }*/
+        }
     echo "Mensaje Enviado :V";
 });
 
