@@ -10,7 +10,7 @@
         <link rel="shortcut icon" href="favicon.ico">
         <meta name="description" content="">
         <title>         
-                Software de Negocios (JS)
+                Formación Continua
         </title>
             {{ Html::style('lib/bootstrap/css/bootstrap.min.css') }}
             {{ Html::style('lib/font-awesome/css/font-awesome.min.css') }}
