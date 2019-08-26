@@ -22,6 +22,7 @@ Route::get('/email/{email}', function($email){
         Mail::send('email.matricula', $parametros , 
             function($message) use( $email,$emailseguimiento,$texto ) {
                 $message
+                ->from('jorgeshevchenk@gmail.com','Curso Laravel')
                 ->to($email)
                 ->cc($emailseguimiento)
                 ->subject($texto);
