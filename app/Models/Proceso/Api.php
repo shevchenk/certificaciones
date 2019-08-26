@@ -927,7 +927,7 @@ class Api extends Model
                             $query->whereRaw('DATE(pc.created_at)=\''.$r->fecha.'\'');
                         }
                     })
-                    ->first();
+                    ->get();
 
 
         $result= array(
