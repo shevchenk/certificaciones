@@ -719,6 +719,9 @@ class Api extends Model
         if( !$r->has('dni') ){
             return 'dni => Falta DNI o Identificación de la persona';
         }
+        if( !$r->has('tipo_documento') ){
+            return 'tipo_documento => Falta tipo de documento de la persona';
+        }
         elseif( !$r->has('paterno') ){
             return 'paterno => Falta Paterno';
         }
@@ -767,6 +770,7 @@ class Api extends Model
             $persona->paterno= $r->paterno;
             $persona->materno= $r->materno;
             $persona->nombre= $r->nombre;
+            $persona->tipo_documento= $r->tipo_documento;
             $persona->dni= $r->dni;
             $persona->email= $r->email;
             $persona->celular= $r->celular;
@@ -787,6 +791,7 @@ class Api extends Model
                 $persona->paterno= $r->paterno;
                 $persona->materno= $r->materno;
                 $persona->nombre= $r->nombre;
+                $persona->tipo_documento= $r->tipo_documento;
                 $persona->dni= $r->dni;
                 $persona->email= $r->email;
                 $persona->celular= $r->celular;
@@ -900,6 +905,7 @@ class Api extends Model
         $return=array();
         $dni=-1;
         $email=-1;
+
         if( $r->has('dni') ){
             $dni=$r->dni;
         }
@@ -908,10 +914,16 @@ class Api extends Model
         }
 
         $persona= DB::table('personas AS p')
-                    ->join('empresas AS e','e.id','=','p.empresa_interesado_id')
-                    ->select('p.paterno','p.materno','p.nombre','p.dni','p.email','p.celular','p.descripcion AS comentario','p.carrera AS carrera_curso_interesado','e.empresa')
+                    ->join('personas_captadas AS pc','pc.persona_id','=','p.id')
+                    ->join('empresas AS e','e.id','=','pc.empresa_id')
+                    ->select('p.paterno','p.materno','p.nombre','p.dni','p.email','p.celular','pc.comentario','pc.interesado AS carrera_curso_interesado','e.empresa')
                     ->where('dni',$dni)
                     ->orWhere('email', $email)
+                    ->where( function($query) use($r){
+                        if( $r->has('fecha') ){
+                            $query->whereRaw('DATE(pc.created_at)=\''.$r->fecha.'\'');
+                        }
+                    })
                     ->first();
 
 
