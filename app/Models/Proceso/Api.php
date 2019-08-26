@@ -21,6 +21,9 @@ class Api extends Model
         elseif( $_SERVER['SERVER_NAME']=='capafc.jssoluciones.pe' ){
             $bd='prabtoea_pae';
         }
+        elseif( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
+            $bd='formacion_continua';
+        }
         return $bd;
     }
     
