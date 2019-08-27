@@ -260,78 +260,84 @@ class Persona extends Model
 
     public static function runLoad($r)
     {
-        $sql=Persona::select('id','paterno','materno','nombre','dni','carrera','fuente','empresa',
-            'email',DB::raw('IFNULL(fecha_nacimiento,"") as fecha_nacimiento'),'sexo','telefono',
-            'celular','password','estado','frecuencia','medio_publicitario_id','sucursal_id',
-            'hora_inicio','hora_final')
+        $sql=DB::table('personas AS p')
+            ->leftJoin('mat_ubicacion_region AS r','r.id','=','p.region_id_dir')
+            ->leftJoin('mat_ubicacion_provincia AS pr','pr.id','=','p.provincia_id_dir')
+            ->leftJoin('mat_ubicacion_distrito AS d','d.id','=','p.distrito_id_dir')
+            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','p.carrera','p.fuente','p.empresa',
+            'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono',
+            'p.celular','p.password','p.estado','p.frecuencia','p.medio_publicitario_id','p.sucursal_id',
+            'p.hora_inicio','p.hora_final','p.region_id_dir','p.provincia_id_dir','p.distrito_id_dir',
+            'r.region AS region_dir','pr.provincia AS provincia_dir','d.distrito AS distrito_dir',
+            'p.referencia_dir')
             ->where( 
                 function($query) use ($r){
                     if( Auth::user()->id!=1 ){
-                        $query->where('id','!=',1);
+                        $query->where('p.id','!=',1);
                     }
                     if( $r->has("paterno") ){
                         $paterno=trim($r->paterno);
                         if( $paterno !='' ){
-                            $query->where('paterno','like','%'.$paterno.'%');
+                            $query->where('p.paterno','like','%'.$paterno.'%');
                         }
                     }
                     if( $r->has("materno") ){
                         $materno=trim($r->materno);
                         if( $materno !='' ){
-                            $query->where('materno','like','%'.$materno.'%');
+                            $query->where('p.materno','like','%'.$materno.'%');
                         }
                     }
                     if( $r->has("nombre") ){
                         $nombre=trim($r->nombre);
                         if( $nombre !='' ){
-                            $query->where('nombre','like','%'.$nombre.'%');
+                            $query->where('p.nombre','like','%'.$nombre.'%');
                         }
                     }
                     if( $r->has("dni") ){
                         $dni=trim($r->dni);
                         if( $dni !='' ){
-                            $query->where('dni','like','%'.$dni.'%');
+                            $query->where('p.dni','like','%'.$dni.'%');
                         }
                     }
                     if( $r->has("email") ){
                         $email=trim($r->email);
                         if( $email !='' ){
-                            $query->where('email','like','%'.$email.'%');
+                            $query->where('p.email','like','%'.$email.'%');
                         }
                     }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('estado','=',$estado);
+                            $query->where('p.estado','=',$estado);
                         }
                     }
                     if( $r->has("telefono") ){
                         $telefono=trim($r->telefono);
                         if( $telefono !='' ){
-                            $query->where('telefono','like','%'.$telefono.'%');
+                            $query->where('p.telefono','like','%'.$telefono.'%');
                         }
                     }
                     if( $r->has("celular") ){
                         $celular=trim($r->celular);
                         if( $celular !='' ){
-                            $query->where('celular','like','%'.$celular.'%');
+                            $query->where('p.celular','like','%'.$celular.'%');
                         }
                     }
                     if( $r->has("carrera") ){
                         $carrera=trim($r->carrera);
                         if( $carrera !='' ){
-                            $query->where('carrera','like','%'.$carrera.'%');
+                            $query->where('p.carrera','like','%'.$carrera.'%');
                         }
                     }
                     if( $r->has("created_at") ){
                         $created_at=trim($r->created_at);
                         if( $created_at !='' ){
-                            $query->whereRaw('DATE(created_at)=?',$created_at);
+                            $query->whereRaw('DATE(p.created_at)=?',$created_at);
                         }
                     }
                 }
             );
-        $result = $sql->orderBy('paterno','asc')->paginate(10);
+        $result = $sql->orderBy('p.paterno','asc')->paginate(10);
         return $result;
     }
 
@@ -678,9 +684,16 @@ class Persona extends Model
         $dia= implode(",",$r->dia);
         $persona->frecuencia= $dia;
 
+        $persona->distrito_id_dir = $r->distrito_id_dir;
+        $persona->provincia_id_dir = $r->provincia_id_dir;
+        $persona->region_id_dir = $r->region_id_dir;
+        $persona->referencia_dir = $r->referencia_dir;
+
         $persona->estado = '1';
         $persona->persona_id_created_at=$persona_id;
         $persona->save();
+
+
 
         DB::table('personas_privilegios_sucursales')->insert(
             array(
@@ -744,5 +757,44 @@ class Persona extends Model
                 ->first();
 
         return $sql;
+    }
+
+    public static function ListDistrito($r)
+    {
+        $sql=DB::table('mat_ubicacion_distrito as di')
+            ->select('di.id','di.distrito','di.provincia_id'
+            ,'pr.region_id','pr.provincia','r.region',
+            DB::raw('CONCAT(pr.provincia," | ",r.region) as detalle'))
+            ->join('mat_ubicacion_provincia AS pr',function($join){
+                $join->on('di.provincia_id','=','pr.id')
+                ->where('pr.estado','=',1);
+            })
+            ->join('mat_ubicacion_region AS r',function($join){
+                $join->on('pr.region_id','=','r.id')
+                ->where('r.estado','=',1);
+            })
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $phrase=trim($r->phrase);
+                        if( $phrase !='' ){
+                            $dphrase= explode("|",$phrase);
+                            $dphrase[0]=trim($dphrase[0]);
+                            $query->where('di.distrito','like','%'.$dphrase[0].'%');
+                            if( count($dphrase)>1 AND trim($dphrase[1])!='' ){
+                                $dphrase[1]=trim($dphrase[1]);
+                                $query->where('pr.provincia','like','%'.$dphrase[1].'%');
+                            }
+                            if( count($dphrase)>2 AND trim($dphrase[2])!='' ){
+                                $dphrase[2]=trim($dphrase[2]);
+                                $query->where('r.region','like','%'.$dphrase[2].'%');
+                            }
+                        }
+                    }
+                }
+            )
+            ->where('di.estado','=','1');
+        $result = $sql->get();
+        return $result;
     }
 }

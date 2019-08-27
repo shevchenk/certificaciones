@@ -422,6 +422,9 @@ var masterG ={
         $(nombre).val(files[0].name);
         console.log(files[0].name);
     },
+    Limpiar: function(ids){ 
+      $(ids).val('');
+    }
 }
 
 var msjG = {

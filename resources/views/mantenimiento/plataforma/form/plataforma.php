@@ -55,6 +55,37 @@
                     </div>
                     <div class="col-sm-12 panel">
                         <hr>
+                        <div class="panel-heading bg-info"><center>REFERENCIA DEL VISITANTE</center></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <label>Distrito Dirección:</label>
+                            <input type="hidden" class="mant" id="txt_distrito_id_dir" name="txt_distrito_id_dir">
+                            <input type="hidden" class="mant" id="txt_provincia_id_dir" name="txt_provincia_id_dir">
+                            <input type="hidden" class="mant" id="txt_region_id_dir" name="txt_region_id_dir">
+                            <div id="txt_distrito_dir_ico" class="has-error has-feedback">
+                                <input type="text" class="form-control" onblur="masterG.Limpiar('#txt_distrito_id_dir,#txt_provincia_id_dir,#txt_region_id_dir,#txt_provincia_dir,#txt_region_dir');" id="txt_distrito_dir" placeholder="Distrito Dirección">
+                                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Provincia:</label>
+                            <input type="text" disabled class="form-control" id="txt_provincia_dir" placeholder="Provincia">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Región:</label>
+                            <input type="text" disabled class="form-control" id="txt_region_dir" placeholder="Región">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <label>Referencia:</label>
+                            <textarea class="form-control" id="txt_referencia_dir" name="txt_referencia_dir" placeholder="Referencia">
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 panel">
+                        <hr>
                         <div class="panel-heading bg-info"><center>PREFERENCIAS DEL VISITANTE</center></div>
                     </div>
                     <div class="col-sm-12"><!--INICIO DE COL SM 12-->

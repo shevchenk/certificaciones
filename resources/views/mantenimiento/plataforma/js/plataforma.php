@@ -13,6 +13,49 @@ telefono:"",
 celular:"",
 fecha_nacimiento:"",
 estado:1}; // Datos Globales
+
+var DistritoDirOpciones = {
+    placeholder: 'Distrito',
+    url: "AjaxDinamic/Mantenimiento.PersonaEM@ListDistrito",
+    listLocation: "data",
+    getValue: "distrito",
+    ajaxSettings: { dataType: "json", method: "POST", data: {},
+        success: function(r) {
+            if(r.data.length==0){ 
+                msjG.mensaje('warning',$("#ModalPersonaForm #txt_distrito_dir").val()+' <b>sin resultados</b>',6000);
+            }
+        }, 
+    },
+    preparePostData: function(data) {
+        data.phrase = $("#ModalPersonaForm #txt_distrito_dir").val();
+        return data;
+    },
+    list: {
+        onClickEvent: function() {
+            var value = $("#ModalPersonaForm #txt_distrito_dir").getSelectedItemData().id;
+            var value2 = $("#ModalPersonaForm #txt_distrito_dir").getSelectedItemData().provincia_id;
+            var value3 = $("#ModalPersonaForm #txt_distrito_dir").getSelectedItemData().region_id;
+            var value4 = $("#ModalPersonaForm #txt_distrito_dir").getSelectedItemData().provincia;
+            var value5 = $("#ModalPersonaForm #txt_distrito_dir").getSelectedItemData().region;
+            $("#ModalPersonaForm #txt_distrito_id_dir").val(value).trigger("change");
+            $("#ModalPersonaForm #txt_provincia_id_dir").val(value2).trigger("change");
+            $("#ModalPersonaForm #txt_region_id_dir").val(value3).trigger("change");
+            $("#ModalPersonaForm #txt_provincia_dir").val(value4).trigger("change");
+            $("#ModalPersonaForm #txt_region_dir").val(value5).trigger("change");
+            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        onLoadEvent: function() {
+            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
+    },
+    template: {
+        type: "description",
+        fields: {
+            description: "detalle"
+        }
+    },
+    adjustWidth:false,
+};
 $(document).ready(function() {
     $(".fechas").val('');
     $(".fechas").datetimepicker({
@@ -37,15 +80,18 @@ $(document).ready(function() {
     AjaxPersona.Cargar(HTMLCargarPersona);
     AjaxPersona.CargarSucursal(SlctCargarSucursal);
     AjaxPersona.CargarMedioPublicitario(SlctCargarMedioPublicitario);
+    $("#ModalPersonaForm #txt_distrito_dir").easyAutocomplete(DistritoDirOpciones);
     $("#PersonaForm #TablePersona select").change(function(){ AjaxPersona.Cargar(HTMLCargarPersona); });
     $("#PersonaForm #TablePersona input").blur(function(){ AjaxPersona.Cargar(HTMLCargarPersona); });
 
     $('#ModalPersona').on('shown.bs.modal', function (event) {
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
+            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
             $("#ModalPersonaForm").append("<input type='hidden' value='"+PersonaG.id+"' name='id'>");
         }
 
@@ -65,6 +111,13 @@ $(document).ready(function() {
         $('#ModalPersonaForm #slct_sucursal').val( PersonaG.sucursal_id );
         $('#ModalPersonaForm #txt_hora_inicio').val( PersonaG.hora_inicio );
         $('#ModalPersonaForm #txt_hora_final').val( PersonaG.hora_final );
+        $('#ModalPersonaForm #txt_region_id_dir').val( PersonaG.region_id_dir );
+        $('#ModalPersonaForm #txt_provincia_id_dir').val( PersonaG.provincia_id_dir );
+        $('#ModalPersonaForm #txt_distrito_id_dir').val( PersonaG.distrito_id_dir );
+        $('#ModalPersonaForm #txt_region_dir').val( PersonaG.region_dir );
+        $('#ModalPersonaForm #txt_provincia_dir').val( PersonaG.provincia_dir );
+        $('#ModalPersonaForm #txt_distrito_dir').val( PersonaG.distrito_dir );
+        $('#ModalPersonaForm #txt_referencia_dir').val( PersonaG.referencia_dir );
         $("#ModalPersona select").selectpicker('refresh');
         $('#ModalPersonaForm #slct_dia').selectpicker( 'val',PersonaG.dia.split(",") );
         $('#ModalPersonaForm #txt_nombre').focus();
@@ -148,6 +201,13 @@ AgregarEditar=function(val,id){
     PersonaG.dia='';
     PersonaG.hora_inicio='';
     PersonaG.hora_final='';
+    PersonaG.region_id_dir='';
+    PersonaG.provincia_id_dir='';
+    PersonaG.distrito_id_dir='';
+    PersonaG.region_dir='';
+    PersonaG.provincia_dir='';
+    PersonaG.distrito_dir='';
+    PersonaG.referencia_dir='';
 
     if( val==0 ){
 
@@ -168,6 +228,13 @@ AgregarEditar=function(val,id){
         PersonaG.dia=$("#TablePersona #trid_"+id+" .dia").val();
         PersonaG.hora_inicio=$("#TablePersona #trid_"+id+" .hora_inicio").val();
         PersonaG.hora_final=$("#TablePersona #trid_"+id+" .hora_final").val();
+        PersonaG.region_id_dir=$("#TablePersona #trid_"+id+" .region_id_dir").val();
+        PersonaG.provincia_id_dir=$("#TablePersona #trid_"+id+" .provincia_id_dir").val();
+        PersonaG.distrito_id_dir=$("#TablePersona #trid_"+id+" .distrito_id_dir").val();
+        PersonaG.region_dir=$("#TablePersona #trid_"+id+" .region_dir").val();
+        PersonaG.provincia_dir=$("#TablePersona #trid_"+id+" .provincia_dir").val();
+        PersonaG.distrito_dir=$("#TablePersona #trid_"+id+" .distrito_dir").val();
+        PersonaG.referencia_dir=$("#TablePersona #trid_"+id+" .referencia_dir").val();
       
     }
     $('#ModalPersona').modal('show');
@@ -247,6 +314,13 @@ HTMLCargarPersona=function(result){
             "<input type='hidden' class='dia' value='"+r.frecuencia+"'>"+
             "<input type='hidden' class='hora_inicio' value='"+r.hora_inicio+"'>"+
             "<input type='hidden' class='hora_final' value='"+r.hora_final+"'>"+
+            "<input type='hidden' class='region_id_dir' value='"+$.trim(r.region_id_dir)+"'>"+
+            "<input type='hidden' class='region_dir' value='"+$.trim(r.region_dir)+"'>"+
+            "<input type='hidden' class='provincia_id_dir' value='"+$.trim(r.provincia_id_dir)+"'>"+
+            "<input type='hidden' class='provincia_dir' value='"+$.trim(r.provincia_dir)+"'>"+
+            "<input type='hidden' class='distrito_id_dir' value='"+$.trim(r.distrito_id_dir)+"'>"+
+            "<input type='hidden' class='distrito_dir' value='"+$.trim(r.distrito_dir)+"'>"+
+            "<input type='hidden' class='referencia_dir' value='"+$.trim(r.referencia_dir)+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
             "</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';

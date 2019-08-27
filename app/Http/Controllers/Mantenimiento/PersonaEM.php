@@ -394,4 +394,15 @@ class PersonaEM extends Controller
             return response()->json($return);
         }
     }
+
+    public function ListDistrito(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Persona::ListDistrito($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
 }
