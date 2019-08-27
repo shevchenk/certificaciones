@@ -71,14 +71,14 @@
                                         <label><h4>Fuente</h4></label>
                                         <input type="text" class="form-control" name="txt_fuente" id="txt_fuente" placeholder="Fuente" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
                                     </th>
-                                    <th>
+                                    <!--th>
                                         <label><h4>Tipo</h4></label>
                                         <input type="text" class="form-control" name="txt_tipo" id="txt_tipo" placeholder="Tipo" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
                                     </th>
                                     <th>
                                         <label><h4>Empresa</h4></label>
                                         <input type="text" class="form-control" name="txt_empresa" id="txt_empresa" placeholder="Empresa" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 100px;">
-                                    </th>
+                                    </th-->
                                     <th>
                                         <label><h4>Ultimo Estado</h4></label>
                                         <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre',1);" style="width: 130px;">
@@ -126,8 +126,8 @@
                                   <th>Fecha Registro</th>
                                   <th>Fecha Distribuida</th>
                                   <th>Fuente</th>
-                                  <th>Tipo</th>
-                                  <th>Empresa</th>
+                                  <!--th>Tipo</th>
+                                  <th>Empresa</th-->
                                   <th>Último Estado</th>
                                   <th>Vendedor</th>
                                   <th>Carrera</th>
