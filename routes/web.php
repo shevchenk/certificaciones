@@ -11,27 +11,22 @@ Route::resource('apifc', 'Proceso\ApiPR',
     ['only' => ['index', 'store', 'update', 'destroy', 'show']]
 );
 
-Route::get('/email/{email}', function($email){
+
+//Route::get('/email/{ruta}','SecureAccess\PersonaSA@Menu');
+use App\Mail\EmailSend;
+Route::get('/mail/{email}', function($email){
     $email='jorgeshevchenk@gmail.com';
         $emailseguimiento='jorgeshevchenk1988@gmail.com';
         $texto='.::Inscripción de Seminarios::.';
         $parametros=array(
             'id'=>'123',
+            'subject'=>$texto,
         );
-        try{
-        Mail::send('email.matricula', $parametros , 
-            function($message) use( $email,$emailseguimiento,$texto ) {
-                $message
-                ->from('jorgeshevchenk@gmail.com','Curso Laravel')
-                ->to($email)
-                ->cc($emailseguimiento)
-                ->subject($texto);
-            }
-        );
-        }
-        catch(exception $e){
-            echo $e;
-        }
+        //try{
+        Mail::to($email)
+        ->cc($emailseguimiento)
+        ->send( new EmailSend($parametros) );
+
     echo "Mensaje Enviado :V";
 });
 

@@ -1,3 +1,4 @@
+@component('mail::message')
 <p><strong>Ficha de Inscripci&oacute;n a Seminarios</strong></p>
 <p><strong>Ficha N&deg; 8783</strong></p>
 <p><strong>&nbsp;</strong></p>
@@ -84,3 +85,4 @@
 <p><strong>Mg. Juan Luna G&aacute;lvez</strong></p>
 <p><strong>Director</strong></p>
 <p><strong>Direcci&oacute;n de Extensi&oacute;n Universitaria y Responsabilidad Social</strong></p>
+@endcomponent
