@@ -160,11 +160,11 @@ HTMLCargar=function(result){ //INICIO HTML
             color=bgcolor[5];
         }
         html+="</td>"+
-                "<td>"+'<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a>'+"</td>"+
+                "<td bgcolor='"+color+"' >"+'<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a>'+"</td>"+
                 "<td bgcolor='"+color+"' class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
-                "<td class='paterno'>"+r.paterno+"</td>"+
-                "<td class='materno'>"+r.materno+"</td>"+
-                "<td class='nombre'>"+r.nombre+"</td>"+
+                "<td bgcolor='"+color+"' class='paterno'>"+r.paterno+"</td>"+
+                "<td bgcolor='"+color+"' class='materno'>"+r.materno+"</td>"+
+                "<td bgcolor='"+color+"' class='nombre'>"+r.nombre+"</td>"+
                 "<td class='celular'>"+$.trim(r.celular)+"</td>"+
                 "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
                 "<td class='fecha_registro'>"+$.trim(r.fecha_registro)+"</td>"+
