@@ -152,9 +152,16 @@ HTMLCargar=function(result){ //INICIO HTML
 
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
         html+="<tr id='trid_"+r.id+"' ondblclick='AbrirLlamada("+r.id+");' style='cursor: pointer;'>";
-   
+        color=bgcolor[0];
+        if($.trim(r.peso)*1>0 && $.trim(r.peso)*1<6){
+            color=bgcolor[r.peso];
+        }
+        else if($.trim(r.peso)*1>5){
+            color=bgcolor[5];
+        }
         html+="</td>"+
                 "<td>"+'<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a>'+"</td>"+
+                "<td bgcolor='"+color+"' class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
                 "<td class='nombre'>"+r.nombre+"</td>"+
@@ -165,7 +172,6 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='fuente'>"+$.trim(r.fuente)+"</td>"+
                 /*"<td class='tipo'>"+$.trim(r.tipo)+"</td>"+
                 "<td class='empresa'>"+$.trim(r.empresa)+"</td>"+*/
-                "<td class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
                 "<td class='vendedor'>"+$.trim(r.vendedor)+"</td>"+
                 "<td class='carrera'>"+r.carrera+"</td>"+
                 "<td class='email'>"+$.trim(r.email)+"</td>";
@@ -356,6 +362,7 @@ HTMLRegistrarLlamada=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
         $('#ModalLlamada').modal('hide');
+        AjaxEspecialidad.Cargar(HTMLCargar);
         AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
     }
     else{

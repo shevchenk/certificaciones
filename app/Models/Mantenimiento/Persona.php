@@ -369,7 +369,7 @@ class Persona extends Model
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
             'p.celular','p.password','p.estado','p.empresa','p.fuente','p.tipo','tl.tipo_llamada','p.fecha_registro',
             DB::raw(' (SELECT count(id) FROM mat_matriculas AS m WHERE m.persona_id=p.id AND m.estado=1) AS matricula,
-            CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor'))
+            CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor, tl.peso'))
             ->where('p.id','!=',1)
             ->where( 
                 function($query) use ($r){
@@ -477,7 +477,10 @@ class Persona extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('p.paterno','asc')->paginate(10);
+        $result = $sql->orderBy('tl.peso','asc')
+                    ->orderBy('tl.tipo_llamada','asc')
+                    ->orderBy('pd.fecha_distribucion','desc')
+                    ->paginate(10);
         return $result;
     }
 
