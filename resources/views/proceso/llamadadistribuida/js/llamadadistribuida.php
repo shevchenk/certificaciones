@@ -149,7 +149,7 @@ ActivarDetalle=function(){
 HTMLCargar=function(result){ //INICIO HTML
     var html="";
     $('#TableDatos').DataTable().destroy();
-
+    bgcolor=["","#9BFF04","#F0D720","#FF8D10","#FF8D10","#FF4242"];
     $.each(result.data.data,function(index,r){ //INICIO FUNCTION
         html+="<tr id='trid_"+r.id+"' ondblclick='AbrirLlamada("+r.id+");' style='cursor: pointer;'>";
         color=bgcolor[0];
