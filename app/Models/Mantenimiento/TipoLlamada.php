@@ -74,7 +74,15 @@ class TipoLlamada extends Model
     public static function ListTipoLlamada($r)
     {  
         $sql=TipoLlamada::select('id','tipo_llamada','obs','estado')
-            ->where('estado','=','1');
+            ->where('estado','=','1')
+            ->where(function($query) use ($r){
+                if( $r->has('plataforma') ){
+                    $query->where('plataforma',1);
+                }
+                else{
+                    $query->where('plataforma',0);
+                }
+            });
         $result = $sql->orderBy('tipo_llamada','asc')->get();
         return $result;
     }

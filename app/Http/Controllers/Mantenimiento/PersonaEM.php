@@ -331,9 +331,22 @@ class PersonaEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
             
             if (!$validator->fails()) {
-                Persona::runNewVisitante($r);
+                $id=Auth::user()->id;
+                $trabajador=    Trabajador::where('persona_id',$id)
+                                ->where('empresa_id', Auth::user()->empresa_id)
+                                ->first();
+                $trabajadorid=0;
                 $return['rst'] = 1;
-                $return['msj'] = 'Registro creado';
+                $return['msj'] = "Registro realizado correctamente";
+                if( isset($trabajador->id) ){
+                    $trabajadorid=$trabajador->id;
+                    $r['teleoperadora']=$trabajadorid;
+                    Persona::runNewVisitante($r);
+                }
+                else{
+                    $return['rst'] = 2;
+                    $return['msj'] = "Ud, no esta registrado como Trabajador";
+                }
             }else{
                 $return['rst'] = 2;
                 $return['msj'] = $validator->errors()->all()[0];

@@ -128,6 +128,40 @@
                             <input type="text" class="form-control fechas" id="txt_hora_final" name="txt_hora_final" readonly="" >
                         </div>
                     </div>
+                    <div class="col-sm-12 panel">
+                        <hr>
+                        <div class="panel-heading bg-info"><center>ESTADO DEL VISITANTE</center></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Estado:</label>
+                                <select class="selectpicker form-control show-menu-arrow" onchange="ActivarComentario()" id="slct_tipo_llamada" name="slct_tipo_llamada">
+                                    <option value="">.::Seleccione::.</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 tipo1" style="display: none;">
+                            <div class="form-group">
+                                <label class="fechadinamica">Fecha:</label>
+                                <input class="form-control fecha" type="text" id="txt_fechas" name="txt_fechas" value="" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-md-5 tipo2" style="display: none;">
+                            <label>Sub Estado:</label>
+                                <select class="selectpicker form-control show-menu-arrow" onchange="ActivarDetalle()" id="slct_sub_tipo_llamada" name="slct_sub_tipo_llamada">
+                                    <option value="">.::Seleccione::.</option>
+                                </select>
+                        </div>
+                        <div class="col-md-7 tipo2" style="display: none;">
+                            <label>Detalle Sub Estado:</label>
+                                <select class="selectpicker form-control show-menu-arrow" id="slct_detalle_tipo_llamada" name="slct_detalle_tipo_llamada">
+                                    <option value="">.::Seleccione::.</option>
+                                </select>
+                        </div>
+                    </div>
                 </form>
                 </div>
             </div>

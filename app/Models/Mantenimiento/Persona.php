@@ -5,13 +5,12 @@ namespace App\Models\Mantenimiento;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use App\Models\Proceso\Visita;
 use DB;
 
 class Persona extends Model
 {
     protected   $table = 'personas';
-
-      
 
     public static function runEditStatus($r)
     {
@@ -264,12 +263,26 @@ class Persona extends Model
             ->leftJoin('mat_ubicacion_region AS r','r.id','=','p.region_id_dir')
             ->leftJoin('mat_ubicacion_provincia AS pr','pr.id','=','p.provincia_id_dir')
             ->leftJoin('mat_ubicacion_distrito AS d','d.id','=','p.distrito_id_dir')
+            ->leftJoin('visitas AS v', function($join){
+                $join->on('v.persona_id','=','p.id')
+                ->where('v.ultimo_registro',1);
+            })
+            ->leftJoin('tipo_llamadas AS tl', function($join){
+                $join->on('tl.id','=','v.tipo_llamada_id');
+            })
+            ->leftJoin('tipo_llamadas_sub AS tls', function($join){
+                $join->on('tls.id','=','v.tipo_llamada_sub_id');
+            })
+            ->leftJoin('tipo_llamadas_sub_detalle AS tlsd', function($join){
+                $join->on('tlsd.id','=','v.tipo_llamada_sub_detalle_id');
+            })
             ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','p.carrera','p.fuente','p.empresa',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono',
             'p.celular','p.password','p.estado','p.frecuencia','p.medio_publicitario_id','p.sucursal_id',
             'p.hora_inicio','p.hora_final','p.region_id_dir','p.provincia_id_dir','p.distrito_id_dir',
             'r.region AS region_dir','pr.provincia AS provincia_dir','d.distrito AS distrito_dir',
-            'p.referencia_dir')
+            'p.referencia_dir','v.tipo_llamada_id','v.tipo_llamada_sub_id','v.tipo_llamada_sub_detalle_id',
+            'v.fechas')
             ->where( 
                 function($query) use ($r){
                     if( Auth::user()->id!=1 ){
@@ -695,6 +708,33 @@ class Persona extends Model
         $persona->estado = '1';
         $persona->persona_id_created_at=$persona_id;
         $persona->save();
+
+        DB::table('visitas')
+        ->where('persona_id','=', $persona->id)
+        ->where('ultimo_registro',1)
+        ->update([
+            'ultimo_registro' => 0,
+            'persona_id_updated_at' => Auth::user()->id,
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        $llamada= new Visita;
+        $llamada->trabajador_id=$r->teleoperadora;
+        $llamada->persona_id=$persona->id;
+
+        $llamada->tipo_llamada_id=$r->tipo_llamada;
+
+        if( Input::has('fechas') AND trim( $r->fechas )!='' ){
+            $llamada->fechas=$r->fechas;
+        }
+
+        if( Input::has('detalle_tipo_llamada') AND trim( $r->detalle_tipo_llamada )!='' ){
+            $llamada->tipo_llamada_sub_id=$r->sub_tipo_llamada;
+            $llamada->tipo_llamada_sub_detalle_id=$r->detalle_tipo_llamada;
+        }
+
+        $llamada->persona_id_created_at=Auth::user()->id;
+        $llamada->save();
 
 
 

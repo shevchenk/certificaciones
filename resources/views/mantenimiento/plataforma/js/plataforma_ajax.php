@@ -36,6 +36,21 @@ var AjaxPersona={
         url='AjaxDinamic/Mantenimiento.MedioPublicitarioMA@ListMedioPublicitario';
         data={};
         masterG.postAjax(url,data,evento,null,false);
-    }
+    },
+    ListarTipoLlamada:function(evento){
+        url='AjaxDinamic/Mantenimiento.TipoLlamadaMA@ListTipoLlamada';
+        data={plataforma:1};
+        masterG.postAjax(url,data,evento);
+    },
+    ListarSubTipoLlamada:function(evento,id){
+        url='AjaxDinamic/Mantenimiento.SubTipoLlamadaMA@ListSubTipoLlamada';
+        data={tipo_llamada_id:id};
+        masterG.postAjax(url,data,evento);
+    },
+    ListarDetalleTipoLlamada:function(evento,id){
+        url='AjaxDinamic/Mantenimiento.DetalleTipoLlamadaMA@ListDetalleTipoLlamada';
+        data={tipo_llamada_sub_id:id};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

@@ -69,6 +69,16 @@ $(document).ready(function() {
         todayBtn: false
     });
 
+    $(".fecha").datetimepicker({
+        format: "yyyy-mm-dd",
+        language: 'es',
+        showMeridian: true,
+        time:true,
+        minView:2,
+        autoclose: true,
+        todayBtn: false
+    });
+
     $("#TablePersona").DataTable({
         "paging": true,
         "lengthChange": false,
@@ -80,6 +90,7 @@ $(document).ready(function() {
     AjaxPersona.Cargar(HTMLCargarPersona);
     AjaxPersona.CargarSucursal(SlctCargarSucursal);
     AjaxPersona.CargarMedioPublicitario(SlctCargarMedioPublicitario);
+    AjaxPersona.ListarTipoLlamada(SlctListarTipoLlamada);
     $("#ModalPersonaForm #txt_distrito_dir").easyAutocomplete(DistritoDirOpciones);
     $("#PersonaForm #TablePersona select").change(function(){ AjaxPersona.Cargar(HTMLCargarPersona); });
     $("#PersonaForm #TablePersona input").blur(function(){ AjaxPersona.Cargar(HTMLCargarPersona); });
@@ -120,6 +131,11 @@ $(document).ready(function() {
         $('#ModalPersonaForm #txt_referencia_dir').val( PersonaG.referencia_dir );
         $("#ModalPersona select").selectpicker('refresh');
         $('#ModalPersonaForm #slct_dia').selectpicker( 'val',PersonaG.dia.split(",") );
+        $('#ModalPersonaForm #slct_tipo_llamada').selectpicker( 'val',PersonaG.tipo_llamada );
+        $('#ModalPersonaForm #slct_sub_tipo_llamada').selectpicker( 'val',PersonaG.tipo_llamada_sub );
+        $('#ModalPersonaForm #slct_detalle_tipo_llamada').selectpicker( 'val',PersonaG.tipo_llamada_sub_detalle );
+        $('#ModalPersonaForm #txt_fechas').val( PersonaG.fechas );
+        ActivarComentario();
         $('#ModalPersonaForm #txt_nombre').focus();
     });
 
@@ -130,8 +146,71 @@ $(document).ready(function() {
     });
 });
 
+ActivarComentario=function(){
+    codigo=$("#slct_tipo_llamada option:selected").attr('data-obs');
+    id=$("#slct_tipo_llamada").val();
+    $('.tipo1, .tipo2').css('display','none');
+
+    if(codigo==1 || codigo==2){
+        $('.tipo1').css('display','block');
+        $('.fechadinamica').text('Fecha a Volver a Llamar');
+        if( codigo==1 ){
+            $('.fechadinamica').text('Fecha a Inscribirse');
+        }
+    }
+    else if(codigo==3){
+        $('.tipo2').css('display','block');
+        AjaxPersona.ListarSubTipoLlamada(SlctListarSubTipoLlamada,id);
+    }
+}
+
+ActivarDetalle=function(){
+    id=$("#slct_sub_tipo_llamada").val();
+    AjaxPersona.ListarDetalleTipoLlamada(SlctListarDetalleTipoLlamada,id*1);
+}
+
+SlctListarTipoLlamada=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option data-obs='"+r.obs+"' value="+r.id+">"+r.tipo_llamada+"</option>";
+    });
+    $("#ModalPersonaForm #slct_tipo_llamada").html(html); 
+    $("#ModalPersonaForm #slct_tipo_llamada").selectpicker('refresh');
+
+};
+
+SlctListarSubTipoLlamada=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        selected='';
+        if( PersonaG.tipo_llamada_sub!='' && PersonaG.tipo_llamada_sub==r.id ){
+            selected='selected';
+        }
+        html+="<option value="+r.id+" "+selected+">"+r.tipo_llamada_sub+"</option>";
+    });
+    $("#ModalPersonaForm #slct_sub_tipo_llamada").html(html); 
+    $("#ModalPersonaForm #slct_sub_tipo_llamada").selectpicker('refresh');
+        if( PersonaG.tipo_llamada_sub!='' ){
+            ActivarDetalle();
+        }
+};
+
+SlctListarDetalleTipoLlamada=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        selected='';
+        if( PersonaG.tipo_llamada_sub_detalle!='' && PersonaG.tipo_llamada_sub_detalle==r.id ){
+            selected='selected';
+        }
+        html+="<option value="+r.id+" "+selected+">"+r.tipo_llamada_sub_detalle+"</option>";
+    });
+    $("#ModalPersonaForm #slct_detalle_tipo_llamada").html(html); 
+    $("#ModalPersonaForm #slct_detalle_tipo_llamada").selectpicker('refresh');
+};
+
 ValidaForm=function(){
     var r=true;
+    codigo=$("#slct_tipo_llamada option:selected").attr('data-obs');
     if( $.trim( $("#ModalPersonaForm #txt_nombre").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Nombre',4000);
@@ -177,6 +256,23 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Hora Final',4000);
     }
+
+    else if( $.trim( $("#ModalPersonaForm #slct_tipo_llamada").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Estado',4000);
+    }
+    else if( (codigo==1 || codigo==2) && $.trim( $("#ModalPersonaForm #txt_fechas").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione '+$('.fechadinamica').text(),4000);
+    }
+    else if( codigo==3 && $.trim( $("#ModalPersonaForm #slct_sub_tipo_llamada").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Sub Estado',4000);
+    }
+    else if( codigo==3 && $.trim( $("#ModalPersonaForm #slct_detalle_tipo_llamada").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Detalle Sub Estado',4000);
+    }
    
     return r;
 }
@@ -208,6 +304,10 @@ AgregarEditar=function(val,id){
     PersonaG.provincia_dir='';
     PersonaG.distrito_dir='';
     PersonaG.referencia_dir='';
+    PersonaG.tipo_llamada='';
+    PersonaG.tipo_llamada_sub='';
+    PersonaG.tipo_llamada_sub_detalle='';
+    PersonaG.fechas='';
 
     if( val==0 ){
 
@@ -235,6 +335,10 @@ AgregarEditar=function(val,id){
         PersonaG.provincia_dir=$("#TablePersona #trid_"+id+" .provincia_dir").val();
         PersonaG.distrito_dir=$("#TablePersona #trid_"+id+" .distrito_dir").val();
         PersonaG.referencia_dir=$("#TablePersona #trid_"+id+" .referencia_dir").val();
+        PersonaG.tipo_llamada=$("#TablePersona #trid_"+id+" .tipo_llamada").val();
+        PersonaG.tipo_llamada_sub=$("#TablePersona #trid_"+id+" .tipo_llamada_sub").val();
+        PersonaG.tipo_llamada_sub_detalle=$("#TablePersona #trid_"+id+" .tipo_llamada_sub_detalle").val();
+        PersonaG.fechas=$("#TablePersona #trid_"+id+" .fechas").val();
       
     }
     $('#ModalPersona').modal('show');
@@ -321,6 +425,10 @@ HTMLCargarPersona=function(result){
             "<input type='hidden' class='distrito_id_dir' value='"+$.trim(r.distrito_id_dir)+"'>"+
             "<input type='hidden' class='distrito_dir' value='"+$.trim(r.distrito_dir)+"'>"+
             "<input type='hidden' class='referencia_dir' value='"+$.trim(r.referencia_dir)+"'>"+
+            "<input type='hidden' class='tipo_llamada' value='"+$.trim(r.tipo_llamada_id)+"'>"+
+            "<input type='hidden' class='tipo_llamada_sub' value='"+$.trim(r.tipo_llamada_sub_id)+"'>"+
+            "<input type='hidden' class='tipo_llamada_sub_detalle' value='"+$.trim(r.tipo_llamada_sub_detalle_id)+"'>"+
+            "<input type='hidden' class='fechas' value='"+$.trim(r.fechas)+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
             "</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
