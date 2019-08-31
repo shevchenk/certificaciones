@@ -271,7 +271,7 @@ class Reporte extends Model
             ->leftJoin('mat_ubicacion_region AS r','r.id','=','p.region_id_dir')
             ->leftJoin('mat_ubicacion_provincia AS pr','pr.id','=','p.provincia_id_dir')
             ->leftJoin('mat_ubicacion_distrito AS d','d.id','=','p.distrito_id_dir')
-            ->Join('visitas AS v', function($join){
+            ->leftJoin('visitas AS v', function($join){
                 $join->on('v.persona_id','=','p.id')
                 ->where('v.ultimo_registro',1);
             })
@@ -284,7 +284,7 @@ class Reporte extends Model
             ->leftJoin('tipo_llamadas_sub_detalle AS tlsd', function($join){
                 $join->on('tlsd.id','=','v.tipo_llamada_sub_detalle_id');
             })
-            ->leftJoin('medios_publicitarios AS mp', function($join){
+            ->Join('medios_publicitarios AS mp', function($join){
                 $join->on('mp.id','=','p.medio_publicitario_id');
             })
             ->leftJoin('sucursales AS s', function($join){
