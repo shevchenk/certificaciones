@@ -263,6 +263,100 @@ class Reporte extends Model
         return $result;
     }
 
+    public static function runLoadVisita($r)
+    {
+        $id=Auth::user()->id;
+        $sql=DB::table('personas AS p')
+            ->leftJoin('personas AS p2','p2.id','=','p.persona_id_created_at')
+            ->leftJoin('mat_ubicacion_region AS r','r.id','=','p.region_id_dir')
+            ->leftJoin('mat_ubicacion_provincia AS pr','pr.id','=','p.provincia_id_dir')
+            ->leftJoin('mat_ubicacion_distrito AS d','d.id','=','p.distrito_id_dir')
+            ->Join('visitas AS v', function($join){
+                $join->on('v.persona_id','=','p.id')
+                ->where('v.ultimo_registro',1);
+            })
+            ->leftJoin('tipo_llamadas AS tl', function($join){
+                $join->on('tl.id','=','v.tipo_llamada_id');
+            })
+            ->leftJoin('tipo_llamadas_sub AS tls', function($join){
+                $join->on('tls.id','=','v.tipo_llamada_sub_id');
+            })
+            ->leftJoin('tipo_llamadas_sub_detalle AS tlsd', function($join){
+                $join->on('tlsd.id','=','v.tipo_llamada_sub_detalle_id');
+            })
+            ->leftJoin('medios_publicitarios AS mp', function($join){
+                $join->on('mp.id','=','p.medio_publicitario_id');
+            })
+            ->leftJoin('sucursales AS s', function($join){
+                $join->on('s.id','=','p.sucursal_id');
+            })
+            ->select('p.id','p.created_at','p.paterno','p.materno','p.nombre','p.dni','p.celular','p.email'
+            ,'d.distrito','pr.provincia','r.region','p.referencia_dir AS referencia'
+            ,'s.sucursal','mp.medio_publicitario','p.carrera','p.frecuencia','p.hora_inicio','p.hora_final'
+            ,'tl.tipo_llamada','tls.tipo_llamada_sub','tlsd.tipo_llamada_sub_detalle'
+            ,'v.fechas',DB::raw('CONCAT(p2.paterno," ",p2.materno,", ",p2.nombre) AS registro'))
+            ->where( 
+                function($query) use ($r){
+                    if( Auth::user()->id!=1 ){
+                        $query->where('p.id','!=',1);
+                    }
+                    if( $r->has("paterno") ){
+                        $paterno=trim($r->paterno);
+                        if( $paterno !='' ){
+                            $query->where('p.paterno','like','%'.$paterno.'%');
+                        }
+                    }
+                    if( $r->has("materno") ){
+                        $materno=trim($r->materno);
+                        if( $materno !='' ){
+                            $query->where('p.materno','like','%'.$materno.'%');
+                        }
+                    }
+                    if( $r->has("nombre") ){
+                        $nombre=trim($r->nombre);
+                        if( $nombre !='' ){
+                            $query->where('p.nombre','like','%'.$nombre.'%');
+                        }
+                    }
+                    if( $r->has("dni") ){
+                        $dni=trim($r->dni);
+                        if( $dni !='' ){
+                            $query->where('p.dni','like','%'.$dni.'%');
+                        }
+                    }
+                    if( $r->has("email") ){
+                        $email=trim($r->email);
+                        if( $email !='' ){
+                            $query->where('p.email','like','%'.$email.'%');
+                        }
+                    }
+                    if( $r->has("celular") ){
+                        $celular=trim($r->celular);
+                        if( $celular !='' ){
+                            $query->where('p.celular','like','%'.$celular.'%');
+                        }
+                    }
+                    if( $r->has("carrera") ){
+                        $carrera=trim($r->carrera);
+                        if( $carrera !='' ){
+                            $query->where('p.carrera','like','%'.$carrera.'%');
+                        }
+                    }
+                    if( $r->has("created_at") ){
+                        $created_at=trim($r->created_at);
+                        if( $created_at !='' ){
+                            $query->whereRaw('DATE(p.created_at)=?',$created_at);
+                        }
+                    }
+                    if( $r->has("fecha_ini") AND $r->has('fecha_fin') ){
+                        $query ->whereBetween(DB::raw('DATE(p.created_at)'), array($r->fecha_ini,$r->fecha_fin));
+                    }
+                }
+            );
+        $result = $sql->orderBy('p.paterno','asc')->get();
+        return $result;
+    }
+
     public static function runExportPAECab($r)
     {
         $total=Reporte::runLoadTotalPAE($r);
@@ -1307,6 +1401,89 @@ class Reporte extends Model
         $r['max']=$estatico.chr($min);
 
         //dd($cabecantLetra);
+        return $r;
+    }
+
+    public static function runExportVisita($r)
+    {
+        $rsql= Reporte::runLoadVisita($r);
+
+        $length=array('A'=>5);
+        $pos=array(
+            5,20,15,15,15,15,15,20,
+            15,15,15,20,
+            15,15,25,20,10,10,
+            20,20,20,15,25
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array(
+            'DATOS DEL VISITANTE','PREFERENCIA DEL VISITANTE','ESTADO DEL VISITANTE'
+        );
+
+        $valIni=66;
+        $min2=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(10,5,4);
+        $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1');
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min2++;
+                $estaticoFin= chr($min2);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min2++;
+                    $estatico= chr($min2);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°','Fecha de Registro','Paterno','Materno','Nombre','DNI','Celular','Email',
+            'Distrito','Provincia','Región','Referencia',
+            'Sede de Registro','Medio Publicitario','Interesado en','Frecuencia','Hora Inicio','Hora Final',
+            'Estado','Sub Estado','Detalle Sub Estado','Fecha Programada','Persona Registro');
+        $campos=array('');
+
+        $r['data']=$rsql;
+        $r['campos']=$campos;
+        $r['cabecera']=$cabecera;
+        $r['length']=$length;
+        $r['cabeceraTit']=$cabeceraTit;
+        $r['lengthTit']=$lengthTit;
+        $r['colorTit']=$colorTit;
+        $r['lengthDet']=$lengthDet;
+        $r['max']=$estatico.chr($min); // Max. Celda en LETRA
         return $r;
     }
 }

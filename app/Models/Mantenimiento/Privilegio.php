@@ -69,7 +69,7 @@ class Privilegio extends Model
             ->where('privilegio_id', '=', $privilegio->id)
             ->where('opcion_id', '=', $opcion[$i])
             ->first();
-            if( count($privilegios_opciones)==0 ){
+            if( !isset($privilegios_opciones->id) ){
                 $privilegios_opciones = new PrivilegioOpcion;
                 $privilegios_opciones->opcion_id = $opcion[$i];
                 $privilegios_opciones->privilegio_id = $privilegio->id;
