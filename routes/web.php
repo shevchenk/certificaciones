@@ -15,7 +15,7 @@ Route::resource('apifc', 'Proceso\ApiPR',
 //Route::get('/email/{ruta}','SecureAccess\PersonaSA@Menu');
 use App\Mail\EmailSend;
 Route::get('/mail/{email}', function($email){
-    $email='jorgeshevchenk@gmail.com';
+    //$email='jorgeshevchenk@gmail.com';
         $emailseguimiento='jorgeshevchenk1988@gmail.com';
         $texto='.::Inscripción de Seminarios::.';
         $parametros=array(
@@ -23,10 +23,15 @@ Route::get('/mail/{email}', function($email){
             'subject'=>$texto,
         );
         //try{
-        Mail::to($email)
-        ->cc($emailseguimiento)
+        
+
+	Mail::to($email)
+        ->cc([$emailseguimiento])
         ->send( new EmailSend($parametros) );
 
+	var_dump(Mail::failures());
+
+    //var_dump($r);
     echo "Mensaje Enviado :V";
 });
 
