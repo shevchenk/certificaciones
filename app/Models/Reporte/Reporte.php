@@ -9,6 +9,20 @@ class Reporte extends Model
 {
     protected   $table = 'mat_promocion';
 
+    public static function CalcularAsignados( $r )
+    {
+        $fecha_ini= $r->fecha_ini;
+        $fecha_fin= $r->fecha_fin;
+        $sql="  SELECT COUNT(pc.id) total, SUM(IF(pc.persona_id_created_at=0,1,0)) sin_asignar
+                FROM personas_distribuciones pd
+                INNER JOIN personas_captadas pc ON pc.persona_id=pd.persona_id AND pc.estado=1
+                WHERE pd.estado=1 
+                AND pd.fecha_distribucion BETWEEN '$fecha_ini' AND '$fecha_fin'
+                AND pc.persona_id_created_at=0;";
+        $r= DB::select($sql);
+        return $r;
+    }
+
     public static function runLoadTotalPAE( $r ){
         $id=Auth::user()->id;
         $sql=DB::table('mat_matriculas AS mm')
