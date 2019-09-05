@@ -306,6 +306,7 @@ class Matricula extends Model
         }
         DB::commit();
 
+        $persona= DB::table('personas')->where('id',$r->persona_id)->first();
         $email=$persona->email;
         $emailseguimiento='jorgeshevchenk@gmail.com';
         $parametros=array(
