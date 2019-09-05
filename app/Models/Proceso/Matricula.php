@@ -310,7 +310,7 @@ class Matricula extends Model
         $emailseguimiento='jorgeshevchenk@gmail.com';
         $parametros=array(
             'id'=>'123',
-            'subject'=>'.::Bienvenido, inscripción realizada con éxito::.';,
+            'subject'=>'.::Bienvenido, inscripción realizada con éxito::.',
             'blade' => 'emails.inscripcion.inscripcion',
         );
 
