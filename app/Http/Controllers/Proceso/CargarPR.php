@@ -104,7 +104,7 @@ class CargarPR extends Controller
             $sql="  UPDATE interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final AND i.dni_final!=''
                     LEFT JOIN mat_matriculas m ON m.persona_id=p.id
-                    SET p.carrera=i.CARRERA, p.empresa=i.EMPRESA, p.fuente=i.FUENTE
+                    SET p.carrera=i.CARRERA, p.empresa=i.EMPRESA, p.fuente=i.FUENTE, p.email_externo= i.EMAIL
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
                     AND m.id IS NULL";
@@ -130,10 +130,10 @@ class CargarPR extends Controller
             DB::statement($sql);
 
             $sql="  INSERT INTO personas (`password`, empresa, fuente, tipo, fecha_registro
-                    , dni, paterno, materno, nombre, celular, email, distrito_domicilio
+                    , dni, paterno, materno, nombre, celular, email, email_externo, distrito_domicilio
                     , sede, carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
                     SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\", i.EMPRESA, i.FUENTE, i.TIPO, i.FECHA_REGISTRO
-                    ,IF(i.DNI='',LPAD(@numero:=@numero+1,10,'0'),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL, i.DISTRITO
+                    ,IF(i.DNI='',LPAD(@numero:=@numero+1,10,'0'),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL, i.EMAIL, i.DISTRITO
                     , i.SEDE, i.CARRERA, 3, NOW(), IF(i.DNI='',0,$usuario), $usuario
                     FROM interesados AS i
                     WHERE i.dni_final=''

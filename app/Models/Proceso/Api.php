@@ -508,6 +508,7 @@ class Api extends Model
             $persona->dni= $r->dni;
             if( $r->has('email') ){
                 $persona->email= $r->email;
+                $persona->email_externo= $r->email;
             }
             if( $r->has('celular') ){
                 $persona->celular= $r->celular;
@@ -515,6 +516,12 @@ class Api extends Model
             $persona->empresa_interesado_id= $r->empresa_id;
             $persona->password=bcrypt($r->dni);
             $persona->persona_id_created_at= $usuario;
+            $persona->save();
+        }
+        else{
+            $persona= Persona::find($persona->id);
+            $persona->email_externo= $r->email;
+            $persona->persona_id_updated_at= $usuario;
             $persona->save();
         }
 
@@ -674,7 +681,7 @@ class Api extends Model
         }
         DB::commit();
 
-        $email=$persona->email;
+        $email=$persona->email_externo;
         $emailseguimiento='jorgeshevchenk@gmail.com';
         $parametros=array(
             'id'=>'123',
@@ -754,12 +761,19 @@ class Api extends Model
             $persona->tipo_documento= $r->tipo_documento;
             $persona->dni= $r->dni;
             $persona->email= $r->email;
+            $persona->email_externo= $r->email;
             $persona->celular= $r->celular;
             $persona->descripcion= $comentario;
             $persona->carrera= $interesado;
             $persona->empresa_interesado_id= $r->empresa_id;
             $persona->password=bcrypt($r->dni);
             $persona->persona_id_created_at= $usuario;
+            $persona->save();
+        }
+        else{
+            $persona= Persona::find($persona->id);
+            $persona->email_externo= $r->email;
+            $persona->persona_id_updated_at= $usuario;
             $persona->save();
         }
 
@@ -837,7 +851,7 @@ class Api extends Model
 
         DB::commit();
 
-        $email=$persona->email;
+        $email=$persona->email_externo;
         $emailseguimiento='jorgeshevchenk@gmail.com';
         $parametros=array(
             'id'=>'123',

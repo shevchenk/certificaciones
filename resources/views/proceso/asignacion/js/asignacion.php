@@ -1,4 +1,7 @@
 <script type="text/javascript">
+    var TI=0;
+    var ISA=0;
+    var IA=0;
 $(document).ready(function() {
     $(".fecha").datetimepicker({
         format: "yyyy-mm-dd",
@@ -50,6 +53,18 @@ $(document).ready(function() {
 
 });
 
+guardarPagoCuota=function(id, matricula_id){
+    if( TI=='0' ){
+        msjG.mensaje('warning','No se puede asignar el Nro de Interesados es 0',3000);
+    }
+    else if( $("#pago_archivo_cuota"+id).val()=='' ){
+        msjG.mensaje('warning','Seleccione la imagen del Pago',3000);
+    }
+    else{
+        AjaxEspecialidad.guardarPagoCuota(HTMLguardarPagoCuota, id, matricula_id);
+    }
+}
+
 SlctCargarTrabajador=function(result){
     var html="";
     $.each(result.data,function(index,r){
@@ -64,6 +79,9 @@ HTMLCargarVisita=function(result){
     var html="";
     $.each(result.data,function(index,r){
         faltante= r.total*1 - r.sin_asignar*1;
+        TI= r.total;
+        ISA= r.sin_asignar;
+        IA= faltante;
         html+="<tr>"+
             "<td>"+$.trim(r.total)+"</td>"+
             "<td>"+$.trim(r.sin_asignar)+"</td>"+
