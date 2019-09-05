@@ -104,7 +104,7 @@ class CargarPR extends Controller
             $sql="  UPDATE interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final AND i.dni_final!=''
                     LEFT JOIN mat_matriculas m ON m.persona_id=p.id
-                    SET p.paterno=i.PATERNO, p.materno=i.MATERNO, p.nombre=i.NOMBRE, p.carrera=i.CARRERA, p.empresa=i.EMPRESA, p.fuente=i.FUENTE
+                    SET p.carrera=i.CARRERA, p.empresa=i.EMPRESA, p.fuente=i.FUENTE
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
                     AND m.id IS NULL";

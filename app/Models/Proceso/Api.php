@@ -517,35 +517,6 @@ class Api extends Model
             $persona->persona_id_created_at= $usuario;
             $persona->save();
         }
-        else{
-            $matricula= DB::table('mat_matriculas')
-                        ->where('persona_id',$persona->id)
-                        ->where('estado',1)
-                        ->first();
-            if( !isset($matricula->id) ){
-                $persona = Persona::find($persona->id);
-                $persona->paterno= $r->paterno;
-                $persona->materno= $r->materno;
-                $persona->nombre= $r->nombre;
-                $persona->dni= $r->dni;
-                if( $r->has('email') ){
-                    $persona->email= $r->email;
-                }
-                if( $r->has('celular') ){
-                    $persona->celular= $r->celular;
-                }
-                $persona->empresa_interesado_id= $r->empresa_id;
-                $persona->password=bcrypt($r->dni);
-                $persona->persona_id_updated_at= $usuario;
-                $persona->save();
-            }
-            else{
-                $persona = Persona::find($persona->id);
-                $persona->empresa_interesado_id= $r->empresa_id;
-                $persona->persona_id_updated_at= $usuario;
-                $persona->save();
-            }
-        }
 
         DB::table('personas_captadas')
         ->where('persona_id', '=', $persona->id)
@@ -790,35 +761,6 @@ class Api extends Model
             $persona->password=bcrypt($r->dni);
             $persona->persona_id_created_at= $usuario;
             $persona->save();
-        }
-        else{
-            $matricula= DB::table('mat_matriculas')
-                        ->where('persona_id',$persona->id)
-                        ->where('estado',1)
-                        ->first();
-            if( !isset($matricula->id) ){
-                $persona = Persona::find($persona->id);
-                $persona->paterno= $r->paterno;
-                $persona->materno= $r->materno;
-                $persona->nombre= $r->nombre;
-                $persona->tipo_documento= $r->tipo_documento;
-                $persona->dni= $r->dni;
-                $persona->email= $r->email;
-                $persona->celular= $r->celular;
-                $persona->descripcion= $comentario;
-                $persona->carrera= $interesado;
-                $persona->empresa_interesado_id= $r->empresa_id;
-                $persona->password=bcrypt($r->dni);
-                $persona->persona_id_updated_at= $usuario;
-                $persona->save();
-            }
-            else{
-                $persona = Persona::find($persona->id);
-                $persona->empresa_interesado_id= $r->empresa_id;
-                $persona->persona_id_updated_at= $usuario;
-                $persona->descripcion= $comentario;
-                $persona->save();
-            }
         }
 
         DB::table('personas_captadas')
