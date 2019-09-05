@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Curso;
 use App\Models\Mantenimiento\Persona;
-use DB;
 use App\Mail\EmailSend;
+use DB;
+use Mail;
 
 class Api extends Model
 {
