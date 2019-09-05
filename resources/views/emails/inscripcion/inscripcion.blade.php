@@ -1,8 +1,8 @@
 
-<p><strong>Ficha de Inscripci&oacute;n a Seminarios</strong></p>
-<p><strong>Ficha N&deg; 8783</strong></p>
+<p><strong>Ficha de Inscripci&oacute;n</strong></p>
+<p><strong>Ficha N&deg; "Prueba"</strong></p>
 <p><strong>&nbsp;</strong></p>
-<p><strong>Sr. Castro Cerna, Cesar </strong></p>
+<p><strong>Sr. .... </strong></p>
 <p><strong>Egresado de nuestra universidad</strong></p>
 <p>&nbsp;</p>
 <p>Reciba usted nuestro cordial saludo a la vez expresarle mis felicitaciones por dar los pasos previos a la obtenci&oacute;n de su grado acad&eacute;micos.</p>

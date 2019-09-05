@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Curso;
 use App\Models\Mantenimiento\Persona;
 use DB;
+use App\Mail\EmailSend;
 
 class Api extends Model
 {
@@ -701,12 +702,17 @@ class Api extends Model
         }
         DB::commit();
 
-        $email='jorgeshevchenk@gmail.com';
-        $emailseguimiento='jorgeshevchenk1988@gmail.com';
-        $texto='.::Inscripción de Seminarios::.';
+        $email=$persona->email;
+        $emailseguimiento='jorgeshevchenk@gmail.com';
         $parametros=array(
             'id'=>'123',
+            'subject'=>'.::Bienvenido, inscripción realizada con éxito::.';,
+            'blade' => 'emails.inscripcion.inscripcion',
         );
+
+        Mail::to($email)
+        ->cc([$emailseguimiento])
+        ->send( new EmailSend($parametros) );
 
         $result= array(
             'dni'=> $r->dni,
@@ -888,12 +894,17 @@ class Api extends Model
 
         DB::commit();
 
-        $email='jorgeshevchenk@gmail.com';
-        $emailseguimiento='jorgeshevchenk1988@gmail.com';
-        $texto='.::Inscripción de Seminarios::.';
+        $email=$persona->email;
+        $emailseguimiento='jorgeshevchenk@gmail.com';
         $parametros=array(
             'id'=>'123',
+            'subject'=>'.::Bienvenido '.$persona->nombre.' '.$persona->paterno.'::.',
+            'blade' => 'emails.interesado.api',
         );
+
+        Mail::to($email)
+        ->cc([$emailseguimiento])
+        ->send( new EmailSend($parametros) );
 
         $result= array(
             'dni'=> $r->dni,

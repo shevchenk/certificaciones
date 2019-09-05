@@ -9,6 +9,7 @@ use App\Models\Proceso\MatriculaDetalle;
 use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Menu;
 use App\Models\Proceso\MatriculaCuota;
+use App\Mail\EmailSend;
 use DB;
 use Mail;
 
@@ -304,20 +305,18 @@ class Matricula extends Model
             }
         }
         DB::commit();
-        $email='jorgeshevchenk@gmail.com';
-        $emailseguimiento='jorgeshevchenk1988@gmail.com';
-        $texto='.::Inscripción de Seminarios::.';
+
+        $email=$persona->email;
+        $emailseguimiento='jorgeshevchenk@gmail.com';
         $parametros=array(
             'id'=>'123',
+            'subject'=>'.::Bienvenido, inscripción realizada con éxito::.';,
+            'blade' => 'emails.inscripcion.inscripcion',
         );
-        /*Mail::send('email.matricula', $parametros , 
-            function($message) use( $email,$emailseguimiento,$texto ) {
-                $message
-                ->to($email)
-                ->cc($emailseguimiento)
-                ->subject($texto);
-            }
-        );*/
+
+        Mail::to($email)
+        ->cc([$emailseguimiento])
+        ->send( new EmailSend($parametros) );
     }
     
         public function fileToFile($file,$id, $url){
