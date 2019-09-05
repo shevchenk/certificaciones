@@ -21,6 +21,7 @@ Route::get('/mail/{email}', function($email){
         $parametros=array(
             'id'=>'123',
             'subject'=>$texto,
+            'blade' => 'emails.inscripcion.inscripcion',
         );
         //try{
         
