@@ -525,7 +525,7 @@ class Api extends Model
             $persona->save();
         }
 
-        DB::table('personas_captadas')
+        /*DB::table('personas_captadas')
         ->where('persona_id', '=', $persona->id)
         ->where('empresa_id', '=', $r->empresa_id)
         ->update(
@@ -549,7 +549,7 @@ class Api extends Model
                 'persona_id_created_at'=> $usuario,
                 'persona_id_updated_at' => $usuario
             )
-        );
+        );*/
 
         $privilegio =DB::table('personas_privilegios_sucursales')
         ->where('privilegio_id',14)
@@ -810,7 +810,7 @@ class Api extends Model
             )
         );
 
-        if( $nuevo==true ){
+        /*if( $nuevo==true ){
             DB::table('personas_distribuciones')
             ->insert(
                 array(
@@ -823,7 +823,7 @@ class Api extends Model
                     'persona_id_updated_at' => $usuario
                 )
             );
-        }
+        }*/
 
         DB::commit();
 

@@ -37,7 +37,7 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body no-padding">
-                        <form id="IndiceMatForm">
+                        <form id="AsignacionForm">
                             <div class="col-sm-12">
                                 <div class="col-sm-2 text-center">
                                     <label class="control-label">Fecha Inicial de Registro</label>
@@ -57,10 +57,7 @@
                                     <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>
                             </div>
-                        </form><!-- .form -->
-                    
 
-                        <form id="AsignacionForm">
                             <div class="table-responsive no-padding col-sm-5">
                                 <table id="TableVisita" class="table table-bordered table-hover">
                                     <thead>
@@ -77,9 +74,8 @@
                             <hr>
                             <div class="col-md-12">
                                 <div class="col-md-3">
-                                    <label class="control-label">Asignar a:</label>
-                                    
-                                    <select id="slct_trabajador" name="slct_trabajador" class="selectpicker form-control show-menu-arrow" data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple>
+                                    <label class="control-label">Trabajadores:</label>
+                                    <select id="slct_trabajador" name="slct_trabajador[]" class="selectpicker form-control show-menu-arrow" data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple>
                                       <option value="">.::Seleccione::.</option>
                                     </select>
                                 </div>

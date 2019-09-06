@@ -106,5 +106,71 @@ class Llamada extends Model
 
         return $result;
     }
+
+    public static function GuardarAsignacion($r)
+    {
+        DB::beginTransaction();
+        $empresa_id= Auth::user()->empresa_id;
+        $trabajador= implode(",",$r->trabajador);
+        $fecha_ini= $r->fecha_ini;
+        $fecha_fin= $r->fecha_fin;
+        $tipo_asignar= trim($r->tipo_asignar);
+        $usuario= Auth::user()->id;
+
+        $filtro="";
+        if( $tipo_asignar=='1' ){
+            $filtro=" AND pd.id IS NULL ";
+        }
+        elseif( $tipo_asignar=='2' ){
+            $filtro=" AND pd.id IS NOT NULL ";
+        }
+
+        if($filtro=='' OR $filtro=='2'){
+            $sql="  UPDATE personas_captadas pc
+                    INNER JOIN (
+                    SELECT pds.id, pds.persona_id
+                    FROM personas_distribuciones pds
+                    INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
+                    WHERE pds.estado=1
+                    ) pd ON pc.persona_id=pd.persona_id 
+                    INNER JOIN personas_distribuciones pdf ON pdf.id=pd.id
+                    SET pdf.estado=0
+                    WHERE pc.estado=1 
+                    AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+                    AND pc.persona_id_created_at=0
+                    AND pc.empresa_id='$empresa_id'";
+            DB::update($sql);
+        }
+
+        DB::statement('SET @nro=0;');
+        DB::statement('SET @tra=0;');
+        $sql="  INSERT INTO personas_distribuciones (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
+                SELECT r.persona_id, t.trabajador_id, CURDATE(), 1, NOW(),  $usuario
+                FROM (
+                    SELECT pc.persona_id, p.email,p.dni, @nro:=@nro+1, IF(@nro%3=0,3,@nro%3) AS pos
+                    FROM personas_captadas pc
+                    INNER JOIN personas p ON p.id=pc.persona_id
+                    LEFT JOIN (
+                        SELECT pds.id, pds.persona_id
+                        FROM personas_distribuciones pds
+                        INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
+                        WHERE pds.estado=1
+                    ) pd ON pc.persona_id=pd.persona_id 
+                    WHERE pc.estado=1 
+                    AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+                    AND pc.persona_id_created_at=0
+                    AND pc.empresa_id='$empresa_id'
+                    $filtro
+                    GROUP BY pc.persona_id
+                ) r
+                INNER JOIN (
+                    SELECT @tra:=@tra+1 AS pos, id AS trabajador_id, persona_id
+                    FROM mat_trabajadores
+                    WHERE id IN ($trabajador)
+                ) t ON t.pos=r.pos";
+        DB::insert($sql);
+
+        DB::commit();
+    }
     // --
 }

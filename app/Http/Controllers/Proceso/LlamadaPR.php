@@ -82,4 +82,15 @@ class LlamadaPR extends Controller
         }
     }
 
+    public function GuardarAsignacion(Request $r)
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Llamada::GuardarAsignacion($r);
+            $return['rst'] = 1;
+            //$return['data'] = $renturnModel;
+            $return['msj'] = "Asignación Finalizada";
+            return response()->json($return);
+        }
+    }
+
 }

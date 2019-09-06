@@ -54,14 +54,25 @@ $(document).ready(function() {
 });
 
 Guardar=function(id, matricula_id){
-    if( TI=='0' ){
+    
+    if( TI==0 ){
         msjG.mensaje('warning','No se puede asignar el Nro de Interesados es 0',3000);
     }
-    else if( $("#pago_archivo_cuota"+id).val()=='' ){
-        msjG.mensaje('warning','Seleccione la imagen del Pago',3000);
+    else if( $.trim($("#slct_trabajador").val())=='' ){
+        msjG.mensaje('warning','Seleccione los trabajadores',3000);
     }
     else{
-        AjaxVisita.Guardar(HTMLGuardar, id, matricula_id);
+        AjaxVisita.Guardar(HTMLGuardar);
+    }
+}
+
+HTMLGuardar=function(result){
+    if( result.rst==1 ){
+        msjG.mensaje('success',result.msj,4000);
+        AjaxVisita.Cargar(HTMLCargarVisita);
+    }
+    else{
+        msjG.mensaje('warning',result.msj,3000);
     }
 }
 
