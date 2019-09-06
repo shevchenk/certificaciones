@@ -151,14 +151,6 @@ class CargarPR extends Controller
                     AND file='".$file."'";
             DB::update($sql);
 
-            //Inserta los acceso apra los usuarios
-            $sql="  INSERT INTO personas_privilegios_sucursales 
-                    (persona_id, privilegio_id, sucursal_id, estado, created_at, persona_id_created_at, persona_id_updated_at)
-                    SELECT id, 14, 1,1 ,NOW() ,0, $usuario
-                    FROM personas
-                    WHERE estado=3";
-            DB::insert($sql);
-
             //Actualiza a estado activo a los usuarios
             $sql="  UPDATE personas
                     SET estado=1

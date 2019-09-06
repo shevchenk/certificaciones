@@ -809,20 +809,6 @@ class Api extends Model
         ->where('persona_id',$persona->id)
         ->first();
 
-        if( !isset($privilegio->id) ){
-            DB::table('personas_privilegios_sucursales')->insert(
-                array(
-                    'privilegio_id' => 14,
-                    'sucursal_id' => 1,
-                    'persona_id' => $persona->id,
-                    'created_at'=> date('Y-m-d h:m:s'),
-                    'persona_id_created_at'=> $usuario,
-                    'estado' => 1,
-                    'persona_id_updated_at' => $usuario
-                )
-            );
-        }
-
         DB::table('personas_distribuciones AS pd')
         ->join('mat_trabajadores AS mt','mt.id','=','pd.trabajador_id')
         ->where('pd.persona_id', '=', $persona->id)
