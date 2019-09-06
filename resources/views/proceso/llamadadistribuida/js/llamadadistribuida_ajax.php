@@ -49,6 +49,11 @@ var AjaxEspecialidad={
         url='AjaxDinamic/Proceso.LlamadaPR@CargarLlamadaPendiente';
         masterG.postAjax(url,data, evento);
     },
+    CargarInfo:function(evento){
+        var data=$("#ModalLlamadaForm").serialize().split("txt_").join("").split("slct_").join("");
+        url='AjaxDinamic/Proceso.LlamadaPR@CargarInfo';
+        masterG.postAjax(url,data, evento);
+    },
     ActualizarPersona:function(evento){
         $("#ModalPersonaForm").append("<input type='hidden' value='"+$('#ModalLlamadaForm #txt_persona_id').val()+"' name='id'>");
         var data=$("#ModalPersonaForm").serialize().split("txt_").join("").split("slct_").join("");

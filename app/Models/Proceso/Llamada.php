@@ -54,6 +54,30 @@ class Llamada extends Model
         return $llamada;
     }
 
+    public static function CargarInfo($r)
+    {
+        $empresa_id= Auth::user()->empresa_id;
+
+        $sql=DB::table('personas_captadas AS pc')
+            ->select('pc.interesado AS info',DB::raw('DATE(pc.created_at) AS fecha_info'))
+            ->where(
+                function($query) use($r){
+                    if( $r->has("persona_id") ){
+                        $persona_id=trim($r->persona_id);
+                        if( $persona_id !='' ){
+                            $query->where('pc.persona_id',$persona_id);
+                        }
+                    }
+                }
+            )
+            ->where('pc.empresa_id', $empresa_id)
+            ->where('pc.estado',1)
+            ->orderBy('pc.created_at','desc')
+            ->get();
+
+        return $sql;
+    }
+
     public static function CargarLlamada($r)
     {
         $sql=DB::table('llamadas AS ll')
@@ -111,6 +135,7 @@ class Llamada extends Model
     {
         DB::beginTransaction();
         $empresa_id= Auth::user()->empresa_id;
+        $cant= count($r->trabajador);
         $trabajador= implode(",",$r->trabajador);
         $fecha_ini= $r->fecha_ini;
         $fecha_fin= $r->fecha_fin;
@@ -147,7 +172,7 @@ class Llamada extends Model
         $sql="  INSERT INTO personas_distribuciones (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
                 SELECT r.persona_id, t.trabajador_id, CURDATE(), 1, NOW(),  $usuario
                 FROM (
-                    SELECT pc.persona_id, p.email,p.dni, @nro:=@nro+1, IF(@nro%3=0,3,@nro%3) AS pos
+                    SELECT pc.persona_id, p.email,p.dni, @nro:=@nro+1, IF(@nro % $cant=0,$cant,@nro % $cant) AS pos
                     FROM personas_captadas pc
                     INNER JOIN personas p ON p.id=pc.persona_id
                     LEFT JOIN (

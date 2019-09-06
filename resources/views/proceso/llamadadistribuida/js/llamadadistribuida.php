@@ -235,6 +235,7 @@ AbrirLlamada=function(id){
     $("#ModalLlamadaForm #txt_empresa").val( empresa );
     $("#ModalLlamadaForm #txt_fuente").val( fuente );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
+    AjaxEspecialidad.CargarInfo(HTMLCargarInfo);
     $('#ModalLlamada').modal('show');
 }
 
@@ -304,6 +305,7 @@ AbrirLlamadaPendiente=function(id){
     $("#ModalLlamadaForm #txt_empresa").val( empresa );
     $("#ModalLlamadaForm #txt_fuente").val( fuente );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
+    AjaxEspecialidad.CargarInfo(HTMLCargarInfo);
     $('#ModalLlamada').modal('show');
 }
 
@@ -320,6 +322,18 @@ HTMLCargarLlamada=function(result){
     });
 
     $("#tb_llamada").html(html); 
+}
+
+HTMLCargarInfo=function(result){
+    var html='';
+    $.each(result.data,function(index,r){
+        html+="<tr id='tr"+r.id+"'>";
+        html+="<td>"+r.fecha_info+"</td>";
+        html+="<td>"+r.info+"</td>";
+        html+="</tr>";
+    });
+
+    $("#tb_info").html(html); 
 }
 
 ValidaForm=function(){

@@ -98,9 +98,25 @@
                     <div class="col-md-12">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
+                            <thead style="background-color: #F4AA39;color:black">
+                                <tr>
+                                    <th colspan="2" style="text-align: center;"> Información Solicitada </th>
+                                </tr>
+                                <tr>
+                                    <th>Fecha de la información</th>
+                                    <th>Información</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb_info">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
                             <thead style="background-color: #A9D08E;color:black">
                                 <tr>
-                                    <th colspan="5" style="text-align: center;"> Historico </th>
+                                    <th colspan="5" style="text-align: center;"> Historico de Llamadas </th>
                                 </tr>
                                 <tr>
                                     <th>Fecha de Llamada</th>
