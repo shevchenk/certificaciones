@@ -689,9 +689,9 @@ class Api extends Model
             'blade' => 'emails.inscripcion.inscripcion',
         );
 
-        Mail::to($email)
+        /*Mail::to($email)
         ->cc([$emailseguimiento])
-        ->send( new EmailSend($parametros) );
+        ->send( new EmailSend($parametros) );*/
 
         $result= array(
             'dni'=> $r->dni,
@@ -835,9 +835,9 @@ class Api extends Model
             'blade' => 'emails.interesado.api',
         );
 
-        Mail::to($email)
+        /*Mail::to($email)
         ->cc([$emailseguimiento])
-        ->send( new EmailSend($parametros) );
+        ->send( new EmailSend($parametros) );*/
 
         $result= array(
             'dni'=> $r->dni,
