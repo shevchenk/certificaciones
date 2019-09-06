@@ -753,6 +753,7 @@ class Api extends Model
         }
 
         DB::beginTransaction();
+        $nuevo=true;
         if( !isset($persona->id) ){
             $persona= new Persona;
             $persona->paterno= $r->paterno;
@@ -771,6 +772,7 @@ class Api extends Model
             $persona->save();
         }
         else{
+            $nuevo=false;
             $persona= Persona::find($persona->id);
             $persona->email_externo= $r->email;
             $persona->persona_id_updated_at= $usuario;
@@ -779,16 +781,19 @@ class Api extends Model
             $persona->save();
         }
 
-        DB::table('personas_captadas')
-        ->where('persona_id', '=', $persona->id)
-        ->where('empresa_id', '=', $r->empresa_id)
-        ->update(
-            array(
-                'estado' => 0,
-                'persona_id_updated_at' => $usuario,
-                'updated_at' => date('Y-m-d H:i:s')
-            )
-        );
+        if( $nuevo==false ){
+            DB::table('personas_captadas')
+            ->where('persona_id', '=', $persona->id)
+            ->where('empresa_id', '=', $r->empresa_id)
+            ->where('interesado', '=', $interesado)
+            ->update(
+                array(
+                    'estado' => 0,
+                    'persona_id_updated_at' => $usuario,
+                    'updated_at' => date('Y-m-d H:i:s')
+                )
+            );
+        }
 
         DB::table('personas_captadas')
         ->insert(
@@ -805,37 +810,20 @@ class Api extends Model
             )
         );
 
-        $privilegio =DB::table('personas_privilegios_sucursales')
-        ->where('privilegio_id',14)
-        ->where('sucursal_id',1)
-        ->where('persona_id',$persona->id)
-        ->first();
-
-        DB::table('personas_distribuciones AS pd')
-        ->join('mat_trabajadores AS mt','mt.id','=','pd.trabajador_id')
-        ->where('pd.persona_id', '=', $persona->id)
-        ->where('mt.empresa_id', '=', $r->empresa_id)
-        ->where('pd.estado', '=', 1)
-        ->update(
-            array(
-                'pd.estado' => 0,
-                'pd.persona_id_updated_at' => $usuario,
-                'pd.updated_at' => date('Y-m-d H:i:s')
-            )
-        );
-
-        DB::table('personas_distribuciones')
-        ->insert(
-            array(
-                'persona_id' => $persona->id,
-                'trabajador_id' => (2+$r->empresa_id),
-                'fecha_distribucion' => date('Y-m-d'),
-                'estado' => 1,
-                'created_at'=> date('Y-m-d h:m:s'),
-                'persona_id_created_at'=> $usuario,
-                'persona_id_updated_at' => $usuario
-            )
-        );
+        if( $nuevo==true ){
+            DB::table('personas_distribuciones')
+            ->insert(
+                array(
+                    'persona_id' => $persona->id,
+                    'trabajador_id' => (2+$r->empresa_id),
+                    'fecha_distribucion' => date('Y-m-d'),
+                    'estado' => 1,
+                    'created_at'=> date('Y-m-d h:m:s'),
+                    'persona_id_created_at'=> $usuario,
+                    'persona_id_updated_at' => $usuario
+                )
+            );
+        }
 
         DB::commit();
 
