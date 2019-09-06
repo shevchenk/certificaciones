@@ -53,7 +53,7 @@ $(document).ready(function() {
 
 });
 
-guardarPagoCuota=function(id, matricula_id){
+Guardar=function(id, matricula_id){
     if( TI=='0' ){
         msjG.mensaje('warning','No se puede asignar el Nro de Interesados es 0',3000);
     }
@@ -61,7 +61,7 @@ guardarPagoCuota=function(id, matricula_id){
         msjG.mensaje('warning','Seleccione la imagen del Pago',3000);
     }
     else{
-        AjaxEspecialidad.guardarPagoCuota(HTMLguardarPagoCuota, id, matricula_id);
+        AjaxVisita.Guardar(HTMLGuardar, id, matricula_id);
     }
 }
 

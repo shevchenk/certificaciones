@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-1" style="padding:24px">
-                                <span class="btn btn-primary btn-md" id="btn_asignar" name="btn_asignar"><i class="glyphicon glyphicon-search"></i> Asignar </span>
+                                <span onclick="Guardar();" class="btn btn-primary btn-md" id="btn_asignar" name="btn_asignar"><i class="glyphicon glyphicon-search"></i> Asignar </span>
                             </div>
                         </form>
                     </div><!-- .box-body -->

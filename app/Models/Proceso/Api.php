@@ -774,6 +774,8 @@ class Api extends Model
             $persona= Persona::find($persona->id);
             $persona->email_externo= $r->email;
             $persona->persona_id_updated_at= $usuario;
+            $persona->descripcion= $comentario;
+            $persona->carrera= $interesado;
             $persona->save();
         }
 
