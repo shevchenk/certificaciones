@@ -62,6 +62,7 @@ class CargarPR extends Controller
             }
 
             $usuario= Auth::user()->id;
+            $empresa_id= Auth::user()->empresa_id;
             /*$sql="SET GLOBAL local_infile = 'ON';";
             DB::statement($sql);*/
             $sql="SET @numero=0";
@@ -119,7 +120,7 @@ class CargarPR extends Controller
             DB::update($sql);
 
             $sql="  UPDATE interesados i 
-                    LEFT JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!=''
+                    LEFT JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!='' AND t.empresa_id='$empresa_id' 
                     SET i.dni_final='xxxxxxxx'
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
@@ -163,11 +164,11 @@ class CargarPR extends Controller
                     SET pc.estado=0
                     AND i.usuario=".$usuario."
                     AND i.file='".$file."'
-                    AND pc.empresa_id='".Auth::user()->empresa_id."'";
+                    AND pc.empresa_id='".$empresa_id."'";
             DB::update($sql);
 
             $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, fuente, interesado, estado, created_at, persona_id_created_at)
-                    SELECT p.id, ".Auth::user()->empresa_id.", i.FUENTE, i.CARRERA, 1, i.FECHA_REGISTRO, $usuario
+                    SELECT p.id, $empresa_id, i.FUENTE, i.CARRERA, 1, i.FECHA_REGISTRO, $usuario
                     FROM interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
                     WHERE i.usuario=".$usuario."
@@ -175,13 +176,13 @@ class CargarPR extends Controller
             DB::insert($sql);
 
             $sql="  UPDATE personas_distribuciones pd
+                    INNER JOIN mat_trabajadores t2 ON t2.id=pd.trabajador_id AND t2.empresa_id='$empresa_id'
                     INNER JOIN personas p ON p.id=pd.persona_id
                     INNER JOIN interesados i ON i.dni_final=p.dni
-                    INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!=''
+                    INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!='' AND t.empresa_id='$empresa_id'
                     SET pd.estado=0
                     WHERE i.usuario=".$usuario."
-                    AND i.file='".$file."'
-                    AND t.empresa_id='".Auth::user()->empresa_id."'";
+                    AND i.file='".$file."'";
             DB::update($sql);
 
             //-- Distribucion de los vendedores
@@ -190,18 +191,20 @@ class CargarPR extends Controller
                     SELECT p.id,t.id,i.FECHA_ENTREGA,1,NOW(),0,$usuario
                     FROM interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
-                    INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!=''
+                    INNER JOIN mat_trabajadores t ON t.codigo=i.COD_VENDEDOR AND t.codigo!='' AND t.empresa_id='$empresa_id'
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'";
             DB::insert($sql);
 
             $sql="  UPDATE personas_distribuciones pd 
+                    INNER JOIN mat_trabajadores t ON t.id=pd.trabajador_id AND t.empresa_id='$empresa_id'
                     INNER JOIN (
-                        SELECT MAX(id) idmax, persona_id
-                        FROM personas_distribuciones
-                        WHERE estado=1 
-                        GROUP BY persona_id,trabajador_id
-                        HAVING COUNT(id)>1
+                        SELECT MAX(pd2.id) idmax, pd2.persona_id
+                        FROM personas_distribuciones pd2 
+                        INNER JOIN mat_trabajadores t2 ON t2.id=pd2.trabajador_id AND t2.empresa_id='$empresa_id'
+                        WHERE pd2.estado=1 
+                        GROUP BY pd2.persona_id
+                        HAVING COUNT(pd2.id)>1
                     ) un on un.persona_id=pd.persona_id
                     SET pd.estado=0
                     WHERE pd.id!=un.idmax

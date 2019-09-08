@@ -15,17 +15,16 @@ class Reporte extends Model
         $fecha_fin= $r->fecha_fin;
         $empresa_id= Auth::user()->empresa_id;
 
-        $sql="  SELECT COUNT(DISTINCT(pc.persona_id)) total, SUM(IF(pd.id IS NULL,1,0)) sin_asignar
+        $sql="  SELECT COUNT(DISTINCT(pc.persona_id)) total, COUNT(DISTINCT(IF(pd.id IS NULL,pc.persona_id,NULL))) sin_asignar
                 FROM personas_captadas pc
                 LEFT JOIN (
-                SELECT pds.id, pds.persona_id
-                FROM personas_distribuciones pds
-                INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
-                WHERE pds.estado=1
+                    SELECT pds.id, pds.persona_id
+                    FROM personas_distribuciones pds
+                    INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
+                    WHERE pds.estado=1
                 ) pd ON pc.persona_id=pd.persona_id 
                 WHERE pc.estado=1 
                 AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-                AND pc.persona_id_created_at=0
                 AND pc.empresa_id='$empresa_id'";
                 
         $r= DB::select($sql);

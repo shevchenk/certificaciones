@@ -136,21 +136,89 @@ class Llamada extends Model
         DB::beginTransaction();
         $empresa_id= Auth::user()->empresa_id;
         $cant= count($r->trabajador);
-        $trabajador= implode(",",$r->trabajador);
+        $trabajador= $r->trabajador;
+        $rasig= $r->rasig_trabajador;
+        $asig= $r->asig_trabajador;
         $fecha_ini= $r->fecha_ini;
         $fecha_fin= $r->fecha_fin;
-        $tipo_asignar= trim($r->tipo_asignar);
+        //$tipo_asignar= trim($r->tipo_asignar);
         $usuario= Auth::user()->id;
+        $pos=0;
+        for ($i=0; $i < $cant ; $i++) { 
+            if( $rasig[$i]*1>0 ){
+                $sql="  INSERT INTO personas_distribuciones 
+                        (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
+                        SELECT p.id, $trabajador[$i], CURDATE(), 1, NOW(), $usuario
+                        FROM personas_captadas pc
+                        INNER JOIN personas p ON p.id=pc.persona_id
+                        INNER JOIN (
+                            SELECT pds.id, pds.persona_id
+                            FROM personas_distribuciones pds
+                            INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
+                            WHERE pds.estado=1
+                        ) pd ON pc.persona_id=pd.persona_id 
+                        WHERE pc.estado=1 
+                        AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+                        AND pc.persona_id_created_at=0
+                        AND pc.empresa_id='$empresa_id'
+                        GROUP BY pc.persona_id
+                        ORDER BY pc.persona_id
+                        LIMIT $pos,$rasig[$i]";
+                DB::insert($sql);
+                $pos=$pos+$rasig[$i];
+            }
+        }
 
-        $filtro="";
+        for ($i=0; $i < $cant ; $i++) { 
+            if( $asig[$i]*1>0 ){
+                $sql="  INSERT INTO personas_distribuciones 
+                        (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
+                        SELECT p.id, $trabajador[$i], CURDATE(), 1, NOW(), $usuario
+                        FROM personas_captadas pc
+                        INNER JOIN personas p ON p.id=pc.persona_id
+                        LEFT JOIN (
+                            SELECT pds.id, pds.persona_id
+                            FROM personas_distribuciones pds
+                            INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
+                            WHERE pds.estado=1
+                        ) pd ON pc.persona_id=pd.persona_id 
+                        WHERE pc.estado=1 
+                        AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+                        AND pc.persona_id_created_at=0
+                        AND pc.empresa_id='$empresa_id'
+                        AND pd.id IS NULL
+                        GROUP BY pc.persona_id
+                        ORDER BY pc.persona_id
+                        LIMIT 0,".$asig[$i];
+                DB::insert($sql);
+            }
+        }
+
+        $sql="  UPDATE personas_distribuciones pd 
+                INNER JOIN mat_trabajadores t ON t.id=pd.trabajador_id AND t.empresa_id='$empresa_id'
+                INNER JOIN (
+                    SELECT MAX(pd2.id) idmax, pd2.persona_id
+                    FROM personas_distribuciones pd2 
+                    INNER JOIN mat_trabajadores t2 ON t2.id=pd2.trabajador_id AND t2.empresa_id='$empresa_id'
+                    WHERE pd2.estado=1 
+                    GROUP BY pd2.persona_id
+                    HAVING COUNT(pd2.id)>1
+                ) un ON un.persona_id=pd.persona_id
+                SET pd.estado=0
+                WHERE pd.id!=un.idmax
+                AND pd.estado=1";
+        DB::update($sql);
+        
+        DB::commit();
+        /*$filtro="";
         if( $tipo_asignar=='1' ){
             $filtro=" AND pd.id IS NULL ";
         }
         elseif( $tipo_asignar=='2' ){
             $filtro=" AND pd.id IS NOT NULL ";
-        }
+        }*/
 
-        if($filtro=='' OR $filtro=='2'){
+        /*if($filtro=='' OR $filtro=='2'){
             $sql="  UPDATE personas_captadas pc
                     INNER JOIN (
                     SELECT pds.id, pds.persona_id
@@ -165,9 +233,9 @@ class Llamada extends Model
                     AND pc.persona_id_created_at=0
                     AND pc.empresa_id='$empresa_id'";
             DB::update($sql);
-        }
+        }*/
 
-        DB::statement('SET @nro=0;');
+        /*DB::statement('SET @nro=0;');
         DB::statement('SET @tra=0;');
         $sql="  INSERT INTO personas_distribuciones (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
                 SELECT r.persona_id, t.trabajador_id, CURDATE(), 1, NOW(),  $usuario
@@ -185,7 +253,7 @@ class Llamada extends Model
                     AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
                     AND pc.persona_id_created_at=0
                     AND pc.empresa_id='$empresa_id'
-                    $filtro
+                    
                     GROUP BY pc.persona_id
                 ) r
                 INNER JOIN (
@@ -193,9 +261,7 @@ class Llamada extends Model
                     FROM mat_trabajadores
                     WHERE id IN ($trabajador)
                 ) t ON t.pos=r.pos";
-        DB::insert($sql);
-
-        DB::commit();
+        DB::insert($sql);*/
     }
     // --
 }

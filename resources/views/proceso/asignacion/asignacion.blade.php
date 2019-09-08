@@ -79,13 +79,42 @@
                                       <option value="">.::Seleccione::.</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
-                                    <label class="control-label">Asignar a:</label>
+                                <!--div class="col-md-3">
+                                    <label class="control-label">Quienes serán asignados?:</label>
                                     <select id="slct_tipo_asignar" name="slct_tipo_asignar" class="selectpicker form-control show-menu-arrow">
-                                        <option value="">.::Todos::.</option>
-                                        <option value="1">Sin Asignar</option>
-                                        <option value="2">Asignados</option>
+                                        <option value=""># Total Interesados</option>
+                                        <option value="1"># Interesados Sin Asignar</option>
+                                        <option value="2"># Interesados Asignados</option>
                                     </select>
+                                </div-->
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <label class="control-label">Indique # Reasignación global:</label>
+                                    <input type="text" id="r_nro_asignacion" onkeypress="return masterG.validaNumeros(event);" onkeyup="AsignaNro(1)" class="form-control" value="0">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Indique # asignación global:</label>
+                                    <input type="text" id="nro_asignacion" onkeypress="return masterG.validaNumeros(event);" onkeyup="AsignaNro(2)" class="form-control" value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <br>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead style="background-color: #F4AA39;color:black">
+                                            <tr>
+                                                <th colspan="3" style="text-align: center;"> Asignación </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Trabajador</th>
+                                                <th># Reasignar</th>
+                                                <th># Asignar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb_asignar">
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="col-sm-1" style="padding:24px">

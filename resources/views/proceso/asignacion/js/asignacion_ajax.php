@@ -6,7 +6,7 @@ var AjaxVisita={
         masterG.postAjax(url,data,evento);
     },
     Trabajadores:function(evento){
-        data=$("#AsignacionForm").serialize().split("txt_").join("").split("slct_").join("");
+        data={};
         url='AjaxDinamic/Mantenimiento.TrabajadorEM@ListarTeleoperadores';
         masterG.postAjax(url,data,evento);
     },
