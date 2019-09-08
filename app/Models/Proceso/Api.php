@@ -55,7 +55,7 @@ class Api extends Model
                 ->first();
 
         $grupos=array();
-        if( count($key)>0 ){
+        if( isset($key->id) ){
             $persona =  DB::table(Api::mibdaux().'.personas')
                         ->select('paterno','materno','nombre','sexo','email','telefono','dni'
                         ,'celular',DB::raw('IFNULL(fecha_nacimiento,"") AS fecha_nacimiento'),'id'
@@ -113,7 +113,7 @@ class Api extends Model
                 ->first();
 
         $grupos=array();
-        if( count($key)>0 ){
+        if( isset($key->id) ){
             $persona =  DB::table(Api::mibdaux().'.personas')
                         ->select('paterno','materno','nombre','sexo','email','telefono','dni'
                         ,'celular',DB::raw('IFNULL(fecha_nacimiento,"") AS fecha_nacimiento'),'id'
@@ -171,7 +171,7 @@ class Api extends Model
                 ->first();
 
         $grupos=array();
-        if( count($key)>0 ){
+        if( isset($key->id) ){
             $tipos=DB::table(Api::mibdaux().'.mat_programaciones AS mp')
                     ->Join(Api::mibdaux().'.mat_cursos AS mc', function($join){
                         $join->on('mc.id','=','mp.curso_id')
@@ -218,7 +218,7 @@ class Api extends Model
                 ->first();
 
         $grupos=array();
-        if( count($key)>0 ){
+        if( isset($key->id) ){
             $persona =  DB::table(Api::mibdaux().'.personas')
                         ->select('paterno','materno','nombre','sexo','email','telefono','dni'
                         ,'celular',DB::raw('IFNULL(fecha_nacimiento,"") AS fecha_nacimiento'),'id'
@@ -272,7 +272,7 @@ class Api extends Model
                 ->first();
 
         $grupos=array();
-        if( count($key)>0 ){
+        if( isset($key->id) ){
             $grupos=DB::table(Api::mibdaux().'.mat_cursos AS mc')
                     ->join(Api::mibdaux().'.empresas AS e', function($join) use($r){
                         $join->on('e.id','=','mc.empresa_id');
@@ -305,7 +305,7 @@ class Api extends Model
                 ->first();
 
         $grupos=array();
-        if( count($key)>0 ){
+        if( isset($key->id) ){
             $grupos=DB::table(Api::mibdaux().'.mat_programaciones AS mp')
                     ->Join(Api::mibdaux().'.personas AS p', function($join){
                         $join->on('p.id','=','mp.persona_id');
