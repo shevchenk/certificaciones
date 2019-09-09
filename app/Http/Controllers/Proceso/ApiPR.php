@@ -12,6 +12,7 @@ class ApiPR extends Controller
     public function __construct()
     {
         //$this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
+        Api::ValidarEmail();
     }
 
     public function index(Request $r)

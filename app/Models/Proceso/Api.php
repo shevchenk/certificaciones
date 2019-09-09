@@ -15,7 +15,16 @@ class Api extends Model
 {
     protected   $table = 'apiaula';
 
-    public static function mibdaux(){
+    public static function ValidarEmail()
+    {
+        $valida=    DB::table('validar_email')
+                    ->where('ultimo',1)
+                    ->first();
+        session(['validar_email' => $valida->estado]);
+    }
+
+    public static function mibdaux()
+    {
         $bd='prabtoea_telesup_pae';
         if( $_SERVER['SERVER_NAME']=='localhost' ){
             $bd= 'telesup_pae';
@@ -842,7 +851,7 @@ class Api extends Model
             ->cc([$emailseguimiento])
             ->send( new EmailSend($parametros) );
         }
-        
+
         $result= array(
             'dni'=> $r->dni,
             'msj'=> 'Registro de Interesado(a) con éxito'
