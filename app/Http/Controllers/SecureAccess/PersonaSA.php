@@ -140,4 +140,14 @@ class PersonaSA extends Controller
         ]);
         return redirect('secureaccess.inicio');
     }
+
+    public function ValidarInscripcion(Request $r)
+    {
+        $valores['valida_ruta_url'] = '';
+        $valores['empresas'] = array();
+        $valores['privilegios'] = array();
+        $valores['activaraula'] = '';
+        $valores['key']=$r->key;
+        return view('secureaccess.valida')->with($valores);
+    }
 }

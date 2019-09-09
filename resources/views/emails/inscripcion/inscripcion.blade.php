@@ -1,76 +1,45 @@
-
-<p><strong>Ficha de Inscripci&oacute;n</strong></p>
-<p><strong>Ficha N&deg; "Prueba"</strong></p>
+<p><strong>Se realizó su inscripci&oacute;n correctamente</strong></p>
 <p><strong>&nbsp;</strong></p>
-<p><strong>Sr. .... </strong></p>
-<p><strong>Egresado de nuestra universidad</strong></p>
+<p><strong>Estimado(a) {{ $data['persona']->paterno.' '.$data['persona']->materno.', '.$data['persona']->nombre }} </strong></p>
 <p>&nbsp;</p>
 <p>Reciba usted nuestro cordial saludo a la vez expresarle mis felicitaciones por dar los pasos previos a la obtenci&oacute;n de su grado acad&eacute;micos.</p>
-<p><strong>Los seminarios a los cuales se ha inscrito, son los siguientes</strong></p>
-<table width="0">
+<?php 
+    $materia='Seminario';
+    $inscripcion=' a Seminario(s):';
+    if( trim($data['cursos'][0]->especialidad)!='' ){
+        $materia='Curso';
+        $inscripcion=' a Especialidad de: '.$data['cursos'][0]->especialidad;
+    }
+    elseif( trim($data['cursos'][0]->tipo_curso)==1 ){
+        $materia='Curso';
+        $inscripcion=' a Curso(s) Libre(s):';
+    }
+?>
+<p><strong>Ud se ha inscrito {{$inscripcion}} </strong></p>
+<table class="table table-bordered table-striped">
+<thead>
+    <tr>
+        <th>Nro</th>
+        <th>{{ $materia }}</th>
+    </tr>
+</thead>
 <tbody>
-<tr>
-<td width="302">
-<p><strong>NOMBRE DEL SEMINARIO</strong></p>
-</td>
-<td width="142">
-<p><strong>FECHA Y HORA</strong></p>
-</td>
-<td width="94">
-<p><strong>MODALIDAD</strong></p>
-<p><strong>&nbsp;</strong></p>
-</td>
-<td width="104">
-<p><strong>SOBRE EL SEMINARIO</strong></p>
-</td>
-</tr>
-<tr>
-<td width="302">
-<p>VIOLENCIA FAMILIAR</p>
-</td>
-<td width="142">
-<p>DOM 26 DE MAYO</p>
-<p>DE 10 AM A 12</p>
-</td>
-<td width="94">
-<p>PRESENCIAL</p>
-</td>
-<td width="104">
-<p>COMENTE AQU&Iacute;</p>
-</td>
-</tr>
-<tr>
-<td width="302">
-<p>SUNAT: REGIMEN TRIBUTARIO</p>
-</td>
-<td width="142">
-<p>DOM 26 DE MAYO</p>
-<p>DE 2 PM A 4 PM</p>
-</td>
-<td width="94">
-<p>VIRTUAL</p>
-</td>
-<td width="104">
-<p>COMENTE AQU&Iacute;</p>
-</td>
-</tr>
-<tr>
-<td width="302">
-<p>TECNOLOGIA DE REDES EN FIBRA OPTICA</p>
-</td>
-<td width="142">
-<p>SABADO 25 DE MAYO</p>
-<p>DE 2 PM A 4 PM</p>
-</td>
-<td width="94">
-<p>PRESENCIAL</p>
-</td>
-<td width="104">
-<p>COMENTE AQU&Iacute;</p>
-</td>
-</tr>
+    <?php
+    foreach ($data['cursos'] as $key => $value) {
+        echo "<tr>";
+        echo    "<td>".($key+1)."</td>";
+        echo    "<td>".$value->curso."</td>";
+        echo "</tr>";
+    }
+
+    $local='localhost/pae/public';
+        if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
+            $local='formacioncontinua.pe';
+        }
+    ?>
 </tbody>
 </table>
+<p><strong>Para finalizar la inscripción se requiere que valide sus datos personales <a href="http://{{ $local }}/validar/inscripcion?key=123321">Aquí</a></strong></p>
 <p>&nbsp;</p>
 <p><strong>Pasos que debe realizar para que hagamos entrega del certificado de asistencia al seminario:</strong></p>
 <ol>

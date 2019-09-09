@@ -37,6 +37,7 @@ Route::get('/mail/{email}', function($email){
 });
 
 Route::get('/validar/email','SecureAccess\PersonaSA@ActualizarEnvioEmail');
+Route::get('/validar/inscripcion','SecureAccess\PersonaSA@ValidarInscripcion');
 // --
 
 Route::get('/', function () {
