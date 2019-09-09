@@ -34,6 +34,18 @@
         </a>
     </li>
     @endif
+    @if ( Auth::user()->privilegio_id==1 )
+        @php $texto='Activar Envio Email'; 
+            if( session('validar_email')==1 ){
+                $texto='Desactivar Envio Email';
+            }
+        @endphp
+    <li class="treeview">
+        <a href="validar/email">
+            <i class="fa fa-envelope"></i> <span>{{ $texto }}</span>
+        </a>
+    </li>
+    @endif
     <li class="treeview">
         <a href="#">
             <i class="fa fa-user-secret"></i> <span>Mis datos</span>

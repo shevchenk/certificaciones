@@ -315,9 +315,11 @@ class Matricula extends Model
             'blade' => 'emails.inscripcion.inscripcion',
         );
 
-        /*Mail::to($email)
-        ->cc([$emailseguimiento])
-        ->send( new EmailSend($parametros) );*/
+        if( session('validar_email')==1 ){
+            Mail::to($email)
+            ->cc([$emailseguimiento])
+            ->send( new EmailSend($parametros) );
+        }
     }
     
         public function fileToFile($file,$id, $url){

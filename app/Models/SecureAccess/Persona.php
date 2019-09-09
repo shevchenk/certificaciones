@@ -118,6 +118,14 @@ class Persona extends Authenticatable
         return $aula;
     }
 
+    public static function ValidarEmail()
+    {
+        $email= DB::table('validar_email')
+                ->where('ultimo',1)
+                ->first();
+        return $email;
+    }
+
     public static function ActivarEmpresa()
     {
         $persona_id= Auth::user()->id;

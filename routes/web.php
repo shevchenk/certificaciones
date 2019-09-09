@@ -36,6 +36,7 @@ Route::get('/mail/{email}', function($email){
     echo "Mensaje Enviado :V";
 });
 
+Route::get('/validar/email','SecureAccess\PersonaSA@ActualizarEnvioEmail');
 // --
 
 Route::get('/', function () {

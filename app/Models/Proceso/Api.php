@@ -689,9 +689,11 @@ class Api extends Model
             'blade' => 'emails.inscripcion.inscripcion',
         );
 
-        /*Mail::to($email)
-        ->cc([$emailseguimiento])
-        ->send( new EmailSend($parametros) );*/
+        if( session('validar_email')==1 ){
+            Mail::to($email)
+            ->cc([$emailseguimiento])
+            ->send( new EmailSend($parametros) );
+        }
 
         $result= array(
             'dni'=> $r->dni,
@@ -835,10 +837,12 @@ class Api extends Model
             'blade' => 'emails.interesado.api',
         );
 
-        /*Mail::to($email)
-        ->cc([$emailseguimiento])
-        ->send( new EmailSend($parametros) );*/
-
+        if( session('validar_email')==1 ){
+            Mail::to($email)
+            ->cc([$emailseguimiento])
+            ->send( new EmailSend($parametros) );
+        }
+        
         $result= array(
             'dni'=> $r->dni,
             'msj'=> 'Registro de Interesado(a) con éxito'

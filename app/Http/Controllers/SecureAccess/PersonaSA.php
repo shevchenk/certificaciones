@@ -26,6 +26,7 @@ class PersonaSA extends Controller
         }
         $activaraula = Persona::ValidaActivarAula($valida);
         $aula=Persona::ValidarAula();
+        $validar_email= Persona::ValidarEmail();
         $opciones=array();
         foreach ($menu as $key => $value) {
             array_push($opciones, $value->opciones);
@@ -39,6 +40,7 @@ class PersonaSA extends Controller
             'dni'=>$r->dni,
             'activaraula'=>$activaraula,
             'aula'=>$aula,
+            'validar_email'=>$validar_email->estado,
         );
         session($session);
         return response()->json($result);
@@ -78,6 +80,35 @@ class PersonaSA extends Controller
         ->where('id', $persona_id)
         ->update(array('empresa_id' => $empresa_id));
         Auth::loginUsingId($persona_id);
+        return redirect('secureaccess.inicio');
+    }
+
+    public function ActualizarEnvioEmail (Request $r)
+    {
+        if( session('validar_email')==1 ){
+            session(['validar_email' => 0]);
+        }
+        else{
+            session(['validar_email' => 1]);
+        }
+
+        $usuario= Auth::user()->id;
+        $estado= session('validar_email');
+
+        DB::beginTransaction();
+        DB::table('validar_email')
+        ->where('ultimo',1)
+        ->update([
+            'persona_id_updated_at'=>$usuario,
+            'ultimo'=>0,
+            'updated_at'=>date('Y-m-d H:i:s')
+        ]);
+
+        $sql="INSERT INTO validar_email (estado,persona_id_created_at,created_at) 
+                VALUES ($estado, $usuario, NOW())";
+        DB::insert($sql);
+
+        DB::commit();
         return redirect('secureaccess.inicio');
     }
 
