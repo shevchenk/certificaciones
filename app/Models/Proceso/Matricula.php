@@ -20,6 +20,8 @@ class Matricula extends Model
     public static function runNew($r)
     {
         /******Validar si alumno existe ***/
+        ini_set('memory_limit', '1024M');
+        set_time_limit(600);
         $alumno=Alumno::where('persona_id','=',$r->persona_id)
                 ->where('empresa_id', Auth::user()->empresa_id)
                 ->first();
