@@ -78,7 +78,6 @@ class CargarPR extends Controller
             LOAD DATA LOCAL INFILE '$file'
             INTO TABLE interesados
             FIELDS TERMINATED BY ';'
-            ENCLOSED BY '\"'
             LINES TERMINATED BY '\n'
             IGNORE 1 ROWS 
             (
