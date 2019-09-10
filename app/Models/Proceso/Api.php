@@ -699,9 +699,9 @@ class Api extends Model
         );
 
         if( session('validar_email')==1 ){
-            Mail::to($email)
+            /*Mail::to($email)
             ->cc([$emailseguimiento])
-            ->send( new EmailSend($parametros) );
+            ->send( new EmailSend($parametros) );*/
         }
 
         $result= array(
@@ -847,9 +847,9 @@ class Api extends Model
         );
 
         if( session('validar_email')==1 ){
-            Mail::to($email)
+            /*Mail::to($email)
             ->cc([$emailseguimiento])
-            ->send( new EmailSend($parametros) );
+            ->send( new EmailSend($parametros) );*/
         }
 
         $result= array(

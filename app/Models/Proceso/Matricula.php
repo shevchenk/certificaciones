@@ -321,27 +321,34 @@ class Matricula extends Model
                     ->leftJoin('mat_especialidades AS me',function($join){
                         $join->on('me.id','=','md.especialidad_id');
                     })
-                    ->select('c.curso','c.tipo_curso','e.empresa','me.especialidad')
+                    ->select('c.curso','c.tipo_curso','e.empresa','c.empresa_id','me.especialidad')
                     ->where('m.id',$matricula->id)
                     ->get();
 
         $email=$persona->email;
         $emailseguimiento='jorgeshevchenk1988@gmail.com';
-        $key=bcrypt($persona->id.'-'.$matricula->id);
         $parametros=array(
+            'email'=>$email,
+            'emailseguimiento'=>$emailseguimiento,
             'persona'=>$persona,
             'cursos'=>$cursos,
             'matricula_id'=>$matricula->id,
-            'key'=>$key,
             'subject'=>'.::Bienvenido, inscripción realizada con éxito::.',
-            'blade' => 'emails.inscripcion.inscripcion',
+            'blade' => 'emails.inscripcion.inscripcion'.$cursos[0]->empresa_id,
         );
 
         if( session('validar_email')==1 ){
-            Mail::to($email)
+            /*Mail::to($email)
             //->cc([$emailseguimiento])
             ->bcc([$emailseguimiento])
-            ->send( new EmailSend($parametros) );
+            ->send( new EmailSend($parametros) );*/
+            Mail::send($parametros['blade'],$parametros, 
+                function($message) use($parametros){
+                    $message->to($parametros['email']);
+                    $message->bcc([$parametros['emailseguimiento']]);
+                    $message->subject($parametros['subject']);
+                }
+            );
         }
     }
     

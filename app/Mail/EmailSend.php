@@ -29,6 +29,7 @@ class EmailSend extends Mailable
      */
     public function build()
     {
-        return $this->markdown($this->data['blade'])->subject($this->data['subject']);
+        return $this->markdown($this->data['blade'])
+                ->subject($this->data['subject']);
     }
 }

@@ -21,14 +21,19 @@ Route::get('/mail/{email}', function($email){
         $parametros=array(
             'id'=>'123',
             'subject'=>$texto,
-            'blade' => 'emails.inscripcion.inscripcion',
+            'blade' => 'emails.interesado.api',
         );
         //try{
         
-
+        /*
 	Mail::to($email)
         ->cc([$emailseguimiento])
-        ->send( new EmailSend($parametros) );
+        ->send( new EmailSend($parametros) );*/
+    Mail::send('emails.interesado.api',$parametros, function($message) use($emailseguimiento,$email,$texto){
+        $message->to($email)
+        ->cc([$emailseguimiento])
+        ->subject($texto);
+    });
 
 	var_dump(Mail::failures());
 
