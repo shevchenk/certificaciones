@@ -24,7 +24,7 @@
         <section class="content">
             <!-- Inicia contenido -->
             <div class="form-group">
-                <form id="form_file" name="form_file" action="" enctype="multipart/form-data" method="post">
+                <form id="form_file" accept-charset="utf-8" name="form_file" action="" enctype="multipart/form-data" method="post">
                     <div class="col-sm-12">
                         <div class="col-sm-4">
                             <!-- <label>Archivo TXT</label> -->
