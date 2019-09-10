@@ -154,7 +154,7 @@ SeleccionarEspecialidad=function(id){
                     '</label>'+
                     '<div>'+
                     '<a id="pago_href">'+
-                    '<img id="pago_img_certificado'+index+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                    '<img id="pago_img_certificado'+index+'" class="img-circle" style="height: 80px;width: 120px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
                     '</a>'+
                     '</div>'+
                 '</td>'+
@@ -203,7 +203,7 @@ SeleccionarEspecialidad=function(id){
                         '</label>'+
                         '<div>'+
                         '<a id="pago_href">'+
-                        '<img id="pago_img_cuota'+index+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                        '<img id="pago_img_cuota'+index+'" class="img-circle" style="height: 80px;width: 120px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
                         '</a>'+
                         '</div>'+
                     '</td>'+

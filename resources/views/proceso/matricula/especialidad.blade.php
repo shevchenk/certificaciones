@@ -303,7 +303,7 @@
                                                         </label>
                                                         <div>
                                                         <a id="pago_href">
-                                                        <img id="pago_img" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                                                        <img id="pago_img" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
                                                         </a>
                                                         </div>
                                                     </td>
@@ -318,7 +318,7 @@
                                                         </label>
                                                         <div>
                                                         <a id="dni_href">
-                                                        <img id="dni_img" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                                                        <img id="dni_img" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
                                                         </a>
                                                         </div>
                                                     </td>

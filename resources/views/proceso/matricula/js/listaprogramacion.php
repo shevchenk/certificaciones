@@ -109,7 +109,7 @@ SeleccionarProgramacion = function(val,id){
                     '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre'+id+'\',\'#pago_archivo'+id+'\',\'#pago_img'+id+'\');" >'+
                 '</label>'+
                 '<div><a id="pago_href'+id+'">'+
-            '<img id="pago_img'+id+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+            '<img id="pago_img'+id+'" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
                 '</a></div>'+
             "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]' value='0'></td>"+
@@ -134,7 +134,7 @@ SeleccionarProgramacion = function(val,id){
                     '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre_certificado'+id+'\',\'#pago_archivo_certificado'+id+'\',\'#pago_certificado_img'+id+'\');" >'+
                 '</label>'+
                 '<div><a id="pago_certificado_href'+id+'">'+
-            '<img id="pago_certificado_img'+id+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+            '<img id="pago_certificado_img'+id+'" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
                 '</a></div>'+
             "</td>"+
             "<td>"+
@@ -176,7 +176,7 @@ SeleccionarProgramacion = function(val,id){
                     '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#pago_nombre_certificado'+id+'\',\'#pago_archivo_certificado'+id+'\',\'#pago_certificado_img'+id+'\');" >'+
                 '</label>'+
                 '<div><a id="pago_certificado_href'+id+'">'+
-            '<img id="pago_certificado_img'+id+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+            '<img id="pago_certificado_img'+id+'" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
                 '</a></div>'+
             "</td>"+
             "<td>"+
@@ -189,7 +189,7 @@ SeleccionarProgramacion = function(val,id){
                     '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#dni_nombre_detalle'+id+'\',\'#dni_archivo_detalle'+id+'\',\'#dni_archivo_img'+id+'\');" >'+
                 '</label>'+
                 '<div><a id="dni_archivo_href'+id+'">'+
-            '<img id="dni_archivo_img'+id+'" class="img-circle" style="height: 80px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+            '<img id="dni_archivo_img'+id+'" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
                 '</a></div>'+
             "</td>"+
             "<td style='display:none;'>"+
