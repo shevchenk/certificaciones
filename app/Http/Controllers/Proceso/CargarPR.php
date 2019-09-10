@@ -32,6 +32,172 @@ class CargarPR extends Controller
         //$this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
     }
 
+    public function CargarInteresadosCSV(Request $r) 
+    {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(600);
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            $uploadFolder = 'csv';
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder);
+            }
+            $uploadFolder = 'csv/interesados';
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder);
+            }
+
+            $nombreArchivo = explode(".", $_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0] . "_u" . Auth::user()->id . "_" . date("Ymd_His") . "." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+            $m = "Archivo no es formato csv";
+            if ( $nombreArchivo[1]!='csv' ) {
+                $return['rst'] = 2;
+                $return['msj'] = $m;
+                return response()->json($return);
+            }
+
+            $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                $return['rst'] = 2;
+                $return['msj'] = $m;
+                return response()->json($return);
+            }
+
+            $usuario= Auth::user()->id;
+            $empresa_id= Auth::user()->empresa_id;
+            /*$sql="SET GLOBAL local_infile = 'ON';";
+            DB::statement($sql);*/
+            $sql="SET @numero=0";
+            DB::statement($sql);
+            DB::connection()->getPdo()
+            ->exec("
+            LOAD DATA LOCAL INFILE '$file'
+            INTO TABLE interesados
+            FIELDS TERMINATED BY ';'
+            ENCLOSED BY '\"'
+            LINES TERMINATED BY '\n'
+            IGNORE 1 ROWS 
+            (
+              FECHA_REGISTRO, TIPO, FUENTE
+              , DISTRITO, CARRERA, NOMBRE, PATERNO, MATERNO
+              , DNI, CELULAR, EMAIL
+            ) 
+            SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1, 
+            FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");
+            
+            $sql="";
+            $correlativo= Persona::where('persona_id_created_at',0)
+                            ->select('dni')
+                            ->orderBy('dni','desc')
+                            ->first();
+            $inicial=0;
+            if( isset($correlativo->dni) ){
+                $inicial= $correlativo->dni;
+            }
+            $return['inicial']= $inicial;
+
+            DB::beginTransaction();
+
+            $sql="  UPDATE interesados i
+                    INNER JOIN personas p ON (p.email=i.EMAIL AND p.email!='') or (p.dni=i.DNI AND p.dni!='')
+                    SET i.dni_final=p.dni
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'";
+            DB::update($sql);
+
+            $sql="  UPDATE interesados i
+                    INNER JOIN personas p ON p.dni=i.dni_final AND i.dni_final!=''
+                    LEFT JOIN mat_matriculas m ON m.persona_id=p.id
+                    SET p.carrera=i.CARRERA, p.fuente=i.FUENTE, p.email_externo= i.EMAIL
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'
+                    AND m.id IS NULL";
+            DB::update($sql);
+
+            $sql="  UPDATE interesados i
+                    SET i.dni_final='xxxx'
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'
+                    AND i.DNI=''
+                    AND i.EMAIL=''";
+            DB::update($sql);
+
+            $sql="SET @numero=".$inicial.";";
+            DB::statement($sql);
+
+            $sql="  INSERT INTO personas (`password`, fuente, tipo, fecha_registro
+                    , dni, paterno, materno, nombre, celular, email, email_externo, distrito_domicilio
+                    , carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
+                    SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\", i.FUENTE, i.TIPO, i.FECHA_REGISTRO
+                    ,IF(i.DNI='',LPAD(@numero:=@numero+1,10,'0'),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL, i.EMAIL, i.DISTRITO
+                    , i.CARRERA, 3, NOW(), IF(i.DNI='',0,$usuario), $usuario
+                    FROM interesados AS i
+                    WHERE i.dni_final=''
+                    AND i.usuario=".$usuario."
+                    AND i.file='".$file."'";
+            DB::insert($sql);
+
+            $sql="SET @numero=".$inicial.";";
+            DB::statement($sql);
+
+            $sql="  UPDATE interesados
+                    SET dni_final=IF(DNI='',LPAD(@numero:=@numero+1,10,'0'),DNI)
+                    WHERE dni_final=''
+                    AND usuario=".$usuario."
+                    AND file='".$file."'";
+            DB::update($sql);
+
+            //Actualiza a estado activo a los usuarios
+            $sql="  UPDATE personas
+                    SET estado=1
+                    WHERE estado=3";
+            DB::update($sql);
+
+            $sql="  UPDATE interesados i
+                    INNER JOIN personas p ON p.dni=i.dni_final
+                    INNER JOIN personas_captadas pc ON pc.interesado=i.CARRERA AND pc.persona_id=p.id 
+                    SET pc.estado=0
+                    AND i.usuario=".$usuario."
+                    AND i.file='".$file."'
+                    AND pc.empresa_id='".$empresa_id."'";
+            DB::update($sql);
+
+            $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, fuente, interesado, estado, created_at, persona_id_created_at)
+                    SELECT p.id, $empresa_id, i.FUENTE, i.CARRERA, 1, i.FECHA_REGISTRO, $usuario
+                    FROM interesados i
+                    INNER JOIN personas p ON p.dni=i.dni_final
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'";
+            DB::insert($sql);
+
+            DB::commit();
+
+            $data = DB::table('interesados')
+                    ->select('pos', 'DNI', 'EMAIL', 'COD_VENDEDOR', 'FECHA_REGISTRO','FECHA_ENTREGA','dni_final')
+                    ->where('usuario',$usuario)
+                    ->where('file',$file)
+                    ->where('dni_final','like','xxxx%')
+                    ->get();
+            if( count($data) > 0)
+            {
+                $return['data'] = $data;
+                $return['rst'] = 3;
+                $return['msj'] = 'Algunos datos no procesaron';
+            }
+            else
+            {
+                $return['rst'] = 1;
+                $return['msj'] = 'Archivo procesado correctamente';
+            }
+            
+            return response()->json($return);
+        }
+    }
+
     public function CargarInteresados(Request $r) 
     {
         ini_set('memory_limit', '1024M');
