@@ -47,7 +47,7 @@ class MatriculaPR extends Controller
         }
     }
     
-           public function BuscarAlumno (Request $r )
+    public function BuscarAlumno (Request $r )
     {
         if ( $r->ajax() ) {
             $renturnModel = Alumno::BuscarAlumno($r);

@@ -460,7 +460,18 @@ var sweetalertG = {
       },
       consulta
       );
+    },
+    alert: function (titulo, descripcion, consulta) {
+      swal({
+          type: 'success',
+          title: titulo,
+          text: descripcion,
+          closeOnConfirm: true,
+      },
+      consulta
+      );
     }
 }
+
 
 </script>

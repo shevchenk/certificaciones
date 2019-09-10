@@ -35,9 +35,16 @@
             {{ Html::script('lib/slimScroll/jquery.slimscroll.min.js') }}
             {{ Html::script('js/app.min.js') }}
             {{ Html::script('lib/sweetalert-master/dist/sweetalert.min.js') }}
+
+            {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
+            {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
+            {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
+
         @show
         @include( 'include.css.master' )
         @include( 'include.js.master' )
+        @include( 'secureaccess.js.valida' )
+        @include( 'secureaccess.js.valida_ajax' )
     </head>
 
     <body class="skin-blue sidebar-mini sidebar-collapse">
@@ -69,12 +76,11 @@
             <div class="content-wrapper">
                 <div class="msjG" style="display: none;"> </div>
                 <section class="content-header">
-                    <h1>Mis Datos
-                        <small>Datos Personales</small>
+                    <h1>Validación de datos personales
+                        <small>- Valide su información personal; esta información será usada para la elaboración de sus certificados</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><i class="fa fa-sitemap"></i> Datos Personales</a></li>
-                        <li class="active">Mis Datos</li>
                     </ol>
                 </section>
 
@@ -86,19 +92,41 @@
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label>Key Asignado:</label>
-                                            <input type="text" class="form-control" id="txt_key" name="txt_key" placeholder="Key Asignado" value="{{$key}}">
+                                            <input type="text" class="form-control" id="txt_key" name="txt_key" placeholder="Key Asignado" value="{{$key}}" disabled>
+                                            <input type="hidden" name="txt_persona_id" value="{{$persona}}">
+                                            <input type="hidden" name="txt_matricula_id" value="{{$matricula}}">
                                         </div>
                                         <div class="form-group">
                                             <label>Paterno:</label>
-                                            <input type="text" class="form-control" id="txt_paterno" name="txt_paterno" placeholder="Paterno">
+                                            <input type="text" class="form-control" id="txt_paterno" name="txt_paterno" placeholder="Paterno" value="{{$paterno}}">
                                         </div>
                                         <div class="form-group">
                                             <label>Materno:</label>
-                                            <input type="text" class="form-control" id="txt_materno" name="txt_materno" placeholder="Materno">
+                                            <input type="text" class="form-control" id="txt_materno" name="txt_materno" placeholder="Materno" value="{{$materno}}">
                                         </div>
                                         <div class="form-group">
                                             <label>Nombre:</label>
-                                            <input type="text" class="form-control" id="txt_nombre" name="txt_nombre" placeholder="Nombre">
+                                            <input type="text" class="form-control" id="txt_nombre" name="txt_nombre" placeholder="Nombre" value="{{$nombre}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>DNI:</label>
+                                            <input type="text" class="form-control" id="txt_dni" name="txt_dni" placeholder="DNI" value="{{$dni}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sexo</label>
+                                            <select class="form-control selectpicker show-menu-arrow" id="slct_sexo" name="slct_sexo">
+                                                <option value="">.::Seleccione::.</option>
+                                                <option data-icon="fa fa-female" <?php if($sexo=="F"){ echo "selected"; } ?> value="F">Femenino</option>
+                                                <option data-icon="fa fa-male" <?php if($sexo=="M"){ echo "selected"; } ?> value="M">Masculino</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email:</label>
+                                            <input type="text" class="form-control" id="txt_email" name="txt_email" placeholder="Email" value="{{$email}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Celular:</label>
+                                            <textarea class="form-control" id="txt_celular" name="txt_celular" placeholder="Celular">{{$celular}}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Contraseña Nueva:</label>

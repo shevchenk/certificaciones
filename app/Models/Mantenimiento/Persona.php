@@ -6,11 +6,38 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\Models\Proceso\Visita;
+use App\Models\Proceso\Matricula;
 use DB;
 
 class Persona extends Model
 {
     protected   $table = 'personas';
+
+    public static function ConfirmarInscripcion($r)
+    {
+        $persona_id= $r->persona_id;
+        $matricula_id= $r->matricula_id;
+
+        DB::beginTransaction();
+        $persona= Persona::find($persona_id);
+        $persona->paterno = trim( $r->paterno );
+        $persona->materno = trim( $r->materno );
+        $persona->nombre = trim( $r->nombre );
+        $persona->dni = trim( $r->dni );
+        $persona->sexo = trim( $r->sexo );
+        $persona->email = trim( $r->email );
+        $persona->celular = trim( $r->celular );
+        $persona->password=bcrypt($r->password);
+        $persona->estado=1;
+        $persona->persona_id_updated_at=$persona_id;
+        $persona->save();
+
+        $matricula= Matricula::find($matricula_id);
+        $matricula->validada=1;
+        $matricula->persona_id_updated_at=$persona_id;
+        $matricula->save();
+        DB::commit();
+    }
 
     public static function runEditStatus($r)
     {

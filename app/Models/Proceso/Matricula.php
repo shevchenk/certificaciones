@@ -327,9 +327,12 @@ class Matricula extends Model
 
         $email=$persona->email;
         $emailseguimiento='jorgeshevchenk1988@gmail.com';
+        $key=bcrypt($persona->id.'-'.$matricula->id);
         $parametros=array(
             'persona'=>$persona,
             'cursos'=>$cursos,
+            'matricula_id'=>$matricula->id,
+            'key'=>$key,
             'subject'=>'.::Bienvenido, inscripción realizada con éxito::.',
             'blade' => 'emails.inscripcion.inscripcion',
         );
@@ -342,7 +345,7 @@ class Matricula extends Model
         }
     }
     
-        public function fileToFile($file,$id, $url){
+    public function fileToFile($file,$id, $url){
         if ( !is_dir('upload') ) {
             mkdir('upload',0777);
         }
@@ -360,5 +363,11 @@ class Matricula extends Model
         file_put_contents($url.$type , $file);
         return $url. $type;
     }
-        
+    
+    public static function ValidarMatricula($r)
+    {
+        $matricula_id= $r->matricula_id;
+        $matricula= Matricula::find($matricula_id);
+        return $matricula->validada;
+    }
 }

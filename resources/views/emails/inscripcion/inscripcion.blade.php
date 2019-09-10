@@ -39,7 +39,7 @@
     ?>
 </tbody>
 </table>
-<p><strong>Para finalizar la inscripción se requiere que valide sus datos personales <a href="http://{{ $local }}/validar/inscripcion?key=123321">Aquí</a></strong></p>
+<p><strong>Para finalizar la inscripción se requiere que valide sus datos personales <a href="http://{{ $local }}/validar/inscripcion?key={{$data['key']}}&persona={{$data['persona']->id}}&matricula={{$data['matricula_id']}}">Aquí</a></strong></p>
 <p>&nbsp;</p>
 <p><strong>Pasos que debe realizar para que hagamos entrega del certificado de asistencia al seminario:</strong></p>
 <ol>
