@@ -61,7 +61,7 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/img2.png";
 </td>
 <td style="width: 171.3pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="2" width="261">
 <?php
-$imagen="http://formacioncontinua.pe/img/inscripcion/foto1.png";
+$imagen="http://formacioncontinua.pe/img/inscripcion/foto1.jpg";
 ?>
 <img src={{ $imagen }}></td>
 </tr>
