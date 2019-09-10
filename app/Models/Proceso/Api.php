@@ -97,7 +97,7 @@ class Api extends Model
                     ,'p.materno AS docente_materno','p.nombre AS docente_nombre', 'mmd.id AS programacion_externo_id'
                     ,DB::raw('IFNULL(me.especialidad,"Curso Libre") AS carrera','mc.empresa_id AS empresa_externo_id')
                     )
-                    ->where(DB::raw('DATE(mp.fecha_inicio)'),'<=',date('Y-m-d'))
+                    ->where(DB::raw('DATE(mp.fecha_inicio)<=CURDATE()'))
                     ->where('mm.estado',1)
                     ->where('mm.persona_id',$persona[0]->id)
                     ->get();
