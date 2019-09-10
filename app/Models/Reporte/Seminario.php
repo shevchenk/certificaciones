@@ -67,9 +67,16 @@ class Seminario extends Model
                     ,DB::raw('GROUP_CONCAT( mp.fecha_inicio ORDER BY mmd.id SEPARATOR "\n") fecha_inicio')
                     ,DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago')
                     ,DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago')
-                    ,DB::raw('GROUP_CONCAT( IF(mmd.tipo_pago=1,"Transferencia",
-                       IF(mmd.tipo_pago=2, "Depósito", "Caja")
-                    ) ORDER BY mmd.id SEPARATOR "\n") tipo_pago')
+                    ,DB::raw('GROUP_CONCAT( 
+                                CASE 
+                                    WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mmd.tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    ELSE "Caja"
+                                END ORDER BY mmd.id SEPARATOR "\n") tipo_pago')
                     ,DB::raw('SUM(mmd.monto_pago_certificado) total')
                     ,'mm.nro_promocion','mm.monto_promocion'
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
