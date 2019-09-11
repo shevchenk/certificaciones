@@ -27,12 +27,11 @@
     <ol>
         <?php 
         foreach ($cursos as $key => $value) {
-            echo "<li>".$value->curso."</li>";
+            echo "<li style=\"font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;\">".$value->curso."</li>";
         }
         ?>
     </ol>
 </p>
-<p><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">&nbsp;</span></p>
 </td>
 </tr>
 <tr>
@@ -65,7 +64,7 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/foto1.jpg";
 ?>
 <img src={{ $imagen }}></td>
 </tr>
-<tr>
+<!--tr>
 <td style="width: 453.35pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
 <p style="line-height: normal; margin: 0cm 0cm .0001pt 7.1pt;"><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Paso 1: Acceda a su Plataforma Virtual</span></strong></p>
 <p style="margin-bottom: .0001pt; text-indent: -18.0pt; line-height: normal; tab-stops: 14.2pt;"><span style="font-size: 13.0pt; font-family: Symbol; color: #333333;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Acceda a su plataforma virtual, all&iacute; encontrar&aacute; los cursos a los que se ha inscrito.</span></p>
@@ -84,8 +83,13 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/foto1.jpg";
 <p style="margin-bottom: .0001pt; text-indent: -18.0pt; line-height: normal;"><span style="font-size: 13.0pt; font-family: Symbol; color: #333333;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Al final del proceso del aprendizaje virtual, a trav&eacute;s de su plataforma virtual el participante rinde el examen de certificaci&oacute;n. La nota lo observar&aacute; en la plataforma de inmediato haya concluido el examen. La nota aprobatoria es 13.</span></p>
 <p style="margin-bottom: .0001pt; text-indent: -18.0pt; line-height: normal;"><span style="font-size: 13.0pt; font-family: Symbol; color: #333333;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">En un d&iacute;a solo podr&aacute; realizar 2 evaluaciones del mismo curso. Si el curso ya se aprob&oacute;, ya no podr&aacute; rendir nuevamente el examen.</span></p>
 </td>
-</tr>
+</tr-->
 <tr style="height: 148.75pt;">
+<td style="width: 171.3pt; padding: 0cm 5.4pt 0cm 5.4pt; height: 148.75pt;" colspan="2" width="261">
+<?php
+$imagen="http://formacioncontinua.pe/img/inscripcion/foto2.png";
+?>
+<img src={{ $imagen }}></td>
 <td style="width: 282.05pt; padding: 0cm 5.4pt 0cm 5.4pt; height: 148.75pt;" width="355">
 <p style="margin-bottom: .0001pt; line-height: normal;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;"> <strong>
 <?php
@@ -95,13 +99,8 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/img3.png";
 <p style="margin-bottom: .0001pt; line-height: normal;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Aprobado el examen de certificaci&oacute;n, obtendr&aacute; su respectivo certificado del curso.</span></p>
 <p style="margin-bottom: .0001pt; line-height: normal;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Podr&aacute; certificarte tambi&eacute;n como Especialista una vez que hayas aprobado los cursos requeridos por estos m&oacute;dulos. Estos certificados son respaldados por el Instituto de Educaci&oacute;n Superior Telesup. </span></p>
 </td>
-<td style="width: 171.3pt; padding: 0cm 5.4pt 0cm 5.4pt; height: 148.75pt;" colspan="2" width="261">
-<?php
-$imagen="http://formacioncontinua.pe/img/inscripcion/foto2.png";
-?>
-<img src={{ $imagen }}></td>
 </tr>
-<tr>
+<!--tr>
 <td style="width: 453.35pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
 <p style="margin-bottom: .0001pt; text-align: justify; line-height: normal;"><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Informaci&oacute;n previa</span></strong></p>
 <p style="margin-bottom: .0001pt; text-align: justify; text-indent: -18.0pt; line-height: normal;"><span style="font-size: 13.0pt; font-family: Symbol; color: #333333;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">La nota aprobatoria para la obtenci&oacute;n del certificado de los cursos es de 13, Habiendo aprobado el examen, ya est&aacute; expedito para obtener el certificado del curso.</span></p>
@@ -122,7 +121,7 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/foto2.png";
 <p style="margin-bottom: .0001pt; text-align: justify; line-height: normal;"><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Para provincias (zona urbana): </span></strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">El plazo m&aacute;ximo es de 9 d&iacute;as h&aacute;biles, posterior al registro de su solicitud.</span></p>
 <p style="margin-bottom: .0001pt; text-align: justify; line-height: normal;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">&nbsp;</span></p>
 </td>
-</tr>
+</tr-->
 <tr>
 <td style="width: 304.55pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="2" width="376">
 <p style="margin-bottom: .0001pt; text-align: justify; line-height: normal;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">&nbsp;</span><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">
@@ -138,14 +137,14 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/foto3.png";
 ?>
 <img src={{ $imagen }}></td>
 </tr>
-<tr>
+<!--tr>
 <td style="width: 453.35pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
 <p style="margin-bottom: .0001pt; line-height: normal;"><strong><span style="font-family: 'Open Sans',sans-serif; color: #c00000; background: white;">&nbsp;</span></strong><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Te entregamos una Carta de Recomendaci&oacute;n</span></strong></p>
 <p style="line-height: normal; margin: 0cm 0cm .0001pt 14.2pt;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Completamente gratis, emitiremos una carta de recomendaci&oacute;n, en formato digital, dirigida a la empresa a la que desee postular.</span></p>
 <p style="margin-bottom: .0001pt; line-height: normal;"><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">&nbsp;</span></strong><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Apoyamos en la elaboraci&oacute;n del CV de alto impacto</span></strong></p>
 <p style="line-height: normal; margin: 0cm 0cm .0001pt 14.2pt;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Completamente gratis, te ayudaremos a elaborar tu CV de alto impacto, el cual contribuir&aacute; a la obtenci&oacute;n del trabajo deseado.</span></p>
 </td>
-</tr>
+</tr-->
 <tr>
 <td style="width: 453.35pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
 <p style="margin-bottom: .0001pt; line-height: normal;"><strong><span style="font-family: 'Open Sans',sans-serif; color: #c00000; background: white;">&nbsp;</span></strong><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #002060;">Ahora s&iacute;, inicia tu formaci&oacute;n:</span></strong></p>
@@ -165,7 +164,7 @@ $key=bcrypt($persona->id.'-'.$matricula_id);
 $imagen="http://formacioncontinua.pe/img/inscripcion/img5.png";
 ?>
 <img src={{ $imagen }}>
-</span></strong><strong><span style="font-family: 'Open Sans',sans-serif; color: #c00000; background: white;">&nbsp;</span></strong></p>
+</span></strong></p>
 </a>
 </td>
 </tr>
