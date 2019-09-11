@@ -77,6 +77,7 @@ class CargarPR extends Controller
             ->exec("
             LOAD DATA LOCAL INFILE '$file'
             INTO TABLE interesados
+            character set latin1
             FIELDS TERMINATED BY ';'
             LINES TERMINATED BY '\n'
             IGNORE 1 ROWS 
