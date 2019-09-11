@@ -126,7 +126,7 @@ class Privilegio extends Model
                     }
                 }
             )
-            ->groupBy('p.id','p.privilegio','p.estado');
+            ->groupBy('p.id','p.privilegio','p.cargo','p.estado');
         $result = $sql->orderBy('p.privilegio','asc')->paginate(10);
         return $result;
     }
