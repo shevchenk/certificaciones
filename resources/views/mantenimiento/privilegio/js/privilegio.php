@@ -30,6 +30,7 @@ $(document).ready(function() {
         $('#ModalPrivilegioForm #txt_privilegio').val( PrivilegioG.privilegio );
         var opcion = PrivilegioG.opcion_id.split(',');
         $('#ModalPrivilegioForm #slct_opcion_id').selectpicker( 'val',opcion );
+        $('#ModalPrivilegioForm #slct_cargo').selectpicker( 'val',PrivilegioG.cargo );
 
         $('#ModalPrivilegioForm #slct_estado').val( PrivilegioG.estado );
         $('#ModalPrivilegioForm #txt_privilegio').focus();
@@ -60,11 +61,13 @@ AgregarEditar=function(val,id){
     PrivilegioG.id='';
     PrivilegioG.privilegio='';
     PrivilegioG.opcion_id='';
+    PrivilegioG.cargo='0';
     PrivilegioG.estado='1';
     if( val==0 ){
         PrivilegioG.id=id;
         PrivilegioG.privilegio=$("#TablePrivilegio #trid_"+id+" .privilegio").text();
         PrivilegioG.opcion_id=$("#TablePrivilegio #trid_"+id+" .opcion_id").val();
+        PrivilegioG.cargo=$("#TablePrivilegio #trid_"+id+" .cargo").val();
         PrivilegioG.estado=$("#TablePrivilegio #trid_"+id+" .estado").val();
     }
     $('#ModalPrivilegio').modal('show');
@@ -129,7 +132,8 @@ HTMLCargarPrivilegio=function(result){
             "<td class='privilegio'>"+r.privilegio+"</td>"+
             "<td class='opciones'>"+$.trim(r.opciones).split("|").join("'").split(",").join("<br>")+"</td>"+
             "<td>"+
-            "<input type='hidden' class='opcion_id' value='"+r.opcion_id+"'>";
+            "<input type='hidden' class='opcion_id' value='"+r.opcion_id+"'>"+
+            "<input type='hidden' class='cargo' value='"+r.cargo+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";

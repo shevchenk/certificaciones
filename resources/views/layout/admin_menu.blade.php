@@ -1,3 +1,4 @@
+<?php use App\Models\Mantenimiento\Privilegio; ?>
 <ul class="sidebar-menu">
         @if (isset($menu))
             {{ $cargo='' }}
@@ -20,14 +21,17 @@
                 </li>
             @endforeach
         @endif
-    @if ( $activaraula AND (Auth::user()->privilegio_id==14 OR Auth::user()->privilegio_id==20) )
+    <?php 
+        $privilegio=Privilegio::find(Auth::user()->privilegio_id);
+    ?>
+    @if ( $activaraula AND ($privilegio->cargo=='2' OR $privilegio->cargo=='3') )
     <li class="treeview">
         <a href="{{ $aula->aulaurl }}/ReportDinamic/Api.ApiCurso@Validaracceso?id={{ $aula->idaula }}&dni={{ $dni }}&cargo={{ $menu[0]->cargo }}" target="__blank">
             <i class="fa fa-university"></i> <span>Mis Cursos</span>
         </a>
     </li>
     @endif
-    @if ( Auth::user()->privilegio_id==4 OR Auth::user()->privilegio_id==5 )
+    @if ( $privilegio->cargo=='1' )
     <li class="treeview">
         <a href="{{ $aula->aulaurl }}/ReportDinamic/Api.ApiCurso@Validaracceso?id={{ $aula->idaula }}&dni={{ $dni }}&cargo={{ $menu[0]->cargo }}&empresa_id={{ Auth::user()->empresa_id }}" target="__blank">
             <i class="fa fa-university"></i> <span>Adm. Aula</span>

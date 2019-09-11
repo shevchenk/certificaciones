@@ -26,6 +26,7 @@ class Privilegio extends Model
         $privilegio = new Privilegio;
         $privilegio->privilegio = trim( $r->privilegio );
         $privilegio->estado = trim( $r->estado );
+        $privilegio->cargo = trim( $r->cargo );
         $privilegio->persona_id_created_at=$privilegio_id;
         $privilegio->save();
         $opcion = $r->opcion_id;
@@ -47,6 +48,7 @@ class Privilegio extends Model
         $privilegio = Privilegio::find($r->id);
         $privilegio->privilegio = trim( $r->privilegio );
         $privilegio->estado = trim( $r->estado );
+        $privilegio->cargo = trim( $r->cargo );
         $privilegio->persona_id_updated_at=$privilegio_id;
         $privilegio->save();
         $opcion = $r->opcion_id;
@@ -98,7 +100,7 @@ class Privilegio extends Model
             })
             ->select(
             'p.id',
-            'p.privilegio',
+            'p.privilegio','p.cargo',
             'p.estado',
             DB::raw('GROUP_CONCAT(CONCAT("<span><i class=|",class_icono,"|></i>"," ",o.opcion,"</span>") ORDER BY opcion) opciones'),
             DB::raw('GROUP_CONCAT(o.id) opcion_id')

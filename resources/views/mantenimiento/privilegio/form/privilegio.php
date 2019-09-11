@@ -11,11 +11,18 @@
           <fieldset>
             <div class="form-group">
               <div class="col-md-12">
-              
                 <label>Privilegio</label>
                 <input type="text" class="form-control" id="txt_privilegio" name="txt_privilegio" placeholder="Privilegio">
               </div>
-            
+              <div class="col-md-12">
+                <label>Privilegio del Aula</label>
+                <select name="slct_cargo" id="slct_cargo" class="form-control selectpicker">
+                  <option value="0">Sin Asignación</option>
+                  <option value="1">Administrador</option>
+                  <option value="3">Alumno</option>
+                  <option value="2">Docente</option>
+                </select>
+              </div>
               <div class="col-sm-12">  
                 <div class="col-sm-6">     
                     <br>         
