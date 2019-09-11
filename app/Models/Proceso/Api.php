@@ -566,7 +566,7 @@ class Api extends Model
 
         $privilegio =DB::table('personas_privilegios_sucursales')
         ->where('privilegio_id',14)
-        ->where('sucursal_id',1)
+        ->where('estado',1)
         ->where('persona_id',$persona->id)
         ->first();
 

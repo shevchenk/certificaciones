@@ -78,19 +78,6 @@ class Persona extends Model
         $persona->estado = '1';
         $persona->persona_id_created_at=$persona_id;
         $persona->save();
-
-        if( Input::has('alumnonuevo') AND $r->alumnonuevo!='' ){
-            DB::table('personas_privilegios_sucursales')->insert(
-                array(
-                    'privilegio_id' => 14,
-                    'persona_id' => $persona->id,
-                    'created_at'=> date('Y-m-d h:m:s'),
-                    'persona_id_created_at'=> Auth::user()->id,
-                    'estado' => 1,
-                    'persona_id_updated_at' => Auth::user()->id
-                )
-            );
-        }
         
         if ($r->cargos_selec) {
                 $cargos=$r->cargos_selec;
@@ -202,7 +189,7 @@ class Persona extends Model
                                 ->where('privilegio_id', $cargoId)
                                 ->where('persona_id', $r->id)
                                 ->first();
-                        if (is_null($areaCargoPersona)) {
+                        if (!isset($areaCargoPersona->id)) {
                             DB::table('personas_privilegios_sucursales')->insert(
                                 array(
                                     'sucursal_id' => $areaId,
@@ -763,18 +750,6 @@ class Persona extends Model
         $llamada->persona_id_created_at=Auth::user()->id;
         $llamada->save();
 
-
-
-        DB::table('personas_privilegios_sucursales')->insert(
-            array(
-                'privilegio_id' => 14,
-                'persona_id' => $persona->id,
-                'created_at'=> date('Y-m-d h:m:s'),
-                'persona_id_created_at'=> Auth::user()->id,
-                'estado' => 1,
-                'persona_id_updated_at' => Auth::user()->id
-            )
-        );
         DB::commit();
     }
 

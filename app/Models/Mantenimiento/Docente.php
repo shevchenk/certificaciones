@@ -39,6 +39,7 @@ class Docente extends Model
         elseif( !isset($privilegio->id) AND trim($r->estadof)==1 ){
             $pps=new PersonaPrivilegioSucursal;
             $pps->persona_id=$docente->persona_id;
+            $pps->sucursal_id='1';
             $pps->privilegio_id='20';
             $pps->estado= '1';
             $pps->persona_id_created_at=Auth::user()->id;
@@ -102,6 +103,7 @@ class Docente extends Model
             $pps=new PersonaPrivilegioSucursal;
             $pps->persona_id=$docente->persona_id;
             $pps->privilegio_id='20';
+            $pps->sucursal_id='1';
             $pps->estado= '1';
             $pps->persona_id_created_at=Auth::user()->id;
             $pps->save();

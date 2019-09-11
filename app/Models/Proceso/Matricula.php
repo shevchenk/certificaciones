@@ -306,6 +306,38 @@ class Matricula extends Model
                 }
             }
         }
+
+        $privilegio =DB::table('personas_privilegios_sucursales')
+        ->where('privilegio_id',14)
+        ->where('sucursal_id',1)
+        ->where('persona_id',$persona->id)
+        ->first();
+
+        if( !isset($privilegio->id) ){
+            DB::table('personas_privilegios_sucursales')->insert(
+                array(
+                    'privilegio_id' => 14,
+                    'sucursal_id' => 1,
+                    'persona_id' => $persona->id,
+                    'created_at'=> date('Y-m-d h:m:s'),
+                    'persona_id_created_at'=> $usuario,
+                    'estado' => 1,
+                    'persona_id_updated_at' => $usuario
+                )
+            );
+        }
+        else{
+            DB::table('personas_privilegios_sucursales')
+            ->where('persona_id',$persona->id)
+            ->where('privilegio_id',14)
+            ->where('sucursal_id',1)
+            ->update(
+                array(
+                    'estado' => 1
+                )
+            );
+        }
+
         DB::commit();
 
         $persona= DB::table('personas')->where('id',$r->persona_id)->first();
