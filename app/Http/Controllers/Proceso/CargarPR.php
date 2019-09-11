@@ -159,11 +159,10 @@ class CargarPR extends Controller
 
             $sql="  UPDATE interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
-                    INNER JOIN personas_captadas pc ON pc.interesado=i.CARRERA AND pc.persona_id=p.id 
+                    INNER JOIN personas_captadas pc ON pc.interesado=i.CARRERA AND pc.persona_id=p.id AND pc.empresa_id='$empresa_id'
                     SET pc.estado=0
-                    AND i.usuario=".$usuario."
-                    AND i.file='".$file."'
-                    AND pc.empresa_id='".$empresa_id."'";
+                    WHERE i.usuario=".$usuario."
+                    AND i.file='".$file."'";
             DB::update($sql);
 
             $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, ad_name, campaign_name, fuente, interesado, estado, created_at, persona_id_created_at)
