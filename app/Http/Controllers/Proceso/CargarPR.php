@@ -81,7 +81,7 @@ class CargarPR extends Controller
             LINES TERMINATED BY '\n'
             IGNORE 1 ROWS 
             (
-              FECHA_REGISTRO, TIPO, FUENTE
+              FECHA_REGISTRO, EMPRESA, TIPO, FUENTE
               , DISTRITO, CARRERA, NOMBRE, PATERNO, MATERNO
               , DNI, CELULAR, EMAIL
             ) 
@@ -165,8 +165,8 @@ class CargarPR extends Controller
                     AND pc.empresa_id='".$empresa_id."'";
             DB::update($sql);
 
-            $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, fuente, interesado, estado, created_at, persona_id_created_at)
-                    SELECT p.id, $empresa_id, i.FUENTE, i.CARRERA, 1, i.FECHA_REGISTRO, $usuario
+            $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, ad_name, campaign_name, fuente, interesado, estado, created_at, persona_id_created_at)
+                    SELECT p.id, $empresa_id, i.EMPRESA, i.TIPO, i.FUENTE, i.CARRERA, 1, i.FECHA_REGISTRO, $usuario
                     FROM interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
                     WHERE i.usuario=".$usuario."
