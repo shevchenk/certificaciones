@@ -20,18 +20,9 @@ class SeminarioEM extends Controller
             if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
                 $r['global']=1;
             }
-            $renturnModel = Seminario::runLoadSeminario($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-
-    public function LoadSeminarioTrabajador(Request $r)
-    {
-        if ( $r->ajax() ) {
-            $r['vendedor']=1;
+            elseif( $url[count($url)-1]=="reporte.seminariot.seminariot" ){
+                $r['vendedor']=1;
+            }
             $renturnModel = Seminario::runLoadSeminario($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
@@ -45,6 +36,9 @@ class SeminarioEM extends Controller
         $url=explode("/",$_SERVER['HTTP_REFERER']);
         if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
             $r['global']=1;
+        }
+        elseif( $url[count($url)-1]=="reporte.seminariot.seminariot" ){
+            $r['vendedor']=1;
         }
         $renturnModel = Seminario::runExportSeminario($r);
         
