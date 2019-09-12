@@ -73,19 +73,21 @@
                                 <table id="TableReporte" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th style="background-color: #F2DCDB;" colspan='5'>DATOS DEL INSCRITO</th>
-                                            <th style="background-color: #C5D9F1;" colspan='6'>SOBRE LA INFORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #F2DCDB;" colspan='6'>DATOS DEL INSCRITO</th>
+                                            <th style="background-color: #C5D9F1;" colspan='7'>SOBRE LA INFORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FFFF00;" colspan='4'>PAGO POR CURSO</th>
                                             <th style="background-color: #8DB4E2;" colspan='2'>PAGO POR CONJUNTO DE CURSOS <hr> PAGO POR INSCRIPCIÓN DE ESPECIALIDAD</th>
                                             <th style="background-color: #FCD5B4;" colspan='6'>DATOS DE LA VENTA</th>
                                         </tr>
                                         <tr>
+                                            <th style="background-color: #F2DCDB;">DNI</th>
                                             <th style="background-color: #F2DCDB;">Nombres</th>
                                             <th style="background-color: #F2DCDB;">Paterno</th>
                                             <th style="background-color: #F2DCDB;">Materno</th>
                                             <th style="background-color: #F2DCDB;">Celular</th>
                                             <th style="background-color: #F2DCDB;">Email</th>
 
+                                            <th style="background-color: #C5D9F1;">Validó Email?</th>
                                             <th style="background-color: #C5D9F1;">Fecha de Inscripción</th>
                                             <th style="background-color: #C5D9F1;">Donde Estudiará</th>
                                             <th style="background-color: #C5D9F1;">Empresa</th>
@@ -112,12 +114,14 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
+                                            <th style="background-color: #F2DCDB;">DNI</th>
                                             <th style="background-color: #F2DCDB;">Nombres</th>
                                             <th style="background-color: #F2DCDB;">Paterno</th>
                                             <th style="background-color: #F2DCDB;">Materno</th>
                                             <th style="background-color: #F2DCDB;">Celular</th>
                                             <th style="background-color: #F2DCDB;">Email</th>
 
+                                            <th style="background-color: #C5D9F1;">Validó Email?</th>
                                             <th style="background-color: #C5D9F1;">Fecha de Inscripción</th>
                                             <th style="background-color: #C5D9F1;">Donde Estudiará</th>
                                             <th style="background-color: #C5D9F1;">Empresa</th>

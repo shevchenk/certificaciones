@@ -107,6 +107,12 @@ class SeminarioEM extends Controller
             for ($i=0; $i<count($data); $i++) {
                 //unset($data[$i]['ndet']);
                 $data[$i]['id']=$i+1;
+                if( $data[$i]['validada']==0 ){
+                    $data[$i]['validada']='Falta Validar';
+                }
+                else{
+                    $data[$i]['validada']='Validó';
+                }
                 $pos++;
                 $sheet->row( $pos, $data[$i] );
             }

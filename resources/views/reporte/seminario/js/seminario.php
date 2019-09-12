@@ -82,15 +82,20 @@ HTMLCargarReporte=function(result){
         var nro="<ul><li>"+$.trim(r.nro_pago).split("\n").join('</li><li>')+"</li></ul>";
         var monto="<ul><li>"+$.trim(r.monto_pago).split("\n").join('</li><li>')+"</li></ul>";
         var tipo_pago="<ul><li>"+$.trim(r.tipo_pago).split("\n").join('</li><li>')+"</li></ul>";
-
+        var validada='Validó';
+            if(r.validada==0){
+                validada='Falta Validar';
+            }
 
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td>"+r.dni+"</td>"+
             "<td>"+r.nombre+"</td>"+
             "<td>"+r.paterno+"</td>"+
             "<td>"+r.materno+"</td>"+
             "<td>"+r.celular+"</td>"+
             "<td>"+r.email+"</td>"+
 
+            "<td>"+validada+"</td>"+
             "<td>"+r.fecha_matricula+"</td>"+
             "<td>"+$.trim(r.lugar_estudio)+"</td>"+
             "<td>"+r.empresa_inscripcion+"</td>"+

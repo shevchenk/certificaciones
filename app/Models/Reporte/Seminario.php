@@ -57,7 +57,7 @@ class Seminario extends Model
                 $join->on('s3.id','=','mp.sucursal_id');
             })
             ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
-                    ,'p.telefono','p.celular','p.email'
+                    ,'p.telefono','p.celular','p.email','mm.validada'
                     ,'mm.fecha_matricula','s3.sucursal AS lugar_estudio','e.empresa AS empresa_inscripcion'
                     ,DB::raw(' GROUP_CONCAT(DISTINCT(IF( mm.especialidad_programacion_id IS NULL, 
                         IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ),
@@ -204,7 +204,7 @@ class Seminario extends Model
         $length=array('A'=>5);
         $pos=array(
             5,15,15,20,20,20,15,15,25,30,
-            15,15,15,15,
+            15,15,15,15,15,
             15,15,15,15,15,
             15,15,15,
             20,20,20,
@@ -232,7 +232,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(1,6,5,3,1,4);
+        $nrocabeceraTit=array(1,6,6,3,1,4);
         $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -265,8 +265,8 @@ class Seminario extends Model
 
         $cabecera=array(
             'N°','Fuente de Datos','Fuente de Datos de Empresa'
-            ,'DNI','Nombre','Paterno','Materno','Telefono','Celular','Email',
-            'Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua','Formación Continua','Fecha a Realizarse'
+            ,'DNI','Nombre','Paterno','Materno','Telefono','Celular','Email'
+            ,'Validó Email?','Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua','Formación Continua','Fecha a Realizarse'
             ,'Nro Pago','Monto Pago','Tipo Pago','Total Pagado'
             ,'Nro Recibo PCC/ESP','Monto PPC/ESP'
             ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Supervisor(a)'
