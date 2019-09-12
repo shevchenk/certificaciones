@@ -14,8 +14,8 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'reporte.seminario.js.seminario_ajax' )
-@include( 'reporte.seminario.js.seminario' )
+@include( 'reporte.seminariot.js.seminariot_ajax' )
+@include( 'reporte.seminariot.js.seminariot' )
 @stop
 
 @section('content')
@@ -23,7 +23,7 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Reporte de Mis Inscritos de Formación Continua
+        <h1>Reporte de Inscritos de Formación Continua
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">

@@ -96,6 +96,11 @@ class Seminario extends Model
                             $query ->whereBetween('mm.fecha_matricula', array($r->fecha_inicial,$r->fecha_final));
                         }
                     }
+
+                    if( $r->has('vendedor') AND $r->vendedor==1 ){
+                        $persona_id=Auth::user()->id;
+                        $query->where('mm.persona_marketing_id',$persona_id);
+                    }
                 }
             )
             ->where('mm.estado',1)

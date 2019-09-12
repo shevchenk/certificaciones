@@ -28,6 +28,18 @@ class SeminarioEM extends Controller
         }
     }
 
+    public function LoadSeminarioTrabajador(Request $r)
+    {
+        if ( $r->ajax() ) {
+            $r['vendedor']=1;
+            $renturnModel = Seminario::runLoadSeminario($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function ExportSeminario(Request $r )
     {
         $url=explode("/",$_SERVER['HTTP_REFERER']);
