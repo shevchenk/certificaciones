@@ -325,6 +325,7 @@ class Matricula extends Model
                     ->select('c.curso','c.tipo_curso','e.empresa','c.empresa_id','me.especialidad')
                     ->where('m.id',$matricula->id)
                     ->get();
+        $usuario= Auth::user()->id;
 
         $privilegio =DB::table('personas_privilegios_sucursales')
         ->where('privilegio_id',14)
