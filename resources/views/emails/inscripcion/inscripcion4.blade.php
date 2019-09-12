@@ -2,6 +2,14 @@
 <table style="width: 453.35pt; border-collapse: collapse; border: none; margin-left: 4.8pt; margin-right: 4.8pt;" width="0">
 <tbody>
 <tr>
+<td style="width: 471.55pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
+<center><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #002060;"> 
+<?php
+    $imagen="http://formacioncontinua.pe/img/inscripcion/logo4.png";
+?>
+<img src={{ $imagen }}></span></strong></center></td>
+</tr>
+<tr>
 <td style="width: 453.35pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
 <p style="background: white;"><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #002060;">Hola <?php echo $persona->nombre." ".$persona->paterno; ?>,</span></strong></p>
 <p><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">&nbsp;</span></p>
