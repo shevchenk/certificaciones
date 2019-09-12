@@ -218,19 +218,22 @@ var masterG ={
             data        : data,
             async       : syncr,
             beforeSend : function() {
-                $(".content .box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                $(".content .box-body").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                $(".content .row .btn").attr('disabled','true')
                 if( typeof eventbefore!= 'undefined' && eventbefore!=null){
                   eventbefore();
                 }
             },
             success : function(r) {
-                $(".content .box .overlay").remove();
+                $(".content .box-body .overlay").remove();
+                $(".content .row .btn").removeAttr('disabled')
                 if( typeof eventsucces!= 'undefined' && eventsucces!=null){
                   eventsucces(r);
                 }
             },
             error: function(result){
-                $(".content .box .overlay").remove();
+                $(".content .box-body .overlay").remove();
+                $(".content .row .btn").removeAttr('disabled')
                 if( typeof(result.status)!='undefined' && result.status==401 && result.statusText=='Unauthorized' ){
                     msjG.mensaje('warning','Su sesión a caducado',4000);
                 }
