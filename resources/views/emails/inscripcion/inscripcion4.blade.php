@@ -164,6 +164,9 @@ $local='localhost/pae/public';
 if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
     $local='formacioncontinua.pe';
 }
+elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
+    $local='capa.formacioncontinua.pe';
+}
 $key=bcrypt($persona->id.'-'.$matricula_id);
 ?>
 <a href="http://{{ $local }}/validar/inscripcion?key={{$key}}&persona={{$persona->id}}&matricula={{$matricula_id}}">
