@@ -307,6 +307,25 @@ class Matricula extends Model
             }
         }
 
+        $persona= DB::table('personas')->where('id',$r->persona_id)->first();
+        $cursos=    DB::table('mat_matriculas AS m')
+                    ->join('mat_matriculas_detalles AS md',function($join){
+                        $join->on('md.matricula_id','=','m.id')
+                        ->where('md.estado',1);
+                    })
+                    ->join('mat_cursos AS c',function($join){
+                        $join->on('c.id','=','md.curso_id');
+                    })
+                    ->join('empresas AS e',function($join){
+                        $join->on('e.id','=','c.empresa_id');
+                    })
+                    ->leftJoin('mat_especialidades AS me',function($join){
+                        $join->on('me.id','=','md.especialidad_id');
+                    })
+                    ->select('c.curso','c.tipo_curso','e.empresa','c.empresa_id','me.especialidad')
+                    ->where('m.id',$matricula->id)
+                    ->get();
+
         $privilegio =DB::table('personas_privilegios_sucursales')
         ->where('privilegio_id',14)
         ->where('sucursal_id',1)
@@ -339,25 +358,6 @@ class Matricula extends Model
         }
 
         DB::commit();
-
-        $persona= DB::table('personas')->where('id',$r->persona_id)->first();
-        $cursos=    DB::table('mat_matriculas AS m')
-                    ->join('mat_matriculas_detalles AS md',function($join){
-                        $join->on('md.matricula_id','=','m.id')
-                        ->where('md.estado',1);
-                    })
-                    ->join('mat_cursos AS c',function($join){
-                        $join->on('c.id','=','md.curso_id');
-                    })
-                    ->join('empresas AS e',function($join){
-                        $join->on('e.id','=','c.empresa_id');
-                    })
-                    ->leftJoin('mat_especialidades AS me',function($join){
-                        $join->on('me.id','=','md.especialidad_id');
-                    })
-                    ->select('c.curso','c.tipo_curso','e.empresa','c.empresa_id','me.especialidad')
-                    ->where('m.id',$matricula->id)
-                    ->get();
 
         $email=$persona->email;
         $emailseguimiento='jorgeshevchenk1988@gmail.com';
