@@ -103,7 +103,7 @@ class Seminario extends Model
                             FROM personas_privilegios_sucursales ppv
                             WHERE ppv.persona_id='.$id.')')
             ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno'
-                    ,'p.materno','p.telefono','p.celular','p.email','ma.direccion','p.empresa'
+                    ,'p.materno','p.telefono','p.celular','p.email','ma.direccion','p.empresa','mm.validada'
                     ,'mm.fecha_matricula','s.sucursal','s3.sucursal','mm.nro_promocion','mm.monto_promocion','e.empresa'
                     ,'pcaj.paterno','pcaj.materno','pcaj.nombre'
                     ,'pmar.paterno','pmar.materno','pmar.nombre'
