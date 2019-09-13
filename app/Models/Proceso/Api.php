@@ -17,7 +17,7 @@ class Api extends Model
 
     public static function ValidarEmail()
     {
-        $valida=    DB::table('validar_email')
+        $valida=    DB::table(Api::mibdaux().'.validar_email')
                     ->where('ultimo',1)
                     ->first();
         session(['validar_email' => $valida->estado]);

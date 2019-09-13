@@ -20,12 +20,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Rectificaci&oacute;n de Inscripciones de Especialidades
+    <h1>Asignación de cursos programados - Especialidades
         <small>Alumnos</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Alumnos</a></li>
-        <li class="active">Rectificaci&oacute;n de Inscripción</li>
+        <li class="active">Asignación de cursos programados - Especialidades</li>
     </ol>
 </section>
 
