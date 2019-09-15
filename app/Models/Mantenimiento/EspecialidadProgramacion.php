@@ -159,40 +159,48 @@ class EspecialidadProgramacion extends Model
 
         $fecha_cronograma = $r->fecha_cronograma;
         $monto_cronograma = $r->monto_cronograma;
-        for ($i=0; $i < count($fecha_cronograma); $i++) { 
-            $validacronograma=DB::table('mat_especialidades_programaciones_cronogramas')
-            ->select('fecha_cronograma','id')
-            ->where('especialidad_programacion_id', '=', $r->id)
-            ->where('cuota',($i+1))
-            ->where('estado',1)
-            ->first();
+        DB::table('mat_especialidades_programaciones_cronogramas')
+        ->where('especialidad_programacion_id','=', $r->id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => Auth::user()->id,
+                'updated_at' => date('Y-m-d H:i:s')
+                )
+            );
+        if( $r->has('fecha_cronograma') ){
+            for ($i=0; $i < count($fecha_cronograma); $i++) { 
+                $validacronograma=DB::table('mat_especialidades_programaciones_cronogramas')
+                ->select('fecha_cronograma','id')
+                ->where('especialidad_programacion_id', '=', $r->id)
+                ->where('cuota',($i+1))
+                ->where('estado',1)
+                ->first();
 
-            $crea=false;
-            if( isset($validacronograma->fecha_cronograma) AND $validacronograma->fecha_cronograma!=$fecha_cronograma[$i] ){
-                $EPC = EspecialidadProgramacionCronograma::find($validacronograma->id);
-                $EPC->persona_id_updated_at = $usuario;
-                $EPC->estado = 0;
-                $EPC->save();
-                $crea=true;
-            }
-            elseif( !isset($validacronograma->fecha_cronograma) ){
-                $crea=true;
-            }
+                $crea=false;
+                if( isset($validacronograma->fecha_cronograma) AND $validacronograma->fecha_cronograma!=$fecha_cronograma[$i] ){
+                    $crea=true;
+                }
+                elseif( !isset($validacronograma->fecha_cronograma) ){
+                    $crea=true;
+                }
 
-            if($crea){
-                $EPC = new EspecialidadProgramacionCronograma;
-                $EPC->especialidad_programacion_id = $especialidadProgramacion->id;
-                $EPC->cuota = ($i+1);
-                $EPC->fecha_cronograma = $fecha_cronograma[$i];
-                $EPC->monto_cronograma = $monto_cronograma[$i];
-                $EPC->persona_id_created_at = $usuario;
-                $EPC->save();
-            }
-            else{
-                $EPC = EspecialidadProgramacionCronograma::find($validacronograma->id);
-                $EPC->persona_id_updated_at = $usuario;
-                $EPC->monto_cronograma = $monto_cronograma[$i];
-                $EPC->save();
+                if($crea){
+                    $EPC = new EspecialidadProgramacionCronograma;
+                    $EPC->especialidad_programacion_id = $especialidadProgramacion->id;
+                    $EPC->cuota = ($i+1);
+                    $EPC->fecha_cronograma = $fecha_cronograma[$i];
+                    $EPC->monto_cronograma = $monto_cronograma[$i];
+                    $EPC->persona_id_created_at = $usuario;
+                    $EPC->save();
+                }
+                else{
+                    $EPC = EspecialidadProgramacionCronograma::find($validacronograma->id);
+                    $EPC->estado=1;
+                    $EPC->monto_cronograma = $monto_cronograma[$i];
+                    $EPC->persona_id_updated_at = $usuario;
+                    $EPC->save();
+                }
             }
         }
 
@@ -206,26 +214,29 @@ class EspecialidadProgramacion extends Model
                 'updated_at' => date('Y-m-d H:i:s')
                 )
             );
-        for ($i=0; $i < count($sucursal_id); $i++) { 
 
-            $validacronograma=DB::table('mat_especialidades_programaciones_sucursales')
-            ->select('sucursal_id','id')
-            ->where('especialidad_programacion_id', '=', $r->id)
-            ->where('sucursal_id',$sucursal_id[$i])
-            ->first();
+        if( $r->has('sucursal_id') ){
+            for ($i=0; $i < count($sucursal_id); $i++) { 
 
-            if( isset($validacronograma->id) AND $validacronograma->id!='' ){
-                $EPS = EspecialidadProgramacionSucursal::find($validacronograma->id);
-                $EPS->persona_id_updated_at = $usuario;
+                $validacronograma=DB::table('mat_especialidades_programaciones_sucursales')
+                ->select('sucursal_id','id')
+                ->where('especialidad_programacion_id', '=', $r->id)
+                ->where('sucursal_id',$sucursal_id[$i])
+                ->first();
+
+                if( isset($validacronograma->id) AND $validacronograma->id!='' ){
+                    $EPS = EspecialidadProgramacionSucursal::find($validacronograma->id);
+                    $EPS->persona_id_updated_at = $usuario;
+                }
+                else{
+                    $EPS = new EspecialidadProgramacionSucursal;
+                    $EPS->especialidad_programacion_id = $especialidadProgramacion->id;
+                    $EPS->sucursal_id = $sucursal_id[$i];
+                    $EPS->persona_id_created_at = $usuario;
+                }
+                $EPS->estado=1;
+                $EPS->save();
             }
-            else{
-                $EPS = new EspecialidadProgramacionSucursal;
-                $EPS->especialidad_programacion_id = $especialidadProgramacion->id;
-                $EPS->sucursal_id = $sucursal_id[$i];
-                $EPS->persona_id_created_at = $usuario;
-            }
-            $EPS->estado=1;
-            $EPS->save();
         }
         DB::commit();
     }

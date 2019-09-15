@@ -87,14 +87,16 @@ class Especialidad extends Model
         $curso = $r->curso_id;
 
         //ESTO HACE QUE GRABE EN LA TABLE DETALLE LOS CURSOS, LO QUE SE ESCOJE EN EL COMBO CURSO
-        for($i=0;$i<count($curso);$i++)
-        {
-            $curso_especialidad = new CursoEspecialidad;
-            $curso_especialidad->curso_id = $curso[$i];
-            $curso_especialidad->orden = $i+1;
-            $curso_especialidad->especialidad_id = $especialidad -> id;
-            $curso_especialidad->persona_id_created_at = Auth::user()->id;
-            $curso_especialidad->save();
+        if($r->has('curso_id')){
+            for($i=0;$i<count($curso);$i++)
+            {
+                $curso_especialidad = new CursoEspecialidad;
+                $curso_especialidad->curso_id = $curso[$i];
+                $curso_especialidad->orden = $i+1;
+                $curso_especialidad->especialidad_id = $especialidad -> id;
+                $curso_especialidad->persona_id_created_at = Auth::user()->id;
+                $curso_especialidad->save();
+            }
         }
         DB::commit();
     }
@@ -112,37 +114,39 @@ class Especialidad extends Model
         $curso = $r->curso_id;
 
         //ESTO HACE QUE GRABE EN LA TABLE DETALLE LOS CURSOS, LO QUE SE ESCOJE EN EL COMBO CURSO
-        if( count($curso)>0 ){
-            DB::table('mat_cursos_especialidades')
-            ->where('especialidad_id', '=', $especialidad->id)
-            ->update(
-                array(
-                    'estado' => 0,
-                    'persona_id_updated_at' => Auth::user()->id,
-                    'updated_at' => date('Y-m-d H:i:s')
-                    )
-                );
-        }
-        for($i=0;$i<count($curso);$i++)
-        {
-            $curso_especialidad=DB::table('mat_cursos_especialidades')
-            ->where('especialidad_id', '=', $especialidad->id)
-            ->where('curso_id', '=', $curso[$i])
-            ->first();
-            if( count($curso_especialidad)==0 ){
-                $curso_especialidad = new CursoEspecialidad;
-                $curso_especialidad->curso_id = $curso[$i];
-                $curso_especialidad->orden = $i+1;
-                $curso_especialidad->especialidad_id = $especialidad->id;
-                $curso_especialidad->persona_id_created_at = Auth::user()->id;
+        
+        DB::table('mat_cursos_especialidades')
+        ->where('especialidad_id', '=', $especialidad->id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => Auth::user()->id,
+                'updated_at' => date('Y-m-d H:i:s')
+                )
+            );
+        
+        if($r->has('curso_id')){
+            for($i=0;$i<count($curso);$i++)
+            {
+                $curso_especialidad=DB::table('mat_cursos_especialidades')
+                ->where('especialidad_id', '=', $especialidad->id)
+                ->where('curso_id', '=', $curso[$i])
+                ->first();
+                if( !isset($curso_especialidad->id) ){
+                    $curso_especialidad = new CursoEspecialidad;
+                    $curso_especialidad->curso_id = $curso[$i];
+                    $curso_especialidad->orden = $i+1;
+                    $curso_especialidad->especialidad_id = $especialidad->id;
+                    $curso_especialidad->persona_id_created_at = Auth::user()->id;
+                }
+                else{
+                    $curso_especialidad = CursoEspecialidad::find($curso_especialidad->id);
+                    $curso_especialidad->estado = 1;
+                    $curso_especialidad->orden = $i+1;
+                    $curso_especialidad->persona_id_updated_at = Auth::user()->id;
+                }
+                $curso_especialidad->save();
             }
-            else{
-                $curso_especialidad = CursoEspecialidad::find($curso_especialidad->id);
-                $curso_especialidad->estado = 1;
-                $curso_especialidad->orden = $i+1;
-                $curso_especialidad->persona_id_updated_at = Auth::user()->id;
-            }
-            $curso_especialidad->save();
         }
         DB::commit();
     }

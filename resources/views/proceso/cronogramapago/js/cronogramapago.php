@@ -139,7 +139,7 @@ CargarCronograma=function(){
         fechaCronogramaG.sort();
         $('#sortable').html('');
         for (i=0; i<fechaCronogramaG.length; i++) {
-            $('#sortable').append('<tr id="trid_'+fechaCronogramaG[i].split("|")[0]+'"><td>N° '+(i+1)+'</td><td><input type="hidden" name="txt_fecha_cronograma[]" value="'+fechaCronogramaG[i].split("|")[0]+'">'+fechaCronogramaG[i].split("|")[0]+'</td><td><input type="text" name="txt_monto_cronograma[]" value="'+fechaCronogramaG[i].split("|")[1]+'"></td><td><a onClick="EliminarTr(\''+fechaCronogramaG[i].split("|")[0]+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
+            $('#sortable').append('<tr id="trid_'+fechaCronogramaG[i].split("|")[0]+'"><td>N° '+(i+1)+'</td><td><input type="hidden" name="txt_fecha_cronograma[]" value="'+fechaCronogramaG[i].split("|")[0]+'">'+fechaCronogramaG[i].split("|")[0]+'</td><td><input type="text" name="txt_monto_cronograma[]" value="'+fechaCronogramaG[i].split("|")[1]+'"></td><td><a onClick="EliminarTr(\''+fechaCronogramaG[i]+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
         }
     }
     else{
@@ -151,7 +151,7 @@ EliminarTr=function(t){
     fechaCronogramaG.splice(fechaCronogramaG.indexOf(t),1);
     $('#sortable').html('');
     for (i=0; i<fechaCronogramaG.length; i++) {
-        $('#sortable').append('<tr id="trid_'+fechaCronogramaG[i]+'"><td>N° '+(i+1)+'</td><td><input type="hidden" name="txt_fecha_cronograma[]" value="'+fechaCronogramaG[i]+'">'+fechaCronogramaG[i]+'</td><td><a onClick="EliminarTr(\''+fechaCronogramaG[i]+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
+        $('#sortable').append('<tr id="trid_'+fechaCronogramaG[i].split("|")[0]+'"><td>N° '+(i+1)+'</td><td><input type="hidden" name="txt_fecha_cronograma[]" value="'+fechaCronogramaG[i].split("|")[0]+'">'+fechaCronogramaG[i].split("|")[0]+'</td><td><input type="text" name="txt_monto_cronograma[]" value="'+fechaCronogramaG[i].split("|")[1]+'"></td><td><a onClick="EliminarTr(\''+fechaCronogramaG[i]+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
     }
 }
 
