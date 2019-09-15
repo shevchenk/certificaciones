@@ -102,7 +102,7 @@ class Api extends Model
                     )
                     ->where('mm.estado',1)
                     ->where('mm.persona_id',$persona[0]->id)
-                    ->where(DB::raw('DATE(mp.fecha_inicio)'),'<=', date('Y-m-d'))
+                    //->where(DB::raw('DATE(mp.fecha_inicio)'),'<=', date('Y-m-d'))
                     ->get();
         }
         else{
