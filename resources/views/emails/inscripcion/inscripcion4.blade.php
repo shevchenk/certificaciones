@@ -162,14 +162,15 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/foto3.png";
 <?php
 $local='localhost/pae/public';
 if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
-    $local='formacioncontinua.pe';
+    $local='miaula.formacioncontinua.pe';
 }
 elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
-    $local='capa.formacioncontinua.pe';
+    $local='capamiaula.formacioncontinua.pe';
 }
 $key=bcrypt($persona->id.'-'.$matricula_id);
+/*<a href="http://{{ $local }}/validar/inscripcion?key={{$key}}&persona={{$persona->id}}&matricula={{$matricula_id}}">*/
 ?>
-<a href="http://{{ $local }}/validar/inscripcion?key={{$key}}&persona={{$persona->id}}&matricula={{$matricula_id}}">
+<a href="http://{{ $local }}">
 <p style="margin-bottom: .0001pt; line-height: normal;"><strong><span style="font-family: 'Open Sans',sans-serif; color: #c00000; background: white;"> 
 <?php
 $imagen="http://formacioncontinua.pe/img/inscripcion/img5.png";
