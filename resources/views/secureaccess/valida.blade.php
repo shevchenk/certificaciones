@@ -86,7 +86,7 @@
 
                 <section class="content">
                     <div class="row">
-                        <div class="col-xs-4">
+                        <div class="col-lg-4 col-md-6 col-sx-12">
                             <div class="box">
                                 <form id="MyselfForm">
                                     <div class="box-body">
