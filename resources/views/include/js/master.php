@@ -115,6 +115,7 @@ var skin_yellow_lightG =
 skins_listG.append(skin_yellow_lightG);
 
 $(document).ready(function() {
+    redimensionG.validar();
     var opcionesm="<?php echo session('opciones'); ?>";
     var validarutaurlm="<?php echo $valida_ruta_url; ?>";
     var iconom='fa fa-dashboard';
@@ -475,6 +476,30 @@ var sweetalertG = {
       );
     }
 }
+
+var redimensionG = {
+    validar: function(){
+      //var src = $("#imageCurso").attr('src').split('/');
+      if ($('header').width() <= 400 ){
+          $("section.sidebar").css({"margin-top":"110px"});
+      }
+      else if ($('header').width() <= 600 ){
+          $("section.sidebar").css({"margin-top":"110px"});
+      }
+      else if ($('header').width() <= 800 ){
+          $("section.sidebar").css({"margin-top":"30px"});
+      }
+      else if ($('header').width() <= 1000 ){
+          
+      }
+      else if ($('header').width() > 1000 ){
+          
+      }
+    }
+}
+$(window).resize(function(){
+    redimensionG.validar();
+});
 
 
 </script>
