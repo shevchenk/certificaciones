@@ -360,7 +360,7 @@ class Matricula extends Model
 
         DB::commit();
 
-        $email=$persona->email;
+        $email=trim($persona->email);
         $emailseguimiento='jorgeshevchenk1988@gmail.com';
         $parametros=array(
             'email'=>$email,
@@ -372,7 +372,7 @@ class Matricula extends Model
             'blade' => 'emails.inscripcion.inscripcion'.$cursos[0]->empresa_id,
         );
 
-        if( session('validar_email')==1 AND $cursos[0]->empresa_id==4 AND trim($email)!=''){
+        if( session('validar_email')==1 AND $cursos[0]->empresa_id==4 AND $email!=''){
             /*Mail::to($email)
             //->cc([$emailseguimiento])
             ->bcc([$emailseguimiento])
