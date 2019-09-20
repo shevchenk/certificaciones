@@ -53,21 +53,41 @@ class Seminario extends Model
             ->leftJoin('mat_programaciones AS mp',function($join){
                 $join->on('mp.id','=','mmd.programacion_id');
             })
+            ->leftJoin('mat_especialidades_programaciones AS mep',function($join){
+                $join->on('mep.id','=','mm.especialidad_programacion_id');
+            })
+            ->leftJoin('mat_especialidades AS me',function($join){
+                $join->on('me.id','=','mep.especialidad_id');
+            })
             ->leftJoin('sucursales AS s3',function($join){
                 $join->on('s3.id','=','mp.sucursal_id');
             })
             ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','mm.validada'
                     ,'mm.fecha_matricula','s3.sucursal AS lugar_estudio','e.empresa AS empresa_inscripcion'
-                    ,DB::raw(' GROUP_CONCAT(DISTINCT(IF( mm.especialidad_programacion_id IS NULL, 
-                        IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ),
-                        "Especialidad"
-                    ))) AS tipo_formacion ')
-                    ,DB::raw('GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") formacion')
-                    ,DB::raw('GROUP_CONCAT( mp.fecha_inicio ORDER BY mmd.id SEPARATOR "\n") fecha_inicio')
-                    ,DB::raw('GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n") nro_pago')
-                    ,DB::raw('GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n") monto_pago')
-                    ,DB::raw('GROUP_CONCAT( 
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NULL, 
+                                GROUP_CONCAT( DISTINCT( IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ) )),
+                                "Especialidad"
+                                ) AS tipo_formacion ')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                GROUP_CONCAT( DISTINCT(me.especialidad) ),
+                                GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") 
+                                ) AS formacion')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                GROUP_CONCAT( DISTINCT(mep.fecha_inicio) ),
+                                GROUP_CONCAT( mp.fecha_inicio ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS fecha_inicio')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS nro_pago')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS monto_pago')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( 
                                 CASE 
                                     WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
@@ -76,14 +96,15 @@ class Seminario extends Model
                                     WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
                                     WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
                                     ELSE "Caja"
-                                END ORDER BY mmd.id SEPARATOR "\n") tipo_pago')
+                                END ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS tipo_pago')
                     ,DB::raw('SUM(mmd.monto_pago_certificado) total')
                     ,'mm.nro_promocion','mm.monto_promocion'
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
                     ,'s.sucursal','s2.sucursal AS recogo_certificado'
-                    ,DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera')
-                    ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
-                    ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
                     )
             ->where( 
                 function($query) use ($r){
@@ -107,12 +128,12 @@ class Seminario extends Model
             ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
                             FROM personas_privilegios_sucursales ppv
                             WHERE ppv.persona_id='.$id.')')
-            ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno'
-                    ,'p.materno','p.telefono','p.celular','p.email','ma.direccion','p.empresa','mm.validada'
-                    ,'mm.fecha_matricula','s.sucursal','s3.sucursal','mm.nro_promocion','mm.monto_promocion','e.empresa'
-                    ,'pcaj.paterno','pcaj.materno','pcaj.nombre'
-                    ,'pmar.paterno','pmar.materno','pmar.nombre'
-                    ,'pmat.paterno','pmat.materno','pmat.nombre','s2.sucursal');
+            ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email','mm.validada'
+                    ,'mm.fecha_matricula','s3.sucursal','e.empresa'
+                    ,'mm.especialidad_programacion_id'
+                    ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion');
+            
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
     }
