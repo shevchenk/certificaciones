@@ -84,7 +84,7 @@ class CargarPR extends Controller
             (
               FECHA_REGISTRO, EMPRESA, TIPO, FUENTE
               , DISTRITO, CARRERA, NOMBRE, PATERNO, MATERNO
-              , DNI, CELULAR, EMAIL
+              , DNI, CELULAR, EMAIL, COSTO
             ) 
             SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1, DNI=SUBSTRING(DNI,1,12),
             FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");
@@ -165,8 +165,8 @@ class CargarPR extends Controller
                     AND i.file='".$file."'";
             DB::update($sql);
 
-            $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, ad_name, campaign_name, fuente, interesado, estado, created_at, persona_id_created_at)
-                    SELECT p.id, $empresa_id, i.EMPRESA, i.TIPO, i.FUENTE, i.CARRERA, 1, i.FECHA_REGISTRO, $usuario
+            $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, ad_name, campaign_name, fuente, interesado, fecha_registro, estado, created_at, persona_id_created_at)
+                    SELECT p.id, $empresa_id, i.EMPRESA, i.TIPO, i.FUENTE, i.CARRERA, i.FECHA_REGISTRO, 1, NOW(), $usuario
                     FROM interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
                     WHERE i.usuario=".$usuario."
