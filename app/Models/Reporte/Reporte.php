@@ -580,8 +580,8 @@ class Reporte extends Model
                         }
                     }
 
-                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") AND $r->has('tipo_fecha')){
-                        if( $r->tipo_fecha==1 ){
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
+                        if( $r->has('tipo_fecha') AND $r->tipo_fecha==1 ){
                             $query ->whereRaw("DATE(mp.fecha_inicio) BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."' ");
                         }
                         else{
@@ -600,11 +600,6 @@ class Reporte extends Model
             ;
 
         $sql2=DB::table('mat_matriculas AS mm')
-            ->join('mat_matriculas_detalles AS mmd',function($join){
-                $join->on('mmd.matricula_id','=','mm.id')
-                ->where('mmd.estado',1)
-                ->whereNotNull('mmd.especialidad_id');
-            })
             ->join('mat_especialidades_programaciones AS mep',function($join){
                 $join->on('mep.id','=','mm.especialidad_programacion_id');
             })
@@ -632,8 +627,8 @@ class Reporte extends Model
                         }
                     }
 
-                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") AND $r->has('tipo_fecha')){
-                        if( $r->tipo_fecha==1 ){
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin") ){
+                        if( $r->has('tipo_fecha') AND $r->tipo_fecha==1 ){
                             $query ->whereRaw("DATE(mep.fecha_inicio) BETWEEN '".$r->fecha_ini."' AND '".$r->fecha_fin."' ");
                         }
                         else{
