@@ -21,7 +21,7 @@ class Seminario extends Model
                 $join->on('p.id','=','mm.persona_id');
             })
             ->join('mat_alumnos AS ma',function($join){
-                $join->on('ma.persona_id','=','p.id');
+                $join->on('ma.id','=','mm.alumno_id');
             })
             ->join('sucursales AS s',function($join){
                 $join->on('s.id','=','mm.sucursal_id');
@@ -130,7 +130,7 @@ class Seminario extends Model
 
             })
             ->join('mat_alumnos AS ma',function($join){
-                $join->on('ma.persona_id','=','p.id');
+                $join->on('ma.id','=','mm.alumno_id');
 
             })
             ->join('sucursales AS s',function($join){
