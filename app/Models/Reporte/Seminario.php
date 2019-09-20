@@ -64,7 +64,7 @@ class Seminario extends Model
             })
             ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','mm.validada'
-                    ,'mm.fecha_matricula','s3.sucursal AS lugar_estudio','e.empresa AS empresa_inscripcion'
+                    ,'mm.fecha_matricula',DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
                     ,DB::raw(' IF(mm.especialidad_programacion_id IS NULL, 
                                 GROUP_CONCAT( DISTINCT( IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ) )),
                                 "Especialidad"
@@ -130,7 +130,7 @@ class Seminario extends Model
                             WHERE ppv.persona_id='.$id.')')
             ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','mm.validada'
-                    ,'mm.fecha_matricula','s3.sucursal','e.empresa'
+                    ,'mm.fecha_matricula','e.empresa'
                     ,'mm.especialidad_programacion_id'
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion');
             
