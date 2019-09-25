@@ -161,8 +161,8 @@ class Llamada extends Model
                         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
                         AND pc.persona_id_created_at=0
                         AND pc.empresa_id='$empresa_id'
-                        GROUP BY pc.persona_id
-                        ORDER BY pc.persona_id
+                        GROUP BY p.id
+                        ORDER BY p.id
                         LIMIT $pos,$rasig[$i]";
                 DB::insert($sql);
                 $pos=$pos+$rasig[$i];
@@ -187,8 +187,8 @@ class Llamada extends Model
                         AND pc.persona_id_created_at=0
                         AND pc.empresa_id='$empresa_id'
                         AND pd.id IS NULL
-                        GROUP BY pc.persona_id
-                        ORDER BY pc.persona_id
+                        GROUP BY p.id
+                        ORDER BY p.id
                         LIMIT 0,".$asig[$i];
                 DB::insert($sql);
             }
