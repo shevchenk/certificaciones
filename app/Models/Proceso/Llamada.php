@@ -165,7 +165,6 @@ class Llamada extends Model
                         ) pd ON pc.persona_id=pd.persona_id 
                         WHERE pc.estado=1 
                         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-                        AND pc.persona_id_created_at=0
                         AND pc.empresa_id='$empresa_id'
                         GROUP BY p.id
                         ORDER BY p.id
@@ -190,7 +189,6 @@ class Llamada extends Model
                         ) pd ON pc.persona_id=pd.persona_id 
                         WHERE pc.estado=1 
                         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-                        AND pc.persona_id_created_at=0
                         AND pc.empresa_id='$empresa_id'
                         AND pd.id IS NULL
                         GROUP BY p.id
