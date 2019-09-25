@@ -82,7 +82,7 @@ ValidaOde=function(v){
     $("#ModalProgramacionForm .validaode").css("display",'block');
     if( v==1 ){
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',['LU','MA','MI','JU','VI','SA','DO']);
-        $('#ModalProgramacionForm #txt_fecha_inicio').val( '2019-01-01 00:00:00' );
+        //$('#ModalProgramacionForm #txt_fecha_inicio').val( '2019-01-01 00:00:00' );
         $('#ModalProgramacionForm #txt_fecha_final').val( '2200-12-31 23:59:59' );
         $('#ModalProgramacionForm #txt_aula').val( 'Libre' );
         $("#ModalProgramacionForm .validaode").css("display",'none');

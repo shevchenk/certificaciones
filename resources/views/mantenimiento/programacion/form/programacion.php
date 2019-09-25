@@ -55,7 +55,7 @@
                             </select>
                         </div>
                     </div>                 
-                    <div class="col-md-6 validaode">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Fecha de Inicio</label>
                             <input type="text" class="form-control fechas" id="txt_fecha_inicio" name="txt_fecha_inicio" readonly="" >
