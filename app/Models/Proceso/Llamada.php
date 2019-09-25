@@ -13,20 +13,25 @@ class Llamada extends Model
 
     public static function RegistrarLlamada($r)
     {
+        $empresa_id= Auth::user()->empresa_id;
         DB::beginTransaction();
-        DB::table('llamadas')
+        DB::table('llamadas as ll')
+        ->Join('mat_trabajadores AS t', function($join) use($empresa_id){
+                $join->on('t.id','=','ll.trabajador_id')
+                ->where('t.empresa_id','=',$empresa_id);
+        })
         ->where( 
             function($query) use ($r){
                 if( $r->has('persona_id') AND $r->persona_id!='' ){
-                    $query->where('persona_id','=', $r->persona_id);
+                    $query->where('ll.persona_id','=', $r->persona_id);
                 }
             }
         )
-        ->where('ultimo_registro',1)
+        ->where('ll.ultimo_registro',1)
         ->update([
-            'ultimo_registro' => 0,
-            'persona_id_updated_at' => Auth::user()->id,
-            'updated_at' => date('Y-m-d H:i:s')
+            'll.ultimo_registro' => 0,
+            'll.persona_id_updated_at' => Auth::user()->id,
+            'll.updated_at' => date('Y-m-d H:i:s')
         ]);
 
         $llamada= new Llamada;
@@ -80,13 +85,14 @@ class Llamada extends Model
 
     public static function CargarLlamada($r)
     {
+        $empresa_id= Auth::user()->empresa_id;
         $sql=DB::table('llamadas AS ll')
             ->Join('tipo_llamadas AS tl', function($join){
                 $join->on('tl.id','=','ll.tipo_llamada_id');
             })
-            ->Join('mat_trabajadores AS tr', function($join){
+            ->Join('mat_trabajadores AS tr', function($join) use($empresa_id){
                 $join->on('tr.id','=','ll.trabajador_id')
-                ->where('tr.empresa_id', Auth::user()->empresa_id);
+                ->where('tr.empresa_id','=',$empresa_id);
             })
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','tr.persona_id');
