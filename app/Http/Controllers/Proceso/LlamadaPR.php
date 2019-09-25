@@ -79,6 +79,7 @@ class LlamadaPR extends Controller
             $id=Auth::user()->id;
             $trabajador=    Trabajador::where('persona_id',$id)
                             ->where('empresa_id', Auth::user()->empresa_id)
+                            ->where('rol_id',1)
                             ->first();
             $trabajadorid=0;
             if( isset($trabajador->id) ){
