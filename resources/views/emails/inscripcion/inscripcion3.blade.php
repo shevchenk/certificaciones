@@ -7,7 +7,7 @@
 <?php
     $imagen="http://formacioncontinua.pe/img/inscripcion/logo3.png";
 ?>
-<img style="width: 600px;" src={{ $imagen }}></span></strong></center></td>
+<img style="width: 600px; height: 280px;" src={{ $imagen }}></span></strong></center></td>
 </tr>
 <tr>
 <td style="width: 453.35pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
