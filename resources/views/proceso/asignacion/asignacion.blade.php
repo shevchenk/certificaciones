@@ -14,6 +14,9 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
+{{ Html::style('lib/iCheck/all.css') }}
+{{ Html::script('lib/iCheck/icheck.min.js') }}
+
 @include( 'proceso.asignacion.js.asignacion_ajax' )
 @include( 'proceso.asignacion.js.asignacion' )
 @stop
@@ -53,18 +56,45 @@
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
                                     </div>
                                 </div>
+                                <div class="col-sm-3 text-center">
+                                    <label class="control-label">Empresas:</label>
+                                    <div class="input-group">
+                                      <select name="slct_empresas" id="slct_empresas" class="selectpicker" onchange="AjaxVisita.Trabajadores(SlctCargarTrabajador);"></select>
+                                    </div>
+                                </div>
                                 <div class="col-sm-1" style="padding:24px">
                                     <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>
                             </div>
 
-                            <div class="table-responsive no-padding col-sm-5">
+                            <div class="table-responsive no-padding col-md-12">
                                 <table id="TableVisita" class="table table-bordered table-hover">
                                     <thead>
-                                        <tr class="cabecera">
-                                            <th># Total Interesados</th>
-                                            <th># Interesados Sin Asignar</th>
-                                            <th># Interesados Asignados</th>
+                                        <tr>
+                                            <th style="background-color: #BDD7EE;color:black; text-align: center;" colspan="11"> DATA </th>
+                                            <th style="background-color: #FFF2CC;color:black; text-align: center;" colspan="4"> RESULTADO DE LAS LLAMADAS </th>
+                                            <th style="background-color: #FCE4D6;color:black; text-align: center;" colspan="4"> DETALLE DE LOS SI LLAMADOS </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="background-color: #BDD7EE;color:black">Empresa</th>
+                                            <th style="background-color: #BDD7EE;color:black">Fecha de<br>la Carga</th>
+                                            <th style="background-color: #BDD7EE;color:black">Fecha Inicio<br>del leads</th>
+                                            <th style="background-color: #BDD7EE;color:black">Fecha Final<br>del leads</th>
+                                            <th style="background-color: #BDD7EE;color:black">Nombre de la campaña</th>
+                                            <th style="background-color: #BDD7EE;color:black">Carrera que solicita</th>
+                                            <th style="background-color: #BDD7EE;color:black">Clientes<br>Potenciales</th>
+                                            <th style="background-color: #BDD7EE;color:black">Costo<br>por<br>leads</th>
+                                            <th style="background-color: #BDD7EE;color:black">Costo<br>de la<br>Data</th>
+                                            <th style="background-color: #BDD7EE;color:black">Asig</th>
+                                            <th style="background-color: #BDD7EE;color:black">No<br>Asig</th>
+                                            <th style="background-color: #FFF2CC;color:black">Números<br>de No<br>llamados</th>
+                                            <th style="background-color: #FFF2CC;color:black">Números<br>de Si<br>llamados</th>
+                                            <th style="background-color: #FFF2CC;color:black">Números<br>de<br>Convertidos</th>
+                                            <th style="background-color: #FFF2CC;color:black">Costo<br>por<br>Convertido</th>
+                                            <th style="background-color: #FCE4D6;color:black">Número<br>de<br>Interesados</th>
+                                            <th style="background-color: #FCE4D6;color:black">Número<br>de<br>Pendientes</th>
+                                            <th style="background-color: #FCE4D6;color:black">Número<br>de No<br>Interesado</th>
+                                            <th style="background-color: #FCE4D6;color:black">Número<br>de<br>AENN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -88,28 +118,19 @@
                                     </select>
                                 </div-->
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-md-3">
-                                    <label class="control-label">Indique # Reasignación global:</label>
-                                    <input type="text" id="r_nro_asignacion" onkeypress="return masterG.validaNumeros(event);" onkeyup="AsignaNro(1)" class="form-control" value="0">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="control-label">Indique # asignación global:</label>
-                                    <input type="text" id="nro_asignacion" onkeypress="return masterG.validaNumeros(event);" onkeyup="AsignaNro(2)" class="form-control" value="0">
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <br>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-striped">
                                         <thead style="background-color: #F4AA39;color:black">
                                             <tr>
-                                                <th colspan="3" style="text-align: center;"> Asignación </th>
+                                                <th colspan="2" style="text-align: center;"> Asignación </th>
                                             </tr>
                                             <tr>
-                                                <th>Trabajador</th>
-                                                <th># Reasignar</th>
-                                                <th># Asignar</th>
+                                                <th><label>Trabajador</label></th>
+                                                <th><label>Cantidad Asignada</label>
+                                                    <input type="text" id="nro_asignacion" onkeypress="return masterG.validaNumeros(event);" onkeyup="AsignaNro(2)" class="form-control" value="0">
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody id="tb_asignar">

@@ -214,6 +214,7 @@ class PersonaEM extends Controller
             $empresa_id= Auth::user()->empresa_id;
             $trabajador= Trabajador::where('persona_id',$id)
                          ->where('empresa_id',$empresa_id)
+                         ->where('rol_id',1)
                          ->first();
             $trabajadorid=0;
             if( isset($trabajador->id) ){
@@ -334,6 +335,7 @@ class PersonaEM extends Controller
                 $id=Auth::user()->id;
                 $trabajador=    Trabajador::where('persona_id',$id)
                                 ->where('empresa_id', Auth::user()->empresa_id)
+                                ->where('rol_id',1)
                                 ->first();
                 $trabajadorid=0;
                 $return['rst'] = 1;
@@ -345,7 +347,7 @@ class PersonaEM extends Controller
                 }
                 else{
                     $return['rst'] = 2;
-                    $return['msj'] = "Ud, no esta registrado como Trabajador";
+                    $return['msj'] = "Ud, no esta registrado como Trabajador - Marketing";
                 }
             }else{
                 $return['rst'] = 2;

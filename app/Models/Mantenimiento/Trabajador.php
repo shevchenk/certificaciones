@@ -90,11 +90,16 @@ class Trabajador extends Model
     
     public static function ListarTeleoperadora($r)
     {
+        $empresa_id= Auth::user()->empresa_id;
+        if( $r->has('empresa') ){
+            $empresa_id= $r->empresa;
+        }
         $sql=Trabajador::select('mat_trabajadores.codigo','mat_trabajadores.id','mat_trabajadores.persona_id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre ) as trabajador')
                                 ,'mat_trabajadores.rol_id','r.rol','mat_trabajadores.estado')
              ->join('personas as p','p.id','=','mat_trabajadores.persona_id')
              ->join('mat_roles as r','r.id','=','mat_trabajadores.rol_id')
-             ->where('mat_trabajadores.empresa_id', Auth::user()->empresa_id)
+             ->where('mat_trabajadores.empresa_id', $empresa_id)
+             ->where('p.estado',1)
              ->where( 
                 function($query) use ($r){
                     if( $r->has("trabajador") ){

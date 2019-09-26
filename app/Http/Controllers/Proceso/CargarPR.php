@@ -83,8 +83,8 @@ class CargarPR extends Controller
             IGNORE 1 ROWS 
             (
               FECHA_REGISTRO, EMPRESA, TIPO, FUENTE
-              , DISTRITO, CARRERA, NOMBRE, PATERNO, MATERNO
-              , DNI, CELULAR, EMAIL, COSTO, COD_VENDEDOR
+              , DISTRITO, CARRERA, DNI, NOMBRE, PATERNO, MATERNO
+              , CELULAR, EMAIL, COSTO, COD_VENDEDOR
             ) 
             SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1, DNI=SUBSTRING(DNI,1,12),
             FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");

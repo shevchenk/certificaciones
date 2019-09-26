@@ -114,7 +114,8 @@ class Llamada extends Model
                         }
                     }
                     if( $r->has('pendiente') AND $r->pendiente==1 ){
-                        $query->where('ll.fechas','>=',date('Y-m-d'));
+                        $query->where('ll.fechas','>=',date('Y-m-d'))
+                        ->where('ll.ultimo_registro',1);
                     }
                 }
             );
@@ -143,58 +144,131 @@ class Llamada extends Model
         $empresa_id= Auth::user()->empresa_id;
         $cant= count($r->trabajador);
         $trabajador= $r->trabajador;
-        $rasig= $r->rasig_trabajador;
         $asig= $r->asig_trabajador;
         $fecha_ini= $r->fecha_ini;
         $fecha_fin= $r->fecha_fin;
         //$tipo_asignar= trim($r->tipo_asignar);
         $usuario= Auth::user()->id;
         $pos=0;
-        for ($i=0; $i < $cant ; $i++) { 
-            if( $rasig[$i]*1>0 ){
-                $sql="  INSERT INTO personas_distribuciones 
-                        (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
-                        SELECT p.id, $trabajador[$i], CURDATE(), 1, NOW(), $usuario
-                        FROM personas_captadas pc
-                        INNER JOIN personas p ON p.id=pc.persona_id
-                        INNER JOIN (
-                            SELECT pds.id, pds.persona_id
-                            FROM personas_distribuciones pds
-                            INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
-                            WHERE pds.estado=1
-                        ) pd ON pc.persona_id=pd.persona_id 
-                        WHERE pc.estado=1 
-                        AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-                        AND pc.empresa_id='$empresa_id'
-                        GROUP BY p.id
-                        ORDER BY p.id
-                        LIMIT $pos,$rasig[$i]";
-                DB::insert($sql);
-                $pos=$pos+$rasig[$i];
-            }
+        $filtros_array=array();
+        $chknoasig = $r->chknoasig;
+        $chknocall = $r->chknocall;
+        $chkinteresado = $r->chkinteresado;
+        $chkpendiente = $r->chkpendiente;
+        $chknointeresado = $r->chknointeresado;
+        $chkotros = $r->chkotros;
+        for ($i=0; $i < count($chknoasig) ; $i++) { 
+            $detchk= explode("|",$chknoasig[$i]);
+            $filtro=
+            "(
+            pc.ad_name='".$detchk[0]."' 
+            AND pc.interesado='".$detchk[1]."'
+            AND d.persona_id IS NULL
+            )";
+            array_push($filtros_array, $filtro);
         }
+        for ($i=0; $i < count($chknocall) ; $i++) { 
+            $detchk= explode("|",$chknocall[$i]);
+            $filtro=
+            "(
+            pc.ad_name='".$detchk[0]."' 
+            AND pc.interesado='".$detchk[1]."'
+            AND d.persona_id IS NOT NULL 
+            AND l.persona_id IS NULL
+            )";
+            array_push($filtros_array, $filtro);
+        }
+        for ($i=0; $i < count($chkinteresado) ; $i++) { 
+            $detchk= explode("|",$chkinteresado[$i]);
+            $filtro=
+            "(
+            pc.ad_name='".$detchk[0]."' 
+            AND pc.interesado='".$detchk[1]."'
+            AND d.persona_id IS NOT NULL 
+            AND l.tipo_llamada_id=1
+            )";
+            array_push($filtros_array, $filtro);
+        }
+        for ($i=0; $i < count($chkpendiente) ; $i++) { 
+            $detchk= explode("|",$chkpendiente[$i]);
+            $filtro=
+            "(
+            pc.ad_name='".$detchk[0]."' 
+            AND pc.interesado='".$detchk[1]."'
+            AND d.persona_id IS NOT NULL 
+            AND l.tipo_llamada_id=2
+            )";
+            array_push($filtros_array, $filtro);
+        }
+        for ($i=0; $i < count($chknointeresado) ; $i++) { 
+            $detchk= explode("|",$chknointeresado[$i]);
+            $filtro=
+            "(
+            pc.ad_name='".$detchk[0]."' 
+            AND pc.interesado='".$detchk[1]."'
+            AND d.persona_id IS NOT NULL 
+            AND l.tipo_llamada_id=8
+            )";
+            array_push($filtros_array, $filtro);
+        }
+        for ($i=0; $i < count($chkotros) ; $i++) { 
+            $detchk= explode("|",$chkotros[$i]);
+            $filtro=
+            "(
+            pc.ad_name='".$detchk[0]."' 
+            AND pc.interesado='".$detchk[1]."'
+            AND d.persona_id IS NOT NULL 
+            AND l.tipo_llamada_id<>1 
+            AND l.tipo_llamada_id<>2 
+            AND l.tipo_llamada_id<>8
+            )";
+            array_push($filtros_array, $filtro);
+        }
+
+        $filtros= implode(" OR ",$filtros_array);
 
         for ($i=0; $i < $cant ; $i++) { 
             if( $asig[$i]*1>0 ){
                 $sql="  INSERT INTO personas_distribuciones 
                         (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
-                        SELECT p.id, $trabajador[$i], CURDATE(), 1, NOW(), $usuario
-                        FROM personas_captadas pc
-                        INNER JOIN personas p ON p.id=pc.persona_id
+                        SELECT pc.persona_id, $trabajador[$i], CURDATE(), 1, NOW(), $usuario
+                        FROM personas_captadas pc 
+                        INNER JOIN empresas e ON e.id=pc.empresa_id AND e.id = $empresa_id
                         LEFT JOIN (
-                            SELECT pds.id, pds.persona_id
-                            FROM personas_distribuciones pds
-                            INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
-                            WHERE pds.estado=1
-                        ) pd ON pc.persona_id=pd.persona_id 
-                        WHERE pc.estado=1 
+                            SELECT ll.persona_id, t.empresa_id, MIN(ll.tipo_llamada_id) tipo_llamada_id
+                            FROM llamadas ll
+                            INNER JOIN mat_trabajadores t ON t.id=ll.trabajador_id
+                            WHERE DATE(ll.fecha_llamada)>='$fecha_ini'
+                            AND ll.ultimo_registro=1
+                            AND ll.estado=1
+                            GROUP BY ll.persona_id, t.empresa_id
+                        ) l ON l.persona_id=pc.persona_id AND l.empresa_id=pc.empresa_id 
+                        LEFT JOIN (
+                            SELECT mm.persona_id, mc.empresa_id 
+                            FROM mat_matriculas mm
+                            INNER JOIN mat_matriculas_detalles mmd ON mmd.matricula_id=mm.id 
+                            INNER JOIN mat_cursos mc ON mc.id=mmd.curso_id
+                            WHERE mm.fecha_matricula>='$fecha_ini'
+                            AND mm.estado=1
+                            GROUP BY mm.persona_id, mc.empresa_id
+                        ) m ON m.persona_id=pc.persona_id AND m.empresa_id=pc.empresa_id 
+                        LEFT JOIN (
+                            SELECT pd.persona_id, t.empresa_id
+                            FROM personas_distribuciones pd
+                            INNER JOIN mat_trabajadores t ON t.id=pd.trabajador_id
+                            WHERE pd.fecha_distribucion>='$fecha_ini'
+                            AND pd.estado=1
+                            GROUP BY pd.persona_id, t.empresa_id
+                        ) d ON d.persona_id=pc.persona_id AND d.empresa_id=pc.empresa_id 
+                        WHERE pc.estado = 1
                         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-                        AND pc.empresa_id='$empresa_id'
-                        AND pd.id IS NULL
-                        GROUP BY p.id
-                        ORDER BY p.id
-                        LIMIT 0,".$asig[$i];
+                        AND (
+                            $filtros
+                        )
+                        ORDER BY pc.persona_id
+                        LIMIT $pos,$asig[$i]";
                 DB::insert($sql);
+                $pos=$pos+$asig[$i];
             }
         }
 
@@ -214,58 +288,6 @@ class Llamada extends Model
         DB::update($sql);
         
         DB::commit();
-        /*$filtro="";
-        if( $tipo_asignar=='1' ){
-            $filtro=" AND pd.id IS NULL ";
-        }
-        elseif( $tipo_asignar=='2' ){
-            $filtro=" AND pd.id IS NOT NULL ";
-        }*/
-
-        /*if($filtro=='' OR $filtro=='2'){
-            $sql="  UPDATE personas_captadas pc
-                    INNER JOIN (
-                    SELECT pds.id, pds.persona_id
-                    FROM personas_distribuciones pds
-                    INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
-                    WHERE pds.estado=1
-                    ) pd ON pc.persona_id=pd.persona_id 
-                    INNER JOIN personas_distribuciones pdf ON pdf.id=pd.id
-                    SET pdf.estado=0
-                    WHERE pc.estado=1 
-                    AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-                    AND pc.persona_id_created_at=0
-                    AND pc.empresa_id='$empresa_id'";
-            DB::update($sql);
-        }*/
-
-        /*DB::statement('SET @nro=0;');
-        DB::statement('SET @tra=0;');
-        $sql="  INSERT INTO personas_distribuciones (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
-                SELECT r.persona_id, t.trabajador_id, CURDATE(), 1, NOW(),  $usuario
-                FROM (
-                    SELECT pc.persona_id, p.email,p.dni, @nro:=@nro+1, IF(@nro % $cant=0,$cant,@nro % $cant) AS pos
-                    FROM personas_captadas pc
-                    INNER JOIN personas p ON p.id=pc.persona_id
-                    LEFT JOIN (
-                        SELECT pds.id, pds.persona_id
-                        FROM personas_distribuciones pds
-                        INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
-                        WHERE pds.estado=1
-                    ) pd ON pc.persona_id=pd.persona_id 
-                    WHERE pc.estado=1 
-                    AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-                    AND pc.persona_id_created_at=0
-                    AND pc.empresa_id='$empresa_id'
-                    
-                    GROUP BY pc.persona_id
-                ) r
-                INNER JOIN (
-                    SELECT @tra:=@tra+1 AS pos, id AS trabajador_id, persona_id
-                    FROM mat_trabajadores
-                    WHERE id IN ($trabajador)
-                ) t ON t.pos=r.pos";
-        DB::insert($sql);*/
     }
     // --
 }

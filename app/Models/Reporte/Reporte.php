@@ -13,19 +13,52 @@ class Reporte extends Model
     {
         $fecha_ini= $r->fecha_ini;
         $fecha_fin= $r->fecha_fin;
-        $empresa_id= Auth::user()->empresa_id;
+        $empresa_id= $r->empresas;
 
-        $sql="  SELECT COUNT(DISTINCT(pc.persona_id)) total, COUNT(DISTINCT(IF(pd.id IS NULL,pc.persona_id,NULL))) sin_asignar
-                FROM personas_captadas pc
-                LEFT JOIN (
-                    SELECT pds.id, pds.persona_id
-                    FROM personas_distribuciones pds
-                    INNER JOIN mat_trabajadores t ON t.id=pds.trabajador_id AND t.empresa_id='$empresa_id' 
-                    WHERE pds.estado=1
-                ) pd ON pc.persona_id=pd.persona_id 
-                WHERE pc.estado=1 
-                AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-                AND pc.empresa_id='$empresa_id'";
+        $sql="  
+        SELECT e.id, 
+        e.empresa, MIN(DATE(pc.created_at)) fecha_carga, MIN(pc.fecha_registro) fmin, MAX(pc.fecha_registro) fmax,  
+        pc.ad_name, pc.interesado AS interes, COUNT(pc.id) cantidad, MIN(pc.costo) costo_min , SUM(pc.costo) total,
+        COUNT(IF(d.persona_id IS NOT NULL, 1, NULL)) si_asignado, COUNT(IF(d.persona_id IS NULL, 1, NULL)) no_asignado, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NULL, 1, NULL)) no_llamada, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NOT NULL, 1, NULL)) si_llamada, 
+        COUNT(IF(m.persona_id IS NULL, NULL, 1)) convertido,
+        COUNT(IF(d.persona_id IS NOT NULL AND l.tipo_llamada_id=1, 1, NULL)) interesado, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.tipo_llamada_id=2, 1, NULL)) pendiente,
+        COUNT(IF(d.persona_id IS NOT NULL AND l.tipo_llamada_id=8, 1, NULL)) nointeresado, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.tipo_llamada_id<>1 AND l.tipo_llamada_id<>2 AND l.tipo_llamada_id<>8, 1, NULL)) otros
+        FROM personas_captadas pc 
+        INNER JOIN empresas e ON e.id=pc.empresa_id AND e.id = $empresa_id
+        LEFT JOIN (
+            SELECT ll.persona_id, t.empresa_id, MIN(ll.tipo_llamada_id) tipo_llamada_id
+            FROM llamadas ll
+            INNER JOIN mat_trabajadores t ON t.id=ll.trabajador_id
+            WHERE DATE(ll.fecha_llamada)>='$fecha_ini'
+            AND ll.ultimo_registro=1
+            AND ll.estado=1
+            GROUP BY ll.persona_id, t.empresa_id
+        ) l ON l.persona_id=pc.persona_id AND l.empresa_id=pc.empresa_id 
+        LEFT JOIN (
+            SELECT mm.persona_id, mc.empresa_id 
+            FROM mat_matriculas mm
+            INNER JOIN mat_matriculas_detalles mmd ON mmd.matricula_id=mm.id 
+            INNER JOIN mat_cursos mc ON mc.id=mmd.curso_id
+            WHERE mm.fecha_matricula>='$fecha_ini'
+            AND mm.estado=1
+            GROUP BY mm.persona_id, mc.empresa_id
+        ) m ON m.persona_id=pc.persona_id AND m.empresa_id=pc.empresa_id 
+        LEFT JOIN (
+            SELECT pd.persona_id, t.empresa_id
+            FROM personas_distribuciones pd
+            INNER JOIN mat_trabajadores t ON t.id=pd.trabajador_id
+            WHERE pd.fecha_distribucion>='$fecha_ini'
+            AND pd.estado=1
+            GROUP BY pd.persona_id, t.empresa_id
+        ) d ON d.persona_id=pc.persona_id AND d.empresa_id=pc.empresa_id 
+        WHERE pc.estado = 1
+        AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+        GROUP BY e.id, pc.ad_name, pc.interesado
+        ORDER BY e.empresa, fecha_carga DESC, pc.ad_name, pc.interesado";
                 
         $r= DB::select($sql);
         return $r;
