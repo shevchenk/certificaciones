@@ -17,7 +17,7 @@ class Reporte extends Model
 
         $sql="  
         SELECT e.id, 
-        e.empresa, MAX(DATE(pc.created_at)) fecha_carga, MIN(pc.fecha_registro) fmin, MAX(pc.fecha_registro) fmax,  
+        e.empresa, DATE(pc.created_at) fecha_carga, MIN(pc.fecha_registro) fmin, MAX(pc.fecha_registro) fmax,  
         pc.ad_name, pc.interesado AS interes, COUNT(pc.id) cantidad, MIN(pc.costo) costo_min , SUM(pc.costo) total,
         COUNT(IF(d.persona_id IS NOT NULL, 1, NULL)) si_asignado, COUNT(IF(d.persona_id IS NULL, 1, NULL)) no_asignado, 
         COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NULL, 1, NULL)) no_llamada, 

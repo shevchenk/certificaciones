@@ -138,7 +138,7 @@ SlctCargarTrabajador=function(result){
 HTMLCargarVisita=function(result){
     var html="";
     $.each(result.data,function(index,r){
-        codigo=r.ad_name+'|'+r.interes;
+        codigo=r.ad_name+'|'+r.interes+'|'+r.fecha_carga;
         costo_convertido= r.total*1;
         if( r.convertido*1>0 ){
             costo_convertido= r.total*1 / r.convertido*1;

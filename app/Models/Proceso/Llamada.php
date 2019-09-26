@@ -163,6 +163,7 @@ class Llamada extends Model
             "(
             pc.ad_name='".$detchk[0]."' 
             AND pc.interesado='".$detchk[1]."'
+            AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NULL
             )";
             array_push($filtros_array, $filtro);
@@ -173,6 +174,7 @@ class Llamada extends Model
             "(
             pc.ad_name='".$detchk[0]."' 
             AND pc.interesado='".$detchk[1]."'
+            AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.persona_id IS NULL
             )";
@@ -184,6 +186,7 @@ class Llamada extends Model
             "(
             pc.ad_name='".$detchk[0]."' 
             AND pc.interesado='".$detchk[1]."'
+            AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.tipo_llamada_id=1
             )";
@@ -195,6 +198,7 @@ class Llamada extends Model
             "(
             pc.ad_name='".$detchk[0]."' 
             AND pc.interesado='".$detchk[1]."'
+            AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.tipo_llamada_id=2
             )";
@@ -206,6 +210,7 @@ class Llamada extends Model
             "(
             pc.ad_name='".$detchk[0]."' 
             AND pc.interesado='".$detchk[1]."'
+            AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.tipo_llamada_id=8
             )";
@@ -217,6 +222,7 @@ class Llamada extends Model
             "(
             pc.ad_name='".$detchk[0]."' 
             AND pc.interesado='".$detchk[1]."'
+            AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.tipo_llamada_id<>1 
             AND l.tipo_llamada_id<>2 
@@ -256,8 +262,7 @@ class Llamada extends Model
                             SELECT pd.persona_id, t.empresa_id
                             FROM personas_distribuciones pd
                             INNER JOIN mat_trabajadores t ON t.id=pd.trabajador_id
-                            WHERE pd.fecha_distribucion>='$fecha_ini'
-                            AND pd.estado=1
+                            WHERE pd.estado=1
                             GROUP BY pd.persona_id, t.empresa_id
                         ) d ON d.persona_id=pc.persona_id AND d.empresa_id=pc.empresa_id 
                         WHERE pc.estado = 1
