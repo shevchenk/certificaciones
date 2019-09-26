@@ -14,8 +14,8 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'reporte.seminario.js.seminario_ajax' )
-@include( 'reporte.seminario.js.seminario' )
+@include( 'reporte.inscrito.js.inscrito_ajax' )
+@include( 'reporte.inscrito.js.inscrito' )
 @stop
 
 @section('content')
@@ -23,7 +23,7 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Reporte de Inscritos de Formación Continua
+        <h1>Reporte de Inscritos de Formación Continua - Global
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
@@ -62,9 +62,9 @@
                                 </div>
                                 <div class="col-sm-1" style="padding:24px">&nbsp;
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
+                                <!--div class="col-sm-1" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexportdetalle" name="btnexportdetalle" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar Detalle</i></a>
-                                </div>
+                                </div-->
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
@@ -74,7 +74,7 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color: #F2DCDB;" colspan='6'>DATOS DEL INSCRITO</th>
-                                            <th style="background-color: #C5D9F1;" colspan='6'>SOBRE LA INFORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #C5D9F1;" colspan='7'>SOBRE LA INFORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FFFF00;" colspan='4'>PAGO POR CURSO</th>
                                             <th style="background-color: #8DB4E2;" colspan='2'>PAGO POR CONJUNTO DE CURSOS <hr> PAGO POR INSCRIPCIÓN DE ESPECIALIDAD</th>
                                             <th style="background-color: #FCD5B4;" colspan='6'>DATOS DE LA VENTA</th>
@@ -87,6 +87,7 @@
                                             <th style="background-color: #F2DCDB;">Celular</th>
                                             <th style="background-color: #F2DCDB;">Email</th>
 
+                                            <th style="background-color: #C5D9F1;">Validó Email?</th>
                                             <th style="background-color: #C5D9F1;">Fecha de Inscripción</th>
                                             <th style="background-color: #C5D9F1;">Donde Estudiará</th>
                                             <th style="background-color: #C5D9F1;">Empresa</th>
@@ -113,12 +114,14 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
+                                            <th style="background-color: #F2DCDB;">DNI</th>
                                             <th style="background-color: #F2DCDB;">Nombres</th>
                                             <th style="background-color: #F2DCDB;">Paterno</th>
                                             <th style="background-color: #F2DCDB;">Materno</th>
                                             <th style="background-color: #F2DCDB;">Celular</th>
                                             <th style="background-color: #F2DCDB;">Email</th>
 
+                                            <th style="background-color: #C5D9F1;">Validó Email?</th>
                                             <th style="background-color: #C5D9F1;">Fecha de Inscripción</th>
                                             <th style="background-color: #C5D9F1;">Donde Estudiará</th>
                                             <th style="background-color: #C5D9F1;">Empresa</th>

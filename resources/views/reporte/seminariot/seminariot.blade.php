@@ -23,7 +23,7 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Reporte de Inscritos de Formación Continua
+        <h1>Reporte de Mis Inscritos de Formación Continua
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
