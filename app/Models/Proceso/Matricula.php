@@ -377,6 +377,7 @@ class Matricula extends Model
             AND (
                 $cursos[0]->empresa_id==4
                 OR $cursos[0]->empresa_id==1
+                OR $cursos[0]->empresa_id==3
             )
         ){
             /*Mail::to($email)
