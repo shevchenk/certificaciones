@@ -17,7 +17,7 @@ class Reporte extends Model
 
         $sql="  
         SELECT e.id, 
-        e.empresa, MIN(DATE(pc.created_at)) fecha_carga, MIN(pc.fecha_registro) fmin, MAX(pc.fecha_registro) fmax,  
+        e.empresa, MAX(DATE(pc.created_at)) fecha_carga, MIN(pc.fecha_registro) fmin, MAX(pc.fecha_registro) fmax,  
         pc.ad_name, pc.interesado AS interes, COUNT(pc.id) cantidad, MIN(pc.costo) costo_min , SUM(pc.costo) total,
         COUNT(IF(d.persona_id IS NOT NULL, 1, NULL)) si_asignado, COUNT(IF(d.persona_id IS NULL, 1, NULL)) no_asignado, 
         COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NULL, 1, NULL)) no_llamada, 
@@ -51,8 +51,7 @@ class Reporte extends Model
             SELECT pd.persona_id, t.empresa_id
             FROM personas_distribuciones pd
             INNER JOIN mat_trabajadores t ON t.id=pd.trabajador_id
-            WHERE pd.fecha_distribucion>='$fecha_ini'
-            AND pd.estado=1
+            WHERE pd.estado=1
             GROUP BY pd.persona_id, t.empresa_id
         ) d ON d.persona_id=pc.persona_id AND d.empresa_id=pc.empresa_id 
         WHERE pc.estado = 1
