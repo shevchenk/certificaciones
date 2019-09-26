@@ -5,7 +5,7 @@
 <td style="width: 471.55pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
 <center><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #002060;"> 
 <?php
-    $imagen="http://formacioncontinua.pe/img/inscripcion/logo4.png";
+    $imagen="http://formacioncontinua.pe/img/inscripcion/logo1.png";
 ?>
 <img src={{ $imagen }}></span></strong></center></td>
 </tr>
@@ -17,7 +17,7 @@
 </tr>
 <tr>
 <td style="width: 453.35pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
-<p style="background: white;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">&iexcl;Bienvenido a Formaci&oacute;n Continua Online del Instituto Telesup! </span></p>
+<p style="background: white;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">&iexcl;Bienvenido a Formaci&oacute;n Continua Online del Instituto Intur - Perú! </span></p>
 <p style="background: white;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">Queremos felicitarte por tomar los primeros pasos en conseguir los conocimientos que te ayudar&aacute;n a mejorar tu nivel econ&oacute;mico.</span></p>
 <?php 
     $materia='Seminario';
@@ -87,7 +87,7 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/img3.png";
 ?>
 <img src={{ $imagen }}></strong></span></p>
 <p style="margin-bottom: .0001pt; line-height: normal;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">
-    Aprobado el examen de certificación, obtendrá su respectivo certificado del curso. Estos certificados son respaldados por el Instituto de Educación Superior Telesup. 
+    Aprobado el examen de certificación, obtendrá su respectivo certificado del curso. Estos certificados son respaldados por el Instituto Internacional de Turismo Intur - Perú. 
 </span></p>
 </td>
 </tr>
@@ -99,7 +99,7 @@ $imagen="http://formacioncontinua.pe/img/inscripcion/img4.png";
 ?>
 <img src={{ $imagen }}></span></p>
 <p style="margin-bottom: .0001pt; line-height: normal;"><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #333333;">
-    Cuando obtengas el certificado del curso, tendrán acceso a la bolsa de trabajo de Formación Continua del Instituto de Educación Superior Telesup y podrán ser presentados por nuestra institución ante ofertantes de plazas laborales.
+    Cuando obtengas el certificado del curso, tendrán acceso a la bolsa de trabajo de Formación Continua del Instituto Internacional de Turismo Intur - Perú y podrán ser presentados por nuestra institución ante ofertantes de plazas laborales.
 </span></p>
 </td>
 <td style="width: 148.8pt; padding: 0cm 5.4pt 0cm 5.4pt;" width="240">

@@ -5,7 +5,7 @@
 <td style="width: 471.55pt; padding: 0cm 5.4pt 0cm 5.4pt;" colspan="3" width="616">
 <center><strong><span style="font-size: 13.0pt; font-family: 'Helvetica',sans-serif; color: #002060;"> 
 <?php
-    $imagen="http://formacioncontinua.pe/img/inscripcion/logo4.png";
+    $imagen="http://formacioncontinua.pe/img/inscripcion/logo3.png";
 ?>
 <img src={{ $imagen }}></span></strong></center></td>
 </tr>

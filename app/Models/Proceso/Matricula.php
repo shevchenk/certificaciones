@@ -372,7 +372,13 @@ class Matricula extends Model
             'blade' => 'emails.inscripcion.inscripcion'.$cursos[0]->empresa_id,
         );
 
-        if( session('validar_email')==1 AND $cursos[0]->empresa_id==4 AND $email!=''){
+        if( session('validar_email')==1 
+            AND $email!=''
+            AND (
+                $cursos[0]->empresa_id==4
+                OR $cursos[0]->empresa_id==1
+            )
+        ){
             /*Mail::to($email)
             //->cc([$emailseguimiento])
             ->bcc([$emailseguimiento])
