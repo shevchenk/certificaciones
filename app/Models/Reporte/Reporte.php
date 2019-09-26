@@ -57,7 +57,7 @@ class Reporte extends Model
         ) d ON d.persona_id=pc.persona_id AND d.empresa_id=pc.empresa_id 
         WHERE pc.estado = 1
         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
-        GROUP BY e.id, pc.ad_name, pc.interesado
+        GROUP BY e.id, e.empresa, pc.ad_name, pc.interesado
         ORDER BY e.empresa, fecha_carga DESC, pc.ad_name, pc.interesado";
                 
         $r= DB::select($sql);
