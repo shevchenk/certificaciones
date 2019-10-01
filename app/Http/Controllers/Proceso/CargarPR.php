@@ -60,6 +60,17 @@ class CargarPR extends Controller
                 return response()->json($return);
             }
 
+            $narchivo= $nombreArchivo[0]."_u";
+            $interesado= DB::table('interesados')
+                        ->whereRaw(' file LIKE "'.$uploadFolder.'/'.$narchivo.'%" ')
+                        ->first();
+            $m = "Archivo fue procesado anteriormente";
+            if ( isset($interesado->file) ) {
+                $return['rst'] = 2;
+                $return['msj'] = $m;
+                return response()->json($return);
+            }
+
             $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
             if (!move_uploaded_file($tmpArchivo, $file)) {
                 $return['rst'] = 2;
