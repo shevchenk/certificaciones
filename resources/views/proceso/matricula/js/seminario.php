@@ -276,6 +276,7 @@ CargarAlumno=function(result){
 
 ActivarPago=function(id){
     PromocionGeneral=0;
+    var total=0;
     if(id==1){
         var contador=0;
         $("#t_pago textarea").each(function(){ contador++; });
@@ -287,6 +288,7 @@ ActivarPago=function(id){
             $("#t_pago>tbody tr").each(function(){
                 $(this).find("td:eq(1) input[type='text']").val('0');
                 $(this).find("td:eq(2) input[type='text']").val('0');
+                total= $(this).find("td:eq(2) i").text()*1 + total*1;
                 $(this).find("td:eq(3) select").val('0');
 
                 $(this).find("td:eq(1) input[type='text']").attr('readOnly','true');
@@ -299,6 +301,7 @@ ActivarPago=function(id){
             $("#txt_nro_promocion").val('');
             $("#txt_monto_promocion").val('');
             $("#slct_tipo_pago").val('');
+            $("#i_costo_promocion").text(total);
         }
         else{
             //msjG.mensaje('warning','Para activar la promoción, requiere de '+PromocionG+' seminarios seleccionados',3000);
@@ -311,6 +314,7 @@ ActivarPago=function(id){
         $("#t_pago>tbody tr").each(function(){
             $(this).find("td:eq(1) input[type='text']").val('');
             $(this).find("td:eq(2) input[type='text']").val('');
+            total= $(this).find("td:eq(2) i").text()*1 + total*1;
             $(this).find("td:eq(3) select").val('');
 
             $(this).find("td:eq(1) input[type='text']").removeAttr('readOnly');
@@ -323,6 +327,7 @@ ActivarPago=function(id){
         $("#txt_nro_promocion").val('0');
         $("#txt_monto_promocion").val('0');
         $("#slct_tipo_pago").val('0');
+        $("#i_costo_promocion").text(total);
     }
     $("#slct_tipo_pago").selectpicker('refresh');
 }

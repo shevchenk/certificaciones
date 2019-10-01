@@ -55,6 +55,7 @@ SeleccionarProgramacion = function(val,id){
         var curso_id=$("#TableListaprogramacion #trid_"+id+" .curso_id").val();
         var dia=$("#TableListaprogramacion #trid_"+id+" .dia").val();
         var curso=$("#TableListaprogramacion #trid_"+id+" .curso").text();
+        var costo=$("#TableListaprogramacion #trid_"+id+" .costo").val();
         var fecha_inicio=$("#TableListaprogramacion #trid_"+id+" .fecha_inicio").text();
         var fecha_final=$("#TableListaprogramacion #trid_"+id+" .fecha_final").text();
         var fecha_i=fecha_inicio.split(" ");
@@ -155,7 +156,15 @@ SeleccionarProgramacion = function(val,id){
             "</div>"+
             "</td>"+
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]'></td>"+
-            "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
+            "<td>"+
+                "<div class='input-group'>"+
+                    "<div class='input-group-addon'>"+
+                    "<i>"+costo+"</i>"+
+                    "</div>"+
+                    "<input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]'"+
+                    " onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'>"+
+                "</div>"+
+            "</td>"+
             "<td><select class='form-control'  id='slct_tipo_pago_detalle"+id+"' name='slct_tipo_pago_detalle[]'>"+
                 "<option value='0'>.::Seleccione::.</option>"+
                 "<option value='1.1'>Transferencia - BCP</option>"+
@@ -412,6 +421,7 @@ HTMLCargarProgramacion=function(result){
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
             "<td>"+
             '<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
+            "<input type='hidden' class='costo' value='"+r.costo+"'>"+
             "<input type='hidden' class='dia' value='"+r.dia+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+

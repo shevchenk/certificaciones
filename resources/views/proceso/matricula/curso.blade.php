@@ -281,7 +281,14 @@
                                                 <tr>
                                                     <td id="promocion_seminario"></td>
                                                     <td><input type="text" class="form-control" id="txt_nro_promocion" name="txt_nro_promocion" value="0" placeholder="Nro" disabled></td>
-                                                    <td><input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" value="0" placeholder="Monto" disabled></td>
+                                                    <td>
+                                                        <div class='input-group'>
+                                                            <div class='input-group-addon'>
+                                                            <i id="i_costo_promocion"></i>
+                                                            </div>
+                                                            <input type="text" class="form-control" id="txt_monto_promocion" name="txt_monto_promocion" value="0" placeholder="Monto" onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);' disabled >
+                                                        </div>
+                                                    </td>
                                                     <td><select class='form-control'  id='slct_tipo_pago' name='slct_tipo_pago' disabled>
                                                         <option value='0'>.::Seleccione::.</option>
                                                         <option value='1.1'>Transferencia - BCP</option>
