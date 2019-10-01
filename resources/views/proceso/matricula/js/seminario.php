@@ -301,7 +301,7 @@ ActivarPago=function(id){
             $("#txt_nro_promocion").val('');
             $("#txt_monto_promocion").val('');
             $("#slct_tipo_pago").val('');
-            $("#i_costo_promocion").text(total);
+            $("#i_costo_promocion").text(total.toFixed(2));
         }
         else{
             //msjG.mensaje('warning','Para activar la promoción, requiere de '+PromocionG+' seminarios seleccionados',3000);
@@ -327,7 +327,7 @@ ActivarPago=function(id){
         $("#txt_nro_promocion").val('0');
         $("#txt_monto_promocion").val('0');
         $("#slct_tipo_pago").val('0');
-        $("#i_costo_promocion").text(total);
+        $("#i_costo_promocion").text(total.toFixed(2));
     }
     $("#slct_tipo_pago").selectpicker('refresh');
 }
