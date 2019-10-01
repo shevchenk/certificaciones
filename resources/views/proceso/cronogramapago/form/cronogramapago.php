@@ -23,15 +23,21 @@
                     <option value="2">Pago por Curso</option>
                   </select>
                 </div>
-              </div>
-              <div class="col-md-12">
                 <div class="col-md-6">
                   <label>Odes:</label>
                   <select class="form-control selectpicker show-menu-arrow" multiple data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple id="slct_sucursal_id" name="slct_sucursal_id[]"></select>
                 </div>
+              </div>
+              <div class="col-md-12">
                 <div class="col-md-6">
                   <label>Fecha de Inicio:</label>
                   <input type="text" class="form-control fecha" id="txt_fecha_inicio" name="txt_fecha_inicio" placeholder="YYYY-MM-DD">
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Costo</label>
+                        <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo" name="txt_costo" value="0">
+                    </div>
                 </div>
               </div>
             </div>
@@ -54,7 +60,7 @@
                         ?>
                       </select>
                       <span class="input-group-addon"><i class="fa fa-repeat"></i></span>
-                      <input type="text" name="txt_monto_cuota" id="txt_monto_cuota" class="form-control">
+                      <input type="text" name="txt_monto_cuota" id="txt_monto_cuota" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control">
                     </div>
                 </div>
               </div>
@@ -69,7 +75,7 @@
                   <br>         
                     <label>Monto de cronograma de pago:</label>
                     <br>
-                    <input type="text" class="form-control" id="txt_monto_cronograma" placeholder="0.00">
+                    <input type="text" class="form-control" id="txt_monto_cronograma" placeholder="0.00" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);">
                 </div>
                 <div class="col-md-2">
                   <br>

@@ -85,6 +85,12 @@
                             <input type="text" onkeypress="return masterG.validaNumeros(event, this);" class="form-control" id="txt_meta_min" name="txt_meta_min">
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Costo</label>
+                            <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo" name="txt_costo" value="0">
+                        </div>
+                    </div>
                     <div class="col-md-12 txt_link">
                         <div class="form-group">
                             <label>Link del Seminario</label>

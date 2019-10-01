@@ -44,6 +44,7 @@ $(document).ready(function() {
         $('#ModalEspecialidadProgramacionForm #slct_nro_cuota').selectpicker( 'val',EPG.nro_cuota.split('-')[0] );
         $('#ModalEspecialidadProgramacionForm #txt_monto_cuota').val( EPG.nro_cuota.split('-')[1] );
         $('#ModalEspecialidadProgramacionForm #slct_estado').selectpicker( 'val',EPG.estado );
+        $('#ModalEspecialidadProgramacionForm #txt_costo').val( EPG.costo );
         $('#ModalEspecialidadProgramacionForm #txt_fecha_inicio').removeAttr( 'disabled' );
         $('#ModalEspecialidadProgramacionForm #slct_especialidad_id').removeAttr( 'disabled' );
         ValidaTipo(EPG.tipo);
@@ -88,6 +89,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Fecha de Inicio',4000);
     }
+    else if( $.trim( $("#ModalEspecialidadProgramacionForm #txt_costo").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Costo',4000);
+    }
     else if( $("#ModalEspecialidadProgramacionForm #slct_tipo").val()==1 && $.trim( $("#ModalEspecialidadProgramacionForm #slct_nro_cuota").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Nro Cuota de la Escala',4000);
@@ -108,6 +113,7 @@ AgregarEditar=function(val,id){
     EPG.sucursal_id='';
     EPG.nro_cuota='-';
     EPG.cronograma='';
+    EPG.costo='0';
     EPG.estado='1';
     if( val==0 ){
         EPG.id=id;
@@ -117,6 +123,7 @@ AgregarEditar=function(val,id){
         EPG.tipo=$("#TableEspecialidad #trid_"+id+" .tipo").val();
         EPG.nro_cuota=$("#TableEspecialidad #trid_"+id+" .nro_cuota").val();
         EPG.cronograma=$("#TableEspecialidad #trid_"+id+" .cronograma").text();
+        EPG.costo=$("#TableEspecialidad #trid_"+id+" .costo").val();
         EPG.estado=$("#TableEspecialidad #trid_"+id+" .estado").val();
     }
     $('#ModalEspecialidadProgramacion').modal('show');
@@ -245,6 +252,7 @@ HTMLCargar=function(result){ //INICIO HTML
             "<input type='hidden' class='especialidad_id' value='"+r.especialidad_id+"'>"+
             "<input type='hidden' class='tipo' value='"+r.tipo+"'>"+
             "<input type='hidden' class='nro_cuota' value='"+r.nro_cuota+"'>"+
+            "<input type='hidden' class='costo' value='"+r.costo+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>";
 
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+

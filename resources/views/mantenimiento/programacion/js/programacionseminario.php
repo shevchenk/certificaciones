@@ -70,6 +70,7 @@ $(document).ready(function() {
         $('#ModalProgramacionForm #txt_fecha_campaña').val( ProgramacionG.fecha_campaña );
         $('#ModalProgramacionForm #txt_meta_max').val( ProgramacionG.meta_max );
         $('#ModalProgramacionForm #txt_meta_min').val( ProgramacionG.meta_min );
+        $('#ModalProgramacionForm #txt_costo').val( ProgramacionG.costo );
         $('#ModalProgramacionForm #txt_link').val( ProgramacionG.link );
         $('#ModalProgramacionForm #slct_estado').selectpicker( 'val',ProgramacionG.estado );
         $('#ModalProgramacionForm #slct_docente_id').focus();
@@ -112,6 +113,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Fecha Final',4000);
     }
+    else if( $.trim( $("#ModalProgramacionForm #txt_costo").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Costo',4000);
+    }
     return r;
 }
 
@@ -131,6 +136,7 @@ AgregarEditar=function(val,id){
     ProgramacionG.meta_max='';
     ProgramacionG.meta_min='';
     ProgramacionG.link='';
+    ProgramacionG.costo='0';
     ProgramacionG.estado='1';
     if( val==0 ){
         ProgramacionG.id=id;
@@ -147,6 +153,7 @@ AgregarEditar=function(val,id){
         ProgramacionG.meta_max=$("#TableProgramacion #trid_"+id+" .meta_max").val();
         ProgramacionG.meta_min=$("#TableProgramacion #trid_"+id+" .meta_min").val();
         ProgramacionG.link=$("#TableProgramacion #trid_"+id+" .link").val();
+        ProgramacionG.costo=$("#TableProgramacion #trid_"+id+" .costo").val();
         ProgramacionG.estado=$("#TableProgramacion #trid_"+id+" .estado").val();
     }
     $('#ModalProgramacion').modal('show');
@@ -207,6 +214,7 @@ HTMLCargarProgramacion=function(result){
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+
+            "<input type='hidden' class='costo' value='"+r.costo+"'>"+
             "<input type='hidden' class='link' value='"+r.link+"'>"+
             "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+

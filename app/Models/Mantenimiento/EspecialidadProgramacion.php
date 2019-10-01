@@ -41,6 +41,7 @@ class EspecialidadProgramacion extends Model
             'mep.nro_cuota',
             'mep.fecha_inicio',
             'mep.estado',
+            'mep.costo',
             DB::raw('GROUP_CONCAT( DISTINCT(CONCAT(mepc.fecha_cronograma," => S/ ",mepc.monto_cronograma)) ORDER BY mepc.cuota) AS fecha_cronograma'),
             DB::raw('GROUP_CONCAT( DISTINCT(s.sucursal) ORDER BY s.sucursal SEPARATOR "|") AS sucursal'),
             DB::raw('GROUP_CONCAT( DISTINCT(s.id) ) AS sucursal_id')
@@ -113,6 +114,7 @@ class EspecialidadProgramacion extends Model
         $especialidadProgramacion->tipo = trim( $r->tipo );
         $especialidadProgramacion->fecha_inicio = trim( $r->fecha_inicio );
         $especialidadProgramacion->estado = trim( $r->estado );
+        $especialidadProgramacion->costo = trim( $r->costo );
         $especialidadProgramacion->persona_id_created_at=$usuario;
         if( $r->has('nro_cuota') && $r->nro_cuota!='' ){
             $especialidadProgramacion->nro_cuota= $r->nro_cuota."-".$r->monto_cuota;
@@ -151,6 +153,7 @@ class EspecialidadProgramacion extends Model
         $especialidadProgramacion->fecha_inicio = trim( $r->fecha_inicio );
         $especialidadProgramacion->tipo = trim( $r->tipo );
         $especialidadProgramacion->estado = trim( $r->estado );
+        $especialidadProgramacion->costo = trim( $r->costo );
         $especialidadProgramacion->persona_id_updated_at=$usuario;
         if( $r->has('nro_cuota') && $r->nro_cuota!='' ){
             $especialidadProgramacion->nro_cuota= $r->nro_cuota."-".$r->monto_cuota;
