@@ -371,16 +371,16 @@ class Persona extends Model
     public static function runLoadDistribuida($r)
     {
         $sql=DB::table('personas AS p')
-            ->leftJoin('personas_distribuciones AS pd', function($join){
+            ->Join('personas_distribuciones AS pd', function($join){
                 $join->on('pd.persona_id','=','p.id')
                 ->where('pd.estado',1);
             })
-            ->leftJoin('mat_trabajadores AS t', function($join){
+            ->Join('mat_trabajadores AS t', function($join){
                 $join->on('t.id','=','pd.trabajador_id')
                 ->where('t.empresa_id', Auth::user()->empresa_id)
                 ->where('t.estado',1);
             })
-            ->leftJoin('personas AS p2', function($join){
+            ->Join('personas AS p2', function($join){
                 $join->on('p2.id','=','t.persona_id')
                 ->where('p2.estado',1);
             })
