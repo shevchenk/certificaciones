@@ -161,9 +161,19 @@ SeleccionarProgramacion = function(val,id){
                     "<div class='input-group-addon'>"+
                     "<i>"+costo+"</i>"+
                     "</div>"+
-                    "<input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]'"+
-                    " onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'>"+
+                    '<div id="txt_monto_pago_certificado_ico'+id+'" class="has-warning has-feedback">'+
+                        "<input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]'"+
+                        " onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);ValidaDeuda(\""+costo+"\",this,\""+id+"\");'>"+
+                        '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
+                    '</div>'+
                 "</div>"+
+                '<div id="i_monto_deuda_certificado_ico'+id+'" class="has-warning has-feedback">'+
+                    "<div class='input-group-addon'>"+
+                    "<label>Deuda:</label>"+
+                    "<label id='i_monto_deuda_certificado"+id+"'>"+costo+"</label>"+
+                    '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
+                    "</div>"+
+                '</div>'+
             "</td>"+
             "<td><select class='form-control'  id='slct_tipo_pago_detalle"+id+"' name='slct_tipo_pago_detalle[]'>"+
                 "<option value='0'>.::Seleccione::.</option>"+
@@ -375,7 +385,18 @@ onPagos=function(item,val){
     
 //    console.log(files[0].name);
 };    
-    
+
+ValidaDeuda = function(c,t,id){
+    $("#txt_monto_pago_certificado_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-warning-sign').addClass('glyphicon-ok');
+    var saldo= c*1 - $(t).val()*1;
+    if( saldo>0 ){
+        $("#txt_monto_pago_certificado_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+    }
+    if(saldo<0){
+        saldo=0;
+    }
+    $("#i_monto_deuda_certificado"+id).text(saldo.toFixed(2));
+}
 
 Eliminar = function (tr) {
         var c = confirm("¿Está seguro de Eliminar el Curso?");

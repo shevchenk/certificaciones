@@ -89,10 +89,17 @@
                             </select>
                     </div>
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="col-md-4">
                             <label>Comentario:</label>
-                            <textarea rows="5" class="form-control" id="txt_comentario" name="txt_comentario" disabled>
-                            </textarea>
+                            <textarea rows="5" class="form-control" id="txt_comentario" name="txt_comentario" disabled></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Objeción:</label>
+                            <textarea rows="5" class="form-control" id="txt_objecion" name="txt_objecion"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Preguntas:</label>
+                            <textarea rows="5" class="form-control" id="txt_pregunta" name="txt_pregunta"></textarea>
                         </div>
                     </div>
                     <div class="col-md-12">

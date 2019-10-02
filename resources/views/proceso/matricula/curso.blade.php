@@ -238,6 +238,7 @@
                                         </div> 
                                     </div>
                                     <div class="col-md-12">
+                                        <div class="table-responsive">
                                         <table class="table" id="t_pago">
                                             <thead>
                                                 <tr>
@@ -258,6 +259,7 @@
                                             <tbody id="tb_pago">
                                             </tbody>
                                         </table>
+                                        </div>
                                     </div>
                                     <div class="col-md-12">
                                         <table class="table" id="t_pago_promocion" style="display:none;">

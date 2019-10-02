@@ -46,7 +46,7 @@ $(document).ready(function() {
 
     $('#ModalLlamada').on('shown.bs.modal', function (event) {
         AjaxEspecialidad.ObtenerHora(CargarHora);
-        $('#ModalLlamadaForm #txt_fechas,#ModalLlamadaForm #txt_comentario').val('');
+        $('#ModalLlamadaForm #txt_fechas,#ModalLlamadaForm #txt_comentario,#ModalLlamadaForm #txt_objecion,#ModalLlamadaForm #txt_pregunta').val('');
         $('#ModalLlamadaForm #slct_tipo_llamada,#ModalLlamadaForm #slct_detalle_tipo_llamada').selectpicker('val','');
         ActivarComentario();
     });

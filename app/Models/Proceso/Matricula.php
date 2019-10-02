@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Proceso\Alumno;
 use App\Models\Proceso\MatriculaDetalle;
+use App\Models\Proceso\MatriculaSaldo;
 use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Menu;
+use App\Models\Mantenimiento\Programacion;
 use App\Models\Proceso\MatriculaCuota;
 use App\Mail\EmailSend;
 use DB;
@@ -174,12 +176,22 @@ class Matricula extends Model
             
         if($matricula){
             for($i=0;$i<count($curso_id);$i++){
-                
+                $monto_saldo=0;
+                $monto_precio=-1;
                 $mtdetalle=new MatriculaDetalle;
                 $mtdetalle->norden=$i+1;
                 $mtdetalle->matricula_id=$matricula->id;
                 if(Input::has('programacion_id')){
                     $mtdetalle->programacion_id=$programacion_id[$i]; 
+
+                    if( !$r->has('especialidad_id') AND trim($r->nro_promocion)==''){
+                        $programacionVal= Programacion::find($programacion_id[$i]);
+                        $monto_precio= $programacionVal->costo;
+                        $monto_saldo= $programacionVal->costo - $monto_pago_certificado[$i];
+                    }
+
+                    $mtdetalle->saldo=$monto_saldo;
+
                     if(Input::has('seminario')){
                         $mtdetalle->tipo_matricula_detalle=4;
                     }else{
@@ -202,6 +214,7 @@ class Matricula extends Model
                 $mtdetalle->monto_pago_certificado=$monto_pago_certificado[$i];
                 $mtdetalle->tipo_pago=$tipo_pago[$i];
                 $mtdetalle->curso_id=$curso_id[$i];
+
 
                 if(Input::has('especialidad_id') AND !$r->has('nro_certificado')){
                         $mtdetalle->especialidad_id=$especialidad_id[$i];
@@ -273,6 +286,16 @@ class Matricula extends Model
                 
                 $mtdetalle->persona_id_created_at=Auth::user()->id;
                 $mtdetalle->save();
+
+                if( !$r->has('especialidad_id') AND trim($r->nro_promocion)=='' AND $monto_precio>=0){
+                    $mtsaldo= new MatriculaSaldo;
+                    $mtsaldo->matricula_detalle_id= $mtdetalle->id;
+                    $mtsaldo->saldo= $monto_saldo;
+                    $mtsaldo->precio= $monto_precio;
+                    $mtsaldo->pago= $monto_pago_certificado[$i];
+                    $mtsaldo->persona_id_created_at= Auth::user()->id;
+                    $mtsaldo->save();
+                }
             }
         }
 

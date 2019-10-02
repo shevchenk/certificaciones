@@ -41,6 +41,8 @@ class Llamada extends Model
         if( Input::has('comentario') AND trim( $r->comentario )!='' ){
             $llamada->comentario=$r->comentario;
         }
+        $llamada->objecion=$r->objecion;
+        $llamada->pregunta=$r->pregunta;
 
         $llamada->tipo_llamada_id=$r->tipo_llamada;
 
