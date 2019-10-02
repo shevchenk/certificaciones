@@ -73,8 +73,10 @@ class TipoLlamada extends Model
     
     public static function ListTipoLlamada($r)
     {  
+        $empresa_id= Auth::user()->empresa_id;
         $sql=TipoLlamada::select('id','tipo_llamada','obs','estado')
             ->where('estado','=','1')
+            ->where('empresa_id','=',$empresa_id)
             ->where(function($query) use ($r){
                 if( $r->has('plataforma') ){
                     $query->where('plataforma',1);
