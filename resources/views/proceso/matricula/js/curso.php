@@ -293,6 +293,11 @@ ActivarPago=function(id){
 
                 $(this).find("td:eq(1) input[type='text']").attr('readOnly','true');
                 $(this).find("td:eq(2) input[type='text']").attr('readOnly','true');
+                
+                id= $(this).attr("id").split("_")[1];
+                var saldo= $(this).find("td:eq(2) i").text()*1;
+                $("#txt_monto_pago_certificado_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+                $("#i_monto_deuda_certificado"+id).text(saldo.toFixed(2));
             });
 
             $("#txt_nro_promocion").removeAttr('disabled');
