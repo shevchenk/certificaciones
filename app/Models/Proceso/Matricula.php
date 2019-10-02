@@ -188,6 +188,9 @@ class Matricula extends Model
                         $programacionVal= Programacion::find($programacion_id[$i]);
                         $monto_precio= $programacionVal->costo;
                         $monto_saldo= $programacionVal->costo - $monto_pago_certificado[$i];
+                        if($monto_saldo<0){
+                            $monto_saldo=0;
+                        }
                     }
 
                     $mtdetalle->saldo=$monto_saldo;
