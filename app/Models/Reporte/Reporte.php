@@ -787,6 +787,7 @@ class Reporte extends Model
             })
             ->select('tl.tipo_llamada', DB::raw('COUNT(ll.id) AS total'))
             ->where('tl.estado',1)
+            ->where('tl.empresa_id', Auth::user()->empresa_id)
             ->groupBy(DB::raw('tl.tipo_llamada WITH ROLLUP'));
 
         $cont=0;
@@ -870,6 +871,11 @@ class Reporte extends Model
         $fechaaux=$r->fecha_ini;
 
         $sql=DB::table('tipo_llamadas_sub AS tl')
+            ->Join('tipo_llamadas AS tll', function($join){
+                $join->on('tll.id','=','tl.tipo_llamada_id')
+                ->where('tll.empresa_id', Auth::user()->empresa_id)
+                ->where('tll.obs',3);
+            })
             ->Leftjoin('llamadas AS ll',function($join) use( $r ){
                 $join->on('ll.tipo_llamada_sub_id','=','tl.id')
                 ->where('ll.estado',1);
@@ -886,7 +892,6 @@ class Reporte extends Model
             })
             ->select('tl.tipo_llamada_sub', DB::raw('COUNT(ll.id) AS total'))
             ->where('tl.estado',1)
-            ->where('tl.tipo_llamada_id',8)
             ->groupBy(DB::raw('tl.tipo_llamada_sub WITH ROLLUP'));
 
         $cont=0;
@@ -972,9 +977,13 @@ class Reporte extends Model
         $sql=DB::table('tipo_llamadas_sub_detalle AS tl')
             ->join('tipo_llamadas_sub AS tls',function($join){
                 $join->on('tls.id','=','tl.tipo_llamada_sub_id')
-                ->where('tls.estado',1)
-                ->where('tls.tipo_llamada_id',8);
-                
+                ->where('tls.estado',1);
+            })
+            ->Join('tipo_llamadas AS tll', function($join){
+                $join->on('tll.id','=','tls.tipo_llamada_id')
+                ->where('tll.empresa_id', Auth::user()->empresa_id)
+                ->where('tll.estado',1)
+                ->where('tll.obs',3);
             })
             ->Leftjoin('llamadas AS ll',function($join) use( $r ){
                 $join->on('ll.tipo_llamada_sub_detalle_id','=','tl.id')
@@ -1075,6 +1084,12 @@ class Reporte extends Model
         $fechaaux=$r->fecha_ini;
 
         $sql=DB::table('llamadas AS ll')
+            ->Join('tipo_llamadas AS tl', function($join){
+                $join->on('tl.id','=','ll.tipo_llamada_id')
+                ->where('tl.empresa_id', Auth::user()->empresa_id)
+                ->where('tl.estado',1)
+                ->where('tl.obs',1);
+            })
             ->select('ll.fechas', DB::raw('COUNT(ll.id) AS total'))
             ->where( 
                 function($query) use ($r){
@@ -1091,7 +1106,6 @@ class Reporte extends Model
                 }
             )
             ->where('ll.estado',1)
-            ->where('ll.tipo_llamada_id',1)
             ->groupBy(DB::raw('ll.fechas WITH ROLLUP'));
 
         $cont=0;
@@ -1172,7 +1186,9 @@ class Reporte extends Model
     {
         $sql=DB::table('llamadas AS ll')
             ->Join('tipo_llamadas AS tl', function($join){
-                $join->on('tl.id','=','ll.tipo_llamada_id');
+                $join->on('tl.id','=','ll.tipo_llamada_id')
+                ->where('tl.estado',1)
+                ->where('tl.empresa_id', Auth::user()->empresa_id);
             })
             ->Join('mat_trabajadores AS tr', function($join){
                 $join->on('tr.id','=','ll.trabajador_id')
