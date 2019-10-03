@@ -26,7 +26,7 @@ class Reporte extends Model
         COUNT(IF(d.persona_id IS NOT NULL AND l.obs=1, 1, NULL)) interesado, 
         COUNT(IF(d.persona_id IS NOT NULL AND l.obs=2, 1, NULL)) pendiente,
         COUNT(IF(d.persona_id IS NOT NULL AND l.obs=3, 1, NULL)) nointeresado, 
-        COUNT(IF(d.persona_id IS NOT NULL AND l.obs<>1 AND l.obs<>2 AND l.obs<>3, 1, NULL)) otros
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs=0, 1, NULL)) otros
         FROM personas_captadas pc 
         INNER JOIN empresas e ON e.id=pc.empresa_id AND e.id = $empresa_id
         LEFT JOIN (
