@@ -23,15 +23,16 @@ class Reporte extends Model
         COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NULL, 1, NULL)) no_llamada, 
         COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NOT NULL, 1, NULL)) si_llamada, 
         COUNT(IF(m.persona_id IS NULL, NULL, 1)) convertido,
-        COUNT(IF(d.persona_id IS NOT NULL AND l.tipo_llamada_id=1, 1, NULL)) interesado, 
-        COUNT(IF(d.persona_id IS NOT NULL AND l.tipo_llamada_id=2, 1, NULL)) pendiente,
-        COUNT(IF(d.persona_id IS NOT NULL AND l.tipo_llamada_id=8, 1, NULL)) nointeresado, 
-        COUNT(IF(d.persona_id IS NOT NULL AND l.tipo_llamada_id<>1 AND l.tipo_llamada_id<>2 AND l.tipo_llamada_id<>8, 1, NULL)) otros
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs=1, 1, NULL)) interesado, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs=2, 1, NULL)) pendiente,
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs=3, 1, NULL)) nointeresado, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs<>1 AND l.obs<>2 AND l.obs<>3, 1, NULL)) otros
         FROM personas_captadas pc 
         INNER JOIN empresas e ON e.id=pc.empresa_id AND e.id = $empresa_id
         LEFT JOIN (
-            SELECT ll.persona_id, t.empresa_id, MIN(ll.tipo_llamada_id) tipo_llamada_id
+            SELECT ll.persona_id, t.empresa_id, MIN(tll.obs) obs
             FROM llamadas ll
+            INNER JOIN tipo_llamadas tll ON tll.id=ll.tipo_llamada_id
             INNER JOIN mat_trabajadores t ON t.id=ll.trabajador_id
             WHERE DATE(ll.fecha_llamada)>='$fecha_ini'
             AND ll.ultimo_registro=1
