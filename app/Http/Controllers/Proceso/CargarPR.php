@@ -35,7 +35,7 @@ class CargarPR extends Controller
     public function CargarInteresadosCSV(Request $r) 
     {
         ini_set('memory_limit', '1024M');
-        set_time_limit(1200);
+        set_time_limit(0);
         if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
             $uploadFolder = 'csv';
@@ -63,6 +63,7 @@ class CargarPR extends Controller
             $narchivo= $nombreArchivo[0]."_u";
             $interesado= DB::table('interesados')
                         ->whereRaw(' file LIKE "'.$uploadFolder.'/'.$narchivo.'%" ')
+                        ->where('dni_final','!=','')
                         ->first();
             $m = "Archivo fue procesado anteriormente";
             if ( isset($interesado->file) ) {
