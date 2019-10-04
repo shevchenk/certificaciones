@@ -241,6 +241,12 @@ HTMLCargarVisita=function(result){
     $("#TableVisita tbody").html(html); 
     $('input[type="checkbox"]').iCheck({
       checkboxClass: 'icheckbox_flat-green'
+    }).on('ifChanged', function(e) {
+        TI=0; 
+        $("#TableVisita input[type='checkbox']:checked").each(function(key, value){
+            TI+= $(this).attr('data-cant')*1;
+        });
+        $("#AsignacionForm #txt_contador").text(TI);
     });
 };
 

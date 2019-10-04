@@ -109,14 +109,11 @@
                                       <option value="">.::Seleccione::.</option>
                                     </select>
                                 </div>
-                                <!--div class="col-md-3">
-                                    <label class="control-label">Quienes serán asignados?:</label>
-                                    <select id="slct_tipo_asignar" name="slct_tipo_asignar" class="selectpicker form-control show-menu-arrow">
-                                        <option value=""># Total Interesados</option>
-                                        <option value="1"># Interesados Sin Asignar</option>
-                                        <option value="2"># Interesados Asignados</option>
-                                    </select>
-                                </div-->
+                                <div class="col-md-3">
+                                    <br>
+                                    <label class="control-label"><h3>Cantidad de Interesados Seleccionados:</h3></label>
+                                    <label class="control-label"><h1 id="txt_contador">0</h1></label>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <br>
