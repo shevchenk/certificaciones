@@ -159,6 +159,14 @@ class Llamada extends Model
         $chkpendiente = $r->chkpendiente;
         $chknointeresado = $r->chknointeresado;
         $chkotros = $r->chkotros;
+
+        if( !is_array($chknoasig) ){ $chknoasig=array(); }
+        if( !is_array($chknocall) ){ $chknocall=array(); }
+        if( !is_array($chkinteresado) ){ $chkinteresado=array(); }
+        if( !is_array($chkpendiente) ){ $chkpendiente=array(); }
+        if( !is_array($chknointeresado) ){ $chknointeresado=array(); }
+        if( !is_array($chkotros) ){ $chkotros=array(); }
+        
         for ($i=0; $i < count($chknoasig) ; $i++) { 
             $detchk= explode("|",$chknoasig[$i]);
             $filtro=

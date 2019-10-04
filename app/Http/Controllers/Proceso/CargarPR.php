@@ -96,7 +96,7 @@ class CargarPR extends Controller
             (
               FECHA_REGISTRO, EMPRESA, TIPO, FUENTE
               , DISTRITO, CARRERA, DNI, NOMBRE, PATERNO, MATERNO
-              , CELULAR, EMAIL, COSTO, COD_VENDEDOR
+              , CELULAR, EMAIL, COSTO, asignar, COD_VENDEDOR
             ) 
             SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1, DNI=SUBSTRING(DNI,1,12),
             FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");
@@ -122,11 +122,13 @@ class CargarPR extends Controller
             DB::update($sql);
 
             $sql="  UPDATE interesados i
-                    INNER JOIN personas p ON p.dni=i.dni_final AND i.dni_final!=''
+                    INNER JOIN personas p ON p.dni=i.dni_final
                     LEFT JOIN mat_matriculas m ON m.persona_id=p.id
                     SET p.carrera=i.CARRERA, p.fuente=i.FUENTE, p.email_externo= i.EMAIL
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
+                    AND i.dni_final!=''
+                    AND i.asignar=1
                     AND m.id IS NULL";
             DB::update($sql);
 
@@ -135,6 +137,7 @@ class CargarPR extends Controller
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
                     AND i.DNI=''
+                    AND i.asignar=1
                     AND i.EMAIL=''";
             DB::update($sql);
 
@@ -150,6 +153,7 @@ class CargarPR extends Controller
                     FROM interesados AS i
                     WHERE i.dni_final=''
                     AND i.usuario=".$usuario."
+                    AND i.asignar=1
                     AND i.file='".$file."'";
             DB::insert($sql);
 
@@ -160,6 +164,7 @@ class CargarPR extends Controller
                     SET dni_final=IF(DNI='',LPAD(@numero:=@numero+1,10,'0'),DNI)
                     WHERE dni_final=''
                     AND usuario=".$usuario."
+                    AND asignar=1
                     AND file='".$file."'";
             DB::update($sql);
 
@@ -174,6 +179,7 @@ class CargarPR extends Controller
                     INNER JOIN personas_captadas pc ON pc.interesado=i.CARRERA AND pc.persona_id=p.id AND pc.empresa_id=$empresa_id 
                     SET pc.estado=0
                     WHERE i.usuario=".$usuario."
+                    AND i.asignar=1
                     AND i.file='".$file."'";
             DB::update($sql);
 
@@ -182,13 +188,33 @@ class CargarPR extends Controller
                     FROM interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
                     WHERE i.usuario=".$usuario."
+                    AND i.asignar=1
                     AND i.file='".$file."'";
             DB::insert($sql);
+
+            $sql="  UPDATE interesados i
+                    INNER JOIN personas p ON p.dni=i.dni_final
+                    INNER JOIN personas_distribuciones pd ON pd.persona_id=p.id 
+                    INNER JOIN mat_trabajadores mt ON mt.id=pd.trabajador_id AND mt.empresa_id=$empresa_id 
+                    SET pd.estado=0
+                    WHERE i.usuario=".$usuario."
+                    AND i.asignar=0
+                    AND i.file='".$file."'";
+            DB::update($sql);
+
+            $sql="  UPDATE interesados i
+                    INNER JOIN personas p ON p.dni=i.dni_final
+                    INNER JOIN personas_captadas pc ON pc.persona_id=p.id AND pc.empresa_id=$empresa_id 
+                    SET pc.estado=0
+                    WHERE i.usuario=".$usuario."
+                    AND i.asignar=0
+                    AND i.file='".$file."'";
+            DB::update($sql);
 
             DB::commit();
 
             $data = DB::table('interesados')
-                    ->select('pos', 'DNI', 'EMAIL', 'COD_VENDEDOR', 'FECHA_REGISTRO','FECHA_ENTREGA','dni_final')
+                    ->select('pos', 'DNI', 'EMAIL', 'asignar', 'FECHA_REGISTRO','FECHA_ENTREGA','dni_final')
                     ->where('usuario',$usuario)
                     ->where('file',$file)
                     ->where('dni_final','like','xxxx%')
