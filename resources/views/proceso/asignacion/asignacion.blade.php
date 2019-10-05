@@ -99,6 +99,36 @@
                                     </thead>
                                     <tbody>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="8">&nspm;</td>
+                                            <td >Total</td>
+                                            <td id="tdasig" >0</td>
+                                            <td id="tdnoasig" >0</td>
+                                            <td id="tdnocall" >0</td>
+                                            <td id="tdcall" >0</td>
+                                            <td id="tdconvertido" >0</td>
+                                            <td id="tdto_convertido" >0</td>
+                                            <td id="tdinteresado" >0</td>
+                                            <td id="tdpendiente" >0</td>
+                                            <td id="tdnointeresado" >0</td>
+                                            <td id="tdotros" >0</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8">&nspm;</td>
+                                            <td >Seleccionados</td>
+                                            <td id="chkasig"> - </td>
+                                            <td id="chknoasig">0</td>
+                                            <td id="chknocall">0</td>
+                                            <td id="chkcall"> - </td>
+                                            <td id="chkconvertido"> - </td>
+                                            <td id="chkto_convertido"> - </td>
+                                            <td id="chkinteresado">0</td>
+                                            <td id="chkpendiente">0</td>
+                                            <td id="chknointeresado">0</td>
+                                            <td id="chkotros">0</td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div><!-- .box-body -->
                             <hr>

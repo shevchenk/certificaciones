@@ -137,14 +137,21 @@ SlctCargarTrabajador=function(result){
 
 HTMLCargarVisita=function(result){
     var html="";
+    var costo_convertidoG=0; var chkasigG=0; var chknoasigG=0; var chknocallG=0;
+    var chkcallG=0; var chkinteresadoG=0; var chkpendienteG=0; var chknointeresadoG=0;
+    var chkotrosG=0; var convertidoG=0;
     $.each(result.data,function(index,r){
         codigo=r.ad_name+'|'+r.interes+'|'+r.fecha_carga;
         costo_convertido= r.total*1;
         if( r.convertido*1>0 ){
             costo_convertido= r.total*1 / r.convertido*1;
         }
+        costo_convertidoG+= costo_convertido*1;
+
+        convertidoG+= r.convertido*1;
 
         chkasig=r.si_asignado*1;
+        chkasigG+= chkasig*1;
         /*if( r.si_asignado*1>0 ){
         chkasig=
             '<div class="form-check">'+
@@ -154,6 +161,7 @@ HTMLCargarVisita=function(result){
         }*/
 
         chknoasig=r.no_asignado*1;
+        chknoasigG+= chknoasig*1;
         if( r.no_asignado*1>0 ){
         chknoasig=
             '<div class="form-check">'+
@@ -163,6 +171,7 @@ HTMLCargarVisita=function(result){
         }
 
         chknocall=r.no_llamada*1;
+        chknocallG+= chknocall*1;
         if( r.no_llamada*1>0 ){
         chknocall=
             '<div class="form-check">'+
@@ -172,6 +181,7 @@ HTMLCargarVisita=function(result){
         }
 
         chkcall=r.si_llamada*1;
+        chkcallG+= chkcall*1;
         /*if( r.si_llamada*1>0 ){
         chkcall=
             '<div class="form-check">'+
@@ -181,6 +191,7 @@ HTMLCargarVisita=function(result){
         }*/
 
         chkinteresado=r.interesado*1;
+        chkinteresadoG+= chkinteresado*1;
         if( r.interesado*1>0 ){
         chkinteresado=
             '<div class="form-check">'+
@@ -190,6 +201,7 @@ HTMLCargarVisita=function(result){
         }
 
         chkpendiente=r.pendiente*1;
+        chkpendienteG+= chkpendiente*1;
         if( r.pendiente*1>0 ){
         chkpendiente=
             '<div class="form-check">'+
@@ -199,6 +211,7 @@ HTMLCargarVisita=function(result){
         }
 
         chknointeresado=r.nointeresado*1;
+        chknointeresadoG+= chknointeresado*1;
         if( r.nointeresado*1>0 ){
         chknointeresado=
             '<div class="form-check">'+
@@ -208,6 +221,7 @@ HTMLCargarVisita=function(result){
         }
 
         chkotros=r.otros*1;
+        chkotrosG+= chkotros*1;
         if( r.otros*1>0 ){
         chkotros=
             '<div class="form-check">'+
@@ -229,7 +243,7 @@ HTMLCargarVisita=function(result){
             "<td>"+chknoasig+"</td>"+
             "<td>"+chknocall+"</td>"+
             "<td>"+chkcall+"</td>"+
-            "<td>"+$.trim(r.convertido)+"</td>"+
+            "<td>"+(r.convertido*1)+"</td>"+
             "<td>"+costo_convertido+"</td>"+
             "<td>"+chkinteresado+"</td>"+
             "<td>"+chkpendiente+"</td>"+
@@ -239,13 +253,58 @@ HTMLCargarVisita=function(result){
         html+="</tr>";
     });
     $("#TableVisita tbody").html(html); 
-    $('input[type="checkbox"]').iCheck({
+    $("#TableVisita #tdasig").text(chkasigG)
+    $("#TableVisita #tdnoasig").text(chknoasigG)
+    $("#TableVisita #tdnocall").text(chknocallG)
+    $("#TableVisita #tdcall").text(chkcallG)
+    $("#TableVisita #tdconvertido").text(convertidoG)
+    $("#TableVisita #tdto_convertido").text(costo_convertidoG)
+    $("#TableVisita #tdinteresado").text(chkinteresadoG)
+    $("#TableVisita #tdpendiente").text(chkpendienteG)
+    $("#TableVisita #tdnointeresado").text(chknointeresadoG)
+    $("#TableVisita #tdotros").text(chkotrosG)
+
+    $('#TableVisita input[type="checkbox"]').iCheck({
       checkboxClass: 'icheckbox_flat-green'
     }).on('ifChanged', function(e) {
         TI=0; 
+        var chkasig=0; var chknoasig=0; var chknocall=0; var chkcall=0; 
+        var chkconvertido=0; var chkto_convertido=0; var chkinteresado=0; 
+        var chkpendiente=0; var chknointeresado=0; var chkotros=0; 
         $("#TableVisita input[type='checkbox']:checked").each(function(key, value){
             TI+= $(this).attr('data-cant')*1;
+
+            if( value.name=='chknoasig[]' ){
+                chknoasig+= value.getAttribute('data-cant')*1;
+            }
+            else if( value.name=='chknocall[]' ){
+                chknocall+= value.getAttribute('data-cant')*1;
+            }
+            else if( value.name=='chkinteresado[]' ){
+                chkinteresado+= value.getAttribute('data-cant')*1;
+            }
+            else if( value.name=='chkpendiente[]' ){
+                chkpendiente+= value.getAttribute('data-cant')*1;
+            }
+            else if( value.name=='chknointeresado[]' ){
+                chknointeresado+= value.getAttribute('data-cant')*1;
+            }
+            else if( value.name=='chkotros[]' ){
+                chkotros+= value.getAttribute('data-cant')*1;
+            }
+
+            //$("#TableVisita #chkasig").text(chkasig);
+            $("#TableVisita #chknoasig").text(chknoasig);
+            $("#TableVisita #chknocall").text(chknocall);
+            //$("#TableVisita #chkcall").text(chkcall);
+            //$("#TableVisita #chkconvertido").text(chkconvertido);
+            //$("#TableVisita #chkto_convertido").text(chkto_convertido);
+            $("#TableVisita #chkinteresado").text(chkinteresado);
+            $("#TableVisita #chkpendiente").text(chkpendiente);
+            $("#TableVisita #chknointeresado").text(chknointeresado);
+            $("#TableVisita #chkotros").text(chkotros);
         });
+            console.log("/****************************************************/");
         $("#AsignacionForm #txt_contador").text(TI);
     });
 };
