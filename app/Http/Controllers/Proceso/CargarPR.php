@@ -60,6 +60,16 @@ class CargarPR extends Controller
                 return response()->json($return);
             }
 
+            $csvxrow = file($tmpArchivo);   // ---- csv rows to array ----
+            $keydata = explode(";",$csvxrow[0]);
+            $keynumb = count($keydata); 
+            $m = "Archivo no cuenta con la cabecera de asignar(0:Quitar Asignación | 1: Asignar)";
+            if( $keynumb<14 ){
+                $return['rst'] = 2;
+                $return['msj'] = $m;
+                return response()->json($return);
+            }
+
             $narchivo= $nombreArchivo[0]."_u";
             $interesado= DB::table('interesados')
                         ->whereRaw(' file LIKE "'.$uploadFolder.'/'.$narchivo.'%" ')
