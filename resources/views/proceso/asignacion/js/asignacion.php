@@ -244,7 +244,7 @@ HTMLCargarVisita=function(result){
             "<td>"+chknocall+"</td>"+
             "<td>"+chkcall+"</td>"+
             "<td>"+(r.convertido*1)+"</td>"+
-            "<td>"+costo_convertido+"</td>"+
+            "<td>"+costo_convertido.toFixed(2)+"</td>"+
             "<td>"+chkinteresado+"</td>"+
             "<td>"+chkpendiente+"</td>"+
             "<td>"+chknointeresado+"</td>"+
@@ -258,7 +258,7 @@ HTMLCargarVisita=function(result){
     $("#TableVisita #tdnocall").text(chknocallG)
     $("#TableVisita #tdcall").text(chkcallG)
     $("#TableVisita #tdconvertido").text(convertidoG)
-    $("#TableVisita #tdto_convertido").text(costo_convertidoG)
+    $("#TableVisita #tdto_convertido").text(costo_convertidoG.toFixed(2))
     $("#TableVisita #tdinteresado").text(chkinteresadoG)
     $("#TableVisita #tdpendiente").text(chkpendienteG)
     $("#TableVisita #tdnointeresado").text(chknointeresadoG)
