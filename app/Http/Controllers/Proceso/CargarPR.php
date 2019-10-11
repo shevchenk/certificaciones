@@ -113,12 +113,14 @@ class CargarPR extends Controller
             
             $sql="";
             $correlativo= Persona::where('persona_id_created_at',0)
+                            ->where('dni','like','ID-%')
                             ->select('dni')
                             ->orderBy('dni','desc')
                             ->first();
             $inicial=0;
             if( isset($correlativo->dni) ){
-                $inicial= $correlativo->dni;
+                $dni= explode("-", $correlativo->dni);
+                $inicial= $dni[1];
             }
             $return['inicial']= $inicial;
 
@@ -128,7 +130,8 @@ class CargarPR extends Controller
                     INNER JOIN personas p ON (p.email=i.EMAIL AND p.email!='') or (p.dni=i.DNI AND p.dni!='')
                     SET i.dni_final=p.dni
                     WHERE i.usuario=".$usuario."
-                    AND i.file='".$file."'";
+                    AND i.file='".$file."'
+                    AND (i.DNI*1 > 0 OR i.EMAIL!='')";
             DB::update($sql);
 
             $sql="  UPDATE interesados i
@@ -146,8 +149,8 @@ class CargarPR extends Controller
                     SET i.dni_final='xxxx'
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
-                    AND i.DNI=''
-                    AND i.asignar=1
+                    AND i.dni_final=''
+                    AND i.DNI*1 = 0 
                     AND i.EMAIL=''";
             DB::update($sql);
 
@@ -158,8 +161,8 @@ class CargarPR extends Controller
                     , dni, paterno, materno, nombre, celular, email, email_externo, distrito_domicilio
                     , carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
                     SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\", i.FUENTE, i.TIPO, i.FECHA_REGISTRO
-                    ,IF(i.DNI='',LPAD(@numero:=@numero+1,10,'0'),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL, i.EMAIL, i.DISTRITO
-                    , i.CARRERA, 3, NOW(), IF(i.DNI='',0,$usuario), $usuario
+                    ,IF(i.DNI*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL
+                    , i.EMAIL, i.DISTRITO, i.CARRERA, 3, NOW(), IF(i.DNI*1=0,0,$usuario), $usuario
                     FROM interesados AS i
                     WHERE i.dni_final=''
                     AND i.usuario=".$usuario."
@@ -171,7 +174,7 @@ class CargarPR extends Controller
             DB::statement($sql);
 
             $sql="  UPDATE interesados
-                    SET dni_final=IF(DNI='',LPAD(@numero:=@numero+1,10,'0'),DNI)
+                    SET dni_final=IF(DNI*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),DNI)
                     WHERE dni_final=''
                     AND usuario=".$usuario."
                     AND asignar=1
@@ -297,12 +300,14 @@ class CargarPR extends Controller
             
             $sql="";
             $correlativo= Persona::where('persona_id_created_at',0)
+                            ->where('dni','like','ID-%')
                             ->select('dni')
                             ->orderBy('dni','desc')
                             ->first();
             $inicial=0;
             if( isset($correlativo->dni) ){
-                $inicial= $correlativo->dni;
+                $dni= explode("-",$correlativo->dni);
+                $inicial= $dni[1]*1;
             }
             $return['inicial']= $inicial;
 
@@ -347,8 +352,8 @@ class CargarPR extends Controller
                     , dni, paterno, materno, nombre, celular, email, email_externo, distrito_domicilio
                     , sede, carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
                     SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\", i.EMPRESA, i.FUENTE, i.TIPO, i.FECHA_REGISTRO
-                    ,IF(i.DNI='',LPAD(@numero:=@numero+1,10,'0'),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL, i.EMAIL, i.DISTRITO
-                    , i.SEDE, i.CARRERA, 3, NOW(), IF(i.DNI='',0,$usuario), $usuario
+                    ,IF(i.DNI*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL, i.EMAIL, i.DISTRITO
+                    , i.SEDE, i.CARRERA, 3, NOW(), IF(i.DNI*1=0,0,$usuario), $usuario
                     FROM interesados AS i
                     WHERE i.dni_final=''
                     AND i.usuario=".$usuario."
@@ -359,7 +364,7 @@ class CargarPR extends Controller
             DB::statement($sql);
 
             $sql="  UPDATE interesados
-                    SET dni_final=IF(DNI='',LPAD(@numero:=@numero+1,10,'0'),DNI)
+                    SET dni_final=IF(DNI*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),DNI)
                     WHERE dni_final=''
                     AND usuario=".$usuario."
                     AND file='".$file."'";
