@@ -43,7 +43,7 @@ var AjaxPersona={
         masterG.postAjax(url,data,evento);
     },
     CargarEmpresas:function(evento){
-        url='AjaxDinamic/Mantenimiento.EmpresaMA@ListEmpresaUsuario';
+        url='AjaxDinamic/Mantenimiento.EmpresaMA@ListEmpresa';
         data={};
         masterG.postAjax(url,data,evento,null,false);
     },

@@ -7,6 +7,7 @@ use App\Models\Proceso\Alumno;
 use App\Models\Proceso\LlamadaAtencionCliente;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Auth;
 
 class AlumnoPR extends Controller
 {
@@ -29,7 +30,8 @@ class AlumnoPR extends Controller
     {
         $miSeminario=Alumno::MiSeminario($r);
         $fecha= explode("-",$miSeminario->fecha);
-        $templateWord = new \PhpOffice\PhpWord\TemplateProcessor('certificado/Formato Certificado.docx');
+        $empresa_id = Auth::user()->empresa_id;
+        $templateWord = new \PhpOffice\PhpWord\TemplateProcessor('certificado/Formato Certificado'.$empresa_id.'.docx');
         $mes=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
 
         // --- Asignamos valores
@@ -45,22 +47,7 @@ class AlumnoPR extends Controller
         // --- Guardamos el documento
         $filename='certificado/Doc'.$r->id.'.docx';
         $templateWord->saveAs($filename);
-        /*$phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection();
-        $description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        $section->addImage("http://itsolutionstuff.com/frontTheme/images/logo.png");
-        $section->addText($description);
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        try {
-            $objWriter->save('helloWorld.docx');
-        } catch (Exception $e) {
-        }*/
-        //return response()->download('certificado/Doc'.$r->id.'.docx');
+        
         header("Content-Disposition: attachment; filename=$filename"); // Vamos a dar la opcion para descargar el archivo
         readfile($filename);  // leemos el archivo para que se "descargue"
         @unlink($filename);

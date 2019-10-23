@@ -76,4 +76,24 @@ class Empresa extends Model
         $result = $sql->orderBy('empresa','asc')->get();
         return $result;
     }
+
+    public static function ListEmpresaUsuario($r)
+    {  
+        $persona_id= Auth::user()->id;
+        $result=DB::table('personas as p')
+                ->join('personas_empresas as pe', function($join){
+                        $join->on('pe.persona_id','p.id')
+                        ->where('pe.estado',1);
+                })
+                ->join('empresas AS e', function($join){
+                        $join->on('e.id','pe.empresa_id')
+                        ->where('e.estado',1);
+                })
+                ->select('e.id','e.empresa')
+                ->where('pe.persona_id',$persona_id)
+                ->orderBy('e.empresa','asc')
+                ->get();
+
+        return $result;
+    }
 }

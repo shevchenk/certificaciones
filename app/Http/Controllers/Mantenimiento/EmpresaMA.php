@@ -108,4 +108,15 @@ class EmpresaMA extends Controller
         }
     }
 
+    public function ListEmpresaUsuario (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Empresa::ListEmpresaUsuario($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
 }
