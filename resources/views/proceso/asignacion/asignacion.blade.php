@@ -43,14 +43,14 @@
                         <form id="AsignacionForm">
                             <div class="col-sm-12">
                                 <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Inicial de Registro</label>
+                                    <label class="control-label">Fecha Inicial de Carga</label>
                                     <div class="input-group">
                                       <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini" name="txt_fecha_ini" readonly/>
                                     </div>
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Final de Registro</label>
+                                    <label class="control-label">Fecha Final de Carga</label>
                                     <div class="input-group">
                                       <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
