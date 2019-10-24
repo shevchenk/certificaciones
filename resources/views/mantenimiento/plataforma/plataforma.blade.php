@@ -19,7 +19,6 @@
 
     @include( 'mantenimiento.plataforma.js.plataforma_ajax' )
     @include( 'mantenimiento.plataforma.js.plataforma' )
-    
 
 @stop
 

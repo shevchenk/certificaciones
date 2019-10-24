@@ -76,13 +76,13 @@ class TipoLlamada extends Model
         $empresa_id= Auth::user()->empresa_id;
         $sql=TipoLlamada::select('id','tipo_llamada','obs','estado')
             ->where('estado','=','1')
-            ->where('empresa_id','=',$empresa_id)
             ->where(function($query) use ($r){
                 if( $r->has('plataforma') ){
                     $query->where('plataforma',1);
                 }
                 else{
                     $query->where('plataforma',0);
+                    $query->where('empresa_id','=',$empresa_id)
                 }
             });
         $result = $sql->orderBy('tipo_llamada','asc')->get();

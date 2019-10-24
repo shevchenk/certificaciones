@@ -63,7 +63,7 @@
                             </div><!--FIN DE COL SM 12-->
 
                             <div class="col-sm-12"><!--INICIO DE COL SM 12-->
-                                 <div class="col-sm-4">
+                                <div class="col-sm-4">
                                     <label>Telefono</label>
                                     <textarea cols="3" class="form-control" id="txt_telefono" name="txt_telefono" placeholder="Telefono"></textarea>
                                 </div>
