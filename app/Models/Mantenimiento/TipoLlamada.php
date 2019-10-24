@@ -82,7 +82,7 @@ class TipoLlamada extends Model
                 }
                 else{
                     $query->where('plataforma',0);
-                    $query->where('empresa_id','=',$empresa_id)
+                    $query->where('empresa_id','=',$empresa_id);
                 }
             });
         $result = $sql->orderBy('tipo_llamada','asc')->get();
