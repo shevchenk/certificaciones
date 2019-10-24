@@ -76,7 +76,7 @@ class TipoLlamada extends Model
         $empresa_id= Auth::user()->empresa_id;
         $sql=TipoLlamada::select('id','tipo_llamada','obs','estado')
             ->where('estado','=','1')
-            ->where(function($query) use ($r){
+            ->where(function($query) use ($r, $empresa_id){
                 if( $r->has('plataforma') ){
                     $query->where('plataforma',1);
                 }
