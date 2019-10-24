@@ -108,7 +108,8 @@ class CargarPR extends Controller
               , DISTRITO, CARRERA, DNI, NOMBRE, PATERNO, MATERNO
               , CELULAR, EMAIL, COSTO, asignar, COD_VENDEDOR
             ) 
-            SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1, DNI=SUBSTRING(DNI,1,12),
+            SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1,
+            DNI= IF(DNI REGEXP '^[0-9]+$',SUBSTRING(DNI,1,12),0),
             FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");
             
             $sql="";
