@@ -43,6 +43,7 @@ class Llamada extends Model
         }
         $llamada->objecion=$r->objecion;
         $llamada->pregunta=$r->pregunta;
+        $llamada->ultimo_registro=1;
 
         $llamada->tipo_llamada_id=$r->tipo_llamada;
 
