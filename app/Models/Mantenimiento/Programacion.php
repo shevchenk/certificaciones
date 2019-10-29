@@ -286,7 +286,7 @@ class Programacion extends Model
             );
         $result = $sql->groupBy('mp.dia','mp.id','c.curso','s.sucursal','mp.aula',
                 'mp.fecha_inicio','mp.peso_trabajo_final','mp.trabajo_final',
-                'p.paterno','p.materno','p.nombre'
+                'p.paterno','p.materno','p.nombre','mp.activa_evaluacion'
                 )
                 ->orderBy('mp.fecha_inicio','desc')->paginate(10);
         return $result;
