@@ -217,10 +217,12 @@ class Programacion extends Model
     public static function runLoadEvaluaciones($r)
     {
         $sql=DB::table('mat_programaciones as mp')
-             ->select('mp.dia','mp.id','c.curso','s.sucursal','mp.aula','mp.fecha_inicio','mp.peso_proyecto_final','mp.proyecto_final',
-                DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) AS persona'),
-                DB::raw('GROUP_CONCAT(te.tipo_evaluacion," (",mpe.peso_evaluacion,") ", " desde ", 
-                mpe.fecha_evaluacion_ini, " al " ,mpe.fecha_evaluacion_fin ORDER BY mpe.fecha_evaluacion_ini,mpe.fecha_evaluacion_fin SEPARATOR "|") AS evaluacion')
+             ->select('mp.dia','mp.id','c.curso','s.sucursal','mp.aula','mp.fecha_inicio','mp.peso_trabajo_final','mp.trabajo_final',
+                'mp.activa_evaluacion',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) AS persona'),
+                DB::raw('IF(mp.activa_evaluacion=1, 
+                        GROUP_CONCAT(te.tipo_evaluacion," (",mpe.peso_evaluacion,") ", IF(mpe.activa_fecha=0,"", CONCAT(" desde ", 
+                        mpe.fecha_evaluacion_ini, " al " ,mpe.fecha_evaluacion_fin))  ORDER BY mpe.orden SEPARATOR "|"),
+                        "") AS evaluacion')
              )
              ->join('personas as p','p.id','=','mp.persona_id')
              ->join('sucursales as s','s.id','=','mp.sucursal_id')
@@ -283,7 +285,7 @@ class Programacion extends Model
                 }
             );
         $result = $sql->groupBy('mp.dia','mp.id','c.curso','s.sucursal','mp.aula',
-                'mp.fecha_inicio','mp.peso_proyecto_final','mp.proyecto_final',
+                'mp.fecha_inicio','mp.peso_trabajo_final','mp.trabajo_final',
                 'p.paterno','p.materno','p.nombre'
                 )
                 ->orderBy('mp.fecha_inicio','desc')->paginate(10);
@@ -356,8 +358,9 @@ class Programacion extends Model
         $usuario= Auth::user()->id;
 
         $programacion= Programacion::find($r->id);
-        $programacion->proyecto_final= $r->proyecto_final;
-        $programacion->peso_proyecto_final= $r->peso_proyecto_final;
+        $programacion->trabajo_final= $r->trabajo_final;
+        $programacion->peso_trabajo_final= $r->peso_trabajo_final;
+        $programacion->activa_evaluacion= $r->activa_evaluacion;
         $programacion->persona_id_updated_at=$usuario;
         $programacion->save();
 
@@ -365,6 +368,7 @@ class Programacion extends Model
         $fecha_final= $r->fecha_final;
         $peso_evaluacion= $r->peso_evaluacion;
         $tipo_evaluacion= $r->tipo_evaluacion;
+        $activa_fecha= $r->activa_fecha;
 
         DB::table('mat_programaciones_evaluaciones')
         ->where('programacion_id','=', $r->id)
@@ -396,6 +400,8 @@ class Programacion extends Model
             $PE->peso_evaluacion=$peso_evaluacion[$i];
             $PE->fecha_evaluacion_ini=$fecha_inicio[$i];
             $PE->fecha_evaluacion_fin=$fecha_final[$i];
+            $PE->activa_fecha=$activa_fecha[$i];
+            $PE->orden=($i+1);
             $PE->estado=1;
             $PE->save();
         }
@@ -407,10 +413,12 @@ class Programacion extends Model
         $sql=DB::table('mat_programaciones_evaluaciones as mpe')
              ->join('tipos_evaluaciones as te','te.id','=','mpe.tipo_evaluacion_id')
              ->select('te.id','te.tipo_evaluacion','mpe.peso_evaluacion',
-                'mpe.fecha_evaluacion_ini','mpe.fecha_evaluacion_fin'
+                'mpe.fecha_evaluacion_ini','mpe.fecha_evaluacion_fin',
+                'mpe.activa_fecha'
              )
              ->where('mpe.programacion_id',$r->id)
              ->where('mpe.estado',1)
+             ->orderBy('mpe.orden','asc')
              ->get();
         return $sql;
     }

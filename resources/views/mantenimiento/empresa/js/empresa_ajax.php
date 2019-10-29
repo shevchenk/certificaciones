@@ -25,5 +25,15 @@ var AjaxEmpresa={
         url='AjaxDinamic/Mantenimiento.EmpresaMA@EditStatus';
         masterG.postAjax(url,data,evento);
     },
+    CargarTipoEvaluacion:function(evento){
+        url='AjaxDinamic/Mantenimiento.TipoEvaluacionMA@ListTipoEvaluacion';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarEvaluaciones:function(evento){
+        url='AjaxDinamic/Mantenimiento.EmpresaMA@CargarEvaluaciones';
+        var data=$("#ModalEmpresaForm").serialize().split("txt_").join("").split("slct_").join("");
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

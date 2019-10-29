@@ -11,7 +11,18 @@ class ReporteEM extends Controller
     public function __construct()
     {
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
-    } 
+    }
+
+    public function Aprobados(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Reporte::Aprobados($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
     
     public function LoadPAE(Request $r )
     {

@@ -9,6 +9,13 @@ class Reporte extends Model
 {
     protected   $table = 'mat_promocion';
 
+    public static function Aprobados( $r )
+    {
+        $sql="SELECT 1 ";
+        $r = DB::select($sql);
+        return $r;
+    }
+
     public static function CalcularAsignados( $r )
     {
         $fecha_ini= $r->fecha_ini;

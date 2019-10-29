@@ -119,4 +119,15 @@ class EmpresaMA extends Controller
         }
     }
 
+    public function CargarEvaluaciones(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Empresa::CargarEvaluaciones($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
 }

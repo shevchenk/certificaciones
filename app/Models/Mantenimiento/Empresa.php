@@ -22,22 +22,82 @@ class Empresa extends Model
 
     public static function runNew($r)
     {
+        DB::beginTransaction();
         $usuario = Auth::user()->id;
-        $tipo_evaluacion = new Empresa;
-        $tipo_evaluacion->empresa = trim( $r->empresa );
-        $tipo_evaluacion->estado = trim( $r->estado );
-        $tipo_evaluacion->persona_id_created_at=$usuario;
-        $tipo_evaluacion->save();
+        $empresa = new Empresa;
+        $empresa->empresa = trim( $r->empresa );
+        $empresa->nota_minima = trim( $r->nota_minima );
+        $empresa->trabajo_final = trim( $r->trabajo_final );
+        if( isset($r->peso_trabajo_final) ){
+            $empresa->peso_trabajo_final = trim( $r->peso_trabajo_final );
+        }
+        $empresa->persona_id_created_at=$usuario;
+        $empresa->save();
+
+        $peso_evaluacion= $r->peso_evaluacion;
+        $tipo_evaluacion= $r->tipo_evaluacion;
+        for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
+            $EE = new EmpresaEvaluacion;
+            $EE->empresa_id = $empresa->id;
+            $EE->tipo_evaluacion_id = $tipo_evaluacion[$i];
+            $EE->persona_id_created_at = $usuario;
+            $EE->peso_evaluacion=$peso_evaluacion[$i];
+            $EE->orden= ($i+1);
+            $EE->estado=1;
+            $EE->save();
+        }
+        DB::commit();
     }
 
     public static function runEdit($r)
     {
+        DB::beginTransaction();
         $usuario = Auth::user()->id;
-        $tipo_evaluacion = Empresa::find($r->id);
-        $tipo_evaluacion->empresa = trim( $r->empresa );
-        $tipo_evaluacion->estado = trim( $r->estado );
-        $tipo_evaluacion->persona_id_updated_at=$usuario;
-        $tipo_evaluacion->save();
+        $empresa = Empresa::find($r->id);
+        $empresa->empresa = trim( $r->empresa );
+        $empresa->nota_minima = trim( $r->nota_minima );
+        $empresa->trabajo_final = trim( $r->trabajo_final );
+        if( isset($r->peso_trabajo_final) ){
+            $empresa->peso_trabajo_final = trim( $r->peso_trabajo_final );
+        }
+        $empresa->persona_id_updated_at=$usuario;
+        $empresa->save();
+
+        DB::table('empresas_tipos_evaluaciones')
+        ->where('empresa_id','=', $r->id)
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $usuario,
+                'updated_at' => date('Y-m-d H:i:s')
+                )
+            );
+
+        $peso_evaluacion= $r->peso_evaluacion;
+        $tipo_evaluacion= $r->tipo_evaluacion;
+        for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
+            $valida=DB::table('empresas_tipos_evaluaciones')
+            ->select('id')
+            ->where('empresa_id', '=', $r->id)
+            ->where('tipo_evaluacion_id',$tipo_evaluacion[$i])
+            ->first();
+
+            if( isset($valida->id) AND $valida->id!='' ){
+                $EE = EmpresaEvaluacion::find($valida->id);
+                $EE->persona_id_updated_at = $usuario;
+            }
+            else{
+                $EE = new EmpresaEvaluacion;
+                $EE->empresa_id = $r->id;
+                $EE->tipo_evaluacion_id = $tipo_evaluacion[$i];
+                $EE->persona_id_created_at = $usuario;
+            }
+            $EE->peso_evaluacion=$peso_evaluacion[$i];
+            $EE->orden= ($i+1);
+            $EE->estado=1;
+            $EE->save();
+        }
+        DB::commit();
     }
 
     public static function runLoad($r)
@@ -45,7 +105,8 @@ class Empresa extends Model
         $sql=DB::table('empresas AS e')
             ->select(
             'e.id',
-            'e.empresa',
+            'e.empresa','e.nota_minima',
+            'e.trabajo_final','e.peso_trabajo_final',
             'e.estado'
             )
             ->where( 
@@ -95,5 +156,17 @@ class Empresa extends Model
                 ->get();
 
         return $result;
+    }
+
+    public static function CargarEvaluaciones($r)
+    {
+        $sql=DB::table('empresas_tipos_evaluaciones as ete')
+             ->join('tipos_evaluaciones as te','te.id','=','ete.tipo_evaluacion_id')
+             ->select('te.id','te.tipo_evaluacion','ete.peso_evaluacion')
+             ->where('ete.empresa_id',$r->id)
+             ->where('ete.estado',1)
+             ->orderBy('orden','asc')
+             ->get();
+        return $sql;
     }
 }

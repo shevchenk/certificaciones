@@ -37,12 +37,14 @@ $(document).ready(function() {
             $("#ModalProgramacionForm #txt_docente").val( $("#trid_"+PEG.id+" .persona").text() );
             $("#ModalProgramacionForm #txt_sucursal").val( $("#trid_"+PEG.id+" .sucursal").text() );
             $("#ModalProgramacionForm #txt_curso").val( $("#trid_"+PEG.id+" .curso").text() );
-            $("#ModalProgramacionForm #slct_proyecto_final").selectpicker( 'val', $("#trid_"+PEG.id+" .proyecto_final").val() );
-            $("#ModalProgramacionForm #slct_peso_proyecto_final").selectpicker( 'val', $("#trid_"+PEG.id+" .peso_proyecto_final").val() );
+            $("#ModalProgramacionForm #slct_trabajo_final").selectpicker( 'val', $("#trid_"+PEG.id+" .trabajo_final").val() );
+            $("#ModalProgramacionForm #slct_peso_trabajo_final").selectpicker( 'val', $("#trid_"+PEG.id+" .peso_trabajo_final").val() );
+            $("#ModalProgramacionForm #slct_activa_evaluacion").selectpicker( 'val', $("#trid_"+PEG.id+" .activa_evaluacion").val() );
+            validaActivaEvaluacion($("#trid_"+PEG.id+" .activa_evaluacion").val());
 
-            $("#ModalProgramacionForm #slct_peso_proyecto_final").removeAttr("disabled");
-            if( $("#ModalProgramacionForm #slct_proyecto_final").val()==0 ){
-                $("#ModalProgramacionForm #slct_peso_proyecto_final").attr("disabled","true");
+            $("#ModalProgramacionForm #slct_peso_trabajo_final").removeAttr("disabled");
+            if( $("#ModalProgramacionForm #slct_trabajo_final").val()==0 ){
+                $("#ModalProgramacionForm #slct_peso_trabajo_final").attr("disabled","true");
             }
             AjaxProgramacion.CargarEvaluaciones(HTMLCargarEvaluaciones);
     });
@@ -54,22 +56,33 @@ $(document).ready(function() {
 });
 
 HTMLCargarEvaluaciones=function(result){
+    $('#tb_te').html('');
     $.each(result.data,function(index,r){
         var html='';
             html='<tr class="trclass_'+r.id+'">'+
+                '<td>'+(index+1)+'</td>'+
                 '<td><input type="hidden" name="txt_tipo_evaluacion[]" value="'+r.id+'">'+r.tipo_evaluacion+'</td>'+
                 '<td><select name="slct_peso_evaluacion[]">'+
                     '<option value="">.::Seleccione::.</option>';
                 for (var i = 1; i < 6; i++) {
                     selected='';
-                    if(i==r.id){
+                    if(i==r.peso_evaluacion){
                         selected='selected';
                     }
                     html+='<option value="'+i+'" '+selected+'>'+i+'</option>';
                 }
+                selectedno="selected";
+                selectedsi="";
+                disabled="style='display:none;'";
+                if( r.activa_fecha==1 ){
+                    selectedno="";
+                    selectedsi="selected";
+                    disabled="";
+                }
             html+='</select></td>'+
-                '<td><input type="text" class="form-control fecha" value="'+r.fecha_evaluacion_ini+'" name="txt_fecha_inicio[]" placeholder="Fecha Inicio"></td>'+
-                '<td><input type="text" class="form-control fecha" value="'+r.fecha_evaluacion_fin+'" name="txt_fecha_final[]" placeholder="Fecha Final"></td>'+
+                '<td><select name="slct_activa_fecha[]" onChange="activaFechas(this);"><option value="0" '+selectedno+'>No</option><option value="1" '+selectedsi+'>Si</option></select></td>'+
+                '<td><input type="text" class="form-control fecha" value="'+r.fecha_evaluacion_ini+'" name="txt_fecha_inicio[]" placeholder="Fecha Inicio" '+disabled+'></td>'+
+                '<td><input type="text" class="form-control fecha" value="'+r.fecha_evaluacion_fin+'" name="txt_fecha_final[]" placeholder="Fecha Final" '+disabled+'></td>'+
                 '<td><a onClick="QuitarTipoEvaluacion('+r.id+');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td>'+
             '</tr>';
             $('#tb_te').append(html);
@@ -86,11 +99,11 @@ HTMLCargarEvaluaciones=function(result){
 }
 
 validaProyectoFinal=function(t){
-    $("#ModalProgramacionForm #slct_peso_proyecto_final").removeAttr("disabled");
-    $("#ModalProgramacionForm #slct_peso_proyecto_final").selectpicker("val",1);
+    $("#ModalProgramacionForm #slct_peso_trabajo_final").removeAttr("disabled");
+    $("#ModalProgramacionForm #slct_peso_trabajo_final").selectpicker("val",1);
     if( t.value==0 ){
-        $("#ModalProgramacionForm #slct_peso_proyecto_final").selectpicker("val",0);
-        $("#ModalProgramacionForm #slct_peso_proyecto_final").attr("disabled","true");
+        $("#ModalProgramacionForm #slct_peso_trabajo_final").selectpicker("val",0);
+        $("#ModalProgramacionForm #slct_peso_trabajo_final").attr("disabled","true");
     }
 }
 
@@ -127,6 +140,7 @@ ValidarTipoEvaluacion=function(){
         if( $.trim( $(".trclass_"+$('#slct_tipo_evaluacion').val()).html() )=='' ){
             var html='';
             html='<tr class="trclass_'+$('#slct_tipo_evaluacion').val()+'">'+
+                '<td>'+($('#tb_te tr').length+1)+'</td>'+
                 '<td><input type="hidden" name="txt_tipo_evaluacion[]" value="'+$('#slct_tipo_evaluacion').val()+'">'+$('#slct_tipo_evaluacion').find('option:selected').text()+'</td>'+
                 '<td><select name="slct_peso_evaluacion[]">'+
                     '<option value="">.::Seleccione::.</option>'+
@@ -136,8 +150,9 @@ ValidarTipoEvaluacion=function(){
                     '<option value="4" >4</option>'+
                     '<option value="5" >5</option>'+
                 '</select></td>'+
-                '<td><input type="text" class="form-control fecha" value="'+hoyG+'" name="txt_fecha_inicio[]" placeholder="Fecha Inicio"></td>'+
-                '<td><input type="text" class="form-control fecha" value="'+hoyG+'" name="txt_fecha_final[]" placeholder="Fecha Final"></td>'+
+                '<td><select name="slct_activa_fecha[]" onChange="activaFechas(this);"><option value="0" seleted>No</option><option value="1">Si</option></select></td>'+
+                '<td><input type="text" class="form-control fecha" value="'+hoyG+'" name="txt_fecha_inicio[]" placeholder="Fecha Inicio" style="display:none;"></td>'+
+                '<td><input type="text" class="form-control fecha" value="'+hoyG+'" name="txt_fecha_final[]" placeholder="Fecha Final" style="display:none;"></td>'+
                 '<td><a onClick="QuitarTipoEvaluacion('+$('#slct_tipo_evaluacion').val()+');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td>'+
             '</tr>';
             $('#tb_te').append(html);
@@ -160,8 +175,19 @@ ValidarTipoEvaluacion=function(){
     }
 }
 
+activaFechas=function(t){
+    $(t).parent().parent().find('.fecha').css('display','block');
+    if($(t).val()==0){
+        $(t).parent().parent().find('.fecha').val(hoyG);
+        $(t).parent().parent().find('.fecha').css('display','none');
+    }
+}
+
 QuitarTipoEvaluacion=function(te){
     $(".trclass_"+te).remove();
+    $('#tb_te tr').each(function(index,val){
+        $(val).find('td:eq(0)').text( (index+1) );
+    });
 }
 
 SlctCargarTipoEvaluacion=function(result){
@@ -176,7 +202,7 @@ SlctCargarTipoEvaluacion=function(result){
 ValidaForm=function(){
     var r=true; var fi=''; var ff=''; var ex='';
     $('#tb_te tr').each(function(){
-        ex=$(this).find("td:eq(0)").text();
+        ex=$(this).find("td:eq(1)").text();
         fi=$(this).find("input:eq(1)").val();
         ff=$(this).find("input:eq(2)").val();
         if( r==true && fi>ff ){
@@ -209,8 +235,9 @@ HTMLCargarProgramacion=function(result){
             //"<td class='aula'>"+r.aula+"</td>"+
             "<td class='dias'>"+r.dia+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+
-            "<input type='hidden' class='peso_proyecto_final' value='"+r.peso_proyecto_final+"'>"+
-            "<input type='hidden' class='proyecto_final' value='"+r.proyecto_final+"'>"+
+            "<input type='hidden' class='peso_trabajo_final' value='"+r.peso_trabajo_final+"'>"+
+            "<input type='hidden' class='trabajo_final' value='"+r.trabajo_final+"'>"+
+            "<input type='hidden' class='activa_evaluacion' value='"+r.activa_evaluacion+"'>"+
             "</td>"+
             "<td><ul><li>"+$.trim(r.evaluacion).split("|").join("</li><li>")+"</li></ul></td>";
             //"<td class='fecha_final'>"+r.fecha_final+"</td>";
@@ -238,4 +265,11 @@ HTMLCargarProgramacion=function(result){
     });
 
 };
+
+validaActivaEvaluacion=function(val){
+    $(".validaactiva_evaluacion").css('display','none');
+    if( val==1 ){
+        $(".validaactiva_evaluacion").css('display','block');
+    }
+}
 </script>
