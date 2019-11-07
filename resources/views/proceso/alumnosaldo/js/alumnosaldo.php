@@ -69,6 +69,59 @@ HTMLCargar=function(result){ //INICIO HTML
 HTMLCargaCurso=function(result){ //INICIO HTML
     var html="";
     $.each(result.data,function(index,r){
+        if( index==0 ){
+        html+="<tr>"+
+        "<td>&nbsp;</td>"+
+        "<td>&nbsp;</td>";
+        html+="<td><input type='text' class='form-control'  id='txt_nro_pago' name='txt_nro_pago'></td>";
+        html+="<td>"+
+            "<div class='input-group'>"+
+                "<div class='input-group-addon'>"+
+                "<i>"+r.saldo+"</i>"+
+                "</div>"+
+                '<div id="txt_monto_pago_ico" class="has-warning has-feedback">'+
+                    "<input type='text' class='form-control'  id='txt_monto_pago' name='txt_monto_pago'"+
+                    " onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);ValidaDeuda(\""+r.saldo+"\",this);'>"+
+                    '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
+                '</div>'+
+            "</div>"+
+            '<div id="i_monto_deuda_ico" class="has-warning has-feedback">'+
+                "<div class='input-group-addon'>"+
+                "<label>Deuda:</label>"+
+                "<label id='i_monto_deuda'>"+r.saldo+"</label>"+
+                '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
+                "</div>"+
+            '</div>'+
+        "</td>";
+        html+="<td><select class='form-control'  id='slct_tipo_pago' name='slct_tipo_pago'>"+
+            "<option value='0'>.::Seleccione::.</option>"+
+            "<option value='1.1'>Transferencia - BCP</option>"+
+            "<option value='1.2'>Transferencia - Scotiabank</option>"+
+            "<option value='1.3'>Transferencia - BBVA</option>"+
+            "<option value='2.1'>Depósito - BCP</option>"+
+            "<option value='2.2'>Depósito - Scotiabank</option>"+
+            "<option value='2.3'>Depósito - BBVA</option>"+
+            "<option value='3.0'>Caja</option>"+
+            "</select>"+
+        "</td>";
+        html+="<td>"+
+                '<input type="text"  readOnly class="form-control input-sm" id="txt_pago_nombre"  name="txt_pago_nombre" value="">'+
+                '<input type="text" style="display: none;" id="txt_pago_archivo" name="txt_pago_archivo">'+
+                '<label class="btn btn-default btn-flat margin btn-xs">'+
+                    '<i class="fa fa-file-image-o fa-3x"></i>'+
+                    '<i class="fa fa-file-pdf-o fa-3x"></i>'+
+                    '<i class="fa fa-file-word-o fa-3x"></i>'+
+                    '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#txt_pago_nombre\',\'#txt_pago_archivo\',\'#pago_img\');" >'+
+                '</label>'+
+                '<div>'+
+                '<a id="pago_href">'+
+                '<img id="pago_img" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                '</a>'+
+                '</div><input type="button" class="btn btn-primary" id="btnPagoCuota" onClick="GuardarPago('+r.id+');" value="GuardarPago">'
+        "</td>";
+        html+="</tr>";
+        }
+
         html+="<tr id='tr"+r.id+"'>";
         html+="<td>"+r.precio+"</td>";
         html+="<td>"+r.pago;
@@ -76,46 +129,10 @@ HTMLCargaCurso=function(result){ //INICIO HTML
             html+='<img src="'+r.archivo+'" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">';
         }
         html+="</td>";
-        if( index==0 ){
-            html+="<td>"+
-                "<div class='input-group'>"+
-                    "<div class='input-group-addon'>"+
-                    "<i>"+r.saldo+"</i>"+
-                    "</div>"+
-                    '<div id="txt_monto_pago_ico" class="has-warning has-feedback">'+
-                        "<input type='text' class='form-control'  id='txt_monto_pago' name='txt_monto_pago'"+
-                        " onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);ValidaDeuda(\""+r.saldo+"\",this);'>"+
-                        '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
-                    '</div>'+
-                "</div>"+
-                '<div id="i_monto_deuda_ico" class="has-warning has-feedback">'+
-                    "<div class='input-group-addon'>"+
-                    "<label>Deuda:</label>"+
-                    "<label id='i_monto_deuda'>"+r.saldo+"</label>"+
-                    '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
-                    "</div>"+
-                '</div>'+
-            "</td>";
-            html+="<td>"+
-                    '<input type="text"  readOnly class="form-control input-sm" id="txt_pago_nombre"  name="txt_pago_nombre" value="">'+
-                    '<input type="text" style="display: none;" id="txt_pago_archivo" name="txt_pago_archivo">'+
-                    '<label class="btn btn-default btn-flat margin btn-xs">'+
-                        '<i class="fa fa-file-image-o fa-3x"></i>'+
-                        '<i class="fa fa-file-pdf-o fa-3x"></i>'+
-                        '<i class="fa fa-file-word-o fa-3x"></i>'+
-                        '<input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,\'#txt_pago_nombre\',\'#txt_pago_archivo\',\'#pago_img\');" >'+
-                    '</label>'+
-                    '<div>'+
-                    '<a id="pago_href">'+
-                    '<img id="pago_img" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
-                    '</a>'+
-                    '</div><input type="button" class="btn btn-primary" id="btnPagoCuota" onClick="GuardarPago('+r.id+');" value="GuardarPago">'
-            "</td>";
-        }
-        else{
-            html+="<td>"+r.saldo+"</td>";
-            html+="<td></td>";
-        }
+        html+="<td>"+r.nro_pago+"</td>";
+        html+="<td>"+r.saldo+"</td>";
+        html+="<td>"+r.tipo_pago+"</td>"+
+        "<td>&nbsp;</td>";
         html+="</tr>";
     });
 
@@ -149,9 +166,17 @@ GuardarPago=function(id){
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#txt_monto_pago").val() )=='' ){
+    if( $.trim( $("#txt_nro_pago").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese el monto de Pago',4000);
+        msjG.mensaje('warning','Ingrese el nro de pago',4000);
+    }
+    else if( $.trim( $("#txt_monto_pago").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese el monto de pago',4000);
+    }
+    else if( $.trim( $("#slct_tipo_pago").val() )=='0' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione el tipo de operación',4000);
     }
     else if( $.trim( $("#txt_pago_archivo").val() )=='' ){
         r=false;

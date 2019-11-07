@@ -128,9 +128,10 @@
                                 <tr>
                                     <th>Precio.</th>
                                     <th>Pago</th>
+                                    <th>N° de Boleta/N° de Operación</th>
                                     <th>Saldo</th>
+                                    <th>Tipo Operación</th>
                                     <th>Archivo Pago Actual</th>
-                                    <th>[]</th>
                                 </tr>
                             </thead>
                             <tbody id="tb_matricula">

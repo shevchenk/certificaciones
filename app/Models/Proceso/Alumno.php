@@ -371,7 +371,18 @@ class Alumno extends Model
     public static function ListarSaldos( $r )
     {
         $sql=   DB::table('mat_matriculas_saldos AS ms')
-                ->select('ms.id','ms.precio','ms.pago','ms.saldo','ms.matricula_detalle_id','ms.archivo')
+                ->select('ms.id','ms.precio','ms.pago','ms.saldo','ms.matricula_detalle_id'
+                ,'ms.archivo','ms.nro_pago',
+                DB::raw('CASE 
+                            WHEN ms.tipo_pago="1.1" THEN "Transferencia - BCP"
+                            WHEN ms.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                            WHEN ms.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                            WHEN ms.tipo_pago="2.1" THEN "Depósito - BCP"
+                            WHEN ms.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                            WHEN ms.tipo_pago="2.3" THEN "Depósito - BBVA"
+                            ELSE "Caja"
+                        END AS tipo_pago')
+                )
                 ->where( function($query) use($r){
                     if( $r->has('matricula_detalle_id') AND trim($r->matricula_detalle_id)!='' ){
                         $query->where( 'ms.matricula_detalle_id', trim($r->matricula_detalle_id) );
@@ -396,6 +407,8 @@ class Alumno extends Model
         $MSF->matricula_detalle_id = $MS->matricula_detalle_id;
         $MSF->precio = $MS->precio;
         $MSF->pago = trim($r->monto_pago);
+        $MSF->tipo_pago = trim($r->tipo_pago);
+        $MSF->nro_pago = trim($r->nro_pago);
 
         $saldo= $MS->saldo - trim($r->monto_pago);
         if( $saldo<0 ){ $saldo=0; }
