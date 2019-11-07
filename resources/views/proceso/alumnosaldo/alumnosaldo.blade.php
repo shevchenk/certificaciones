@@ -103,15 +103,15 @@
                 <form class="form-horizontal">
                   <div class="form-group has-primary has-feedback">
                     <label class="control-label col-sm-1" for="" style="text-align: left;">DNI:</label>
-                    <div class="col-sm-4" id="div_dni" style="padding-top: 7px;"></div>
+                    <div class="col-sm-2" id="div_dni" style="padding-top: 7px;"></div>
                     <label class="control-label col-sm-1" for="" style="text-align: left;">CURSO:</label>
-                    <div class="col-sm-4" id="div_curso" style="padding-top: 7px;"></div>
+                    <div class="col-sm-2" id="div_curso" style="padding-top: 7px;"></div>
                   </div>
                   <div class="form-group has-primary has-feedback">
                     <label class="control-label col-sm-1" for="" style="text-align: left;">NOMBRES: </label>
-                    <div class="col-sm-4" id="div_nombres" style="padding-top: 7px;"></div>
+                    <div class="col-sm-2" id="div_nombres" style="padding-top: 7px;"></div>
                     <label class="control-label col-sm-1" for="" style="text-align: left;">SALDO:</label>
-                    <div class="col-sm-4" id="div_saldo" style="padding-top: 7px;"></div>
+                    <div class="col-sm-2" id="div_saldo" style="padding-top: 7px;"></div>
                   </div>
                 </form>
             </div>
