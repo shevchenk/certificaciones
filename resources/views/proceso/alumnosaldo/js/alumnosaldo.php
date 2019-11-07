@@ -71,7 +71,11 @@ HTMLCargaCurso=function(result){ //INICIO HTML
     $.each(result.data,function(index,r){
         html+="<tr id='tr"+r.id+"'>";
         html+="<td>"+r.precio+"</td>";
-        html+="<td>"+r.pago+"</td>";
+        html+="<td>"+r.pago;
+        if( $.trim(r.archivo)!=''){
+            html+='<img src="'+r.archivo+'" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">';
+        }
+        html+="</td>";
         if( index==0 ){
             html+="<td>"+
                 "<div class='input-group'>"+
@@ -110,9 +114,7 @@ HTMLCargaCurso=function(result){ //INICIO HTML
         }
         else{
             html+="<td>"+r.saldo+"</td>";
-            if( $.trim(r.archivo)!=''){
-                html+='<td><img src="'+r.archivo+'" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px"></td>';
-            }
+            html+="<td></td>";
         }
         html+="</tr>";
     });
