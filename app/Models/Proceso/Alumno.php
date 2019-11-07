@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Persona;
+use App\Models\Mantenimiento\Menu;
 use App\Models\Proceso\MatriculaDetalle;
+use App\Models\Proceso\MatriculaSaldo;
 
 use Illuminate\Support\Facades\DB; //BD
 
@@ -329,6 +331,100 @@ class Alumno extends Model
         $especialidad->estado = trim( $r->estadof );
         $especialidad->persona_id_updated_at=$especialidad_id;
         $especialidad->save();
+    }
+
+    public static function LoadSaldos( $r )
+    {
+        $sql=   DB::table('mat_matriculas AS m')
+                ->Join('mat_matriculas_detalles AS md', function($join){
+                    $join->on('md.matricula_id','=','m.id')
+                    ->where('md.estado','=',1);
+                })
+                ->Join('personas AS p', function($join){
+                    $join->on('p.id','=','m.persona_id');
+                })
+                ->Join('mat_cursos AS c', function($join){
+                    $join->on('c.id','=','md.curso_id');
+                })
+                ->select('p.dni','p.paterno','p.materno','p.nombre','c.curso',
+                'md.matricula_id','md.id AS matricula_detalle_id','md.saldo')
+                ->where('saldo','>','0')
+                ->where( function($query) use($r){
+                    if( $r->has('dni') AND trim($r->dni)!='' ){
+                        $query->where('p.dni', 'like', '%'.trim($r->dni).'%' );
+                    }
+                    if( $r->has('paterno') AND trim($r->paterno)!='' ){
+                        $query->where('p.paterno', 'like', '%'.trim($r->paterno).'%' );
+                    }
+                    if( $r->has('materno') AND trim($r->materno)!='' ){
+                        $query->where('p.materno', 'like', '%'.trim($r->materno).'%' );
+                    }
+                    if( $r->has('nombre') AND trim($r->nombre)!='' ){
+                        $query->where('p.nombre', 'like', '%'.trim($r->nombre).'%' );
+                    }
+                });
+        $r = $sql->paginate(10);
+
+        return $r;
+    }
+
+    public static function ListarSaldos( $r )
+    {
+        $sql=   DB::table('mat_matriculas_saldos AS ms')
+                ->select('ms.id','ms.precio','ms.pago','ms.saldo','ms.matricula_detalle_id','ms.archivo')
+                ->where( function($query) use($r){
+                    if( $r->has('matricula_detalle_id') AND trim($r->matricula_detalle_id)!='' ){
+                        $query->where( 'ms.matricula_detalle_id', trim($r->matricula_detalle_id) );
+                    }
+                    else{
+                        $query->where('ms.id',0);
+                    }
+                })
+                ->orderBy('ms.id','desc');
+        $r = $sql->get();
+
+        return $r;
+    }
+
+    public static function SaveSaldos($r)
+    {
+        DB::beginTransaction();
+        $user_id = Auth::user()->id;
+        $MS = MatriculaSaldo::find($r->id);
+        
+        $MSF = new MatriculaSaldo;
+        $MSF->matricula_detalle_id = $MS->matricula_detalle_id;
+        $MSF->precio = $MS->precio;
+        $MSF->pago = trim($r->monto_pago);
+
+        $saldo= $MS->saldo - trim($r->monto_pago);
+        if( $saldo<0 ){ $saldo=0; }
+        $MSF->saldo = $saldo;
+        $MSF->persona_id_created_at = $user_id;
+        $MSF->save();
+
+        $MD = MatriculaDetalle::find($MS->matricula_detalle_id);
+        $MD->saldo = $saldo;
+        $MD->persona_id_updated_at = $user_id;
+        $MD->save();
+
+        if( trim($r->pago_nombre)!='' ){
+            $type=explode(".",$r->pago_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "upload/saldos/S".$MSF->id.$extension; 
+        if( trim($r->pago_archivo)!='' ){
+            $MSF->archivo= $url;
+            $MSF->save();
+            Menu::fileToFile($r->pago_archivo, $url);
+        }
+        DB::commit();
+
+        $return['matricula_detalle_id'] = $MS->matricula_detalle_id;
+        $return['saldo'] = $saldo;
+        $return['rst'] = 1;
+        $return['msj'] = 'Registro realizado';
+        return $return;
     }
     // --
 }

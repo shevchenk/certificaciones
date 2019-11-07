@@ -30,6 +30,9 @@ class ApiPR extends Controller
         elseif($r->opcion=='ObtenerTiposEvaluacionesTotales'){
             $result = $this->ObtenerTiposEvaluacionesTotales($r);
         }
+        elseif($r->opcion=='ObtenerTiposEvaluacionesEmpresas'){
+            $result = $this->ObtenerTiposEvaluacionesEmpresas($r);
+        }
         elseif($r->opcion=='ObtenerCursosDocente'){
             $result = $this->ObtenerCursosDocente($r);
         }
@@ -124,6 +127,15 @@ class ApiPR extends Controller
     public function ObtenerTiposEvaluacionesTotales ( $r )
     {
         $renturnModel = Api::ObtenerTiposEvaluacionesTotales($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
+    }
+
+    public function ObtenerTiposEvaluacionesEmpresas ( $r )
+    {
+        $renturnModel = Api::ObtenerTiposEvaluacionesEmpresas($r);
         $return['rst'] = 1;
         $return['data'] = $renturnModel;
         $return['msj'] = "Registro realizado correctamente";

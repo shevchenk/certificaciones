@@ -186,10 +186,6 @@ class Api extends Model
         $grupos=array();
         if( isset($key->id) ){
             $tipos=DB::table(Api::mibdaux().'.mat_programaciones AS mp')
-                    ->Join(Api::mibdaux().'.mat_cursos AS mc', function($join){
-                        $join->on('mc.id','=','mp.curso_id')
-                        ->where('mc.tipo_curso',1);
-                    })
                     ->Join(Api::mibdaux().'.mat_programaciones_evaluaciones AS mpe', function($join){
                         $join->on('mpe.programacion_id','=','mp.id')
                         ->where('mpe.estado',1);
@@ -199,9 +195,11 @@ class Api extends Model
                     })
                     ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id'
                     ,'mpe.fecha_evaluacion_ini','mpe.fecha_evaluacion_fin'
+                    ,'mpe.orden','mpe.activa_fecha'
                     ,'mp.id AS programacion_unica_externo_id'
                     )
                     ->where('mp.estado',1)
+                    ->where('mp.activa_evaluacion',1)
                     ->where( 
                         function($query) use ($r){
                             if( $r->has('programacion_unica_externo_id') AND trim($r->programacion_unica_externo_id)!='' ){
@@ -209,6 +207,49 @@ class Api extends Model
                             }
                         }
                     )
+                    ->orderBy('mpe.orden','asc')
+                    ->get();
+        }
+        else{
+            $key=array( 'token'=>0, 'id'=>0 );
+        }
+
+        $data = array(
+            'key' => $key,
+            'tipo' => $tipos
+        );
+        return $data;
+    }
+
+    public static function ObtenerTiposEvaluacionesEmpresas($r)
+    {
+        $key= DB::table(Api::mibdaux().'.apiaula')
+                ->where('estado',1)
+                ->select('idaula AS id','key AS token')
+                ->where('keycli',$r->keycli)
+                ->first();
+
+        $grupos=array();
+        if( isset($key->id) ){
+            $tipos=DB::table(Api::mibdaux().'.mat_empresas AS me')
+                    ->Join(Api::mibdaux().'.mat_empresas_tipos_evaluaciones AS mete', function($join){
+                        $join->on('mete.empresa_id','=','me.id')
+                        ->where('mete.estado',1);
+                    })
+                    ->Join(Api::mibdaux().'.tipos_evaluaciones AS te', function($join){
+                        $join->on('te.id','=','mete.tipo_evaluacion_id');
+                    })
+                    ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id'
+                    ,'mete.orden','mp.id AS programacion_unica_externo_id'
+                    )
+                    ->where( 
+                        function($query) use ($r){
+                            if( $r->has('empresa_externo_id') AND trim($r->empresa_externo_id)!='' ){
+                                $query->where('me.id',$r->empresa_externo_id);
+                            }
+                        }
+                    )
+                    ->orderBy('mete.orden','asc')
                     ->get();
         }
         else{

@@ -278,4 +278,34 @@ class AlumnoPR extends Controller
         }
     }
 
+    public function LoadSaldos (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::LoadSaldos($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function ListarSaldos (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::ListarSaldos($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function SaveSaldos (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::SaveSaldos($r);
+            return response()->json($renturnModel);
+        }
+    }
+
 }
