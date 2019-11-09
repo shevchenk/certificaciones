@@ -98,7 +98,8 @@ class Api extends Model
                     ->select('mc.curso', 'mc.id AS curso_externo_id', 'mp.id AS programacion_unica_externo_id'
                     ,'mp.fecha_inicio', 'mp.fecha_final', 'p.dni AS docente_dni', 'p.paterno AS docente_paterno'
                     ,'p.materno AS docente_materno','p.nombre AS docente_nombre', 'mmd.id AS programacion_externo_id'
-                    ,DB::raw('IFNULL(me.especialidad,"Curso Libre") AS carrera','mc.empresa_id AS empresa_externo_id')
+                    ,DB::raw('IFNULL(me.especialidad,"Curso Libre") AS carrera','mc.empresa_id AS empresa_externo_id'
+                    ,'mc.empresa_id AS empresa_externo_id')
                     )
                     ->where('mm.estado',1)
                     ->where('mm.persona_id',$persona[0]->id)
@@ -419,6 +420,7 @@ class Api extends Model
                 ->select('mp.curso_id', 'mc.curso', 'mp.id AS programacion_id', DB::raw('DATE(mp.fecha_inicio) AS fecha_inicio')
                 , DB::raw('TIME(mp.fecha_inicio) hora_inicio, TIME(mp.fecha_final) hora_final')
                 , 'p.paterno AS docente_paterno', 'p.materno AS docente_materno', 'p.nombre AS docente_nombre'
+                , 'mc.empresa_id AS empresa_externo_id'
                 )
                 ->where('mp.estado',1)
                 ->whereRaw(' DATE(mp.fecha_inicio) + INTERVAL 7 DAY  >= CURDATE()')
@@ -478,6 +480,7 @@ class Api extends Model
                 })
                 ->select('me.id AS especialidad_id', 'mep.id AS especialidad_programacion_id', 'me.especialidad', 'mep.fecha_inicio'
                 , DB::raw('GROUP_CONCAT( DISTINCT(mc.curso) SEPARATOR "|" ) cursos')
+                , 'mc.empresa_id AS empresa_externo_id'
                 )
                 ->where('me.estado',1)
                 ->where(function($query) use($r){
