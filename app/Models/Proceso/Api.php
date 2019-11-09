@@ -232,8 +232,8 @@ class Api extends Model
 
         $grupos=array();
         if( isset($key->id) ){
-            $tipos=DB::table(Api::mibdaux().'.mat_empresas AS me')
-                    ->Join(Api::mibdaux().'.mat_empresas_tipos_evaluaciones AS mete', function($join){
+            $tipos=DB::table(Api::mibdaux().'.empresas AS me')
+                    ->Join(Api::mibdaux().'.empresas_tipos_evaluaciones AS mete', function($join){
                         $join->on('mete.empresa_id','=','me.id')
                         ->where('mete.estado',1);
                     })
@@ -241,7 +241,7 @@ class Api extends Model
                         $join->on('te.id','=','mete.tipo_evaluacion_id');
                     })
                     ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id'
-                    ,'mete.orden','mp.id AS programacion_unica_externo_id'
+                    ,'mete.orden'
                     )
                     ->where( 
                         function($query) use ($r){
