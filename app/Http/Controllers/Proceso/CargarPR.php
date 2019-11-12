@@ -168,7 +168,9 @@ class CargarPR extends Controller
                     WHERE i.dni_final=''
                     AND i.usuario=".$usuario."
                     AND i.asignar=1
-                    AND i.file='".$file."'";
+                    AND i.file='".$file."'
+                    GROUP BY i.PATERNO, i.MATERNO, i.NOMBRE
+                    ";
             DB::insert($sql);
 
             $sql="SET @numero=".$inicial.";";
