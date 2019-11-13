@@ -100,15 +100,12 @@ Guardar=function(){
             TA+= $(this).val()*1;
         });
 
-        if(TA!=TI){
+        
+        if(TA>TI){
             r=false;
-            if(TA>TI){
-                msjG.mensaje('warning','('+TA+') El total de asignaciones no puede ser mayor a ('+TI+') el total interesados seleccionados',8000);
-            }
-            else{
-                msjG.mensaje('warning','('+TI+') El total interesados seleccionados no puede ser mayor a ('+TA+') el total de asignaciones ',8000);
-            }
+            msjG.mensaje('warning','('+TA+') El total de asignaciones no puede ser mayor a ('+TI+') el total interesados seleccionados',8000);
         }
+        
         if(r){
             AjaxVisita.Guardar(HTMLGuardar);
         }
