@@ -161,12 +161,12 @@ class Llamada extends Model
         $chknointeresado = $r->chknointeresado;
         $chkotros = $r->chkotros;
 
-        if( !is_array($chknoasig) ){ $chknoasig=array(); }
-        if( !is_array($chknocall) ){ $chknocall=array(); }
-        if( !is_array($chkinteresado) ){ $chkinteresado=array(); }
-        if( !is_array($chkpendiente) ){ $chkpendiente=array(); }
-        if( !is_array($chknointeresado) ){ $chknointeresado=array(); }
-        if( !is_array($chkotros) ){ $chkotros=array(); }
+        if( !isset($r->chknoasig) ){ $chknoasig=array(); }
+        if( !isset($r->chknocall) ){ $chknocall=array(); }
+        if( !isset($r->chkinteresado) ){ $chkinteresado=array(); }
+        if( !isset($r->chkpendiente) ){ $chkpendiente=array(); }
+        if( !isset($r->chknointeresado) ){ $chknointeresado=array(); }
+        if( !isset($r->chkotros) ){ $chkotros=array(); }
         
         for ($i=0; $i < count($chknoasig) ; $i++) { 
             $detchk= explode("|",$chknoasig[$i]);
@@ -199,7 +199,7 @@ class Llamada extends Model
             AND pc.interesado='".$detchk[1]."'
             AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
-            AND l.tipo_llamada_id=1
+            AND l.obs=1
             )";
             array_push($filtros_array, $filtro);
         }
@@ -211,7 +211,7 @@ class Llamada extends Model
             AND pc.interesado='".$detchk[1]."'
             AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
-            AND l.tipo_llamada_id=2
+            AND l.obs=2
             )";
             array_push($filtros_array, $filtro);
         }
@@ -223,7 +223,7 @@ class Llamada extends Model
             AND pc.interesado='".$detchk[1]."'
             AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
-            AND l.tipo_llamada_id=8
+            AND l.obs=3
             )";
             array_push($filtros_array, $filtro);
         }
@@ -235,9 +235,7 @@ class Llamada extends Model
             AND pc.interesado='".$detchk[1]."'
             AND DATE(pc.created_at)='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
-            AND l.tipo_llamada_id<>1 
-            AND l.tipo_llamada_id<>2 
-            AND l.tipo_llamada_id<>8
+            AND l.obs=0
             )";
             array_push($filtros_array, $filtro);
         }
@@ -252,8 +250,9 @@ class Llamada extends Model
                         FROM personas_captadas pc 
                         INNER JOIN empresas e ON e.id=pc.empresa_id AND e.id = $empresa_id
                         LEFT JOIN (
-                            SELECT ll.persona_id, t.empresa_id, MIN(ll.tipo_llamada_id) tipo_llamada_id
+                            SELECT ll.persona_id, t.empresa_id, MIN(tll.obs) obs
                             FROM llamadas ll
+                            INNER JOIN tipo_llamadas tll ON tll.id=ll.tipo_llamada_id
                             INNER JOIN mat_trabajadores t ON t.id=ll.trabajador_id
                             WHERE DATE(ll.fecha_llamada)>='$fecha_ini'
                             AND ll.ultimo_registro=1
