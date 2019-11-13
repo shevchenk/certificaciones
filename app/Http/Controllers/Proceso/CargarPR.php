@@ -161,9 +161,11 @@ class CargarPR extends Controller
             $sql="  INSERT INTO personas (`password`, fuente, tipo, fecha_registro
                     , dni, paterno, materno, nombre, celular, email, email_externo, distrito_domicilio
                     , carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
-                    SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\", i.FUENTE, i.TIPO, i.FECHA_REGISTRO
-                    ,IF(i.DNI*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),i.DNI), i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL
-                    , i.EMAIL, i.DISTRITO, i.CARRERA, 3, NOW(), IF(i.DNI*1=0,0,$usuario), $usuario
+                    SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\"
+                    , MIN(i.FUENTE), MIN(i.TIPO), MIN(i.FECHA_REGISTRO)
+                    , IF(MIN(i.DNI)*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),MIN(i.DNI))
+                    , i.PATERNO, i.MATERNO, i.NOMBRE, MIN(i.CELULAR), MIN(i.EMAIL)
+                    , MIN(i.EMAIL), MIN(i.DISTRITO), MIN(i.CARRERA), 3, NOW(), IF(MIN(i.DNI)*1=0,0,$usuario), $usuario
                     FROM interesados AS i
                     WHERE i.dni_final=''
                     AND i.usuario=".$usuario."
