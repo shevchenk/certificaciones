@@ -941,4 +941,41 @@ class Api extends Model
 
         return $result;
     }
+
+    public static function ObtenerNotaMinimaEmpresas($r)
+    {
+        $key= DB::table(Api::mibdaux().'.apiaula')
+                ->where('estado',1)
+                ->select('idaula AS id','key AS token')
+                ->where('keycli',$r->keycli)
+                ->first();
+
+        $grupos=array();
+        if( isset($key->id) ){
+            $evaluaciones =  DB::table(Api::mibdaux().'.mat_matriculas_detalles AS md')
+                        ->Join(Api::mibdaux().'.mat_cursos AS c', function($join){
+                            $join->on('md.curso_id','=','c.id');
+                        })
+                        ->Join(Api::mibdaux().'.empresas AS e', function($join){
+                            $join->on('e.id','=','c.empresa_id');
+                        })
+                        ->Join(Api::mibdaux().'.empresas_tipos_evaluaciones AS ete', function($join){
+                            $join->on('ete.empresa_id','=','e.id')
+                            ->where('ete.estado','=','1');
+                        })
+                        ->select('e.nota_minima', 'ete.tipo_evaluacion_id', 'ete.peso_evaluacion', 'ete.orden')
+                        ->where('md.id',$r->programacion_externo_id)
+                        ->orderBy('ete.orden')
+                        ->get();
+        }
+        else{
+            $key=array( 'token'=>0, 'id'=>0 );
+        }
+
+        $data = array(
+            'key' => $key,
+            'evaluacion' => $evaluaciones
+        );
+        return $data;
+    }
 }

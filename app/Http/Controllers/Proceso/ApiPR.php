@@ -57,6 +57,9 @@ class ApiPR extends Controller
         elseif($r->opcion=='ValidarInteresado'){
             $result = $this->ValidarInteresado($r);
         }
+        elseif($r->opcion=='ObtenerNotaMinimaEmpresas'){
+            $result = $this->ObtenerNotaMinimaEmpresas($r);
+        }
         return $result;
     }
 
@@ -197,6 +200,15 @@ class ApiPR extends Controller
     {
         $renturnModel = Api::ValidarInteresado($r);
         return response()->json($renturnModel);
+    }
+
+    public function ObtenerNotaMinimaEmpresas ( $r )
+    {
+        $renturnModel = Api::ObtenerNotaMinimaEmpresas($r);
+        $return['rst'] = 1;
+        $return['data'] = $renturnModel;
+        $return['msj'] = "Registro realizado correctamente";
+        return response()->json($return);
     }
 
 }
