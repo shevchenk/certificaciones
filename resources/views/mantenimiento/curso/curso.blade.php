@@ -64,6 +64,16 @@
                                     </th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
+                                            <label><h4>Hora:</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Crédito:</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
                                             <label><h4>Estado:</h4></label>
                                             <div class="input-group">
                                                 <select class="form-control" name="slct_estado" id="slct_estado">
@@ -84,6 +94,8 @@
                                   <th>Curso</th>
                                   <th>Certificado Curso</th>
                                   <th>Curso Apocope</th>
+                                  <th>Hora</th>
+                                  <th>Crédito</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

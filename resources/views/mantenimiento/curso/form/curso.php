@@ -29,14 +29,26 @@
               
 
                 <div class="col-md-12"> <!-- INICIO CLASS 12 -->
-                  <div class="col-sm-5">     
-                  <br>         
+                  <div class="col-md-3">     
+                      <br>
                       <label>Apocope</label>
                         <input type="text" class="form-control" id="txt_curso_apocope" name="txt_curso_apocope" placeholder="Curso Apocope">
                   </div>
 
-                  <div class="col-sm-5" style="display: none;">     
-                  <br>         
+                  <div class="col-md-3">
+                      <br>
+                      <label># Horas académicas</label>
+                        <input type="text" class="form-control" id="txt_hora" name="txt_hora" onkeypress="return masterG.validaNumerosMax(event,this,2);" placeholder="Horas académicas">
+                  </div>
+
+                  <div class="col-md-3">
+                      <br>
+                      <label># Créditos</label>
+                        <input type="text" class="form-control" id="txt_credito" name="txt_credito" onkeypress="return masterG.validaNumerosMax(event,this,2);" placeholder="Créditos">
+                  </div>
+
+                  <div class="col-md-5" style="display: none;">
+                      <br>
                       <label>Tipo Curso</label>
                         <select class="form-control selectpicker show-menu-arrow" data-live-search="true" name="slct_tipo_curso" id="slct_tipo_curso">
                           <option value="0">.::Seleccione::.</option>
@@ -45,7 +57,7 @@
                         </select>     
                   </div>
 
-                  <div class="col-sm-2">     
+                  <div class="col-md-2">
                   <br>    
                       <label>Estado</label>
                         <select class="form-control" name="slct_estado" id="slct_estado">

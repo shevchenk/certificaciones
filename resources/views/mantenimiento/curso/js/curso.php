@@ -31,6 +31,8 @@ $(document).ready(function() {
         $('#ModalCursoForm #txt_curso').val( CursoG.curso );
         $('#ModalCursoForm #txt_certificado_curso').val( CursoG.certificado_curso );
         $('#ModalCursoForm #txt_curso_apocope').val( CursoG.curso_apocope );
+        $('#ModalCursoForm #txt_hora').val( CursoG.hora );
+        $('#ModalCursoForm #txt_credito').val( CursoG.credito );
         $('#ModalCursoForm #slct_tipo_curso').selectpicker( 'val',CursoG.tipo_curso );
         $('#ModalCursoForm #slct_estado').selectpicker( 'val',CursoG.estado );
         
@@ -54,6 +56,14 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Nombre del Certificado',4000);
     }
+    else if( $.trim( $("#ModalCursoForm #txt_hora").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese las horas académicas',4000);
+    }
+    else if( $.trim( $("#ModalCursoForm #txt_credito").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese los créditos a obtener',4000);
+    }
     return r;
 }
 
@@ -63,6 +73,8 @@ AgregarEditar=function(val,id){
     CursoG.curso='';
     CursoG.certificado_curso='';
     CursoG.curso_apocope='';
+    CursoG.hora='0';
+    CursoG.credito='0';
     CursoG.tipo_curso='1';
     CursoG.estado='1';
     if( val==0 ){
@@ -72,6 +84,8 @@ AgregarEditar=function(val,id){
         CursoG.curso_apocope=$("#TableCurso #trid_"+id+" .curso_apocope").text();
         CursoG.tipo_curso=$("#TableCurso #trid_"+id+" .tipo_curso").val();
         CursoG.estado=$("#TableCurso #trid_"+id+" .estado").val();
+        CursoG.hora=$("#TableCurso #trid_"+id+" .hora").text();
+        CursoG.credito=$("#TableCurso #trid_"+id+" .credito").text();
     }
     $('#ModalCurso').modal('show');
 }
@@ -118,6 +132,8 @@ HTMLCargarCurso=function(result){ //INICIO HTML
             "<td class='curso'>"+r.curso+"</td>"+
             "<td class='certificado_curso'>"+r.certificado_curso+"</td>"+
             "<td class='curso_apocope'>"+r.curso_apocope+"</td>"+
+            "<td class='hora'>"+r.hora+"</td>"+
+            "<td class='credito'>"+r.credito+"</td>"+
 
             "<td>"+
             "<input type='hidden' class='tipo_curso' value='"+r.tc+"'>"+
