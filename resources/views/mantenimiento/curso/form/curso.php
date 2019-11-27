@@ -38,7 +38,7 @@
                   <div class="col-md-3">
                       <br>
                       <label># Horas académicas</label>
-                        <input type="text" class="form-control" id="txt_hora" name="txt_hora" onkeypress="return masterG.validaNumerosMax(event,this,2);" placeholder="Horas académicas">
+                        <input type="text" class="form-control" id="txt_hora" name="txt_hora" onkeypress="return masterG.validaNumerosMax(event,this,3);" placeholder="Horas académicas">
                   </div>
 
                   <div class="col-md-3">
