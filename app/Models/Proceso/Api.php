@@ -99,7 +99,7 @@ class Api extends Model
                     ,'mp.fecha_inicio', 'mp.fecha_final', 'p.dni AS docente_dni', 'p.paterno AS docente_paterno'
                     ,'p.materno AS docente_materno','p.nombre AS docente_nombre', 'mmd.id AS programacion_externo_id'
                     ,DB::raw('IFNULL(me.especialidad,"Curso Libre") AS carrera','mc.empresa_id AS empresa_externo_id')
-                    ,'mc.empresa_id AS empresa_externo_id'
+                    ,'mc.empresa_id AS empresa_externo_id', 'mm.fecha_matricula'
                     )
                     ->where('mm.estado',1)
                     ->where('mm.persona_id',$persona[0]->id)
