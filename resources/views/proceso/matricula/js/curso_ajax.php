@@ -35,5 +35,10 @@ var AjaxMatricula={
         data={};
         masterG.postAjax(url,data,evento);
     },
+    CargarEspecialidad:function(evento){
+        url='AjaxDinamic/Mantenimiento.EspecialidadEM@ListEspecialidad';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

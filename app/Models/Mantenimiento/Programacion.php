@@ -210,6 +210,13 @@ class Programacion extends Model
                     }
                 }
             );
+
+            if( $r->has('especialidad_id') ){
+                $sql->join('mat_cursos_especialidades AS ce',function($join) use( $r ){
+                    $join->on('ce.curso_id','=','mp.curso_id');
+                    $join->where('ce.especialidad_id',$r->especialidad_id);
+                });
+            }
         $result = $sql->orderBy('mp.fecha_inicio','desc')->paginate(10);
         return $result;
     }

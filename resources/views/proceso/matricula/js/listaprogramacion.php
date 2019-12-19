@@ -8,6 +8,8 @@ var LDTipoTabla=0;
 var PromocionG="<?php echo $promocionG->pae ?>";
 var CheckG=0; // Indica los checks q tiene actualmente
 var CheckedG=0; // Indica cuantos tiene
+var buttonG='';
+var bfiltrosG='';
 $(document).ready(function() {
     $("#TableListaprogramacion").DataTable({
         "paging": true,
@@ -22,26 +24,32 @@ $(document).ready(function() {
     $("#ListaprogramacionForm #TableListaprogramacion input").blur(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
 
     $('#ModalListaprogramacion').on('shown.bs.modal', function (event) {
-          var button = $(event.relatedTarget); // captura al boton
+          buttonG = $(event.relatedTarget); // captura al boton
+          bfiltrosG= buttonG.data('filtros');
           $("#ModalListaprogramacion #slct_tipo_modalidad_id").selectpicker('val','0');
           $("#ModalListaprogramacion #slct_tipo_modalidad_id").change();
-          $( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).change(function() {
-             
-                  bfiltros= button.data('filtros');
-                    if( typeof (bfiltros)!='undefined'){
-                        LDfiltrosG=bfiltros+'|tipo_modalidad:'+$( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
-                    }
-                    if( typeof (button.data('tipotabla'))!='undefined'){
-                        LDTipoTabla=button.data('tipotabla');
-                    }
-                  AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
-          });
     });
 
     $('#ModalListaprogramacion').on('hidden.bs.modal', function (event) {
 //        $("ModalDocenteForm input[type='hidden']").remove();
 //        $("ModalDocenteForm input").val('');
     });
+
+    $( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).change(function() {
+          
+            if( typeof (bfiltrosG)!='undefined'){
+                LDfiltrosG=bfiltrosG+'|tipo_modalidad:'+$( "#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
+                console.log($("#slct_especialidad2_id").val());
+                if( typeof ($("#slct_especialidad2_id").val())!='undefined' && $("#slct_especialidad2_id" ).val()!='' && $("#slct_especialidad2_id" ).val()!='0' ){
+                    LDfiltrosG=LDfiltrosG+'|especialidad_id:'+$("#slct_especialidad2_id" ).val();
+                    LDfiltrosG=LDfiltrosG+'|especialidad_persona_id:'+$("#txt_persona_id" ).val();
+                }
+            }
+            if( typeof (buttonG.data('tipotabla'))!='undefined'){
+                LDTipoTabla=buttonG.data('tipotabla');
+            }
+          AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
+  });
 });
 
 SeleccionarProgramacion = function(val,id){

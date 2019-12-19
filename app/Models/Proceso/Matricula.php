@@ -82,11 +82,11 @@ class Matricula extends Model
             if( trim( $r->monto_pago_matricula )!=''){
             $matricula->monto_pago = trim( $r->monto_pago_matricula );}
         }
-        if($r->exonera_inscripcion!='on'){
-            if( trim( $r->nro_pago_inscripcion )!=''){
-            $matricula->nro_pago_inscripcion = trim( $r->nro_pago_inscripcion);}
-            if( trim( $r->monto_pago_inscripcion )!=''){
-            $matricula->monto_pago_inscripcion = trim( $r->monto_pago_inscripcion );}   
+
+        if( trim( $r->nro_pago_inscripcion )!=''){
+            $matricula->nro_pago_inscripcion = trim( $r->nro_pago_inscripcion);
+            $matricula->monto_pago_inscripcion = trim( $r->monto_pago_inscripcion );
+            $matricula->tipo_pago_inscripcion = trim( $r->tipo_pago_inscripcion );
         }
 
         if( trim($r->nro_promocion)!=''){
@@ -218,6 +218,9 @@ class Matricula extends Model
                 $mtdetalle->tipo_pago=$tipo_pago[$i];
                 $mtdetalle->curso_id=$curso_id[$i];
 
+                if( Input::has('especialidad2_id') ){
+                    $mtdetalle->especialidad_id=$r->especialidad2_id;
+                }
 
                 if(Input::has('especialidad_id') AND !$r->has('nro_certificado')){
                         $mtdetalle->especialidad_id=$especialidad_id[$i];
