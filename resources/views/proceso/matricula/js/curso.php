@@ -8,7 +8,7 @@ $(document).ready(function() {
     $('#exonerar_matricula').prop('checked', true);
     $('#exonerar_inscripcion').prop('checked', false);
     $('#ModalPersonaForm').append("<input type='hidden' class='mant' name='alumnonuevo' value='1'>");
-    CargarSlct(1);CargarSlct(2);CargarSlct(3);CargarSlct(4);
+    CargarSlct(1);CargarSlct(2);CargarSlct(3);
     var responsable='<?php echo Auth::user()->paterno .' '. Auth::user()->materno .' '. Auth::user()->nombre ?>';
     var responsable_id='<?php echo Auth::user()->id ?>';
     var hoy='<?php echo date('Y-m-d') ?>';
@@ -54,12 +54,12 @@ ValidaCheckInscripcion=function(){
     if( $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked') ) {
           $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",false);
           $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",false);
-          $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion,#ModalMatriculaForm #slct_especialidad2_id" ).removeAttr("disabled");
+          $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion" ).removeAttr("disabled");
           $( "#ModalMatriculaForm #file_inscripcion" ).prop("disabled",false);
     }else{
           $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",true);
           $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",true);
-          $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion,#ModalMatriculaForm #slct_especialidad2_id" ).prop("disabled",true);
+          $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion" ).prop("disabled",true);
           $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion,#ModalMatriculaForm #slct_especialidad2_id" ).val("0");
           $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).val("");
           $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).val("");
@@ -177,6 +177,22 @@ ValidaTabla=function(){
 
     return r;     
 }
+
+ValidaTipo=function(v){
+    console.log(v);
+    if( v==1 ){
+        var html="<option value='0'>.::Curso Libre::.</option>";
+        $("#ModalMatriculaForm #slct_especialidad2_id").html(html); 
+        $("#ModalMatriculaForm #slct_especialidad2_id").selectpicker('refresh');
+        $( "#ModalMatriculaForm #slct_especialidad2_id" ).prop("disabled",true);
+    }
+    else{
+        persona_id = $("#ModalMatriculaForm #txt_persona_id").val();
+        AjaxMatricula.CargarEspecialidad(SlctCargarEspecialidad,v, persona_id);
+        $( "#ModalMatriculaForm #slct_especialidad2_id" ).removeAttr("disabled");
+    }
+}
+
 AgregarEditarAjax=function(){
     if( ValidaTabla() && ValidaForm()){
         AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
@@ -195,7 +211,7 @@ HTMLAgregarEditar=function(result){
 
         $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",true);
         $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",true);
-        $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion,#ModalMatriculaForm #slct_especialidad2_id" ).prop("disabled",true);
+        $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion" ).prop("disabled",true);
         $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion,#ModalMatriculaForm #slct_especialidad2_id" ).val("0");
         $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).val("");
         $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).val("");
@@ -221,20 +237,15 @@ CargarSlct=function(slct){
     if(slct==3){
         AjaxMatricula.CargarTipoParticipante(SlctCargarTipoParticipante);
     }
-    if(slct==4){
-        AjaxMatricula.CargarEspecialidad(SlctCargarEspecialidad);
-    }
 }
 
 SlctCargarEspecialidad=function(result){
-    var html="<option value='0'>.::Curso Libre::.</option>";
+    var html="";
     $.each(result.data,function(index,r){
           html+="<option value="+r.id+">"+r.especialidad+"</option>";
     });
     $("#ModalMatriculaForm #slct_especialidad2_id").html(html); 
     $("#ModalMatriculaForm #slct_especialidad2_id").selectpicker('refresh');
-    $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion,#ModalMatriculaForm #slct_especialidad2_id" ).prop("disabled",true);
-    $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion,#ModalMatriculaForm #slct_especialidad2_id" ).val("0");
 };
 
 SlctCargarSucursalTotal=function(result){

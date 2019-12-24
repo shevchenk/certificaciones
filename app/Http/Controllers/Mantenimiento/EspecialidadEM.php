@@ -105,7 +105,22 @@ class EspecialidadEM extends Controller
     public function ListEspecialidad (Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Especialidad::ListEspecialidad($r);
+            $v= true;
+            $renturnModel=array();
+            if( $r->has('persona_id') ){
+                if( $r->has('validacion') AND $r->validacion==2 ){
+                    $renturnModel = Especialidad::ListEspecialidadNuevo($r);
+                    $v=false;
+                }
+                else if( $r->has('validacion') AND $r->validacion==3 ){
+                    $renturnModel = Especialidad::ListEspecialidadAlumno($r);
+                    $v=false;
+                }
+            }
+
+            if( $v==true ){
+                $renturnModel = Especialidad::ListEspecialidad($r);
+            }
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";

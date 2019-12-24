@@ -161,6 +161,37 @@ class Especialidad extends Model
         return $result;
     }
 
+    public static function ListEspecialidadNuevo($r)
+    {
+        $sql= " SELECT e.id, e.especialidad
+                FROM mat_especialidades e
+                LEFT JOIN (
+                SELECT DISTINCT(md.especialidad_id) especialidad_id
+                FROM mat_matriculas_detalles md
+                INNER JOIN mat_matriculas m ON m.id=md.matricula_id AND m.estado=1 AND m.persona_id =$r->persona_id
+                WHERE md.estado=1
+                AND md.especialidad_id IS NOT NULL
+                ) ea ON ea.especialidad_id=e.id
+                WHERE e.estado=1
+                AND ea.especialidad_id IS NULL" ;
+        return DB::select($sql);
+    }
+
+    public static function ListEspecialidadAlumno($r)
+    {
+        $sql= " SELECT e.id, e.especialidad
+                FROM mat_especialidades e
+                INNER JOIN (
+                SELECT DISTINCT(md.especialidad_id) especialidad_id
+                FROM mat_matriculas_detalles md
+                INNER JOIN mat_matriculas m ON m.id=md.matricula_id AND m.estado=1 AND m.persona_id =$r->persona_id
+                WHERE md.estado=1
+                AND md.especialidad_id IS NOT NULL
+                ) ea ON ea.especialidad_id=e.id
+                WHERE e.estado=1";
+        return DB::select($sql);
+    }
+
     public static function CargarEspecialidadCurso($r)
     {
         $result=DB::table('mat_cursos_especialidades')

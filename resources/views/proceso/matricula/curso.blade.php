@@ -171,6 +171,17 @@
                                 <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE INSCRIPCIÓN</center></div>
                                 <div class="panel-body">
                                     <div class="col-md-12">
+                                        <ul>
+                                            <li style="display: inline;"><b>Tipo de Inscripción: &nbsp;</b></li>
+                                            <li style="display:inline; padding: 10px; margin: 10px"><input type="radio" id="rdbtipo" name="rdbtipo" checked onchange="ValidaTipo(1);">Cursos Libres</li>
+                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(2);"><input type="radio" id="rdbtipo" name="rdbtipo">A un nuevo Módulo "Especialidad" </li>
+                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(3);"><input type="radio" id="rdbtipo" name="rdbtipo">A mas cursos de un Módulo "Especialidad" </li>
+                                        </ul>
+                                        <select class="form-control" name="slct_especialidad2_id" id="slct_especialidad2_id" disabled>
+                                            <option value="0">.::Curso Libre::.</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12">
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" name="exonerar_inscripcion" id="exonerar_inscripcion" >
@@ -182,10 +193,9 @@
                                         <table class="table" id="t_pago_inscripcion">
                                             <thead>
                                                 <tr>
-                                                    <th colspan="3" style="text-align:center;">Pago de Inscripción</th>
+                                                    <th colspan="4" style="text-align:center;">Pago de Inscripción</th>
                                                 </tr>
                                                 <tr>
-                                                    <th>Especialidades</th>
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
                                                     <th>Tipo de Operación</th>
@@ -194,11 +204,6 @@
                                             </thead>
                                             <tbody id="tb_pago_inscripcion">
                                                 <tr>
-                                                    <td>
-                                                        <select class="form-control" name="slct_especialidad2_id" id="slct_especialidad2_id">
-                                                            <option value="0">.::Curso Libre::.</option>
-                                                        </select>
-                                                    </td>
                                                     <td><input type='text' class='form-control'  id='txt_nro_pago_inscripcion' name='txt_nro_pago_inscripcion' readonly=""></td>
                                                     <td><input type='text' class='form-control'  id='txt_monto_pago_inscripcion' name='txt_monto_pago_inscripcion' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);' readonly=""></td>
                                                     <td><select class='form-control'  id='slct_tipo_pago_inscripcion' name='slct_tipo_pago_inscripcion' disabled>
