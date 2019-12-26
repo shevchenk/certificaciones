@@ -173,9 +173,9 @@
                                     <div class="col-md-12">
                                         <ul>
                                             <li style="display: inline;"><b>Tipo de Inscripción: &nbsp;</b></li>
-                                            <li style="display:inline; padding: 10px; margin: 10px"><input type="radio" id="rdbtipo" name="rdbtipo" checked onchange="ValidaTipo(1);">Cursos Libres</li>
-                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(2);"><input type="radio" id="rdbtipo" name="rdbtipo">A un nuevo Módulo "Especialidad" </li>
-                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(3);"><input type="radio" id="rdbtipo" name="rdbtipo">A mas cursos de un Módulo "Especialidad" </li>
+                                            <li style="display:inline; padding: 10px; margin: 10px"><input type="radio" id="rdbtipo" name="rdbtipo" checked onchange="ValidaTipo(1);">CURSOS LIBRES</li>
+                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(2);"><input type="radio" id="rdbtipo" name="rdbtipo">A UN NUEVO MÓDULO "ESPECIALIDAD" </li>
+                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(3);"><input type="radio" id="rdbtipo" name="rdbtipo">A MAS CURSOS DE UN MÓDULO PREVIAMENTE INSCRITO</li>
                                         </ul>
                                         <select class="form-control" name="slct_especialidad2_id" id="slct_especialidad2_id" disabled>
                                             <option value="0">.::Curso Libre::.</option>
