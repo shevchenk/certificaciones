@@ -100,6 +100,7 @@ class Seminario extends Model
                                 ) AS tipo_pago')
                     ,DB::raw('SUM(mmd.monto_pago_certificado) total')
                     ,'mm.nro_promocion','mm.monto_promocion'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
                     ,'s.sucursal','s2.sucursal AS recogo_certificado'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
@@ -132,7 +133,8 @@ class Seminario extends Model
                     ,'p.telefono','p.celular','p.email','mm.validada'
                     ,'mm.fecha_matricula','e.empresa'
                     ,'mm.especialidad_programacion_id'
-                    ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion');
+                    ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion');
             
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
@@ -251,15 +253,15 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS','DATOS DEL INSCRITO','SOBRE LA FORMACIÓN CONTINUA','PAGO POR CURSO','PAGO POR CONJUNTO DE CURSOS / PAGO POR INS. ESPECIALIDAD','DATOS DE LA VENTA'
+            'DATOS','DATOS DEL INSCRITO','SOBRE LA FORMACIÓN CONTINUA','PAGO POR CURSO','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','DATOS DE LA VENTA'
         );
 
         $valIni=66;
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(1,6,6,3,1,4);
-        $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#FCD5B4');
+        $nrocabeceraTit=array(1,6,6,3,1,1,4);
+        $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#8DB4E2','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
 
@@ -294,7 +296,7 @@ class Seminario extends Model
             ,'DNI','Nombre','Paterno','Materno','Telefono','Celular','Email'
             ,'Validó Email?','Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua','Formación Continua','Fecha a Realizarse'
             ,'Nro Pago','Monto Pago','Tipo Pago','Total Pagado'
-            ,'Nro Recibo PCC/ESP','Monto PPC/ESP'
+            ,'Nro Recibo PCC','Monto PPC','Nro Pago Inscripción','Monto Pago Inscripción'
             ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Supervisor(a)'
         );
         $campos=array('');

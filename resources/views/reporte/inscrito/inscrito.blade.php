@@ -76,7 +76,8 @@
                                             <th style="background-color: #F2DCDB;" colspan='6'>DATOS DEL INSCRITO</th>
                                             <th style="background-color: #C5D9F1;" colspan='7'>SOBRE LA INFORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FFFF00;" colspan='4'>PAGO POR CURSO</th>
-                                            <th style="background-color: #8DB4E2;" colspan='2'>PAGO POR CONJUNTO DE CURSOS <hr> PAGO POR INSCRIPCIÓN DE ESPECIALIDAD</th>
+                                            <th style="background-color: #8DB4E2;" colspan='2'>PAGO POR CONJUNTO DE CURSOS</th>
+                                            <th style="background-color: #8DB4E2;" colspan='2'>PAGO POR INSCRIPCIÓN</th>
                                             <th style="background-color: #FCD5B4;" colspan='6'>DATOS DE LA VENTA</th>
                                         </tr>
                                         <tr>
@@ -100,8 +101,11 @@
                                             <th style="background-color: #FFFF00;">Tipo Pago</th>
                                             <th style="background-color: #FFFF00;">Total Pagado</th>
 
-                                            <th style="background-color: #8DB4E2;">Nro Recibo PCC / ESP</th>
-                                            <th style="background-color: #8DB4E2;">Monto PCC / ESP</th>
+                                            <th style="background-color: #8DB4E2;">Nro Recibo PCC</th>
+                                            <th style="background-color: #8DB4E2;">Monto PCC</th>
+
+                                            <th style="background-color: #8DB4E2;">Nro Recibo Inscripción</th>
+                                            <th style="background-color: #8DB4E2;">Monto Inscripción</th>
 
                                             <th style="background-color: #FCD5B4;">Sede de Inscripción</th>
                                             <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
@@ -134,8 +138,11 @@
                                             <th style="background-color: #FFFF00;">Tipo Pago</th>
                                             <th style="background-color: #FFFF00;">Total Pagado</th>
 
-                                            <th style="background-color: #8DB4E2;">Nro Recibo PCC / ESP</th>
-                                            <th style="background-color: #8DB4E2;">Monto PCC / ESP</th>
+                                            <th style="background-color: #8DB4E2;">Nro Recibo PCC</th>
+                                            <th style="background-color: #8DB4E2;">Monto PCC</th>
+
+                                            <th style="background-color: #8DB4E2;">Nro Recibo Inscripción</th>
+                                            <th style="background-color: #8DB4E2;">Monto Inscripción</th>
 
                                             <th style="background-color: #FCD5B4;">Sede de Inscripción</th>
                                             <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
