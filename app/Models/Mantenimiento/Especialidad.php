@@ -163,6 +163,7 @@ class Especialidad extends Model
 
     public static function ListEspecialidadNuevo($r)
     {
+        $empresa_id = Auth::user()->empresa_id;
         $sql= " SELECT e.id, e.especialidad
                 FROM mat_especialidades e
                 LEFT JOIN (
@@ -173,12 +174,14 @@ class Especialidad extends Model
                 AND md.especialidad_id IS NOT NULL
                 ) ea ON ea.especialidad_id=e.id
                 WHERE e.estado=1
+                AND e.empresa_id = $empresa_id
                 AND ea.especialidad_id IS NULL" ;
         return DB::select($sql);
     }
 
     public static function ListEspecialidadAlumno($r)
     {
+        $empresa_id = Auth::user()->empresa_id;
         $sql= " SELECT e.id, e.especialidad
                 FROM mat_especialidades e
                 INNER JOIN (
@@ -188,7 +191,8 @@ class Especialidad extends Model
                 WHERE md.estado=1
                 AND md.especialidad_id IS NOT NULL
                 ) ea ON ea.especialidad_id=e.id
-                WHERE e.estado=1";
+                WHERE e.estado=1
+                AND e.empresa_id = $empresa_id";
         return DB::select($sql);
     }
 
