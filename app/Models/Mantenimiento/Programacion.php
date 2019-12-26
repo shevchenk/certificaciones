@@ -217,6 +217,16 @@ class Programacion extends Model
                     $join->where('ce.especialidad_id',$r->especialidad_id);
                 });
             }
+
+            if( $r->has('especialidad_persona_id') ){
+                $persona_id = $r->especialidad_persona_id;
+                $sql->leftJoin(DB::raw("
+                    (SELECT md.curso_id 
+                    FROM mat_matriculas_detalles md
+                    INNER JOIN mat_matriculas m ON m.id = md.matricula_id AND m.persona_id = $persona_id) AS ca"
+                    ),'ca.curso_id','=','c.id');
+                $sql->whereNull('ca.curso_id');
+            }
         $result = $sql->orderBy('mp.fecha_inicio','desc')->paginate(10);
         return $result;
     }

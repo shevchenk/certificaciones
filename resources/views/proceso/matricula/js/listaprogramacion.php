@@ -42,6 +42,8 @@ $(document).ready(function() {
                 console.log($("#slct_especialidad2_id").val());
                 if( typeof ($("#slct_especialidad2_id").val())!='undefined' && $("#slct_especialidad2_id" ).val()!='' && $("#slct_especialidad2_id" ).val()!='0' ){
                     LDfiltrosG=LDfiltrosG+'|especialidad_id:'+$("#slct_especialidad2_id" ).val();
+                }
+                if( typeof ($("#txt_persona_id").val())!='undefined' && $("#txt_persona_id" ).val()!='' && $("#txt_persona_id" ).val()!='0' ){
                     LDfiltrosG=LDfiltrosG+'|especialidad_persona_id:'+$("#txt_persona_id" ).val();
                 }
             }
