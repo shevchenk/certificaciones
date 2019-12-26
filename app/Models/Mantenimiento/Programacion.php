@@ -99,7 +99,8 @@ class Programacion extends Model
              ->join('personas as p','p.id','=','mp.persona_id')
              ->join('sucursales as s','s.id','=','mp.sucursal_id')
              ->join('mat_cursos AS c',function($join) use( $r ){
-                $join->on('c.id','=','mp.curso_id');
+                $join->on('c.id','=','mp.curso_id')
+                ->where('c.estado','1');
                 if( !$r->has('habilita_docente') ){
                     $join->where('c.empresa_id',Auth::user()->empresa_id);
                 }
@@ -223,7 +224,8 @@ class Programacion extends Model
                 $sql->leftJoin(DB::raw("
                     (SELECT md.curso_id 
                     FROM mat_matriculas_detalles md
-                    INNER JOIN mat_matriculas m ON m.id = md.matricula_id AND m.persona_id = $persona_id) AS ca"
+                    INNER JOIN mat_matriculas m ON m.id = md.matricula_id AND m.estado=1 AND m.persona_id = $persona_id
+                    WHERE md.estado=1) AS ca"
                     ),'ca.curso_id','=','c.id');
                 $sql->whereNull('ca.curso_id');
             }

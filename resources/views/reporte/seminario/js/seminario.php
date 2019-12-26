@@ -111,9 +111,11 @@ HTMLCargarReporte=function(result){
             
             "<td>"+$.trim(r.nro_promocion)+"</td>"+
             "<td>"+$.trim(r.monto_promocion)+"</td>"+
+            "<td>"+$.trim(r.tipo_pago_promocion)+"</td>"+
 
             "<td>"+$.trim(r.nro_pago_inscripcion)+"</td>"+
             "<td>"+$.trim(r.monto_pago_inscripcion)+"</td>"+
+            "<td>"+$.trim(r.tipo_pago_inscripcion)+"</td>"+
 
             "<td>"+r.sucursal+"</td>"+
             "<td>"+r.recogo_certificado+"</td>"+

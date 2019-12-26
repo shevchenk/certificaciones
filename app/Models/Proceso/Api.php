@@ -105,6 +105,30 @@ class Api extends Model
                     ->where('mm.persona_id',$persona[0]->id)
                     //->where(DB::raw('DATE(mp.fecha_inicio)'),'<=', date('Y-m-d'))
                     ->get();
+
+                $persona_id= $persona[0]->id;
+                $tabla= Api::mibdaux();
+                $cursos= "
+                        SELECT ce.curso_id AS curso_externo_id, m.curso, m.empresa_id AS empresa_externo_id, e.especialidad, '' AS imagen
+                        FROM $tabla.mat_cursos_especialidades AS ce 
+                        INNER JOIN $tabla.mat_cursos AS m ON m.id=ce.curso_id AND m.estado=1
+                        INNER JOIN $tabla.mat_especialidades AS e ON e.id=ce.especialidad_id
+                        INNER JOIN (
+                        SELECT DISTINCT(md.especialidad_id) especialidad_id
+                        FROM $tabla.mat_matriculas_detalles md
+                        INNER JOIN $tabla.mat_matriculas m ON m.id=md.matricula_id AND m.persona_id=$persona_id AND m.estado=1
+                        AND md.`especialidad_id` IS NOT NULL
+                        AND md.estado=1
+                        ) e ON e.especialidad_id=ce.especialidad_id
+                        LEFT JOIN (
+                        SELECT md.curso_id 
+                        FROM $tabla.mat_matriculas_detalles md
+                        INNER JOIN $tabla.mat_matriculas m ON m.id = md.matricula_id AND m.estado=1 AND m.persona_id = $persona_id
+                        WHERE md.estado=1
+                        ) ca ON ca.curso_id=ce.curso_id
+                        WHERE ce.estado=1
+                        AND ca.curso_id IS NULL";
+                $cursos = DB::select($cursos);
         }
         else{
             $key=array( 'token'=>0, 'id'=>0 );
@@ -113,7 +137,8 @@ class Api extends Model
         $data = array(
             'key' => $key,
             'alumno' => $persona,
-            'programacion' => $grupos
+            'programacion' => $grupos,
+            'cursos' => $cursos
         );
         return $data;
     }

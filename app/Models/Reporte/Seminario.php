@@ -100,7 +100,23 @@ class Seminario extends Model
                                 ) AS tipo_pago')
                     ,DB::raw('SUM(mmd.monto_pago_certificado) total')
                     ,'mm.nro_promocion','mm.monto_promocion'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    ELSE "Caja"
+                                END AS tipo_pago_promocion')
                     ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago_inscripcion="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago_inscripcion="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago_inscripcion="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago_inscripcion="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
+                                    ELSE "Caja"
+                                END AS tipo_pago_inscripcion')
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
                     ,'s.sucursal','s2.sucursal AS recogo_certificado'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
@@ -234,7 +250,7 @@ class Seminario extends Model
             5,15,15,20,20,20,15,15,25,30,
             15,15,15,15,15,
             15,15,15,15,15,
-            15,15,15,
+            15,15,15,15,15,15,
             20,20,20,
             15,15,15,20
         );
@@ -260,7 +276,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(1,6,6,3,1,1,4);
+        $nrocabeceraTit=array(1,6,6,3,2,2,4);
         $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#8DB4E2','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -296,7 +312,7 @@ class Seminario extends Model
             ,'DNI','Nombre','Paterno','Materno','Telefono','Celular','Email'
             ,'Validó Email?','Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua','Formación Continua','Fecha a Realizarse'
             ,'Nro Pago','Monto Pago','Tipo Pago','Total Pagado'
-            ,'Nro Recibo PCC','Monto PPC','Nro Pago Inscripción','Monto Pago Inscripción'
+            ,'Nro Recibo PCC','Monto PPC','Tipo Pago PPC','Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago Inscripción'
             ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Supervisor(a)'
         );
         $campos=array('');
