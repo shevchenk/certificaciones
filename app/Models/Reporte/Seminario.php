@@ -150,7 +150,7 @@ class Seminario extends Model
                     ,'mm.fecha_matricula','e.empresa'
                     ,'mm.especialidad_programacion_id'
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion'
-                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion');
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion');
             
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
