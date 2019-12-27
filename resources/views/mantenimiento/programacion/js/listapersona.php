@@ -79,7 +79,7 @@ SeleccionarPersona = function(val,id){
         if(LTBuscarAlumno==1){
             AjaxListapersona.BuscarAlumno(id,CargarAlumno);
         }
-        
+        $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');// agregado para limpiar
         $('#ModalListapersona').modal('hide');
     }
     };
