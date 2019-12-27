@@ -77,6 +77,23 @@ $(document).ready(function() {
 
 ValidaCheck=function(){
     cont = 0;
+    $("#ModalListaprogramacion table tbody input[type='checkbox']").each(function(t){
+        if( $(this).is(":checked") ){
+            cont++;
+            SeleccionarProgramacion(0, $(this).val());
+        }
+    });
+
+    if( cont == 0 ){
+        msjG.mensaje('warning',"Seleccione almenos 1 check",6000);
+    }
+    else{
+        $("#ModalListaprogramacion").modal('hide');
+    }
+}
+
+ValidaCheck2=function(){
+    cont = 0;
     $("#ModalListaprogramacion2 table tbody input[type='checkbox']").each(function(t){
         if( $(this).is(":checked") ){
             cont++;
@@ -488,8 +505,8 @@ HTMLCargarProgramacion=function(result){
             "<td class='aula' "+validasem+">"+r.aula+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
-            "<td>"+
-            '<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
+            "<td><input type='checkbox' value='"+r.id+"'>"+
+            //'<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
             "<input type='hidden' class='costo' value='"+r.costo+"'>"+
             "<input type='hidden' class='dia' value='"+r.dia+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
