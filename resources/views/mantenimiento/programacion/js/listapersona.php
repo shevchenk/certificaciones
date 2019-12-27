@@ -80,6 +80,9 @@ SeleccionarPersona = function(val,id){
             AjaxListapersona.BuscarAlumno(id,CargarAlumno);
         }
         $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');// agregado para limpiar
+        $("#ModalMatriculaForm input[type='hidden'],#ModalMatriculaForm input[type='text'],#ModalMatriculaForm textarea").not('.mant').val('');
+        $("#ModalMatriculaForm select").selectpicker('val','0');
+        $("#txt_observacion").val('S/O');
         $('#ModalListapersona').modal('hide');
     }
     };
