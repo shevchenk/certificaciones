@@ -529,15 +529,15 @@ HTMLCargarProgramacion2=function(result){
             validasem='';
         }
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='persona'><input type='checkbox' value='"+r.id+"'>"+r.persona+"</td>"+
+            "<td class='persona'>"+r.persona+"</td>"+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='curso'>"+r.curso+"</td>"+
             "<td "+validasem+">"+r.dia+"</td>"+
             "<td class='aula' "+validasem+">"+r.aula+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
-            "<td>"+
-            '<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
+            "<td><input type='checkbox' value='"+r.id+"'>"+
+            //'<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
             "<input type='hidden' class='costo' value='"+r.costo+"'>"+
             "<input type='hidden' class='dia' value='"+r.dia+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
