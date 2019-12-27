@@ -173,7 +173,7 @@
                                     <div class="col-md-12">
                                         <ul>
                                             <li style="display: inline;"><b>Tipo de Inscripción: &nbsp;</b></li>
-                                            <li style="display:inline; padding: 10px; margin: 10px"><input type="radio" id="rdbtipo" name="rdbtipo" checked onchange="ValidaTipo(1);">CURSOS LIBRES</li>
+                                            <li style="display:inline; padding: 10px; margin: 10px"><input type="radio" id="rdbtipo" name="rdbtipo" id="rdbtipocheck" checked onchange="ValidaTipo(1);">CURSOS LIBRES</li>
                                             <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(2);"><input type="radio" id="rdbtipo" name="rdbtipo">A UN NUEVO MÓDULO "ESPECIALIDAD" </li>
                                             <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(3);"><input type="radio" id="rdbtipo" name="rdbtipo">A MAS CURSOS DE UN MÓDULO PREVIAMENTE INSCRITO</li>
                                         </ul>
@@ -247,8 +247,11 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
-                                            <span class="input-group-btn">
+                                            <span class="input-group-btn cursospro1">
                                                 <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Agregar Cursos Programados</button>
+                                            </span>
+                                            <span class="input-group-btn cursospro2">
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Agregar Cursos Programados2</button>
                                             </span>
                                         </div> 
                                     </div>

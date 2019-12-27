@@ -80,9 +80,17 @@ SeleccionarPersona = function(val,id){
             AjaxListapersona.BuscarAlumno(id,CargarAlumno);
         }
         $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');// agregado para limpiar
-        $("#ModalMatriculaForm input[type='hidden'],#ModalMatriculaForm input[type='text'],#ModalMatriculaForm textarea").not('.mant').val('');
+        $("#ModalMatriculaForm #txt_marketing,#ModalMatriculaForm #txt_marketing_id,#ModalMatriculaForm #txt_persona_caja,#ModalMatriculaForm #txt_persona_caja_id").val('');
         $("#ModalMatriculaForm select").selectpicker('val','0');
         $("#txt_observacion").val('S/O');
+        $( "#ModalMatriculaForm #rdbtipocheck" ).prop("checked",true);
+        var html="<option value='0'>.::Curso Libre::.</option>";
+        $("#ModalMatriculaForm #slct_especialidad2_id").html(html); 
+        $("#ModalMatriculaForm #slct_especialidad2_id").selectpicker('refresh');
+        $( "#ModalMatriculaForm #slct_especialidad2_id" ).prop("disabled",true);
+        $(".cursospro2").css('display','none');
+        $(".cursospro1").css('display','');
+
         $('#ModalListapersona').modal('hide');
     }
     };

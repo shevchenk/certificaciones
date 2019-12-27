@@ -15,6 +15,8 @@ $(document).ready(function() {
     $("#ModalMatriculaForm #txt_responsable").val(responsable);
     $("#ModalMatriculaForm #txt_responsable_id").val(responsable_id);
     $("#ModalMatriculaForm #txt_fecha").val(hoy);
+    $(".cursospro2").css('display','none');
+    $(".cursospro1").css('display','');
     
     $( "#ModalMatriculaForm #slct_region_id" ).change(function() {
             var region_id= $('#ModalMatriculaForm #slct_region_id').val();
@@ -181,7 +183,7 @@ ValidaTabla=function(){
 ValidaTipo=function(v){
     console.log(v);
     $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
-    $("#ModalMatriculaForm input[type='hidden'],#ModalMatriculaForm input[type='text'],#ModalMatriculaForm textarea").not('.mant').val('');
+    $("#ModalMatriculaForm #txt_marketing,#ModalMatriculaForm #txt_marketing_id,#ModalMatriculaForm #txt_persona_caja,#ModalMatriculaForm #txt_persona_caja_id").val('');
     $("#ModalMatriculaForm select").selectpicker('val','0');
     $("#txt_observacion").val('S/O');
     if( v==1 ){
@@ -194,6 +196,13 @@ ValidaTipo=function(v){
         persona_id = $("#ModalMatriculaForm #txt_persona_id").val();
         AjaxMatricula.CargarEspecialidad(SlctCargarEspecialidad,v, persona_id);
         $( "#ModalMatriculaForm #slct_especialidad2_id" ).removeAttr("disabled");
+    }
+
+    $(".cursospro2").css('display','none');
+    $(".cursospro1").css('display','');
+    if( v==3 ){
+        $(".cursospro1").css('display','none');
+        $(".cursospro2").css('display','');
     }
 }
 
@@ -212,6 +221,8 @@ HTMLAgregarEditar=function(result){
         $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
         $("#txt_observacion").val('S/O');
         $("#pago_img,#dni_img").attr('src','');
+        $( "#ModalMatriculaForm #rdbtipocheck" ).prop("checked",true);
+        ValidaTipo(1);
 
         $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",true);
         $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",true);
