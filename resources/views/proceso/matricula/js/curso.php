@@ -69,6 +69,7 @@ ValidaCheckInscripcion=function(){
           $( "#ModalMatriculaForm #pago_archivo_inscripcion" ).val("");
           $( "#ModalMatriculaForm #file_inscripcion" ).prop("disabled",true);
     }
+          $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion" ).selectpicker("refresh");
 }
 
 ValidaForm=function(){

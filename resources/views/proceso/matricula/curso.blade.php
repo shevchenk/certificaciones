@@ -251,7 +251,7 @@
                                                 <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Agregar Cursos Programados</button>
                                             </span>
                                             <span class="input-group-btn cursospro2">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Agregar Cursos Programados2</button>
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion2" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Agregar Cursos Programados2</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -492,6 +492,7 @@
 @section('form')
 @include( 'mantenimiento.programacion.form.listapersona' )
 @include( 'proceso.matricula.form.listaprogramacioncurso' )
+@include( 'proceso.matricula.form.listaprogramacion2' )
 @include( 'mantenimiento.persona.form.persona' )
 @include( 'mantenimiento.trabajador.form.listatrabajador' )
 @stop
