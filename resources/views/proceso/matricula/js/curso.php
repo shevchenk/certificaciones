@@ -65,7 +65,7 @@ ValidaCheckInscripcion=function(){
           $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",true);
           $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",true);
           $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion" ).prop("disabled",true);
-          $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion,#ModalMatriculaForm #slct_especialidad2_id" ).val("0");
+          $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion" ).val("0");
           $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).val("");
           $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).val("");
           $( "#ModalMatriculaForm #pago_nombre_inscripcion" ).val("");

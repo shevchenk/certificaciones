@@ -23,8 +23,8 @@ $(document).ready(function() {
     $("#ListaprogramacionForm #TableListaprogramacion select").change(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
     $("#ListaprogramacionForm #TableListaprogramacion input").blur(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
 
-    $("#ListaprogramacionForm2 #TableListaprogramacion select").change(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
-    $("#ListaprogramacionForm2 #TableListaprogramacion input").blur(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
+    $("#ListaprogramacionForm2 #TableListaprogramacion select").change(function(){ AjaxListaprogramacion.Cargar2(HTMLCargarProgramacion2); });
+    $("#ListaprogramacionForm2 #TableListaprogramacion input").blur(function(){ AjaxListaprogramacion.Cargar2(HTMLCargarProgramacion2); });
 
     $('#ModalListaprogramacion').on('shown.bs.modal', function (event) {
           buttonG = $(event.relatedTarget); // captura al boton
