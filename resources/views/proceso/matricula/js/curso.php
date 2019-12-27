@@ -180,6 +180,8 @@ ValidaTabla=function(){
 
 ValidaTipo=function(v){
     console.log(v);
+    $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
+    $("#txt_observacion").val('S/O');
     if( v==1 ){
         var html="<option value='0'>.::Curso Libre::.</option>";
         $("#ModalMatriculaForm #slct_especialidad2_id").html(html); 
