@@ -31,6 +31,24 @@ class SeminarioEM extends Controller
         }
     }
 
+    public function LoadControlPago(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $url=explode("/",$_SERVER['HTTP_REFERER']);
+            if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
+                $r['global']=1;
+            }
+            elseif( $url[count($url)-1]=="reporte.seminariot.seminariot" ){
+                $r['vendedor']=1;
+            }
+            $renturnModel = Seminario::runControlPago($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function ExportSeminario(Request $r )
     {
         $url=explode("/",$_SERVER['HTTP_REFERER']);

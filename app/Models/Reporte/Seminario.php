@@ -454,4 +454,149 @@ class Seminario extends Model
         $r['max']=chr($min);
         return $r;
     }
+
+    public static function runControlPago($r)
+    {
+        
+        $servidor = 'telesup_pae';
+        $aulaservidor = 'telesup_aula';
+        if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
+            $servidor = 'formacion_continua';
+            $aulaservidor = 'aula_formacion_continua';
+        }
+        elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
+            $servidor = 'capa_formacion_continua';
+            $aulaservidor = 'capa_aula_formacion_continua';
+        }
+
+        $sql= " UPDATE $servidor.mat_matriculas_detalles md
+                INNER JOIN $aulaservidor.v_programaciones p ON p.programacion_externo_id=md.id 
+                SET md.nota_curso_alum = p.nota_final
+                WHERE p.nota_final>0";
+        $update = DB::update($sql);
+
+
+        $id=Auth::user()->id;
+        $sql=DB::table('mat_matriculas AS mm')
+            ->join('mat_matriculas_detalles AS mmd',function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado',1);
+            })
+            ->join('personas AS p',function($join){
+                $join->on('p.id','=','mm.persona_id');
+            })
+            ->join('mat_alumnos AS ma',function($join){
+                $join->on('ma.id','=','mm.alumno_id');
+            })
+            ->join('mat_cursos AS mc',function($join) use($r){
+                $join->on('mc.id','=','mmd.curso_id');
+                if( !$r->has('global') ){
+                    $join->where('mc.empresa_id', Auth::user()->empresa_id);
+                }
+            })
+            ->join('empresas AS e',function($join){
+                $join->on('e.id','=','mc.empresa_id');
+            })
+            ->leftJoin('mat_programaciones AS mp',function($join){
+                $join->on('mp.id','=','mmd.programacion_id');
+            })
+            ->leftJoin('mat_especialidades_programaciones AS mep',function($join){
+                $join->on('mep.id','=','mm.especialidad_programacion_id');
+            })
+            ->leftJoin('mat_especialidades AS me',function($join){
+                $join->on('me.id','=','mep.especialidad_id');
+            })
+            ->select('mm.id',DB::raw('"PLATAFORMA"'),'p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email'
+                    ,'mm.fecha_matricula','e.empresa AS empresa_inscripcion'
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NULL, 
+                                GROUP_CONCAT( DISTINCT( IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ) )),
+                                "Especialidad"
+                                ) AS tipo_formacion ')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                GROUP_CONCAT( DISTINCT(me.especialidad) ),
+                                GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") 
+                                ) AS formacion')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS nro_pago')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS monto_pago')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( 
+                                CASE 
+                                    WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mmd.tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    ELSE "Caja"
+                                END ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS tipo_pago')
+                    ,DB::raw('SUM(mmd.monto_pago_certificado) total')
+                    ,'mm.nro_promocion','mm.monto_promocion'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    ELSE "Caja"
+                                END AS tipo_pago_promocion')
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago_inscripcion="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago_inscripcion="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago_inscripcion="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago_inscripcion="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
+                                    ELSE "Caja"
+                                END AS tipo_pago_inscripcion')
+                    ,DB::raw('  GROUP_CONCAT( 
+                                IFNULL((SELECT SUM(saldo)
+                                FROM mat_matriculas_saldos
+                                WHERE nro_pago=""
+                                AND saldo>0
+                                AND estado=1
+                                AND matricula_detalle_id= mmd.id),0)
+                                ORDER BY mmd.id SEPARATOR "\n") AS deuda ')
+                    ,DB::raw(' GROUP_CONCAT( mmd.nota_curso_alum ORDER BY mmd.id SEPARATOR "\n") AS nota')
+                    )
+            ->where( 
+                function($query) use ($r){
+
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            //$query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has('vendedor') AND $r->vendedor==1 ){
+                        $persona_id=Auth::user()->id;
+                        $query->where('mm.persona_marketing_id',$persona_id);
+                    }
+                }
+            )
+            ->where('mm.estado',1)
+            ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
+                            FROM personas_privilegios_sucursales ppv
+                            WHERE ppv.persona_id='.$id.')')
+            ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email'
+                    ,'mm.fecha_matricula','e.empresa'
+                    ,'mm.especialidad_programacion_id'
+                    ,'mm.nro_promocion','mm.monto_promocion'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion');
+            
+        $result = $sql->orderBy('mm.id','asc')->get();
+        return $result;
+    }
 }
