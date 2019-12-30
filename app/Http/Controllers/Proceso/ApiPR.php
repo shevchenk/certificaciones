@@ -60,6 +60,9 @@ class ApiPR extends Controller
         elseif($r->opcion=='ObtenerNotaMinimaEmpresas'){
             $result = $this->ObtenerNotaMinimaEmpresas($r);
         }
+        elseif($r->opcion=='EnviarAlerta'){
+            $result = $this->EnviarAlerta($r);
+        }
         return $result;
     }
 
@@ -209,6 +212,12 @@ class ApiPR extends Controller
         $return['data'] = $renturnModel;
         $return['msj'] = "Registro realizado correctamente";
         return response()->json($return);
+    }
+
+    public function EnviarAlerta ( $r )
+    {
+        $renturnModel = Api::EnviarAlerta($r);
+        return response()->json($renturnModel);
     }
 
 }

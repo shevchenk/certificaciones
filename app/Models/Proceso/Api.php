@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Curso;
 use App\Models\Mantenimiento\Persona;
+use App\Models\Proceso\LlamadaAtencionCliente;
 use App\Mail\EmailSend;
 use DB;
 use Mail;
@@ -627,7 +628,7 @@ class Api extends Model
                 'interesado' => 'Inscripción',
                 'comentario' => 'Inscripción',
                 'estado' => 1,
-                'created_at'=> date('Y-m-d h:m:s'),
+                'created_at'=> date('Y-m-d H:i:s'),
                 'persona_id_created_at'=> $usuario,
                 'persona_id_updated_at' => $usuario
             )
@@ -645,7 +646,7 @@ class Api extends Model
                     'privilegio_id' => 14,
                     'sucursal_id' => 1,
                     'persona_id' => $persona->id,
-                    'created_at'=> date('Y-m-d h:m:s'),
+                    'created_at'=> date('Y-m-d H:i:s'),
                     'persona_id_created_at'=> $usuario,
                     'estado' => 1,
                     'persona_id_updated_at' => $usuario
@@ -888,7 +889,7 @@ class Api extends Model
                 'interesado' => $interesado,
                 'comentario' => $comentario,
                 'estado' => 1,
-                'created_at'=> date('Y-m-d h:m:s'),
+                'created_at'=> date('Y-m-d H:i:s'),
                 'persona_id_created_at'=> $usuario,
                 'persona_id_updated_at' => $usuario
             )
@@ -902,7 +903,7 @@ class Api extends Model
                     'trabajador_id' => (2+$r->empresa_id),
                     'fecha_distribucion' => date('Y-m-d'),
                     'estado' => 1,
-                    'created_at'=> date('Y-m-d h:m:s'),
+                    'created_at'=> date('Y-m-d H:i:s'),
                     'persona_id_created_at'=> $usuario,
                     'persona_id_updated_at' => $usuario
                 )
@@ -1000,6 +1001,63 @@ class Api extends Model
         $data = array(
             'key' => $key,
             'evaluacion' => $evaluaciones
+        );
+        return $data;
+    }
+
+    public static function EnviarAlerta($r)
+    {
+        $key= DB::table(Api::mibdaux().'.apiaula')
+                ->where('estado',1)
+                ->select('idaula AS id','key AS token',DB::raw(' "ok" AS ok'))
+                ->where('keycli',$r->keycli)
+                ->first();
+
+        $grupos=array();
+        if( isset($key->id) ){
+            $persona = DB::table(Api::mibdaux().'.personas')->where('dni',$r->dni)->first();
+            if( isset($persona->id) ){
+                $cursos = DB::table(Api::mibdaux().'.mat_cursos')->find($r->curso);
+                $comentario = "El alumno desea inscribirse al curso de ".$cursos->curso."(Mensaje enviado por el aula del alumno)";
+                DB::beginTransaction();
+                DB::table(Api::mibdaux().'.llamadas_atencion_cliente')
+                ->where( 
+                    function($query) use ($persona){
+                        $query->where('persona_id','=', $persona->id)
+                        ->whereNull('matricula_detalle_id');
+                    }
+                )
+                ->where('ultimo_registro',1)
+                ->update([
+                    'ultimo_registro' => 0,
+                    'persona_id_updated_at' => $persona->id,
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+
+                DB::table(Api::mibdaux().'.llamadas_atencion_cliente')
+                ->insert(
+                    array(
+                        'persona_id' => $persona->id,
+                        'comentario' => $comentario,
+                        'fecha_registro' => date('Y-m-d'),
+                        'estado' => 1,
+                        'created_at'=> date('Y-m-d H:i:s'),
+                        'persona_id_created_at'=> $persona->id,
+                        'persona_id_updated_at' => $persona->id
+                    )
+                );
+                DB::commit();
+            }
+            else{
+                $key=array( 'token'=>0, 'id'=>0 );
+            }
+        }
+        else{
+            $key=array( 'token'=>0, 'id'=>0 );
+        }
+
+        $data = array(
+            'key' => $key
         );
         return $data;
     }

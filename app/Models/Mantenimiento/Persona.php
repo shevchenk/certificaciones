@@ -96,7 +96,7 @@ class Persona extends Model
                                     'sucursal_id' => $areaId,
                                     'privilegio_id' => $cargoId,
                                     'persona_id' => $persona->id,
-                                    'created_at'=> date('Y-m-d h:m:s'),
+                                    'created_at'=> date('Y-m-d H:i:s'),
                                     'persona_id_created_at'=> Auth::user()->id,
                                     'estado' => 1,
                                     'persona_id_updated_at' => Auth::user()->id
@@ -195,7 +195,7 @@ class Persona extends Model
                                     'sucursal_id' => $areaId,
                                     'privilegio_id' => $cargoId,
                                     'persona_id' => $r->id,
-                                    'created_at'=> date('Y-m-d h:m:s'),
+                                    'created_at'=> date('Y-m-d H:i:s'),
                                     'persona_id_created_at'=> Auth::user()->id,
                                     'estado' => 1,
                                     'persona_id_updated_at' => Auth::user()->id

@@ -368,7 +368,7 @@ class Matricula extends Model
                     'privilegio_id' => 14,
                     'sucursal_id' => 1,
                     'persona_id' => $persona->id,
-                    'created_at'=> date('Y-m-d h:m:s'),
+                    'created_at'=> date('Y-m-d H:i:s'),
                     'persona_id_created_at'=> $usuario,
                     'estado' => 1,
                     'persona_id_updated_at' => $usuario
