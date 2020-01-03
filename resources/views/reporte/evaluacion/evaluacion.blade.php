@@ -14,8 +14,8 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'reporte.controlpago.js.controlpago_ajax' )
-@include( 'reporte.controlpago.js.controlpago' )
+@include( 'reporte.evaluacion.js.evaluacion_ajax' )
+@include( 'reporte.evaluacion.js.evaluacion' )
 @stop
 
 @section('content')
@@ -23,7 +23,7 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Reporte de Control de Pagos
+        <h1>Reporte Detalles de Evaluaciones
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
@@ -84,10 +84,7 @@
                                         <tr>
                                             <th style="background-color: #DDEBF7;" colspan='6'>DATOS DEL ALUMNO</th>
                                             <th style="background-color: #E2EFDA;" colspan='5'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
-                                            <th style="background-color: #FCE4D6;" colspan='3'>PAGO POR CURSO INDEPENDIENTE</th>
-                                            <th style="background-color: #E2EFDA;" colspan='3'>PAGO POR CONJUNTO DE CURSOS</th>
-                                            <th style="background-color: #FFF2CC;" colspan='3'>PAGO POR INSCRIPCIÓN</th>
-                                            <th style="background-color: #FCE4D6;" colspan='2'>DEUDA Y NOTA FINAL DEL CURSO</th>
+                                            <th style="background-color: #FFF2CC;" colspan='5'>NOTA DEL CURSO</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #DDEBF7;">DNI</th>
@@ -103,20 +100,11 @@
                                             <th style="background-color: #E2EFDA;">Nombre del Módulo</th>
                                             <th style="background-color: #E2EFDA;">Formación Continua</th>
                                             
-                                            <th style="background-color: #FCE4D6;">Nro Pago</th>
-                                            <th style="background-color: #FCE4D6;">Monto Pago</th>
-                                            <th style="background-color: #FCE4D6;">Tipo Pago</th>
-
-                                            <th style="background-color: #E2EFDA;">Nro Recibo PCC</th>
-                                            <th style="background-color: #E2EFDA;">Monto PCC</th>
-                                            <th style="background-color: #E2EFDA;">Tipo Pago</th>
-
-                                            <th style="background-color: #FFF2CC;">Nro Recibo Inscripción</th>
-                                            <th style="background-color: #FFF2CC;">Monto Inscripción</th>
-                                            <th style="background-color: #FFF2CC;">Tipo Pago</th>
-
-                                            <th style="background-color: #FCE4D6;">Deuda a la Fecha</th>
-                                            <th style="background-color: #FCE4D6;">Promedio Final del Curso</th>
+                                            <th style="background-color: #FFF2CC;">Tipo Evaluación</th>
+                                            <th style="background-color: #FFF2CC;">Peso Evaluación</th>
+                                            <th style="background-color: #FFF2CC;">Fecha de Ejecución</th>
+                                            <th style="background-color: #FFF2CC;">Nota</th>
+                                            <th style="background-color: #FFF2CC;">Promedio Final</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -136,20 +124,11 @@
                                             <th style="background-color: #E2EFDA;">Nombre del Módulo</th>
                                             <th style="background-color: #E2EFDA;">Formación Continua</th>
                                             
-                                            <th style="background-color: #FCE4D6;">Nro Pago</th>
-                                            <th style="background-color: #FCE4D6;">Monto Pago</th>
-                                            <th style="background-color: #FCE4D6;">Tipo Pago</th>
-
-                                            <th style="background-color: #E2EFDA;">Nro Recibo PCC</th>
-                                            <th style="background-color: #E2EFDA;">Monto PCC</th>
-                                            <th style="background-color: #E2EFDA;">Tipo Pago</th>
-
-                                            <th style="background-color: #FFF2CC;">Nro Recibo Inscripción</th>
-                                            <th style="background-color: #FFF2CC;">Monto Inscripción</th>
-                                            <th style="background-color: #FFF2CC;">Tipo Pago</th>
-
-                                            <th style="background-color: #FCE4D6;">Deuda a la Fecha</th>
-                                            <th style="background-color: #FCE4D6;">Promedio Final del Curso</th>
+                                            <th style="background-color: #FFF2CC;">Tipo Evaluación</th>
+                                            <th style="background-color: #FFF2CC;">Peso Evaluación</th>
+                                            <th style="background-color: #FFF2CC;">Fecha de Ejecución</th>
+                                            <th style="background-color: #FFF2CC;">Nota</th>
+                                            <th style="background-color: #FFF2CC;">Promedio Final</th>
                                         </tr>
                                     </tfoot>
                                 </table>

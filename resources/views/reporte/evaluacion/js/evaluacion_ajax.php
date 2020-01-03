@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var Reporte={
     Cargar:function(evento){
-        url='AjaxDinamic/Reporte.SeminarioEM@LoadControlPago';
+        url='AjaxDinamic/Reporte.SeminarioEM@LoadEvaluaciones';
         data = $("#PaeForm").serialize().split("txt_").join("").split("slct_").join("");
         masterG.postAjax(url,data,evento);
     },

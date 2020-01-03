@@ -49,6 +49,24 @@ class SeminarioEM extends Controller
         }
     }
 
+    public function LoadEvaluaciones(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $url=explode("/",$_SERVER['HTTP_REFERER']);
+            if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
+                $r['global']=1;
+            }
+            elseif( $url[count($url)-1]=="reporte.seminariot.seminariot" ){
+                $r['vendedor']=1;
+            }
+            $renturnModel = Seminario::runEvaluaciones($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function ExportSeminario(Request $r )
     {
         $url=explode("/",$_SERVER['HTTP_REFERER']);
@@ -311,6 +329,224 @@ class SeminarioEM extends Controller
             $count = $sheet->getHighestRow();
             $sheet->getStyle('A2:'.$renturnModel['max'].'2')->getAlignment()->setWrapText(true);
             $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
+        });
+        
+        })->export('xlsx');
+    }
+
+    public function ExportControlPago(Request $r )
+    {
+        $url=explode("/",$_SERVER['HTTP_REFERER']);
+        if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
+            $r['global']=1;
+        }
+        elseif( $url[count($url)-1]=="reporte.seminariot.seminariot" ){
+            $r['vendedor']=1;
+        }
+        $renturnModel = Seminario::runExportControlPago($r);
+
+        
+        Excel::create('Seminario', function($excel) use($renturnModel) {
+
+        $excel->setTitle('Reporte de Seminarios')
+              ->setCreator('Jorge Salcedo')
+              ->setCompany('JS Soluciones')
+              ->setDescription('Control de Pagos y Notas');
+
+        $excel->sheet('Seminarios', function($sheet) use($renturnModel) {
+            $sheet->setOrientation('landscape');
+            $sheet->setPageMargin(array(
+                0.25, 0.30, 0.25, 0.30
+            ));
+
+            $sheet->setStyle(array(
+                'font' => array(
+                    'name'      =>  'Bookman Old Style',
+                    'size'      =>  8,
+                    'bold'      =>  false
+                )
+            ));
+
+            $sheet->cell('A1', function($cell) {
+                $cell->setValue('CONTROL DE PAGOS Y NOTAS');
+                $cell->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '24',
+                    'bold'       =>  true
+                ));
+            });
+            $sheet->mergeCells('A1:J1');
+            $sheet->cells('A1:J1', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+            });
+
+            $sheet->setWidth($renturnModel['length']);
+            $sheet->setHeight(2, 33.5);
+            $sheet->fromArray(array(
+                array(''),
+                $renturnModel['cabecera']
+            ));
+
+            for( $i=0; $i<COUNT($renturnModel['cabeceraTit']); $i++ ){
+                $posicion= explode(":",$renturnModel['lengthTit'][$i]);
+                $sheet->cell($posicion[0], function($cell) use( $renturnModel,$i ){
+                    $cell->setValue($renturnModel['cabeceraTit'][$i]);
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '12',
+                            'bold'       =>  true
+                    ));
+                });
+                $sheet->mergeCells($renturnModel['lengthTit'][$i]);
+                $sheet->cells($renturnModel['lengthTit'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBorder('solid', 'none', 'none', 'solid');
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+
+                $sheet->cells($renturnModel['lengthDet'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+            }
+
+            $data=json_decode(json_encode($renturnModel['data']), true);
+            $pos=3;
+            for ($i=0; $i<count($data); $i++) {
+                //unset($data[$i]['ndet']);
+                $data[$i]['id']=$i+1;
+                $pos++;
+                $sheet->row( $pos, $data[$i] );
+            }
+
+            $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+            });
+
+            $count = $sheet->getHighestRow();
+            $sheet->getStyle('A2:'.$renturnModel['max']."3")->getAlignment()->setWrapText(true);
+            $sheet->getStyle('O4:T'.$count)->getAlignment()->setWrapText(true);
+            
+            $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
+
+        });
+        
+        })->export('xlsx');
+    }
+
+    public function ExportEvaluaciones(Request $r )
+    {
+        $url=explode("/",$_SERVER['HTTP_REFERER']);
+        if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
+            $r['global']=1;
+        }
+        elseif( $url[count($url)-1]=="reporte.seminariot.seminariot" ){
+            $r['vendedor']=1;
+        }
+        $renturnModel = Seminario::runExportEvaluaciones($r);
+
+        
+        Excel::create('Seminario', function($excel) use($renturnModel) {
+
+        $excel->setTitle('Reporte de Seminarios')
+              ->setCreator('Jorge Salcedo')
+              ->setCompany('JS Soluciones')
+              ->setDescription('EVALUACIONES');
+
+        $excel->sheet('Seminarios', function($sheet) use($renturnModel) {
+            $sheet->setOrientation('landscape');
+            $sheet->setPageMargin(array(
+                0.25, 0.30, 0.25, 0.30
+            ));
+
+            $sheet->setStyle(array(
+                'font' => array(
+                    'name'      =>  'Bookman Old Style',
+                    'size'      =>  8,
+                    'bold'      =>  false
+                )
+            ));
+
+            $sheet->cell('A1', function($cell) {
+                $cell->setValue('DETALLE DE LAS EVALUACIONES');
+                $cell->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '24',
+                    'bold'       =>  true
+                ));
+            });
+            $sheet->mergeCells('A1:J1');
+            $sheet->cells('A1:J1', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+            });
+
+            $sheet->setWidth($renturnModel['length']);
+            $sheet->setHeight(2, 33.5);
+            $sheet->fromArray(array(
+                array(''),
+                $renturnModel['cabecera']
+            ));
+
+            for( $i=0; $i<COUNT($renturnModel['cabeceraTit']); $i++ ){
+                $posicion= explode(":",$renturnModel['lengthTit'][$i]);
+                $sheet->cell($posicion[0], function($cell) use( $renturnModel,$i ){
+                    $cell->setValue($renturnModel['cabeceraTit'][$i]);
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '12',
+                            'bold'       =>  true
+                    ));
+                });
+                $sheet->mergeCells($renturnModel['lengthTit'][$i]);
+                $sheet->cells($renturnModel['lengthTit'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBorder('solid', 'none', 'none', 'solid');
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+
+                $sheet->cells($renturnModel['lengthDet'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+            }
+
+            $data=json_decode(json_encode($renturnModel['data']), true);
+            $pos=3;
+            for ($i=0; $i<count($data); $i++) {
+                //unset($data[$i]['ndet']);
+                $data[$i]['id']=$i+1;
+                $pos++;
+                $sheet->row( $pos, $data[$i] );
+            }
+
+            $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+            });
+
+            $count = $sheet->getHighestRow();
+            $sheet->getStyle('A2:'.$renturnModel['max']."3")->getAlignment()->setWrapText(true);
+            $sheet->getStyle('O4:T'.$count)->getAlignment()->setWrapText(true);
+            
+            $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
+
         });
         
         })->export('xlsx');

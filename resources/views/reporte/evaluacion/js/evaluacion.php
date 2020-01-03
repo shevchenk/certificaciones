@@ -46,7 +46,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnexport', function(event) {
         if( DataToFilter() ){
-            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportControlPago'+'?paterno='+$("#txt_paterno").val()+'&materno='+$("#txt_materno").val()+'&nombre='+$("#txt_nombre").val()+'&especialidad2='+$.trim($("#slct_especialidad").val())+'&curso2='+$.trim($("#slct_curso").val())+'&dni='+$.trim($("#txt_dni").val()));
+            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportEvaluaciones'+'?paterno='+$("#txt_paterno").val()+'&materno='+$("#txt_materno").val()+'&nombre='+$("#txt_nombre").val()+'&especialidad2='+$.trim($("#slct_especialidad").val())+'&curso2='+$.trim($("#slct_curso").val())+'&dni='+$.trim($("#txt_dni").val()));
         }else{
             event.preventDefault();
         }
@@ -96,20 +96,11 @@ HTMLCargarReporte=function(result){
             "<td>"+r.formacion+"</td>"+
             "<td>"+r.curso+"</td>"+
             
-            "<td>"+$.trim(r.nro_pago)+"</td>"+
-            "<td>"+$.trim(r.monto_pago)+"</td>"+
-            "<td>"+$.trim(r.tipo_pago)+"</td>"+
-            
-            "<td>"+$.trim(r.nro_promocion)+"</td>"+
-            "<td>"+$.trim(r.monto_promocion)+"</td>"+
-            "<td>"+$.trim(r.tipo_pago_promocion)+"</td>"+
-
-            "<td>"+$.trim(r.nro_pago_inscripcion)+"</td>"+
-            "<td>"+$.trim(r.monto_pago_inscripcion)+"</td>"+
-            "<td>"+$.trim(r.tipo_pago_inscripcion)+"</td>"+
-
-            "<td>"+$.trim(r.deuda)+"</td>"+
-            "<td>"+$.trim(r.nota)+"</td>";
+            "<td>"+$.trim(r.tipo_evaluacion)+"</td>"+
+            "<td>"+$.trim(r.peso_evaluacion)+"</td>"+
+            "<td>"+$.trim(r.fecha_evaluacion)+"</td>"+
+            "<td>"+$.trim(r.nota)+"</td>"+
+            "<td>"+$.trim(r.promedio)+"</td>";
         html+="</tr>";
     });
     $("#TableReporte tbody").html(html); 

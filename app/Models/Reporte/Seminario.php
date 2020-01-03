@@ -497,38 +497,21 @@ class Seminario extends Model
             ->join('empresas AS e',function($join){
                 $join->on('e.id','=','mc.empresa_id');
             })
-            ->leftJoin('mat_programaciones AS mp',function($join){
+            ->join('mat_programaciones AS mp',function($join){
                 $join->on('mp.id','=','mmd.programacion_id');
             })
-            ->leftJoin('mat_especialidades_programaciones AS mep',function($join){
-                $join->on('mep.id','=','mm.especialidad_programacion_id');
-            })
             ->leftJoin('mat_especialidades AS me',function($join){
-                $join->on('me.id','=','mep.especialidad_id');
+                $join->on('me.id','=','mmd.especialidad_id');
             })
-            ->select('mm.id',DB::raw('"PLATAFORMA"'),'p.dni','p.nombre','p.paterno','p.materno'
-                    ,'p.telefono','p.celular','p.email'
-                    ,'mm.fecha_matricula','e.empresa AS empresa_inscripcion'
-                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NULL, 
-                                GROUP_CONCAT( DISTINCT( IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ) )),
-                                "Especialidad"
-                                ) AS tipo_formacion ')
-                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
-                                GROUP_CONCAT( DISTINCT(me.especialidad) ),
-                                GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") 
-                                ) AS formacion')
-                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
-                                "",
-                                GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
-                                ) AS nro_pago')
-                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
-                                "",
-                                GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
-                                ) AS monto_pago')
-                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
-                                "",
-                                GROUP_CONCAT( 
-                                CASE 
+            ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.celular','p.email'
+                    ,'e.empresa AS empresa_inscripcion','mm.fecha_matricula'
+                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
+                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
+                    ,'mc.curso AS curso'
+                    ,'mmd.nro_pago_certificado AS nro_pago'
+                    ,'mmd.monto_pago_certificado AS monto_pago'
+                    ,DB::raw(' CASE 
                                     WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
@@ -536,9 +519,7 @@ class Seminario extends Model
                                     WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
                                     WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
                                     ELSE "Caja"
-                                END ORDER BY mmd.id SEPARATOR "\n")
-                                ) AS tipo_pago')
-                    ,DB::raw('SUM(mmd.monto_pago_certificado) total')
+                                END AS tipo_pago')
                     ,'mm.nro_promocion','mm.monto_promocion'
                     ,DB::raw('CASE  WHEN mm.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mm.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
@@ -557,15 +538,13 @@ class Seminario extends Model
                                     WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
                                     ELSE "Caja"
                                 END AS tipo_pago_inscripcion')
-                    ,DB::raw('  GROUP_CONCAT( 
-                                IFNULL((SELECT SUM(saldo)
+                    ,DB::raw('  IFNULL((SELECT SUM(saldo)
                                 FROM mat_matriculas_saldos
                                 WHERE nro_pago=""
                                 AND saldo>0
                                 AND estado=1
-                                AND matricula_detalle_id= mmd.id),0)
-                                ORDER BY mmd.id SEPARATOR "\n") AS deuda ')
-                    ,DB::raw(' GROUP_CONCAT( mmd.nota_curso_alum ORDER BY mmd.id SEPARATOR "\n") AS nota')
+                                AND matricula_detalle_id= mmd.id),0) AS deuda ')
+                    ,'mmd.nota_curso_alum AS nota'
                     )
             ->where( 
                 function($query) use ($r){
@@ -579,24 +558,354 @@ class Seminario extends Model
                         }
                     }
 
+                    if( $r->has("especialidad") OR $r->has('especialidad2') ){
+                        if( $r->has('especialidad2') ){
+                            $r['especialidad'] = explode(",", trim($r->especialidad2) );
+                        }
+                        $especialidad = $r->especialidad;
+                        if( count($especialidad)>0 AND trim($especialidad[0])!='' ){
+                            $query ->whereIn('me.id', $especialidad);
+                        }
+                    }
+
+                    if( $r->has("curso") OR $r->has('curso2') ){
+                        if( $r->has('curso2') ){
+                            $r['curso'] = explode(",", trim($r->curso2) );
+                        }
+                        $curso = $r->curso;
+                        if( count($curso)>0 AND trim($curso[0])!='' ){
+                            $query ->whereIn('mc.id', $curso);
+                        }
+                    }
+
+                    if( $r->has("paterno") ){
+                        $paterno = trim($r->paterno);
+                        if( $paterno !='' ){
+                            $query ->where('p.paterno','like', '%'.$paterno.'%');
+                        }
+                    }
+
+                    if( $r->has("materno") ){
+                        $materno = trim($r->materno);
+                        if( $materno !='' ){
+                            $query ->where('p.materno','like', '%'.$materno.'%');
+                        }
+                    }
+
+                    if( $r->has("nombre") ){
+                        $nombre = trim($r->nombre);
+                        if( $nombre !='' ){
+                            $query ->where('p.nombre','like', '%'.$nombre.'%');
+                        }
+                    }
+
+                    if( $r->has("dni") ){
+                        $dni = trim($r->dni);
+                        if( $dni !='' ){
+                            $query ->where('p.dni','like', '%'.$dni.'%');
+                        }
+                    }
+
                     if( $r->has('vendedor') AND $r->vendedor==1 ){
                         $persona_id=Auth::user()->id;
                         $query->where('mm.persona_marketing_id',$persona_id);
                     }
                 }
             )
-            ->where('mm.estado',1)
-            ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
-                            FROM personas_privilegios_sucursales ppv
-                            WHERE ppv.persona_id='.$id.')')
-            ->groupBy('mm.id','p.dni','p.nombre','p.paterno','p.materno'
-                    ,'p.telefono','p.celular','p.email'
-                    ,'mm.fecha_matricula','e.empresa'
-                    ,'mm.especialidad_programacion_id'
-                    ,'mm.nro_promocion','mm.monto_promocion'
-                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion');
+            ->where('mm.estado',1);
             
         $result = $sql->orderBy('mm.id','asc')->get();
+
         return $result;
+    }
+
+    public static function runExportControlPago($r)
+    {
+        $rsql= Seminario::runControlPago($r);
+        
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,15,15,15,15,20,
+            15,15,15,25,25,
+            15,15,15,
+            15,15,15,
+            15,15,15,
+            15,15
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array(
+            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','DEUDA Y NOTA FINAL DEL CURSO'
+        );
+
+        $valIni=66;
+        $min=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(5,4,2,2,2,1);
+        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FCE4D6');
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min++;
+                $estaticoFin= chr($min);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min++;
+                    $estatico= chr($min);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°'
+            ,'DNI','Nombre','Paterno','Materno','Celular','Email'
+            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua'
+            ,'Nro Pago','Monto Pago','Tipo Pago'
+            ,'Nro Recibo PCC','Monto PPC','Tipo Pago'
+            ,'Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago'
+            ,'Deuda a la Fecha','Promedio Final del Curso'
+        );
+        $campos=array('');
+
+        $return['data']=$rsql;
+        $return['campos']=$campos;
+        $return['cabecera']=$cabecera;
+        $return['length']=$length;
+        $return['cabeceraTit']=$cabeceraTit;
+        $return['lengthTit']=$lengthTit;
+        $return['colorTit']=$colorTit;
+        $return['lengthDet']=$lengthDet;
+        $return['max']= 'W'; //$estatico.chr($min);
+        $return['min']=$min; // Max. Celda en LETRA
+        
+        return $return;
+    }
+
+    public static function runEvaluaciones($r)
+    {
+        
+        $servidor = 'telesup_pae';
+        $aulaservidor = 'telesup_aula';
+        if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
+            $servidor = 'formacion_continua';
+            $aulaservidor = 'aula_formacion_continua';
+        }
+        elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
+            $servidor = 'capa_formacion_continua';
+            $aulaservidor = 'capa_aula_formacion_continua';
+        }
+
+        $sql= " UPDATE $servidor.mat_matriculas_detalles md
+                INNER JOIN $aulaservidor.v_programaciones p ON p.programacion_externo_id=md.id 
+                SET md.nota_curso_alum = p.nota_final
+                WHERE p.nota_final>0";
+        $update = DB::update($sql);
+
+
+        $id=Auth::user()->id;
+        $sql=DB::table('mat_matriculas AS mm')
+            ->join('mat_matriculas_detalles AS mmd',function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado',1);
+            })
+            ->join('personas AS p',function($join){
+                $join->on('p.id','=','mm.persona_id');
+            })
+            ->join('mat_cursos AS mc',function($join) use($r){
+                $join->on('mc.id','=','mmd.curso_id');
+                if( !$r->has('global') ){
+                    $join->where('mc.empresa_id', Auth::user()->empresa_id);
+                }
+            })
+            ->join('empresas AS e',function($join){
+                $join->on('e.id','=','mc.empresa_id');
+            })
+            ->leftJoin('mat_especialidades AS me',function($join){
+                $join->on('me.id','=','mmd.especialidad_id');
+            })
+            ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.celular','p.email'
+                    ,'e.empresa AS empresa_inscripcion','mm.fecha_matricula'
+                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
+                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
+                    ,'mc.curso AS curso'
+                    ,'mmd.nota_curso_alum AS nota'
+                    )
+            ->where( 
+                function($query) use ($r){
+
+                    if( $r->has("especialidad") OR $r->has('especialidad2') ){
+                        if( $r->has('especialidad2') ){
+                            $r['especialidad'] = explode(",", trim($r->especialidad2) );
+                        }
+                        $especialidad = $r->especialidad;
+                        if( count($especialidad)>0 AND trim($especialidad[0])!='' ){
+                            $query ->whereIn('me.id', $especialidad);
+                        }
+                    }
+
+                    if( $r->has("curso") OR $r->has('curso2') ){
+                        if( $r->has('curso2') ){
+                            $r['curso'] = explode(",", trim($r->curso2) );
+                        }
+                        $curso = $r->curso;
+                        if( count($curso)>0 AND trim($curso[0])!='' ){
+                            $query ->whereIn('mc.id', $curso);
+                        }
+                    }
+
+                    if( $r->has("paterno") ){
+                        $paterno = trim($r->paterno);
+                        if( $paterno !='' ){
+                            $query ->where('p.paterno','like', '%'.$paterno.'%');
+                        }
+                    }
+
+                    if( $r->has("materno") ){
+                        $materno = trim($r->materno);
+                        if( $materno !='' ){
+                            $query ->where('p.materno','like', '%'.$materno.'%');
+                        }
+                    }
+
+                    if( $r->has("nombre") ){
+                        $nombre = trim($r->nombre);
+                        if( $nombre !='' ){
+                            $query ->where('p.nombre','like', '%'.$nombre.'%');
+                        }
+                    }
+
+                    if( $r->has("dni") ){
+                        $dni = trim($r->dni);
+                        if( $dni !='' ){
+                            $query ->where('p.dni','like', '%'.$dni.'%');
+                        }
+                    }
+
+                    if( $r->has('vendedor') AND $r->vendedor==1 ){
+                        $persona_id=Auth::user()->id;
+                        $query->where('mm.persona_marketing_id',$persona_id);
+                    }
+                }
+            )
+            ->where('mm.estado',1);
+            
+        $result = $sql->orderBy('mm.id','asc')->get();
+
+        return $result;
+    }
+
+    public static function runExportEvaluaciones($r)
+    {
+        $rsql= Seminario::runEvaluaciones($r);
+        
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,15,15,15,15,20,
+            15,15,15,25,25,
+            15,15,15,15,15
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array(
+            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','NOTA DEL CURSO'
+        );
+
+        $valIni=66;
+        $min=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(5,4,4);
+        $colorTit=array('#DDEBF7','#E2EFDA','#FFF2CC');
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min++;
+                $estaticoFin= chr($min);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min++;
+                    $estatico= chr($min);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°'
+            ,'DNI','Nombre','Paterno','Materno','Celular','Email'
+            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua'
+            ,'Tipo de Evaluación','Peso Evaluación','Fecha de Ejecución','Nota','Promedio Final'
+        );
+        $campos=array('');
+
+        $return['data']=$rsql;
+        $return['campos']=$campos;
+        $return['cabecera']=$cabecera;
+        $return['length']=$length;
+        $return['cabeceraTit']=$cabeceraTit;
+        $return['lengthTit']=$lengthTit;
+        $return['colorTit']=$colorTit;
+        $return['lengthDet']=$lengthDet;
+        $return['max']= 'Q'; //$estatico.chr($min);
+        $return['min']=$min; // Max. Celda en LETRA
+        
+        return $return;
     }
 }
