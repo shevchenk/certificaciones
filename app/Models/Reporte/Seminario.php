@@ -754,7 +754,7 @@ class Seminario extends Model
                     INNER JOIN $aulaservidor.v_cursos c ON c.id=uc.curso_id 
                     INNER JOIN $aulaservidor.v_tipos_evaluaciones te ON FIND_IN_SET(te.id,uc.tipo_evaluacion_id)
                     WHERE uc.estado = 1
-                    GROUP BY c.curso_externo_id, te.id 
+                    GROUP BY c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion 
                 ) te ON te.curso_externo_id= mc.id
                 LEFT JOIN empresas_tipos_evaluaciones te2 ON te2.tipo_evaluacion_id = te.tipo_evaluacion_externo_id AND  te2.empresa_id = mc.empresa_id
                 LEFT JOIN (
