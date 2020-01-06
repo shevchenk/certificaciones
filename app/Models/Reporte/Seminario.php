@@ -732,44 +732,49 @@ class Seminario extends Model
 
 
         $id=Auth::user()->id;
-        $sql=DB::table('mat_matriculas AS mm')
-            ->join('mat_matriculas_detalles AS mmd',function($join){
-                $join->on('mmd.matricula_id','=','mm.id')
-                ->where('mmd.estado',1);
-            })
-            ->join('personas AS p',function($join){
-                $join->on('p.id','=','mm.persona_id');
-            })
-            ->join('mat_cursos AS mc',function($join) use($r){
-                $join->on('mc.id','=','mmd.curso_id');
-                if( !$r->has('global') ){
-                    $join->where('mc.empresa_id', Auth::user()->empresa_id);
-                }
-            })
-            ->join('empresas AS e',function($join){
-                $join->on('e.id','=','mc.empresa_id');
-            })
-            ->leftJoin('mat_especialidades AS me',function($join){
-                $join->on('me.id','=','mmd.especialidad_id');
-            })
-            ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno'
-                    ,'p.celular','p.email'
-                    ,'e.empresa AS empresa_inscripcion','mm.fecha_matricula'
-                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
-                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
-                    ,'mc.curso AS curso'
-                    ,'mmd.nota_curso_alum AS nota'
-                    )
-            ->where( 
-                function($query) use ($r){
+        $empresa = Auth::user()->empresa_id;
 
+        $sql = "SELECT mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa AS empresa_inscripcion, mm.fecha_matricula,
+                IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion,
+                IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion, mc.curso AS curso
+                ,te.tipo_evaluacion, te2.peso_evaluacion, DATE(ev.fecha_examen) AS fecha_evaluacion, ev.nota
+                ,mmd.nota_curso_alum AS promedio 
+
+                FROM mat_matriculas AS mm 
+                INNER JOIN mat_matriculas_detalles AS mmd ON mmd.matricula_id = mm.id AND mmd.estado = 1 
+                INNER JOIN personas AS p ON p.id = mm.persona_id
+                INNER JOIN mat_alumnos AS ma ON ma.id = mm.alumno_id 
+                INNER JOIN mat_cursos AS mc ON mc.id = mmd.curso_id AND mc.empresa_id = $empresa
+                INNER JOIN empresas AS e ON e.id = mc.empresa_id 
+                INNER JOIN mat_programaciones AS mp ON mp.id = mmd.programacion_id
+                LEFT JOIN mat_especialidades AS me ON me.id = mmd.especialidad_id 
+                LEFT JOIN (
+                    SELECT c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion 
+                    FROM $aulaservidor.v_unidades_contenido uc 
+                    INNER JOIN $aulaservidor.v_cursos c ON c.id=uc.curso_id 
+                    INNER JOIN $aulaservidor.v_tipos_evaluaciones te ON FIND_IN_SET(te.id,uc.tipo_evaluacion_id)
+                    WHERE uc.estado = 1
+                    GROUP BY c.curso_externo_id, te.id 
+                ) te ON te.curso_externo_id= mc.id
+                LEFT JOIN empresas_tipos_evaluaciones te2 ON te2.tipo_evaluacion_id = te.tipo_evaluacion_externo_id AND  te2.empresa_id = mc.empresa_id
+                LEFT JOIN (
+                    SELECT p.programacion_externo_id, e.fecha_examen, e.nota , te.tipo_evaluacion_externo_id
+                    FROM $aulaservidor.v_evaluaciones e 
+                    INNER JOIN $aulaservidor.v_programaciones p ON p.id=e.programacion_id 
+                    INNER JOIN $aulaservidor.v_tipos_evaluaciones te ON te.id = e.tipo_evaluacion_id
+                    WHERE e.estado = 1
+                    AND e.estado_cambio = 1
+                    AND e.fecha_examen IS NOT NULL 
+                ) ev ON ev.programacion_externo_id = mmd.id AND ev.tipo_evaluacion_externo_id = te2.tipo_evaluacion_id
+                WHERE mm.estado = 1 ";
                     if( $r->has("especialidad") OR $r->has('especialidad2') ){
                         if( $r->has('especialidad2') ){
                             $r['especialidad'] = explode(",", trim($r->especialidad2) );
                         }
                         $especialidad = $r->especialidad;
                         if( count($especialidad)>0 AND trim($especialidad[0])!='' ){
-                            $query ->whereIn('me.id', $especialidad);
+                            $especialidad = implode(",",$especialidad);
+                            $sql.=" AND me.id IN ($especialidad)";
                         }
                     }
 
@@ -779,47 +784,40 @@ class Seminario extends Model
                         }
                         $curso = $r->curso;
                         if( count($curso)>0 AND trim($curso[0])!='' ){
-                            $query ->whereIn('mc.id', $curso);
+                            $curso = implode(",",$curso);
+                            $sql.=" AND mc.id IN ($curso)";
                         }
                     }
 
                     if( $r->has("paterno") ){
                         $paterno = trim($r->paterno);
                         if( $paterno !='' ){
-                            $query ->where('p.paterno','like', '%'.$paterno.'%');
+                            $sql.=" AND p.paterno LIKE ('%$paterno%')";
                         }
                     }
 
                     if( $r->has("materno") ){
                         $materno = trim($r->materno);
                         if( $materno !='' ){
-                            $query ->where('p.materno','like', '%'.$materno.'%');
+                            $sql.=" AND p.materno LIKE ('%$materno%')";
                         }
                     }
 
                     if( $r->has("nombre") ){
                         $nombre = trim($r->nombre);
                         if( $nombre !='' ){
-                            $query ->where('p.nombre','like', '%'.$nombre.'%');
+                            $sql.=" AND p.nombre LIKE ('%$nombre%')";
                         }
                     }
 
                     if( $r->has("dni") ){
                         $dni = trim($r->dni);
                         if( $dni !='' ){
-                            $query ->where('p.dni','like', '%'.$dni.'%');
+                            $sql.=" AND p.dni LIKE ('%$dni%')";
                         }
                     }
 
-                    if( $r->has('vendedor') AND $r->vendedor==1 ){
-                        $persona_id=Auth::user()->id;
-                        $query->where('mm.persona_marketing_id',$persona_id);
-                    }
-                }
-            )
-            ->where('mm.estado',1);
-            
-        $result = $sql->orderBy('mm.id','asc')->get();
+        $result= DB::select($sql);
 
         return $result;
     }
