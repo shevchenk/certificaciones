@@ -88,9 +88,15 @@ class CargarPR extends Controller
                 $return['msj'] = $m;
                 return response()->json($return);
             }
-
+            
             $usuario= Auth::user()->id;
             $empresa_id= Auth::user()->empresa_id;
+            $region='';$regioni='';
+
+            if( trim($r->slct_region)!='' ){
+                $region = " AND DISTRITO = '".$r->slct_region."' ";
+                $regioni = " AND i.DISTRITO = '".$r->slct_region."' ";
+            }
             /*$sql="SET GLOBAL local_infile = 'ON';";
             DB::statement($sql);*/
             $sql="SET @numero=0";
@@ -132,7 +138,7 @@ class CargarPR extends Controller
                     SET i.dni_final=p.dni
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
-                    AND (i.DNI*1 > 0 OR i.EMAIL!='')";
+                    AND (i.DNI*1 > 0 OR i.EMAIL!='') ".$regioni;
             DB::update($sql);
 
             $sql="  UPDATE interesados i
@@ -143,7 +149,7 @@ class CargarPR extends Controller
                     AND i.file='".$file."'
                     AND i.dni_final!=''
                     AND i.asignar=1
-                    AND m.id IS NULL";
+                    AND m.id IS NULL ".$regioni;
             DB::update($sql);
 
             $sql="  UPDATE interesados i
@@ -152,7 +158,7 @@ class CargarPR extends Controller
                     AND i.file='".$file."'
                     AND i.dni_final=''
                     AND i.DNI*1 = 0 
-                    AND i.EMAIL=''";
+                    AND i.EMAIL='' ".$regioni;
             DB::update($sql);
 
             $sql="SET @numero=".$inicial.";";
@@ -170,7 +176,7 @@ class CargarPR extends Controller
                     WHERE i.dni_final=''
                     AND i.usuario=".$usuario."
                     AND i.asignar=1
-                    AND i.file='".$file."'
+                    AND i.file='".$file."' ".$regioni." 
                     GROUP BY i.PATERNO, i.MATERNO, i.NOMBRE
                     ";
             DB::insert($sql);
@@ -183,7 +189,7 @@ class CargarPR extends Controller
                     WHERE dni_final=''
                     AND usuario=".$usuario."
                     AND asignar=1
-                    AND file='".$file."'";
+                    AND file='".$file."' ".$region;
             DB::update($sql);
 
             //Actualiza a estado activo a los usuarios
@@ -198,7 +204,7 @@ class CargarPR extends Controller
                     SET pc.estado=0
                     WHERE i.usuario=".$usuario."
                     AND i.asignar=1
-                    AND i.file='".$file."'";
+                    AND i.file='".$file."' ".$regioni;
             DB::update($sql);
 
             $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, ad_name, campaign_name, fuente, interesado, fecha_registro, costo, estado, created_at, persona_id_created_at)
@@ -207,7 +213,7 @@ class CargarPR extends Controller
                     INNER JOIN personas p ON p.dni=i.dni_final
                     WHERE i.usuario=".$usuario."
                     AND i.asignar=1
-                    AND i.file='".$file."'";
+                    AND i.file='".$file."' ".$regioni;
             DB::insert($sql);
 
             $sql="  UPDATE interesados i
@@ -217,7 +223,7 @@ class CargarPR extends Controller
                     SET pd.estado=0, pd.updated_at= NOW()
                     WHERE i.usuario=".$usuario."
                     AND i.asignar=0
-                    AND i.file='".$file."'";
+                    AND i.file='".$file."' ".$regioni;
             DB::update($sql);
 
             $sql="  UPDATE interesados i
@@ -226,7 +232,7 @@ class CargarPR extends Controller
                     SET pc.estado=0, pc.updated_at= NOW()
                     WHERE i.usuario=".$usuario."
                     AND i.asignar=0
-                    AND i.file='".$file."'";
+                    AND i.file='".$file."' ".$regioni;
             DB::update($sql);
 
             DB::commit();
@@ -235,6 +241,7 @@ class CargarPR extends Controller
                     ->select('pos', 'DNI', 'EMAIL', 'asignar', 'FECHA_REGISTRO','FECHA_ENTREGA','dni_final')
                     ->where('usuario',$usuario)
                     ->where('file',$file)
+                    ->where('DISTRITO',$r->slct_region)
                     ->where('dni_final','like','xxxx%')
                     ->get();
             if( count($data) > 0)

@@ -30,6 +30,36 @@
                             <!-- <label>Archivo TXT</label> -->
                             <input type="file" class="filestyle" data-buttonText="&nbsp;Seleccione Archivo .csv" id="carga" name="carga" data-buttonName="btn-primary">
                         </div>
+                        <div class="col-sm-2">
+                            <label>Filtrar Región</label>
+                            <select id="slct_region" name="slct_region" class="form-control">
+                                <option value=''>.::Seleccione::.</option>
+                                <option value='HUÁNUCO'>HUÁNUCO</option>
+                                <option value='LA_LIBERTAD'>LA_LIBERTAD</option>
+                                <option value='ÁNCASH'>ÁNCASH</option>
+                                <option value='LIMA'>LIMA</option>
+                                <option value='CUSCO'>CUSCO</option>
+                                <option value='PIURA'>PIURA</option>
+                                <option value='AREQUIPA'>AREQUIPA</option>
+                                <option value='JUNIN'>JUNIN</option>
+                                <option value='LORETO'>LORETO</option>
+                                <option value='AYACUCHO'>AYACUCHO</option>
+                                <option value='SAN_MARTÌN'>SAN_MARTÌN</option>
+                                <option value='CAJAMARCA'>CAJAMARCA</option>
+                                <option value='LAMBAYEQUE'>LAMBAYEQUE</option>
+                                <option value='PUNO'>PUNO</option>
+                                <option value='APURIMAC'>APURIMAC</option>
+                                <option value='PASCO'>PASCO</option>
+                                <option value='ICA'>ICA</option>
+                                <option value='AMAZONAS'>AMAZONAS</option>
+                                <option value='TACNA'>TACNA</option>
+                                <option value='HUANCAVELICA'>HUANCAVELICA</option>
+                                <option value='MOQUEGUA'>MOQUEGUA</option>
+                                <option value='MADRE_DE_DIOS'>MADRE_DE_DIOS</option>
+                                <option value='UCAYALI'>UCAYALI</option>
+                                <option value='TUMBES_'>TUMBES_</option>
+                            </select>
+                        </div>
                         <div class="col-sm-2 ">
                             <button type="button" id="btn_cargar" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
