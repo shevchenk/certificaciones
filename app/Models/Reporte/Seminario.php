@@ -936,9 +936,9 @@ class Seminario extends Model
         }
 
         $sql = "SELECT c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion 
-                FROM telesup_aula.v_unidades_contenido uc 
-                INNER JOIN telesup_aula.v_cursos c ON c.id=uc.curso_id 
-                INNER JOIN telesup_aula.v_tipos_evaluaciones te ON FIND_IN_SET(te.id,uc.tipo_evaluacion_id)
+                FROM $aulaservidor.v_unidades_contenido uc 
+                INNER JOIN $aulaservidor.v_cursos c ON c.id=uc.curso_id 
+                INNER JOIN $aulaservidor.v_tipos_evaluaciones te ON FIND_IN_SET(te.id,uc.tipo_evaluacion_id)
                 WHERE uc.estado = 1 AND c.curso_externo_id = $curso_id
                 GROUP BY c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion";
         $cursos = DB::select($sql);
@@ -966,11 +966,11 @@ class Seminario extends Model
                 LEFT JOIN mat_especialidades AS me ON me.id = mmd.especialidad_id 
                 LEFT JOIN (
                     SELECT p.programacion_externo_id, e.fecha_examen, e.nota , te.tipo_evaluacion_externo_id 
-                    FROM telesup_aula.v_evaluaciones e 
-                    INNER JOIN telesup_aula.v_programaciones p ON p.id=e.programacion_id 
-                    INNER JOIN telesup_aula.v_programaciones_unicas pu ON pu.id=p.programacion_unica_id 
-                    INNER JOIN telesup_aula.v_cursos c ON c.id = pu.curso_id AND c.curso_externo_id = $curso_id 
-                    INNER JOIN telesup_aula.v_tipos_evaluaciones te ON te.id = e.tipo_evaluacion_id 
+                    FROM $aulaservidor.v_evaluaciones e 
+                    INNER JOIN $aulaservidor.v_programaciones p ON p.id=e.programacion_id 
+                    INNER JOIN $aulaservidor.v_programaciones_unicas pu ON pu.id=p.programacion_unica_id 
+                    INNER JOIN $aulaservidor.v_cursos c ON c.id = pu.curso_id AND c.curso_externo_id = $curso_id 
+                    INNER JOIN $aulaservidor.v_tipos_evaluaciones te ON te.id = e.tipo_evaluacion_id 
                     WHERE e.estado = 1 AND e.estado_cambio = 1 AND e.fecha_examen IS NOT NULL 
                 ) rn ON rn.programacion_externo_id = mmd.id 
                 WHERE mm.estado = 1 
