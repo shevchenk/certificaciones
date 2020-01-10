@@ -177,7 +177,7 @@ class Api extends Model
                     ->Join(Api::mibdaux().'.tipos_evaluaciones AS te', function($join){
                         $join->on('te.id','=','mpe.tipo_evaluacion_id');
                     })
-                    ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id'
+                    ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id','te.nro_pregunta'
                     ,'mpe.fecha_evaluacion_ini','mpe.fecha_evaluacion_fin'
                     )
                     ->where('mm.estado',1)
@@ -210,7 +210,7 @@ class Api extends Model
                 ->where('keycli',$r->keycli)
                 ->first();
 
-        $grupos=array();
+        $tipos=array();
         if( isset($key->id) ){
             $tipos=DB::table(Api::mibdaux().'.mat_programaciones AS mp')
                     ->Join(Api::mibdaux().'.mat_programaciones_evaluaciones AS mpe', function($join){
@@ -220,7 +220,7 @@ class Api extends Model
                     ->Join(Api::mibdaux().'.tipos_evaluaciones AS te', function($join){
                         $join->on('te.id','=','mpe.tipo_evaluacion_id');
                     })
-                    ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id'
+                    ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id', 'te.nro_pregunta'
                     ,'mpe.fecha_evaluacion_ini','mpe.fecha_evaluacion_fin'
                     ,'mpe.orden','mpe.activa_fecha'
                     ,'mp.id AS programacion_unica_externo_id'
@@ -267,7 +267,7 @@ class Api extends Model
                         $join->on('te.id','=','mete.tipo_evaluacion_id');
                     })
                     ->select('te.tipo_evaluacion', 'te.id AS tipo_evaluacion_externo_id'
-                    ,'mete.orden'
+                    ,'mete.orden','te.nro_pregunta'
                     )
                     ->where( 
                         function($query) use ($r){
