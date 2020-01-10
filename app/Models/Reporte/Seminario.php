@@ -1005,7 +1005,7 @@ class Seminario extends Model
                         }
                     }
 
-                $sql.=" GROUP BY mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa, mm.fecha_matricula, mmd.especialidad_id, mc.tipo_curso, mc.curso, mmd.nota_curso_alum";
+                $sql.=" GROUP BY mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa, mm.fecha_matricula, mmd.especialidad_id, mc.tipo_curso, mc.curso, mmd.nota_curso_alum, me.especialidad";
 
         $result= DB::select($sql);
 
