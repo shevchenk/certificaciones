@@ -26,6 +26,7 @@ $(document).ready(function() {
         }
 
         $('#ModalTipoEvaluacionForm #txt_tipo_evaluacion').val( TipoEvaluacionG.tipo_evaluacion );
+        $('#ModalTipoEvaluacionForm #slct_nro_pregunta').selectpicker( 'val',TipoEvaluacionG.nro_pregunta );
         
         $('#ModalTipoEvaluacionForm #slct_estado').selectpicker('val', TipoEvaluacionG.estado );
         $('#ModalTipoEvaluacionForm #txt_tipo_evaluacion').focus();
@@ -43,6 +44,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Tipo Evaluación',4000);
     }
+    else if( $.trim( $("#ModalTipoEvaluacionForm #slct_nro_pregunta").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Nros de Preguntas de la Evaluación',4000);
+    }
 
     return r;
 }
@@ -51,10 +56,12 @@ AgregarEditar=function(val,id){
     AddEdit=val;
     TipoEvaluacionG.id='';
     TipoEvaluacionG.tipo_evaluacion='';
+    TipoEvaluacionG.nro_pregunta='';
     TipoEvaluacionG.estado='1';
     if( val==0 ){
         TipoEvaluacionG.id=id;
         TipoEvaluacionG.tipo_evaluacion=$("#TableTipoEvaluacion #trid_"+id+" .tipo_evaluacion").text();
+        TipoEvaluacionG.nro_pregunta=$("#TableTipoEvaluacion #trid_"+id+" .nro_pregunta").text();
         TipoEvaluacionG.estado=$("#TableTipoEvaluacion #trid_"+id+" .estado").val();
     }
     $('#ModalTipoEvaluacion').modal('show');
@@ -100,6 +107,7 @@ HTMLCargarTipoEvaluacion=function(result){
 
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='tipo_evaluacion'>"+r.tipo_evaluacion+"</td>"+
+            "<td class='nro_pregunta'>"+r.nro_pregunta+"</td>"+
             "<td>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';

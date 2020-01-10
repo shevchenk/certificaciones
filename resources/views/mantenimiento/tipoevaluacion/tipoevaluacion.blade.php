@@ -51,6 +51,11 @@
                                     </th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
+                                            <label><h4>Nros de Preguntas:</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
                                             <label><h4>Estado:</h4></label>
                                             <div class="input-group">
                                                 <select class="form-control" name="slct_estado" id="slct_estado">
@@ -69,6 +74,7 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th>Tipo Evaluación</th>
+                                  <th>Nros de Preguntas</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

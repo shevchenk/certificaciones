@@ -25,6 +25,7 @@ class TipoEvaluacion extends Model
         $tipo_evaluacion_id = Auth::user()->id;
         $tipo_evaluacion = new TipoEvaluacion;
         $tipo_evaluacion->tipo_evaluacion = trim( $r->tipo_evaluacion );
+        $tipo_evaluacion->nro_pregunta = trim( $r->nro_pregunta );
         $tipo_evaluacion->estado = trim( $r->estado );
         $tipo_evaluacion->persona_id_created_at=$tipo_evaluacion_id;
         $tipo_evaluacion->save();
@@ -35,6 +36,7 @@ class TipoEvaluacion extends Model
         $tipo_evaluacion_id = Auth::user()->id;
         $tipo_evaluacion = TipoEvaluacion::find($r->id);
         $tipo_evaluacion->tipo_evaluacion = trim( $r->tipo_evaluacion );
+        $tipo_evaluacion->nro_pregunta = trim( $r->nro_pregunta );
         $tipo_evaluacion->estado = trim( $r->estado );
         $tipo_evaluacion->persona_id_updated_at=$tipo_evaluacion_id;
         $tipo_evaluacion->save();
@@ -45,7 +47,7 @@ class TipoEvaluacion extends Model
         $sql=DB::table('tipos_evaluaciones AS te')
             ->select(
             'te.id',
-            'te.tipo_evaluacion',
+            'te.tipo_evaluacion','te.nro_pregunta',
             'te.estado'
             )
             ->where( 
@@ -71,7 +73,7 @@ class TipoEvaluacion extends Model
     
     public static function ListTipoEvaluacion($r)
     {  
-        $sql=TipoEvaluacion::select('id','tipo_evaluacion','estado')
+        $sql=TipoEvaluacion::select('id','tipo_evaluacion','nro_pregunta','estado')
             ->where('estado','=','1');
         $result = $sql->orderBy('tipo_evaluacion','asc')->get();
         return $result;

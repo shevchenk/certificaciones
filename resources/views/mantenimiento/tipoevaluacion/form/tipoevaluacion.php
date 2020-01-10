@@ -17,6 +17,18 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label>Nro Preguntas</label>
+                                <select id="slct_nro_pregunta" name="slct_nro_pregunta" class="form-control selectpicker">
+                                    <option value="">.::Seleccione::.</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label>Estado</label>
                                 <select class="form-control selectpicker show-menu-arrow" name="slct_estado" id="slct_estado">
                                     <option  value='0'>Inactivo</option>
