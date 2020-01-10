@@ -906,4 +906,202 @@ class Seminario extends Model
         
         return $return;
     }
+
+    public static function runRegistroNota($r)
+    {
+        
+        $servidor = 'telesup_pae';
+        $aulaservidor = 'telesup_aula';
+        if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
+            $servidor = 'formacion_continua';
+            $aulaservidor = 'aula_formacion_continua';
+        }
+        elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
+            $servidor = 'capa_formacion_continua';
+            $aulaservidor = 'capa_aula_formacion_continua';
+        }
+
+        $sql= " UPDATE $servidor.mat_matriculas_detalles md
+                INNER JOIN $aulaservidor.v_programaciones p ON p.programacion_externo_id=md.id 
+                SET md.nota_curso_alum = p.nota_final
+                WHERE p.nota_final>0";
+        $update = DB::update($sql);
+
+
+        $id=Auth::user()->id;
+        $empresa = Auth::user()->empresa_id;
+        $curso_id = $r->curso;
+        if( $r->has('curso2') ){
+            $curso_id = $r->curso2;
+        }
+
+        $sql = "SELECT c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion 
+                FROM telesup_aula.v_unidades_contenido uc 
+                INNER JOIN telesup_aula.v_cursos c ON c.id=uc.curso_id 
+                INNER JOIN telesup_aula.v_tipos_evaluaciones te ON FIND_IN_SET(te.id,uc.tipo_evaluacion_id)
+                WHERE uc.estado = 1 AND c.curso_externo_id = $curso_id
+                GROUP BY c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion";
+        $cursos = DB::select($sql);
+
+        $notas = "";
+        $lefts = "";
+
+        foreach ($cursos as $key => $value) {
+            $notas.=",SUM( IF( rn.tipo_evaluacion_externo_id = $value->tipo_evaluacion_externo_id, rn.nota, 0 ) ) n".($key+1);
+        }
+
+        $sql = "SELECT mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa AS empresa_inscripcion, mm.fecha_matricula,
+                IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion,
+                IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion, mc.curso AS curso
+                $notas
+                ,mmd.nota_curso_alum AS promedio 
+
+                FROM mat_matriculas AS mm 
+                INNER JOIN mat_matriculas_detalles AS mmd ON mmd.matricula_id = mm.id AND mmd.estado = 1 
+                INNER JOIN personas AS p ON p.id = mm.persona_id
+                INNER JOIN mat_alumnos AS ma ON ma.id = mm.alumno_id 
+                INNER JOIN mat_cursos AS mc ON mc.id = mmd.curso_id AND mc.empresa_id = $empresa
+                INNER JOIN empresas AS e ON e.id = mc.empresa_id 
+                INNER JOIN mat_programaciones AS mp ON mp.id = mmd.programacion_id
+                LEFT JOIN mat_especialidades AS me ON me.id = mmd.especialidad_id 
+                LEFT JOIN (
+                    SELECT p.programacion_externo_id, e.fecha_examen, e.nota , te.tipo_evaluacion_externo_id 
+                    FROM telesup_aula.v_evaluaciones e 
+                    INNER JOIN telesup_aula.v_programaciones p ON p.id=e.programacion_id 
+                    INNER JOIN telesup_aula.v_programaciones_unicas pu ON pu.id=p.programacion_unica_id 
+                    INNER JOIN telesup_aula.v_cursos c ON c.id = pu.curso_id AND c.curso_externo_id = $curso_id 
+                    INNER JOIN telesup_aula.v_tipos_evaluaciones te ON te.id = e.tipo_evaluacion_id 
+                    WHERE e.estado = 1 AND e.estado_cambio = 1 AND e.fecha_examen IS NOT NULL 
+                ) rn ON rn.programacion_externo_id = mmd.id 
+                WHERE mm.estado = 1 
+                AND mc.id = $curso_id";
+                    
+
+                    if( $r->has("paterno") ){
+                        $paterno = trim($r->paterno);
+                        if( $paterno !='' ){
+                            $sql.=" AND p.paterno LIKE ('%$paterno%')";
+                        }
+                    }
+
+                    if( $r->has("materno") ){
+                        $materno = trim($r->materno);
+                        if( $materno !='' ){
+                            $sql.=" AND p.materno LIKE ('%$materno%')";
+                        }
+                    }
+
+                    if( $r->has("nombre") ){
+                        $nombre = trim($r->nombre);
+                        if( $nombre !='' ){
+                            $sql.=" AND p.nombre LIKE ('%$nombre%')";
+                        }
+                    }
+
+                    if( $r->has("dni") ){
+                        $dni = trim($r->dni);
+                        if( $dni !='' ){
+                            $sql.=" AND p.dni LIKE ('%$dni%')";
+                        }
+                    }
+
+                $sql.=" GROUP BY mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa, mm.fecha_matricula, mmd.especialidad_id, mc.tipo_curso, mc.curso, mmd.nota_curso_alum";
+
+        $result= DB::select($sql);
+
+        return array($result,$cursos);
+    }
+
+    public static function runExportRegistroNota($r)
+    {
+        $rsql= Seminario::runRegistroNota($r);
+        $datos = $rsql[0];
+        $cursos = $rsql[1];
+        
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,15,15,15,15,20,
+            15,15,15,25,25,
+            15,15,15,15,15,
+            15,15,15,15,15,
+            15,15,15,15,15
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array(
+            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','NOTA DEL CURSO'
+        );
+
+        $valIni=66;
+        $min=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(5,4,count($cursos));
+        $colorTit=array('#DDEBF7','#E2EFDA','#FFF2CC');
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min++;
+                $estaticoFin= chr($min);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min++;
+                    $estatico= chr($min);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°'
+            ,'DNI','Nombre','Paterno','Materno','Celular','Email'
+            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua');
+
+        foreach ($cursos as $key => $value) {
+            array_push($cabecera, 'Nota '.($key+1));
+        }
+        array_push($cabecera, 'Promedio Final');
+        
+        $campos=array('');
+
+        $return['data']=$datos;
+        $return['campos']=$campos;
+        $return['cabecera']=$cabecera;
+        $return['length']=$length;
+        $return['cabeceraTit']=$cabeceraTit;
+        $return['lengthTit']=$lengthTit;
+        $return['colorTit']=$colorTit;
+        $return['lengthDet']=$lengthDet;
+        $return['max']= 'T'; //$estatico.chr($min);
+        $return['min']=$min; // Max. Celda en LETRA
+        
+        return $return;
+    }
 }
