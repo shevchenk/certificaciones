@@ -56,10 +56,22 @@
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-sm-12">
                                 <div class="col-sm-3 text-center">
                                     <label class="control-label">Empresas:</label>
                                     <div class="input-group">
                                       <select name="slct_empresas" id="slct_empresas" class="selectpicker" onchange="AjaxVisita.Trabajadores(SlctCargarTrabajador);"></select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 text-center">
+                                    <label class="control-label">Ordenado por:</label>
+                                    <div class="input-group">
+                                      <select name="slct_order" id="slct_order" class="selectpicker">
+                                          <option value="fecha_carga DESC, pc.ad_name, pc.interesado">.::Fechas::.</option>
+                                          <option value="pc.ad_name, pc.interesado, fecha_carga DESC">.::Campaña::.</option>
+                                          <option value="pc.interesado, pc.ad_name, fecha_carga DESC">.::Carrera::.</option>
+                                      </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-1" style="padding:24px">

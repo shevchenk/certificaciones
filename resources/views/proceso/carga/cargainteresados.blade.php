@@ -30,7 +30,7 @@
                             <!-- <label>Archivo TXT</label> -->
                             <input type="file" class="filestyle" data-buttonText="&nbsp;Seleccione Archivo .csv" id="carga" name="carga" data-buttonName="btn-primary">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" style="display: none;">
                             <label>Filtrar Región</label>
                             <select id="slct_region" name="slct_region" class="form-control">
                                 <option value=''>.::Seleccione::.</option>

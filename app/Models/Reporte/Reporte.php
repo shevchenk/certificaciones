@@ -21,6 +21,7 @@ class Reporte extends Model
         $fecha_ini= $r->fecha_ini;
         $fecha_fin= $r->fecha_fin;
         $empresa_id= $r->empresas;
+        $order = $r->order;
 
         $sql="  
         SELECT e.id, 
@@ -65,7 +66,7 @@ class Reporte extends Model
         WHERE pc.estado = 1
         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
         GROUP BY DATE(pc.created_at),e.id, e.empresa, pc.ad_name, pc.interesado
-        ORDER BY e.empresa, fecha_carga DESC, pc.ad_name, pc.interesado";
+        ORDER BY e.empresa, ".$order;
                 
         $r= DB::select($sql);
         return $r;
