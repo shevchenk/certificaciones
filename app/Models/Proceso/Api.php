@@ -1019,6 +1019,14 @@ class Api extends Model
             if( isset($persona->id) ){
                 $cursos = DB::table(Api::mibdaux().'.mat_cursos')->find($r->curso);
                 $comentario = "El alumno desea inscribirse al curso de ".$cursos->curso."(Mensaje enviado por el aula del alumno)";
+                if( $r->has('tipo') ){
+                    if( $r->tipo=='1' ){
+                        $comentario="El alumno solicita apoyo técnico al curso de ".$cursos->curso."(Mensaje enviado por el aula del alumno)";
+                    }
+                    elseif( $r->tipo=='2' ){
+                        $comentario="El alumno solicita su certificado del curso de ".$cursos->curso."(Mensaje enviado por el aula del alumno)";
+                    }
+                }
                 DB::beginTransaction();
                 DB::table(Api::mibdaux().'.llamadas_atencion_cliente')
                 ->where( 
