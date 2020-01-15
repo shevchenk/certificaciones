@@ -83,8 +83,12 @@ class Curso extends Model
         $curso->certificado_curso = trim( $r->certificado_curso );
         $curso->tipo_curso = trim( $r->tipo_curso );
         $curso->curso_apocope = trim( $r->curso_apocope );
-        $curso->hora = trim( $r->hora );
-        $curso->credito = trim( $r->credito );
+        if( $r->has('hora') ){
+            $curso->hora = trim( $r->hora );
+        }
+        if( $r->has('credito') ){
+            $curso->credito = trim( $r->credito );
+        }
         $curso->estado = trim( $r->estado );
         $curso->persona_id_created_at=$cursoe;
         $curso->save();
@@ -98,8 +102,12 @@ class Curso extends Model
         $curso->certificado_curso = trim( $r->certificado_curso );
         $curso->tipo_curso = trim( $r->tipo_curso );
         $curso->curso_apocope = trim( $r->curso_apocope );
-        $curso->hora = trim( $r->hora );
-        $curso->credito = trim( $r->credito );
+        if( $r->has('hora') ){
+            $curso->hora = trim( $r->hora );
+        }
+        if( $r->has('credito') ){
+            $curso->credito = trim( $r->credito );
+        }
         $curso->estado = trim( $r->estado );
         $curso->persona_id_updated_at=$cursoe;
         $curso->save();
