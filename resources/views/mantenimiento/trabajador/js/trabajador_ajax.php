@@ -29,6 +29,11 @@ var AjaxTrabajador={
         url='AjaxDinamic/Mantenimiento.RolEM@ListRol';
         data={};
         masterG.postAjax(url,data,evento);
+    },
+    CargarTarea:function(evento){
+        url='AjaxDinamic/Mantenimiento.TareaEM@ListTarea';
+        data={};
+        masterG.postAjax(url,data,evento);
     }
 };
 </script>

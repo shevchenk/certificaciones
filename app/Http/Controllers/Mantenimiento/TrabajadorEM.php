@@ -41,6 +41,7 @@ class TrabajadorEM extends Controller
                             ->where('empresa_id', Auth::user()->empresa_id)
                             ->where(function ($query) use($r) {
                                 $query->where('rol_id',$r->rol_id );
+                                $query->where('tarea_id',$r->tarea_id );
                             }),
                         ],
             );
@@ -77,6 +78,7 @@ class TrabajadorEM extends Controller
                         ->ignore($r->id)
                         ->where(function ($query) use($r) {
                                 $query->where('rol_id',$r->rol_id );
+                                $query->where('tarea_id',$r->tarea_id );
                         }),
                         ],
             );

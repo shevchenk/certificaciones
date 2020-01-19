@@ -31,6 +31,14 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label>Tarea</label>
+                                <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tarea_id" name="slct_tarea_id">
+                                    <option value="0">.::Seleccione::.</option>
+                                </select>
+                            </div> 
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label>Código</label>
                                 <input type="text"  class="form-control" id="txt_codigo" name="txt_codigo">
                             </div>

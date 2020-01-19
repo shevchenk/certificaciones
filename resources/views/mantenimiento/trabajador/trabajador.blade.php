@@ -60,7 +60,16 @@
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_rol" id="txt_rol" placeholder="Buscar Rol" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
-                                            </div>                                          
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Tarea:</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_tarea" id="txt_tarea" placeholder="Buscar Tarea" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                            </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
@@ -92,7 +101,8 @@
                             <tfoot>
                                 <tr class="cabecera">
                                   <th>Trabajador</th>
-                                  <th>Class Icono</th>
+                                  <th>Rol</th>
+                                  <th>Tarea</th>
                                   <th>Código</th>
                                   <th>Estado</th>
                                   <th>[-]</th>

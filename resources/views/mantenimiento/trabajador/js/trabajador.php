@@ -12,6 +12,7 @@ $(document).ready(function() {
         "autoWidth": false
     });
     CargarSlct(1);
+    CargarSlct(2);
     AjaxTrabajador.Cargar(HTMLCargarTrabajador);
     $("#TrabajadorForm #TableTrabajador select").change(function(){ AjaxTrabajador.Cargar(HTMLCargarTrabajador); });
     $("#TrabajadorForm #TableTrabajador input").blur(function(){ AjaxTrabajador.Cargar(HTMLCargarTrabajador); });
@@ -28,6 +29,7 @@ $(document).ready(function() {
         $('#ModalTrabajadorForm #txt_trabajador').val( TrabajadorG.trabajador );
         $('#ModalTrabajadorForm #txt_persona_id').val( TrabajadorG.persona_id );
         $('#ModalTrabajadorForm #slct_rol_id').selectpicker('val', TrabajadorG.rol_id );
+        $('#ModalTrabajadorForm #slct_tarea_id').selectpicker('val', TrabajadorG.tarea_id );
         $('#ModalTrabajadorForm #txt_codigo').val( TrabajadorG.codigo );
         $('#ModalTrabajadorForm #slct_estado').selectpicker('val', TrabajadorG.estado );
         $('#ModalTrabajadorForm #txt_trabajador').focus();
@@ -49,6 +51,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Rol',4000);
     }
+    else if( $.trim( $("#ModalTrabajadorForm #slct_tarea_id").val() )=='0' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Tarea',4000);
+    }
     /*
     else if( $.trim( $("#ModalTrabajadorForm #txt_codigo").val() )=='' ){
         r=false;
@@ -65,12 +71,14 @@ AgregarEditar=function(val,id){
     TrabajadorG.persona_id='';
     TrabajadorG.trabajador='';
     TrabajadorG.rol_id='0';
+    TrabajadorG.tarea_id='0';
     TrabajadorG.codigo='';
     TrabajadorG.estado='1';
     if( val==0 ){
         TrabajadorG.id=id;
         TrabajadorG.persona_id=$("#TableTrabajador #trid_"+id+" .persona_id").val();
         TrabajadorG.rol_id=$("#TableTrabajador #trid_"+id+" .rol_id").val();
+        TrabajadorG.tarea_id=$("#TableTrabajador #trid_"+id+" .tarea_id").val();
         TrabajadorG.trabajador=$("#TableTrabajador #trid_"+id+" .trabajador").text();
         TrabajadorG.codigo=$("#TableTrabajador #trid_"+id+" .codigo").text();
         TrabajadorG.estado=$("#TableTrabajador #trid_"+id+" .estado").val();
@@ -119,9 +127,11 @@ HTMLCargarTrabajador=function(result){
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='trabajador'>"+r.trabajador+"</td>"+
             "<td class='rol'>"+r.rol+"</td>"+
+            "<td class='tarea'>"+r.tarea+"</td>"+
             "<td class='codigo'>"+r.codigo+"</td>"+
             "<td>"+
             "<input type='hidden' class='rol_id' value='"+r.rol_id+"'>"+
+            "<input type='hidden' class='tarea_id' value='"+r.tarea_id+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
@@ -150,6 +160,9 @@ CargarSlct=function(slct){
     if(slct==1){
     AjaxTrabajador.CargarRol(SlctCargarRol);
     }
+    else if(slct==2){
+    AjaxTrabajador.CargarTarea(SlctCargarTarea);
+    }
 }
 SlctCargarRol=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
@@ -158,6 +171,15 @@ SlctCargarRol=function(result){
     });
     $("#ModalTrabajador #slct_rol_id").html(html); 
     $("#ModalTrabajador #slct_rol_id").selectpicker('refresh');
+
+};
+SlctCargarTarea=function(result){
+    var html="<option value='0'>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.tarea+"</option>";
+    });
+    $("#ModalTrabajador #slct_tarea_id").html(html); 
+    $("#ModalTrabajador #slct_tarea_id").selectpicker('refresh');
 
 };
 </script>
