@@ -184,12 +184,16 @@ class Matricula extends Model
                 if(Input::has('programacion_id')){
                     $mtdetalle->programacion_id=$programacion_id[$i]; 
 
-                    if( !$r->has('especialidad_id') AND trim($r->nro_promocion)==''){
+                    if( trim($r->nro_promocion)==''){
                         $programacionVal= Programacion::find($programacion_id[$i]);
                         $monto_precio= $programacionVal->costo;
                         $monto_saldo= $programacionVal->costo - $monto_pago_certificado[$i];
                         if($monto_saldo<0){
                             $monto_saldo=0;
+                        }
+
+                        if( $monto_pago_certificado[$i]*1==0 ){
+                            $mtdetalle->gratis = 1;
                         }
                     }
 
@@ -293,7 +297,7 @@ class Matricula extends Model
                 $mtdetalle->persona_id_created_at=Auth::user()->id;
                 $mtdetalle->save();
 
-                if( !$r->has('especialidad_id') AND trim($r->nro_promocion)=='' AND $monto_precio>=0){
+                if( trim($r->nro_promocion)=='' AND $monto_precio>=0){
                     $mtsaldo= new MatriculaSaldo;
                     $mtsaldo->matricula_detalle_id= $mtdetalle->id;
                     $mtsaldo->saldo= $monto_saldo;

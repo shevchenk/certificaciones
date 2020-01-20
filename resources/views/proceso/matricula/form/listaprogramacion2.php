@@ -1,7 +1,7 @@
 <!-- /.modal -->
 <div class="modal fade" id="ModalListaprogramacion2" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal fade" id="areaModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xlg">
         <div class="modal-content">
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -37,6 +37,19 @@
                                                     <label><h4>Curso:</h4></label>
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Curso" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
+                                                    </div>
+                                                </div>
+                                            </th>
+                                             <th class="col-xs-1">
+                                                <div class="form-group">
+                                                    <label><h4>Turno:</h4></label>
+                                                    <div class="input-group">
+                                                        <select class="form-control" name="slct_turno" id="slct_turno">
+                                                            <option value='' selected>.::Todo::.</option>
+                                                            <option value='M'>Mañana</option>
+                                                            <option value='T'>Tarde</option>
+                                                            <option value='N'>Noche</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </th>
@@ -83,6 +96,7 @@
                                             <th>Docente</th>
                                             <th>ODE</th>
                                             <th>Curso</th>
+                                            <th>Turno</th>
                                             <th>Frecuencia</th>
                                             <th>Aula</th>
                                             <th>Inicio</th>

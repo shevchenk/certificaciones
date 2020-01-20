@@ -59,4 +59,8 @@ table>tfoot>tr.cabecera{
 li.dropdown>a>select{
     color: black;
 }
+
+.modal-xlg{
+    width: 1200px !important;
+}
 </style>

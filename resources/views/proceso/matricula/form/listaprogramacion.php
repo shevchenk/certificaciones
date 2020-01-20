@@ -1,7 +1,7 @@
 <!-- /.modal -->
 <div class="modal fade" id="ModalListaprogramacion" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal fade" id="areaModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xlg">
         <div class="modal-content">
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -50,6 +50,19 @@
                                                     </div>
                                                 </div>
                                             </th>
+                                            <th class="col-xs-1">
+                                                <div class="form-group">
+                                                    <label><h4>Turno:</h4></label>
+                                                    <div class="input-group">
+                                                        <select class="form-control" name="slct_turno" id="slct_turno">
+                                                            <option value='' selected>.::Todo::.</option>
+                                                            <option value='M'>Mañana</option>
+                                                            <option value='T'>Tarde</option>
+                                                            <option value='N'>Noche</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </th>
                                             <th class="col-xs-2" style="display: none;">
                                                 <div class="form-group">
                                                     <label><h4>Frecuencia:</h4></label>
@@ -93,6 +106,7 @@
                                             <th>Docente</th>
                                             <th>ODE</th>
                                             <th>Semianrio</th>
+                                            <th>Turno</th>
                                             <th style="display: none;">Frecuencia</th>
                                             <th style="display: none;">Aula</th>
                                             <th>Inicio</th>

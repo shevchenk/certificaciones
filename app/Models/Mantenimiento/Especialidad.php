@@ -175,7 +175,8 @@ class Especialidad extends Model
                 ) ea ON ea.especialidad_id=e.id
                 WHERE e.estado=1
                 AND e.empresa_id = $empresa_id
-                AND ea.especialidad_id IS NULL" ;
+                AND ea.especialidad_id IS NULL
+                ORDER BY e.especialidad" ;
         return DB::select($sql);
     }
 
@@ -192,7 +193,8 @@ class Especialidad extends Model
                 AND md.especialidad_id IS NOT NULL
                 ) ea ON ea.especialidad_id=e.id
                 WHERE e.estado=1
-                AND e.empresa_id = $empresa_id";
+                AND e.empresa_id = $empresa_id
+                ORDER BY e.especialidad";
         return DB::select($sql);
     }
 

@@ -40,8 +40,9 @@ SeleccionarTrabajador = function(val,id){
     if( val==0 ){
         var trabajador=$("#TableListatrabajador #trid_"+id+" .trabajador").text();
         var codigo=$("#TableListatrabajador #trid_"+id+" .codigo").text();
+        var tarea=$("#TableListatrabajador #trid_"+id+" .tarea").text();
         var persona_id=$("#TableListatrabajador #trid_"+id+" .persona_id").val();
-        $("#"+LTtextoTrabajador).val(trabajador+' | '+codigo);
+        $("#"+LTtextoTrabajador).val(trabajador+' | '+tarea+' | '+codigo);
         $("#"+LTtextoIdPersona).val(persona_id);
         $('#ModalListatrabajador').modal('hide');
     }
@@ -57,6 +58,7 @@ HTMLCargarListaTrabajador=function(result){
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='trabajador'>"+r.trabajador+"</td>"+
             "<td class='rol'>"+r.rol+"</td>"+
+            "<td class='tarea'>"+r.tarea+"</td>"+
             "<td class='codigo'>"+r.codigo+"</td>"+
            '<td><span class="btn btn-primary btn-sm" onClick="SeleccionarTrabajador(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+

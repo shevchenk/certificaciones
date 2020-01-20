@@ -115,7 +115,7 @@ ValidaForm=function(){
     }*/
     else if( $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
         r=false;
-        msjG.mensaje('warning','Seleccione Teleoperadora',4000);
+        msjG.mensaje('warning','Seleccione Vendedor(a)',4000);
     }
     else if( $.trim( $("#ModalMatriculaForm #txt_persona_caja_id").val() )==''){
         r=false;
@@ -163,25 +163,31 @@ ValidaTabla=function(){
                   contador++;
           
          });
-         if( (ValidaTotal>PromocionG) || (ValidaTotal<PromocionG && ValidaTotal>0) ){
+         /*if( (ValidaTotal>PromocionG) || (ValidaTotal<PromocionG && ValidaTotal>0) ){
             r=false;
             msjG.mensaje('warning','La oferta existente tiene un máximo de '+PromocionG+' seminarios en promoción. Verifique y actualice los seminarios seleccionados.',9000);
-         }
-
-         if( $('#txt_nro_promocion').val()=='' && PromocionGeneral==1 ){
-            r=false;
-            msjG.mensaje('warning','Ingrese N° Recibo de la Promoción',4000);
-         }
-         else if( $('#txt_monto_promocion').val()=='' && PromocionGeneral==1){
-            r=false;
-            msjG.mensaje('warning','Ingrese monto de la Promoción',4000);
-         }
-         else if( $('#slct_tipo_pago').val()=='0' && PromocionGeneral==1){
-            r=false;
-            msjG.mensaje('warning','Seleccione tipo de Operación',4000);
-         }
+         }*/
 
     return r;     
+}
+
+validaPromocion= function(){
+    var r=true;
+
+    if( $('#txt_nro_promocion').val()=='' && PromocionGeneral==1 ){
+        r=false;
+        msjG.mensaje('warning','Ingrese N° Recibo de la Promoción',4000);
+     }
+     else if( $('#txt_monto_promocion').val()=='' && PromocionGeneral==1){
+        r=false;
+        msjG.mensaje('warning','Ingrese monto de la Promoción',4000);
+     }
+     else if( $('#slct_tipo_pago').val()=='0' && PromocionGeneral==1){
+        r=false;
+        msjG.mensaje('warning','Seleccione tipo de Operación',4000);
+     }
+
+     return r;
 }
 
 ValidaTipo=function(v){
@@ -211,9 +217,23 @@ ValidaTipo=function(v){
 }
 
 AgregarEditarAjax=function(){
-    if( ValidaTabla() && ValidaForm()){
-        AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
+    if( ValidaForm() && validaPromocion() ){
+        if( ValidaTabla() ){
+            AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
+        }
+        else{
+            sweetalertG.pregunta('Inscripción','Esta inscribiendo al alumno en calidad de prueba?',EjecutarVenta);
+        }
     }
+}
+
+EjecutarVenta=function(){
+    $("#t_pago>tbody tr").each(function(){
+                $(this).find("td:eq(1) input[type='text']").val('');
+                $(this).find("td:eq(2) input[type='text']").val('0');
+                $(this).find("td:eq(3) select").val('0');
+    });
+    AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
 }
 
 HTMLAgregarEditar=function(result){
