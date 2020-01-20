@@ -216,6 +216,7 @@ class Programacion extends Model
                 $sql->join('mat_cursos_especialidades AS ce',function($join) use( $r ){
                     $join->on('ce.curso_id','=','mp.curso_id');
                     $join->where('ce.especialidad_id',$r->especialidad_id);
+                    $join->where('ce.estado',1);
                 });
             }
 
