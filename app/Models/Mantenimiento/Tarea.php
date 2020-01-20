@@ -78,7 +78,7 @@ class Tarea extends Model
                     if( $r->has("rol_id") ){
                         $rol_id=trim($r->rol_id);
                         if( $rol_id !='' ){
-                            $query->where('r.rol_id',$rol_id);
+                            $query->where('rol_id',$rol_id);
                         }
                     }
                 }
