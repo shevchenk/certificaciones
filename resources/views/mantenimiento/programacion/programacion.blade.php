@@ -94,6 +94,19 @@
                                     </th>
                                     <th class="col-xs-1">
                                         <div class="form-group">
+                                            <label><h4>Turno:</h4></label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="slct_turno" id="slct_turno">
+                                                    <option value='' selected>.::Todo::.</option>
+                                                    <option value='M'>Mañana</option>
+                                                    <option value='T'>Tarde</option>
+                                                    <option value='N'>Noche</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-1">
+                                        <div class="form-group">
                                             <label><h4>Días:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
@@ -152,6 +165,7 @@
                                   <th>ODE</th>
                                   <th>Curso</th>
                                   <th>Aula</th>
+                                  <th>Turno</th>
                                   <th>Días</th>
                                   <th>Inicio</th>
                                   <th>Final</th>

@@ -54,7 +54,7 @@
                                 <option value="DO">Domingo</option>
                             </select>
                         </div>
-                    </div>                 
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Fecha de Inicio</label>
@@ -89,6 +89,17 @@
                         <div class="form-group">
                             <label>Costo</label>
                             <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo" name="txt_costo" value="0">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Turno</label>
+                            <select class="form-control selectpicker" name="slct_turno" id="slct_turno">
+                                <option value='' selected>.::Todo::.</option>
+                                <option value='M'>Mañana</option>
+                                <option value='T'>Tarde</option>
+                                <option value='N'>Noche</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12 txt_link">
