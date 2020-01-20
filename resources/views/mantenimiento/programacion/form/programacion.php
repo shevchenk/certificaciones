@@ -38,7 +38,7 @@
                     <div class="col-md-3 txt_aula validaode">
                         <div class="form-group">
                             <label>Aula</label>
-                            <input type="text" onkeyup="masterG.DecimalMax(this, 2);" onkeypress="return masterG.validaDecimal(event, this);" class="form-control" id="txt_aula" name="txt_aula">
+                            <input type="text" class="form-control" id="txt_aula" name="txt_aula">
                         </div>
                     </div>
                     <div class="col-md-9 slct_dia validaode">

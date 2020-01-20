@@ -65,6 +65,7 @@ $(document).ready(function() {
         $('#ModalProgramacionForm #slct_curso_id').selectpicker( 'val',ProgramacionG.curso_id );
         $('#ModalProgramacionForm #txt_aula').val( ProgramacionG.aula );
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',dia);
+        $('#ModalProgramacionForm #slct_turno').selectpicker('val',ProgramacionG.turno);
         $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio );
         $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final );
         $('#ModalProgramacionForm #txt_fecha_campaña').val( ProgramacionG.fecha_campaña );
@@ -90,6 +91,17 @@ $(document).ready(function() {
     });
     
 });
+
+ValidaOde=function(v){
+    $("#ModalProgramacionForm .validaode").css("display",'block');
+    if( v==1 ){
+        $('#ModalProgramacionForm #slct_dia').selectpicker('val',['LU','MA','MI','JU','VI','SA','DO']);
+        //$('#ModalProgramacionForm #txt_fecha_inicio').val( '2019-01-01 00:00:00' );
+        $('#ModalProgramacionForm #txt_fecha_final').val( '2200-12-31 23:59:59' );
+        $('#ModalProgramacionForm #txt_aula').val( 'Libre' );
+        $("#ModalProgramacionForm .validaode").css("display",'none');
+    }
+}
 
 ValidaForm=function(){
     var r=true;
@@ -130,6 +142,7 @@ AgregarEditar=function(val,id){
     ProgramacionG.curso_id='0';
     ProgramacionG.aula='';
     ProgramacionG.dia='';
+    ProgramacionG.turno='';
     ProgramacionG.fecha_inicio='';
     ProgramacionG.fecha_final='';
     ProgramacionG.fecha_campaña='';
@@ -147,6 +160,7 @@ AgregarEditar=function(val,id){
         ProgramacionG.curso_id=$("#TableProgramacion #trid_"+id+" .curso_id").val();
         ProgramacionG.aula=$("#TableProgramacion #trid_"+id+" .aula").val();
         ProgramacionG.dia=$("#TableProgramacion #trid_"+id+" .dia").val();  
+        ProgramacionG.turno=$("#TableProgramacion #trid_"+id+" .turno").val();  
         ProgramacionG.fecha_inicio=$("#TableProgramacion #trid_"+id+" .fecha_inicio").text();
         ProgramacionG.fecha_final=$("#TableProgramacion #trid_"+id+" .fecha_final").text();
         ProgramacionG.fecha_campaña=$("#TableProgramacion #trid_"+id+" .fecha_campaña").text();
@@ -200,6 +214,7 @@ HTMLCargarProgramacion=function(result){
             "<td class='persona'>"+r.persona+"</td>"+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='curso'>"+r.curso+"</td>"+
+            "<td class='turnos'>"+r.turno+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td class='fecha_final'>"+r.fecha_final+"</td>"+
             "<td class='fecha_campaña'>"+r.fecha_campaña+"</td>"+
@@ -211,6 +226,7 @@ HTMLCargarProgramacion=function(result){
             "<input type='hidden' class='meta_max' value='"+r.meta_max+"'>"+
             "<input type='hidden' class='meta_min' value='"+r.meta_min+"'>"+
             "<input type='hidden' class='dia' value='"+r.dia+"'>"+
+            "<input type='hidden' class='turno' value='"+r.turno+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+

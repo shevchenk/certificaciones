@@ -83,6 +83,19 @@
                                             </div>
                                         </div>
                                     </th>
+                                     <th class="col-xs-1">
+                                        <div class="form-group">
+                                            <label><h4>Turno:</h4></label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="slct_turno" id="slct_turno">
+                                                    <option value='' selected>.::Todo::.</option>
+                                                    <option value='M'>Mañana</option>
+                                                    <option value='T'>Tarde</option>
+                                                    <option value='N'>Noche</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
                                      <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Inicio:</h4></label>
@@ -134,6 +147,7 @@
                                   <th>Docente</th>
                                   <th>ODE</th>
                                   <th>Seminario</th>
+                                  <th>Turno</th>
                                   <th>Inicio</th>
                                   <th>Final</th>
                                   <th>Campaña</th>
