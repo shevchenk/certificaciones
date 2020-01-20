@@ -83,10 +83,11 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color: #DDEBF7;" colspan='6'>DATOS DEL ALUMNO</th>
-                                            <th style="background-color: #E2EFDA;" colspan='5'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #E2EFDA;" colspan='9'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FCE4D6;" colspan='3'>PAGO POR CURSO INDEPENDIENTE</th>
                                             <th style="background-color: #E2EFDA;" colspan='3'>PAGO POR CONJUNTO DE CURSOS</th>
                                             <th style="background-color: #FFF2CC;" colspan='3'>PAGO POR INSCRIPCIÓN</th>
+                                            <th style="background-color: #DDEBF7;" colspan='1'>PAGO DE SALDOS</th>
                                             <th style="background-color: #FCE4D6;" colspan='2'>DEUDA Y NOTA FINAL DEL CURSO</th>
                                         </tr>
                                         <tr>
@@ -102,6 +103,10 @@
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
                                             <th style="background-color: #E2EFDA;">Nombre del Módulo</th>
                                             <th style="background-color: #E2EFDA;">Formación Continua</th>
+                                            <th style="background-color: #E2EFDA;">Local</th>
+                                            <th style="background-color: #E2EFDA;">Frecuencia</th>
+                                            <th style="background-color: #E2EFDA;">Turno</th>
+                                            <th style="background-color: #E2EFDA;">Inicio</th>
                                             
                                             <th style="background-color: #FCE4D6;">Nro Pago</th>
                                             <th style="background-color: #FCE4D6;">Monto Pago</th>
@@ -114,6 +119,8 @@
                                             <th style="background-color: #FFF2CC;">Nro Recibo Inscripción</th>
                                             <th style="background-color: #FFF2CC;">Monto Inscripción</th>
                                             <th style="background-color: #FFF2CC;">Tipo Pago</th>
+
+                                            <th style="background-color: #DDEBF7;">Monto Pago / Nro Pago / Tipo Pago</th>
 
                                             <th style="background-color: #FCE4D6;">Deuda a la Fecha</th>
                                             <th style="background-color: #FCE4D6;">Promedio Final del Curso</th>
@@ -135,6 +142,10 @@
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
                                             <th style="background-color: #E2EFDA;">Nombre del Módulo</th>
                                             <th style="background-color: #E2EFDA;">Formación Continua</th>
+                                            <th style="background-color: #E2EFDA;">Local</th>
+                                            <th style="background-color: #E2EFDA;">Frecuencia</th>
+                                            <th style="background-color: #E2EFDA;">Turno</th>
+                                            <th style="background-color: #E2EFDA;">Inicio</th>
                                             
                                             <th style="background-color: #FCE4D6;">Nro Pago</th>
                                             <th style="background-color: #FCE4D6;">Monto Pago</th>
@@ -147,6 +158,8 @@
                                             <th style="background-color: #FFF2CC;">Nro Recibo Inscripción</th>
                                             <th style="background-color: #FFF2CC;">Monto Inscripción</th>
                                             <th style="background-color: #FFF2CC;">Tipo Pago</th>
+
+                                            <th style="background-color: #DDEBF7;">Monto Pago / Nro Pago / Tipo Pago</th>
 
                                             <th style="background-color: #FCE4D6;">Deuda a la Fecha</th>
                                             <th style="background-color: #FCE4D6;">Promedio Final del Curso</th>

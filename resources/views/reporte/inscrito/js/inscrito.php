@@ -100,8 +100,11 @@ HTMLCargarReporte=function(result){
             "<td>"+$.trim(r.lugar_estudio)+"</td>"+
             "<td>"+r.empresa_inscripcion+"</td>"+
             "<td>"+r.tipo_formacion+"</td>"+
-            "<td>"+formacion+"</td>"+
-            "<td>"+fecha_inicio+"</td>"+
+            "<td>"+r.formacion+"</td>"+
+            "<td>"+r.curso+"</td>"+
+            "<td>"+$.trim(r.frecuencia)+"</td>"+
+            "<td>"+$.trim(r.turno)+"</td>"+
+            "<td>"+$.trim(r.inicio)+"</td>"+
             
             
             "<td>"+nro+"</td>"+

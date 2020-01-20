@@ -95,6 +95,10 @@ HTMLCargarReporte=function(result){
             "<td>"+r.tipo_formacion+"</td>"+
             "<td>"+r.formacion+"</td>"+
             "<td>"+r.curso+"</td>"+
+            "<td>"+$.trim(r.local)+"</td>"+
+            "<td>"+$.trim(r.frecuencia)+"</td>"+
+            "<td>"+$.trim(r.turno)+"</td>"+
+            "<td>"+$.trim(r.inicio)+"</td>"+
             
             "<td>"+$.trim(r.tipo_evaluacion)+"</td>"+
             "<td>"+$.trim(r.peso_evaluacion)+"</td>"+

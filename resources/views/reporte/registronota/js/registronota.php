@@ -103,7 +103,12 @@ HTMLCargarReporte=function(result){
             "<td>"+r.fecha_matricula+"</td>"+
             "<td>"+r.tipo_formacion+"</td>"+
             "<td>"+r.formacion+"</td>"+
-            "<td>"+r.curso+"</td>";
+            "<td>"+r.curso+"</td>"+
+            "<td>"+$.trim(r.local)+"</td>"+
+            "<td>"+$.trim(r.frecuencia)+"</td>"+
+            "<td>"+$.trim(r.turno)+"</td>"+
+            "<td>"+$.trim(r.inicio)+"</td>";
+
             for (var i = 0; i < result.data[1].length; i++) {
                 html+="<td>"+r['n'+(i+1)]+"</td>";
             }

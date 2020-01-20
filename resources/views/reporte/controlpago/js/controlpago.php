@@ -81,7 +81,7 @@ HTMLCargarReporte=function(result){
     $('#TableReporte').DataTable().destroy();
 
     $.each(result.data,function(index,r){
-
+        var pagos= r.pagos.split('\n').join("</li><li>");
         html+="<tr id='trid_"+r.id+"'>"+
             "<td>"+r.dni+"</td>"+
             "<td>"+r.nombre+"</td>"+
@@ -95,6 +95,10 @@ HTMLCargarReporte=function(result){
             "<td>"+r.tipo_formacion+"</td>"+
             "<td>"+r.formacion+"</td>"+
             "<td>"+r.curso+"</td>"+
+            "<td>"+$.trim(r.local)+"</td>"+
+            "<td>"+$.trim(r.frecuencia)+"</td>"+
+            "<td>"+$.trim(r.turno)+"</td>"+
+            "<td>"+$.trim(r.inicio)+"</td>"+
             
             "<td>"+$.trim(r.nro_pago)+"</td>"+
             "<td>"+$.trim(r.monto_pago)+"</td>"+
@@ -107,6 +111,8 @@ HTMLCargarReporte=function(result){
             "<td>"+$.trim(r.nro_pago_inscripcion)+"</td>"+
             "<td>"+$.trim(r.monto_pago_inscripcion)+"</td>"+
             "<td>"+$.trim(r.tipo_pago_inscripcion)+"</td>"+
+
+            "<td><ul><li>"+$.trim(r.pagos)+"</li></ul></td>"+
 
             "<td>"+$.trim(r.deuda)+"</td>"+
             "<td>"+$.trim(r.nota)+"</td>";

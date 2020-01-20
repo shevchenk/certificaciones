@@ -57,7 +57,7 @@ class Seminario extends Model
                 $join->on('mep.id','=','mm.especialidad_programacion_id');
             })
             ->leftJoin('mat_especialidades AS me',function($join){
-                $join->on('me.id','=','mep.especialidad_id');
+                $join->on('me.id','=','mmd.especialidad_id');
             })
             ->leftJoin('sucursales AS s3',function($join){
                 $join->on('s3.id','=','mp.sucursal_id');
@@ -65,18 +65,9 @@ class Seminario extends Model
             ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','mm.validada'
                     ,'mm.fecha_matricula',DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
-                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NULL, 
-                                GROUP_CONCAT( DISTINCT( IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ) )),
-                                "Especialidad"
-                                ) AS tipo_formacion ')
-                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
-                                GROUP_CONCAT( DISTINCT(me.especialidad) ),
-                                GROUP_CONCAT( mc.curso ORDER BY mmd.id SEPARATOR "\n") 
-                                ) AS formacion')
-                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
-                                GROUP_CONCAT( DISTINCT(mep.fecha_inicio) ),
-                                GROUP_CONCAT( mp.fecha_inicio ORDER BY mmd.id SEPARATOR "\n")
-                                ) AS fecha_inicio')
+                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
+                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
+                    ,'mc.curso AS curso', 'mp.dia AS frecuencia', 'mp.turno', 'mp.fecha_inicio AS inicio'
                     ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
                                 "",
                                 GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
@@ -148,6 +139,7 @@ class Seminario extends Model
             ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','mm.validada'
                     ,'mm.fecha_matricula','e.empresa'
+                    ,'mmd.especialidad_id','mc.curso','mc.tipo_curso','me.especialidad','mp.dia','mp.turno','mp.fecha_inicio'
                     ,'mm.especialidad_programacion_id'
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion'
                     ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion');
@@ -250,6 +242,7 @@ class Seminario extends Model
             5,15,15,20,20,20,15,15,25,30,
             15,15,15,15,15,
             15,15,15,15,15,
+            15,15,15,15,15,
             15,15,15,15,15,15,
             20,20,20,
             15,15,15,20
@@ -276,7 +269,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(1,6,6,3,2,2,4);
+        $nrocabeceraTit=array(1,6,9,3,2,2,4);
         $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#8DB4E2','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -310,7 +303,8 @@ class Seminario extends Model
         $cabecera=array(
             'N°','Fuente de Datos','Fuente de Datos de Empresa'
             ,'DNI','Nombre','Paterno','Materno','Telefono','Celular','Email'
-            ,'Validó Email?','Fecha Inscripción','Donde Estudiará','Empresa','Tipo de Formación Continua','Formación Continua','Fecha a Realizarse'
+            ,'Validó Email?','Fecha Inscripción','Donde Estudiará','Empresa'
+            ,'Tipo de Formación Continua','Nombre del Módulo','Formación Continua','Frecuencia','Turno','Inicio'
             ,'Nro Pago','Monto Pago','Tipo Pago','Total Pagado'
             ,'Nro Recibo PCC','Monto PPC','Tipo Pago PPC','Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago Inscripción'
             ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Supervisor(a)'
@@ -325,7 +319,7 @@ class Seminario extends Model
         $r['lengthTit']=$lengthTit;
         $r['colorTit']=$colorTit;
         $r['lengthDet']=$lengthDet;
-        $r['max']=$estatico.chr($min); // Max. Celda en LETRA
+        $r['max']='AI'; // Max. Celda en LETRA
         return $r;
     }
 
@@ -500,6 +494,9 @@ class Seminario extends Model
             ->join('mat_programaciones AS mp',function($join){
                 $join->on('mp.id','=','mmd.programacion_id');
             })
+            ->join('sucursales AS s',function($join){
+                $join->on('s.id','=','mp.sucursal_id');
+            })
             ->leftJoin('mat_especialidades AS me',function($join){
                 $join->on('me.id','=','mmd.especialidad_id');
             })
@@ -508,7 +505,7 @@ class Seminario extends Model
                     ,'e.empresa AS empresa_inscripcion','mm.fecha_matricula'
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
-                    ,'mc.curso AS curso'
+                    ,'mc.curso AS curso', 's.sucursal AS local', 'mp.dia AS frecuencia', 'mp.turno', 'mp.fecha_inicio AS inicio'
                     ,'mmd.nro_pago_certificado AS nro_pago'
                     ,'mmd.monto_pago_certificado AS monto_pago'
                     ,DB::raw(' CASE 
@@ -538,10 +535,23 @@ class Seminario extends Model
                                     WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
                                     ELSE "Caja"
                                 END AS tipo_pago_inscripcion')
-                    ,DB::raw('  IFNULL((SELECT SUM(saldo)
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(pago," / ",nro_pago," / ",
+                                CASE  WHEN tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    ELSE "Caja"
+                                END
+                                 SEPARATOR "\n") 
                                 FROM mat_matriculas_saldos
-                                WHERE nro_pago=""
-                                AND saldo>0
+                                WHERE nro_pago!=""
+                                AND estado=1
+                                AND matricula_detalle_id= mmd.id),"") AS pagos ')
+                    ,DB::raw('  IFNULL((SELECT MIN(saldo)
+                                FROM mat_matriculas_saldos
+                                WHERE saldo>0
                                 AND estado=1
                                 AND matricula_detalle_id= mmd.id),0) AS deuda ')
                     ,'mmd.nota_curso_alum AS nota'
@@ -627,9 +637,11 @@ class Seminario extends Model
         $pos=array(
             5,15,15,15,15,15,20,
             15,15,15,25,25,
+            20,15,15,15,
             15,15,15,
             15,15,15,
             15,15,15,
+            30,
             15,15
         );
 
@@ -647,15 +659,15 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','DEUDA Y NOTA FINAL DEL CURSO'
+            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO'
         );
 
         $valIni=66;
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,4,2,2,2,1);
-        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FCE4D6');
+        $nrocabeceraTit=array(5,8,2,2,2,0,1);
+        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#DDEBF7','#FCE4D6');
         $lengthTit=array();
         $lengthDet=array();
 
@@ -689,9 +701,11 @@ class Seminario extends Model
             'N°'
             ,'DNI','Nombre','Paterno','Materno','Celular','Email'
             ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua'
+            ,'Local','Frecuencia','Turno','Inicio'
             ,'Nro Pago','Monto Pago','Tipo Pago'
             ,'Nro Recibo PCC','Monto PPC','Tipo Pago'
             ,'Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago'
+            ,'Monto Pago / Nro Pago / Tipo Pago'
             ,'Deuda a la Fecha','Promedio Final del Curso'
         );
         $campos=array('');
@@ -704,7 +718,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'W'; //$estatico.chr($min);
+        $return['max']= 'AB'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;
@@ -736,7 +750,8 @@ class Seminario extends Model
 
         $sql = "SELECT mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa AS empresa_inscripcion, mm.fecha_matricula,
                 IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion,
-                IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion, mc.curso AS curso
+                IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion
+                ,mc.curso AS curso, s.sucursal AS local, mp.dia AS frecuencia, mp.turno, mp.fecha_inicio AS inicio
                 ,te.tipo_evaluacion, te2.peso_evaluacion, DATE(ev.fecha_examen) AS fecha_evaluacion, ev.nota
                 ,mmd.nota_curso_alum AS promedio 
 
@@ -747,6 +762,7 @@ class Seminario extends Model
                 INNER JOIN mat_cursos AS mc ON mc.id = mmd.curso_id AND mc.empresa_id = $empresa
                 INNER JOIN empresas AS e ON e.id = mc.empresa_id 
                 INNER JOIN mat_programaciones AS mp ON mp.id = mmd.programacion_id
+                INNER JOIN sucursales AS s ON s.id=mp.sucursal_id 
                 LEFT JOIN mat_especialidades AS me ON me.id = mmd.especialidad_id 
                 LEFT JOIN (
                     SELECT c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion 
@@ -830,6 +846,7 @@ class Seminario extends Model
         $pos=array(
             5,15,15,15,15,15,20,
             15,15,15,25,25,
+            20,15,15,15,
             15,15,15,15,15
         );
 
@@ -854,7 +871,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,4,4);
+        $nrocabeceraTit=array(5,8,4);
         $colorTit=array('#DDEBF7','#E2EFDA','#FFF2CC');
         $lengthTit=array();
         $lengthDet=array();
@@ -889,6 +906,7 @@ class Seminario extends Model
             'N°'
             ,'DNI','Nombre','Paterno','Materno','Celular','Email'
             ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua'
+            ,'Local','Frecuencia','Turno','Inicio'
             ,'Tipo de Evaluación','Peso Evaluación','Fecha de Ejecución','Nota','Promedio Final'
         );
         $campos=array('');
@@ -901,7 +919,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'Q'; //$estatico.chr($min);
+        $return['max']= 'U'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;
@@ -952,7 +970,8 @@ class Seminario extends Model
 
         $sql = "SELECT mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa AS empresa_inscripcion, mm.fecha_matricula,
                 IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion,
-                IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion, mc.curso AS curso
+                IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion
+                ,mc.curso AS curso, s.sucursal AS local, mp.dia AS frecuencia, mp.turno, mp.fecha_inicio AS inicio
                 $notas
                 ,mmd.nota_curso_alum AS promedio 
 
@@ -963,6 +982,7 @@ class Seminario extends Model
                 INNER JOIN mat_cursos AS mc ON mc.id = mmd.curso_id AND mc.empresa_id = $empresa
                 INNER JOIN empresas AS e ON e.id = mc.empresa_id 
                 INNER JOIN mat_programaciones AS mp ON mp.id = mmd.programacion_id
+                INNER JOIN sucursales AS s ON s.id = mp.sucursal_id
                 LEFT JOIN mat_especialidades AS me ON me.id = mmd.especialidad_id 
                 LEFT JOIN (
                     SELECT p.programacion_externo_id, e.fecha_examen, e.nota , te.tipo_evaluacion_externo_id 
@@ -1005,7 +1025,7 @@ class Seminario extends Model
                         }
                     }
 
-                $sql.=" GROUP BY mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa, mm.fecha_matricula, mmd.especialidad_id, mc.tipo_curso, mc.curso, mmd.nota_curso_alum, me.especialidad";
+                $sql.=" GROUP BY mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa, mm.fecha_matricula, mmd.especialidad_id, mc.tipo_curso, mc.curso, mmd.nota_curso_alum, me.especialidad, mp.dia, mp.turno, mp.fecha_inicio, s.sucursal";
 
         $result= DB::select($sql);
 
@@ -1022,6 +1042,7 @@ class Seminario extends Model
         $pos=array(
             5,15,15,15,15,15,20,
             15,15,15,25,25,
+            20,15,15,15,
             15,15,15,15,15,
             15,15,15,15,15,
             15,15,15,15,15
@@ -1048,7 +1069,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,4,count($cursos));
+        $nrocabeceraTit=array(5,8,count($cursos));
         $colorTit=array('#DDEBF7','#E2EFDA','#FFF2CC');
         $lengthTit=array();
         $lengthDet=array();
@@ -1082,7 +1103,8 @@ class Seminario extends Model
         $cabecera=array(
             'N°'
             ,'DNI','Nombre','Paterno','Materno','Celular','Email'
-            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua');
+            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua'
+            ,'Local','Frecuencia','Turno','Inicio');
 
         foreach ($cursos as $key => $value) {
             array_push($cabecera, 'Nota '.($key+1));
@@ -1099,7 +1121,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'T'; //$estatico.chr($min);
+        $return['max']= 'X'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;

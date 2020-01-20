@@ -74,7 +74,7 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color: #F2DCDB;" colspan='6'>DATOS DEL INSCRITO</th>
-                                            <th style="background-color: #C5D9F1;" colspan='7'>SOBRE LA INFORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #C5D9F1;" colspan='10'>SOBRE LA INFORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FFFF00;" colspan='4'>PAGO POR CURSO</th>
                                             <th style="background-color: #8DB4E2;" colspan='2'>PAGO POR CONJUNTO DE CURSOS</th>
                                             <th style="background-color: #8DB4E2;" colspan='2'>PAGO POR INSCRIPCIÓN</th>
@@ -93,8 +93,11 @@
                                             <th style="background-color: #C5D9F1;">Donde Estudiará</th>
                                             <th style="background-color: #C5D9F1;">Empresa</th>
                                             <th style="background-color: #C5D9F1;">Tipo de Formación Continua</th>
+                                            <th style="background-color: #C5D9F1;">Nombre del Módulo</th>
                                             <th style="background-color: #C5D9F1;">Formación Continua</th>
-                                            <th style="background-color: #C5D9F1;">Fecha a Realizarse</th>
+                                            <th style="background-color: #C5D9F1;">Frecuencia</th>
+                                            <th style="background-color: #C5D9F1;">Turno</th>
+                                            <th style="background-color: #C5D9F1;">Inicio</th>
                                         
                                             <th style="background-color: #FFFF00;">Nro Pago</th>
                                             <th style="background-color: #FFFF00;">Monto Pago</th>
@@ -130,8 +133,11 @@
                                             <th style="background-color: #C5D9F1;">Donde Estudiará</th>
                                             <th style="background-color: #C5D9F1;">Empresa</th>
                                             <th style="background-color: #C5D9F1;">Tipo de Formación Continua</th>
+                                            <th style="background-color: #C5D9F1;">Nombre del Módulo</th>
                                             <th style="background-color: #C5D9F1;">Formación Continua</th>
-                                            <th style="background-color: #C5D9F1;">Fecha a Realizarse</th>
+                                            <th style="background-color: #C5D9F1;">Frecuencia</th>
+                                            <th style="background-color: #C5D9F1;">Turno</th>
+                                            <th style="background-color: #C5D9F1;">Inicio</th>
                                         
                                             <th style="background-color: #FFFF00;">Nro Pago</th>
                                             <th style="background-color: #FFFF00;">Monto Pago</th>

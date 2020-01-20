@@ -83,7 +83,7 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color: #DDEBF7;" colspan='6'>DATOS DEL ALUMNO</th>
-                                            <th style="background-color: #E2EFDA;" colspan='5'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #E2EFDA;" colspan='9'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FFF2CC;" colspan='5'>NOTA DEL CURSO</th>
                                         </tr>
                                         <tr>
@@ -99,6 +99,10 @@
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
                                             <th style="background-color: #E2EFDA;">Nombre del Módulo</th>
                                             <th style="background-color: #E2EFDA;">Formación Continua</th>
+                                            <th style="background-color: #E2EFDA;">Local</th>
+                                            <th style="background-color: #E2EFDA;">Frecuencia</th>
+                                            <th style="background-color: #E2EFDA;">Turno</th>
+                                            <th style="background-color: #E2EFDA;">Inicio</th>
                                             
                                             <th style="background-color: #FFF2CC;">Tipo Evaluación</th>
                                             <th style="background-color: #FFF2CC;">Peso Evaluación</th>
@@ -123,6 +127,10 @@
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
                                             <th style="background-color: #E2EFDA;">Nombre del Módulo</th>
                                             <th style="background-color: #E2EFDA;">Formación Continua</th>
+                                            <th style="background-color: #E2EFDA;">Local</th>
+                                            <th style="background-color: #E2EFDA;">Frecuencia</th>
+                                            <th style="background-color: #E2EFDA;">Turno</th>
+                                            <th style="background-color: #E2EFDA;">Inicio</th>
                                             
                                             <th style="background-color: #FFF2CC;">Tipo Evaluación</th>
                                             <th style="background-color: #FFF2CC;">Peso Evaluación</th>
