@@ -34,9 +34,9 @@ class TareaMA extends Controller
             );
 
             $rules = array(
-                'rol' => 
+                'tarea' => 
                        ['required',
-                        Rule::unique('mat_roles','rol'),
+                        Rule::unique('mat_tareas','tarea'),
                         ],
             );
 
@@ -65,9 +65,9 @@ class TareaMA extends Controller
             );
 
             $rules = array(
-                'rol' => 
+                'tarea' => 
                        ['required',
-                        Rule::unique('mat_roles','rol')->ignore($r->id),
+                        Rule::unique('mat_tareas','tarea')->ignore($r->id),
                         ],
             );
 

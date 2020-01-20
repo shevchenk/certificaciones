@@ -39,6 +39,15 @@ $(document).ready(function() {
     });
 });
 
+SlctCargarRol=function(result){
+    var html="<option value='0'>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.rol+"</option>";
+    });
+    $("#ModalTareaForm #slct_rol_id").html(html); 
+    $("#ModalTareaForm #slct_rol_id").selectpicker('refresh');
+
+};
 
 
 ValidaForm=function(){
@@ -110,9 +119,6 @@ HTMLCargarTarea=function(result){
         estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
         if(r.estado==1){
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
-        }
-        if( r.id==1 || r.id==2 ){
-            estadohtml='<span class="btn btn-info" onClick="Validacion()">Activo</span>';
         }
 
         html+="<tr id='trid_"+r.id+"'>"+

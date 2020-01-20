@@ -44,30 +44,39 @@ class Tarea extends Model
 
     public static function runLoad($r)
     {   
-        $sql=DB::table('mat_tareas AS r')
+        $sql=DB::table('mat_tareas AS t')
+            ->join('mat_roles AS r','r.id','=','t.rol_id')
             ->select(
-            'r.id',
-            'r.tarea',
-            'r.estado'
+            't.id',
+            't.tarea',
+            'r.rol','t.rol_id',
+            't.estado'
             )
             ->where( 
                 function($query) use ($r){
                     if( $r->has("tarea") ){
                         $tarea=trim($r->tarea);
                         if( $tarea !='' ){
-                            $query->where('r.tarea','like','%'.$tarea.'%');
+                            $query->where('t.tarea','like','%'.$tarea.'%');
+                        }
+                    }
+
+                    if( $r->has("rol") ){
+                        $rol=trim($r->rol);
+                        if( $rol !='' ){
+                            $query->where('r.rol','like','%'.$rol.'%');
                         }
                     }
 
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
-                            $query->where('r.estado',$estado);
+                            $query->where('t.estado',$estado);
                         }
                     }
                 }
             );
-        $result = $sql->orderBy('r.tarea','asc')->paginate(10);
+        $result = $sql->orderBy('t.tarea','asc')->paginate(10);
         return $result;
     }
     

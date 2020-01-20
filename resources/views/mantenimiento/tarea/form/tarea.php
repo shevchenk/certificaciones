@@ -13,7 +13,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Tarea</label>
-                                <input type="text" class="form-control" id="txt_rol" name="txt_rol">
+                                <input type="text" class="form-control" id="txt_tarea" name="txt_tarea">
                             </div>
                         </div>
                         <div class="col-md-12">
