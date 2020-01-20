@@ -25,6 +25,7 @@ class Tarea extends Model
         $usuario = Auth::user()->id;
         $tarea = new Tarea;
         $tarea->tarea = trim( $r->tarea );
+        $tarea->rol_id = trim( $r->rol_id );
         $tarea->estado = trim( $r->estado );
         $tarea->persona_id_created_at=$usuario;
         $tarea->save();
@@ -35,6 +36,7 @@ class Tarea extends Model
         $usuario = Auth::user()->id;
         $tarea = Tarea::find($r->id);
         $tarea->tarea = trim( $r->tarea );
+        $tarea->rol_id = trim( $r->rol_id );
         $tarea->estado = trim( $r->estado );
         $tarea->persona_id_updated_at=$usuario;
         $tarea->save();
