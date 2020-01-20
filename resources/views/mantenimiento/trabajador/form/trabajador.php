@@ -24,7 +24,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Rol</label>
-                                <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_rol_id" name="slct_rol_id">
+                                <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_rol_id" name="slct_rol_id" onchange="CargaTarea(this.value);">
                                     <option value="0">.::Seleccione::.</option>
                                 </select>
                             </div> 

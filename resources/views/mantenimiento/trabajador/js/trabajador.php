@@ -12,7 +12,6 @@ $(document).ready(function() {
         "autoWidth": false
     });
     CargarSlct(1);
-    CargarSlct(2);
     AjaxTrabajador.Cargar(HTMLCargarTrabajador);
     $("#TrabajadorForm #TableTrabajador select").change(function(){ AjaxTrabajador.Cargar(HTMLCargarTrabajador); });
     $("#TrabajadorForm #TableTrabajador input").blur(function(){ AjaxTrabajador.Cargar(HTMLCargarTrabajador); });
@@ -25,6 +24,8 @@ $(document).ready(function() {
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalTrabajadorForm").append("<input type='hidden' value='"+TrabajadorG.id+"' name='id'>");
         }
+
+            CargaTarea(TrabajadorG.rol_id);
 
         $('#ModalTrabajadorForm #txt_trabajador').val( TrabajadorG.trabajador );
         $('#ModalTrabajadorForm #txt_persona_id').val( TrabajadorG.persona_id );
@@ -160,10 +161,12 @@ CargarSlct=function(slct){
     if(slct==1){
     AjaxTrabajador.CargarRol(SlctCargarRol);
     }
-    else if(slct==2){
-    AjaxTrabajador.CargarTarea(SlctCargarTarea);
-    }
 }
+
+CargaTarea=function(val){
+    AjaxTrabajador.CargarTarea(SlctCargarTarea,val);
+}
+
 SlctCargarRol=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
     $.each(result.data,function(index,r){
@@ -176,7 +179,11 @@ SlctCargarRol=function(result){
 SlctCargarTarea=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.tarea+"</option>";
+        selected='';
+        if( TrabajadorG.tarea_id*1>0 && TrabajadorG.tarea_id==r.id ){
+            selected='selected';
+        }
+        html+="<option value='"+r.id+"' "+selected+">"+r.tarea+"</option>";
     });
     $("#ModalTrabajador #slct_tarea_id").html(html); 
     $("#ModalTrabajador #slct_tarea_id").selectpicker('refresh');

@@ -30,9 +30,9 @@ var AjaxTrabajador={
         data={};
         masterG.postAjax(url,data,evento);
     },
-    CargarTarea:function(evento){
+    CargarTarea:function(evento,val){
         url='AjaxDinamic/Mantenimiento.TareaEM@ListTarea';
-        data={};
+        data={rol_id:val};
         masterG.postAjax(url,data,evento);
     }
 };

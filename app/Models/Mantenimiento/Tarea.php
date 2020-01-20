@@ -72,7 +72,17 @@ class Tarea extends Model
     public static function ListTarea($r)
     {  
         $sql=Tarea::select('id','tarea','estado')
-            ->where('estado','=','1');
+            ->where('estado','=','1')
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("rol_id") ){
+                        $rol_id=trim($r->rol_id);
+                        if( $rol_id !='' ){
+                            $query->where('r.rol_id',$rol_id);
+                        }
+                    }
+                }
+            );
         $result = $sql->orderBy('tarea','asc')->get();
         return $result;
     }
