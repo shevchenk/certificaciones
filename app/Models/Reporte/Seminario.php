@@ -1126,4 +1126,189 @@ class Seminario extends Model
         
         return $return;
     }
+
+    public static function runAsesoria($r)
+    {
+        
+        $servidor = 'telesup_pae';
+        $aulaservidor = 'telesup_aula';
+        if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
+            $servidor = 'formacion_continua';
+            $aulaservidor = 'aula_formacion_continua';
+        }
+        elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
+            $servidor = 'capa_formacion_continua';
+            $aulaservidor = 'capa_aula_formacion_continua';
+        }
+
+        $sql= " UPDATE $servidor.mat_matriculas_detalles md
+                INNER JOIN $aulaservidor.v_programaciones p ON p.programacion_externo_id=md.id 
+                SET md.nota_curso_alum = p.nota_final
+                WHERE p.nota_final>0";
+        $update = DB::update($sql);
+
+        $id=Auth::user()->id;
+        $empresa_id = Auth::user()->empresa_id;
+        $especialidad_id = $r->especialidad_id;
+
+        $sql = "SELECT ce.curso_id, c.curso_apocope AS codigo, c.curso, c.credito, c.hora
+                FROM mat_cursos_especialidades ce
+                INNER JOIN mat_cursos c ON c.id=ce.curso_id
+                WHERE ce.especialidad_id = $especialidad_id
+                AND ce.estado = 1";
+        $cursos = DB::select($sql);
+
+        $curso = "";
+        $left = "";
+
+        foreach ($cursos as $key => $value) {
+            $curso.=", COUNT(DISTINCT(ce".($key+1).".id)) c".($key+1);
+            $curso.=", IF( MAX(IF(mmd.curso_id = ".$value->curso_id.",mmd.nota_curso_alum,0))>=MAX(e.nota_minima),1,0) nf".($key+1);
+            $left.="
+            LEFT JOIN mat_cursos_especialidades AS ce".($key+1)." ON ce".($key+1).".curso_id=mp.curso_id AND ce".($key+1).".especialidad_id = $especialidad_id AND ce".($key+1).".curso_id=".$value->curso_id;
+        }
+
+        $sql = "SELECT p.id, p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email
+                , COUNT(DISTINCT(mc.id)) ncursos, COUNT(DISTINCT(ce.id)) nrelacion
+                $curso
+                FROM mat_matriculas AS mm 
+                INNER JOIN mat_matriculas_detalles AS mmd ON mmd.matricula_id = mm.id AND mmd.estado = 1 
+                INNER JOIN personas AS p ON p.id = mm.persona_id
+                INNER JOIN mat_cursos AS mc ON mc.id = mmd.curso_id AND mc.empresa_id = $empresa_id
+                INNER JOIN empresas AS e ON e.id = mc.empresa_id 
+                INNER JOIN mat_programaciones AS mp ON mp.id = mmd.programacion_id
+                INNER JOIN sucursales AS s ON s.id = mp.sucursal_id
+                LEFT JOIN mat_especialidades AS me ON me.id = mmd.especialidad_id 
+                LEFT JOIN mat_cursos_especialidades AS ce ON ce.curso_id=mp.curso_id AND ce.especialidad_id = $especialidad_id
+                $left
+                WHERE mm.estado = 1 ";
+                    if( $r->has("paterno") ){
+                        $paterno = trim($r->paterno);
+                        if( $paterno !='' ){
+                            $sql.=" AND p.paterno LIKE ('%$paterno%')";
+                        }
+                    }
+
+                    if( $r->has("materno") ){
+                        $materno = trim($r->materno);
+                        if( $materno !='' ){
+                            $sql.=" AND p.materno LIKE ('%$materno%')";
+                        }
+                    }
+
+                    if( $r->has("nombre") ){
+                        $nombre = trim($r->nombre);
+                        if( $nombre !='' ){
+                            $sql.=" AND p.nombre LIKE ('%$nombre%')";
+                        }
+                    }
+
+                    if( $r->has("dni") ){
+                        $dni = trim($r->dni);
+                        if( $dni !='' ){
+                            $sql.=" AND p.dni LIKE ('%$dni%')";
+                        }
+                    }
+                $sql.="
+                GROUP BY p.id, p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email
+                HAVING nrelacion>0
+                ORDER BY nrelacion DESC";
+
+        $result= DB::select($sql);
+
+        return array($result,$cursos);
+    }
+
+    public static function runExportAsesoria($r)
+    {
+        $rsql= Seminario::runAsesoria($r);
+        $datos = $rsql[0];
+        $cursos = $rsql[1];
+        
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,15,15,15,15,20,
+            15,15,
+            15,15,15,15,15,
+            15,15,15,15,15,
+            15,15,15,15,15
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array(
+            'DATOS DEL ALUMNO','CURSOS'
+        );
+
+        $valIni=66;
+        $min=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(5,count($cursos)+1);
+        $colorTit=array('#DDEBF7','#FFF2CC');
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min++;
+                $estaticoFin= chr($min);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min++;
+                    $estatico= chr($min);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°'
+            ,'DNI','Nombre','Paterno','Materno','Celular','Email'
+            ,'Total Cursos','Total Relación');
+
+        foreach ($cursos as $key => $value) {
+            array_push($cabecera, 'C'.($key+1));
+        }
+        
+        $campos=array('');
+
+        $return['data']=$datos;
+        $return['cursos']=$cursos;
+        $return['campos']=$campos;
+        $return['cabecera']=$cabecera;
+        $return['length']=$length;
+        $return['cabeceraTit']=$cabeceraTit;
+        $return['lengthTit']=$lengthTit;
+        $return['colorTit']=$colorTit;
+        $return['lengthDet']=$lengthDet;
+        $return['max']= 'X'; //$estatico.chr($min);
+        $return['min']=$min; // Max. Celda en LETRA
+        
+        return $return;
+    }
 }

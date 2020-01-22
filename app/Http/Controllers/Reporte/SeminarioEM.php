@@ -85,6 +85,24 @@ class SeminarioEM extends Controller
         }
     }
 
+    public function LoadAsesoria(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $url=explode("/",$_SERVER['HTTP_REFERER']);
+            if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
+                $r['global']=1;
+            }
+            elseif( $url[count($url)-1]=="reporte.seminariot.seminariot" ){
+                $r['vendedor']=1;
+            }
+            $renturnModel = Seminario::runAsesoria($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function ExportSeminario(Request $r )
     {
         $url=explode("/",$_SERVER['HTTP_REFERER']);
@@ -655,6 +673,175 @@ class SeminarioEM extends Controller
                 $data[$i]['id']=$i+1;
                 $pos++;
                 $sheet->row( $pos, $data[$i] );
+            }
+
+            $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+            });
+
+            $count = $sheet->getHighestRow();
+            $sheet->getStyle('A2:'.$renturnModel['max']."3")->getAlignment()->setWrapText(true);
+            $sheet->getStyle('O4:T'.$count)->getAlignment()->setWrapText(true);
+            
+            $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
+
+        });
+        
+        })->export('xlsx');
+    }
+
+    public function ExportAsesoria(Request $r )
+    {
+        $url=explode("/",$_SERVER['HTTP_REFERER']);
+        if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
+            $r['global']=1;
+        }
+        elseif( $url[count($url)-1]=="reporte.seminariot.seminariot" ){
+            $r['vendedor']=1;
+        }
+        $renturnModel = Seminario::runExportAsesoria($r);
+
+        
+        Excel::create('Seminario', function($excel) use($renturnModel) {
+
+        $excel->setTitle('Reporte de Seminarios')
+              ->setCreator('Jorge Salcedo')
+              ->setCompany('JS Soluciones')
+              ->setDescription('Asesorias');
+
+        $excel->sheet('Asesorias', function($sheet) use($renturnModel) {
+            $sheet->setOrientation('landscape');
+            $sheet->setPageMargin(array(
+                0.25, 0.30, 0.25, 0.30
+            ));
+
+            $sheet->setStyle(array(
+                'font' => array(
+                    'name'      =>  'Bookman Old Style',
+                    'size'      =>  8,
+                    'bold'      =>  false
+                )
+            ));
+
+            $sheet->cell('A1', function($cell) {
+                $cell->setValue('HERRAMIENTA DE APOYO A LA GESTIÓN DE ASESORÍA ACADÉMICA');
+                $cell->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '24',
+                    'bold'       =>  true
+                ));
+            });
+            $sheet->mergeCells('A1:M1');
+            $sheet->cells('A1:M1', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+            });
+
+            $sheet->setWidth($renturnModel['length']);
+            $sheet->setHeight(2, 33.5);
+            $sheet->fromArray(array(
+                array(''),
+                /*array(''),array(''),array(''),array(''),array(''),*/
+                $renturnModel['cabecera']
+            ));
+
+            for( $i=0; $i<COUNT($renturnModel['cabeceraTit']); $i++ ){
+                $posicion= explode(":",$renturnModel['lengthTit'][$i]);
+                $sheet->cell($posicion[0], function($cell) use( $renturnModel,$i ){
+                    $cell->setValue($renturnModel['cabeceraTit'][$i]);
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '12',
+                            'bold'       =>  true
+                    ));
+                });
+                $sheet->mergeCells($renturnModel['lengthTit'][$i]);
+                $sheet->cells($renturnModel['lengthTit'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBorder('solid', 'none', 'none', 'solid');
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+
+                $sheet->cells($renturnModel['lengthDet'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+            }
+
+            $data=json_decode(json_encode($renturnModel['data']), true);
+            $pos=3;
+            for ($i=0; $i<count($data); $i++) {
+                $data[$i]['id']=$i+1;
+                foreach ($renturnModel['cursos'] as $key => $value) {
+                    $pintado= "No Inscrito";
+                    if( $data[$i]['c'.($key+1)]>0 ){
+                        $pintado= "Inscrito";
+                        if( $data[$i]['nf'.($key+1)]>0 ){
+                            $pintado= "Aprobado";
+                        }
+                    }
+                    $data[$i]['c'.($key+1)]=$pintado;
+                    unset($data[$i]['nf'.($key+1)]);
+                }
+                $pos++;
+                $sheet->row( $pos, $data[$i] );
+            }
+
+            $pos++;$pos++;$pos++;
+            $titcursos=array('Cód','Unidad Académica','','','','Créditos','horas');
+            $sheet->row( $pos, $titcursos );
+            $sheet->mergeCells("B".$pos.":E".$pos);
+            $sheet->cells("A".$pos.":G".$pos, function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setBackground("#FFF2CC");
+            });
+
+            $sheet->cell("A".$pos, function($cell) {
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '10',
+                            'bold'       =>  true
+                    ));
+            });
+            $sheet->cell("B".$pos, function($cell) {
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '10',
+                            'bold'       =>  true
+                    ));
+            });
+            $sheet->cell("F".$pos, function($cell) {
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '10',
+                            'bold'       =>  true
+                    ));
+            });
+            $sheet->cell("G".$pos, function($cell) {
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '10',
+                            'bold'       =>  true
+                    ));
+            });
+            $cursos=json_decode(json_encode($renturnModel['cursos']), true);
+            for ($i=0; $i<count($cursos); $i++) {
+                $pos++;
+                $sheet->cell('A'.$pos, "C".($i+1));
+                $sheet->cell('B'.$pos, $cursos[$i]['curso']);
+                $sheet->mergeCells("B".$pos.":E".$pos);
+                $sheet->cell('F'.$pos, "Nro:".$cursos[$i]['credito']);
+                $sheet->cell('G'.$pos, "Nro:".$cursos[$i]['hora']);
             }
 
             $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
