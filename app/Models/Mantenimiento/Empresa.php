@@ -46,6 +46,48 @@ class Empresa extends Model
             $EE->estado=1;
             $EE->save();
         }
+
+        $sql="
+        INSERT INTO tipo_llamadas (empresa_id, tipo_llamada, plataforma, peso, obs, estado, created_at, persona_id_created_at)
+        SELECT $empresa->id, tipo_llamada, plataforma, peso, obs, 1, NOW(), 1
+        FROM tipo_llamadas
+        WHERE empresa_id = 2";
+        DB::insert($sql);
+
+        $sql="
+        SELECT MIN(id)+7 AS id
+        FROM tipo_llamadas
+        WHERE empresa_id=".$empresa->id;
+        $idmin = DB::select($sql);
+        $idmintl = $idmin[0]->id;
+
+        //dd($idmintl . " | ".$empresa->id);
+
+        $sql="
+        INSERT INTO tipo_llamadas_sub (tipo_llamada_id, tipo_llamada_sub, estado, created_at, persona_id_created_at)
+        SELECT $idmintl, tls.tipo_llamada_sub, 1, NOW(), 1
+        FROM tipo_llamadas tl 
+        INNER JOIN tipo_llamadas_sub tls ON tls.tipo_llamada_id = tl.id
+        WHERE tl.empresa_id=2";
+        DB::insert($sql);
+
+        $sql="
+        SELECT MIN(tls.id) AS id
+        FROM tipo_llamadas tl 
+        INNER JOIN tipo_llamadas_sub tls ON tls.tipo_llamada_id = tl.id
+        WHERE tl.empresa_id=".$empresa->id;
+        $idmin = DB::select($sql);
+        $idmintl = $idmin[0]->id;
+
+        $sql="
+        INSERT INTO tipo_llamadas_sub_detalle (tipo_llamada_sub_id, tipo_llamada_sub_detalle, detalle, estado, created_at, persona_id_created_at)
+        SELECT $idmintl - 42 + tls.id, tlsd.tipo_llamada_sub_detalle, '', 1, NOW(), 1
+        FROM tipo_llamadas tl 
+        INNER JOIN tipo_llamadas_sub tls ON tls.tipo_llamada_id = tl.id
+        INNER JOIN tipo_llamadas_sub_detalle tlsd ON tlsd.tipo_llamada_sub_id=tls.id 
+        WHERE tl.empresa_id=2";
+        DB::insert($sql);
+
         DB::commit();
     }
 
