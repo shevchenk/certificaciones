@@ -14,8 +14,8 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
     
-    @include( 'mantenimiento.empresa.js.empresa_ajax' )
-    @include( 'mantenimiento.empresa.js.empresa' )
+    @include( 'mantenimiento.tipollamada.js.tipollamada_ajax' )
+    @include( 'mantenimiento.tipollamada.js.tipollamada' )
 @stop
 
 @section('content')
@@ -23,12 +23,12 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Empresa
+    <h1>Tipos de Llamada
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Empresa</li>
+        <li class="active">Tipos de Llamada</li>
     </ol>
 </section>
 
@@ -36,16 +36,16 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <form id="EmpresaForm">
+                <form id="TipoLlamadaForm">
                     <div class="box-body table-responsive no-padding">
-                        <table id="TableEmpresa" class="table table-bordered table-hover">
+                        <table id="TableTipoLlamada" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Empresa:</h4></label>
+                                            <label><h4>Tipo de Llamada:</h4></label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="txt_empresa" id="txt_empresa" placeholder="Buscar Empresa" onkeypress="return masterG.enterGlobal(event,'#slct_estado',1);">
+                                                <input type="text" class="form-control" name="txt_tipollamada" id="txt_tipollamada" placeholder="Buscar Tipo de Llamada" onkeypress="return masterG.enterGlobal(event,'#slct_estado',1);">
                                             </div>                                          
                                         </div>
                                     </th>
@@ -68,7 +68,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Empresa</th>
+                                  <th>Tipo de Llamada</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>
@@ -86,6 +86,6 @@
 @stop
 
 @section('form')
-     @include( 'mantenimiento.empresa.form.empresa' )
+     @include( 'mantenimiento.tipollamada.form.tipollamada' )
 
 @stop

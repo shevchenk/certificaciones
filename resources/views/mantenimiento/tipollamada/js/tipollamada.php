@@ -1,9 +1,9 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
-var EmpresaG={id:0,empresa:'',estado:1}; // Datos Globales
+var TipoLlamadaG={id:0,tipollamada:'',estado:1}; // Datos Globales
 
 $(document).ready(function() {
-    $("#TableEmpresa").DataTable({
+    $("#TableTipoLlamada").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -12,46 +12,39 @@ $(document).ready(function() {
         "autoWidth": false
     });
 
-    AjaxEmpresa.Cargar(HTMLCargarEmpresa);
-    AjaxEmpresa.CargarTipoEvaluacion(SlctCargarTipoEvaluacion);
-    $("#EmpresaForm #TableEmpresa select").change(function(){ AjaxEmpresa.Cargar(HTMLCargarEmpresa); });
-    $("#EmpresaForm #TableEmpresa input").blur(function(){ AjaxEmpresa.Cargar(HTMLCargarEmpresa); });
+    AjaxTipoLlamada.Cargar(HTMLCargarTipoLlamada);
+    $("#TipoLlamadaForm #TableTipoLlamada select").change(function(){ AjaxTipoLlamada.Cargar(HTMLCargarTipoLlamada); });
+    $("#TipoLlamadaForm #TableTipoLlamada input").blur(function(){ AjaxTipoLlamada.Cargar(HTMLCargarTipoLlamada); });
 
-    $('#ModalEmpresa').on('shown.bs.modal', function (event) {
+    $('#ModalTipoLlamada').on('shown.bs.modal', function (event) {
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
-            $("#ModalEmpresaForm").append("<input type='hidden' value='"+EmpresaG.id+"' name='id'>");
+            $("#ModalTipoLlamadaForm").append("<input type='hidden' value='"+TipoLlamadaG.id+"' name='id'>");
         }
 
-        $('#ModalEmpresaForm #txt_empresa').val( EmpresaG.empresa );
-        $('#ModalEmpresaForm #txt_nota_minima').val( EmpresaG.nota_minima );
+        $('#ModalTipoLlamadaForm #txt_tipo_llamada').val( TipoLlamadaG.tipollamada );
         
-        $('#ModalEmpresaForm #slct_estado').selectpicker('val', EmpresaG.estado );
-        $("#ModalEmpresaForm #slct_trabajo_final").selectpicker( 'val', EmpresaG.trabajo_final );
-        $("#ModalEmpresaForm #slct_peso_trabajo_final").selectpicker( 'val', EmpresaG.peso_trabajo_final );
+        $('#ModalTipoLlamadaForm #slct_estado').selectpicker('val', TipoLlamadaG.estado );
+        $("#ModalTipoLlamadaForm #slct_peso").selectpicker( 'val', TipoLlamadaG.peso );
+        $("#ModalTipoLlamadaForm #slct_obs").selectpicker( 'val', TipoLlamadaG.obs );
 
-        $("#ModalEmpresaForm #slct_peso_trabajo_final").removeAttr("disabled");
-        if( $("#ModalEmpresaForm #slct_trabajo_final").val()==0 ){
-            $("#ModalEmpresaForm #slct_peso_trabajo_final").attr("disabled","true");
-        }
-        AjaxEmpresa.CargarEvaluaciones(HTMLCargarEvaluaciones);
-        $('#ModalEmpresaForm #txt_empresa').focus();
+        $('#ModalTipoLlamadaForm #txt_tipollamada').focus();
     });
 
-    $('#ModalEmpresa').on('hidden.bs.modal', function (event) {
-        $("#ModalEmpresaForm input[type='hidden']").not('.mant').remove();
-       // $("ModalEmpresaForm input").val('');
+    $('#ModalTipoLlamada').on('hidden.bs.modal', function (event) {
+        $("#ModalTipoLlamadaForm input[type='hidden']").not('.mant').remove();
+       // $("ModalTipoLlamadaForm input").val('');
     });
 });
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalEmpresaForm #txt_empresa").val() )=='' ){
+    if( $.trim( $("#ModalTipoLlamadaForm #txt_tipo_llamada").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Empresa',4000);
+        msjG.mensaje('warning','Ingrese Tipo de Llamada',4000);
     }
 
     return r;
@@ -59,54 +52,52 @@ ValidaForm=function(){
 
 AgregarEditar=function(val,id){
     AddEdit=val;
-    EmpresaG.id='';
-    EmpresaG.empresa='';
-    EmpresaG.estado='1';
-    EmpresaG.nota_minima='0';
-    EmpresaG.trabajo_final='0';
-    EmpresaG.peso_trabajo_final='0';
+    TipoLlamadaG.id='';
+    TipoLlamadaG.tipollamada='';
+    TipoLlamadaG.estado='1';
+    TipoLlamadaG.peso='0';
+    TipoLlamadaG.obs='0';
     if( val==0 ){
-        EmpresaG.id=id;
-        EmpresaG.empresa=$("#TableEmpresa #trid_"+id+" .empresa").text();
-        EmpresaG.estado=$("#TableEmpresa #trid_"+id+" .estado").val();
-        EmpresaG.nota_minima=$("#TableEmpresa #trid_"+id+" .nota_minima").val();
-        EmpresaG.trabajo_final=$("#TableEmpresa #trid_"+id+" .trabajo_final").val();
-        EmpresaG.peso_trabajo_final=$("#TableEmpresa #trid_"+id+" .peso_trabajo_final").val();
+        TipoLlamadaG.id=id;
+        TipoLlamadaG.tipollamada=$("#TableTipoLlamada #trid_"+id+" .tipollamada").text();
+        TipoLlamadaG.estado=$("#TableTipoLlamada #trid_"+id+" .estado").val();
+        TipoLlamadaG.peso=$("#TableTipoLlamada #trid_"+id+" .peso").val();
+        TipoLlamadaG.obs=$("#TableTipoLlamada #trid_"+id+" .obs").val();
     }
-    $('#ModalEmpresa').modal('show');
+    $('#ModalTipoLlamada').modal('show');
 }
 
 CambiarEstado=function(estado,id){
-    AjaxEmpresa.CambiarEstado(HTMLCambiarEstado,estado,id);
+    AjaxTipoLlamada.CambiarEstado(HTMLCambiarEstado,estado,id);
 }
 
 HTMLCambiarEstado=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
-        AjaxEmpresa.Cargar(HTMLCargarEmpresa);
+        AjaxTipoLlamada.Cargar(HTMLCargarTipoLlamada);
     }
 }
 
 AgregarEditarAjax=function(){
     if( ValidaForm() ){
-        AjaxEmpresa.AgregarEditar(HTMLAgregarEditar);
+        AjaxTipoLlamada.AgregarEditar(HTMLAgregarEditar);
     }
 }
 
 HTMLAgregarEditar=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
-        $('#ModalEmpresa').modal('hide');
-        AjaxEmpresa.Cargar(HTMLCargarEmpresa);
+        $('#ModalTipoLlamada').modal('hide');
+        AjaxTipoLlamada.Cargar(HTMLCargarTipoLlamada);
     }
     else{
         msjG.mensaje('warning',result.msj,3000);
     }
 }
 
-HTMLCargarEmpresa=function(result){
+HTMLCargarTipoLlamada=function(result){
     var html="";
-    $('#TableEmpresa').DataTable().destroy();
+    $('#TableTipoLlamada').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){
         estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(1,'+r.id+')" class="btn btn-danger">Inactivo</span>';
@@ -115,41 +106,40 @@ HTMLCargarEmpresa=function(result){
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
-            "<td class='empresa'>"+r.empresa+"</td>"+
+            "<td class='tipollamada'>"+r.tipo_llamada+"</td>"+
             "<td>";
-        html+="<input type='hidden' class='trabajo_final' value='"+r.trabajo_final+"'>";
-        html+="<input type='hidden' class='peso_trabajo_final' value='"+r.peso_trabajo_final+"'>";
-        html+="<input type='hidden' class='nota_minima' value='"+r.nota_minima+"'>";
+        html+="<input type='hidden' class='peso' value='"+r.peso+"'>";
+        html+="<input type='hidden' class='obs' value='"+r.obs+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";
     });
-    $("#TableEmpresa tbody").html(html); 
-    $("#TableEmpresa").DataTable({
+    $("#TableTipoLlamada tbody").html(html); 
+    $("#TableTipoLlamada").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
         "ordering": false,
         "info": true,
         "autoWidth": false,
-        "lengthEmpresa": [10],
+        "lengthTipoLlamada": [10],
         "language": {
             "info": "Mostrando página "+result.data.current_page+" / "+result.data.last_page+" de "+result.data.total,
             "infoEmpty": "No éxite registro(s) aún",
         },
         "initComplete": function () {
-            $('#TableEmpresa_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarEmpresa','AjaxEmpresa',result.data,'#TableEmpresa_paginate');
+            $('#TableTipoLlamada_paginate ul').remove();
+            masterG.CargarPaginacion('HTMLCargarTipoLlamada','AjaxTipoLlamada',result.data,'#TableTipoLlamada_paginate');
         }
     });
 };
 
 validaProyectoFinal=function(t){
-    $("#ModalEmpresaForm #slct_peso_trabajo_final").removeAttr("disabled");
-    $("#ModalEmpresaForm #slct_peso_trabajo_final").selectpicker("val",1);
+    $("#ModalTipoLlamadaForm #slct_peso_trabajo_final").removeAttr("disabled");
+    $("#ModalTipoLlamadaForm #slct_peso_trabajo_final").selectpicker("val",1);
     if( t.value==0 ){
-        $("#ModalEmpresaForm #slct_peso_trabajo_final").selectpicker("val",0);
-        $("#ModalEmpresaForm #slct_peso_trabajo_final").attr("disabled","true");
+        $("#ModalTipoLlamadaForm #slct_peso_trabajo_final").selectpicker("val",0);
+        $("#ModalTipoLlamadaForm #slct_peso_trabajo_final").attr("disabled","true");
     }
 }
 
@@ -202,8 +192,8 @@ SlctCargarTipoEvaluacion=function(result){
     $.each(result.data,function(index,r){
         html+="<option value="+r.id+">"+r.tipo_evaluacion+"</option>";
     });
-    $("#ModalEmpresa #slct_tipo_evaluacion").html(html); 
-    $("#ModalEmpresa #slct_tipo_evaluacion").selectpicker('refresh');
+    $("#ModalTipoLlamada #slct_tipo_evaluacion").html(html); 
+    $("#ModalTipoLlamada #slct_tipo_evaluacion").selectpicker('refresh');
 };
 
 HTMLCargarEvaluaciones=function(result){

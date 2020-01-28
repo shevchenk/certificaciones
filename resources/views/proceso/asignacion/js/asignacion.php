@@ -137,6 +137,8 @@ HTMLCargarVisita=function(result){
     var costo_convertidoG=0; var chkasigG=0; var chknoasigG=0; var chknocallG=0;
     var chkcallG=0; var chkinteresadoG=0; var chkpendienteG=0; var chknointeresadoG=0;
     var chkotrosG=0; var convertidoG=0;
+    $('#TableVisita').DataTable().destroy();
+
     $.each(result.data,function(index,r){
         codigo=r.ad_name+'|'+r.interes+'|'+r.fecha_carga;
         costo_convertido= r.total*1;
@@ -249,17 +251,17 @@ HTMLCargarVisita=function(result){
             "";
         html+="</tr>";
     });
-    $("#TableVisita tbody").html(html); 
-    $("#TableVisita #tdasig").text(chkasigG)
-    $("#TableVisita #tdnoasig").text(chknoasigG)
-    $("#TableVisita #tdnocall").text(chknocallG)
-    $("#TableVisita #tdcall").text(chkcallG)
-    $("#TableVisita #tdconvertido").text(convertidoG)
-    $("#TableVisita #tdto_convertido").text(costo_convertidoG.toFixed(2))
-    $("#TableVisita #tdinteresado").text(chkinteresadoG)
-    $("#TableVisita #tdpendiente").text(chkpendienteG)
-    $("#TableVisita #tdnointeresado").text(chknointeresadoG)
-    $("#TableVisita #tdotros").text(chkotrosG)
+    $("#TableVisita tbody").html(html);
+    $("#TableVisita #tdasig").text(chkasigG);
+    $("#TableVisita #tdnoasig").text(chknoasigG);
+    $("#TableVisita #tdnocall").text(chknocallG);
+    $("#TableVisita #tdcall").text(chkcallG);
+    $("#TableVisita #tdconvertido").text(convertidoG);
+    $("#TableVisita #tdto_convertido").text(costo_convertidoG.toFixed(2));
+    $("#TableVisita #tdinteresado").text(chkinteresadoG);
+    $("#TableVisita #tdpendiente").text(chkpendienteG);
+    $("#TableVisita #tdnointeresado").text(chknointeresadoG);
+    $("#TableVisita #tdotros").text(chkotrosG);
 
     $('#TableVisita input[type="checkbox"]').iCheck({
       checkboxClass: 'icheckbox_flat-green'
@@ -303,6 +305,16 @@ HTMLCargarVisita=function(result){
         });
             console.log("/****************************************************/");
         $("#AsignacionForm #txt_contador").text(TI);
+    });
+
+    $("#TableVisita").DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "lengthMenu": [20]
     });
 };
 

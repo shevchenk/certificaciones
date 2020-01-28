@@ -23,10 +23,13 @@ class TipoLlamada extends Model
     public static function runNew($r)
     {
         $tipo_llamada_id = Auth::user()->id;
+        $empresa_id = Auth::user()->empresa_id;
         $tipo_llamada = new TipoLlamada;
         $tipo_llamada->tipo_llamada = trim( $r->tipo_llamada );
         $tipo_llamada->obs = trim( $r->obs );
-        $tipo_llamada->estado = trim( $r->estado );
+        $tipo_llamada->peso = trim( $r->peso );
+        $tipo_llamada->estado = 1;
+        $tipo_llamada->empresa_id = $empresa_id;
         $tipo_llamada->persona_id_created_at=$tipo_llamada_id;
         $tipo_llamada->save();
     }
@@ -37,7 +40,7 @@ class TipoLlamada extends Model
         $tipo_llamada = TipoLlamada::find($r->id);
         $tipo_llamada->tipo_llamada = trim( $r->tipo_llamada );
         $tipo_llamada->obs = trim( $r->obs );
-        $tipo_llamada->estado = trim( $r->estado );
+        $tipo_llamada->peso = trim( $r->peso );
         $tipo_llamada->persona_id_updated_at=$tipo_llamada_id;
         $tipo_llamada->save();
     }
@@ -48,10 +51,17 @@ class TipoLlamada extends Model
             ->select(
             'tl.id',
             'tl.tipo_llamada',
-            'tl.estado','tl.obs'
+            'tl.estado','tl.obs','tl.peso'
             )
             ->where( 
                 function($query) use ($r){
+                    if( $r->has("empresa_id") ){
+                        $empresa_id=trim($r->empresa_id);
+                        if( $empresa_id !='' ){
+                            $query->where('tl.empresa_id','=',$empresa_id);
+                        }
+                    }
+
                     if( $r->has("tipo_llamada") ){
                         $tipo_llamada=trim($r->tipo_llamada);
                         if( $tipo_llamada !='' ){
@@ -74,7 +84,7 @@ class TipoLlamada extends Model
     public static function ListTipoLlamada($r)
     {  
         $empresa_id= Auth::user()->empresa_id;
-        $sql=TipoLlamada::select('id','tipo_llamada','obs','estado')
+        $sql=TipoLlamada::select('id','tipo_llamada','obs','peso','estado')
             ->where('estado','=','1')
             ->where(function($query) use ($r, $empresa_id){
                 if( $r->has('plataforma') ){

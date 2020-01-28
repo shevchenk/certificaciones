@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mantenimiento\TipoLlamada;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Auth;
 
 class TipoLlamadaMA extends Controller
 {
@@ -33,10 +34,12 @@ class TipoLlamadaMA extends Controller
                 'unique'      => ':attribute solo debe ser único',
             );
 
+            $empresa_id = Auth::user()->empresa_id;
             $rules = array(
-                'privilegio' => 
+                'tipo_llamada' => 
                        ['required',
-                        Rule::unique('privilegios','privilegio'),
+                        Rule::unique('tipo_llamadas','tipo_llamada')
+                        ->where('empresa_id',$empresa_id),
                         ],
             );
 
@@ -64,10 +67,12 @@ class TipoLlamadaMA extends Controller
                 'unique'        => ':attribute solo debe ser único',
             );
 
+            $empresa_id = Auth::user()->empresa_id;
             $rules = array(
-                'privilegio' => 
+                'tipo_llamada' => 
                        ['required',
-                        Rule::unique('privilegios','privilegio')->ignore($r->id),
+                        Rule::unique('tipo_llamadas','tipo_llamada')->ignore($r->id)
+                        ->where('empresa_id',$empresa_id),
                         ],
             );
 
@@ -89,6 +94,8 @@ class TipoLlamadaMA extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
+            $empresa_id = Auth::user()->empresa_id;
+            $r['empresa_id'] = $empresa_id;
             $renturnModel = TipoLlamada::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
