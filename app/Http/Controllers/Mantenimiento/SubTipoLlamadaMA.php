@@ -34,9 +34,10 @@ class SubTipoLlamadaMA extends Controller
             );
 
             $rules = array(
-                'privilegio' => 
+                'tipo_llamada_sub' => 
                        ['required',
-                        Rule::unique('privilegios','privilegio'),
+                        Rule::unique('tipo_llamadas_sub','tipo_llamada_sub')
+                        ->where('tipo_llamada_id',$r->tipo_llamada_id),
                         ],
             );
 
@@ -65,9 +66,11 @@ class SubTipoLlamadaMA extends Controller
             );
 
             $rules = array(
-                'privilegio' => 
+                'tipo_llamada_sub' => 
                        ['required',
-                        Rule::unique('privilegios','privilegio')->ignore($r->id),
+                        Rule::unique('tipo_llamadas_sub','tipo_llamada_sub')
+                        ->ignore($r->id)
+                        ->where('tipo_llamada_id',$r->tipo_llamada_id),
                         ],
             );
 

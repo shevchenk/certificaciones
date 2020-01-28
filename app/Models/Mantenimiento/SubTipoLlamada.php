@@ -26,7 +26,7 @@ class SubTipoLlamada extends Model
         $tipo_llamada = new SubTipoLlamada;
         $tipo_llamada->tipo_llamada_id = trim( $r->tipo_llamada_id );
         $tipo_llamada->tipo_llamada_sub = trim( $r->tipo_llamada_sub );
-        $tipo_llamada->estado = trim( $r->estado );
+        $tipo_llamada->estado = 1;
         $tipo_llamada->persona_id_created_at=$tipo_llamada_id;
         $tipo_llamada->save();
     }
@@ -35,9 +35,7 @@ class SubTipoLlamada extends Model
     {
         $tipo_llamada_id = Auth::user()->id;
         $tipo_llamada = SubTipoLlamada::find($r->id);
-        $tipo_llamada->tipo_llamada_id = trim( $r->tipo_llamada_id );
         $tipo_llamada->tipo_llamada_sub = trim( $r->tipo_llamada_sub );
-        $tipo_llamada->estado = trim( $r->estado );
         $tipo_llamada->persona_id_updated_at=$tipo_llamada_id;
         $tipo_llamada->save();
     }
@@ -45,13 +43,28 @@ class SubTipoLlamada extends Model
     public static function runLoad($r)
     {   
         $sql=DB::table('tipo_llamadas_sub AS tl')
+            ->join('tipo_llamadas AS t','t.id','=','tl.tipo_llamada_id')
             ->select(
             'tl.id',
             'tl.tipo_llamada_sub',
-            'tl.estado'
+            'tl.estado','t.tipo_llamada'
             )
             ->where( 
                 function($query) use ($r){
+                    if( $r->has("tipo_llamada_id") ){
+                        $tipo_llamada_id=trim($r->tipo_llamada_id);
+                        if( $tipo_llamada_id !='' ){
+                            $query->where('tl.tipo_llamada_id','=',$tipo_llamada_id);
+                        }
+                    }
+
+                    if( $r->has("tipo_llamada") ){
+                        $tipo_llamada=trim($r->tipo_llamada);
+                        if( $tipo_llamada !='' ){
+                            $query->where('t.tipo_llamada','like','%'.$tipo_llamada.'%');
+                        }
+                    }
+
                     if( $r->has("tipo_llamada_sub") ){
                         $tipo_llamada_sub=trim($r->tipo_llamada_sub);
                         if( $tipo_llamada_sub !='' ){

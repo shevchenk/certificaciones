@@ -24,11 +24,10 @@ class DetalleTipoLlamada extends Model
     {
         $tipo_llamada_id = Auth::user()->id;
         $tipo_llamada = new DetalleTipoLlamada;
-        $tipo_llamada->tipo_llamada_id = trim( $r->tipo_llamada_id );
         $tipo_llamada->tipo_llamada_sub_id = trim( $r->tipo_llamada_sub_id );
         $tipo_llamada->tipo_llamada_sub_detalle = trim( $r->tipo_llamada_sub_detalle );
-        $tipo_llamada->detalle = trim( $r->detalle );
-        $tipo_llamada->estado = trim( $r->estado );
+        $tipo_llamada->detalle = '';
+        $tipo_llamada->estado = 1;
         $tipo_llamada->persona_id_created_at=$tipo_llamada_id;
         $tipo_llamada->save();
     }
@@ -37,11 +36,7 @@ class DetalleTipoLlamada extends Model
     {
         $tipo_llamada_id = Auth::user()->id;
         $tipo_llamada = DetalleTipoLlamada::find($r->id);
-        $tipo_llamada->tipo_llamada_id = trim( $r->tipo_llamada_id );
-        $tipo_llamada->tipo_llamada_sub_id = trim( $r->tipo_llamada_sub_id );
         $tipo_llamada->tipo_llamada_sub_detalle = trim( $r->tipo_llamada_sub_detalle );
-        $tipo_llamada->detalle = trim( $r->detalle );
-        $tipo_llamada->estado = trim( $r->estado );
         $tipo_llamada->persona_id_updated_at=$tipo_llamada_id;
         $tipo_llamada->save();
     }
@@ -49,13 +44,21 @@ class DetalleTipoLlamada extends Model
     public static function runLoad($r)
     {   
         $sql=DB::table('tipo_llamadas_sub_detalle AS tl')
+            ->join('tipo_llamadas_sub AS ts','ts.id','=','tl.tipo_llamada_sub_id')
             ->select(
             'tl.id','tl.detalle',
-            'tl.tipo_llamada_sub_detalle',
+            'tl.tipo_llamada_sub_detalle','ts.tipo_llamada_sub',
             'tl.estado'
             )
             ->where( 
                 function($query) use ($r){
+                    if( $r->has("tipo_llamada_sub_id") ){
+                        $tipo_llamada_sub_id=trim($r->tipo_llamada_sub_id);
+                        if( $tipo_llamada_sub_id !='' ){
+                            $query->where('tl.tipo_llamada_sub_id','=',$tipo_llamada_sub_id);
+                        }
+                    }
+
                     if( $r->has("tipo_llamada_sub_detalle") ){
                         $tipo_llamada_sub_detalle=trim($r->tipo_llamada_sub_detalle);
                         if( $tipo_llamada_sub_detalle !='' ){

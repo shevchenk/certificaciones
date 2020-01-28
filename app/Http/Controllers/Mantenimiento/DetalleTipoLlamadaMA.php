@@ -34,9 +34,10 @@ class DetalleTipoLlamadaMA extends Controller
             );
 
             $rules = array(
-                'privilegio' => 
+                'tipo_llamada_sub_detalle' => 
                        ['required',
-                        Rule::unique('privilegios','privilegio'),
+                        Rule::unique('tipo_llamadas_sub_detalle','tipo_llamada_sub_detalle')
+                        ->where('tipo_llamada_sub_id',$r->tipo_llamada_sub_id),
                         ],
             );
 
@@ -65,9 +66,11 @@ class DetalleTipoLlamadaMA extends Controller
             );
 
             $rules = array(
-                'privilegio' => 
+                'tipo_llamada_sub_detalle' => 
                        ['required',
-                        Rule::unique('privilegios','privilegio')->ignore($r->id),
+                        Rule::unique('tipo_llamadas_sub_detalle','tipo_llamada_sub_detalle')
+                        ->ignore($r->id)
+                        ->where('tipo_llamada_sub_id',$r->tipo_llamada_sub_id),
                         ],
             );
 

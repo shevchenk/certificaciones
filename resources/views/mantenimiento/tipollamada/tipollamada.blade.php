@@ -82,10 +82,124 @@
             </div><!-- .box -->
         </div><!-- .col -->
     </div><!-- .row -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <form id="TipoLlamadaSubForm">
+                    <div class="box-body table-responsive no-padding">
+                        <table id="TableTipoLlamadaSub" class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="cabecera">
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Tipo de Llamada:</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Tipo de Llamada Sub:</h4></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="txt_tipo_llamada_sub" id="txt_tipo_llamada_sub" placeholder="Buscar Tipo de Llamada" onkeypress="return masterG.enterGlobal(event,'#slct_estado',1);">
+                                            </div>                                          
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Estado:</h4></label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="slct_estado" id="slct_estado">
+                                                    <option value='' selected>.::Todo::.</option>
+                                                    <option value='0'>Inactivo</option>
+                                                    <option value='1'>Activo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-1">[-]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr class="cabecera">
+                                  <th>Tipo de Llamada</th>
+                                  <th>Tipo de Llamada Sub</th>
+                                  <th>Estado</th>
+                                  <th>[-]</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class='btn btn-primary btn-sm' class="btn btn-primary" onClick="AgregarEditarSub(1)" >
+                            <i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                        </div>
+                    </div><!-- .box-body -->
+                </form><!-- .form -->
+            </div><!-- .box -->
+        </div><!-- .col -->
+    </div><!-- .row -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <form id="TipoLlamadaSubDetalleForm">
+                    <div class="box-body table-responsive no-padding">
+                        <table id="TableTipoLlamadaSubDetalle" class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="cabecera">
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Tipo de Llamada Sub:</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Tipo de Llamada Sub Detalle:</h4></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="txt_tipo_llamada_sub_detalle" id="txt_tipo_llamada_sub_detalle" placeholder="Buscar Tipo de Llamada" onkeypress="return masterG.enterGlobal(event,'#slct_estado',1);">
+                                            </div>                                          
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Estado:</h4></label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="slct_estado" id="slct_estado">
+                                                    <option value='' selected>.::Todo::.</option>
+                                                    <option value='0'>Inactivo</option>
+                                                    <option value='1'>Activo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-1">[-]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr class="cabecera">
+                                  <th>Tipo de Llamada Sub</th>
+                                  <th>Tipo de Llamada Sub Detalle</th>
+                                  <th>Estado</th>
+                                  <th>[-]</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class='btn btn-primary btn-sm' class="btn btn-primary" onClick="AgregarEditarSubDetalle(1)" >
+                            <i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                        </div>
+                    </div><!-- .box-body -->
+                </form><!-- .form -->
+            </div><!-- .box -->
+        </div><!-- .col -->
+    </div><!-- .row -->
 </section><!-- .content -->
 @stop
 
 @section('form')
      @include( 'mantenimiento.tipollamada.form.tipollamada' )
+     @include( 'mantenimiento.tipollamada.form.tipollamadasub' )
+     @include( 'mantenimiento.tipollamada.form.tipollamadasubdetalle' )
 
 @stop
