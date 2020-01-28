@@ -16,7 +16,7 @@ var AjaxVisita={
         masterG.postAjax(url,data,evento,null,false);
     },
     CargarEmpresas:function(evento){
-        url='AjaxDinamic/Mantenimiento.EmpresaMA@ListEmpresa';
+        url='AjaxDinamic/Mantenimiento.EmpresaMA@ListEmpresaUsuario';
         data={};
         masterG.postAjax(url,data,evento,null,false);
     },
