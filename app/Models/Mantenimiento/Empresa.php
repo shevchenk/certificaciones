@@ -217,11 +217,12 @@ class Empresa extends Model
         $fecha_ini= $r->fecha_ini;
         $fecha_fin= $r->fecha_fin;
         $empresa_id= $r->empresas;
-        $sql="  SELECT DISTINCT(distrito) as id, distrito
+        $sql="  SELECT DISTINCT(distrito) as distrito
                 FROM personas_captadas
                 WHERE estado = 1
                 AND DATE(created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
                 AND empresa_id = '$empresa_id'
+                AND distrito != ''
                 ORDER BY distrito";
         $result= DB::select($sql);
         return $result;
@@ -232,12 +233,13 @@ class Empresa extends Model
         $fecha_ini= $r->fecha_ini;
         $fecha_fin= $r->fecha_fin;
         $empresa_id= $r->empresas;
-        $sql="  SELECT DISTINCT(ad_name) as id, ad_name AS campana
+        $sql="  SELECT DISTINCT(ad_name) as campana
                 FROM personas_captadas
                 WHERE estado = 1
                 AND DATE(created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
                 AND empresa_id = '$empresa_id'
-                ORDER BY ad_names";
+                AND ad_name != ''
+                ORDER BY ad_name";
         $result= DB::select($sql);
         return $result;
     }
