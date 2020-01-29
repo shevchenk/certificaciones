@@ -89,9 +89,8 @@
                                     <label class="control-label">Ordenado por:</label>
                                     <div class="input-group">
                                       <select name="slct_order" id="slct_order" class="selectpicker">
-                                          <option value="fecha_carga DESC, pc.ad_name, pc.interesado">.::Fechas::.</option>
-                                          <option value="pc.ad_name, pc.interesado, fecha_carga DESC">.::Campaña::.</option>
-                                          <option value="pc.interesado, pc.ad_name, fecha_carga DESC">.::Carrera::.</option>
+                                          <option value="fecha_carga DESC, pc.interesado">.::Fechas::.</option>
+                                          <option value="pc.interesado, fecha_carga DESC">.::Carrera::.</option>
                                       </select>
                                     </div>
                                 </div>
