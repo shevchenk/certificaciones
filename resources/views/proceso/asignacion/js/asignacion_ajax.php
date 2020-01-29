@@ -2,7 +2,7 @@
 var AjaxVisita={
     Cargar:function(evento){
         data=$("#AsignacionForm").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Reporte.ReporteEM@CalcularAsignados';
+        url='AjaxDinamic/Reporte.ReporteEM@CalcularAsignadosDos';
         masterG.postAjax(url,data,evento);
     },
     Trabajadores:function(evento){

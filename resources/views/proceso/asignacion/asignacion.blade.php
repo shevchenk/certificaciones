@@ -103,7 +103,7 @@
                                 <table id="TableVisita" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th style="background-color: #BDD7EE;color:black; text-align: center;" colspan="11"> DATA </th>
+                                            <th style="background-color: #BDD7EE;color:black; text-align: center;" colspan="10"> DATA </th>
                                             <th style="background-color: #FFF2CC;color:black; text-align: center;" colspan="4"> RESULTADO DE LAS LLAMADAS </th>
                                             <th style="background-color: #FCE4D6;color:black; text-align: center;" colspan="4"> DETALLE DE LOS SI LLAMADOS </th>
                                         </tr>
@@ -112,7 +112,6 @@
                                             <th style="background-color: #BDD7EE;color:black">Fecha de<br>la Carga</th>
                                             <th style="background-color: #BDD7EE;color:black">Fecha Inicio<br>del leads</th>
                                             <th style="background-color: #BDD7EE;color:black">Fecha Final<br>del leads</th>
-                                            <th style="background-color: #BDD7EE;color:black">Nombre de la campaña</th>
                                             <th style="background-color: #BDD7EE;color:black">Carrera que solicita</th>
                                             <th style="background-color: #BDD7EE;color:black">Clientes<br>Potenciales</th>
                                             <th style="background-color: #BDD7EE;color:black">Costo<br>por<br>leads</th>
@@ -133,7 +132,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="8">&nspm;</td>
+                                            <td colspan="7">&nspm;</td>
                                             <td >Total</td>
                                             <td id="tdasig" >0</td>
                                             <td id="tdnoasig" >0</td>
@@ -147,7 +146,7 @@
                                             <td id="tdotros" >0</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="8">&nspm;</td>
+                                            <td colspan="7">&nspm;</td>
                                             <td >Seleccionados</td>
                                             <td id="chkasig"> - </td>
                                             <td id="chknoasig">0</td>

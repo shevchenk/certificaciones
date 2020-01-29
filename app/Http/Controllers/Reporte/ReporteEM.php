@@ -61,6 +61,17 @@ class ReporteEM extends Controller
         }
     }
 
+    public function CalcularAsignadosDos(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Reporte::CalcularAsignadosDos($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function LoadVisita(Request $r )
     {
         if ( $r->ajax() ) {

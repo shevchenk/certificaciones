@@ -259,7 +259,6 @@ HTMLCargarVisita=function(result){
             "<td>"+$.trim(r.fecha_carga)+"</td>"+
             "<td>"+$.trim(r.fmin)+"</td>"+
             "<td>"+$.trim(r.fmax)+"</td>"+
-            "<td>"+$.trim(r.ad_name)+"</td>"+
             "<td>"+$.trim(r.interes)+"</td>"+
             "<td>"+$.trim(r.cantidad)+"</td>"+
             "<td>"+$.trim(r.costo_min)+"</td>"+
