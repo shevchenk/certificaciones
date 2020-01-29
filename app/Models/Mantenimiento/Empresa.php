@@ -214,19 +214,33 @@ class Empresa extends Model
 
     public static function ListarRegion($r)
     {  
-        $sql=DB::table('personas_captadas')
-            ->select('distrito as id','distrito')
-            ->where('estado','=','1');
-        $result = $sql->orderBy('distrito','asc')->get();
+        $fecha_ini= $r->fecha_ini;
+        $fecha_fin= $r->fecha_fin;
+        $empresa_id= $r->empresas;
+        $sql="  SELECT distrito as id, distrito
+                FROM personas_captadas
+                WHERE estado = 1
+                AND DATE(created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+                AND empresa_id = '$empresa_id'
+                GROUP BY distrito
+                ORDER BY distrito";
+        $result= DB::select($sql);
         return $result;
     }
 
-    public static function ListarCampaña($r)
+    public static function ListarCampana($r)
     {  
-        $sql=DB::table('personas_captadas')
-            ->select('ad_name as id','ad_name as campaña')
-            ->where('estado','=','1');
-        $result = $sql->orderBy('ad_name','asc')->get();
+        $fecha_ini= $r->fecha_ini;
+        $fecha_fin= $r->fecha_fin;
+        $empresa_id= $r->empresas;
+        $sql="  SELECT ad_name as id, ad_name AS campana
+                FROM personas_captadas
+                WHERE estado = 1
+                AND DATE(created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+                AND empresa_id = '$empresa_id'
+                GROUP BY ad_name
+                ORDER BY ad_name";
+        $result= DB::select($sql);
         return $result;
     }
 }

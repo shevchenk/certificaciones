@@ -130,10 +130,10 @@ class EmpresaMA extends Controller
         }
     }
 
-    public function ListarCampaña (Request $r )
+    public function ListarCampana (Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Empresa::ListarCampaña($r);
+            $renturnModel = Empresa::ListarCampana($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";

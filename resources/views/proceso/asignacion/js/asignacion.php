@@ -55,7 +55,7 @@ $(document).ready(function() {
         var r = DataToFilter();
         if( r ){
             AjaxVisita.ListarRegion(HTMLListarRegion);
-            AjaxVisita.ListarCampaña(HTMLListarCampaña);
+            AjaxVisita.ListarCampana(HTMLListarCampana);
         }
     });
 
@@ -92,10 +92,10 @@ HTMLListarRegion=function(result){
     $("#AsignacionForm #slct_distrito").selectpicker('refresh');
 }
 
-HTMLListarCampaña=function(result){
+HTMLListarCampana=function(result){
     var html="<option value=''>.::Todos::.</option>";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.campaña+"</option>";
+        html+="<option value="+r.id+">"+r.campana+"</option>";
     });
     $("#AsignacionForm #slct_campaña").html(html); 
     $("#AsignacionForm #slct_campaña").selectpicker('refresh');

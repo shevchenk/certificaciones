@@ -25,8 +25,8 @@ var AjaxVisita={
         data=$("#AsignacionForm").serialize().split("txt_").join("").split("slct_").join("");
         masterG.postAjax(url,data,evento,null,false);
     },
-    ListarCampaña:function(evento){
-        url='AjaxDinamic/Mantenimiento.EmpresaMA@ListarCampaña';
+    ListarCampana:function(evento){
+        url='AjaxDinamic/Mantenimiento.EmpresaMA@ListarCampana';
         data=$("#AsignacionForm").serialize().split("txt_").join("").split("slct_").join("");
         masterG.postAjax(url,data,evento,null,false);
     },
