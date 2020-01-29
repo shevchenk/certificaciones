@@ -20,15 +20,5 @@ var AjaxVisita={
         data={};
         masterG.postAjax(url,data,evento,null,false);
     },
-    ListarRegion:function(evento){
-        url='AjaxDinamic/Mantenimiento.EmpresaMA@ListarRegion';
-        data=$("#AsignacionForm").serialize().split("txt_").join("").split("slct_").join("");
-        masterG.postAjax(url,data,evento,null,false);
-    },
-    ListarCampaña:function(evento){
-        url='AjaxDinamic/Mantenimiento.EmpresaMA@ListarCampaña';
-        data=$("#AsignacionForm").serialize().split("txt_").join("").split("slct_").join("");
-        masterG.postAjax(url,data,evento,null,false);
-    },
 };
 </script>

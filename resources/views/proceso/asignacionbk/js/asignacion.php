@@ -51,14 +51,6 @@ $(document).ready(function() {
         }
     });
 
-    $("#btn_previa").click(function (){
-        var r = DataToFilter();
-        if( r ){
-            AjaxVisita.ListarRegion(HTMLListarRegion);
-            AjaxVisita.ListarCampaña(HTMLListarCampaña);
-        }
-    });
-
     $("#slct_trabajador").on('hidden.bs.select', function(e, clickedIndex, isSelected, previousValue){
         var html='';
         var tra=$(this).val();
@@ -81,24 +73,6 @@ SlctCargarEmpresas=function(result){
     });
     $("#AsignacionForm #slct_empresas").html(html); 
     $("#AsignacionForm #slct_empresas").selectpicker('refresh');
-}
-
-HTMLListarRegion=function(result){
-    var html="<option value=''>.::Todos::.</option>";
-    $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.distrito+"</option>";
-    });
-    $("#AsignacionForm #slct_distrito").html(html); 
-    $("#AsignacionForm #slct_distrito").selectpicker('refresh');
-}
-
-HTMLListarCampaña=function(result){
-    var html="<option value=''>.::Todos::.</option>";
-    $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.campaña+"</option>";
-    });
-    $("#AsignacionForm #slct_campaña").html(html); 
-    $("#AsignacionForm #slct_campaña").selectpicker('refresh');
 }
 
 AsignaNro=function(val){

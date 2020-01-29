@@ -119,10 +119,21 @@ class EmpresaMA extends Controller
         }
     }
 
-    public function CargarEvaluaciones(Request $r )
+    public function ListarRegion(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Empresa::CargarEvaluaciones($r);
+            $renturnModel = Empresa::ListarRegion($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function ListarCampaña (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Empresa::ListarCampaña($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";

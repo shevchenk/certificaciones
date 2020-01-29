@@ -211,4 +211,22 @@ class Empresa extends Model
              ->get();
         return $sql;
     }
+
+    public static function ListarRegion($r)
+    {  
+        $sql=DB::table('personas_captadas')
+            ->select('distrito as id','distrito')
+            ->where('estado','=','1');
+        $result = $sql->orderBy('distrito','asc')->get();
+        return $result;
+    }
+
+    public static function ListarCampaña($r)
+    {  
+        $sql=DB::table('personas_captadas')
+            ->select('ad_name as id','ad_name as campaña')
+            ->where('estado','=','1');
+        $result = $sql->orderBy('ad_name','asc')->get();
+        return $result;
+    }
 }
