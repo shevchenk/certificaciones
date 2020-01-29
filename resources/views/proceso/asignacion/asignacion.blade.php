@@ -56,6 +56,12 @@
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
                                     </div>
                                 </div>
+                                <div class="col-sm-3 text-center">
+                                    <label class="control-label">Empresas:</label>
+                                    <div class="input-group">
+                                      <select name="slct_empresas" id="slct_empresas" class="selectpicker" onchange="AjaxVisita.Trabajadores(SlctCargarTrabajador);"></select>
+                                    </div>
+                                </div>
                                 <div class="col-sm-1" style="padding:24px">
                                     <span class="btn btn-primary btn-md" id="btn_previa" name="btn_previa"><i class="glyphicon glyphicon-search"></i>Listar Filtros</span>
                                 </div>
@@ -75,14 +81,6 @@
                                       <select name="slct_campaña" id="slct_campaña" class="selectpicker">
                                           <option value="">.::Todos::.</option>
                                       </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="col-sm-3 text-center">
-                                    <label class="control-label">Empresas:</label>
-                                    <div class="input-group">
-                                      <select name="slct_empresas" id="slct_empresas" class="selectpicker" onchange="AjaxVisita.Trabajadores(SlctCargarTrabajador);"></select>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 text-center">
