@@ -172,9 +172,8 @@ class Llamada extends Model
             $detchk= explode("|",$chknoasig[$i]);
             $filtro=
             "(
-            pc.ad_name='".$detchk[0]."' 
-            AND pc.interesado='".$detchk[1]."'
-            AND DATE(pc.created_at)='".$detchk[2]."'
+            pc.interesado='".$detchk[1]."'
+            AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NULL
             )";
             array_push($filtros_array, $filtro);
@@ -183,9 +182,8 @@ class Llamada extends Model
             $detchk= explode("|",$chknocall[$i]);
             $filtro=
             "(
-            pc.ad_name='".$detchk[0]."' 
-            AND pc.interesado='".$detchk[1]."'
-            AND DATE(pc.created_at)='".$detchk[2]."'
+            pc.interesado='".$detchk[1]."'
+            AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.persona_id IS NULL
             )";
@@ -195,9 +193,8 @@ class Llamada extends Model
             $detchk= explode("|",$chkinteresado[$i]);
             $filtro=
             "(
-            pc.ad_name='".$detchk[0]."' 
-            AND pc.interesado='".$detchk[1]."'
-            AND DATE(pc.created_at)='".$detchk[2]."'
+            pc.interesado='".$detchk[1]."'
+            AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.obs=1
             )";
@@ -207,9 +204,8 @@ class Llamada extends Model
             $detchk= explode("|",$chkpendiente[$i]);
             $filtro=
             "(
-            pc.ad_name='".$detchk[0]."' 
-            AND pc.interesado='".$detchk[1]."'
-            AND DATE(pc.created_at)='".$detchk[2]."'
+            pc.interesado='".$detchk[1]."'
+            AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.obs=2
             )";
@@ -219,9 +215,8 @@ class Llamada extends Model
             $detchk= explode("|",$chknointeresado[$i]);
             $filtro=
             "(
-            pc.ad_name='".$detchk[0]."' 
-            AND pc.interesado='".$detchk[1]."'
-            AND DATE(pc.created_at)='".$detchk[2]."'
+            pc.interesado='".$detchk[1]."'
+            AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.obs=3
             )";
@@ -231,22 +226,31 @@ class Llamada extends Model
             $detchk= explode("|",$chkotros[$i]);
             $filtro=
             "(
-            pc.ad_name='".$detchk[0]."' 
-            AND pc.interesado='".$detchk[1]."'
-            AND DATE(pc.created_at)='".$detchk[2]."'
+            pc.interesado='".$detchk[1]."'
+            AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.obs=0
             )";
             array_push($filtros_array, $filtro);
         }
 
-        $filtros= implode(" OR ",$filtros_array);
+        $campana = '';
+        $distrito = '';
 
-        for ($i=0; $i < $cant ; $i++) { 
-            if( $asig[$i]*1>0 ){
-                $sql="  INSERT INTO personas_distribuciones 
-                        (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
-                        SELECT pc.persona_id, $trabajador[$i], CURDATE(), 1, NOW(), $usuario
+        if( trim($r->campana)!='' ){
+            $campana = " AND pc.ad_name = '".$r->campana."' ";
+        }
+
+        if( trim($r->distrito)!='' ){
+            $distrito = " AND pc.distrito = '".$r->distrito."' ";
+        }
+
+        $filtros= implode(" OR ",$filtros_array);
+        $fyh = date('Y-m-d H:i:s');
+
+        $sql = " INSERT INTO personas_distribuciones_aux 
+                        (persona_id, created_at, persona_id_created_at)
+                        SELECT pc.persona_id, '$fyh', $usuario
                         FROM personas_captadas pc 
                         INNER JOIN empresas e ON e.id=pc.empresa_id AND e.id = $empresa_id
                         LEFT JOIN (
@@ -276,11 +280,22 @@ class Llamada extends Model
                             GROUP BY pd.persona_id, t.empresa_id
                         ) d ON d.persona_id=pc.persona_id AND d.empresa_id=pc.empresa_id 
                         WHERE pc.estado = 1
-                        AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+                        $campana  $distrito  
                         AND (
                             $filtros
                         )
-                        ORDER BY pc.persona_id
+                        ORDER BY pc.persona_id";
+                        DB::insert($sql);
+
+        for ($i=0; $i < $cant ; $i++) { 
+            if( $asig[$i]*1>0 ){
+                $sql="  INSERT INTO personas_distribuciones 
+                        (persona_id, trabajador_id, fecha_distribucion, estado, created_at, persona_id_created_at)
+                        SELECT persona_id, $trabajador[$i], CURDATE(), 1, '$fyh', $usuario
+                        FROM personas_distribuciones_aux 
+                        WHERE persona_id_created_at = $usuario
+                        AND created_at = '$fyh'
+                        ORDER BY persona_id
                         LIMIT $pos,$asig[$i]";
                 DB::insert($sql);
                 $pos=$pos+$asig[$i];
