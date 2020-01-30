@@ -209,7 +209,7 @@ class CargarPR extends Controller
 
             $fyh = date('Y-m-d H:i:s');
             $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, ad_name, campaign_name, fuente, interesado, distrito, fecha_registro, costo, estado, created_at, persona_id_created_at)
-                    SELECT p.id, $empresa_id, i.EMPRESA, i.TIPO, i.FUENTE, i.CARRERA, i.DISTRITO, i.FECHA_REGISTRO, i.COSTO, 1, $fyh, $usuario
+                    SELECT p.id, $empresa_id, i.EMPRESA, i.TIPO, i.FUENTE, i.CARRERA, i.DISTRITO, i.FECHA_REGISTRO, i.COSTO, 1, '$fyh', $usuario
                     FROM interesados i
                     INNER JOIN personas p ON p.dni=i.dni_final
                     WHERE i.usuario=".$usuario."
