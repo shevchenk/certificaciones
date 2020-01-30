@@ -86,7 +86,7 @@ SlctCargarEmpresas=function(result){
 HTMLListarRegion=function(result){
     var html="<option value=''>.::Todos::.</option>";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.distrito+">"+r.distrito+"</option>";
+        html+="<option value='"+r.distrito+"'>"+r.distrito+"</option>";
     });
     $("#AsignacionForm #slct_distrito").html(html); 
     $("#AsignacionForm #slct_distrito").selectpicker('refresh');
@@ -95,7 +95,7 @@ HTMLListarRegion=function(result){
 HTMLListarCampana=function(result){
     var html="<option value=''>.::Todos::.</option>";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.campana+">"+r.campana+"</option>";
+        html+="<option value='"+r.campana+"'>"+r.campana+"</option>";
     });
     $("#AsignacionForm #slct_campana").html(html); 
     $("#AsignacionForm #slct_campana").selectpicker('refresh');
