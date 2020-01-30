@@ -83,9 +83,11 @@ class Seminario extends Model
                                     WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mmd.tipo_pago="1.4" THEN "Transferencia - Interbank"
                                     WHEN mmd.tipo_pago="2.1" THEN "Depósito - BCP"
                                     WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
                                     WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN mmd.tipo_pago="2.4" THEN "Depósito - Interbank"
                                     ELSE "Caja"
                                 END ORDER BY mmd.id SEPARATOR "\n")
                                 ) AS tipo_pago')
@@ -94,18 +96,22 @@ class Seminario extends Model
                     ,DB::raw('CASE  WHEN mm.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mm.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mm.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago="1.4" THEN "Transferencia - Interbank"
                                     WHEN mm.tipo_pago="2.1" THEN "Depósito - BCP"
                                     WHEN mm.tipo_pago="2.2" THEN "Depósito - Scotiabank"
                                     WHEN mm.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago="2.4" THEN "Depósito - Interbank"
                                     ELSE "Caja"
                                 END AS tipo_pago_promocion')
                     ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
                     ,DB::raw('CASE  WHEN mm.tipo_pago_inscripcion="1.1" THEN "Transferencia - BCP"
                                     WHEN mm.tipo_pago_inscripcion="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mm.tipo_pago_inscripcion="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="1.4" THEN "Transferencia - Interbank"
                                     WHEN mm.tipo_pago_inscripcion="2.1" THEN "Depósito - BCP"
                                     WHEN mm.tipo_pago_inscripcion="2.2" THEN "Depósito - Scotiabank"
                                     WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="2.4" THEN "Depósito - Interbank"
                                     ELSE "Caja"
                                 END AS tipo_pago_inscripcion')
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
@@ -512,36 +518,44 @@ class Seminario extends Model
                                     WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mmd.tipo_pago="1.4" THEN "Transferencia - Interbank"
                                     WHEN mmd.tipo_pago="2.1" THEN "Depósito - BCP"
                                     WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
                                     WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN mmd.tipo_pago="2.4" THEN "Depósito - Interbank"
                                     ELSE "Caja"
                                 END AS tipo_pago')
                     ,'mm.nro_promocion','mm.monto_promocion'
                     ,DB::raw('CASE  WHEN mm.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mm.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mm.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago="1.4" THEN "Transferencia - Interbank"
                                     WHEN mm.tipo_pago="2.1" THEN "Depósito - BCP"
                                     WHEN mm.tipo_pago="2.2" THEN "Depósito - Scotiabank"
                                     WHEN mm.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago="2.4" THEN "Depósito - Interbank"
                                     ELSE "Caja"
                                 END AS tipo_pago_promocion')
                     ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
                     ,DB::raw('CASE  WHEN mm.tipo_pago_inscripcion="1.1" THEN "Transferencia - BCP"
                                     WHEN mm.tipo_pago_inscripcion="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mm.tipo_pago_inscripcion="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="1.4" THEN "Transferencia - Interbank"
                                     WHEN mm.tipo_pago_inscripcion="2.1" THEN "Depósito - BCP"
                                     WHEN mm.tipo_pago_inscripcion="2.2" THEN "Depósito - Scotiabank"
                                     WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="2.4" THEN "Depósito - Interbank"
                                     ELSE "Caja"
                                 END AS tipo_pago_inscripcion')
                     ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(pago," / ",nro_pago," / ",
                                 CASE  WHEN tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN tipo_pago="1.4" THEN "Transferencia - Interbank"
                                     WHEN tipo_pago="2.1" THEN "Depósito - BCP"
                                     WHEN tipo_pago="2.2" THEN "Depósito - Scotiabank"
                                     WHEN tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN tipo_pago="2.4" THEN "Depósito - Interbank"
                                     ELSE "Caja"
                                 END
                                  SEPARATOR "\n") 

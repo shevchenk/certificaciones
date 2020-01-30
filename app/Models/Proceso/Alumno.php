@@ -377,9 +377,11 @@ class Alumno extends Model
                             WHEN ms.tipo_pago="1.1" THEN "Transferencia - BCP"
                             WHEN ms.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                             WHEN ms.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                            WHEN ms.tipo_pago="1.4" THEN "Transferencia - Interbank"
                             WHEN ms.tipo_pago="2.1" THEN "Depósito - BCP"
                             WHEN ms.tipo_pago="2.2" THEN "Depósito - Scotiabank"
                             WHEN ms.tipo_pago="2.3" THEN "Depósito - BBVA"
+                            WHEN ms.tipo_pago="2.4" THEN "Depósito - Interbank"
                             ELSE "Caja"
                         END AS tipo_pago')
                 )
