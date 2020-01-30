@@ -109,7 +109,7 @@
                     <div class="col-sm-12">
                         <div class="col-sm-4">
                             <label>Frecuencia:</label>
-                            <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_dia[]" id="slct_dia">
+                            <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_dia[]" id="slct_dia" onChange="ValidaOnline(this.value);">
                                 <option value="LU">Lunes</option>
                                 <option value="MA">Martes</option>
                                 <option value="MI">Miercoles</option>
@@ -117,6 +117,7 @@
                                 <option value="VI">Viernes</option>
                                 <option value="SA">Sabado</option>
                                 <option value="DO">Domingo</option>
+                                <option value="ON">OnLine</option>
                             </select>
                         </div>
                         <div class="col-sm-4">
@@ -128,12 +129,12 @@
                             <input type="text" class="form-control fechas" id="txt_hora_final" name="txt_hora_final" readonly="" >
                         </div>
                     </div>
-                    <div class="col-sm-12 panel">
+                    <div class="col-sm-12 panel" style="display: none;">
                         <hr>
                         <div class="panel-heading bg-info"><center>ESTADO DEL VISITANTE</center></div>
                     </div>
                     <div class="col-sm-12">
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="display: none;">
                             <div class="form-group">
                                 <label>Estado:</label>
                                 <select class="selectpicker form-control show-menu-arrow" onchange="ActivarComentario()" id="slct_tipo_llamada" name="slct_tipo_llamada">

@@ -256,11 +256,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Hora Final',4000);
     }
-
-    else if( $.trim( $("#ModalPersonaForm #slct_tipo_llamada").val() )=='' ){
+    /*else if( $.trim( $("#ModalPersonaForm #slct_tipo_llamada").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Estado',4000);
-    }
+    }*/
     else if( (codigo==1 || codigo==2) && $.trim( $("#ModalPersonaForm #txt_fechas").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione '+$('.fechadinamica').text(),4000);
@@ -453,6 +452,13 @@ HTMLCargarPersona=function(result){
         } 
     });
 };
+
+ValidaOnline=function(v){
+    if( v == 'ON'){
+        $("#txt_hora_inicio").val('00:00');
+        $("#txt_hora_final").val('23:59');
+    }
+}
 
 EliminarArea=function(obj){
     //console.log(obj);

@@ -736,7 +736,8 @@ class Persona extends Model
         $llamada->trabajador_id=$r->teleoperadora;
         $llamada->persona_id=$persona->id;
 
-        $llamada->tipo_llamada_id=$r->tipo_llamada;
+        if( Input::has('tipo_llamada') AND trim( $r->tipo_llamada )!='' ){
+            $llamada->tipo_llamada_id=$r->tipo_llamada;
 
         if( Input::has('fechas') AND trim( $r->fechas )!='' ){
             $llamada->fechas=$r->fechas;
