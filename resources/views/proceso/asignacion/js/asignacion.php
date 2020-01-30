@@ -99,6 +99,7 @@ HTMLListarCampana=function(result){
     });
     $("#AsignacionForm #slct_campana").html(html); 
     $("#AsignacionForm #slct_campana").selectpicker('refresh');
+    msjG.mensaje('success','Los filtros han sido cargados',5000);
 }
 
 AsignaNro=function(val){
