@@ -144,7 +144,7 @@ class Llamada extends Model
     public static function GuardarAsignacion($r)
     {
         DB::beginTransaction();
-        $empresa_id= Auth::user()->empresa_id;
+        $empresa_id= $r->empresas;
         $cant= count($r->trabajador);
         $trabajador= $r->trabajador;
         $asig= $r->asig_trabajador;
@@ -284,7 +284,7 @@ class Llamada extends Model
                         AND (
                             $filtros
                         )
-                        ORDER BY pc.persona_ids";
+                        ORDER BY pc.persona_id";
                         DB::insert($sql);
 
         for ($i=0; $i < $cant ; $i++) { 
