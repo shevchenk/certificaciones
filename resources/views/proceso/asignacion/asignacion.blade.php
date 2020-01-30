@@ -78,7 +78,7 @@
                                 <div class="col-sm-3 text-center">
                                     <label class="control-label">Campaña:</label>
                                     <div class="input-group">
-                                      <select name="slct_campaña" id="slct_campaña" class="selectpicker">
+                                      <select name="slct_campana" id="slct_campana" class="selectpicker">
                                           <option value="">.::Todos::.</option>
                                       </select>
                                     </div>

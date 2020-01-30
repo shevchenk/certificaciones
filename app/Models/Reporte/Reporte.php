@@ -22,6 +22,16 @@ class Reporte extends Model
         $fecha_fin= $r->fecha_fin;
         $empresa_id= $r->empresas;
         $order = $r->order;
+        $campana = '';
+        $distrito = '';
+
+        if( trim($r->campana)!='' ){
+            $campana = " AND pc.ad_name = '".$r->campana."' ";
+        }
+
+        if( trim($r->distrito)!='' ){
+            $distrito = " AND pc.distrito = '".$r->distrito."' ";
+        }
 
         $sql="  
         SELECT e.id, 
@@ -65,6 +75,7 @@ class Reporte extends Model
         ) d ON d.persona_id=pc.persona_id AND d.empresa_id=pc.empresa_id 
         WHERE pc.estado = 1
         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+        $campana  $distrito  
         GROUP BY DATE(pc.created_at),e.id, e.empresa, pc.ad_name, pc.interesado
         ORDER BY e.empresa, ".$order;
                 

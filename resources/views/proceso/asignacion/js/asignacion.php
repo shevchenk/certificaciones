@@ -97,8 +97,8 @@ HTMLListarCampana=function(result){
     $.each(result.data,function(index,r){
         html+="<option value="+r.campana+">"+r.campana+"</option>";
     });
-    $("#AsignacionForm #slct_campaña").html(html); 
-    $("#AsignacionForm #slct_campaña").selectpicker('refresh');
+    $("#AsignacionForm #slct_campana").html(html); 
+    $("#AsignacionForm #slct_campana").selectpicker('refresh');
 }
 
 AsignaNro=function(val){
