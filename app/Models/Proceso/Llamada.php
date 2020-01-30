@@ -284,7 +284,7 @@ class Llamada extends Model
                         AND (
                             $filtros
                         )
-                        ORDER BY pc.persona_id";
+                        ORDER BY pc.persona_ids";
                         DB::insert($sql);
 
         for ($i=0; $i < $cant ; $i++) { 
