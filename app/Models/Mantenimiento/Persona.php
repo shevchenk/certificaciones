@@ -738,6 +738,7 @@ class Persona extends Model
 
         if( Input::has('tipo_llamada') AND trim( $r->tipo_llamada )!='' ){
             $llamada->tipo_llamada_id=$r->tipo_llamada;
+        }
 
         if( Input::has('fechas') AND trim( $r->fechas )!='' ){
             $llamada->fechas=$r->fechas;
