@@ -132,7 +132,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="7">&npsb;</td>
+                                            <td colspan="7">&nbsp;</td>
                                             <td >Total</td>
                                             <td id="tdasig" >0</td>
                                             <td id="tdnoasig" >0</td>
@@ -146,7 +146,7 @@
                                             <td id="tdotros" >0</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="7">&npsb;</td>
+                                            <td colspan="7">&nbsp;</td>
                                             <td >Seleccionados</td>
                                             <td id="chkasig"> - </td>
                                             <td id="chknoasig">0</td>
