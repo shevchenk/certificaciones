@@ -31,7 +31,7 @@ HTMLCargar=function(result){ //INICIO HTML
     var html="";
     $('#TableDatos').DataTable().destroy();
 
-    $.each(result.data.data,function(index,r){ 
+    $.each(result.data,function(index,r){ 
         html+="<tr id='trid_"+r.matricula_detalle_id+"'>";
    
         html+=  "<td class='dni'>"+r.dni+"</td>"+
