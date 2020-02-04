@@ -442,7 +442,13 @@ class Alumno extends Model
         $MS = MatriculaSaldo::find($r->id);
         
         $MSF = new MatriculaSaldo;
-        $MSF->matricula_detalle_id = $MS->matricula_detalle_id;
+        if( trim($MS->matricula_detalle_id)=='' ){
+            $MSF->matricula_id = $MS->matricula_id;
+        }
+        else{
+            $MSF->matricula_detalle_id = $MS->matricula_detalle_id;
+        }
+
         $MSF->precio = $MS->precio;
         $MSF->pago = trim($r->monto_pago);
         $MSF->tipo_pago = trim($r->tipo_pago);
@@ -454,10 +460,12 @@ class Alumno extends Model
         $MSF->persona_id_created_at = $user_id;
         $MSF->save();
 
-        $MD = MatriculaDetalle::find($MS->matricula_detalle_id);
-        $MD->saldo = $saldo;
-        $MD->persona_id_updated_at = $user_id;
-        $MD->save();
+        if( trim($MS->matricula_detalle_id)!='' ){
+            $MD = MatriculaDetalle::find($MS->matricula_detalle_id);
+            $MD->saldo = $saldo;
+            $MD->persona_id_updated_at = $user_id;
+            $MD->save();
+        }
 
         if( trim($r->pago_nombre)!='' ){
             $type=explode(".",$r->pago_nombre);
