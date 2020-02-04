@@ -231,8 +231,10 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
         if( $.trim(r.sucursal_id)!='' ){
             $("#slct_sucursal_"+index).val(r.sucursal_id);
         }
-        if( $.trim(r.archivo_cuota)!='' ){
+        if(r.tipo_pago!='0'){
             $('#slct_tipo_pago_cuota'+index).val(r.tipo_pago);
+        }
+        if( $.trim(r.archivo_cuota)!='' ){
             masterG.SelectImagen(r.archivo_cuota,'#pago_img_cuota'+index,'#pago_cuota'+index);
         }
         fecha_aux= r.fecha_cronograma;
