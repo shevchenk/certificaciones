@@ -338,7 +338,10 @@ class Matricula extends Model
                     $matriculaCuotas->persona_id_created_at=Auth::user()->id;
                     $matriculaCuotas->save();
                     /*********************** Se Agrega Saldos ******************/
-                    $programacionVal= DB::table('mat_especialidades_programaciones_cronogramas')->find($matricula->especialidad_programacion_id);
+                    $programacionVal= DB::table('mat_especialidades_programaciones_cronogramas')
+                                      ->where('cuota',$cuota[$i])
+                                      ->where('especialidad_programacion_id',$matricula->especialidad_programacion_id)
+                                      ->first();
                     $monto_precio= $programacionVal->monto_cronograma*1;
                     $monto_saldo= $programacionVal->monto_cronograma*1 - $monto_cuota[$i];
                     if($monto_saldo<0){
