@@ -395,7 +395,7 @@ class Alumno extends Model
                     }
                 })
                 ->union($first);
-        $r = $sql->paginate(10);
+        $r = $sql->get();
 
         return $r;
     }
