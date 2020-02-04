@@ -349,7 +349,7 @@ class Alumno extends Model
                 '), function($join){
                     $join->on('s.matricula_id','=','m.id');
                 })
-                ->select('p.dni','p.paterno','p.materno','p.nombre','"" AS curso',
+                ->select('p.dni','p.paterno','p.materno','p.nombre',"'' AS curso",
                 'm.id AS matricula_id','s.cuota AS matricula_detalle_id','s.saldo')
                 ->where( function($query) use($r){
                     if( $r->has('dni') AND trim($r->dni)!='' ){
