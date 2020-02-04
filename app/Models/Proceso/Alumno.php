@@ -444,6 +444,7 @@ class Alumno extends Model
         $MSF = new MatriculaSaldo;
         if( trim($MS->matricula_detalle_id)=='' ){
             $MSF->matricula_id = $MS->matricula_id;
+            $MSF->cuota = $MS->cuota;
         }
         else{
             $MSF->matricula_detalle_id = $MS->matricula_detalle_id;
