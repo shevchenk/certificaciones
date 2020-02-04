@@ -197,12 +197,31 @@ SeleccionarEspecialidad=function(id){
             html= html2;
         }
         else{
+             costo = $('#trides_'+id).find('td:eq(0) .costo').text().split('-')[1];
             $("#trides_"+id+" ol>li").each( function(index){
                 html+=''+
                 '<tr>'+
                     '<td><input type="hidden" value="'+(index*1+1)+'" name="txt_cuota[]">'+(index*1+1)+$(this).text()+'</td>'+
                     '<td><input type="text" class="form-control" id="txt_nro_cuota" name="txt_nro_cuota[]" value="" placeholder="Nro"></td>'+
-                    '<td><input type="text" class="form-control" id="txt_monto_cuota" name="txt_monto_cuota[]" value="" placeholder="Monto"></td>'+
+                    '<td>'+
+                        "<div class='input-group'>"+
+                            "<div class='input-group-addon'>"+
+                            "<i>"+costo+"</i>"+
+                            "</div>"+
+                            '<div id="txt_monto_cuota_ico'+index+'" class="has-warning has-feedback">'+
+                                "<input type='text' class='form-control'  id='txt_monto_cuota"+index+"' name='txt_monto_cuota[]'"+
+                                " onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);ValidaDeuda(\""+costo+"\",this,\""+index+"\");'>"+
+                                '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
+                            '</div>'+
+                        "</div>"+
+                        '<div id="i_monto_deuda_certificado_ico'+index+'" class="has-warning has-feedback">'+
+                            "<div class='input-group-addon'>"+
+                            "<label>Deuda:</label>"+
+                            "<label id='i_monto_deuda_certificado"+index+"'>"+costo+"</label>"+
+                            '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
+                            "</div>"+
+                        '</div>'+
+                    '</td>'+
                     '<td><select class="form-control"  id="slct_tipo_pago_cuota" name="slct_tipo_pago_cuota[]">'+
                         '<option value=\'0\'>.::Seleccione::.</option>'+
                         "<option value='1.1'>Transferencia - BCP</option>"+
@@ -239,10 +258,10 @@ SeleccionarEspecialidad=function(id){
 }
 
 ValidaDeuda = function(c,t,id){
-    $("#txt_monto_certificado_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-warning-sign').addClass('glyphicon-ok');
+    $("#txt_monto_certificado_ico"+id+",#txt_monto_cuota_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-warning-sign').addClass('glyphicon-ok');
     var saldo= c*1 - $(t).val()*1;
     if( saldo>0 ){
-        $("#txt_monto_certificado_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+        $("#txt_monto_certificado_ico"+id+",#txt_monto_cuota_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
     }
     if(saldo<0){
         saldo=0;
