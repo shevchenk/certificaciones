@@ -196,7 +196,12 @@ HTMLGuardarPago=function(result){
         msjG.mensaje('success',result.msj,4000);
         $("#div_saldo").html(result.saldo);
         AjaxEspecialidad.Cargar(HTMLCargar);
-        AjaxEspecialidad.verCursos(HTMLCargaCurso, result.matricula_detalle_id);
+        if( $.trim(result.matricula_detalle_id)!='' ){
+            AjaxEspecialidad.verCursos(HTMLCargaCurso, result.matricula_detalle_id);
+        }
+        else{
+            AjaxEspecialidad.verSaldos(HTMLCargaCurso, result.cuota, result.matricula_id);
+        }
     }
     else{
         msjG.mensaje('warning',result.msj,3000);

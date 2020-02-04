@@ -481,6 +481,8 @@ class Alumno extends Model
         DB::commit();
 
         $return['matricula_detalle_id'] = $MS->matricula_detalle_id;
+        $return['matricula_id'] = $MS->matricula_id;
+        $return['cuota'] = $MS->cuota;
         $return['saldo'] = $saldo;
         $return['rst'] = 1;
         $return['msj'] = 'Registro realizado';
