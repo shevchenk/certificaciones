@@ -173,7 +173,6 @@
                                     <div class="col-md-12">
                                         <ul>
                                             <li style="display: inline;"><b>Tipo de Inscripción: &nbsp;</b></li>
-                                            <li style="display:inline; padding: 10px; margin: 10px"><input type="radio" id="rdbtipo1" name="rdbtipo" checked onchange="ValidaTipo(1);">CURSOS LIBRES</li>
                                             <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(2);"><input type="radio" id="rdbtipo2" name="rdbtipo">A UN NUEVO MÓDULO "ESPECIALIDAD" </li>
                                             <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(3);"><input type="radio" id="rdbtipo3" name="rdbtipo">A MAS CURSOS DE UN MÓDULO PREVIAMENTE INSCRITO</li>
                                         </ul>

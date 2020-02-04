@@ -18,8 +18,8 @@ $(document).ready(function() {
     $(".cursospro2").css('display','none');
     $(".cursospro1").css('display','');
 
-    $( "#ModalMatriculaForm #rdbtipo1" ).prop("checked",true);
-    $( "#ModalMatriculaForm #rdbtipo2,#ModalMatriculaForm #rdbtipo3" ).removeAttr("checked");
+    $( "#ModalMatriculaForm #rdbtipo2" ).prop("checked",true);
+    $( "#ModalMatriculaForm #rdbtipo3" ).removeAttr("checked");
     
     $( "#ModalMatriculaForm #slct_region_id" ).change(function() {
             var region_id= $('#ModalMatriculaForm #slct_region_id').val();
@@ -245,9 +245,9 @@ HTMLAgregarEditar=function(result){
         $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
         $("#txt_observacion").val('S/O');
         $("#pago_img,#dni_img").attr('src','');
-        $( "#ModalMatriculaForm #rdbtipo1" ).prop("checked",true);
-        $( "#ModalMatriculaForm #rdbtipo2,#ModalMatriculaForm #rdbtipo3" ).removeAttr("checked");
-        ValidaTipo(1);
+        $( "#ModalMatriculaForm #rdbtipo2" ).prop("checked",true);
+        $( "#ModalMatriculaForm #rdbtipo3" ).removeAttr("checked");
+        ValidaTipo(2);
 
         $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",true);
         $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",true);

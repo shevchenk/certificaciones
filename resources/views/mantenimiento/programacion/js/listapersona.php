@@ -83,14 +83,9 @@ SeleccionarPersona = function(val,id){
         $("#ModalMatriculaForm #txt_marketing,#ModalMatriculaForm #txt_marketing_id,#ModalMatriculaForm #txt_persona_caja,#ModalMatriculaForm #txt_persona_caja_id").val('');
         $("#ModalMatriculaForm select").selectpicker('val','0');
         $("#txt_observacion").val('S/O');
-        $( "#ModalMatriculaForm #rdbtipo1" ).prop("checked",true);
-        $( "#ModalMatriculaForm #rdbtipo2,#ModalMatriculaForm #rdbtipo3" ).removeAttr("checked");
-        var html="<option value='0'>.::Curso Libre::.</option>";
-        $("#ModalMatriculaForm #slct_especialidad2_id").html(html); 
-        $("#ModalMatriculaForm #slct_especialidad2_id").selectpicker('refresh');
-        $( "#ModalMatriculaForm #slct_especialidad2_id" ).prop("disabled",true);
-        $(".cursospro2").css('display','none');
-        $(".cursospro1").css('display','');
+        $( "#ModalMatriculaForm #rdbtipo2" ).prop("checked",true);
+        $( "#ModalMatriculaForm #rdbtipo3" ).removeAttr("checked");
+        ValidaTipo(2);
 
         $('#ModalListapersona').modal('hide');
     }
