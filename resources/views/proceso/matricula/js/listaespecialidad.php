@@ -66,7 +66,7 @@ HTMLCargarEspecialidad=function(result){
         detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Curso</span> </li></ul>";
         cuota='';
         if( r.tipo==1 ){
-            detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;'>"+r.nro_cuota+"</span> </li></ul>";
+            detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;' class='costo'>"+r.nro_cuota+"</span> </li></ul>";
             cuota="<ol><li>C - "+$.trim(r.cronograma).split("|").join("</li><li>C - ")+"</li></ol>";
         }
         html+="<tr id='trides_"+r.id+"'>"+
@@ -128,19 +128,40 @@ SeleccionarEspecialidad=function(id){
             '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1|curso_id:'+$(this).find('td:eq(0) .curso_id').val()+'" data-tipotabla="1">Seleccionar Programación</button></td>';
           html+="</tr>";
 
+          costo = $('#trides_'+id).find('td:eq(0) .costo').text().split('-')[1];
           html2+=''+
             '<tr>'+
                 '<td>'+$(this).find('td:eq(1)').text()+'</td>'+
                 '<td><input type="text" class="form-control" id="txt_nro_certificado" name="txt_nro_certificado[]" value="" placeholder="Nro"></td>'+
-                '<td><input type="text" class="form-control" id="txt_monto_certificado" name="txt_monto_certificado[]" value="" placeholder="Monto"></td>'+
+                '<td>'+
+                    "<div class='input-group'>"+
+                        "<div class='input-group-addon'>"+
+                        "<i>"+costo+"</i>"+
+                        "</div>"+
+                        '<div id="txt_monto_certificado_ico'+index+'" class="has-warning has-feedback">'+
+                            "<input type='text' class='form-control'  id='txt_monto_certificado"+index+"' name='txt_monto_certificado[]'"+
+                            " onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);ValidaDeuda(\""+costo+"\",this,\""+index+"\");'>"+
+                            '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
+                        '</div>'+
+                    "</div>"+
+                    '<div id="i_monto_deuda_certificado_ico'+index+'" class="has-warning has-feedback">'+
+                        "<div class='input-group-addon'>"+
+                        "<label>Deuda:</label>"+
+                        "<label id='i_monto_deuda_certificado"+index+"'>"+costo+"</label>"+
+                        '<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>'+
+                        "</div>"+
+                    '</div>'+
+                '</td>'+
                 '<td><select class="form-control"  id="slct_tipo_pago_certificado" name="slct_tipo_pago_certificado[]">'+
                     '<option value=\'0\'>.::Seleccione::.</option>'+
                     "<option value='1.1'>Transferencia - BCP</option>"+
                     "<option value='1.2'>Transferencia - Scotiabank</option>"+
                     "<option value='1.3'>Transferencia - BBVA</option>"+
+                    "<option value='1.4'>Transferencia - Interbank</option>"+
                     "<option value='2.1'>Depósito - BCP</option>"+
                     "<option value='2.2'>Depósito - Scotiabank</option>"+
                     "<option value='2.3'>Depósito - BBVA</option>"+
+                    "<option value='2.4'>Depósito - Interbank</option>"+
                     '<option value=\'3.0\'>Caja</option>'+
                     '</select></td>'+
                 '<td>'+
@@ -187,9 +208,11 @@ SeleccionarEspecialidad=function(id){
                         "<option value='1.1'>Transferencia - BCP</option>"+
                         "<option value='1.2'>Transferencia - Scotiabank</option>"+
                         "<option value='1.3'>Transferencia - BBVA</option>"+
+                        "<option value='1.4'>Transferencia - Interbank</option>"+
                         "<option value='2.1'>Depósito - BCP</option>"+
                         "<option value='2.2'>Depósito - Scotiabank</option>"+
                         "<option value='2.3'>Depósito - BBVA</option>"+
+                        "<option value='2.4'>Depósito - Interbank</option>"+
                         '<option value=\'3.0\'>Caja</option>'+
                         '</select></td>'+
                     '<td>'+
@@ -213,6 +236,18 @@ SeleccionarEspecialidad=function(id){
 
         $("#tb_pago_cuota").html(html);
         $("#ModalListaespecialidad").modal('hide');
+}
+
+ValidaDeuda = function(c,t,id){
+    $("#txt_monto_certificado_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-warning-sign').addClass('glyphicon-ok');
+    var saldo= c*1 - $(t).val()*1;
+    if( saldo>0 ){
+        $("#txt_monto_certificado_ico"+id+",#i_monto_deuda_certificado_ico"+id).removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+    }
+    if(saldo<0){
+        saldo=0;
+    }
+    $("#i_monto_deuda_certificado"+id).text(saldo.toFixed(2));
 }
 
 HTMLCargarProgramacion=function(result){

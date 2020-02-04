@@ -297,12 +297,13 @@ class Matricula extends Model
                 $mtdetalle->persona_id_created_at=Auth::user()->id;
                 $mtdetalle->save();
 
-                if( trim($r->nro_promocion)=='' AND $monto_precio>=0){
+                if( trim($r->nro_promocion)=='' AND $monto_saldo>0){
                     $mtsaldo= new MatriculaSaldo;
                     $mtsaldo->matricula_detalle_id= $mtdetalle->id;
                     $mtsaldo->saldo= $monto_saldo;
                     $mtsaldo->precio= $monto_precio;
                     $mtsaldo->pago= $monto_pago_certificado[$i];
+                    $mtsaldo->tipo_pago= $tipo_pago[$i];
                     $mtsaldo->persona_id_created_at= Auth::user()->id;
                     $mtsaldo->save();
                 }
@@ -336,6 +337,25 @@ class Matricula extends Model
                     }
                     $matriculaCuotas->persona_id_created_at=Auth::user()->id;
                     $matriculaCuotas->save();
+                    /*********************** Se Agrega Saldos ******************/
+                    $programacionVal= DB::table('mat_especialidades_programaciones_cronogramas')->find($matricula->especialidad_programacion_id);
+                    $monto_precio= $programacionVal->monto_cronograma*1;
+                    $monto_saldo= $programacionVal->monto_cronograma*1 - $monto_cuota[$i];
+                    if($monto_saldo<0){
+                        $monto_saldo=0;
+                    }
+
+                    if( $monto_saldo>0 ){
+                        $mtsaldo= new MatriculaSaldo;
+                        $mtsaldo->matricula_id= $matricula->id;
+                        $mtsaldo->cuota= $cuota[$i];
+                        $mtsaldo->saldo= $monto_saldo;
+                        $mtsaldo->precio= $monto_precio;
+                        $mtsaldo->pago= $monto_cuota[$i];
+                        $mtsaldo->tipo_pago= $tipo_pago_cuota[$i];
+                        $mtsaldo->persona_id_created_at= Auth::user()->id;
+                        $mtsaldo->save();
+                    }
                 }
             }
         }
