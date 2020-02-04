@@ -23,11 +23,11 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Asesoria al estudiante
-            <small>Asesoria</small>
+        <h1>Asesoría al estudiante
+            <small>Asesoría</small>
         </h1>
         <ol class="breadcrumb">
-            <li><i class="fa fa-sitemap"></i> Asesoria</li>
+            <li><i class="fa fa-sitemap"></i> Asesoría</li>
             <li class="active">FC</li>
         </ol>
     </section>
