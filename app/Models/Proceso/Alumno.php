@@ -335,6 +335,37 @@ class Alumno extends Model
 
     public static function LoadSaldos( $r )
     {
+        $first = DB::table('mat_matriculas AS m')
+                ->Join('personas AS p', function($join){
+                    $join->on('p.id','=','m.persona_id');
+                })
+                ->Join(DB::raw('
+                    (SELECT matricula_id, cuota, MIN(saldo) saldo
+                    FROM mat_matriculas_saldos
+                    WHERE matricula_detalle_id IS NULL
+                    AND estado=1
+                    GROUP BY matricula_id, cuota
+                    HAVING saldo > 0) AS s
+                '), function($join){
+                    $join->on('s.matricula_id','=','m.id')
+                })
+                ->select('p.dni','p.paterno','p.materno','p.nombre','"" AS curso',
+                'm.id AS matricula_id','s.cuota AS matricula_detalle_id','s.saldo')
+                ->where( function($query) use($r){
+                    if( $r->has('dni') AND trim($r->dni)!='' ){
+                        $query->where('p.dni', 'like', '%'.trim($r->dni).'%' );
+                    }
+                    if( $r->has('paterno') AND trim($r->paterno)!='' ){
+                        $query->where('p.paterno', 'like', '%'.trim($r->paterno).'%' );
+                    }
+                    if( $r->has('materno') AND trim($r->materno)!='' ){
+                        $query->where('p.materno', 'like', '%'.trim($r->materno).'%' );
+                    }
+                    if( $r->has('nombre') AND trim($r->nombre)!='' ){
+                        $query->where('p.nombre', 'like', '%'.trim($r->nombre).'%' );
+                    }
+                });
+
         $sql=   DB::table('mat_matriculas AS m')
                 ->Join('mat_matriculas_detalles AS md', function($join){
                     $join->on('md.matricula_id','=','m.id')
@@ -362,7 +393,8 @@ class Alumno extends Model
                     if( $r->has('nombre') AND trim($r->nombre)!='' ){
                         $query->where('p.nombre', 'like', '%'.trim($r->nombre).'%' );
                     }
-                });
+                })
+                ->union($first);
         $r = $sql->paginate(10);
 
         return $r;
@@ -388,6 +420,10 @@ class Alumno extends Model
                 ->where( function($query) use($r){
                     if( $r->has('matricula_detalle_id') AND trim($r->matricula_detalle_id)!='' ){
                         $query->where( 'ms.matricula_detalle_id', trim($r->matricula_detalle_id) );
+                    }
+                    elseif( $r->has('matricula_id') AND trim($r->matricula_id)!='' ){
+                        $query->where( 'ms.matricula_id', trim($r->matricula_id) );
+                        $query->where( 'ms.cuota', trim($r->cuota) );
                     }
                     else{
                         $query->where('ms.id',0);
