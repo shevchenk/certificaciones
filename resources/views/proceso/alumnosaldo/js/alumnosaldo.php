@@ -40,7 +40,7 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='curso'>"+r.curso+"</td>"+
                 "<td class='saldo'>"+r.saldo+"</td>";
-        if(r.curso==''){
+        if(r.curso==r.dni){
             html+=  '<td><a id="btn_c'+r.matricula_detalle_id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verSaldos(HTMLCargaCurso, '+r.matricula_detalle_id+', '+r.matricula_id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
         }
         else{
