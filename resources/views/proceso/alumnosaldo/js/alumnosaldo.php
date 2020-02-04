@@ -31,7 +31,7 @@ HTMLCargar=function(result){ //INICIO HTML
     var html="";
     $('#TableDatos').DataTable().destroy();
 
-    $.each(result.data.data,function(index,r){ 
+    $.each(result.data,function(index,r){ 
         html+="<tr id='trid_"+r.matricula_detalle_id+"'>";
    
         html+=  "<td class='dni'>"+r.dni+"</td>"+
@@ -40,8 +40,12 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='nombre'>"+r.nombre+"</td>"+
                 "<td class='curso'>"+r.curso+"</td>"+
                 "<td class='saldo'>"+r.saldo+"</td>";
-
-        html+=  '<td><a id="btn_'+r.matricula_detalle_id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verCursos(HTMLCargaCurso, '+r.matricula_detalle_id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
+        if(r.curso==r.dni){
+            html+=  '<td><a id="btn_c'+r.matricula_detalle_id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verSaldos(HTMLCargaCurso, '+r.matricula_detalle_id+', '+r.matricula_id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
+        }
+        else{
+            html+=  '<td><a id="btn_'+r.matricula_detalle_id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verCursos(HTMLCargaCurso, '+r.matricula_detalle_id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';
+        }
         html+="</tr>";
     });
 
@@ -98,9 +102,11 @@ HTMLCargaCurso=function(result){ //INICIO HTML
             "<option value='1.1'>Transferencia - BCP</option>"+
             "<option value='1.2'>Transferencia - Scotiabank</option>"+
             "<option value='1.3'>Transferencia - BBVA</option>"+
+            "<option value='1.4'>Transferencia - Interbank</option>"+
             "<option value='2.1'>Depósito - BCP</option>"+
             "<option value='2.2'>Depósito - Scotiabank</option>"+
             "<option value='2.3'>Depósito - BBVA</option>"+
+            "<option value='2.4'>Depósito - Interbank</option>"+
             "<option value='3.0'>Caja</option>"+
             "</select>"+
         "</td>";
@@ -190,7 +196,12 @@ HTMLGuardarPago=function(result){
         msjG.mensaje('success',result.msj,4000);
         $("#div_saldo").html(result.saldo);
         AjaxEspecialidad.Cargar(HTMLCargar);
-        AjaxEspecialidad.verCursos(HTMLCargaCurso, result.matricula_detalle_id);
+        if( $.trim(result.matricula_detalle_id)!='' ){
+            AjaxEspecialidad.verCursos(HTMLCargaCurso, result.matricula_detalle_id);
+        }
+        else{
+            AjaxEspecialidad.verSaldos(HTMLCargaCurso, result.cuota, result.matricula_id);
+        }
     }
     else{
         msjG.mensaje('warning',result.msj,3000);

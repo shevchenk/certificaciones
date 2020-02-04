@@ -199,9 +199,15 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
             '<td><input type="text" class="form-control" id="txt_monto_cuota'+index+'" name="txt_monto_cuota[]" value="'+$.trim(r.monto_cuota)+'" placeholder="Monto"></td>'+
             '<td><select class="form-control"  id="slct_tipo_pago_cuota'+index+'" name="slct_tipo_pago_cuota[]">'+
                 '<option value=\'0\'>.::Seleccione::.</option>'+
-                '<option value=\'1\'>Transferencia</option>'+
-                '<option value=\'2\'>Depósito</option>'+
-                '<option value=\'3\'>Caja</option>'+
+                "<option value='1.1'>Transferencia - BCP</option>"+
+                "<option value='1.2'>Transferencia - Scotiabank</option>"+
+                "<option value='1.3'>Transferencia - BBVA</option>"+
+                "<option value='1.4'>Transferencia - Interbank</option>"+
+                "<option value='2.1'>Depósito - BCP</option>"+
+                "<option value='2.2'>Depósito - Scotiabank</option>"+
+                "<option value='2.3'>Depósito - BBVA</option>"+
+                "<option value='2.4'>Depósito - Interbank</option>"+
+                '<option value=\'3.0\'>Caja</option>'+
                 '</select></td>'+
             '<td>'+
                 '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_cuota'+index+'"  name="pago_nombre_cuota[]" value="">'+
@@ -225,8 +231,10 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
         if( $.trim(r.sucursal_id)!='' ){
             $("#slct_sucursal_"+index).val(r.sucursal_id);
         }
-        if( $.trim(r.archivo_cuota)!='' ){
+        if(r.tipo_pago!='0'){
             $('#slct_tipo_pago_cuota'+index).val(r.tipo_pago);
+        }
+        if( $.trim(r.archivo_cuota)!='' ){
             masterG.SelectImagen(r.archivo_cuota,'#pago_img_cuota'+index,'#pago_cuota'+index);
         }
         fecha_aux= r.fecha_cronograma;

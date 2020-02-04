@@ -22,6 +22,16 @@ class Reporte extends Model
         $fecha_fin= $r->fecha_fin;
         $empresa_id= $r->empresas;
         $order = $r->order;
+        $campana = '';
+        $distrito = '';
+
+        if( trim($r->campana)!='' ){
+            $campana = " AND pc.ad_name = '".$r->campana."' ";
+        }
+
+        if( trim($r->distrito)!='' ){
+            $distrito = " AND pc.distrito = '".$r->distrito."' ";
+        }
 
         $sql="  
         SELECT e.id, 
@@ -66,6 +76,73 @@ class Reporte extends Model
         WHERE pc.estado = 1
         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
         GROUP BY DATE(pc.created_at),e.id, e.empresa, pc.ad_name, pc.interesado
+        ORDER BY e.empresa, ".$order;
+                
+        $r= DB::select($sql);
+        return $r;
+    }
+
+    public static function CalcularAsignadosDos( $r )
+    {
+        $fecha_ini= $r->fecha_ini;
+        $fecha_fin= $r->fecha_fin;
+        $empresa_id= $r->empresas;
+        $order = $r->order;
+        $campana = '';
+        $distrito = '';
+
+        if( trim($r->campana)!='' ){
+            $campana = " AND pc.ad_name = '".$r->campana."' ";
+        }
+
+        if( trim($r->distrito)!='' ){
+            $distrito = " AND pc.distrito = '".$r->distrito."' ";
+        }
+
+        $sql="  
+        SELECT e.id, 
+        e.empresa, pc.created_at fecha_carga, MIN(pc.fecha_registro) fmin, MAX(pc.fecha_registro) fmax,  
+        pc.interesado AS interes, COUNT(pc.id) cantidad, MIN(pc.costo) costo_min , SUM(pc.costo) total,
+        COUNT(IF(d.persona_id IS NOT NULL, 1, NULL)) si_asignado, COUNT(IF(d.persona_id IS NULL, 1, NULL)) no_asignado, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NULL, 1, NULL)) no_llamada, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NOT NULL, 1, NULL)) si_llamada, 
+        COUNT(IF(m.persona_id IS NULL, NULL, 1)) convertido,
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs=1, 1, NULL)) interesado, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs=2, 1, NULL)) pendiente,
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs=3, 1, NULL)) nointeresado, 
+        COUNT(IF(d.persona_id IS NOT NULL AND l.obs=0, 1, NULL)) otros
+        FROM personas_captadas pc 
+        INNER JOIN empresas e ON e.id=pc.empresa_id AND e.id = $empresa_id
+        LEFT JOIN (
+            SELECT ll.persona_id, t.empresa_id, MIN(tll.obs) obs
+            FROM llamadas ll
+            INNER JOIN tipo_llamadas tll ON tll.id=ll.tipo_llamada_id
+            INNER JOIN mat_trabajadores t ON t.id=ll.trabajador_id
+            WHERE DATE(ll.fecha_llamada)>='$fecha_ini'
+            AND ll.ultimo_registro=1
+            AND ll.estado=1
+            GROUP BY ll.persona_id, t.empresa_id
+        ) l ON l.persona_id=pc.persona_id AND l.empresa_id=pc.empresa_id 
+        LEFT JOIN (
+            SELECT mm.persona_id, mc.empresa_id 
+            FROM mat_matriculas mm
+            INNER JOIN mat_matriculas_detalles mmd ON mmd.matricula_id=mm.id 
+            INNER JOIN mat_cursos mc ON mc.id=mmd.curso_id
+            WHERE mm.fecha_matricula>='$fecha_ini'
+            AND mm.estado=1
+            GROUP BY mm.persona_id, mc.empresa_id
+        ) m ON m.persona_id=pc.persona_id AND m.empresa_id=pc.empresa_id 
+        LEFT JOIN (
+            SELECT pd.persona_id, t.empresa_id
+            FROM personas_distribuciones pd
+            INNER JOIN mat_trabajadores t ON t.id=pd.trabajador_id
+            WHERE pd.estado=1
+            GROUP BY pd.persona_id, t.empresa_id
+        ) d ON d.persona_id=pc.persona_id AND d.empresa_id=pc.empresa_id 
+        WHERE pc.estado = 1
+        AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
+        $campana  $distrito  
+        GROUP BY pc.created_at,e.id, e.empresa, pc.interesado
         ORDER BY e.empresa, ".$order;
                 
         $r= DB::select($sql);

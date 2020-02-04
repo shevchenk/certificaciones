@@ -335,6 +335,37 @@ class Alumno extends Model
 
     public static function LoadSaldos( $r )
     {
+        $first = DB::table('mat_matriculas AS m')
+                ->Join('personas AS p', function($join){
+                    $join->on('p.id','=','m.persona_id');
+                })
+                ->Join(DB::raw('
+                    (SELECT matricula_id, cuota, MIN(saldo) saldo
+                    FROM mat_matriculas_saldos
+                    WHERE matricula_detalle_id IS NULL
+                    AND estado=1
+                    GROUP BY matricula_id, cuota
+                    HAVING saldo > 0) AS s
+                '), function($join){
+                    $join->on('s.matricula_id','=','m.id');
+                })
+                ->select('p.dni','p.paterno','p.materno','p.nombre',"p.dni AS curso",
+                'm.id AS matricula_id','s.cuota AS matricula_detalle_id','s.saldo')
+                ->where( function($query) use($r){
+                    if( $r->has('dni') AND trim($r->dni)!='' ){
+                        $query->where('p.dni', 'like', '%'.trim($r->dni).'%' );
+                    }
+                    if( $r->has('paterno') AND trim($r->paterno)!='' ){
+                        $query->where('p.paterno', 'like', '%'.trim($r->paterno).'%' );
+                    }
+                    if( $r->has('materno') AND trim($r->materno)!='' ){
+                        $query->where('p.materno', 'like', '%'.trim($r->materno).'%' );
+                    }
+                    if( $r->has('nombre') AND trim($r->nombre)!='' ){
+                        $query->where('p.nombre', 'like', '%'.trim($r->nombre).'%' );
+                    }
+                });
+
         $sql=   DB::table('mat_matriculas AS m')
                 ->Join('mat_matriculas_detalles AS md', function($join){
                     $join->on('md.matricula_id','=','m.id')
@@ -362,8 +393,9 @@ class Alumno extends Model
                     if( $r->has('nombre') AND trim($r->nombre)!='' ){
                         $query->where('p.nombre', 'like', '%'.trim($r->nombre).'%' );
                     }
-                });
-        $r = $sql->paginate(10);
+                })
+                ->union($first);
+        $r = $sql->get();
 
         return $r;
     }
@@ -377,15 +409,21 @@ class Alumno extends Model
                             WHEN ms.tipo_pago="1.1" THEN "Transferencia - BCP"
                             WHEN ms.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                             WHEN ms.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                            WHEN ms.tipo_pago="1.4" THEN "Transferencia - Interbank"
                             WHEN ms.tipo_pago="2.1" THEN "Depósito - BCP"
                             WHEN ms.tipo_pago="2.2" THEN "Depósito - Scotiabank"
                             WHEN ms.tipo_pago="2.3" THEN "Depósito - BBVA"
+                            WHEN ms.tipo_pago="2.4" THEN "Depósito - Interbank"
                             ELSE "Caja"
                         END AS tipo_pago')
                 )
                 ->where( function($query) use($r){
                     if( $r->has('matricula_detalle_id') AND trim($r->matricula_detalle_id)!='' ){
                         $query->where( 'ms.matricula_detalle_id', trim($r->matricula_detalle_id) );
+                    }
+                    elseif( $r->has('matricula_id') AND trim($r->matricula_id)!='' ){
+                        $query->where( 'ms.matricula_id', trim($r->matricula_id) );
+                        $query->where( 'ms.cuota', trim($r->cuota) );
                     }
                     else{
                         $query->where('ms.id',0);
@@ -404,7 +442,14 @@ class Alumno extends Model
         $MS = MatriculaSaldo::find($r->id);
         
         $MSF = new MatriculaSaldo;
-        $MSF->matricula_detalle_id = $MS->matricula_detalle_id;
+        if( trim($MS->matricula_detalle_id)=='' ){
+            $MSF->matricula_id = $MS->matricula_id;
+            $MSF->cuota = $MS->cuota;
+        }
+        else{
+            $MSF->matricula_detalle_id = $MS->matricula_detalle_id;
+        }
+
         $MSF->precio = $MS->precio;
         $MSF->pago = trim($r->monto_pago);
         $MSF->tipo_pago = trim($r->tipo_pago);
@@ -416,10 +461,12 @@ class Alumno extends Model
         $MSF->persona_id_created_at = $user_id;
         $MSF->save();
 
-        $MD = MatriculaDetalle::find($MS->matricula_detalle_id);
-        $MD->saldo = $saldo;
-        $MD->persona_id_updated_at = $user_id;
-        $MD->save();
+        if( trim($MS->matricula_detalle_id)!='' ){
+            $MD = MatriculaDetalle::find($MS->matricula_detalle_id);
+            $MD->saldo = $saldo;
+            $MD->persona_id_updated_at = $user_id;
+            $MD->save();
+        }
 
         if( trim($r->pago_nombre)!='' ){
             $type=explode(".",$r->pago_nombre);
@@ -434,6 +481,8 @@ class Alumno extends Model
         DB::commit();
 
         $return['matricula_detalle_id'] = $MS->matricula_detalle_id;
+        $return['matricula_id'] = $MS->matricula_id;
+        $return['cuota'] = $MS->cuota;
         $return['saldo'] = $saldo;
         $return['rst'] = 1;
         $return['msj'] = 'Registro realizado';

@@ -51,14 +51,6 @@ $(document).ready(function() {
         }
     });
 
-    $("#btn_previa").click(function (){
-        var r = DataToFilter();
-        if( r ){
-            AjaxVisita.ListarRegion(HTMLListarRegion);
-            AjaxVisita.ListarCampana(HTMLListarCampana);
-        }
-    });
-
     $("#slct_trabajador").on('hidden.bs.select', function(e, clickedIndex, isSelected, previousValue){
         var html='';
         var tra=$(this).val();
@@ -81,25 +73,6 @@ SlctCargarEmpresas=function(result){
     });
     $("#AsignacionForm #slct_empresas").html(html); 
     $("#AsignacionForm #slct_empresas").selectpicker('refresh');
-}
-
-HTMLListarRegion=function(result){
-    var html="<option value=''>.::Todos::.</option>";
-    $.each(result.data,function(index,r){
-        html+="<option value='"+r.distrito+"'>"+r.distrito+"</option>";
-    });
-    $("#AsignacionForm #slct_distrito").html(html); 
-    $("#AsignacionForm #slct_distrito").selectpicker('refresh');
-}
-
-HTMLListarCampana=function(result){
-    var html="<option value=''>.::Todos::.</option>";
-    $.each(result.data,function(index,r){
-        html+="<option value='"+r.campana+"'>"+r.campana+"</option>";
-    });
-    $("#AsignacionForm #slct_campana").html(html); 
-    $("#AsignacionForm #slct_campana").selectpicker('refresh');
-    msjG.mensaje('success','Los filtros han sido cargados',5000);
 }
 
 AsignaNro=function(val){
@@ -260,6 +233,7 @@ HTMLCargarVisita=function(result){
             "<td>"+$.trim(r.fecha_carga)+"</td>"+
             "<td>"+$.trim(r.fmin)+"</td>"+
             "<td>"+$.trim(r.fmax)+"</td>"+
+            "<td>"+$.trim(r.ad_name)+"</td>"+
             "<td>"+$.trim(r.interes)+"</td>"+
             "<td>"+$.trim(r.cantidad)+"</td>"+
             "<td>"+$.trim(r.costo_min)+"</td>"+

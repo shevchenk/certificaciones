@@ -287,9 +287,11 @@
                                                         <option value='1.1'>Transferencia - BCP</option>
                                                         <option value='1.2'>Transferencia - Scotiabank</option>
                                                         <option value='1.3'>Transferencia - BBVA</option>
+                                                        <option value='1.4'>Transferencia - Interbank</option>
                                                         <option value='2.1'>Depósito - BCP</option>
                                                         <option value='2.2'>Depósito - Scotiabank</option>
                                                         <option value='2.3'>Depósito - BBVA</option>
+                                                        <option value='2.4'>Depósito - Interbank</option>
                                                         <option value='3.0'>Caja</option>
                                                         </select></td>
                                                     <td>

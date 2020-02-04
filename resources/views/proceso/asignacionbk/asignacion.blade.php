@@ -56,41 +56,21 @@
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-sm-12">
                                 <div class="col-sm-3 text-center">
                                     <label class="control-label">Empresas:</label>
                                     <div class="input-group">
                                       <select name="slct_empresas" id="slct_empresas" class="selectpicker" onchange="AjaxVisita.Trabajadores(SlctCargarTrabajador);"></select>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
-                                    <span class="btn btn-primary btn-md" id="btn_previa" name="btn_previa"><i class="glyphicon glyphicon-search"></i>Listar Filtros</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="col-sm-3 text-center">
-                                    <label class="control-label">Región:</label>
-                                    <div class="input-group">
-                                      <select name="slct_distrito" id="slct_distrito" class="selectpicker">
-                                          <option value="">.::Todos::.</option>
-                                      </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 text-center">
-                                    <label class="control-label">Campaña:</label>
-                                    <div class="input-group">
-                                      <select name="slct_campana" id="slct_campana" class="selectpicker">
-                                          <option value="">.::Todos::.</option>
-                                      </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
                                 <div class="col-sm-3 text-center">
                                     <label class="control-label">Ordenado por:</label>
                                     <div class="input-group">
                                       <select name="slct_order" id="slct_order" class="selectpicker">
-                                          <option value="fecha_carga DESC, pc.interesado">.::Fechas::.</option>
-                                          <option value="pc.interesado, fecha_carga DESC">.::Carrera::.</option>
+                                          <option value="fecha_carga DESC, pc.ad_name, pc.interesado">.::Fechas::.</option>
+                                          <option value="pc.ad_name, pc.interesado, fecha_carga DESC">.::Campaña::.</option>
+                                          <option value="pc.interesado, pc.ad_name, fecha_carga DESC">.::Carrera::.</option>
                                       </select>
                                     </div>
                                 </div>
@@ -103,7 +83,7 @@
                                 <table id="TableVisita" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th style="background-color: #BDD7EE;color:black; text-align: center;" colspan="10"> DATA </th>
+                                            <th style="background-color: #BDD7EE;color:black; text-align: center;" colspan="11"> DATA </th>
                                             <th style="background-color: #FFF2CC;color:black; text-align: center;" colspan="4"> RESULTADO DE LAS LLAMADAS </th>
                                             <th style="background-color: #FCE4D6;color:black; text-align: center;" colspan="4"> DETALLE DE LOS SI LLAMADOS </th>
                                         </tr>
@@ -112,6 +92,7 @@
                                             <th style="background-color: #BDD7EE;color:black">Fecha de<br>la Carga</th>
                                             <th style="background-color: #BDD7EE;color:black">Fecha Inicio<br>del leads</th>
                                             <th style="background-color: #BDD7EE;color:black">Fecha Final<br>del leads</th>
+                                            <th style="background-color: #BDD7EE;color:black">Nombre de la campaña</th>
                                             <th style="background-color: #BDD7EE;color:black">Carrera que solicita</th>
                                             <th style="background-color: #BDD7EE;color:black">Clientes<br>Potenciales</th>
                                             <th style="background-color: #BDD7EE;color:black">Costo<br>por<br>leads</th>
@@ -132,7 +113,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="7">&nbsp;</td>
+                                            <td colspan="8">&nspm;</td>
                                             <td >Total</td>
                                             <td id="tdasig" >0</td>
                                             <td id="tdnoasig" >0</td>
@@ -146,7 +127,7 @@
                                             <td id="tdotros" >0</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="7">&nbsp;</td>
+                                            <td colspan="8">&nspm;</td>
                                             <td >Seleccionados</td>
                                             <td id="chkasig"> - </td>
                                             <td id="chknoasig">0</td>
