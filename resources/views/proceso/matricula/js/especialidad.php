@@ -46,6 +46,8 @@ $(document).ready(function() {
     ActivarPago(1);
 });
 
+ValidaTipo=function(v){}
+
 ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalMatriculaForm #slct_sucursal_id").val() )=='0' ){
@@ -139,15 +141,15 @@ ValidaTabla=function(){
             msjG.mensaje('warning','La oferta existente tiene un máximo de '+PromocionG+' seminarios en promoción. Verifique y actualice los seminarios seleccionados.',9000);
          }*/
 
-         if( $('#txt_nro_promocion').val()=='' && PromocionGeneral==1 ){
+         if( $('#txt_nro_pago_inscripcion').val()=='' && PromocionGeneral==1 ){
             r=false;
-            msjG.mensaje('warning','Ingrese N° Recibo de la Promoción',4000);
+            msjG.mensaje('warning','Ingrese N° Recibo de la Inscripción',4000);
          }
-         else if( $('#txt_monto_promocion').val()=='' && PromocionGeneral==1){
+         else if( $('#txt_monto_pago_inscripcion').val()=='' && PromocionGeneral==1){
             r=false;
-            msjG.mensaje('warning','Ingrese monto de la Promoción',4000);
+            msjG.mensaje('warning','Ingrese monto de la Inscripción',4000);
          }
-         else if( $('#slct_tipo_pago').val()=='0' && PromocionGeneral==1){
+         else if( $('#slct_tipo_pago_inscripcion').val()=='0' && PromocionGeneral==1){
             r=false;
             msjG.mensaje('warning','Seleccione tipo de Operación',4000);
          }
@@ -166,9 +168,8 @@ HTMLAgregarEditar=function(result){
         $("#ModalMatriculaForm input[type='hidden'],#ModalMatriculaForm input[type='text'],#ModalMatriculaForm textarea").not('.mant').val('');
         $("#ModalMatriculaForm select").selectpicker('val','0');
         $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago, #ModalMatriculaForm #tb_pago_cuota, #ModalMatriculaForm #promocion_seminario').html('');
-        $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
         $("#txt_observacion").val('S/O');
-        $("#pago_img,#dni_img").attr('src','');
+        $("#pago_img_ins,#dni_img").attr('src','');
         $("#tb_matricula").html('');
         ActivarPago(1);
     }else{
@@ -326,5 +327,17 @@ ActivarPago=function(id){
         $("#slct_tipo_pago").val('0');
     }
     $("#slct_tipo_pago").selectpicker('refresh');
+}
+
+ValidaDeuda2 = function(c,t){
+    $("#txt_monto_pago_inscripcion_ico,#i_monto_deuda_inscripcion_ico").removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-warning-sign').addClass('glyphicon-ok');
+    var saldo= c*1 - $(t).val()*1;
+    if( saldo>0 ){
+        $("#txt_monto_pago_inscripcion_ico,#i_monto_deuda_inscripcion_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+    }
+    if(saldo<0){
+        saldo=0;
+    }
+    $("#i_monto_deuda_inscripcion").text(saldo.toFixed(2));
 }
 </script>

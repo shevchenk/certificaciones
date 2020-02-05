@@ -24,7 +24,7 @@
                                                     <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Especialidad" onkeypress="return masterG.enterGlobal(event, '#txt_fecha_inicio', 1);" style="width: 150px;">
                                                 </div>
                                             </th>
-                                            <th class="col-md-2">
+                                            <th class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                     <label><h4>Fecha de Inicio:</h4></label>
@@ -32,7 +32,7 @@
                                                     <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" placeholder="Fecha de Inicio" onkeypress="return masterG.enterGlobal(event, '#txt_especialidad', 1);" style="width: 120px;">
                                                 </div>
                                             </th>
-                                            <th class="col-md-9">
+                                            <th class="col-md-8">
                                                 <div class="form-group">
                                                     <label><h4>Cursos:</h4></label>
                                                 </div>

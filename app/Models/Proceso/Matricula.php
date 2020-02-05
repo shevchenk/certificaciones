@@ -144,6 +144,29 @@ class Matricula extends Model
             if( Input::has('especialidad_programacion_id') ){
                 $especialidad_programacion_id= $r->especialidad_programacion_id;
                 $matricula->especialidad_programacion_id= $especialidad_programacion_id[0];
+
+                /*********************** Se Agrega Saldos Inscripción ******************/
+                if( trim( $r->nro_pago_inscripcion )!='' ){
+                    $programacionVal= DB::table('mat_especialidades_programaciones')
+                                      ->find($especialidad_programacion_id[0]);
+                    $monto_precio= $programacionVal->costo*1;
+                    $monto_saldo= $programacionVal->costo*1 - $monto_cuota[$i];
+                    if($monto_saldo<0){
+                        $monto_saldo=0;
+                    }
+
+                    if( $monto_saldo>0 ){
+                        $mtsaldo= new MatriculaSaldo;
+                        $mtsaldo->matricula_id= $matricula->id;
+                        $mtsaldo->saldo= $monto_saldo;
+                        $mtsaldo->precio= $monto_precio;
+                        $mtsaldo->pago= $r->monto_pago_inscripcion;
+                        $mtsaldo->tipo_pago= $r->tipo_pago_inscripcion;
+                        $mtsaldo->persona_id_created_at= Auth::user()->id;
+                        $mtsaldo->save();
+                    }
+                }
+                /****************************************************************/
             }
 
             $matricula->save();
@@ -436,10 +459,7 @@ class Matricula extends Model
                 OR $cursos[0]->empresa_id==3
             )
         ){
-            /*Mail::to($email)
-            //->cc([$emailseguimiento])
-            ->bcc([$emailseguimiento])
-            ->send( new EmailSend($parametros) );*/
+            
             Mail::send($parametros['blade'],$parametros, 
                 function($message) use($parametros){
                     $message->to($parametros['email']);

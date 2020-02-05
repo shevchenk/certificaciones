@@ -66,7 +66,7 @@ HTMLCargarEspecialidad=function(result){
         detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Curso</span> </li></ul>";
         cuota='';
         if( r.tipo==1 ){
-            detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;' class='costo'>"+r.nro_cuota+"</span> </li></ul>";
+            detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;' class='costo'>"+r.nro_cuota+"</span> </li><li> Costo Ins.: <span style='color:red;' class='precio'>"+r.costo+"</span> </li></ul>";
             cuota="<ol><li>C - "+$.trim(r.cronograma).split("|").join("</li><li>C - ")+"</li></ol>";
         }
         html+="<tr id='trides_"+r.id+"'>"+
@@ -184,8 +184,11 @@ SeleccionarEspecialidad=function(id){
           cursos+="<li>"+$(this).find('td:eq(1)').text()+"</li>";
         })
           seminario="<li>"+$('#trides_'+id+' .especialidad').text()+"</li>";
+          precio=$('#trides_'+id+' .precio').text();
 
         $("#promocion_seminario").html("<ul>"+seminario+"</ul>");
+        $("#precio").html(precio);
+        $("#txt_monto_pago_inscripcion").attr('onkeyup','masterG.DecimalMax(this, 2);ValidaDeuda2('+precio+',this);');
         $("#tb_matricula").html(html);
 
         html='';
@@ -197,8 +200,9 @@ SeleccionarEspecialidad=function(id){
             html= html2;
         }
         else{
-             costo = $('#trides_'+id).find('td:eq(0) .costo').text().split('-')[1];
+             //costo = $('#trides_'+id).find('td:eq(0) .costo').text().split('-')[1];
             $("#trides_"+id+" ol>li").each( function(index){
+                costo = $(this).text().split(" - ")[2];
                 html+=''+
                 '<tr>'+
                     '<td><input type="hidden" value="'+(index*1+1)+'" name="txt_cuota[]">'+(index*1+1)+$(this).text()+'</td>'+
@@ -282,6 +286,7 @@ HTMLCargarProgramacion=function(result){
             "<td class='persona'>"+r.persona+"</td>"+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
             "<td class='curso'>"+r.curso+"</td>"+
+            "<td>"+r.turno+"</td>"+
             "<td>"+r.dia+"</td>"+
             "<td class='aula' "+validasem+">"+r.aula+"</td>"+
             "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
