@@ -28,17 +28,23 @@ $(document).ready(function() {
 });
 
 HTMLCargar=function(result){ //INICIO HTML
-    var html="";
+    var html=""; var curso='';
     $('#TableDatos').DataTable().destroy();
 
     $.each(result.data,function(index,r){ 
         html+="<tr id='trid_"+r.matricula_detalle_id+"'>";
-   
+        curso = r.curso;
+        if(r.curso==r.dni){
+            curso = 'Cuota # '+ r.matricula_detalle_id;
+            if( r.matricula_detalle_id=='-1' ){
+                curso = 'Inscripción';
+            }
+        }
         html+=  "<td class='dni'>"+r.dni+"</td>"+
                 "<td class='paterno'>"+r.paterno+"</td>"+
                 "<td class='materno'>"+r.materno+"</td>"+
                 "<td class='nombre'>"+r.nombre+"</td>"+
-                "<td class='curso'>"+r.curso+"</td>"+
+                "<td class='curso'>"+curso+"</td>"+
                 "<td class='saldo'>"+r.saldo+"</td>";
         if(r.curso==r.dni){
             html+=  '<td><a id="btn_c'+r.matricula_detalle_id+'" class="btn btn-default btn-sm" onClick="AjaxEspecialidad.verSaldos(HTMLCargaCurso, '+r.matricula_detalle_id+', '+r.matricula_id+')"><i class="glyphicon glyphicon-book fa-lg"></i> </a></td>';

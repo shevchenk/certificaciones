@@ -65,7 +65,7 @@
 
                                     <th class="col-xs-1">
                                         <div class="form-group">
-                                            <label><h4>Curso</h4></label>
+                                            <label><h4>Detalle</h4></label>
                                         </div>
                                     </th>
                                     <th class="col-xs-1">
@@ -84,7 +84,7 @@
                                   <th>Ape. Paterno</th>
                                   <th>Ape. Materno</th>
                                   <th>Nombres</th>
-                                  <th>Curso</th>
+                                  <th>Detalle</th>
                                   <th>Saldo</th>
                                   <th>[-]</th>
                                 </tr>
@@ -104,7 +104,7 @@
                   <div class="form-group has-primary has-feedback">
                     <label class="control-label col-sm-1" for="" style="text-align: left;">DNI:</label>
                     <div class="col-sm-2" id="div_dni" style="padding-top: 7px;"></div>
-                    <label class="control-label col-sm-1" for="" style="text-align: left;">CURSO:</label>
+                    <label class="control-label col-sm-1" for="" style="text-align: left;">DETALLE:</label>
                     <div class="col-sm-2" id="div_curso" style="padding-top: 7px;"></div>
                   </div>
                   <div class="form-group has-primary has-feedback">
