@@ -144,20 +144,25 @@ class Matricula extends Model
             if( Input::has('especialidad_programacion_id') ){
                 $especialidad_programacion_id= $r->especialidad_programacion_id;
                 $matricula->especialidad_programacion_id= $especialidad_programacion_id[0];
+            }
 
+            $matricula->save();
+            if( Input::has('especialidad_programacion_id') ){
                 /*********************** Se Agrega Saldos Inscripción ******************/
                 if( trim( $r->nro_pago_inscripcion )!='' ){
                     $programacionVal= DB::table('mat_especialidades_programaciones')
-                                      ->find($especialidad_programacion_id[0]);
+                                      ->find($matricula->especialidad_programacion_id);
+
                     $monto_precio= $programacionVal->costo*1;
-                    $monto_saldo= $programacionVal->costo*1 - $monto_cuota[$i];
+                    $monto_saldo= $programacionVal->costo*1 - $r->monto_pago_inscripcion;
                     if($monto_saldo<0){
                         $monto_saldo=0;
                     }
-
                     if( $monto_saldo>0 ){
                         $mtsaldo= new MatriculaSaldo;
                         $mtsaldo->matricula_id= $matricula->id;
+                        $mtsaldo->nro_pago= $matricula->nro_pago_inscripcion;
+                        $mtsaldo->archivo= $matricula->archivo_pago_inscripcion;
                         $mtsaldo->saldo= $monto_saldo;
                         $mtsaldo->precio= $monto_precio;
                         $mtsaldo->pago= $r->monto_pago_inscripcion;
@@ -168,8 +173,6 @@ class Matricula extends Model
                 }
                 /****************************************************************/
             }
-
-            $matricula->save();
         
         if(Input::has('programacion_id')){
                 $programacion_id=$r->programacion_id;
@@ -207,7 +210,7 @@ class Matricula extends Model
                 if(Input::has('programacion_id')){
                     $mtdetalle->programacion_id=$programacion_id[$i]; 
 
-                    if( trim($r->nro_promocion)==''){
+                    if( trim($r->nro_promocion)=='' AND !Input::has('especialidad_programacion_id') ){
                         $programacionVal= Programacion::find($programacion_id[$i]);
                         $monto_precio= $programacionVal->costo;
                         $monto_saldo= $programacionVal->costo - $monto_pago_certificado[$i];
@@ -323,6 +326,8 @@ class Matricula extends Model
                 if( trim($r->nro_promocion)=='' AND $monto_saldo>0){
                     $mtsaldo= new MatriculaSaldo;
                     $mtsaldo->matricula_detalle_id= $mtdetalle->id;
+                    $mtsaldo->nro_pago= $mtdetalle->nro_pago_certificado;
+                    $mtsaldo->archivo= $mtdetalle->archivo_pago_certificado;
                     $mtsaldo->saldo= $monto_saldo;
                     $mtsaldo->precio= $monto_precio;
                     $mtsaldo->pago= $monto_pago_certificado[$i];
@@ -364,6 +369,7 @@ class Matricula extends Model
                     $programacionVal= DB::table('mat_especialidades_programaciones_cronogramas')
                                       ->where('cuota',$cuota[$i])
                                       ->where('especialidad_programacion_id',$matricula->especialidad_programacion_id)
+                                      ->where('estado',1)
                                       ->first();
                     $monto_precio= $programacionVal->monto_cronograma*1;
                     $monto_saldo= $programacionVal->monto_cronograma*1 - $monto_cuota[$i];
@@ -374,6 +380,8 @@ class Matricula extends Model
                     if( $monto_saldo>0 ){
                         $mtsaldo= new MatriculaSaldo;
                         $mtsaldo->matricula_id= $matricula->id;
+                        $mtsaldo->nro_pago= $nro_cuota[$i];
+                        $mtsaldo->archivo= $matriculaCuotas->archivo_cuota;
                         $mtsaldo->cuota= $cuota[$i];
                         $mtsaldo->saldo= $monto_saldo;
                         $mtsaldo->precio= $monto_precio;
