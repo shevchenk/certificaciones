@@ -269,7 +269,7 @@ class Especialidad extends Model
                         }
                     }
                 })
-                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma');
+                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','mep.costo');
         $result = $sql->orderBy('me.especialidad','asc')->paginate(10);
         return $result;
     }
