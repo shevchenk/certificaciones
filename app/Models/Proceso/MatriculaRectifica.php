@@ -158,19 +158,26 @@ class MatriculaRectifica extends Model
     public static function verMatriculaCuota($r)
     {
         $sql="
-        SELECT r.cuota, MAX(r.fecha_cronograma) fecha_cronograma, MAX(r.sucursal_id) sucursal_id
-        , MAX(r.nro_cuota) nro_cuota, MAX(r.monto_cuota) monto_cuota, MAX(r.tipo_pago_cuota) tipo_pago
+        SELECT r.cuota, MAX(r.fecha_cronograma) fecha_cronograma, MAX(r.monto_cronograma) monto_cronograma, MAX(r.sucursal_id) sucursal_id
+        , MAX(r.nro_cuota) nro_cuota, MAX(r.monto_cuota) monto_cuota, MAX(r.tipo_pago_cuota) tipo_pago, MAX(r.saldo) saldo
         , MAX(r.archivo_cuota) archivo_cuota, $r->matricula_id AS matricula_id
         FROM (
-            SELECT cuota, fecha_cronograma, '' sucursal_id, '' nro_cuota, '' monto_cuota, '' tipo_pago_cuota, '' archivo_cuota
+            SELECT cuota, fecha_cronograma, monto_cronograma, '' sucursal_id, '' nro_cuota, '' monto_cuota
+            , '' tipo_pago_cuota, '' archivo_cuota, '' saldo
             FROM mat_especialidades_programaciones_cronogramas 
             WHERE especialidad_programacion_id= $r->especialidad_programacion_id
             AND estado=1
             UNION 
-            SELECT cuota, '' fecha_programada, sucursal_id, nro_cuota,monto_cuota,tipo_pago_cuota,archivo_cuota
-            FROM mat_matriculas_cuotas
-            WHERE matricula_id= $r->matricula_id
-            AND estado=1
+            SELECT mc.cuota, '' fecha_programada,'' monto_cronograma, mc.sucursal_id, mc.nro_cuota,mc.monto_cuota
+            ,mc.tipo_pago_cuota,mc.archivo_cuota, IFNULL(ms.saldo,0) saldo
+            FROM mat_matriculas_cuotas mc 
+            LEFT JOIN (
+                SELECT matricula_id, cuota, MIN(saldo) saldo
+                FROM mat_matriculas_saldos
+                GROUP BY matricula_id, cuota
+            ) ms ON ms.matricula_id = mc.matricula_id AND ms.cuota=mc.cuota
+            WHERE mc.matricula_id= $r->matricula_id
+            AND mc.estado=1
         ) r
         GROUP BY r.cuota
         ORDER BY r.cuota

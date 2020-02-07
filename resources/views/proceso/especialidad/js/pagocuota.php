@@ -184,20 +184,49 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
 
         btn='Registrar Pago';
         click='guardarPagoCuota';
+        botton = '<input type="button" class="btn btn-primary" id="btnPagoCuota" onClick="'+click+'('+index+','+r.matricula_id+');" value="'+btn+'">';
+        disabled= '';
+        costo=r.monto_cronograma;
+        saldo = costo;
+        alerta = 'warning';
         if( r.fecha_cronograma!='' && r.nro_cuota!='' ){
             btn='Editar Pago';
             click='actualizarPagoCuota';
+            botton='';
+            disabled='readOnly';
+            saldo = r.saldo;
+            if( saldo==0 ){
+                alerta='success';
+            }
         }
-        
+
         html+=""+
             '<td><input type="hidden" value="'+r.cuota+'" name="txt_cuota[]">'+r.cuota+'</td>'+
             '<td>'+r.fecha_cronograma+'</td>'+
             '<td><select id="slct_sucursal_'+index+'" name="slct_sucursal[]" class="form-control">'+
                 $("#frm_pago_cuota #slct_sucursal").html()+
                 '</select></td>'+
-            '<td><input type="text" class="form-control" id="txt_nro_cuota'+index+'" name="txt_nro_cuota[]" value="'+$.trim(r.nro_cuota)+'" placeholder="Nro"></td>'+
-            '<td><input type="text" class="form-control" id="txt_monto_cuota'+index+'" name="txt_monto_cuota[]" value="'+$.trim(r.monto_cuota)+'" placeholder="Monto"></td>'+
-            '<td><select class="form-control"  id="slct_tipo_pago_cuota'+index+'" name="slct_tipo_pago_cuota[]">'+
+            '<td><input type="text" class="form-control" id="txt_nro_cuota'+index+'" name="txt_nro_cuota[]" value="'+$.trim(r.nro_cuota)+'" placeholder="Nro" '+disabled+'></td>'+
+            '<td>'+
+                "<div class='input-group'>"+
+                    "<div class='input-group-addon'>"+
+                    "<i>"+costo+"</i>"+
+                    "</div>"+
+                    '<div id="txt_monto_cuota_ico'+index+'" class="has-'+alerta+' has-feedback">'+
+                        "<input type='text' class='form-control'  id='txt_monto_cuota"+index+"' name='txt_monto_cuota[]'"+
+                        " onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);ValidaDeuda(\""+costo+"\",this,\""+index+"\");' value='"+$.trim(r.monto_cuota)+"' "+disabled+">"+
+                        '<span class="glyphicon glyphicon-'+alerta+'-sign form-control-feedback"></span>'+
+                    '</div>'+
+                "</div>"+
+                '<div id="i_monto_deuda_cuota_ico'+index+'" class="has-'+alerta+' has-feedback">'+
+                    "<div class='input-group-addon'>"+
+                    "<label>Deuda:</label>"+
+                    "<label id='i_monto_deuda_cuota"+index+"'>"+saldo+"</label>"+
+                    '<span class="glyphicon glyphicon-'+alerta+'-sign form-control-feedback"></span>'+
+                    "</div>"+
+                '</div>'+
+            '</td>'+
+            '<td><select class="form-control"  id="slct_tipo_pago_cuota'+index+'" name="slct_tipo_pago_cuota[]" '+disabled+'>'+
                 '<option value=\'0\'>.::Seleccione::.</option>'+
                 "<option value='1.1'>Transferencia - BCP</option>"+
                 "<option value='1.2'>Transferencia - Scotiabank</option>"+
@@ -222,7 +251,7 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
                 '<a id="pago_href'+index+'">'+
                 '<img id="pago_img_cuota'+index+'" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
                 '</a>'+
-                '</div><input type="button" class="btn btn-primary" id="btnPagoCuota" onClick="'+click+'('+index+','+r.matricula_id+');" value="'+btn+'">'+
+                '</div>'+botton+
             '</td>';
             $('#btnPagoCuota').css('display','block');
         
@@ -241,6 +270,18 @@ HTMLCargaMatriCuota=function(result){ //INICIO HTML
     });//FIN FUNCTION
 
 };
+
+ValidaDeuda = function(c,t,id){
+    $("#txt_monto_cuota_ico"+id+",#i_monto_deuda_cuota_ico"+id).removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-warning-sign').addClass('glyphicon-ok');
+    var saldo= c*1 - $(t).val()*1;
+    if( saldo>0 ){
+        $("#txt_monto_cuota_ico"+id+",#i_monto_deuda_cuota_ico"+id).removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+    }
+    if(saldo<0){
+        saldo=0;
+    }
+    $("#i_monto_deuda_cuota"+id).text(saldo.toFixed(2));
+}
 
 guardarPagoCuota=function(id, matricula_id){
     if( $("#slct_sucursal_"+id).val()=='' ){

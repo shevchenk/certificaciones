@@ -3,6 +3,7 @@ namespace App\Models\Proceso;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Mantenimiento\Menu;
+use App\Models\Proceso\Matricula;
 use Auth;
 use DB;
 
@@ -35,6 +36,35 @@ class MatriculaCuota extends Model
         $MC->estado = 1;
         $MC->persona_id_created_at=$user_id;
         $MC->save();
+
+
+        /*********************** Se Agrega Saldos ******************/
+        $matricula = Matricula::find($MC->matricula_id);
+        $programacionVal= DB::table('mat_especialidades_programaciones_cronogramas')
+                          ->where('cuota',$MC->cuota)
+                          ->where('especialidad_programacion_id',$matricula->especialidad_programacion_id)
+                          ->where('estado',1)
+                          ->first();
+        $monto_precio= $programacionVal->monto_cronograma*1;
+        $monto_saldo= $programacionVal->monto_cronograma*1 - $MC->monto_cuota;
+        if($monto_saldo<0){
+            $monto_saldo=0;
+        }
+
+        if( $monto_saldo>0 ){
+            $mtsaldo= new MatriculaSaldo;
+            $mtsaldo->matricula_id= $MC->matricula_id;
+            $mtsaldo->nro_pago= $MC->nro_cuota;
+            $mtsaldo->archivo= $MC->archivo_cuota;
+            $mtsaldo->cuota= $MC->cuota;
+            $mtsaldo->saldo= $monto_saldo;
+            $mtsaldo->precio= $monto_precio;
+            $mtsaldo->pago= $MC->monto_cuota;
+            $mtsaldo->tipo_pago= $MC->tipo_pago_cuota;
+            $mtsaldo->persona_id_created_at= Auth::user()->id;
+            $mtsaldo->save();
+        }
+
         DB::commit();
 
         $matricula= Matricula::find($r->matricula_id);
