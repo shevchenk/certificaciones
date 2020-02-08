@@ -82,6 +82,10 @@ HTMLCargarReporte=function(result){
 
     $.each(result.data,function(index,r){
         var pagos= r.pagos.split('\n').join("</li><li>");
+        var programacion_cuota= r.programacion_cuota.split('\n').join("</li><li>");
+        var pagos_cuota= r.pagos_cuota.split('\n').join("</li><li>");
+        var pagos2_cuota= r.pagos2_cuota.split('\n').join("</li><li>");
+        var deuda_cuota= r.deuda_cuota.split('\n').join("</li><li>");
         html+="<tr id='trid_"+r.id+"'>"+
             "<td>"+r.dni+"</td>"+
             "<td>"+r.nombre+"</td>"+
@@ -112,10 +116,17 @@ HTMLCargarReporte=function(result){
             "<td>"+$.trim(r.monto_pago_inscripcion)+"</td>"+
             "<td>"+$.trim(r.tipo_pago_inscripcion)+"</td>"+
 
-            "<td><ul><li>"+$.trim(r.pagos)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(pagos)+"</li></ul></td>"+
 
             "<td>"+$.trim(r.deuda)+"</td>"+
-            "<td>"+$.trim(r.nota)+"</td>";
+            "<td>"+$.trim(r.nota)+"</td>"+
+            
+            "<td><ul><li>"+$.trim(programacion_cuota)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(pagos2_cuota)+"</li></ul></td>"+
+            
+            "<td><ul><li>"+$.trim(pagos_cuota)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(deuda_cuota)+"</li></ul></td>";
+
         html+="</tr>";
     });
     $("#TableReporte tbody").html(html); 

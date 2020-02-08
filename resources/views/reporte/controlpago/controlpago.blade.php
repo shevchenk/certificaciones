@@ -89,6 +89,8 @@
                                             <th style="background-color: #FFF2CC;" colspan='3'>PAGO POR INSCRIPCIÓN</th>
                                             <th style="background-color: #DDEBF7;" colspan='1'>PAGO DE SALDOS</th>
                                             <th style="background-color: #FCE4D6;" colspan='2'>DEUDA Y NOTA FINAL DEL CURSO</th>
+                                            <th style="background-color: #DDEBF7;" colspan='2'>PROGRAMACION Y PAGO - CUOTAS</th>
+                                            <th style="background-color: #FCE4D6;" colspan='2'>PAGO Y DEUDA DE SALDOS - CUOTAS</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #DDEBF7;">DNI</th>
@@ -124,6 +126,12 @@
 
                                             <th style="background-color: #FCE4D6;">Deuda a la Fecha</th>
                                             <th style="background-color: #FCE4D6;">Promedio Final del Curso</th>
+
+                                            <th style="background-color: #DDEBF7;">Cuota / Fecha Programada / Monto Programado</th>
+                                            <th style="background-color: #DDEBF7;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
+
+                                            <th style="background-color: #FCE4D6;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
+                                            <th style="background-color: #FCE4D6;">Cuota / Monto Deuda</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -163,6 +171,12 @@
 
                                             <th style="background-color: #FCE4D6;">Deuda a la Fecha</th>
                                             <th style="background-color: #FCE4D6;">Promedio Final del Curso</th>
+
+                                            <th style="background-color: #DDEBF7;">Cuota / Fecha Programada / Monto Programado</th>
+                                            <th style="background-color: #DDEBF7;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
+
+                                            <th style="background-color: #FCE4D6;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
+                                            <th style="background-color: #FCE4D6;">Cuota / Monto Deuda</th>
                                         </tr>
                                     </tfoot>
                                 </table>

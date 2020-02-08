@@ -563,12 +563,55 @@ class Seminario extends Model
                                 WHERE nro_pago!=""
                                 AND estado=1
                                 AND matricula_detalle_id= mmd.id),"") AS pagos ')
-                    ,DB::raw('  IFNULL((SELECT MIN(saldo)
+                    ,DB::raw('  IFNULL((SELECT MIN(saldo) sal
                                 FROM mat_matriculas_saldos
-                                WHERE saldo>0
-                                AND estado=1
-                                AND matricula_detalle_id= mmd.id),0) AS deuda ')
+                                WHERE estado=1
+                                AND matricula_detalle_id= mmd.id
+                                GROUP BY matricula_detalle_id
+                                HAVING sal > 0 ),0) AS deuda ')
                     ,'mmd.nota_curso_alum AS nota'
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(ep.cuota," / ",ep.fecha_cronograma," / ",ep.monto_cronograma
+                                 ORDER BY ep.cuota SEPARATOR "\n") 
+                                        FROM mat_especialidades_programaciones_cronogramas ep 
+                                        INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id AND m.estado=1
+                                        WHERE ep.estado = 1
+                                        AND m.id = mm.id),"") AS programacion_cuota ')
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(mmc.cuota," / ",mmc.monto_cuota," / ",mmc.nro_cuota," / ",
+                                b.banco
+                                 ORDER BY mmc.cuota SEPARATOR "\n") 
+                                FROM mat_matriculas_cuotas mmc 
+                                LEFT JOIN mat_matriculas_saldos mms ON mms.matricula_id = mmc.matricula_id AND mms.cuota=mmc.cuota AND mms.estado=1
+                                LEFT JOIN bancos b ON b.id_banco = mmc.tipo_pago_cuota 
+                                WHERE mmc.estado=1
+                                AND mms.id IS NULL
+                                AND mmc.matricula_id= mm.id),"") AS pagos2_cuota ')
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(cuota," / ",pago," / ",nro_pago," / ",
+                                CASE  WHEN tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN tipo_pago="1.4" THEN "Transferencia - Interbank"
+                                    WHEN tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN tipo_pago="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END
+                                 ORDER BY cuota,created_at SEPARATOR "\n") 
+                                FROM mat_matriculas_saldos
+                                WHERE nro_pago!=""
+                                AND estado=1
+                                AND cuota>0
+                                AND matricula_id= mm.id),"") AS pagos_cuota ')
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT( cuota," / ", sal ORDER BY cuota SEPARATOR "\n" )
+                                        FROM (
+                                            SELECT matricula_id, cuota, MIN(saldo) sal
+                                            FROM mat_matriculas_saldos
+                                            WHERE estado=1
+                                            AND cuota>0
+                                            GROUP BY matricula_id,cuota
+                                            HAVING sal > 0
+                                        ) cuota_deuda
+                                        WHERE matricula_id = mm.id),0) AS deuda_cuota ')
                     )
             ->where( 
                 function($query) use ($r){
@@ -656,7 +699,8 @@ class Seminario extends Model
             15,15,15,
             15,15,15,
             30,
-            15,15
+            15,15,
+            30,50,50,30
         );
 
         $estatico='';
@@ -673,15 +717,15 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO'
+            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS'
         );
 
         $valIni=66;
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,8,2,2,2,0,1);
-        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#DDEBF7','#FCE4D6');
+        $nrocabeceraTit=array(5,8,2,2,2,0,1,1,1);
+        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6');
         $lengthTit=array();
         $lengthDet=array();
 
@@ -721,6 +765,8 @@ class Seminario extends Model
             ,'Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago'
             ,'Monto Pago / Nro Pago / Tipo Pago'
             ,'Deuda a la Fecha','Promedio Final del Curso'
+            ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
+            ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda'
         );
         $campos=array('');
 
@@ -732,7 +778,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'AB'; //$estatico.chr($min);
+        $return['max']= 'AF'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;
