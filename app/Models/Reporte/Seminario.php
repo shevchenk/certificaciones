@@ -585,7 +585,7 @@ class Seminario extends Model
                                 WHERE mmc.estado=1
                                 AND mms.id IS NULL
                                 AND mmc.matricula_id= mm.id),"") AS pagos2_cuota ')
-                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(cuota," / ",pago," / ",nro_pago," / ",
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(IF(cuota=-1,"Ins.",cuota)," / ",pago," / ",nro_pago," / ",
                                 CASE  WHEN tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN tipo_pago="1.3" THEN "Transferencia - BBVA"
@@ -600,14 +600,12 @@ class Seminario extends Model
                                 FROM mat_matriculas_saldos
                                 WHERE nro_pago!=""
                                 AND estado=1
-                                AND cuota>0
                                 AND matricula_id= mm.id),"") AS pagos_cuota ')
-                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT( cuota," / ", sal ORDER BY cuota SEPARATOR "\n" )
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT( IF(cuota=-1,"Ins.",cuota)," / ", sal ORDER BY cuota SEPARATOR "\n" )
                                         FROM (
                                             SELECT matricula_id, cuota, MIN(saldo) sal
                                             FROM mat_matriculas_saldos
                                             WHERE estado=1
-                                            AND cuota>0
                                             GROUP BY matricula_id,cuota
                                             HAVING sal > 0
                                         ) cuota_deuda
