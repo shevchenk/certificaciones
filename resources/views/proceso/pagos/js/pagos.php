@@ -136,33 +136,35 @@ HTMLCargarReporte=function(result){
 
         }
 
-        html+="<tr id='trid_"+index+"'>"+
-            "<td>"+r.dni+"</td>"+
-            "<td>"+r.nombre+"</td>"+
-            "<td>"+r.paterno+"</td>"+
-            "<td>"+r.materno+"</td>"+
+        if( importe*1>0 ){
+            html+="<tr id='trid_"+index+"'>"+
+                "<td>"+r.dni+"</td>"+
+                "<td>"+r.nombre+"</td>"+
+                "<td>"+r.paterno+"</td>"+
+                "<td>"+r.materno+"</td>"+
 
-            "<td>"+r.empresa_inscripcion+"</td>"+
-            "<td>"+r.fecha_matricula+"</td>"+
-            "<td>"+r.tipo_formacion+"</td>"+
-            "<td>"+r.formacion+"</td>"+
-            "<td>"+r.curso+"</td>"+
-            "<td>"+$.trim(r.local)+"</td>"+
-            "<td>"+$.trim(r.frecuencia)+"</td>"+
-            "<td>"+$.trim(r.turno)+"</td>"+
-            "<td>"+$.trim(r.inicio)+"</td>"+
-            
-            "<td>"+$.trim(ds)+"</td>"+
-            "<td>"+$.trim(ddc)+"</td>"+
-            "<td>"+$.trim(importe)+"</td>"+
-            "<td>"+
-                "<input type='hidden' class='mmd' value='"+$.trim(r.matricula_detalle_id)+"'>"+
-                "<input type='hidden' class='mm' value='"+$.trim(r.matricula_id)+"'>"+
-                "<input type='hidden' class='c' value='"+$.trim(r.cuota)+"'>"+
-                "<input type='hidden' class='saldo' value='"+importe+"'>"+
-                "<input type='hidden' class='detalle' value='"+detalle+"'>"+
-                "<a class='btn btn-flat btn-success' onClick='ValidarPago("+index+");'><i class='fa fa-money fa-lg'></i></a></td>";
-        html+="</tr>";
+                "<td>"+r.empresa_inscripcion+"</td>"+
+                "<td>"+r.fecha_matricula+"</td>"+
+                "<td>"+r.tipo_formacion+"</td>"+
+                "<td>"+r.formacion+"</td>"+
+                "<td>"+r.curso+"</td>"+
+                "<td>"+$.trim(r.local)+"</td>"+
+                "<td>"+$.trim(r.frecuencia)+"</td>"+
+                "<td>"+$.trim(r.turno)+"</td>"+
+                "<td>"+$.trim(r.inicio)+"</td>"+
+                
+                "<td>"+$.trim(ds)+"</td>"+
+                "<td>"+$.trim(ddc)+"</td>"+
+                "<td>"+$.trim(importe)+"</td>"+
+                "<td>"+
+                    "<input type='hidden' class='mmd' value='"+$.trim(r.matricula_detalle_id)+"'>"+
+                    "<input type='hidden' class='mm' value='"+$.trim(r.matricula_id)+"'>"+
+                    "<input type='hidden' class='c' value='"+$.trim(r.cuota)+"'>"+
+                    "<input type='hidden' class='saldo' value='"+importe+"'>"+
+                    "<input type='hidden' class='detalle' value='"+detalle+"'>"+
+                    "<a class='btn btn-flat btn-success' onClick='ValidarPago("+index+");'><i class='fa fa-money fa-lg'></i></a></td>";
+            html+="</tr>";
+        }
     });
     $("#TableReporte tbody").html(html); 
     $("#TableReporte").DataTable({
@@ -278,11 +280,24 @@ GuardarPago=function(){
 HTMLGuardarPago=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
-        $('#ModalPago #i_monto_saldo,#ModalPago #i_monto_deuda').text(result.saldo);
-        $('#ModalPago #txt_monto_pago').attr('onkeyup','masterG.DecimalMax(this, 2);ValidaDeuda(\''+result.saldo+'\',this);');
-        $("#txt_monto_pago_ico,#i_monto_deuda_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
-        Reporte.Cargar(HTMLCargarReporte);
-        Reporte.VerSaldos(HTMLVerSaldos,result.matricula_detalle_id, result.matricula_id, result.cuota);
+        if(result.saldo*1>0){
+            $('#ModalPago #txt_nro_pago').val('');
+            $('#ModalPago #txt_monto_pago').val('');
+            $('#ModalPago #slct_tipo_pago').val('0');
+            $('#ModalPago #txt_pago_archivo').val('');
+            $('#ModalPago #txt_pago_nombre').val('');
+            $('#ModalPago #txt_persona_caja_id').val('');
+            $('#ModalPago #txt_persona_caja').val('');
+            masterG.SelectImagen('','#pago_img','');
+            $('#ModalPago #i_monto_saldo,#ModalPago #i_monto_deuda').text(result.saldo);
+            $('#ModalPago #txt_monto_pago').attr('onkeyup','masterG.DecimalMax(this, 2);ValidaDeuda(\''+result.saldo+'\',this);');
+            $("#txt_monto_pago_ico,#i_monto_deuda_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+            Reporte.VerSaldos(HTMLVerSaldos,result.matricula_detalle_id, result.matricula_id, result.cuota);
+        }
+        else{
+            Reporte.Cargar(HTMLCargarReporte);
+            $('#ModalPago').modal('hide');
+        }
     }
     else{
         msjG.mensaje('warning',result.msj,3000);

@@ -1415,7 +1415,11 @@ class Seminario extends Model
             SELECT m.id matricula_id, ep.cuota, ep.fecha_cronograma, ep.monto_cronograma
             FROM mat_especialidades_programaciones_cronogramas ep
             INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id AND m.estado=1
+            LEFT JOIN mat_matriculas_cuotas mmc ON mmc.matricula_id=m.id AND mmc.cuota=ep.cuota AND mmc.estado=1
+            LEFT JOIN mat_matriculas_saldos mms ON mms.matricula_id=m.id AND mms.cuota=ep.cuota AND mms.estado=1 
             WHERE ep.estado = 1
+            GROUP BY m.id, ep.cuota, ep.fecha_cronograma, ep.monto_cronograma
+            HAVING IF((SUM(mms.pago)>0 AND MIN(mms.saldo)=0) OR (MIN(mmc.monto_cuota)=ep.monto_cronograma),FALSE,TRUE)
             ) cp ON cp.matricula_id = mm.id 
             LEFT JOIN (
             SELECT matricula_id, cuota, MIN(saldo) salcd, MAX(id) salcd_id
@@ -1433,7 +1437,7 @@ class Seminario extends Model
             HAVING salsi > 0
             ) si ON si.matricula_id = mm.id
             WHERE `mm`.`estado` = 1 
-            AND (cd.salcd>0 OR ms.saldo>0 OR cp.monto_cronograma>0)";
+            ";
 
                     if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
                         $inicial=trim($r->fecha_inicial);
@@ -1493,7 +1497,7 @@ class Seminario extends Model
                         }
                     }
 
-        $sql.=" ORDER BY mm.id ASC";
+        $sql.=" ORDER BY mm.id,cuota ASC";
             
         $result = DB::select($sql);
 

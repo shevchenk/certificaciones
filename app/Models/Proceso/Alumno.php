@@ -567,6 +567,7 @@ class Alumno extends Model
                 if($monto_saldo<0){
                     $monto_saldo=0;
                 }
+                $saldo = $monto_saldo;
 
                 if( $monto_saldo>0 ){
                     $mtsaldo= new MatriculaSaldo;
