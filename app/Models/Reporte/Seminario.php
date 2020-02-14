@@ -1369,4 +1369,134 @@ class Seminario extends Model
         
         return $return;
     }
+
+    public static function runPagos($r)
+    {
+        
+        $servidor = 'telesup_pae';
+        $aulaservidor = 'telesup_aula';
+        if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
+            $servidor = 'formacion_continua';
+            $aulaservidor = 'aula_formacion_continua';
+        }
+        elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
+            $servidor = 'capa_formacion_continua';
+            $aulaservidor = 'capa_aula_formacion_continua';
+        }
+
+
+        $id=Auth::user()->id;
+        $empresa_id = Auth::user()->empresa_id;
+        $sql="SELECT `mm`.`id` matricula_id, mmd.id matricula_detalle_id, IFNULL(cp.cuota,'') cuota, `p`.`dni`, `p`.`nombre`, `p`.`paterno`, `p`.`materno`, `p`.`celular`, `p`.`email`, `e`.`empresa` AS `empresa_inscripcion`, `mm`.`fecha_matricula`, 
+            IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion, 
+            IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion, 
+            `mc`.`curso` AS `curso`, `s`.`sucursal` AS `local`, `mp`.`dia` AS `frecuencia`, `mp`.`turno`, `mp`.`fecha_inicio` AS `inicio`,
+            ms.saldo,
+            IF(cd.cuota=-1,'Inscripción',CONCAT('Cuota # ',cd.cuota) ) cuotacd, cd.salcd,
+            CONCAT('Cuota # ',cp.cuota) cuota_cronograma, cp.fecha_cronograma, cp.monto_cronograma,
+            si.salsi, si.salsi_id, cd.salcd_id
+            FROM `mat_matriculas` AS `mm` 
+            INNER JOIN `mat_matriculas_detalles` AS `mmd` ON `mmd`.`matricula_id` = `mm`.`id` AND `mmd`.`estado` = 1 
+            INNER JOIN `personas` AS `p` ON `p`.`id` = `mm`.`persona_id` 
+            INNER JOIN `mat_alumnos` AS `ma` ON `ma`.`id` = `mm`.`alumno_id` 
+            INNER JOIN `mat_cursos` AS `mc` ON `mc`.`id` = `mmd`.`curso_id` AND `mc`.`empresa_id` = $empresa_id 
+            INNER JOIN `empresas` AS `e` ON `e`.`id` = `mc`.`empresa_id` 
+            INNER JOIN `mat_programaciones` AS `mp` ON `mp`.`id` = `mmd`.`programacion_id` 
+            INNER JOIN `sucursales` AS `s` ON `s`.`id` = `mp`.`sucursal_id` 
+            LEFT JOIN `mat_especialidades` AS `me` ON `me`.`id` = `mmd`.`especialidad_id` 
+            LEFT JOIN (
+            SELECT matricula_detalle_id, MIN(saldo) saldo
+            FROM mat_matriculas_saldos
+            WHERE estado=1
+            GROUP BY matricula_detalle_id
+            HAVING saldo > 0
+            ) ms ON ms.matricula_detalle_id = mmd.id
+            LEFT JOIN (
+            SELECT m.id matricula_id, ep.cuota, ep.fecha_cronograma, ep.monto_cronograma
+            FROM mat_especialidades_programaciones_cronogramas ep
+            INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id AND m.estado=1
+            WHERE ep.estado = 1
+            ) cp ON cp.matricula_id = mm.id 
+            LEFT JOIN (
+            SELECT matricula_id, cuota, MIN(saldo) salcd, MAX(id) salcd_id
+            FROM mat_matriculas_saldos
+            WHERE estado=1
+            GROUP BY matricula_id,cuota
+            HAVING salcd > 0
+            ) cd ON cd.matricula_id = mm.id AND cd.cuota=cp.cuota
+            LEFT JOIN (
+            SELECT matricula_id, cuota, MIN(saldo) salsi, MAX(id) salsi_id
+            FROM mat_matriculas_saldos
+            WHERE estado=1
+            AND cuota='-1'
+            GROUP BY matricula_id,cuota
+            HAVING salsi > 0
+            ) si ON si.matricula_id = mm.id
+            WHERE `mm`.`estado` = 1 
+            AND (cd.salcd>0 OR ms.saldo>0 OR cp.monto_cronograma>0)";
+
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            $sql.=" AND mm.fecha_matricula BETWEEN '$r->fecha_inicial' AND '$r->fecha_final' ";
+                        }
+                    }
+
+                    if( $r->has("especialidad") OR $r->has('especialidad2') ){
+                        if( $r->has('especialidad2') ){
+                            $r['especialidad'] = explode(",", trim($r->especialidad2) );
+                        }
+                        $especialidad = $r->especialidad;
+                        if( count($especialidad)>0 AND trim($especialidad[0])!='' ){
+                            $especialidad = implode(',',$r->especialidad);
+                            $sql.=" AND me.id IN ($especialidad)";
+                        }
+                    }
+
+                    if( $r->has("curso") OR $r->has('curso2') ){
+                        if( $r->has('curso2') ){
+                            $r['curso'] = explode(",", trim($r->curso2) );
+                        }
+                        $curso = $r->curso;
+                        if( count($curso)>0 AND trim($curso[0])!='' ){
+                            $curso = implode(',',$r->curso);
+                            $sql.=" AND mc.id IN ($curso)";
+                        }
+                    }
+
+                    if( $r->has("paterno") ){
+                        $paterno = trim($r->paterno);
+                        if( $paterno !='' ){
+                            $sql.= " AND p.paterno LIKE '%".$paterno."%'";
+                        }
+                    }
+
+                    if( $r->has("materno") ){
+                        $materno = trim($r->materno);
+                        if( $materno !='' ){
+                            $sql.= " AND p.materno LIKE '%".$materno."%'";
+                        }
+                    }
+
+                    if( $r->has("nombre") ){
+                        $nombre = trim($r->nombre);
+                        if( $nombre !='' ){
+                            $sql.= " AND p.nombre LIKE '%".$nombre."%'";
+                        }
+                    }
+
+                    if( $r->has("dni") ){
+                        $dni = trim($r->dni);
+                        if( $dni !='' ){
+                            $sql.= " AND p.dni LIKE '%".$dni."%'";
+                        }
+                    }
+
+        $sql.=" ORDER BY mm.id ASC";
+            
+        $result = DB::select($sql);
+
+        return $result;
+    }
 }

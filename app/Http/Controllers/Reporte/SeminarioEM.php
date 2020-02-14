@@ -49,6 +49,18 @@ class SeminarioEM extends Controller
         }
     }
 
+    public function LoadPagos(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $url=explode("/",$_SERVER['HTTP_REFERER']);
+            $renturnModel = Seminario::runPagos($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function LoadEvaluaciones(Request $r )
     {
         if ( $r->ajax() ) {

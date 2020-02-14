@@ -9,6 +9,7 @@ use App\Models\Mantenimiento\Persona;
 use App\Models\Mantenimiento\Menu;
 use App\Models\Proceso\MatriculaDetalle;
 use App\Models\Proceso\MatriculaSaldo;
+use App\Models\Proceso\MatriculaCuota;
 
 use Illuminate\Support\Facades\DB; //BD
 
@@ -483,6 +484,148 @@ class Alumno extends Model
         $return['matricula_detalle_id'] = $MS->matricula_detalle_id;
         $return['matricula_id'] = $MS->matricula_id;
         $return['cuota'] = $MS->cuota;
+        $return['saldo'] = $saldo;
+        $return['rst'] = 1;
+        $return['msj'] = 'Registro realizado';
+        return $return;
+    }
+
+    public static function GuardarPago($r)
+    {
+        DB::beginTransaction();
+        $user_id = Auth::user()->id;
+        $saldo=0;
+        if( trim($r->matricula_detalle_id)=='' ){
+            $MS = MatriculaSaldo::where('matricula_id',$r->matricula_id)
+                    ->where('cuota',$r->cuota)
+                    ->where('estado',1)
+                    ->orderBy('id','DESC')
+                    ->first();
+
+            if( isset($MS->id) ){
+                $MSF = new MatriculaSaldo;
+                $MSF->matricula_id = $MS->matricula_id;
+                $MSF->cuota = $MS->cuota;
+                $MSF->precio = $MS->precio;
+                $MSF->pago = trim($r->monto_pago);
+                $MSF->tipo_pago = trim($r->tipo_pago);
+                $MSF->nro_pago = trim($r->nro_pago);
+
+                $saldo= $MS->saldo - trim($r->monto_pago);
+                if( $saldo<0 ){ $saldo=0; }
+                $MSF->saldo = $saldo;
+                $MSF->persona_caja_id = trim($r->persona_caja_id);
+                $MSF->persona_id_created_at = $user_id;
+                $MSF->save();
+
+                if( trim($r->pago_nombre)!='' ){
+                    $type=explode(".",$r->pago_nombre);
+                    $extension=".".$type[1];
+                }
+                $url = "upload/saldos/S".$MSF->id.$extension; 
+                if( trim($r->pago_archivo)!='' ){
+                    $MSF->archivo= $url;
+                    $MSF->save();
+                    Menu::fileToFile($r->pago_archivo, $url);
+                }
+            }
+            else{
+                $MC = new MatriculaCuota;
+                $MC->matricula_id= $r->matricula_id;
+                //$MC->sucursal_id= $r->sucursal[$r->index];
+                $MC->cuota= $r->cuota;
+
+                $MC->nro_cuota= trim($r->nro_pago);
+                $MC->monto_cuota= trim($r->monto_pago);
+                $MC->tipo_pago_cuota= trim($r->tipo_pago);
+
+                if( trim($r->pago_nombre)!='' ){
+                    $type=explode(".",$r->pago_nombre);
+                    $extension=".".$type[1];
+                }
+                $url = "upload/m$r->matricula_id/cuotas/C".$r->cuota.$extension; 
+                if( trim($r->pago_archivo)!='' ){
+                    $MC->archivo_cuota= $url;
+                    Menu::fileToFile($r->pago_archivo, $url);
+                }
+
+                $MC->persona_caja_id = $r->persona_caja_id;
+                $MC->estado = 1;
+                $MC->persona_id_created_at=$user_id;
+                $MC->save();
+
+
+                /*********************** Se Agrega Saldos ******************/
+                $matricula = Matricula::find($MC->matricula_id);
+                $programacionVal= DB::table('mat_especialidades_programaciones_cronogramas')
+                                  ->where('cuota',$MC->cuota)
+                                  ->where('especialidad_programacion_id',$matricula->especialidad_programacion_id)
+                                  ->where('estado',1)
+                                  ->first();
+                $monto_precio= $programacionVal->monto_cronograma*1;
+                $monto_saldo= $programacionVal->monto_cronograma*1 - $MC->monto_cuota;
+                if($monto_saldo<0){
+                    $monto_saldo=0;
+                }
+
+                if( $monto_saldo>0 ){
+                    $mtsaldo= new MatriculaSaldo;
+                    $mtsaldo->matricula_id= $MC->matricula_id;
+                    $mtsaldo->nro_pago= $MC->nro_cuota;
+                    $mtsaldo->archivo= $MC->archivo_cuota;
+                    $mtsaldo->cuota= $MC->cuota;
+                    $mtsaldo->saldo= $monto_saldo;
+                    $mtsaldo->precio= $monto_precio;
+                    $mtsaldo->pago= $MC->monto_cuota;
+                    $mtsaldo->tipo_pago= $MC->tipo_pago_cuota;
+                    $mtsaldo->persona_caja_id = $MC->persona_caja_id;
+                    $mtsaldo->persona_id_created_at= Auth::user()->id;
+                    $mtsaldo->save();
+                }
+            }
+        }
+        else{
+            $MS = MatriculaSaldo::where('matricula_detalle_id',$r->matricula_detalle_id)
+                    ->where('estado',1)
+                    ->orderBy('id','DESC')
+                    ->first();
+
+            $MSF = new MatriculaSaldo;
+            $MSF->matricula_detalle_id = $MS->matricula_detalle_id;
+            $MSF->precio = $MS->precio;
+            $MSF->pago = trim($r->monto_pago);
+            $MSF->tipo_pago = trim($r->tipo_pago);
+            $MSF->nro_pago = trim($r->nro_pago);
+
+            $saldo= $MS->saldo - trim($r->monto_pago);
+            if( $saldo<0 ){ $saldo=0; }
+            $MSF->saldo = $saldo;
+            $MSF->persona_caja_id = trim($r->persona_caja_id);
+            $MSF->persona_id_created_at = $user_id;
+            $MSF->save();
+
+            if( trim($r->pago_nombre)!='' ){
+                $type=explode(".",$r->pago_nombre);
+                $extension=".".$type[1];
+            }
+            $url = "upload/saldos/S".$MSF->id.$extension; 
+            if( trim($r->pago_archivo)!='' ){
+                $MSF->archivo= $url;
+                $MSF->save();
+                Menu::fileToFile($r->pago_archivo, $url);
+            }
+
+            $MD = MatriculaDetalle::find($MS->matricula_detalle_id);
+            $MD->saldo = $saldo;
+            $MD->persona_id_updated_at = $user_id;
+            $MD->save();
+        }
+        
+        DB::commit();
+
+        $return['matricula_detalle_id'] = trim($r->matricula_detalle_id);
+        $return['matricula_id'] = trim($r->matricula_id);
+        $return['cuota'] = trim($r->cuota);
         $return['saldo'] = $saldo;
         $return['rst'] = 1;
         $return['msj'] = 'Registro realizado';

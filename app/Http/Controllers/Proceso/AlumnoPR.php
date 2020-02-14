@@ -308,4 +308,12 @@ class AlumnoPR extends Controller
         }
     }
 
+    public function GuardarPago (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Alumno::GuardarPago($r);
+            return response()->json($renturnModel);
+        }
+    }
+
 }
