@@ -1539,6 +1539,7 @@ class Seminario extends Model
                     , MIN(c_aux.empresa_id) empresa_id
                     FROM mat_matriculas_detalles md_aux
                     LEFT JOIN mat_cursos c_aux ON c_aux.id=md_aux.curso_id
+                    WHERE md_aux.programacion_id IS NOT NULL
                     GROUP BY md_aux.matricula_id
                 ) md ON md.matricula_id = m.id AND md.empresa_id = $empresa_id
                 LEFT JOIN mat_trabajadores tra ON tra.persona_id=m.persona_marketing_id AND tra.rol_id=1 AND tra.empresa_id=md.empresa_id
