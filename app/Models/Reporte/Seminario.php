@@ -1503,4 +1503,163 @@ class Seminario extends Model
 
         return $result;
     }
+
+    public static function runLoadFicha($r)
+    {
+        $id=Auth::user()->id;
+        $empresa_id = Auth::user()->empresa_id;
+        $sql = "SELECT m.id, m.fecha_matricula fecha, p.paterno, p.materno, p.nombre
+                ,CASE  
+                    WHEN p.estado_civil='S' THEN 'Soltero'
+                    WHEN p.estado_civil='C' THEN 'Casado'
+                    WHEN p.estado_civil='V' THEN 'Viudo'
+                    WHEN p.estado_civil='D' THEN 'Divorsiado'
+                END estado_civil, p.dni, p.fecha_nacimiento
+                ,YEAR(CURDATE())-YEAR(p.fecha_nacimiento) + 
+                IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(p.fecha_nacimiento,'%m-%d'), 0 , -1 ) edad
+                ,CASE  
+                    WHEN p.sexo='M' THEN 'Masculino'
+                    WHEN p.sexo='F' THEN 'Femenino'
+                END sexo, pa.pais, re.region, pr.provincia, di.distrito
+                ,p.email, p.celular, p.telefono, p.direccion_dir, p.referencia_dir
+                ,re2.region region_dir, pr2.provincia provincia_dir, di2.distrito distrito_dir
+                ,co.colegio, IF(co.tipo=1, 'Nacional', 'Particular') tipo_colegio
+                ,re3.region region_col, pr3.provincia provincia_col, di3.distrito distrito_col
+                ,IF( md.especialidad_id IS NULL, IF( md.tipo_curso=2, 'Seminario', 'Curso Libre' ), es.especialidad) AS formacion
+                ,su3.sucursal local_estudio , DATE(pro.fecha_inicio) fecha_inicio, pro.dia frecuencia
+                ,CONCAT(DATE_FORMAT(pro.fecha_inicio,'%H:%i'),' - ', DATE_FORMAT(pro.fecha_final,'%H:%i')) horario
+                ,su.sucursal ode_inscripcion, su3.sucursal ode_estudio, su2.sucursal ode_recogo
+                ,tp.tipo_participante, pu.medio_publicitario, ta.tarea tipo_vendedor
+                ,CONCAT(p2.paterno,' ',p2.materno,' ',p2.nombre,' - ',tra.codigo) vendedor
+                FROM mat_matriculas m 
+                INNER JOIN personas p ON p.id=m.persona_id 
+                LEFT JOIN (
+                    SELECT md_aux.matricula_id, MIN(md_aux.especialidad_id) especialidad_id
+                    , MIN(c_aux.tipo_curso) tipo_curso, MIN(md_aux.programacion_id) programacion_id
+                    , MIN(c_aux.empresa_id) empresa_id
+                    FROM mat_matriculas_detalles md_aux
+                    LEFT JOIN mat_cursos c_aux ON c_aux.id=md_aux.curso_id
+                    GROUP BY md_aux.matricula_id
+                ) md ON md.matricula_id = m.id AND md.empresa_id = $empresa_id
+                LEFT JOIN mat_trabajadores tra ON tra.persona_id=m.persona_marketing_id AND tra.rol_id=1 AND tra.empresa_id=md.empresa_id
+                LEFT JOIN mat_tareas ta ON ta.id=tra.tarea_id
+                LEFT JOIN personas p2 ON p2.id=m.persona_marketing_id
+                LEFT JOIN mat_tipos_participantes tp ON tp.id=m.tipo_participante_id
+                LEFT JOIN medios_publicitarios pu ON pu.id=p.medio_publicitario_id
+                LEFT JOIN sucursales su ON su.id=m.sucursal_id
+                LEFT JOIN sucursales su2 ON su2.id=m.sucursal_destino_id
+                LEFT JOIN mat_especialidades es ON es.id=md.especialidad_id
+                LEFT JOIN mat_programaciones pro ON pro.id=md.programacion_id
+                LEFT JOIN sucursales su3 ON su3.id=pro.sucursal_id
+                LEFT JOIN paises pa ON pa.id=p.pais_id 
+                LEFT JOIN mat_ubicacion_region re ON re.id=p.region_id
+                LEFT JOIN mat_ubicacion_provincia pr ON pr.id=p.provincia_id
+                LEFT JOIN mat_ubicacion_distrito di ON di.id=p.distrito_id
+                LEFT JOIN mat_ubicacion_region re2 ON re2.id=p.region_id_dir
+                LEFT JOIN mat_ubicacion_provincia pr2 ON pr2.id=p.provincia_id_dir
+                LEFT JOIN mat_ubicacion_distrito di2 ON di2.id=p.distrito_id_dir
+                LEFT JOIN colegios co ON co.id=p.colegio_id
+                LEFT JOIN mat_ubicacion_distrito di3 ON di3.id=co.distrito_id
+                LEFT JOIN mat_ubicacion_provincia pr3 ON pr3.id=di3.provincia_id
+                LEFT JOIN mat_ubicacion_region re3 ON re3.id=pr3.region_id
+                WHERE m.estado=1 ";
+
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            $sql.=" AND m.fecha_matricula BETWEEN '$inicial' AND '$final' ";
+                        }
+                    }
+
+        $result= DB::select($sql);
+
+        return $result;
+    }
+
+    public static function runExportFicha($r)
+    {
+        $rsql= Seminario::runLoadFicha($r);
+
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,15,20,20,20,15,15,25,30,
+            15,15,15,15,15,
+            15,15,15,15,15,
+            15,15,15,15,15,
+            15,15,15,15,15,15,
+            20,20,20,
+            15,15,15,20
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array();
+
+        $valIni=66;
+        $min=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array();
+        $colorTit=array();
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min++;
+                $estaticoFin= chr($min);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min++;
+                    $estatico= chr($min);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°','Fecha Ins','Paterno','Materno','Nombre','Estado Civil','DNI','Fecha Nacimiento','Edad','Sexo','País Procedencia'
+            ,'Region Nac','Provincia Nac','Distrito Nac','Email','Celular','Teléfono','Dirección','Referencia','Region Dir','Provincia Dir'
+            ,'Distrito Dir','Colegio','Tipo Colegio','Region Cole','Provincia Cole','Distrito Cole'
+            ,'Formacion','Local Estudio','Fecha Inicio','Frecuencia','Horario','Ode Inscripción','Ode Estudio','Ode Recogo'
+            ,'Tipo Participante',' Medio Publicitario','Tipo Vendedor','Vendedor'
+        );
+        $campos=array('');
+
+        $r['data']=$rsql;
+        $r['campos']=$campos;
+        $r['cabecera']=$cabecera;
+        $r['length']=$length;
+        $r['cabeceraTit']=$cabeceraTit;
+        $r['lengthTit']=$lengthTit;
+        $r['colorTit']=$colorTit;
+        $r['lengthDet']=$lengthDet;
+        $r['max']='AM'; // Max. Celda en LETRA
+        return $r;
+    }
 }

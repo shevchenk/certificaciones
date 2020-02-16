@@ -62,7 +62,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnexportdetalle', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
-            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportSeminarioDetalle'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
+            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportFicha'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
             //$(this).attr('href','reporte/seminario'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
         }else{
             event.preventDefault();

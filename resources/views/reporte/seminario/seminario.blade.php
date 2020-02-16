@@ -39,7 +39,6 @@
                     <form id="PaeForm">
                         <div class="box-body table-responsive no-padding">
                             <div class="col-sm-12">
-                                <div class="col-sm-3"></div>
                                 <div class="col-sm-2 text-center">
                                     <label class="control-label">Fecha Inicial de Inscripción</label>
                                     <div class="input-group">
@@ -54,17 +53,15 @@
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_final" name="txt_fecha_final" readonly/>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
+                                <div class="col-sm-2" style="padding:24px">
                                     <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
+                                <div class="col-sm-3" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar Resumen</i></a>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">&nbsp;
+                                <div class="col-sm-3" style="padding:24px">
+                                    <a class='btn btn-success btn-md' id="btnexportdetalle" name="btnexportdetalle" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar para Ficha de Inscripción</i></a>
                                 </div>
-                                <!--div class="col-sm-1" style="padding:24px">
-                                    <a class='btn btn-success btn-md' id="btnexportdetalle" name="btnexportdetalle" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar Detalle</i></a>
-                                </div-->
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
