@@ -13,6 +13,7 @@ telefono:"",
 celular:"",
 fecha_nacimiento:"",
 estado:1}; // Datos Globales
+
 $(document).ready(function() {
 
     $(".fecha").datetimepicker({
@@ -215,7 +216,8 @@ SlctCargarAreas=function(result){
                     
                     
                 }
-                }
+}
+
 HTMLCargarPersona=function(result){
     var html="";
     $('#TablePersona').DataTable().destroy();

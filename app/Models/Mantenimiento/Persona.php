@@ -77,6 +77,36 @@ class Persona extends Model
         }
         $persona->estado = '1';
         $persona->persona_id_created_at=$persona_id;
+
+        if( $r->has('tenencia') AND trim($r->tenencia)!='' ){
+            $persona->tenencia = $r->tenencia;
+        }
+        if( $r->has('estado_civil') AND trim($r->estado_civil)!='' ){
+            $persona->estado_civil = $r->estado_civil;
+        }
+        if( $r->has('direccion_dir') AND trim($r->direccion_dir)!='' ){
+            $persona->direccion_dir = $r->direccion_dir;
+        }
+        if( $r->has('referencia_dir') AND trim($r->referencia_dir)!='' ){
+            $persona->referencia_dir = $r->referencia_dir;
+        }
+        if( $r->has('pais_id') AND trim($r->pais_id)!='' ){
+            $persona->pais_id = $r->pais_id;
+        }
+        if( $r->has('colegio_id') AND trim($r->colegio_id)!='' ){
+            $persona->colegio_id = $r->colegio_id;
+        }
+        if( $r->has('distrito_id_dir') AND trim($r->distrito_id_dir)!='' ){
+            $persona->distrito_id_dir = $r->distrito_id_dir;
+            $persona->provincia_id_dir = $r->provincia_id_dir;
+            $persona->region_id_dir = $r->region_id_dir;
+        }
+        if( $r->has('distrito_id') AND trim($r->distrito_id)!='' ){
+            $persona->distrito_id = $r->distrito_id;
+            $persona->provincia_id = $r->provincia_id;
+            $persona->region_id = $r->region_id;
+        }
+
         $persona->save();
         
         if ($r->cargos_selec) {
@@ -267,6 +297,31 @@ class Persona extends Model
         $persona->celular = trim( $r->celular );
         $persona->carrera = trim( $r->carrera );
         $persona->persona_id_updated_at=$persona_id;
+
+        $persona->tenencia = trim( $r->tenencia );
+        $persona->estado_civil = trim( $r->estado_civil );
+        $persona->direccion_dir = trim( $r->direccion_dir );
+        $persona->referencia_dir = trim( $r->referencia_dir );
+        if( $r->has('pais_id') AND trim($r->pais_id)!='' ){
+            $persona->pais_id = $r->pais_id;
+        }
+
+        if( $r->has('colegio_id') AND trim($r->colegio_id)!='' ){
+            $persona->colegio_id = $r->colegio_id;
+        }
+
+        if( $r->has('distrito_id_dir') AND trim($r->distrito_id_dir)!='' ){
+            $persona->distrito_id_dir = $r->distrito_id_dir;
+            $persona->provincia_id_dir = $r->provincia_id_dir;
+            $persona->region_id_dir = $r->region_id_dir;
+        }
+
+        if( $r->has('distrito_id') AND trim($r->distrito_id)!='' ){
+            $persona->distrito_id = $r->distrito_id;
+            $persona->provincia_id = $r->provincia_id;
+            $persona->region_id = $r->region_id;
+        }
+
         $persona->save();
         DB::commit();
     }
@@ -842,6 +897,117 @@ class Persona extends Model
             )
             ->where('di.estado','=','1');
         $result = $sql->get();
+        return $result;
+    }
+
+    public static function ListColegio($r)
+    {
+        $sql=DB::table('colegios AS co')
+            ->select('di.distrito','co.id','co.colegio','co.direccion')
+            ->join('mat_ubicacion_distrito AS di',function($join){
+                $join->on('co.distrito_id','=','di.id')
+                ->where('di.estado','=',1);
+            })
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $colegio=trim($r->phrase);
+                        if( $colegio !='' ){
+                            $query->where('co.colegio','like','%'.$colegio.'%');
+                        }
+                    }
+                }
+            )
+            ->where('co.estado','=','1');
+        $result = $sql->get();
+        return $result;
+    }
+
+    public static function ListPais($r)
+    {
+        $sql=DB::table('paises as pa')
+            ->select('pa.id','pa.pais','pa.abreviatura')
+            ->where(
+                function($query) use ($r){
+                    if( $r->has("phrase") ){
+                        $pais=trim($r->phrase);
+                        if( $pais !='' ){
+                            $query->where('pa.pais','like','%'.$pais.'%');
+                        }
+                    }
+                }
+            )
+            ->where('pa.estado','=','1');
+        $result = $sql->get();
+        return $result;
+    }
+
+    public static function LoadAdicional($r)
+    {
+        $result=DB::table('personas as pa')
+                ->leftJoin('mat_ubicacion_distrito AS di',function($join){
+                    $join->on('pa.distrito_id','=','di.id')
+                    ->where('di.estado','=',1);
+                })
+                ->leftJoin('mat_ubicacion_provincia AS pr',function($join){
+                    $join->on('pa.provincia_id','=','pr.id')
+                    ->where('pr.estado','=',1);
+                })
+                ->leftJoin('mat_ubicacion_region AS re',function($join){
+                    $join->on('pa.region_id','=','re.id')
+                    ->where('re.estado','=',1);
+                })
+                ->leftJoin('mat_ubicacion_distrito AS di2',function($join){
+                    $join->on('pa.distrito_id_dir','=','di2.id')
+                    ->where('di2.estado','=',1);
+                })
+                ->leftJoin('mat_ubicacion_provincia AS pr2',function($join){
+                    $join->on('pa.provincia_id_dir','=','pr2.id')
+                    ->where('pr2.estado','=',1);
+                })
+                ->leftJoin('mat_ubicacion_region AS re2',function($join){
+                    $join->on('pa.region_id_dir','=','re2.id')
+                    ->where('re2.estado','=',1);
+                })
+                ->leftJoin('paises AS p',function($join){
+                    $join->on('pa.pais_id','=','p.id')
+                    ->where('p.estado','=',1);
+                })
+                ->leftJoin('colegios AS co',function($join){
+                    $join->on('pa.colegio_id','=','co.id')
+                    ->where('co.estado','=',1);
+                })
+                ->select('pa.pais_id','pa.colegio_id','pa.distrito_id','pa.provincia_id'
+                ,'pa.region_id','pa.distrito_id_dir','pa.provincia_id_dir','pa.region_id_dir'
+                ,'pa.direccion_dir','pa.tenencia','pa.referencia_dir','pa.estado_civil'
+                ,'di.distrito','pr.provincia','re.region','p.pais'
+                ,'di2.distrito AS distrito_dir','pr2.provincia AS provincia_dir'
+                ,'re2.region AS region_dir','co.colegio');
+
+                /*if( $r->has('todo') ){
+                    if( $r->todo==1 ){
+                        $result->leftJoin('mat_ubicacion_distrito AS di3',function($join){
+                            $join->on('co.distrito_id','=','di3.id')
+                            ->where('di3.estado','=',1);
+                        })
+                        ->leftJoin('mat_ubicacion_provincia AS pr3',function($join){
+                            $join->on('di3.provincia_id','=','pr3.id')
+                            ->where('pr3.estado','=',1);
+                        })
+                        ->leftJoin('mat_ubicacion_region AS re3',function($join){
+                            $join->on('pr3.region_id','=','re3.id')
+                            ->where('re3.estado','=',1);
+                        })
+                        ->join('am_personas AS pe','pe.id','=','pa.persona_id')
+                        ->addSelect('di3.distrito AS distrito_col'
+                        ,'pr3.provincia AS provincia_col','re3.region AS region_col'
+                        ,'pe.estado_civil','pe.fecha_nacimiento','pe.sexo','co.tipo'
+                        );
+                    }
+                }*/
+
+        $result= $result->where('pa.id',$r->persona_id)
+                ->first();
         return $result;
     }
 }

@@ -14,8 +14,14 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
+    {{ Html::style('lib/EasyAutocomplete1.3.5/easy-autocomplete.min.css') }}
+    {{ Html::script('lib/EasyAutocomplete1.3.5/jquery.easy-autocomplete.min.js') }}
+
     @include( 'mantenimiento.persona.js.persona_ajax' )
     @include( 'mantenimiento.persona.js.persona' )
+    @include( 'mantenimiento.persona.js.persona_adicional' )
+    @include( 'mantenimiento.persona.js.persona_adicional_ajax' )
+
     
 
 @stop

@@ -17,6 +17,9 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
+{{ Html::style('lib/EasyAutocomplete1.3.5/easy-autocomplete.min.css') }}
+{{ Html::script('lib/EasyAutocomplete1.3.5/jquery.easy-autocomplete.min.js') }}
+
 @include( 'proceso.matricula.js.seminario_ajax' )
 @include( 'proceso.matricula.js.seminario' )
 @include( 'mantenimiento.programacion.js.listapersona_ajax' )
@@ -25,6 +28,8 @@
 @include( 'proceso.matricula.js.listaprogramacion' )
 @include( 'mantenimiento.programacion.js.aepersona_ajax' )
 @include( 'mantenimiento.programacion.js.aepersona' )
+@include( 'mantenimiento.persona.js.persona_adicional' )
+@include( 'mantenimiento.persona.js.persona_adicional_ajax' )
 @include( 'mantenimiento.trabajador.js.listatrabajador_ajax' )
 @include( 'mantenimiento.trabajador.js.listatrabajador' )
 
