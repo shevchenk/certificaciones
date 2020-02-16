@@ -1533,12 +1533,12 @@ class Seminario extends Model
                 ,CONCAT(p2.paterno,' ',p2.materno,' ',p2.nombre,' - ',tra.codigo) vendedor
                 FROM mat_matriculas m 
                 INNER JOIN personas p ON p.id=m.persona_id 
-                LEFT JOIN (
+                INNER JOIN (
                     SELECT md_aux.matricula_id, MIN(md_aux.especialidad_id) especialidad_id
                     , MIN(c_aux.tipo_curso) tipo_curso, MIN(md_aux.programacion_id) programacion_id
                     , MIN(c_aux.empresa_id) empresa_id
                     FROM mat_matriculas_detalles md_aux
-                    LEFT JOIN mat_cursos c_aux ON c_aux.id=md_aux.curso_id
+                    INNER JOIN mat_cursos c_aux ON c_aux.id=md_aux.curso_id
                     WHERE md_aux.programacion_id IS NOT NULL
                     GROUP BY md_aux.matricula_id
                 ) md ON md.matricula_id = m.id AND md.empresa_id = $empresa_id
