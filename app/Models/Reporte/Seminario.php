@@ -1508,13 +1508,16 @@ class Seminario extends Model
     {
         $id=Auth::user()->id;
         $empresa_id = Auth::user()->empresa_id;
-        $sql = "SELECT m.id, m.fecha_matricula fecha, p.paterno, p.materno, p.nombre
+        $sql = "SELECT m.id, p.dni, m.fecha_matricula fecha
+                ,IF( md.especialidad_id IS NULL, IF( md.tipo_curso=2, 'Seminario', 'Curso Libre' ), es.especialidad) AS formacion
+                ,'' mod_ingreso
+                , p.paterno, p.materno, p.nombre
                 ,CASE  
                     WHEN p.estado_civil='S' THEN 'Soltero'
                     WHEN p.estado_civil='C' THEN 'Casado'
                     WHEN p.estado_civil='V' THEN 'Viudo'
                     WHEN p.estado_civil='D' THEN 'Divorsiado'
-                END estado_civil, p.dni, p.fecha_nacimiento
+                END estado_civil, p.dni tipo_doc, p.fecha_nacimiento
                 ,YEAR(CURDATE())-YEAR(p.fecha_nacimiento) + 
                 IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(p.fecha_nacimiento,'%m-%d'), 0 , -1 ) edad
                 ,CASE  
@@ -1523,26 +1526,46 @@ class Seminario extends Model
                 END sexo, pa.pais, re.region, pr.provincia, di.distrito
                 ,p.email, p.celular, p.telefono, p.direccion_dir, p.referencia_dir
                 ,re2.region region_dir, pr2.provincia provincia_dir, di2.distrito distrito_dir
-                ,co.colegio, IF(co.tipo=1, 'Nacional', 'Particular') tipo_colegio
-                ,re3.region region_col, pr3.provincia provincia_col, di3.distrito distrito_col
-                ,IF( md.especialidad_id IS NULL, IF( md.tipo_curso=2, 'Seminario', 'Curso Libre' ), es.especialidad) AS formacion
+                ,co.colegio, re3.region region_col, pr3.provincia provincia_col, di3.distrito distrito_col
+                ,IF(co.tipo=1, 'Nacional', 'Particular') tipo_colegio
+                ,IF( md.especialidad_id IS NULL, IF( md.tipo_curso=2, 'Seminario', 'Curso Libre' ), es.especialidad) AS carrera
                 ,su3.sucursal local_estudio , DATE(pro.fecha_inicio) fecha_inicio, pro.dia frecuencia
                 ,CONCAT(DATE_FORMAT(pro.fecha_inicio,'%H:%i'),' - ', DATE_FORMAT(pro.fecha_final,'%H:%i')) horario
-                ,su.sucursal ode_inscripcion, su3.sucursal ode_estudio, su2.sucursal ode_recogo
-                ,tp.tipo_participante, pu.medio_publicitario, ta.tarea tipo_vendedor
+                ,'' semestre, '' cop_dni, '' fotos, '' cert_est, '' ddjj, '' seguro
+                ,ep.costo inscripcion, '' matricula, SUBSTRING_INDEX(ep.nro_cuota,'-',1) escala, SUBSTRING_INDEX(ep.nro_cuota,'-',-1) pension 
+                ,'INSCRIPCIÓN', b1.banco, m.nro_pago_inscripcion, m.fecha_matricula fecha_pago_inscripcion, m.monto_pago_inscripcion
+                ,'MATRÍCULA'
+                    ,'' tipo_mat,'' nro_mat,'' fecha_mat,'' importe_mat
+                ,'PENSIÓN'
+                    ,IF(m.monto_promocion>0, b2.banco,
+                        IF(SUBSTRING_INDEX(md.id,'|',1)*1>0,b3.banco,b4.banco)
+                    ) tipo_pen
+                    ,IF(m.monto_promocion>0, m.nro_promocion,
+                        IF(SUBSTRING_INDEX(md.id,'|',1)*1>0,md2.nro_pago_certificado,mc.nro_cuota)
+                    ) nro_pen
+                    ,IF(m.monto_promocion>0, m.fecha_matricula,
+                        IF(SUBSTRING_INDEX(md.id,'|',1)*1>0,DATE(md2.created_at),DATE(mc.created_at))
+                    ) fecha_pen
+                    ,IF(m.monto_promocion>0, m.monto_promocion,
+                        IF(SUBSTRING_INDEX(md.id,'|',1)*1>0,md2.monto_pago_certificado,mc.monto_cuota)
+                    ) importe_pen
+                ,m.observacion promocion, su.sucursal ode_inscripcion, su3.sucursal ode_estudio, su2.sucursal ode_recogo
+                ,tp.tipo_participante, pu.medio_publicitario, '' med_cap, ta.tarea tipo_vendedor
                 ,CONCAT(p2.paterno,' ',p2.materno,' ',p2.nombre,' - ',tra.codigo) vendedor
                 FROM mat_matriculas m 
                 INNER JOIN personas p ON p.id=m.persona_id 
                 INNER JOIN (
                     SELECT md_aux.matricula_id, MIN(md_aux.especialidad_id) especialidad_id
                     , MIN(c_aux.tipo_curso) tipo_curso, MIN(md_aux.programacion_id) programacion_id
-                    , MIN(c_aux.empresa_id) empresa_id
+                    , MIN(c_aux.empresa_id) empresa_id, MAX( CONCAT(md_aux.monto_pago_certificado,'|',md_aux.id) ) id
                     FROM mat_matriculas_detalles md_aux
                     INNER JOIN mat_cursos c_aux ON c_aux.id=md_aux.curso_id
                     WHERE md_aux.programacion_id IS NOT NULL
                     GROUP BY md_aux.matricula_id
                 ) md ON md.matricula_id = m.id AND md.empresa_id = $empresa_id
+                LEFT JOIN mat_matriculas_detalles md2 ON md2.id = SUBSTRING_INDEX(md.id,'|',-1)*1
                 LEFT JOIN mat_trabajadores tra ON tra.persona_id=m.persona_marketing_id AND tra.rol_id=1 AND tra.empresa_id=md.empresa_id
+                LEFT JOIN mat_especialidades_programaciones ep ON ep.id=m.especialidad_programacion_id
                 LEFT JOIN mat_tareas ta ON ta.id=tra.tarea_id
                 LEFT JOIN personas p2 ON p2.id=m.persona_marketing_id
                 LEFT JOIN mat_tipos_participantes tp ON tp.id=m.tipo_participante_id
@@ -1563,6 +1586,11 @@ class Seminario extends Model
                 LEFT JOIN mat_ubicacion_distrito di3 ON di3.id=co.distrito_id
                 LEFT JOIN mat_ubicacion_provincia pr3 ON pr3.id=di3.provincia_id
                 LEFT JOIN mat_ubicacion_region re3 ON re3.id=pr3.region_id
+                LEFT JOIN bancos b1 ON b1.id_banco=m.tipo_pago_inscripcion
+                LEFT JOIN bancos b2 ON b2.id_banco=m.tipo_pago
+                LEFT JOIN bancos b3 ON b3.id_banco=md2.tipo_pago
+                LEFT JOIN mat_matriculas_cuotas mc ON mc.matricula_id=m.id AND mc.cuota=1 AND mc.estado=1
+                LEFT JOIN bancos b4 ON b4.id_banco=mc.tipo_pago_cuota
                 WHERE m.estado=1 ";
 
                     if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
@@ -1570,6 +1598,13 @@ class Seminario extends Model
                         $final=trim($r->fecha_final);
                         if( $inicial !=''AND $final!=''){
                             $sql.=" AND m.fecha_matricula BETWEEN '$inicial' AND '$final' ";
+                        }
+                    }
+
+                    if( $r->has("matricula_id") ){
+                        $matricula_id=trim($r->matricula_id);
+                        if( $matricula_id !=''){
+                            $sql.=" AND m.id = '$matricula_id' ";
                         }
                     }
 
@@ -1644,11 +1679,19 @@ class Seminario extends Model
         }
 
         $cabecera=array(
-            'N°','Fecha Ins','Paterno','Materno','Nombre','Estado Civil','DNI','Fecha Nacimiento','Edad','Sexo','País Procedencia'
-            ,'Region Nac','Provincia Nac','Distrito Nac','Email','Celular','Teléfono','Dirección','Referencia','Region Dir','Provincia Dir'
-            ,'Distrito Dir','Colegio','Tipo Colegio','Region Cole','Provincia Cole','Distrito Cole'
-            ,'Formacion','Local Estudio','Fecha Inicio','Frecuencia','Horario','Ode Inscripción','Ode Estudio','Ode Recogo'
-            ,'Tipo Participante',' Medio Publicitario','Tipo Vendedor','Vendedor'
+            'N°','IDENTIFICADOR','FECHA DE INSCRIPCIÓN','ESTUDIOS','MOD. DE INGRESO'
+            ,'APEL. PATERNO','APEL. MATERNO','NOMBRES','EST.CIVIL','DOCUMENTO TIPO / N°','FECHA DE NACIMIENTO','EDAD','SEXO'
+            ,'PAIS','REGION','PROVINCIA','DISTRITO'
+            ,'CORREO ELECTRÓNICO','CELULAR','TELF. EMERGENCIA','DIRECCIÓN AV / JR / CALLE / PJE - N° /MZ / LOTE / INT / DPTO','REFERENCIA','REGIÓN','PROVINCIA','DISTRITO'
+            ,'NOMBRE DEL COLEGIO','REGIÓN','PROVINCIA','DISTRITO','TIPO DE COLEGIO'
+            ,'CARRERA / MODULO','LOC . ESTUDIO','FECHA DE INICIO','FRECUENCIA','HORARIO','SEMESTRE'
+            ,'COP. DNI','FOTOS','CERT. ESTUDIOS','DDDJJ DE BUENA CONDUCTA','SEGURO CONTRA ACCIDENTES'
+            ,'INSCRIP.','MATRÍCULA','ESCALA','PENSIÓN'
+            ,'CONC. DE PAGO I','MEDIO DE PAGO I','DOC. DE PAGO I','FECHA DE PAGO I','IMPORTE I'
+            ,'CONC. DE PAGO M','MEDIO DE PAGO M','DOC. DE PAGO M','FECHA DE PAGO M','IMPORTE M'
+            ,'CONC. DE PAGO P','MEDIO DE PAGO P','DOC. DE PAGO P','FECHA DE PAGO P','IMPORTE P'
+            ,'PROMOCIÓN','ODE DE INSCRIPCIÓN','ODE DONDE ESTUDIARÁ','ODE DONDE RECOJERÁ SUS CERTIFICADOS'
+            ,'TIP. DE PARTICIPANTE','SOLIC. INFORM.','MED. CAPTAC.','TIPO DE VEND.','APELLIDOS Y NOMBRES DE PROMOTOR - COD'
         );
         $campos=array('');
 
@@ -1660,7 +1703,7 @@ class Seminario extends Model
         $r['lengthTit']=$lengthTit;
         $r['colorTit']=$colorTit;
         $r['lengthDet']=$lengthDet;
-        $r['max']='AM'; // Max. Celda en LETRA
+        $r['max']='BQ'; // Max. Celda en LETRA
         return $r;
     }
 }
