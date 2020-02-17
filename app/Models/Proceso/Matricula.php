@@ -476,6 +476,8 @@ class Matricula extends Model
                 }
             );
         }
+
+        return $matricula->id;
     }
     
     public function fileToFile($file,$id, $url){

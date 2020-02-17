@@ -1510,8 +1510,8 @@ class Seminario extends Model
         $empresa_id = Auth::user()->empresa_id;
         $sql = "SELECT m.id, p.dni, m.fecha_matricula fecha
                 ,IF( md.especialidad_id IS NULL, IF( md.tipo_curso=2, 'Seminario', 'Curso Libre' ), es.especialidad) AS formacion
-                ,'' mod_ingreso
-                , p.paterno, p.materno, p.nombre
+                ,md.cursos ,'' mod_ingreso
+                ,p.paterno, p.materno, p.nombre
                 ,CASE  
                     WHEN p.estado_civil='S' THEN 'Soltero'
                     WHEN p.estado_civil='C' THEN 'Casado'
@@ -1558,6 +1558,7 @@ class Seminario extends Model
                     SELECT md_aux.matricula_id, MIN(md_aux.especialidad_id) especialidad_id
                     , MIN(c_aux.tipo_curso) tipo_curso, MIN(md_aux.programacion_id) programacion_id
                     , MIN(c_aux.empresa_id) empresa_id, MAX( CONCAT(md_aux.monto_pago_certificado,'|',md_aux.id) ) id
+                    , GROUP_CONCAT( c_aux.curso ORDER BY c_aux.curso SEPARATOR ' / ') cursos
                     FROM mat_matriculas_detalles md_aux
                     INNER JOIN mat_cursos c_aux ON c_aux.id=md_aux.curso_id
                     WHERE md_aux.programacion_id IS NOT NULL
@@ -1679,7 +1680,7 @@ class Seminario extends Model
         }
 
         $cabecera=array(
-            'N°','IDENTIFICADOR','FECHA DE INSCRIPCIÓN','ESTUDIOS','MOD. DE INGRESO'
+            'N°','IDENTIFICADOR','FECHA DE INSCRIPCIÓN','ESTUDIOS MÓDULOS','ESTUDIOS CURSOS','MOD. DE INGRESO'
             ,'APEL. PATERNO','APEL. MATERNO','NOMBRES','EST.CIVIL','DOCUMENTO TIPO / N°','FECHA DE NACIMIENTO','EDAD','SEXO'
             ,'PAIS','REGION','PROVINCIA','DISTRITO'
             ,'CORREO ELECTRÓNICO','CELULAR','TELF. EMERGENCIA','DIRECCIÓN AV / JR / CALLE / PJE - N° /MZ / LOTE / INT / DPTO','REFERENCIA','REGIÓN','PROVINCIA','DISTRITO'
@@ -1703,7 +1704,7 @@ class Seminario extends Model
         $r['lengthTit']=$lengthTit;
         $r['colorTit']=$colorTit;
         $r['lengthDet']=$lengthDet;
-        $r['max']='BQ'; // Max. Celda en LETRA
+        $r['max']='BR'; // Max. Celda en LETRA
         return $r;
     }
 }

@@ -438,6 +438,7 @@
                     </form>
                 </div>
                 <div class="box-footer">
+                    <button type="button" class="btn btn-success pull-right" onclick="DescargarFicha()">Descargar Datos para Ficha</button>
                     <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Inscripción</button>
                 </div>
             </div><!-- .box -->

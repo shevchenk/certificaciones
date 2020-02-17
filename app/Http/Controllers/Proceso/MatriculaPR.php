@@ -89,8 +89,9 @@ class MatriculaPR extends Controller
                         }
                     }
                 }
-                Matricula::runNew($r);
+                $id=Matricula::runNew($r);
                 $return['rst'] = 1;
+                $return['matricula_id'] = $id;
                 $return['msj'] = 'Registro creado';
             }
             else{

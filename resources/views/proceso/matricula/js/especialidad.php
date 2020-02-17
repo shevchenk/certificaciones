@@ -3,6 +3,7 @@ var AddEdit=0; //0: Editar | 1: Agregar
 var PromocionGeneral=0;
 var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
                curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
+var MatriculaIdG=0;
 $(document).ready(function() {
 
     $('#exonerar_matricula').prop('checked', true);
@@ -172,8 +173,18 @@ HTMLAgregarEditar=function(result){
         $("#pago_img_ins,#dni_img").attr('src','');
         $("#tb_matricula").html('');
         ActivarPago(1);
+        MatriculaIdG = result.matricula_id;
     }else{
         msjG.mensaje('warning',result.msj,3000);
+    }
+}
+
+DescargarFicha=function(){
+    if( MatriculaIdG>0 ){
+        window.open('ReportDinamic/Reporte.SeminarioEM@ExportFicha'+'?matricula_id='+MatriculaIdG, '_blank');
+    }
+    else{
+        msjG.mensaje('warning','Debe realizar una inscripción',5000);
     }
 }
 
