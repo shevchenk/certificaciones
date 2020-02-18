@@ -28,6 +28,9 @@ class Persona extends Model
         $persona->email = trim( $r->email );
         $persona->celular = trim( $r->celular );
         $persona->password=bcrypt($r->password);
+        if( $r->has('fecha_nacimiento') AND trim( $r->fecha_nacimiento )!='' ){
+            $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );
+        }
         $persona->estado=1;
         $persona->persona_id_updated_at=$persona_id;
         $persona->save();
@@ -320,6 +323,10 @@ class Persona extends Model
             $persona->distrito_id = $r->distrito_id;
             $persona->provincia_id = $r->provincia_id;
             $persona->region_id = $r->region_id;
+        }
+
+        if( $r->has('fecha_nacimiento') AND trim( $r->fecha_nacimiento )!='' ){
+            $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );
         }
 
         $persona->save();
@@ -982,7 +989,7 @@ class Persona extends Model
                 ,'pa.direccion_dir','pa.tenencia','pa.referencia_dir','pa.estado_civil'
                 ,'di.distrito','pr.provincia','re.region','p.pais'
                 ,'di2.distrito AS distrito_dir','pr2.provincia AS provincia_dir'
-                ,'re2.region AS region_dir','co.colegio');
+                ,'re2.region AS region_dir','co.colegio','pa.fecha_nacimiento');
 
                 /*if( $r->has('todo') ){
                     if( $r->todo==1 ){

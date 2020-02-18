@@ -66,6 +66,12 @@
                             </textarea>
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <label>Fecha Nacimiento</label>
+                            <input type="text" class="form-control fecha" id="txt_fecha_nacimiento" name="txt_fecha_nacimiento" placeholder="AAAA-MM-DD" readonly=""> <!-- onfocus="blur()"/-->
+                        </div>
+                    </div>
                     <div class="col-sm-12 panel">
                         <hr>
                         <div class="panel-heading bg-info"><center>DATOS ADICIONALES</center></div>

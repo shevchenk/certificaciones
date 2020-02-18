@@ -174,6 +174,16 @@ var DistritoDirOpciones = {
 
 $(document).ready(function() {
 
+    $(".fecha").datetimepicker({
+        format: "yyyy-mm-dd",
+        language: 'es',
+        showMeridian: false,
+        time:false,
+        minView:2,
+        autoclose: true,
+        todayBtn: false
+    });
+
     $("#ModalPersonaForm #txt_colegio").easyAutocomplete(ColegioOpciones);
     $("#ModalPersonaForm #txt_pais").easyAutocomplete(PaisOpciones);
     $("#ModalPersonaForm #txt_distrito").easyAutocomplete(DistritoOpciones);
@@ -212,6 +222,7 @@ HTMLPersonaAdicional=function(result){
     $('#ModalPersonaForm #txt_referencia_dir').val( '' );
     $('#ModalPersonaForm #slct_tenencia').val( '0' );
     $('#ModalPersonaForm #slct_estado_civil').val( 'S' );
+    $('#ModalPersonaForm #txt_fecha_nacimiento').val( '' );
 
     $('#ModalPersonaForm #txt_pais').val( '' );
     $('#ModalPersonaForm #txt_colegio').val( '' );
@@ -234,6 +245,7 @@ HTMLPersonaAdicional=function(result){
         $('#ModalPersonaForm #txt_referencia_dir').val( $.trim(result.data.referencia_dir) );
         $('#ModalPersonaForm #slct_tenencia').val( $.trim(result.data.tenencia) );
         $('#ModalPersonaForm #slct_estado_civil').val( $.trim(result.data.estado_civil) );
+        $('#ModalPersonaForm #txt_fecha_nacimiento').val( $.trim(result.data.fecha_nacimiento) );
 
         $('#ModalPersonaForm #txt_pais').val( $.trim(result.data.pais) );
         $('#ModalPersonaForm #txt_colegio').val( $.trim(result.data.colegio) );
