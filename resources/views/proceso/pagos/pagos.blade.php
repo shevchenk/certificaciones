@@ -27,7 +27,7 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Reporte de Control de Pagos
+        <h1>PAGOS PENDIENTES
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
@@ -76,9 +76,9 @@
                                 <div class="col-md-1" style="padding:24px">
                                     <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>
-                                <div class="col-md-1" style="padding:24px">
+                                <!--div class="col-md-1" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar</i></a>
-                                </div>
+                                </div-->
                                 <div class="col-md-1" style="padding:24px">&nbsp;
                                 </div>
                             </div>
