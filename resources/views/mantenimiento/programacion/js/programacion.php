@@ -13,6 +13,17 @@ $(document).ready(function() {
         autoclose: true,
         todayBtn: false
     });
+
+    $(".horas").datetimepicker({
+        format: "hh:ii:00",
+        language: 'es',
+        showMeridian: true,
+        time:true,
+        minView:0,
+        startView:1,
+        autoclose: true,
+        todayBtn: false
+    });
     
     $(".fecha").datetimepicker({
         format: "yyyy-mm-dd",
@@ -63,12 +74,16 @@ $(document).ready(function() {
         $('#ModalProgramacionForm #txt_aula').val( ProgramacionG.aula );
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',dia);
         $('#ModalProgramacionForm #slct_turno').selectpicker('val',ProgramacionG.turno);
-        $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio );
-        $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final );
+        $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio.split(" ")[0] );
+        $('#ModalProgramacionForm #txt_hora_inicio').val( ProgramacionG.fecha_inicio.split(" ")[1] );
+        $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final.split(" ")[0] );
+        $('#ModalProgramacionForm #txt_hora_final').val( ProgramacionG.fecha_final.split(" ")[1] );
         $('#ModalProgramacionForm #txt_fecha_campaña').val( ProgramacionG.fecha_campaña );
         $('#ModalProgramacionForm #txt_meta_max').val( ProgramacionG.meta_max );
         $('#ModalProgramacionForm #txt_meta_min').val( ProgramacionG.meta_min );
         $('#ModalProgramacionForm #txt_costo').val( ProgramacionG.costo );
+        $('#ModalProgramacionForm #txt_costo_ins').val( ProgramacionG.costo_ins );
+        $('#ModalProgramacionForm #txt_costo_mat').val( ProgramacionG.costo_mat );
         $('#ModalProgramacionForm #slct_estado').selectpicker( 'val',ProgramacionG.estado );
         ValidaOde(ProgramacionG.sucursal_id);
         $('#ModalProgramacionForm #slct_docente_id').focus();
@@ -85,7 +100,9 @@ ValidaOde=function(v){
     if( v==1 ){
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',['LU','MA','MI','JU','VI','SA','DO']);
         //$('#ModalProgramacionForm #txt_fecha_inicio').val( '2019-01-01 00:00:00' );
-        $('#ModalProgramacionForm #txt_fecha_final').val( '2200-12-31 23:59:59' );
+        $('#ModalProgramacionForm #txt_fecha_final').val( '2200-12-31' );
+        $('#ModalProgramacionForm #txt_hora_inicio').val( '00:00:00' );
+        $('#ModalProgramacionForm #txt_hora_final').val( '23:59:59' );
         $('#ModalProgramacionForm #txt_aula').val( 'Libre' );
         $("#ModalProgramacionForm .validaode").css("display",'none');
     }
@@ -131,6 +148,14 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Costo',4000);
     }
+    else if( $.trim( $("#ModalProgramacionForm #txt_costo_ins").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Costo Inscripción',4000);
+    }
+    else if( $.trim( $("#ModalProgramacionForm #txt_costo_mat").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Costo Matrícula',4000);
+    }
     return r;
 }
 
@@ -151,6 +176,8 @@ AgregarEditar=function(val,id){
     ProgramacionG.meta_max='';
     ProgramacionG.meta_min='';
     ProgramacionG.costo='0';
+    ProgramacionG.costo_ins='0';
+    ProgramacionG.costo_mat='0';
     ProgramacionG.estado='1';
     if( val==0 ){
         ProgramacionG.id=id;
@@ -168,6 +195,8 @@ AgregarEditar=function(val,id){
         ProgramacionG.meta_max=$("#TableProgramacion #trid_"+id+" .meta_max").val();
         ProgramacionG.meta_min=$("#TableProgramacion #trid_"+id+" .meta_min").val();
         ProgramacionG.costo=$("#TableProgramacion #trid_"+id+" .costo").val();
+        ProgramacionG.costo_ins=$("#TableProgramacion #trid_"+id+" .costo_ins").val();
+        ProgramacionG.costo_mat=$("#TableProgramacion #trid_"+id+" .costo_mat").val();
         ProgramacionG.estado=$("#TableProgramacion #trid_"+id+" .estado").val();
     }
     $('#ModalProgramacion').modal('show');
@@ -229,6 +258,8 @@ HTMLCargarProgramacion=function(result){
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+
             "<input type='hidden' class='costo' value='"+r.costo+"'>"+
+            "<input type='hidden' class='costo_ins' value='"+r.costo_ins+"'>"+
+            "<input type='hidden' class='costo_mat' value='"+r.costo_mat+"'>"+
             "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';

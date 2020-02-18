@@ -41,9 +41,9 @@
                             <input type="text" class="form-control" id="txt_aula" name="txt_aula">
                         </div>
                     </div>
-                    <div class="col-md-9 slct_dia validaode">
+                    <div class="col-md-3 slct_dia validaode">
                         <div class="form-group">
-                            <label>Horario</label>
+                            <label>Frecuencia</label>
                             <select class="form-control selectpicker"  data-actions-box='true' multiple name="slct_dia[]" id="slct_dia">
                                 <option value="LU">Lunes</option>
                                 <option value="MA">Martes</option>
@@ -55,16 +55,28 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-3 validaode">
+                        <div class="form-group">
+                            <label>Hora de Inicio</label>
+                            <input type="text" class="form-control horas" id="txt_hora_inicio" name="txt_hora_inicio" readonly="" >
+                        </div>
+                    </div>
+                    <div class="col-md-3 validaode">
+                        <div class="form-group">
+                            <label>Hora de Final</label>
+                            <input type="text" class="form-control horas" id="txt_hora_final" name="txt_hora_final" readonly="" >
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Fecha de Inicio</label>
-                            <input type="text" class="form-control fechas" id="txt_fecha_inicio" name="txt_fecha_inicio" readonly="" >
+                            <input type="text" class="form-control fecha" id="txt_fecha_inicio" name="txt_fecha_inicio" readonly="" >
                         </div>
                     </div>
                     <div class="col-md-6 validaode">
                         <div class="form-group">
                             <label>Fecha Final</label>
-                            <input type="text" class="form-control fechas" id="txt_fecha_final" name="txt_fecha_final" readonly="" >
+                            <input type="text" class="form-control fecha" id="txt_fecha_final" name="txt_fecha_final" readonly="" >
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -100,6 +112,18 @@
                                 <option value='T'>Tarde</option>
                                 <option value='N'>Noche</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Inscripción:</label>
+                            <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo_ins" name="txt_costo_ins" value="0">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Matrícula:</label>
+                            <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo_mat" name="txt_costo_mat" value="0">
                         </div>
                     </div>
                     <div class="col-md-12 txt_link">

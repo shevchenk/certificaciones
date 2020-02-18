@@ -35,6 +35,11 @@ class Programacion extends Model
         $sucursal->fecha_inicio = trim( $r->fecha_inicio );
         $sucursal->fecha_final = trim( $r->fecha_final );
 
+        if( $r->has('hora_inicio') ){
+            $sucursal->fecha_inicio = trim( $r->fecha_inicio )." ".trim( $r->hora_inicio );
+            $sucursal->fecha_final = trim( $r->fecha_final )." ".trim( $r->hora_final );
+        }
+
         if( !$r->has('fecha_campaña') ){
             $r->fecha_campaña=date("Y-m-d",strtotime($r->fecha_inicio));
         }
@@ -49,6 +54,11 @@ class Programacion extends Model
         }
 
         $sucursal->costo = trim( $r->costo );
+        if( $r->has('costo_ins') AND $r->costo_ins!='' ){
+            $sucursal->costo_ins = trim( $r->costo_ins );
+            $sucursal->costo_mat = trim( $r->costo_mat );
+        }
+        
         $sucursal->link = trim( $r->link );
         $sucursal->estado = trim( $r->estado );
         $sucursal->persona_id_created_at=Auth::user()->id;
@@ -70,6 +80,11 @@ class Programacion extends Model
         }
         $sucursal->fecha_inicio = trim( $r->fecha_inicio );
         $sucursal->fecha_final = trim( $r->fecha_final );
+
+        if( $r->has('hora_inicio') ){
+            $sucursal->fecha_inicio = trim( $r->fecha_inicio )." ".trim( $r->hora_inicio );
+            $sucursal->fecha_final = trim( $r->fecha_final )." ".trim( $r->hora_final );
+        }
         
         if( !$r->has('fecha_campaña') ){
             $r->fecha_campaña=date("Y-m-d",strtotime($r->fecha_inicio));
@@ -85,6 +100,10 @@ class Programacion extends Model
         }
 
         $sucursal->costo = trim( $r->costo );
+        if( $r->has('costo_ins') AND $r->costo_ins!='' ){
+            $sucursal->costo_ins = trim( $r->costo_ins );
+            $sucursal->costo_mat = trim( $r->costo_mat );
+        }
         $sucursal->link = trim( $r->link );
         $sucursal->estado = trim( $r->estado );
         $sucursal->persona_id_created_at=Auth::user()->id;
@@ -97,7 +116,7 @@ class Programacion extends Model
              ->select('mp.dia','mp.id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona'),'mp.persona_id','mp.docente_id','c.curso','mp.curso_id','mp.sucursal_id','s.sucursal','mp.aula','mp.fecha_inicio','mp.fecha_final','mp.fecha_campaña','mp.meta_max','mp.meta_min','mp.estado','mp.link','c.tipo_curso',
                 'mp.cv_archivo','mp.temario_archivo','mp.diapo_archivo','mp.diapoedit_archivo',
                 'mp.grabo','mp.publico','mp.expositor','mp.situaciones','p.celular','p.telefono'
-                ,'p.email','mp.costo','mp.turno')
+                ,'p.email','mp.costo','mp.costo_ins','mp.costo_mat','mp.turno')
              ->join('personas as p','p.id','=','mp.persona_id')
              ->join('sucursales as s','s.id','=','mp.sucursal_id')
              ->join('mat_cursos AS c',function($join) use( $r ){

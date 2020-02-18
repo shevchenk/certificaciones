@@ -1516,7 +1516,7 @@ class Seminario extends Model
                     WHEN p.estado_civil='S' THEN 'Soltero'
                     WHEN p.estado_civil='C' THEN 'Casado'
                     WHEN p.estado_civil='V' THEN 'Viudo'
-                    WHEN p.estado_civil='D' THEN 'Divorsiado'
+                    WHEN p.estado_civil='D' THEN 'Divorciado'
                 END estado_civil, p.dni tipo_doc, p.fecha_nacimiento
                 ,YEAR(CURDATE())-YEAR(p.fecha_nacimiento) + 
                 IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(p.fecha_nacimiento,'%m-%d'), 0 , -1 ) edad

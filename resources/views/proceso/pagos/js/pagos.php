@@ -97,7 +97,7 @@ HTMLCargarReporte=function(result){
             importe = r.salcd;
         }
         else if( $.trim(r.cuota_cronograma)!='' ){
-            ddc = r.cuota_cronograma;
+            ddc = r.cuota_cronograma+' / FV:'+r.fecha_cronograma;
             detalle = r.cuota_cronograma;
             importe = r.monto_cronograma;
         }
