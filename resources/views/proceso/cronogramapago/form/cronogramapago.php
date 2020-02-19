@@ -29,9 +29,21 @@
                 </div>
               </div>
               <div class="col-md-12">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <label>Fecha de Inicio:</label>
                   <input type="text" class="form-control fecha" id="txt_fecha_inicio" name="txt_fecha_inicio" placeholder="YYYY-MM-DD">
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Inscripción:</label>
+                        <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo" name="txt_costo" value="0">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Matrícula:</label>
+                        <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo_mat" name="txt_costo_mat" value="0">
+                    </div>
                 </div>
               </div>
             </div>
@@ -55,18 +67,6 @@
                       </select>
                       <span class="input-group-addon"><i class="fa fa-repeat"></i></span>
                       <input type="text" name="txt_monto_cuota" id="txt_monto_cuota" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Inscripción:</label>
-                        <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo" name="txt_costo" value="0">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Matrícula:</label>
-                        <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo_mat" name="txt_costo_mat" value="0">
                     </div>
                 </div>
               </div>
