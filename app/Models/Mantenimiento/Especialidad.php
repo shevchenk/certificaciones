@@ -166,6 +166,13 @@ class Especialidad extends Model
         $empresa_id = Auth::user()->empresa_id;
         $sql= " SELECT e.id, e.especialidad
                 FROM mat_especialidades e
+                INNER JOIN (
+                    SELECT ep1.especialidad_id
+                    FROM mat_especialidades_programaciones ep1 
+                    WHERE ep1.tipo=2
+                    AND ep1.estado=1
+                    GROUP BY ep1.especialidad_id
+                ) ep_aux ON ep_aux.especialidad_id = e.id
                 LEFT JOIN (
                 SELECT DISTINCT(md.especialidad_id) especialidad_id
                 FROM mat_matriculas_detalles md
@@ -185,6 +192,13 @@ class Especialidad extends Model
         $empresa_id = Auth::user()->empresa_id;
         $sql= " SELECT e.id, e.especialidad
                 FROM mat_especialidades e
+                INNER JOIN (
+                    SELECT ep1.especialidad_id
+                    FROM mat_especialidades_programaciones ep1 
+                    WHERE ep1.tipo=2
+                    AND ep1.estado=1
+                    GROUP BY ep1.especialidad_id
+                ) ep_aux ON ep_aux.especialidad_id = e.id
                 INNER JOIN (
                 SELECT DISTINCT(md.especialidad_id) especialidad_id
                 FROM mat_matriculas_detalles md
@@ -221,6 +235,7 @@ class Especialidad extends Model
         $sql =  DB::table('mat_especialidades AS me')
                 ->Join('mat_especialidades_programaciones AS mep',function($join){
                     $join->on('mep.especialidad_id','=','me.id')
+                    ->where('mep.tipo','=',1)
                     ->where('mep.estado','=',1);
                 })
                 ->Join('mat_cursos_especialidades AS mce',function($join){

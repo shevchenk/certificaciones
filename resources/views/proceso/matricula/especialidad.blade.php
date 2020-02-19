@@ -41,7 +41,7 @@
 .modal { overflow: auto !important; 
 </style>
 <section class="content-header">
-    <h1>Inscripción a Especialidades
+    <h1>Inscripción pago por Cuotas
         <small>Proceso</small>
     </h1>
     <ol class="breadcrumb">
