@@ -66,7 +66,7 @@ HTMLCargarEspecialidad=function(result){
         detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Curso</span> </li></ul>";
         cuota='';
         if( r.tipo==1 ){
-            detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;' class='costo'>"+r.nro_cuota+"</span> </li><li> Costo Ins.: <span style='color:red;' class='precio'>"+r.costo+"</span> </li></ul>";
+            detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;' class='costo'>"+r.nro_cuota+"</span> </li><li> Costo Ins.: <span style='color:red;' class='precio'>"+r.costo+"</span> </li><li> Costo Mat.: <span style='color:red;' class='precio_mat'>"+r.costo_mat+"</span> </li></ul>";
             cuota="<ol><li>C - "+$.trim(r.cronograma).split("|").join("</li><li>C - ")+"</li></ol>";
         }
         html+="<tr id='trides_"+r.id+"'>"+
@@ -185,10 +185,13 @@ SeleccionarEspecialidad=function(id){
         })
           seminario="<li>"+$('#trides_'+id+' .especialidad').text()+"</li>";
           precio=$('#trides_'+id+' .precio').text();
+          precio_mat=$('#trides_'+id+' .precio_mat').text();
 
         $("#promocion_seminario").html("<ul>"+seminario+"</ul>");
         $("#precio").html(precio);
         $("#txt_monto_pago_inscripcion").attr('onkeyup','masterG.DecimalMax(this, 2);ValidaDeuda2('+precio+',this);');
+        $("#precio_mat").html(precio_mat);
+        $("#txt_monto_pago_matricula").attr('onkeyup','masterG.DecimalMax(this, 2);ValidaDeuda3('+precio_mat+',this);');
         $("#tb_matricula").html(html);
 
         html='';

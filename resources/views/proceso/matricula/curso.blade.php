@@ -181,9 +181,10 @@
                                             <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(2);"><input type="radio" id="rdbtipo2" name="rdbtipo">A UN NUEVO MÓDULO "ESPECIALIDAD" </li>
                                             <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(3);"><input type="radio" id="rdbtipo3" name="rdbtipo">A MAS CURSOS DE UN MÓDULO PREVIAMENTE INSCRITO</li>
                                         </ul>
-                                        <select class="form-control" name="slct_especialidad2_id" id="slct_especialidad2_id" disabled>
+                                        <select class="form-control" onchange="ValidarCobro(this.value);" name="slct_especialidad2_id" id="slct_especialidad2_id" disabled>
                                             <option value="0">.::Curso Libre::.</option>
                                         </select>
+                                        <input type="hidden" name="txt_especialidad_programacion_id2" id="txt_especialidad_programacion_id2" class="form-control mant" readonly="">
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkbox">
@@ -195,21 +196,40 @@
                                     </div>
                                     <div class="col-md-12">
                                         <table class="table" id="t_pago_inscripcion">
-                                            <thead>
+                                            <thead class="bg-info">
                                                 <tr>
-                                                    <th colspan="4" style="text-align:center;">Pago de Inscripción</th>
+                                                    <th colspan="5" style="text-align:center;">Pago de Inscripción &nbsp;&nbsp;
+                                                    </th>
                                                 </tr>
                                                 <tr>
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
-                                                    <th>Tipo de Operación</th>
-                                                    <th>Archivo</th>
+                                                    <th>Tipo Operación</th>
+                                                    <th>Archivo Pago</th>
+                                                    <th>Archivo DNI</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_pago_inscripcion">
                                                 <tr>
                                                     <td><input type='text' class='form-control'  id='txt_nro_pago_inscripcion' name='txt_nro_pago_inscripcion' readonly=""></td>
-                                                    <td><input type='text' class='form-control'  id='txt_monto_pago_inscripcion' name='txt_monto_pago_inscripcion' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);' readonly=""></td>
+                                                    <td>
+                                                        <div class='input-group'>
+                                                            <div class='input-group-addon'>
+                                                            <i id="precio_ins">0.00</i>
+                                                            </div>
+                                                            <div id="txt_monto_pago_inscripcion_ico" class="has-warning has-feedback">
+                                                                <input type='text' class='form-control'  id='txt_monto_pago_inscripcion' name='txt_monto_pago_inscripcion' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);ValidaDeuda2(0,this);' readonly="">
+                                                                <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div id="i_monto_deuda_inscripcion_ico" class="has-warning has-feedback">
+                                                            <div class='input-group-addon'>
+                                                            <label>Deuda:</label>
+                                                            <label id='i_monto_deuda_inscripcion'>0</label>
+                                                            <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                     <td><select class='form-control'  id='slct_tipo_pago_inscripcion' name='slct_tipo_pago_inscripcion' disabled>
                                                         <option value='0'>.::Seleccione::.</option>
                                                         <option value='1.1'>Transferencia - BCP</option>
@@ -234,6 +254,95 @@
                                                         <div>
                                                         <a id="">
                                                         <img id="pago_img_ins" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                                                        </a>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  readOnly class="form-control input-sm" id="dni_nombre"  name="dni_nombre" value="">
+                                                        <input type="text" style="display: none;" id="dni_archivo" name="dni_archivo">
+                                                        <label class="btn btn-default btn-flat margin btn-xs">
+                                                            <i class="fa fa-file-image-o fa-3x"></i>
+                                                            <i class="fa fa-file-pdf-o fa-3x"></i>
+                                                            <i class="fa fa-file-word-o fa-3x"></i>
+                                                            <input type="file" id="file_dni" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#dni_nombre','#dni_archivo','#dni_img');" disabled="">
+                                                        </label>
+                                                        <div>
+                                                        <a id="dni_href">
+                                                        <img id="dni_img" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                                                        </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="exonerar_matricula" id="exonerar_matricula" >
+                                                Pagar Matrícula
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <table class="table" id="t_pago_inscripcion">
+                                            <thead class="bg-info">
+                                                <tr>
+                                                    <th colspan="4" style="text-align:center;">Pago de Matrícula &nbsp;&nbsp;
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>N° de Boleta/N° de Operación</th>
+                                                    <th>Importe</th>
+                                                    <th>Tipo Operación</th>
+                                                    <th>Archivo Pago</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_pago_matricula">
+                                                <tr>
+                                                    <td><input type='text' class='form-control'  id='txt_nro_pago_matricula' name='txt_nro_pago_matricula' readonly=""></td>
+                                                    <td>
+                                                        <div class='input-group'>
+                                                            <div class='input-group-addon'>
+                                                            <i id="precio_mat">0.00</i>
+                                                            </div>
+                                                            <div id="txt_monto_pago_matricula_ico" class="has-warning has-feedback">
+                                                                <input type='text' class='form-control'  id='txt_monto_pago_matricula' name='txt_monto_pago_matricula' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);ValidaDeuda3(0,this);' readonly="">
+                                                                <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div id="i_monto_deuda_matricula_ico" class="has-warning has-feedback">
+                                                            <div class='input-group-addon'>
+                                                            <label>Deuda:</label>
+                                                            <label id='i_monto_deuda_matricula'>0</label>
+                                                            <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><select class='form-control'  id='slct_tipo_pago_matricula' name='slct_tipo_pago_matricula' disabled>
+                                                        <option value='0'>.::Seleccione::.</option>
+                                                        <option value='1.1'>Transferencia - BCP</option>
+                                                        <option value='1.2'>Transferencia - Scotiabank</option>
+                                                        <option value='1.3'>Transferencia - BBVA</option>
+                                                        <option value='1.4'>Transferencia - Interbank</option>
+                                                        <option value='2.1'>Depósito - BCP</option>
+                                                        <option value='2.2'>Depósito - Scotiabank</option>
+                                                        <option value='2.3'>Depósito - BBVA</option>
+                                                        <option value='2.4'>Depósito - Interbank</option>
+                                                        <option value='3.0'>Caja</option>
+                                                        </select></td>
+                                                    <td>
+                                                        <input type="text" readonly class="form-control" id="pago_nombre_matricula"  name="pago_nombre_matricula" value="" readonly="">
+                                                        <input type="text" style="display: none;" id="pago_archivo_matricula" name="pago_archivo_matricula">
+                                                        <label class="btn btn-warning  btn-flat margin">
+                                                            <i class="fa fa-file-pdf-o fa-lg"></i>
+                                                            <i class="fa fa-file-word-o fa-lg"></i>
+                                                            <i class="fa fa-file-image-o fa-lg"></i>
+                                                            <input type="file" style="display: none;" onchange="masterG.onImagen(event,'#pago_nombre_matricula','#pago_archivo_matricula','#pago_img_mat');" id="file_matricula" disabled="">
+                                                        </label>
+                                                        <div>
+                                                        <a id="">
+                                                        <img id="pago_img_mat" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
                                                         </a>
                                                         </div>
                                                     </td>
@@ -425,52 +534,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12" style="display: none;">
-                            <div class="panel panel-warning">
-                                <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE FUT</center></div>
-                                <div class="panel-body">
-                                    <div class="col-md-12">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="exonerar_matricula" id="exonerar_matricula" >
-                                                Exonerar FUT
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <table class="table" id="t_pago_matricula">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="3" style="text-align:center;">Pago de FUT</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>N° de Boleta</th>
-                                                    <th>Importe</th>
-                                                    <th>Archivo</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tb_pago_matricula">
-                                                <tr>
-                                                    <td><input type='text' class='form-control'  id='txt_nro_pago_matricula' name='txt_nro_pago_matricula' readonly=""></td>
-                                                    <td><input type='text' class='form-control'  id='txt_monto_pago_matricula' name='txt_monto_pago_matricula' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);' readonly=""></td>
-                                                    <td>
-                                                        <input type="text" readonly class="form-control" id="pago_nombre_matricula"  name="pago_nombre_matricula" value="">
-                                                        <input type="text" style="display: none;" id="pago_archivo_matricula" name="pago_archivo_matricula">
-                                                        <label class="btn btn-warning  btn-flat margin">
-                                                            <i class="fa fa-file-pdf-o fa-lg"></i>
-                                                            <i class="fa fa-file-word-o fa-lg"></i>
-                                                            <i class="fa fa-file-image-o fa-lg"></i>
-                                                            <input type="file" style="display: none;" onchange="onPagos(null, 3);" id="file_matricula" disabled="">
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
 
-                            </div>
-                        </div>
                         <div class="col-md-12">
                             <div class="panel panel-primary">
                                 <div class="panel-heading"><center>OBSERVACIONES:</center></div>

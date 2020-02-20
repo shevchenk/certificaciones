@@ -164,15 +164,9 @@ class Especialidad extends Model
     public static function ListEspecialidadNuevo($r)
     {
         $empresa_id = Auth::user()->empresa_id;
-        $sql= " SELECT e.id, e.especialidad
+        $sql= " SELECT e.id, e.especialidad, ep.costo inscripcion, ep.costo_mat matricula, ep.fecha_inicio, ep.id id_ep
                 FROM mat_especialidades e
-                INNER JOIN (
-                    SELECT ep1.especialidad_id
-                    FROM mat_especialidades_programaciones ep1 
-                    WHERE ep1.tipo=2
-                    AND ep1.estado=1
-                    GROUP BY ep1.especialidad_id
-                ) ep_aux ON ep_aux.especialidad_id = e.id
+                INNER JOIN mat_especialidades_programaciones ep ON ep.especialidad_id = e.id AND ep.tipo=2 AND ep.estado=1
                 LEFT JOIN (
                 SELECT DISTINCT(md.especialidad_id) especialidad_id
                 FROM mat_matriculas_detalles md
@@ -190,15 +184,9 @@ class Especialidad extends Model
     public static function ListEspecialidadAlumno($r)
     {
         $empresa_id = Auth::user()->empresa_id;
-        $sql= " SELECT e.id, e.especialidad
+        $sql= " SELECT e.id, e.especialidad, ep.costo inscripcion, ep.costo_mat matricula, ep.fecha_inicio, ep.id id_ep
                 FROM mat_especialidades e
-                INNER JOIN (
-                    SELECT ep1.especialidad_id
-                    FROM mat_especialidades_programaciones ep1 
-                    WHERE ep1.tipo=2
-                    AND ep1.estado=1
-                    GROUP BY ep1.especialidad_id
-                ) ep_aux ON ep_aux.especialidad_id = e.id
+                INNER JOIN mat_especialidades_programaciones ep ON ep.especialidad_id = e.id AND ep.tipo=2 AND ep.estado=1
                 INNER JOIN (
                 SELECT DISTINCT(md.especialidad_id) especialidad_id
                 FROM mat_matriculas_detalles md
@@ -264,7 +252,7 @@ class Especialidad extends Model
                     ),function($join){
                     $join->on('mps.curso_id','=','mc.id');
                 })
-                ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','mep.costo'
+                ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','mep.costo','mep.costo_mat'
                 /*,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')*/
                 ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso ORDER BY mce.orden SEPARATOR "^^" ) cursos')
                 )
@@ -284,7 +272,7 @@ class Especialidad extends Model
                         }
                     }
                 })
-                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','mep.costo');
+                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','mep.costo','mep.costo_mat');
         $result = $sql->orderBy('me.especialidad','asc')->paginate(10);
         return $result;
     }

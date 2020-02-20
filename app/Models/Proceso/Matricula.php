@@ -76,11 +76,11 @@ class Matricula extends Model
         $matricula->persona_marketing_id = trim( $r->marketing_id );}
         $matricula->fecha_matricula = trim( $r->fecha );
         $matricula->tipo_matricula = trim( $r->tipo_matricula );
-        if($r->exonera_matricula!='on'){
-            if( trim( $r->nro_pago_matricula )!=''){
-            $matricula->nro_pago = trim( $r->nro_pago_matricula);}
-            if( trim( $r->monto_pago_matricula )!=''){
-            $matricula->monto_pago = trim( $r->monto_pago_matricula );}
+
+        if( trim( $r->nro_pago_matricula )!=''){
+            $matricula->nro_pago = trim( $r->nro_pago_matricula);
+            $matricula->monto_pago = trim( $r->monto_pago_matricula );
+            $matricula->tipo_pago_matricula = trim( $r->tipo_pago_matricula );
         }
 
         if( trim( $r->nro_pago_inscripcion )!=''){
@@ -129,7 +129,9 @@ class Matricula extends Model
                     $matricula->archivo_promocion=$url;
                     Menu::fileToFile($r->pago_archivo_promocion, $url);
                 }
-                
+            }
+
+            if( $r->has('dni_nombre') ){
                 if( trim($r->dni_nombre)!='' ){
                     $type=explode(".",$r->dni_nombre);
                     $extension=".".$type[1];
@@ -146,8 +148,13 @@ class Matricula extends Model
                 $matricula->especialidad_programacion_id= $especialidad_programacion_id[0];
             }
 
+            if( Input::has('especialidad_programacion_id2') ){
+                $especialidad_programacion_id= $r->especialidad_programacion_id2;
+                $matricula->especialidad_programacion_id= $especialidad_programacion_id;
+            }
+
             $matricula->save();
-            if( Input::has('especialidad_programacion_id') ){
+            if( Input::has('especialidad_programacion_id') OR Input::has('especialidad_programacion_id2') ){
                 /*********************** Se Agrega Saldos Inscripción ******************/
                 if( trim( $r->nro_pago_inscripcion )!='' ){
                     $programacionVal= DB::table('mat_especialidades_programaciones')
@@ -167,6 +174,33 @@ class Matricula extends Model
                         $mtsaldo->precio= $monto_precio;
                         $mtsaldo->pago= $r->monto_pago_inscripcion;
                         $mtsaldo->tipo_pago= $r->tipo_pago_inscripcion;
+                        $mtsaldo->persona_caja_id = $matricula->persona_caja_id;
+                        $mtsaldo->persona_id_created_at= Auth::user()->id;
+                        $mtsaldo->save();
+                    }
+                }
+                /****************************************************************/
+                /*********************** Se Agrega Saldos Matrícula ******************/
+                if( trim( $r->nro_pago_matricula )!='' ){
+                    $programacionVal= DB::table('mat_especialidades_programaciones')
+                                      ->find($matricula->especialidad_programacion_id);
+
+                    $monto_precio= $programacionVal->costo_mat*1;
+                    $monto_saldo= $programacionVal->costo_mat*1 - $r->monto_pago_matricula;
+                    if($monto_saldo<0){
+                        $monto_saldo=0;
+                    }
+                    if( $monto_saldo>0 ){
+                        $mtsaldo= new MatriculaSaldo;
+                        $mtsaldo->matricula_id= $matricula->id;
+                        $mtsaldo->nro_pago= $matricula->nro_pago;
+                        $mtsaldo->archivo= $matricula->archivo_pago;
+                        $mtsaldo->cuota= 0;
+                        $mtsaldo->saldo= $monto_saldo;
+                        $mtsaldo->precio= $monto_precio;
+                        $mtsaldo->pago= $r->monto_pago_matricula;
+                        $mtsaldo->tipo_pago= $r->tipo_pago_matricula;
+                        $mtsaldo->persona_caja_id = $matricula->persona_caja_id;
                         $mtsaldo->persona_id_created_at= Auth::user()->id;
                         $mtsaldo->save();
                     }
@@ -332,6 +366,7 @@ class Matricula extends Model
                     $mtsaldo->precio= $monto_precio;
                     $mtsaldo->pago= $monto_pago_certificado[$i];
                     $mtsaldo->tipo_pago= $tipo_pago[$i];
+                    $mtsaldo->persona_caja_id = $matricula->persona_caja_id;
                     $mtsaldo->persona_id_created_at= Auth::user()->id;
                     $mtsaldo->save();
                 }
@@ -364,6 +399,7 @@ class Matricula extends Model
                         Menu::fileToFile($pago_archivo_cuota[$i], $url);
                     }
                     $matriculaCuotas->persona_id_created_at=Auth::user()->id;
+                    $matriculaCuotas->persona_caja_id=$matricula->persona_caja_id;
                     $matriculaCuotas->save();
                     /*********************** Se Agrega Saldos ******************/
                     $programacionVal= DB::table('mat_especialidades_programaciones_cronogramas')
@@ -387,6 +423,7 @@ class Matricula extends Model
                         $mtsaldo->precio= $monto_precio;
                         $mtsaldo->pago= $monto_cuota[$i];
                         $mtsaldo->tipo_pago= $tipo_pago_cuota[$i];
+                        $mtsaldo->persona_caja_id = $matricula->persona_caja_id;
                         $mtsaldo->persona_id_created_at= Auth::user()->id;
                         $mtsaldo->save();
                     }

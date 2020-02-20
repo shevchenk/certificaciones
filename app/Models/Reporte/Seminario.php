@@ -1532,10 +1532,10 @@ class Seminario extends Model
                 ,su3.sucursal local_estudio , DATE(pro.fecha_inicio) fecha_inicio, pro.dia frecuencia
                 ,CONCAT(DATE_FORMAT(pro.fecha_inicio,'%H:%i'),' - ', DATE_FORMAT(pro.fecha_final,'%H:%i')) horario
                 ,'' semestre, '' cop_dni, '' fotos, '' cert_est, '' ddjj, '' seguro
-                ,ep.costo inscripcion, '' matricula, SUBSTRING_INDEX(ep.nro_cuota,'-',1) escala, SUBSTRING_INDEX(ep.nro_cuota,'-',-1) pension 
+                ,ep.costo inscripcion, ep.costo_mat matricula, SUBSTRING_INDEX(ep.nro_cuota,'-',1) escala, SUBSTRING_INDEX(ep.nro_cuota,'-',-1) pension 
                 ,'INSCRIPCIÓN', b1.banco, m.nro_pago_inscripcion, m.fecha_matricula fecha_pago_inscripcion, m.monto_pago_inscripcion
                 ,'MATRÍCULA'
-                    ,'' tipo_mat,'' nro_mat,'' fecha_mat,'' importe_mat
+                    ,b5.banco tipo_mat,m.nro_pago nro_mat,m.fecha_matricula fecha_mat,m.monto_pago importe_mat
                 ,'PENSIÓN'
                     ,IF(m.monto_promocion>0, b2.banco,
                         IF(SUBSTRING_INDEX(md.id,'|',1)*1>0,b3.banco,b4.banco)
@@ -1592,6 +1592,7 @@ class Seminario extends Model
                 LEFT JOIN bancos b3 ON b3.id_banco=md2.tipo_pago
                 LEFT JOIN mat_matriculas_cuotas mc ON mc.matricula_id=m.id AND mc.cuota=1 AND mc.estado=1
                 LEFT JOIN bancos b4 ON b4.id_banco=mc.tipo_pago_cuota
+                LEFT JOIN bancos b5 ON b5.id_banco=m.tipo_pago_matricula
                 WHERE m.estado=1 ";
 
                     if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
