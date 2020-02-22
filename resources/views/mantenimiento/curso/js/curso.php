@@ -34,6 +34,7 @@ $(document).ready(function() {
         $('#ModalCursoForm #txt_hora').val( CursoG.hora );
         $('#ModalCursoForm #txt_credito').val( CursoG.credito );
         $('#ModalCursoForm #slct_tipo_curso').selectpicker( 'val',CursoG.tipo_curso );
+        $('#ModalCursoForm #slct_tipo_inicio_curso').selectpicker( 'val',CursoG.tipo_inicio_curso );
         $('#ModalCursoForm #slct_estado').selectpicker( 'val',CursoG.estado );
         
         $('#ModalCursoForm #txt_curso').focus();
@@ -50,7 +51,7 @@ ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalCursoForm #txt_curso").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Seminario',4000);
+        msjG.mensaje('warning','Ingrese Inicio / Curso',4000);
     }
     else if( $.trim( $("#ModalCursoForm #txt_certificado_curso").val() )=='' ){
         r=false;
@@ -64,6 +65,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese los créditos a obtener',4000);
     }
+    else if( $.trim( $("#ModalCursoForm #slct_tipo_inicio_curso").val() )=='0' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione tipo Inicio / Curso',4000);
+    }
     return r;
 }
 
@@ -76,6 +81,7 @@ AgregarEditar=function(val,id){
     CursoG.hora='0';
     CursoG.credito='0';
     CursoG.tipo_curso='1';
+    CursoG.tipo_inicio_curso='0';
     CursoG.estado='1';
     if( val==0 ){
         CursoG.id=id;
@@ -83,6 +89,7 @@ AgregarEditar=function(val,id){
         CursoG.certificado_curso=$("#TableCurso #trid_"+id+" .certificado_curso").text();
         CursoG.curso_apocope=$("#TableCurso #trid_"+id+" .curso_apocope").text();
         CursoG.tipo_curso=$("#TableCurso #trid_"+id+" .tipo_curso").val();
+        CursoG.tipo_inicio_curso=$("#TableCurso #trid_"+id+" .tipo_inicio_curso").val();
         CursoG.estado=$("#TableCurso #trid_"+id+" .estado").val();
         CursoG.hora=$("#TableCurso #trid_"+id+" .hora").text();
         CursoG.credito=$("#TableCurso #trid_"+id+" .credito").text();
@@ -127,6 +134,10 @@ HTMLCargarCurso=function(result){ //INICIO HTML
         if(r.estado==1){
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }
+        tipo_inicio_curso='Curso';
+        if( r.tipo_inicio_curso==1 ){
+            tipo_inicio_curso='Inicio';
+        }
 
         html+="<tr id='trid_"+r.id+"'>"+
             "<td class='curso'>"+r.curso+"</td>"+
@@ -134,9 +145,10 @@ HTMLCargarCurso=function(result){ //INICIO HTML
             "<td class='curso_apocope'>"+r.curso_apocope+"</td>"+
             "<td class='hora'>"+r.hora+"</td>"+
             "<td class='credito'>"+r.credito+"</td>"+
-
+            "<td>"+tipo_inicio_curso+"</td>"+
             "<td>"+
             "<input type='hidden' class='tipo_curso' value='"+r.tc+"'>"+
+            "<input type='hidden' class='tipo_inicio_curso' value='"+r.tipo_inicio_curso+"'>"+
             "<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+
             "</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';

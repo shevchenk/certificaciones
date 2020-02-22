@@ -16,7 +16,7 @@ class Curso extends Model
     {
 
         $sql=Curso::select('id','curso','certificado_curso','curso_apocope'
-            ,'tipo_curso as tc','hora','credito',
+            ,'tipo_curso as tc','hora','credito','tipo_inicio_curso',
         	DB::raw('
         		CASE tipo_curso
         		WHEN "1" THEN "Curso"
@@ -51,6 +51,12 @@ class Curso extends Model
                             $query->where('tipo_curso','like',$tipo_curso.'%');
                         }
                     }
+                    if( $r->has("tipo_inicio_curso") ){
+                        $tipo_inicio_curso=trim($r->tipo_inicio_curso);
+                        if( $tipo_inicio_curso !='' ){
+                            $query->where('tipo_inicio_curso','=',$tipo_inicio_curso);
+                        }
+                    }
                     if( $r->has("estado") ){
                         $estado=trim($r->estado);
                         if( $estado !='' ){
@@ -82,6 +88,9 @@ class Curso extends Model
         $curso->curso = trim( $r->curso );
         $curso->certificado_curso = trim( $r->certificado_curso );
         $curso->tipo_curso = trim( $r->tipo_curso );
+        if( $r->has('tipo_inicio_curso') ){
+            $curso->tipo_inicio_curso = trim( $r->tipo_inicio_curso );
+        }
         $curso->curso_apocope = trim( $r->curso_apocope );
         if( $r->has('hora') ){
             $curso->hora = trim( $r->hora );
@@ -101,6 +110,9 @@ class Curso extends Model
         $curso->curso = trim( $r->curso );
         $curso->certificado_curso = trim( $r->certificado_curso );
         $curso->tipo_curso = trim( $r->tipo_curso );
+        if( $r->has('tipo_inicio_curso') ){
+            $curso->tipo_inicio_curso = trim( $r->tipo_inicio_curso );
+        }
         $curso->curso_apocope = trim( $r->curso_apocope );
         if( $r->has('hora') ){
             $curso->hora = trim( $r->hora );

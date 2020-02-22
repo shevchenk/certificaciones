@@ -16,7 +16,7 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Curso
+    <h1>Inicio / Curso
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
@@ -37,7 +37,7 @@
 
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Curso:</h4></label>
+                                            <label><h4>Inicio / Curso:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Buscar Curso" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
@@ -55,7 +55,7 @@
                                     </th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Curso Apocope:</h4></label>
+                                            <label><h4>Inicio / Curso Apocope:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
                                                 <input type="text" class="form-control" name="txt_curso_apocope" id="txt_curso_apocope" placeholder="Buscar Curso Apocope" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
@@ -70,6 +70,18 @@
                                     <th class="col-xs-2">
                                         <div class="form-group">
                                             <label><h4>Crédito:</h4></label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Tipo Inicio / Curso:</h4></label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="slct_tipo_inicio_curso" id="slct_tipo_inicio_curso">
+                                                    <option value='' selected>.::Todo::.</option>
+                                                    <option value='1'>Inicio</option>
+                                                    <option value='2'>Curso</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
@@ -91,11 +103,12 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Curso</th>
+                                  <th>Inicio / Curso</th>
                                   <th>Certificado Curso</th>
                                   <th>Curso Apocope</th>
                                   <th>Hora</th>
                                   <th>Crédito</th>
+                                  <th>Tipo Inicio / Curso</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

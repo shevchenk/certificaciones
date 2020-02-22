@@ -4,7 +4,7 @@
         <div class="modal-header btn-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title">Curso</h4>
+           <h4 class="modal-title">Iniciao / Curso</h4>
         </div>
         <div class="modal-body"><!-- INICIO BODY-->
             <form id="ModalCursoForm" name="ModalCursoForm"><!-- INICIO FORM-->
@@ -13,7 +13,7 @@
 
                 <div class="col-md-12"><!-- INICIO CLASS 12 -->       
                   <div class="col-md-6">       
-                    <label>Curso</label>
+                    <label>Inicio / Curso</label>
                     <input type="text" class="form-control" id="txt_curso" name="txt_curso" placeholder="Curso">
                   </div>
 
@@ -57,7 +57,17 @@
                         </select>     
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
+                      <br>
+                      <label>Tipo Inicio / Curso</label>
+                        <select class="form-control selectpicker show-menu-arrow" data-live-search="true" name="slct_tipo_inicio_curso" id="slct_tipo_inicio_curso">
+                          <option value="0" selected>.::Seleccione::.</option>
+                          <option value='1'>Inicio</option>
+                          <option value='2'>Curso</option>
+                        </select>     
+                  </div>
+
+                  <div class="col-md-3" style="display: none;">
                   <br>    
                       <label>Estado</label>
                         <select class="form-control" name="slct_estado" id="slct_estado">
