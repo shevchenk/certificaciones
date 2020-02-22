@@ -4,14 +4,14 @@
         <div class="modal-header btn-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Especialidad - Programación</h4>
+          <h4 class="modal-title">Programación de Pagos - <span id="subtitulo2"></span></h4>
         </div>
         <div class="modal-body"><!-- INICIO BODY-->
             <form id="ModalEspecialidadProgramacionForm"><!-- INICIO FORM-->
           <fieldset>
             <div class="form-group"><!-- INICIO FORM GROUP-->
               <div class="col-md-12">
-                <label>Especialidad:</label>
+                <label>Carrera / Módulo:</label>
                 <select class="form-control" id="slct_especialidad_id" name="slct_especialidad_id"></select>
               </div>
               <div class="col-md-12">
@@ -24,12 +24,12 @@
                   </select>
                 </div>
                 <div class="col-md-6">
-                  <label>Odes:</label>
+                  <label>Odes a aplicar estos pagos:</label>
                   <select class="form-control selectpicker show-menu-arrow" multiple data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple id="slct_sucursal_id" name="slct_sucursal_id[]"></select>
                 </div>
               </div>
               <div class="col-md-12">
-                <div class="col-md-4">
+                <div class="col-md-4" style="display: none;">
                   <label>Fecha de Inicio:</label>
                   <input type="text" class="form-control fecha" id="txt_fecha_inicio" name="txt_fecha_inicio" placeholder="YYYY-MM-DD">
                 </div>
@@ -51,7 +51,7 @@
           <br><br>
           <fieldset>
             <div class="form-group validatipo">
-              <legend>Programación del Cronograma</legend>
+              <legend>Cronograma de Pagos</legend>
               <div class="col-md-12">  
                 <div class="col-md-4">
                     <label>Escala:</label>

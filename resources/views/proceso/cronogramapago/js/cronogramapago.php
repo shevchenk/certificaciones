@@ -6,6 +6,7 @@ especialidad:"",
 estado:1}; // Datos Globales
 var hoyG='<?php echo date("Y-m-d"); ?>'
 $(document).ready(function() {
+    $("#subtitulo,#subtitulo2").text( $("#EmpresaUsuarioGlobal option:selected").text() );
     $("#TableEspecialidad").DataTable({
         "paging": true,
         "lengthChange": false,
@@ -59,7 +60,7 @@ $(document).ready(function() {
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalEspecialidadProgramacionForm").append("<input type='hidden' value='"+EPG.id+"' name='id'>");
             AjaxEspecialidadProgramacion.CargarCronograma(HTMLCargarCronograma,EPG.id);
-            $('#ModalEspecialidadProgramacionForm #fecha_inicio').focus();
+            $('#ModalEspecialidadProgramacionForm #txt_costo').focus();
         }
     });
 
@@ -86,10 +87,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Tipo de Programación',4000);
     }
-    else if( $.trim( $("#ModalEspecialidadProgramacionForm #txt_fecha_inicio").val() )=='' ){
+    /*else if( $.trim( $("#ModalEspecialidadProgramacionForm #txt_fecha_inicio").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Fecha de Inicio',4000);
-    }
+    }*/
     else if( $.trim( $("#ModalEspecialidadProgramacionForm #txt_costo").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Costo Inscripción',4000);
@@ -125,7 +126,7 @@ AgregarEditar=function(val,id){
         EPG.id=id;
         EPG.especialidad_id=$("#TableEspecialidad #trid_"+id+" .especialidad_id").val();
         EPG.sucursal_id=$("#TableEspecialidad #trid_"+id+" .sucursal_id").val();
-        EPG.fecha_inicio=$("#TableEspecialidad #trid_"+id+" .fecha_inicio").text();
+        //EPG.fecha_inicio=$("#TableEspecialidad #trid_"+id+" .fecha_inicio").text();
         EPG.tipo=$("#TableEspecialidad #trid_"+id+" .tipo").val();
         EPG.nro_cuota=$("#TableEspecialidad #trid_"+id+" .nro_cuota").val();
         EPG.cronograma=$("#TableEspecialidad #trid_"+id+" .cronograma").text();
@@ -252,7 +253,6 @@ HTMLCargar=function(result){ //INICIO HTML
             "<td>"+ tipo +"</td>"+
             "<td class='sucursal'><ul><li>"+$.trim(r.sucursal).split("|").join("</li><li>")+"</li></ul></td>"+
             //"<td class='codigo_inicio'>"+r.codigo_inicio+"</td>"+
-            "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
             "<td>"+nro_cuota+"</td>"+
             "<td>"+cronograma+"</td>"+
             "<td>"+

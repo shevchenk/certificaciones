@@ -20,11 +20,11 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Programación de Especialidad
+    <h1>Programación de Pagos - <span id="subtitulo"></span>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Programación</a></li>
-        <li class="active">Especialidad</li>
+        <li class="active">Pago</li>
     </ol>
 </section>
 
@@ -39,9 +39,9 @@
                                 <tr class="cabecera">
                                     <th class="col-xs-2" style="width:20% !important;">
                                         <div class="form-group">
-                                            <label><h4>Especialidad:</h4></label>
+                                            <label><h4>Carrera / Módulo:</h4></label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Especialidad" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_inicio',1);">
+                                                <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Carrera / Módulo" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_inicio',1);">
                                             </div>
                                         </div>
                                     </th>
@@ -59,20 +59,7 @@
                                     </th>
                                     <th class="col-xs-6" style="width:15% !important;">
                                         <div class="form-group">
-                                            <label><h4>Odes:</h4></label>
-                                        </div>
-                                    </th>
-                                    <!--th class="col-xs-6" style="width:5% !important;">
-                                        <div class="form-group">
-                                            <label><h4>Código Inicio:</h4></label>
-                                        </div>
-                                    </th-->
-                                    <th class="col-xs-6" style="width:10% !important;">
-                                        <div class="form-group">
-                                            <label><h4>Fecha Inicio:</h4></label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" placeholder="Fecha Inicio" onkeypress="return masterG.enterGlobal(event,'#txt_especialidad',1);">
-                                            </div>
+                                            <label><h4>Odes a aplicar estos pagos:</h4></label>
                                         </div>
                                     </th>
                                     <th class="col-xs-2" style="width:10% !important;">
@@ -107,11 +94,9 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Especialidad</th>
+                                  <th>Carrera / Módulo</th>
                                   <th>Tipo de Programación</th>
-                                  <th>Odes</th>
-                                  <!--th>Código de Inicio</th-->
-                                  <th>Fecha de Inicio</th>
+                                  <th>Odes a aplicar estos pagos</th>
                                   <th>Escala</th>
                                   <th>Cronograma</th>
                                   <th>Estado</th>

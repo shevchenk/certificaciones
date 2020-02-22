@@ -19,7 +19,7 @@
                 <a class="dropdown-toggle">
                 @php $empresa_id=Auth::user()->empresa_id; @endphp
                 <label>Empresa:&nbsp;</label>
-                <select onchange="ActualizarEmpresaG(this.value);">
+                <select id="EmpresaUsuarioGlobal" onchange="ActualizarEmpresaG(this.value);">
                     @foreach ( $empresas as $key => $val)
                         @php $selected=''; @endphp
                         @if ( $val->empresa_id==$empresa_id )
