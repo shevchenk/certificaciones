@@ -4,13 +4,27 @@
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Programación</h4>
+                <h4 class="modal-title">Programación de Inicios / Cursos</h4>
             </div>
             <div class="modal-body">
                 <form id="ModalProgramacionForm">
                     <div class="col-md-12">
-                        <label>Docente</label>
+                        <div class="form-group">
+                            <label id="label_curso">Inicio / Curso</label>
+                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_curso_id" name="slct_curso_id" onchange="ValidaCurso(this.value);">
+                                <option value="0">.::Seleccione::.</option>
+                            </select>
+                        </div> 
                     </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>ODE</label>
+                            <select  class="form-control selectpicker show-menu-arrow" multiple data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple id="slct_sucursal_id" name="slct_sucursal_id[]" onchange="ValidaOde(this.value);">
+                            </select>
+                        </div> 
+                    </div>
+                    <div class="col-md-12">
+                        <label>Docente</label>
                         <div class="input-group margin">
                             <input type="hidden" class="form-control mant" id="txt_docente_id" name="txt_docente_id" readOnly="">
                             <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control mant" readonly="">
@@ -19,21 +33,6 @@
                                 <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListadocente" data-personaid="ModalProgramacionForm #txt_persona_id" data-docenteid="ModalProgramacionForm #txt_docente_id" data-docente="ModalProgramacionForm #txt_docente">Buscar</button>
                             </span>
                         </div>           
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>ODE</label>
-                            <select  class="form-control selectpicker show-menu-arrow" onchange="ValidaOde(this.value);" data-live-search="true" id="slct_sucursal_id" name="slct_sucursal_id">
-                                <option value="0">.::Seleccione::.</option>
-                            </select>
-                        </div> 
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label id="label_curso">Curso</label>
-                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_curso_id" name="slct_curso_id">
-                                <option value="0">.::Seleccione::.</option>
-                            </select>
-                        </div> 
                     </div>
                     <div class="col-md-3 txt_aula validaode">
                         <div class="form-group">
@@ -99,7 +98,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Costo</label>
+                            <label>Costo del Curso</label>
                             <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo" name="txt_costo" value="0">
                         </div>
                     </div>
@@ -114,16 +113,53 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display: none;">
                         <div class="form-group">
                             <label>Inscripción:</label>
                             <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo_ins" name="txt_costo_ins" value="0">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display: none;">
                         <div class="form-group">
                             <label>Matrícula:</label>
                             <input type="text" onkeypress="return masterG.validaDecimal(event, this);" onkeyup="return masterG.DecimalMax(this,2);" class="form-control" id="txt_costo_mat" name="txt_costo_mat" value="0">
+                        </div>
+                    </div>
+                    <div class="col-md-12 validasemestre" style="display: none;">
+                        <div class="form-group">
+                            <fieldset>
+                            <legend>Semestre Académico</legend>
+                            <div class="col-md-4">
+                            <select class="form-control selectpicker" name="slct_anio" id="slct_anio">
+                                <option value='' selected>.::Seleccione::.</option>
+                                <?php
+                                $hoy=date("Y");
+                                for ($i=($hoy-4); $i <= ($hoy+4) ; $i++) { 
+                                    echo "<option value='".$i."'>".$i."</option>";
+                                }
+                                ?>
+                            </select>
+                            </div>
+                            <div class="col-md-4">
+                            <select class="form-control selectpicker" name="slct_anio1" id="slct_anio1">
+                                <option value='' selected>.::Seleccione::.</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                            </select>
+                            </div>
+                            <div class="col-md-4">
+                            <select class="form-control selectpicker" name="slct_anio2" id="slct_anio2">
+                                <option value='' selected>.::Seleccione::.</option>
+                                <?php
+                                for ($i=0; $i <= 25 ; $i++) { 
+                                    echo "<option value='".chr(65+$i)."'>".chr(65+$i)."</option>";
+                                }
+                                ?>
+                            </select>
+                            </div>
+                            </fieldset>
                         </div>
                     </div>
                     <div class="col-md-12 txt_link">

@@ -57,6 +57,11 @@
                                             </div>
                                         </div>
                                     </th>
+                                    <th class="col-xs-1" style="width:15% !important;">
+                                        <div class="form-group">
+                                            <label><h4>Costos de Matrícula e Inscripción:</h4></label>
+                                        </div>
+                                    </th>
                                     <th class="col-xs-6" style="width:15% !important;">
                                         <div class="form-group">
                                             <label><h4>Odes a aplicar estos pagos:</h4></label>
@@ -96,6 +101,7 @@
                                 <tr class="cabecera">
                                   <th>Carrera / Módulo</th>
                                   <th>Tipo de Programación</th>
+                                  <th>Costos de Matrícula e Inscripción</th>
                                   <th>Odes a aplicar estos pagos</th>
                                   <th>Escala</th>
                                   <th>Cronograma</th>

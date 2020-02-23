@@ -58,12 +58,14 @@ $(document).ready(function() {
     
     $('#ModalProgramacion').on('shown.bs.modal', function (event) {
         $('#ModalProgramacionForm .txt_link').css( "display","none" );
+        $('#ModalProgramacionForm #slct_curso_id, #ModalProgramacionForm #slct_sucursal_id').removeAttr( 'disabled' );
         if( AddEdit==1 ){        
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
         }
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalProgramacionForm").append("<input type='hidden' value='"+ProgramacionG.id+"' name='id'>");
+            $('#ModalProgramacionForm #slct_curso_id, #ModalProgramacionForm #slct_sucursal_id').attr( 'disabled','true' );
         }
         var dia = ProgramacionG.dia.split(",");
         $('#ModalProgramacionForm #txt_docente').val( ProgramacionG.persona );
@@ -71,6 +73,7 @@ $(document).ready(function() {
         $('#ModalProgramacionForm #txt_persona_id').val( ProgramacionG.persona_id );
         $('#ModalProgramacionForm #slct_sucursal_id').selectpicker('val', ProgramacionG.sucursal_id );
         $('#ModalProgramacionForm #slct_curso_id').selectpicker( 'val',ProgramacionG.curso_id );
+        ValidaCurso(ProgramacionG.curso_id);
         $('#ModalProgramacionForm #txt_aula').val( ProgramacionG.aula );
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',dia);
         $('#ModalProgramacionForm #slct_turno').selectpicker('val',ProgramacionG.turno);
@@ -85,6 +88,12 @@ $(document).ready(function() {
         $('#ModalProgramacionForm #txt_costo_ins').val( ProgramacionG.costo_ins );
         $('#ModalProgramacionForm #txt_costo_mat').val( ProgramacionG.costo_mat );
         $('#ModalProgramacionForm #slct_estado').selectpicker( 'val',ProgramacionG.estado );
+        console.log(ProgramacionG.semestre);
+        if( ProgramacionG.semestre!='' ){
+            $('#ModalProgramacionForm #slct_anio').selectpicker( 'val',ProgramacionG.semestre.substr(0, 4) );
+            $('#ModalProgramacionForm #slct_anio1').selectpicker( 'val',ProgramacionG.semestre.substr(5, 1) );
+            $('#ModalProgramacionForm #slct_anio2').selectpicker( 'val',ProgramacionG.semestre.substr(7, 1) );
+        }
         ValidaOde(ProgramacionG.sucursal_id);
         $('#ModalProgramacionForm #slct_docente_id').focus();
     });
@@ -108,19 +117,38 @@ ValidaOde=function(v){
     }
 }
 
+ValidaCurso=function(v){
+    //$("#ModalProgramacion #txt_costo").val("0");
+    $("#ModalProgramacion #slct_anio,#ModalProgramacion #slct_anio1,#ModalProgramacion #slct_anio2").val("");
+    $("#ModalProgramacion #slct_anio,#ModalProgramacion #slct_anio1,#ModalProgramacion #slct_anio2").selectpicker("refresh");
+
+    $("#ModalProgramacionForm .validacosto").css("display",'none');
+    $("#ModalProgramacionForm .validasemestre").css("display",'none');
+    if( v!=0 ){
+        $("#ModalProgramacionForm .validacosto").css("display",'block');
+        $("#ModalProgramacionForm .validasemestre").css("display",'none');
+        datatipo = $("#ModalProgramacion #slct_curso_id option:selected").attr("data-tipo");
+        if( datatipo==1 ){
+            $("#ModalProgramacionForm .validasemestre").css("display",'block');
+            $("#ModalProgramacionForm .validacosto").css("display",'none');
+        }
+    }
+}
+
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalProgramacionForm #txt_docente_id").val() )=='' ){
+    var tipo = $("#ModalProgramacion #slct_curso_id option:selected").attr("data-tipo");
+    if( $.trim( $("#ModalProgramacionForm #slct_curso_id").val() )=='0' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Docente',4000);
+        msjG.mensaje('warning','Seleccione Curso',4000);
     }
-    else if( $.trim( $("#ModalProgramacionForm #slct_sucursal_id").val() )=='0' ){
+    else if( $.trim( $("#ModalProgramacionForm #slct_sucursal_id").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione ODE',4000);
     }
-    else if( $.trim( $("#ModalProgramacionForm #slct_curso_id").val() )=='0' ){
+    else if( $.trim( $("#ModalProgramacionForm #txt_docente_id").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Curso',4000);
+        msjG.mensaje('warning','Seleccione Docente',4000);
     }
     /*
     else if( $.trim( $("#ModalProgramacionForm #txt_aula").val() )=='' ){
@@ -130,7 +158,15 @@ ValidaForm=function(){
     */
     else if( $.trim( $("#ModalProgramacionForm #slct_dia").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Seleccione Días',4000);
+        msjG.mensaje('warning','Seleccione Frencuencia',4000);
+    }
+    else if( $.trim( $("#ModalProgramacionForm #txt_hora_inicio").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Hora de Inicio',4000);
+    }
+    else if( $.trim( $("#ModalProgramacionForm #txt_hora_final").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Hora Final',4000);
     }
     else if( $.trim( $("#ModalProgramacionForm #txt_fecha_inicio").val() )=='' ){
         r=false;
@@ -148,14 +184,18 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Costo',4000);
     }
-    else if( $.trim( $("#ModalProgramacionForm #txt_costo_ins").val() )=='' ){
+    else if( tipo==1 && ($.trim( $("#ModalProgramacionForm #slct_anio").val() )=='' || $.trim( $("#ModalProgramacionForm #slct_anio1").val() )=='' || $.trim( $("#ModalProgramacionForm #slct_anio2").val() )=='') ){
+        r=false;
+        msjG.mensaje('warning','Seleccione todos los datos del semestre',4000);
+    }
+    /*else if( $.trim( $("#ModalProgramacionForm #txt_costo_ins").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Costo Inscripción',4000);
     }
     else if( $.trim( $("#ModalProgramacionForm #txt_costo_mat").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Costo Matrícula',4000);
-    }
+    }*/
     return r;
 }
 
@@ -175,6 +215,7 @@ AgregarEditar=function(val,id){
     ProgramacionG.fecha_campaña='';
     ProgramacionG.meta_max='';
     ProgramacionG.meta_min='';
+    ProgramacionG.semestre='';
     ProgramacionG.costo='0';
     ProgramacionG.costo_ins='0';
     ProgramacionG.costo_mat='0';
@@ -189,14 +230,15 @@ AgregarEditar=function(val,id){
         ProgramacionG.aula=$("#TableProgramacion #trid_"+id+" .aula").text();
         ProgramacionG.dia=$("#TableProgramacion #trid_"+id+" .dia").val();
         ProgramacionG.turno=$("#TableProgramacion #trid_"+id+" .turno").val();
-        ProgramacionG.fecha_inicio=$("#TableProgramacion #trid_"+id+" .fecha_inicio").text();
-        ProgramacionG.fecha_final=$("#TableProgramacion #trid_"+id+" .fecha_final").text();
+        ProgramacionG.fecha_inicio=$("#TableProgramacion #trid_"+id+" .fecha_inicio").val();
+        ProgramacionG.fecha_final=$("#TableProgramacion #trid_"+id+" .fecha_final").val();
         ProgramacionG.fecha_campaña=$("#TableProgramacion #trid_"+id+" .fecha_campaña").text();
         ProgramacionG.meta_max=$("#TableProgramacion #trid_"+id+" .meta_max").val();
         ProgramacionG.meta_min=$("#TableProgramacion #trid_"+id+" .meta_min").val();
         ProgramacionG.costo=$("#TableProgramacion #trid_"+id+" .costo").val();
-        ProgramacionG.costo_ins=$("#TableProgramacion #trid_"+id+" .costo_ins").val();
-        ProgramacionG.costo_mat=$("#TableProgramacion #trid_"+id+" .costo_mat").val();
+        ProgramacionG.semestre=$("#TableProgramacion #trid_"+id+" .semestre").val();
+        /*ProgramacionG.costo_ins=$("#TableProgramacion #trid_"+id+" .costo_ins").val();
+        ProgramacionG.costo_mat=$("#TableProgramacion #trid_"+id+" .costo_mat").val();*/
         ProgramacionG.estado=$("#TableProgramacion #trid_"+id+" .estado").val();
     }
     $('#ModalProgramacion').modal('show');
@@ -238,16 +280,23 @@ HTMLCargarProgramacion=function(result){
         if(r.estado==1){
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+')" class="btn btn-success">Activo</span>';
         }
+        tipo_inicio_curso = " - Curso";
+        if( r.tipo_inicio_curso==1 ){
+            tipo_inicio_curso = " - Inicio";
+        }
 
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td class='curso'>"+r.curso+tipo_inicio_curso+"</td>"+
             "<td class='persona'>"+r.persona+"</td>"+
             "<td class='sucursal'>"+r.sucursal+"</td>"+
-            "<td class='curso'>"+r.curso+"</td>"+
             "<td class='aula'>"+r.aula+"</td>"+
             "<td class='turnos'>"+r.turno+"</td>"+
             "<td class='dias'>"+r.dia+"</td>"+
-            "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
-            "<td class='fecha_final'>"+r.fecha_final+"</td>"+
+            "<td>"+r.fecha_inicio.split(" ")[0]+"</td>"+
+            "<td>"+r.fecha_final.split(" ")[0]+"</td>"+
+            "<td>"+r.fecha_inicio.split(" ")[1]+"</td>"+
+            "<td>"+r.fecha_final.split(" ")[1]+"</td>"+
+            "<td>"+r.semestre+"</td>"+
             "<td class='fecha_campaña'>"+r.fecha_campaña+"</td>"+
             "<td>"+
             "<input type='hidden' class='meta_max' value='"+r.meta_max+"'>"+
@@ -260,6 +309,9 @@ HTMLCargarProgramacion=function(result){
             "<input type='hidden' class='costo' value='"+r.costo+"'>"+
             "<input type='hidden' class='costo_ins' value='"+r.costo_ins+"'>"+
             "<input type='hidden' class='costo_mat' value='"+r.costo_mat+"'>"+
+            "<input type='hidden' class='fecha_inicio' value='"+r.fecha_inicio+"'>"+
+            "<input type='hidden' class='fecha_final' value='"+r.fecha_final+"'>"+
+            "<input type='hidden' class='semestre' value='"+r.semestre+"'>"+
             "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
@@ -299,7 +351,7 @@ CargarSlct=function(slct){
 }
 
 SlctCargarSucursal1=function(result){
-    var html="<option value='0'>.::Seleccione::.</option>";
+    var html="";
     $.each(result.data,function(index,r){
         html+="<option value="+r.id+">"+r.sucursal+"</option>";
     });
@@ -311,7 +363,11 @@ SlctCargarSucursal1=function(result){
 SlctCargarCurso=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
     $.each(result.data,function(index,r){
-        html+="<option value="+r.id+">"+r.curso+"</option>";
+        tipo_inicio_curso = " - Curso";
+        if( r.tipo_inicio_curso==1 ){
+            tipo_inicio_curso = " - Inicio";
+        }
+        html+="<option data-tipo='"+r.tipo_inicio_curso+"' value="+r.id+">"+r.curso+tipo_inicio_curso+"</option>";
     });
     $("#ModalProgramacion #slct_curso_id").html(html); 
     $("#ModalProgramacion #slct_curso_id").selectpicker('refresh');

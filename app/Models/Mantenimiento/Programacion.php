@@ -21,48 +21,105 @@ class Programacion extends Model
 
     public static function runNew($r)
     {
-        $sucursal = new Programacion; 
-        $sucursal->persona_id = trim( $r->persona_id);
-        $sucursal->docente_id = trim( $r->docente_id );
-        $sucursal->curso_id = trim( $r->curso_id);
-        $sucursal->sucursal_id = trim( $r->sucursal_id );
-        $sucursal->aula = trim( $r->aula );
-        $sucursal->turno = trim( $r->turno );
-        if( $r->has('dia') AND count($r->dia)>0 ){
-            $dia=implode(",", $r->dia);
-            $sucursal->dia = trim( $dia );
-        }
-        $sucursal->fecha_inicio = trim( $r->fecha_inicio );
-        $sucursal->fecha_final = trim( $r->fecha_final );
+        $sucursal_id = $r->sucursal_id;
+        if( is_array($sucursal_id) ){
+            for ($i=0; $i < count($sucursal_id) ; $i++) { 
+                $sucursal = new Programacion; 
+                $sucursal->persona_id = trim( $r->persona_id);
+                $sucursal->docente_id = trim( $r->docente_id );
+                $sucursal->curso_id = trim( $r->curso_id);
+                $sucursal->sucursal_id = $sucursal_id[$i];
+                $sucursal->aula = trim( $r->aula );
+                $sucursal->turno = trim( $r->turno );
+                if( $r->has('dia') AND count($r->dia)>0 ){
+                    $dia=implode(",", $r->dia);
+                    $sucursal->dia = trim( $dia );
+                }
+                $sucursal->fecha_inicio = trim( $r->fecha_inicio );
+                $sucursal->fecha_final = trim( $r->fecha_final );
 
-        if( $r->has('hora_inicio') ){
-            $sucursal->fecha_inicio = trim( $r->fecha_inicio )." ".trim( $r->hora_inicio );
-            $sucursal->fecha_final = trim( $r->fecha_final )." ".trim( $r->hora_final );
-        }
+                if( $r->has('hora_inicio') ){
+                    $sucursal->fecha_inicio = trim( $r->fecha_inicio )." ".trim( $r->hora_inicio );
+                    $sucursal->fecha_final = trim( $r->fecha_final )." ".trim( $r->hora_final );
+                }
 
-        if( !$r->has('fecha_campaña') ){
-            $r->fecha_campaña=date("Y-m-d",strtotime($r->fecha_inicio));
-        }
-        $sucursal->fecha_campaña = $r->fecha_campaña;
+                if( !$r->has('fecha_campaña') ){
+                    $r->fecha_campaña=date("Y-m-d",strtotime($r->fecha_inicio));
+                }
+                $sucursal->fecha_campaña = $r->fecha_campaña;
 
-        if( $r->has('meta_max') AND $r->meta_max!='' ){
-            $sucursal->meta_max = trim( $r->meta_max );
-        }
+                if( $r->has('meta_max') AND $r->meta_max!='' ){
+                    $sucursal->meta_max = trim( $r->meta_max );
+                }
 
-        if( $r->has('meta_min') AND $r->meta_min!='' ){
-            $sucursal->meta_min = trim( $r->meta_min );
-        }
+                if( $r->has('meta_min') AND $r->meta_min!='' ){
+                    $sucursal->meta_min = trim( $r->meta_min );
+                }
 
-        $sucursal->costo = trim( $r->costo );
-        if( $r->has('costo_ins') AND $r->costo_ins!='' ){
-            $sucursal->costo_ins = trim( $r->costo_ins );
-            $sucursal->costo_mat = trim( $r->costo_mat );
+                $sucursal->costo = trim( $r->costo );
+                if( $r->has('costo_ins') AND $r->costo_ins!='' ){
+                    $sucursal->costo_ins = trim( $r->costo_ins );
+                    $sucursal->costo_mat = trim( $r->costo_mat );
+                }
+
+                if( $r->has('anio') AND $r->anio!='' ){
+                    $sucursal->semestre = trim( $r->anio )."-".trim( $r->anio1 )." ".trim( $r->anio2 );
+                }
+                
+                $sucursal->link = trim( $r->link );
+                $sucursal->estado = trim( $r->estado );
+                $sucursal->persona_id_created_at=Auth::user()->id;
+                $sucursal->save();
+            }
         }
-        
-        $sucursal->link = trim( $r->link );
-        $sucursal->estado = trim( $r->estado );
-        $sucursal->persona_id_created_at=Auth::user()->id;
-        $sucursal->save();
+        else{
+            $sucursal = new Programacion; 
+            $sucursal->persona_id = trim( $r->persona_id);
+            $sucursal->docente_id = trim( $r->docente_id );
+            $sucursal->curso_id = trim( $r->curso_id);
+            $sucursal->sucursal_id = trim( $r->sucursal_id );
+            $sucursal->aula = trim( $r->aula );
+            $sucursal->turno = trim( $r->turno );
+            if( $r->has('dia') AND count($r->dia)>0 ){
+                $dia=implode(",", $r->dia);
+                $sucursal->dia = trim( $dia );
+            }
+            $sucursal->fecha_inicio = trim( $r->fecha_inicio );
+            $sucursal->fecha_final = trim( $r->fecha_final );
+
+            if( $r->has('hora_inicio') ){
+                $sucursal->fecha_inicio = trim( $r->fecha_inicio )." ".trim( $r->hora_inicio );
+                $sucursal->fecha_final = trim( $r->fecha_final )." ".trim( $r->hora_final );
+            }
+
+            if( !$r->has('fecha_campaña') ){
+                $r->fecha_campaña=date("Y-m-d",strtotime($r->fecha_inicio));
+            }
+            $sucursal->fecha_campaña = $r->fecha_campaña;
+
+            if( $r->has('meta_max') AND $r->meta_max!='' ){
+                $sucursal->meta_max = trim( $r->meta_max );
+            }
+
+            if( $r->has('meta_min') AND $r->meta_min!='' ){
+                $sucursal->meta_min = trim( $r->meta_min );
+            }
+
+            $sucursal->costo = trim( $r->costo );
+            if( $r->has('costo_ins') AND $r->costo_ins!='' ){
+                $sucursal->costo_ins = trim( $r->costo_ins );
+                $sucursal->costo_mat = trim( $r->costo_mat );
+            }
+
+            if( $r->has('anio') AND $r->anio!='' ){
+                $sucursal->semestre = trim( $r->anio )."-".trim( $r->anio1 )." ".trim( $r->anio2 );
+            }
+            
+            $sucursal->link = trim( $r->link );
+            $sucursal->estado = trim( $r->estado );
+            $sucursal->persona_id_created_at=Auth::user()->id;
+            $sucursal->save();
+        }
     }
 
     public static function runEdit($r)
@@ -70,8 +127,14 @@ class Programacion extends Model
         $sucursal = Programacion::find($r->id);
         $sucursal->persona_id = trim( $r->persona_id);
         $sucursal->docente_id = trim( $r->docente_id );
-        $sucursal->curso_id = trim( $r->curso_id);
-        $sucursal->sucursal_id = trim( $r->sucursal_id );
+        if( $r->has('curso_id') AND $r->curso_id!='' ){
+            $sucursal->curso_id = trim( $r->curso_id);
+        }
+
+        if( $r->has('sucursal_id') ){
+            $sucursal->sucursal_id = trim( $r->sucursal_id);
+        }
+
         $sucursal->aula = trim( $r->aula );
         $sucursal->turno = trim( $r->turno );
         if( $r->has('dia') AND count($r->dia)>0 ){
@@ -104,6 +167,11 @@ class Programacion extends Model
             $sucursal->costo_ins = trim( $r->costo_ins );
             $sucursal->costo_mat = trim( $r->costo_mat );
         }
+
+        if( $r->has('anio') AND $r->anio!='' ){
+            $sucursal->semestre = trim( $r->anio )."-".trim( $r->anio1 )." ".trim( $r->anio2 );
+        }
+
         $sucursal->link = trim( $r->link );
         $sucursal->estado = trim( $r->estado );
         $sucursal->persona_id_created_at=Auth::user()->id;
@@ -113,7 +181,7 @@ class Programacion extends Model
     public static function runLoad($r)
     {
         $sql=DB::table('mat_programaciones as mp')
-             ->select('mp.dia','mp.id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona'),'mp.persona_id','mp.docente_id','c.curso','mp.curso_id','mp.sucursal_id','s.sucursal','mp.aula','mp.fecha_inicio','mp.fecha_final','mp.fecha_campaña','mp.meta_max','mp.meta_min','mp.estado','mp.link','c.tipo_curso',
+             ->select('mp.dia','mp.id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona'),'mp.persona_id','mp.docente_id','c.curso','mp.curso_id','mp.sucursal_id','s.sucursal','mp.aula','mp.fecha_inicio','mp.fecha_final','mp.fecha_campaña','mp.meta_max','mp.meta_min','mp.estado','mp.link','c.tipo_curso','c.tipo_inicio_curso','mp.semestre',
                 'mp.cv_archivo','mp.temario_archivo','mp.diapo_archivo','mp.diapoedit_archivo',
                 'mp.grabo','mp.publico','mp.expositor','mp.situaciones','p.celular','p.telefono'
                 ,'p.email','mp.costo','mp.costo_ins','mp.costo_mat','mp.turno')
@@ -180,6 +248,24 @@ class Programacion extends Model
                         $final=trim($r->final);
                         if( $final !='' ){
                             $query->where('mp.fecha_final','like','%'.$final.'%');
+                        }
+                    }
+                    if( $r->has("hora_inicio") ){
+                        $hora_inicio=trim($r->hora_inicio);
+                        if( $hora_inicio !='' ){
+                            $query->where('mp.fecha_inicio','like','%'.$hora_inicio.'%');
+                        }
+                    }
+                    if( $r->has("hora_final") ){
+                        $hora_final=trim($r->hora_final);
+                        if( $hora_final !='' ){
+                            $query->where('mp.fecha_final','like','%'.$hora_final.'%');
+                        }
+                    }
+                    if( $r->has("semestre") ){
+                        $semestre=trim($r->semestre);
+                        if( $semestre !='' ){
+                            $query->where('mp.semestre','like','%'.$semestre.'%');
                         }
                     }
                     if( $r->has("campaña") ){

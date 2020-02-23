@@ -246,11 +246,14 @@ HTMLCargar=function(result){ //INICIO HTML
             nro_cuota='';
         }
 
+        matins = "Costo Matrícula: "+r.costo_mat+"<br>Costo Inscripción: "+r.costo;
+
         html+="<tr id='trid_"+r.id+"'>";
    
             html+="</td>"+
             "<td class='especialidad'>"+r.especialidad+"</td>"+
             "<td>"+ tipo +"</td>"+
+            "<td>"+ matins +"</td>"+
             "<td class='sucursal'><ul><li>"+$.trim(r.sucursal).split("|").join("</li><li>")+"</li></ul></td>"+
             //"<td class='codigo_inicio'>"+r.codigo_inicio+"</td>"+
             "<td>"+nro_cuota+"</td>"+
