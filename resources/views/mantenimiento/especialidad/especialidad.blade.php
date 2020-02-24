@@ -18,12 +18,12 @@
 
 @section('content')
 <section class="content-header">
-    <h1>Especialidad
+    <h1>Carrera / Módulo
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Especialidad</li>
+        <li class="active">Carrera / Módulo</li>
     </ol>
 </section>
 
@@ -38,23 +38,23 @@
                                 <tr class="cabecera">
                                     <th class="col-xs-2" style="width:15% !important;">
                                         <div class="form-group">
-                                            <label><h4>Especialidad:</h4></label>
+                                            <label><h4>Carrera / Módulo:</h4></label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Buscar Especialidad" onkeypress="return masterG.enterGlobal(event,'#txt_certificado_especialidad',1);">
+                                                <input type="text" class="form-control" name="txt_especialidad" id="txt_especialidad" placeholder="Buscar Carrera / Módulo" onkeypress="return masterG.enterGlobal(event,'#txt_certificado_especialidad',1);">
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2" style="width:15% !important;">
                                         <div class="form-group">
-                                            <label><h4>Certificado Especialidad:</h4></label>
+                                            <label><h4>Certificado Carrera / Módulo:</h4></label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="txt_certificado_especialidad" id="txt_certificado_especialidad" placeholder="Buscar Certificado Especialidad" onkeypress="return masterG.enterGlobal(event,'#txt_especialidad',1);">
+                                                <input type="text" class="form-control" name="txt_certificado_especialidad" id="txt_certificado_especialidad" placeholder="Buscar Certificado Carrera / Módulo" onkeypress="return masterG.enterGlobal(event,'#txt_especialidad',1);">
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-6" style="width:50% !important;">
                                         <div class="form-group">
-                                            <label><h4>Cursos Asignados:</h4></label>
+                                            <label><h4>Inicios / Cursos Asignados:</h4></label>
                                         </div>
                                     </th>
                                     <th class="col-xs-1" style="width:10% !important;">
@@ -76,9 +76,9 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Especialidad</th>
-                                  <th>Certificado Especialidad</th>
-                                  <th>Cursos Asignados</th>
+                                  <th>Carrera / Módulo</th>
+                                  <th>Certificado Carrera / Módulo</th>
+                                  <th>Inicios / Cursos Asignados</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>

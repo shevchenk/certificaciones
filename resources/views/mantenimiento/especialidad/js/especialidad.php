@@ -61,7 +61,7 @@ ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalEspecialidadForm #txt_especialidad").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Ingrese Especialidad',4000);
+        msjG.mensaje('warning','Ingrese Carrera / Módulo',4000);
     }
     else if( $.trim( $("#ModalEspecialidadForm #txt_certificado_especialidad").val() )=='' ){
         r=false;
@@ -103,13 +103,13 @@ AgregarCurso=function(){
     cursoid = $('#slct_curso_id').val();
     curso = $('#slct_curso_id option:selected').text();
     if( $.trim(curso) =='' ){
-        msjG.mensaje('warning','Seleccione un curso',4000);
+        msjG.mensaje('warning','Seleccione un Inicio / Curso',4000);
     }
     else if( $.trim( $('#sortable #trid_'+cursoid).html() ) == '' ){
         $('#sortable').append('<tr id="trid_'+cursoid+'"><td>N° '+cantidad+'</td><td><input type="hidden" name="curso_id[]" value="'+cursoid+'">'+curso+'</td><td><a onClick="EliminarTr(\'#trid_'+cursoid+'\');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td></tr>');
     }
     else{
-        msjG.mensaje('warning','El curso seleccionado ya fue agregado',4000);
+        msjG.mensaje('warning','El Inicio / Curso seleccionado ya fue agregado',4000);
     }
 }
 
