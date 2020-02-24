@@ -34,6 +34,11 @@ var AjaxTrabajador={
         url='AjaxDinamic/Mantenimiento.TareaEM@ListTarea';
         data={rol_id:val};
         masterG.postAjax(url,data,evento);
-    }
+    },
+    CargarMedioCaptacion:function(evento){
+        url='AjaxDinamic/Mantenimiento.MedioCaptacionMA@ListMedioCaptacion';
+        data={tipo_medio:1};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

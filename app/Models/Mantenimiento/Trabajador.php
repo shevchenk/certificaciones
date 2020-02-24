@@ -28,6 +28,10 @@ class Trabajador extends Model
         $trabajador->rol_id = trim( $r->rol_id );
         $trabajador->tarea_id = trim( $r->tarea_id );
         $trabajador->codigo = trim( $r->codigo );
+        $trabajador->medio_captacion_id = null;
+        if( $r->has('rol_id')=='1' ){
+            $trabajador->medio_captacion_id = trim( $r->medio_captacion_id );
+        }
         $trabajador->estado = trim( $r->estado );
         $trabajador->persona_id_created_at=Auth::user()->id;
         $trabajador->save();
@@ -40,6 +44,10 @@ class Trabajador extends Model
         $trabajador->rol_id = trim( $r->rol_id );
         $trabajador->tarea_id = trim( $r->tarea_id );
         $trabajador->codigo = trim( $r->codigo );
+        $trabajador->medio_captacion_id = null;
+        if( $r->has('rol_id')=='1' ){
+            $trabajador->medio_captacion_id = trim( $r->medio_captacion_id );
+        }
         $trabajador->estado = trim( $r->estado );
         $trabajador->persona_id_updated_at=Auth::user()->id;
         $trabajador->save();
@@ -52,7 +60,7 @@ class Trabajador extends Model
              ->join('mat_roles as r','r.id','=','t.rol_id')
              ->join('mat_tareas as ta','ta.id','=','t.tarea_id')
              ->select('t.codigo','t.id','t.persona_id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre ) as trabajador')
-             ,'t.rol_id','r.rol','t.tarea_id','ta.tarea','t.estado')
+             ,'t.rol_id','r.rol','t.tarea_id','ta.tarea','t.estado','t.medio_captacion_id')
              ->where('t.empresa_id', Auth::user()->empresa_id)
              ->where( 
                 function($query) use ($r){
@@ -84,6 +92,12 @@ class Trabajador extends Model
                         $tarea_id=trim($r->tarea_id);
                         if( $tarea_id !='' ){
                             $query->where('t.tarea_id','=',$tarea_id);
+                        }
+                    }
+                    if( $r->has("medio_captacion_id") ){
+                        $medio_captacion_id=trim($r->medio_captacion_id);
+                        if( $medio_captacion_id !='' ){
+                            $query->where('t.medio_captacion_id','=',$medio_captacion_id);
                         }
                     }
                     if( $r->has("codigo") ){

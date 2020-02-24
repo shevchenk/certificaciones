@@ -35,5 +35,10 @@ var AjaxMatricula={
         data={};
         masterG.postAjax(url,data,evento);
     },
+    CargarMedioCaptacion:function(evento){
+        url='AjaxDinamic/Mantenimiento.MedioCaptacionMA@ListMedioCaptacion';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

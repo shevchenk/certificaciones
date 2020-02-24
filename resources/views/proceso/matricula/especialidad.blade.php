@@ -454,18 +454,24 @@
                             <div class="panel panel-success">
                                 <div class="panel-heading"><center>MARKETING:</center></div>
                                 <div class="panel-body">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Medio de Captación</label>
+                                            <select name="slct_medio_captacion_id" id="slct_medio_captacion_id" class="form-control selectpicker" onchange="ValidaMedioCaptacion()"></select>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-6 validamediocaptacion" style="display: none;">
                                         <div class="form-group">
                                             <label>Persona Marketing</label>
                                             <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
                                             <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
                                         </div> 
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-1 validamediocaptacion" style="display: none;">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Persona Marketing</button>
+                                                <button type="button" id="btn_marketing" data-id="ModalMatriculaForm #btn_marketing" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-filtros2="" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Persona Marketing</button>
                                             </span>
                                         </div> 
                                     </div>

@@ -41,5 +41,10 @@ var AjaxMatricula={
         data={validacion:val, persona_id: persona_id, sucursal_id:sucursal_id};
         masterG.postAjax(url,data,evento);
     },
+    CargarMedioCaptacion:function(evento){
+        url='AjaxDinamic/Mantenimiento.MedioCaptacionMA@ListMedioCaptacion';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

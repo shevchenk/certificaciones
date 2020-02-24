@@ -11,6 +11,7 @@ $(document).ready(function() {
     $('#exonerar_inscripcion').prop('checked', false);
     $('#ModalPersonaForm').append("<input type='hidden' class='mant' name='alumnonuevo' value='1'>");
     CargarSlct(1);CargarSlct(2);CargarSlct(3);
+    AjaxMatricula.CargarMedioCaptacion(SlctCargarMedioCaptacion);
     var responsable='<?php echo Auth::user()->paterno .' '. Auth::user()->materno .' '. Auth::user()->nombre ?>';
     var responsable_id='<?php echo Auth::user()->id ?>';
     var hoy='<?php echo date('Y-m-d') ?>';
@@ -43,6 +44,16 @@ $(document).ready(function() {
         ValidaCheckInscripcion();
     });
 });
+
+ValidaMedioCaptacion=function(){
+    tipo = $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo');
+    $("#ModalMatriculaForm .validamediocaptacion").hide();
+    $("#ModalMatriculaForm #txt_marketing_id, #ModalMatriculaForm #txt_marketing").val('');
+    if( tipo*1==1 ){
+        $("#ModalMatriculaForm #btn_marketing").attr("data-filtros2","estado:1|rol_id:1|medio_captacion_id:"+$("#ModalMatriculaForm #slct_medio_captacion_id").val());
+        $(".validamediocaptacion").show();
+    }
+}
 
 ValidaCheckMatricula=function(){
     if( $('#ModalMatriculaForm #exonerar_matricula').prop('checked') ) {
@@ -168,7 +179,11 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Responsable de Caja',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
+    else if( $.trim( $("#ModalMatriculaForm #slct_medio_captacion_id").val() )==''){
+        r=false;
+        msjG.mensaje('warning','Seleccione Medio de Captación',4000);
+    }
+    else if( $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo')==1 && $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Persona Marketing',4000);
     }
@@ -293,6 +308,7 @@ HTMLAgregarEditar=function(result){
         msjG.mensaje('success',result.msj,4000);
         $("#ModalMatriculaForm input[type='hidden'],#ModalMatriculaForm input[type='text'],#ModalMatriculaForm textarea").not('.mant').val('');
         $("#ModalMatriculaForm select").selectpicker('val','0');
+        $("#ModalMatriculaForm #slct_medio_captacion_id").selectpicker('val','');
         $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
         $("#txt_monto_promocion,#txt_nro_promocion").attr("disabled","true");
         $("#txt_observacion").val('S/O');
@@ -377,6 +393,15 @@ SlctCargarEspecialidad=function(result){
     $("#ModalMatriculaForm #slct_especialidad2_id").selectpicker('refresh');
     ValidarCobro(0);
 };
+
+SlctCargarMedioCaptacion=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+          html+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+    });
+    $("#ModalMatriculaForm #slct_medio_captacion_id").html(html); 
+    $("#ModalMatriculaForm #slct_medio_captacion_id").selectpicker('refresh');
+}
 
 SlctCargarSucursalTotal=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";

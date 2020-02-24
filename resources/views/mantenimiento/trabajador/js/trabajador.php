@@ -13,6 +13,7 @@ $(document).ready(function() {
     });
     CargarSlct(1);
     AjaxTrabajador.Cargar(HTMLCargarTrabajador);
+    AjaxTrabajador.CargarMedioCaptacion(SlctCargarMedioCaptacion);
     $("#TrabajadorForm #TableTrabajador select").change(function(){ AjaxTrabajador.Cargar(HTMLCargarTrabajador); });
     $("#TrabajadorForm #TableTrabajador input").blur(function(){ AjaxTrabajador.Cargar(HTMLCargarTrabajador); });
 
@@ -56,6 +57,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Tarea',4000);
     }
+    else if( $("#ModalTrabajadorForm #slct_rol_id").val()==1 && $.trim( $("#ModalTrabajadorForm #slct_medio_captacion_id").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Medio de Captación',4000);
+    }
     /*
     else if( $.trim( $("#ModalTrabajadorForm #txt_codigo").val() )=='' ){
         r=false;
@@ -73,6 +78,7 @@ AgregarEditar=function(val,id){
     TrabajadorG.trabajador='';
     TrabajadorG.rol_id='0';
     TrabajadorG.tarea_id='0';
+    TrabajadorG.medio_captacion_id='';
     TrabajadorG.codigo='';
     TrabajadorG.estado='1';
     if( val==0 ){
@@ -83,6 +89,7 @@ AgregarEditar=function(val,id){
         TrabajadorG.trabajador=$("#TableTrabajador #trid_"+id+" .trabajador").text();
         TrabajadorG.codigo=$("#TableTrabajador #trid_"+id+" .codigo").text();
         TrabajadorG.estado=$("#TableTrabajador #trid_"+id+" .estado").val();
+        TrabajadorG.medio_captacion_id=$("#TableTrabajador #trid_"+id+" .medio_captacion_id").val();
     }
     $('#ModalTrabajador').modal('show');
 }
@@ -115,6 +122,8 @@ HTMLAgregarEditar=function(result){
     }
 }
 
+ValidaTipo=function(){}
+
 HTMLCargarTrabajador=function(result){
     var html="";
     $('#TableTrabajador').DataTable().destroy();
@@ -133,6 +142,7 @@ HTMLCargarTrabajador=function(result){
             "<td>"+
             "<input type='hidden' class='rol_id' value='"+r.rol_id+"'>"+
             "<input type='hidden' class='tarea_id' value='"+r.tarea_id+"'>"+
+            "<input type='hidden' class='medio_captacion_id' value='"+r.medio_captacion_id+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
@@ -165,6 +175,11 @@ CargarSlct=function(slct){
 
 CargaTarea=function(val){
     AjaxTrabajador.CargarTarea(SlctCargarTarea,val);
+    $("#ModalTrabajador #slct_medio_captacion_id").selectpicker('val','');
+    $("#ModalTrabajador .validamedio").hide();
+    if( val==1 ){
+        $("#ModalTrabajador .validamedio").show();
+    }
 }
 
 SlctCargarRol=function(result){
@@ -189,4 +204,12 @@ SlctCargarTarea=function(result){
     $("#ModalTrabajador #slct_tarea_id").selectpicker('refresh');
 
 };
+SlctCargarMedioCaptacion=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+          html+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+    });
+    $("#ModalTrabajador #slct_medio_captacion_id").html(html); 
+    $("#ModalTrabajador #slct_medio_captacion_id").selectpicker('refresh');
+}
 </script>

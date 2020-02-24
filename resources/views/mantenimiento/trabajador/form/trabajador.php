@@ -37,6 +37,14 @@
                                 </select>
                             </div> 
                         </div>
+                        <div class="col-md-12 validamedio">
+                            <div class="form-group">
+                                <label>Medio de Captación</label>
+                                <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_medio_captacion_id" name="slct_medio_captacion_id">
+                                    <option value="">.::Seleccione::.</option>
+                                </select>
+                            </div> 
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Código</label>

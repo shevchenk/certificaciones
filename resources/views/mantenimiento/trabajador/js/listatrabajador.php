@@ -21,6 +21,12 @@ $(document).ready(function() {
       if( typeof (bfiltros)!='undefined'){
           LDfiltrosG=bfiltros;
       }
+      bfiltros= button.data('filtros2');
+      id= button.data('id');
+      if( typeof (bfiltros)!='undefined' && typeof (id)!='undefined'){
+            LDfiltrosG = $("#"+id).attr('data-filtros2');
+      }
+
       AjaxListatrabajador.Cargar(HTMLCargarListaTrabajador);
 
       LTtextoTrabajador= button.data('persona');
