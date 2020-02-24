@@ -63,4 +63,8 @@ li.dropdown>a>select{
 .modal-xlg{
     width: 1200px !important;
 }
+
+.modal-full{
+    width: 90% !important;
+}
 </style>

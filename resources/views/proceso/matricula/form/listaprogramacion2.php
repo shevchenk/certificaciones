@@ -1,12 +1,12 @@
 <!-- /.modal -->
 <div class="modal fade" id="ModalListaprogramacion2" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal fade" id="areaModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
-    <div class="modal-dialog modal-xlg">
+    <div class="modal-dialog modal-full">
         <div class="modal-content">
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Lista de cursos programados</h4>
+                <h4 class="modal-title">Lista de Inicios / Cursos programados</h4>
             </div>
             <div class="modal-body">
                 <section class="content">
@@ -34,7 +34,7 @@
                                             </th>
                                             <th class="col-xs-2">
                                                 <div class="form-group">
-                                                    <label><h4>Curso:</h4></label>
+                                                    <label><h4>Inicio / Curso:</h4></label>
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="txt_curso" id="txt_curso" placeholder="Curso" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
@@ -69,19 +69,35 @@
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th class="col-xs-2">
+                                            <th class="col-xs-2" style="min-width: 120px;">
                                                 <div class="form-group">
-                                                    <label><h4>Inicio:</h4></label>
+                                                    <label><h4>Fecha Inicio:</h4></label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="txt_inicio" id="txt_inicio" placeholder="Inicio" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
+                                                        <input type="text" class="form-control" name="txt_inicio" id="txt_inicio" placeholder="Fecha Inicio" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th class="col-xs-2">
+                                            <th class="col-xs-2" style="min-width: 120px;">
                                                 <div class="form-group">
-                                                    <label><h4>Final:</h4></label>
+                                                    <label><h4>Fecha Final:</h4></label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="txt_final" id="txt_final" placeholder="Final" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
+                                                        <input type="text" class="form-control" name="txt_final" id="txt_final" placeholder="Fecha Final" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th class="col-xs-2" style="min-width: 100px;">
+                                                <div class="form-group">
+                                                    <label><h4>Hora Inicio:</h4></label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="txt_hora_inicio" id="txt_inicio" placeholder="Hora Inicio" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th class="col-xs-2" style="min-width: 100px;">
+                                                <div class="form-group">
+                                                    <label><h4>Hora Final:</h4></label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="txt_hora_final" id="txt_final" placeholder="Hora Final" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
                                                 </div>
                                             </th>
@@ -99,8 +115,10 @@
                                             <th>Turno</th>
                                             <th>Frecuencia</th>
                                             <th>Aula</th>
-                                            <th>Inicio</th>
-                                            <th>Final</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Fecha Final</th>
+                                            <th>Hora Inicio</th>
+                                            <th>Hora Final</th>
                                             <th>[-]</th>
                                         </tr>
                                     </tfoot>

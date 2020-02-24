@@ -9,6 +9,11 @@ var AjaxListaespecialidad={
         $("#ListaespecialidadForm input[type='hidden']").remove();
         url='AjaxDinamic/Mantenimiento.EspecialidadEM@ListEspecialidadDisponible';
         masterG.postAjax(url,data,evento);
-    }
+    },
+    CargarSucursalTotal:function(evento){
+        url='AjaxDinamic/Mantenimiento.SucursalEM@ListSucursal';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

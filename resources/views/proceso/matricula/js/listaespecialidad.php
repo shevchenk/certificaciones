@@ -13,6 +13,7 @@ $(document).ready(function() {
     });
    
     $("#ListaespecialidadForm #TableListaespecialidad input").blur(function(){ AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad); });
+    $("#ListaespecialidadForm #slct_ode_estudio_id").change(function(){ AjaxListaespecialidad.Cargar(HTMLCargarEspecialidad); });
 
     $('#ModalListaespecialidad').on('shown.bs.modal', function (event) {
           var button = $(event.relatedTarget); // captura al boton
@@ -47,12 +48,24 @@ $(document).ready(function() {
         var button = $(event.relatedTarget); // captura al boton
         var bfiltros= button.data('filtros');
         if( typeof (bfiltros)!='undefined'){
-            LDfiltrosG=bfiltros+'|tipo_modalidad:'+$("#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
+            //LDfiltrosG=bfiltros+'|tipo_modalidad:'+$("#ModalListaprogramacion #slct_tipo_modalidad_id" ).val();
+            LDfiltrosG=bfiltros;
         }
         $("#ModalListaprogramacion #slct_tipo_modalidad_id").selectpicker('val','0');
         ListaProgramacionModalidad();
     });
+    AjaxListaespecialidad.CargarSucursalTotal(SlctCargarSucursalPago);
 });
+
+SlctCargarSucursalPago=function(result){
+    var html="<option value='0'>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.sucursal+"</option>";
+    });
+    $("#ListaespecialidadForm #slct_ode_estudio_id").html(html); 
+    $("#ListaespecialidadForm #slct_ode_estudio_id").selectpicker('refresh');
+};
+
 
 ListaProgramacionModalidad=function(){
     AjaxListaprogramacion.Cargar(HTMLCargarProgramacion);
@@ -112,6 +125,9 @@ HTMLCargarEspecialidad=function(result){
 
 SeleccionarEspecialidad=function(id){
     EspecialidadIDG=id;
+    $("#ModalMatriculaForm #txt_ode_estudio_id").val($("#ModalListaespecialidad #slct_ode_estudio_id option:selected").val());
+    $("#TableListaprogramacion #txt_sucursal").val($("#ModalListaespecialidad #slct_ode_estudio_id option:selected").text());
+    $("#TableListaprogramacion #txt_sucursal").hide();
     var html=''; var cursos=''; var seminario=''; var html2='';
         $("#trides_"+id+" table>tbody>tr").each( function(index){
           html+="<tr id='tres_"+id+"_"+$(this).find('td:eq(0) .curso_id').val()+"'>"+
@@ -120,12 +136,13 @@ SeleccionarEspecialidad=function(id){
             "<td><input type='hidden' class='form-control' id='txt_programacion_id' name='txt_programacion_id[]' value=''><input type='text' class='form-control' value='' disabled></td>"+
             "<td><input type='text' class='form-control' value='' disabled></td>"+
             "<td><input type='text' class='form-control' value='' disabled></td>"+
+            "<td><input type='text' class='form-control' value='' disabled></td>"+
             "<td><input type='text' class='form-control' value='' disabled>"+
                 "<input type='hidden' class='form-control' name='txt_curso_id[]' value='"+$(this).find('td:eq(0) .curso_id').val()+"'>"+
                 "<input type='hidden' class='form-control' id='txt_especialidad_id' name='txt_especialidad_id[]' value='"+id.split("_")[0]+"'>"+
                 "<input type='hidden' class='form-control' id='txt_especialidad_programacion_id' name='txt_especialidad_programacion_id[]' value='"+id.split("_")[1]+"'>"+
             "</td>"+
-            '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1|curso_id:'+$(this).find('td:eq(0) .curso_id').val()+'" data-tipotabla="1">Seleccionar Programación</button></td>';
+            '<td><button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1|curso_id:'+$(this).find('td:eq(0) .curso_id').val()+'" data-tipotabla="1">Buscar Inicio / Curso</button></td>';
           html+="</tr>";
 
           costo = $('#trides_'+id).find('td:eq(0) .costo').text().split('-')[1];
@@ -187,7 +204,17 @@ SeleccionarEspecialidad=function(id){
           precio=$('#trides_'+id+' .precio').text();
           precio_mat=$('#trides_'+id+' .precio_mat').text();
 
-        $("#promocion_seminario").html("<ul>"+seminario+"</ul>");
+          $('#exonerar_inscripcion,#exonerar_matricula').prop('checked', true);
+          if( precio*1==0 ){
+            $('#exonerar_inscripcion').prop('checked', false);
+          }
+          if( precio_mat*1==0 ){
+            $('#exonerar_matricula').prop('checked', false);
+          }
+          ValidaCheckInscripcion();
+          ValidaCheckMatricula();
+
+        $(".promocion_seminario").html("<ul>"+seminario+"</ul>");
         $("#precio").html(precio);
         $("#txt_monto_pago_inscripcion").attr('onkeyup','masterG.DecimalMax(this, 2);ValidaDeuda2('+precio+',this);');
         $("#precio_mat").html(precio_mat);
@@ -292,13 +319,17 @@ HTMLCargarProgramacion=function(result){
             "<td>"+r.turno+"</td>"+
             "<td>"+r.dia+"</td>"+
             "<td class='aula' "+validasem+">"+r.aula+"</td>"+
-            "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
-            "<td class='fecha_final'>"+r.fecha_final+"</td>"+
+            "<td>"+r.fecha_inicio.split(" ")[0]+"</td>"+
+            "<td>"+r.fecha_final.split(" ")[0]+"</td>"+
+            "<td>"+r.fecha_inicio.split(" ")[1]+"</td>"+
+            "<td>"+r.fecha_final.split(" ")[1]+"</td>"+
             "<td>"+
             '<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion('+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
             "<input type='hidden' class='dia' value='"+r.dia+"'>"+
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
+            "<input type='hidden' class='fecha_inicio' value='"+r.fecha_inicio+"'>"+
+            "<input type='hidden' class='fecha_final' value='"+r.fecha_final+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+
             "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
         html+="</td>";
@@ -333,8 +364,8 @@ SeleccionarProgramacion=function(id){
     var curso_id=$("#TableListaprogramacion #trid_"+id+" .curso_id").val();
     var dia=$("#TableListaprogramacion #trid_"+id+" .dia").val();
     var curso=$("#TableListaprogramacion #trid_"+id+" .curso").text();
-    var fecha_inicio=$("#TableListaprogramacion #trid_"+id+" .fecha_inicio").text();
-    var fecha_final=$("#TableListaprogramacion #trid_"+id+" .fecha_final").text();
+    var fecha_inicio=$("#TableListaprogramacion #trid_"+id+" .fecha_inicio").val();
+    var fecha_final=$("#TableListaprogramacion #trid_"+id+" .fecha_final").val();
     var fecha_i=fecha_inicio.split(" ");
     var fecha_f=fecha_final.split(" ");
     if(sucursal_id==1){
@@ -344,8 +375,9 @@ SeleccionarProgramacion=function(id){
     $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(1)").val(id);
     $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(2)").val(mod);
     $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(3)").val(fecha_i[0]);
-    $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(4)").val(fecha_i[1]+"-"+fecha_f[1]+" | "+dia);
-    $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(5)").val(sucursal);
+    $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(4)").val(fecha_i[1]+"-"+fecha_f[1]);
+    $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(5)").val(dia);
+    $("#tres_"+EspecialidadIDG+"_"+curso_id+" input:eq(6)").val(sucursal);
 
     $("#ModalListaprogramacion").modal('hide');
 }

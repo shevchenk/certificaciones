@@ -60,6 +60,29 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading"><center>DATOS DEL ALUMNO</center></div>
                                 <div class="panel-body">
+                                    <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>DNI</label>
+                                            <input type="text" class="form-control" id="txt_dni" name="txt_dni" disabled="">
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Nombre Completo</label>
+                                            <input type="hidden" name="txt_ode_estudio_id" id="txt_ode_estudio_id" value="">
+                                            <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control" readonly="">
+                                            <input type="text" class="form-control" id="txt_persona" name="txt_persona" disabled="">
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>&nbsp;&nbsp;&nbsp;</label>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id" data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni" data-buscaralumno="1">Buscar Persona</button>
+                                            </span>
+                                        </div> 
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>ODE Inscripción</label>
@@ -76,20 +99,8 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Resp. de la Inscripción</label>
-                                            <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
-                                            <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
-                                        </div> 
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label>Fecha</label>
-                                            <input type="hidden" class="form-control mant" id="txt_tipo_matricula" name="txt_tipo_matricula" readOnly="" value="1">
-                                            <input type="text" class="form-control mant" id="txt_fecha" name="txt_fecha" readOnly="">
-                                        </div> 
-                                    </div>
+                                    <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Tipo de Participante</label>
@@ -98,28 +109,21 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>DNI</label>
-                                            <input type="text" class="form-control" id="txt_dni" name="txt_dni" disabled="">
+                                            <label>Resp. de la Inscripción</label>
+                                            <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
+                                            <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
                                         </div> 
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Nombre Completo</label>
-                                            <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control" readonly="">
-                                            <input type="text" class="form-control" id="txt_persona" name="txt_persona" disabled="">
+                                            <label>Fecha</label>
+                                            <input type="hidden" class="form-control mant" id="txt_tipo_matricula" name="txt_tipo_matricula" readOnly="" value="1">
+                                            <input type="text" class="form-control mant" id="txt_fecha" name="txt_fecha" readOnly="">
                                         </div> 
                                     </div>
-                                    <div class="col-md-1">
-                                        <div class="form-group">
-                                            <label>&nbsp;&nbsp;&nbsp;</label>
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id" data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni" data-buscaralumno="1">Buscar Persona</button>
-                                            </span>
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-4" style="display: none;">
+                                    <div class="col-md-3" style="display: none;">
                                         <div class="form-group">
                                             <label>Región</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_region_id" name="slct_region_id">
@@ -127,7 +131,7 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4" style="display: none;">
+                                    <div class="col-md-3" style="display: none;">
                                         <div class="form-group">
                                             <label>Provincia</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_provincia_id" name="slct_provincia_id">
@@ -135,7 +139,8 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4" style="display: none;">
+                                    </div>
+                                    <div class="col-md-3" style="display: none;">
                                         <div class="form-group">
                                             <label>Distrito</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_distrito_id" name="slct_distrito_id">
@@ -143,7 +148,7 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-2" <?php if(Auth::user()->empresa_id!=3){ echo 'style="display: none;"'; } ?> >
+                                    <div class="col-md-3" style="display: none;">
                                         <div class="form-group">
                                             <label class="col-md-12">Código del Alumno</label>
                                             <div class="input-group">
@@ -155,13 +160,13 @@
                                             </div>
                                         </div> 
                                     </div>
-                                    <div class="col-md-5" style="display: none;">
+                                    <div class="col-md-3" style="display: none;">
                                         <div class="form-group">
                                             <label>Direccion</label>
                                             <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_direccion" name="txt_direccion"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-5" style="display: none;">
+                                    <div class="col-md-12" style="display: none;">
                                         <div class="form-group">
                                             <label>Referencia</label>
                                             <textarea type="text"  onkeypress="return masterG.validaAlfanumerico(event, this);" class="form-control" id="txt_referencia" name="txt_referencia"></textarea>
@@ -173,28 +178,13 @@
                         </div>
                         <div class="col-md-12">
                             <div class="panel panel-success">
-                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>CURSOS DE ESPECIALIDAD SELECCIONADA</center></div>
+                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>INICIOS / CURSOS DE LA CARRERA / MÓDULO SELECCIONADA</center></div>
                                 <div class="panel-body">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaespecialidad">Agregar Especialidad</button>
-                                            </span>
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Cod. Teleoperadora</label>
-                                            <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
-                                            <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-1">
-                                        <div class="form-group">
-                                            <label>&nbsp;&nbsp;&nbsp;</label>
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Teleoperadora</button>
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaespecialidad">Buscar Carrera / Módulo</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -202,12 +192,13 @@
                                         <table id="t_matricula" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Especialidad</th>
-                                                    <th>Cursos</th>
+                                                    <th>Carrera / Módulo</th>
+                                                    <th>Inicio / Curso</th>
                                                     <th>Modalidad</th>
                                                     <th>Fecha de Inicio</th>
                                                     <th>Horario</th>
-                                                    <th>Local del Curso</th>
+                                                    <th>Frecuencia</th>
+                                                    <th>Local del Inicio / Curso</th>
                                                     <th>[ * ]</th>
                                                 </tr>
                                             </thead>
@@ -266,7 +257,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="display: none;">
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" name="exonerar_inscripcion" id="exonerar_inscripcion" >
@@ -292,7 +283,7 @@
                                             </thead>
                                             <tbody id="tb_pago_promocion">
                                                 <tr>
-                                                    <td id="promocion_seminario"></td>
+                                                    <td class="promocion_seminario"></td>
                                                     <td><input type="text" class="form-control" id="txt_nro_pago_inscripcion" name="txt_nro_pago_inscripcion" value="0" placeholder="Nro" readonly=""></td>
                                                     <td>
                                                         <div class='input-group'>
@@ -359,7 +350,7 @@
                                         </table>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="display: none;">
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" name="exonerar_matricula" id="exonerar_matricula" >
@@ -384,7 +375,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td id="promocion_seminario"></td>
+                                                    <td class="promocion_seminario"></td>
                                                     <td><input type="text" class="form-control" id="txt_nro_pago_matricula" name="txt_nro_pago_matricula" value="0" placeholder="Nro" readonly=""></td>
                                                     <td>
                                                         <div class='input-group'>
@@ -457,6 +448,28 @@
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading"><center>MARKETING:</center></div>
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Persona Marketing</label>
+                                            <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
+                                            <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>&nbsp;&nbsp;&nbsp;</label>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Persona Marketing</button>
+                                            </span>
+                                        </div> 
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">

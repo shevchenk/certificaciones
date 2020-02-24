@@ -59,6 +59,28 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading"><center>DATOS DEL ALUMNO</center></div>
                                 <div class="panel-body">
+                                    <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>DNI</label>
+                                            <input type="text" class="form-control" id="txt_dni" name="txt_dni" disabled="">
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Nombre Completo</label>
+                                            <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control" readonly="">
+                                            <input type="text" class="form-control" id="txt_persona" name="txt_persona" disabled="">
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>&nbsp;&nbsp;&nbsp;</label>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id" data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni" data-buscaralumno="1">Buscar Persona</button>
+                                            </span>
+                                        </div> 
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>ODE Inscripción</label>
@@ -75,20 +97,8 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Resp. de la Inscripción</label>
-                                            <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
-                                            <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
-                                        </div> 
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label>Fecha</label>
-                                            <input type="hidden" class="form-control mant" id="txt_tipo_matricula" name="txt_tipo_matricula" readOnly="" value="1">
-                                            <input type="text" class="form-control mant" id="txt_fecha" name="txt_fecha" readOnly="">
-                                        </div> 
-                                    </div>
+                                    <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Tipo de Participante</label>
@@ -97,34 +107,28 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>DNI</label>
-                                            <input type="text" class="form-control" id="txt_dni" name="txt_dni" disabled="">
+                                            <label>Resp. de la Inscripción</label>
+                                            <input type="hidden" name="txt_responsable_id" id="txt_responsable_id" class="form-control mant" readonly="">
+                                            <input type="text" class="form-control mant" id="txt_responsable" name="txt_responsable" disabled="">
                                         </div> 
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Nombre Completo</label>
-                                            <input type="hidden" name="txt_persona_id" id="txt_persona_id" class="form-control" readonly="">
-                                            <input type="text" class="form-control" id="txt_persona" name="txt_persona" disabled="">
+                                            <label>Fecha</label>
+                                            <input type="hidden" class="form-control mant" id="txt_tipo_matricula" name="txt_tipo_matricula" readOnly="" value="1">
+                                            <input type="text" class="form-control mant" id="txt_fecha" name="txt_fecha" readOnly="">
                                         </div> 
                                     </div>
-                                    <div class="col-md-1">
-                                        <div class="form-group">
-                                            <label>&nbsp;&nbsp;&nbsp;</label>
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#ModalListapersona" data-filtros="estado:1" data-personaid="ModalMatriculaForm #txt_persona_id" data-persona="ModalMatriculaForm #txt_persona"  data-dni="ModalMatriculaForm #txt_dni" data-buscaralumno="1">Buscar Persona</button>
-                                            </span>
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-4" style="display: none;">
+                                    <div class="col-md-3" style="display: none;">
                                         <div class="form-group">
                                             <label>Región</label>
                                             <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_region_id" name="slct_region_id">
                                                 <option value="0">.::Seleccione::.</option>
                                             </select>
                                         </div> 
+                                    </div>
                                     </div>
                                     <div class="col-md-4" style="display: none;">
                                         <div class="form-group">
@@ -142,7 +146,7 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-2" <?php if(Auth::user()->empresa_id!=0){ echo 'style="display: none;"'; } ?> >
+                                    <div class="col-md-2" style="display: none;">
                                         <div class="form-group">
                                             <label class="col-md-12">Código del Alumno</label>
                                             <div class="input-group">
@@ -173,20 +177,25 @@
 
                         <div class="col-md-12">
                             <div class="panel panel-warning">
-                                <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGO DE INSCRIPCIÓN</center></div>
+                                <div class="panel-heading" style="background-color: #FFE699;color:black"><center>PAGOS DE INSCRIPCIÓN Y MATRÍCULA</center></div>
                                 <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <label>Ode de estudios</label>
+                                        <select  class="form-control selectpicker show-menu-arrow" id="slct_ode_estudio_id" name="slct_ode_estudio_id" onchange="ValidaTipoLocal()">
+                                        </select>
+                                    </div>
                                     <div class="col-md-12">
                                         <ul>
                                             <li style="display: inline;"><b>Tipo de Inscripción: &nbsp;</b></li>
-                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(2);"><input type="radio" id="rdbtipo2" name="rdbtipo">A UN NUEVO MÓDULO "ESPECIALIDAD" </li>
-                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(3);"><input type="radio" id="rdbtipo3" name="rdbtipo">A MAS CURSOS DE UN MÓDULO PREVIAMENTE INSCRITO</li>
+                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(2);"><input type="radio" id="rdbtipo2" name="rdbtipo">A UNA NUEVA CARRERA / MÓDULO </li>
+                                            <li style="display:inline; padding: 10px; margin: 10px" onchange="ValidaTipo(3);"><input type="radio" id="rdbtipo3" name="rdbtipo">A MAS CURSOS DE UNA CARRERA / MÓDULO PREVIAMENTE INSCRITO</li>
                                         </ul>
                                         <select class="form-control" onchange="ValidarCobro(this.value);" name="slct_especialidad2_id" id="slct_especialidad2_id" disabled>
                                             <option value="0">.::Curso Libre::.</option>
                                         </select>
                                         <input type="hidden" name="txt_especialidad_programacion_id2" id="txt_especialidad_programacion_id2" class="form-control mant" readonly="">
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="display: none;">
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" name="exonerar_inscripcion" id="exonerar_inscripcion" >
@@ -276,7 +285,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="display: none;">
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" name="exonerar_matricula" id="exonerar_matricula" >
@@ -357,31 +366,16 @@
 
                         <div class="col-md-12">
                             <div class="panel panel-success">
-                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>CURSOS SELECCIONADOS</center></div>
+                                <div class="panel-heading" style="background-color: #A9D08E;color:black"><center>INICIOS / CURSOS SELECCIONADOS</center></div>
                                 <div class="panel-body">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn cursospro1">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Agregar Cursos Programados</button>
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion2" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Buscar Inicio / Curso</button>
                                             </span>
                                             <span class="input-group-btn cursospro2">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion2" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Agregar Cursos Programados2</button>
-                                            </span>
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Cod. Teleoperadora</label>
-                                            <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
-                                            <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
-                                        </div> 
-                                    </div>
-                                    <div class="col-md-1">
-                                        <div class="form-group">
-                                            <label>&nbsp;&nbsp;&nbsp;</label>
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Vendedor(a)</button>
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListaprogramacion2" data-filtros="estado:1|tipo_curso:1" data-tipotabla="1">Buscar Inicio / Curso</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -534,7 +528,28 @@
 
                             </div>
                         </div>
-
+                        <div class="col-md-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading"><center>MARKETING:</center></div>
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Persona Marketing</label>
+                                            <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
+                                            <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>&nbsp;&nbsp;&nbsp;</label>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Persona Marketing</button>
+                                            </span>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="panel panel-primary">
                                 <div class="panel-heading"><center>OBSERVACIONES:</center></div>

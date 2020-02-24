@@ -122,8 +122,8 @@ SeleccionarProgramacion = function(val,id){
         var turno=$("#TableListaprogramacion #trid_"+id+" .turno").val();
         var curso=$("#TableListaprogramacion #trid_"+id+" .curso").text();
         var costo=$("#TableListaprogramacion #trid_"+id+" .costo").val();
-        var fecha_inicio=$.trim($("#TableListaprogramacion #trid_"+id+" .fecha_inicio").text());
-        var fecha_final=$.trim($("#TableListaprogramacion #trid_"+id+" .fecha_final").text());
+        var fecha_inicio=$.trim($("#TableListaprogramacion #trid_"+id+" .fecha_inicio").val());
+        var fecha_final=$.trim($("#TableListaprogramacion #trid_"+id+" .fecha_final").val());
         var fecha_i=fecha_inicio.split(" ");
         var fecha_f=fecha_final.split(" ");
         if(sucursal_id==1){
@@ -511,8 +511,10 @@ HTMLCargarProgramacion=function(result){
             "<td class='turnos'>"+r.turno+"</td>"+
             "<td "+validasem+">"+r.dia+"</td>"+
             "<td class='aula' "+validasem+">"+r.aula+"</td>"+
-            "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
-            "<td class='fecha_final'>"+r.fecha_final+"</td>"+
+            "<td>"+r.fecha_inicio.split(" ")[0]+"</td>"+
+            "<td>"+r.fecha_final.split(" ")[0]+"</td>"+
+            "<td>"+r.fecha_inicio.split(" ")[1]+"</td>"+
+            "<td>"+r.fecha_final.split(" ")[1]+"</td>"+
             "<td><input type='checkbox' value='"+r.id+"'>"+
             //'<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
             "<input type='hidden' class='costo' value='"+r.costo+"'>"+
@@ -521,6 +523,8 @@ HTMLCargarProgramacion=function(result){
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+
+            "<input type='hidden' class='fecha_inicio' value='"+r.fecha_inicio+"'>"+
+            "<input type='hidden' class='fecha_final' value='"+r.fecha_final+"'>"+
             "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
         html+="</td>";
         html+="</tr>";
@@ -561,8 +565,10 @@ HTMLCargarProgramacion2=function(result){
             "<td class='turnos'>"+r.turno+"</td>"+
             "<td "+validasem+">"+r.dia+"</td>"+
             "<td class='aula' "+validasem+">"+r.aula+"</td>"+
-            "<td class='fecha_inicio'>"+r.fecha_inicio+"</td>"+
-            "<td class='fecha_final'>"+r.fecha_final+"</td>"+
+            "<td>"+r.fecha_inicio.split(" ")[0]+"</td>"+
+            "<td>"+r.fecha_final.split(" ")[0]+"</td>"+
+            "<td>"+r.fecha_inicio.split(" ")[1]+"</td>"+
+            "<td>"+r.fecha_final.split(" ")[1]+"</td>"+
             "<td><input type='checkbox' value='"+r.id+"'>"+
             //'<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
             "<input type='hidden' class='costo' value='"+r.costo+"'>"+
@@ -571,6 +577,8 @@ HTMLCargarProgramacion2=function(result){
             "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
             "<input type='hidden' class='docente_id' value='"+r.docente_id+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>"+
+            "<input type='hidden' class='fecha_inicio' value='"+r.fecha_inicio+"'>"+
+            "<input type='hidden' class='fecha_final' value='"+r.fecha_final+"'>"+
             "<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
         html+="</td>";
         html+="</tr>";

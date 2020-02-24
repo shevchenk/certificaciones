@@ -31,25 +31,7 @@ $(document).ready(function() {
     });
     
     $( "#ModalMatriculaForm #exonerar_matricula" ).change(function() {
-        if( $('#ModalMatriculaForm #exonerar_matricula').prop('checked') ) {
-              $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
-              $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",false);
-              $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).removeAttr("disabled");
-              $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",false);
-        }else{
-              $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",true);
-              $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",true);
-              $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).prop("disabled",true);
-              $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).val("0");
-              $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).val("");
-              $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).val("");
-              $("#ModalMatriculaForm #i_monto_deuda_matricula" ).text("0");
-              $( "#ModalMatriculaForm #pago_nombre_matricula" ).val("");
-              $( "#ModalMatriculaForm #pago_archivo_matricula" ).val("");
-              $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",true);
-              $("#txt_monto_pago_matricula_ico,#i_monto_deuda_matricula_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
-        }
-              $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).selectpicker("refresh");
+        ValidaCheckMatricula();
 
     });
 
@@ -58,6 +40,28 @@ $(document).ready(function() {
     });
     ActivarPago(1);
 });
+
+ValidaCheckMatricula=function(){
+    if( $('#ModalMatriculaForm #exonerar_matricula').prop('checked') ) {
+          $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
+          $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",false);
+          $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).removeAttr("disabled");
+          $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",false);
+    }else{
+          $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",true);
+          $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",true);
+          $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).prop("disabled",true);
+          $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).val("0");
+          $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).val("");
+          $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).val("");
+          $("#ModalMatriculaForm #i_monto_deuda_matricula" ).text("0");
+          $( "#ModalMatriculaForm #pago_nombre_matricula" ).val("");
+          $( "#ModalMatriculaForm #pago_archivo_matricula" ).val("");
+          $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",true);
+          $("#txt_monto_pago_matricula_ico,#i_monto_deuda_matricula_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+    }
+          $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).selectpicker("refresh");
+}
 
 ValidaCheckInscripcion=function(){
     if( $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked') ) {
@@ -87,7 +91,11 @@ ValidaTipo=function(v){}
 
 ValidaForm=function(){
     var r=true;
-    if( $.trim( $("#ModalMatriculaForm #slct_sucursal_id").val() )=='0' ){
+    if( $.trim( $("#ModalMatriculaForm #txt_persona_id").val() )==''){
+        r=false;
+        msjG.mensaje('warning','Seleccione Persona',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #slct_sucursal_id").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione ODE de Matrícula',4000);
     }
@@ -98,10 +106,6 @@ ValidaForm=function(){
     else if( $.trim( $("#ModalMatriculaForm #slct_tipo_participante_id").val() )=='0'){
         r=false;
         msjG.mensaje('warning','Seleccione Tipo de Participante',4000);
-    }
-    else if( $.trim( $("#ModalMatriculaForm #txt_persona_id").val() )==''){
-        r=false;
-        msjG.mensaje('warning','Seleccione Persona',4000);
     }
     /*else if( $.trim( $("#ModalMatriculaForm #slct_region_id").val() )=='0'){
         r=false;
@@ -123,25 +127,41 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Referencia',4000);
     }*/
-    else if( $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
+    else if( $.trim( $("#ModalMatriculaForm #txt_programacion_id").val() )=='' && $.trim( $("#ModalMatriculaForm #txt_especialidad_id").val() )==''){
         r=false;
-        msjG.mensaje('warning','Seleccione Teleoperadora',4000);
+        msjG.mensaje('warning','Seleccione al menos una Carrera / Módulo',4000);
     }
     else if( $.trim( $("#ModalMatriculaForm #txt_persona_caja_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Responsable de Caja',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_programacion_id").val() )=='' && $.trim( $("#ModalMatriculaForm #txt_especialidad_id").val() )==''){
+    else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_inscripcion").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==true){
         r=false;
-        msjG.mensaje('warning','Seleccione al menos una especialidad',4000);
+        msjG.mensaje('warning','Ingrese número de pago de Inscripción',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==false){
+    else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_inscripcion").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==true){
         r=false;
-        msjG.mensaje('warning','Ingrese Número de pago de Matrícula',4000);
+        msjG.mensaje('warning','Ingrese monto de pago de Inscripción',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==false){
+    else if( $.trim( $("#ModalMatriculaForm #slct_tipo_pago_inscripcion").val() )=='0' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==true){
         r=false;
-        msjG.mensaje('warning','Ingrese Monto de pago de Matrícula',4000);
+        msjG.mensaje('warning','Seleccione tipo de operación de Inscripción',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==true){
+        r=false;
+        msjG.mensaje('warning','Ingrese número de pago de Matrícula',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #txt_monto_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==true){
+        r=false;
+        msjG.mensaje('warning','Ingrese monto de pago de Matrícula',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #slct_tipo_pago_matricula").val() )=='0' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==true){
+        r=false;
+        msjG.mensaje('warning','Seleccione tipo de operación de Matrícula',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
+        r=false;
+        msjG.mensaje('warning','Seleccione Persona Marketing',4000);
     }
     else if( $.trim( $("#ModalMatriculaForm #txt_observacion").val() )=='' ){
         r=false;
@@ -178,7 +198,7 @@ ValidaTabla=function(){
             msjG.mensaje('warning','La oferta existente tiene un máximo de '+PromocionG+' seminarios en promoción. Verifique y actualice los seminarios seleccionados.',9000);
          }*/
 
-         if( $('#txt_nro_pago_inscripcion').val()=='' && PromocionGeneral==1 ){
+         /*if( $('#txt_nro_pago_inscripcion').val()=='' && PromocionGeneral==1 ){
             r=false;
             msjG.mensaje('warning','Ingrese N° Recibo de la Inscripción',4000);
          }
@@ -189,7 +209,7 @@ ValidaTabla=function(){
          else if( $('#slct_tipo_pago_inscripcion').val()=='0' && PromocionGeneral==1){
             r=false;
             msjG.mensaje('warning','Seleccione tipo de Operación',4000);
-         }
+         }*/
 
     return r;     
 }
@@ -254,7 +274,7 @@ CargarSlct=function(slct){
 
 SlctCargarSucursalTotal=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
-    html+="<option value='0'>A Domicilio</option>";
+    html+="<option value='1'>A Domicilio</option>";
     $.each(result.data,function(index,r){
         if(r.id>1){
           html+="<option value="+r.id+">"+r.sucursal+"</option>";
@@ -272,7 +292,6 @@ SlctCargarSucursal1=function(result){
     });
     $("#ModalMatriculaForm #slct_sucursal_id").html(html); 
     $("#ModalMatriculaForm #slct_sucursal_id").selectpicker('refresh');
-
 };
 
 SlctCargarRegion=function(result){

@@ -47,6 +47,8 @@ $(document).ready(function() {
 
 });
 
+ValidaTipo=function(){}
+
 ValidaForm=function(){
     var r=true;
     if( $.trim( $("#ModalMatriculaForm #slct_sucursal_id").val() )=='0' ){

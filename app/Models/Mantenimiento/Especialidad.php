@@ -164,9 +164,13 @@ class Especialidad extends Model
     public static function ListEspecialidadNuevo($r)
     {
         $empresa_id = Auth::user()->empresa_id;
+        if( $r->has('sucursal_id') ){
+            $sucursal= " AND eps.sucursal_id=".$r->sucursal_id;
+        }
         $sql= " SELECT e.id, e.especialidad, ep.costo inscripcion, ep.costo_mat matricula, ep.fecha_inicio, ep.id id_ep
                 FROM mat_especialidades e
                 INNER JOIN mat_especialidades_programaciones ep ON ep.especialidad_id = e.id AND ep.tipo=2 AND ep.estado=1
+                INNER JOIN mat_especialidades_programaciones_sucursales eps ON eps.especialidad_programacion_id=ep.id AND eps.estado=1
                 LEFT JOIN (
                 SELECT DISTINCT(md.especialidad_id) especialidad_id
                 FROM mat_matriculas_detalles md
@@ -177,6 +181,7 @@ class Especialidad extends Model
                 WHERE e.estado=1
                 AND e.empresa_id = $empresa_id
                 AND ea.especialidad_id IS NULL
+                $sucursal 
                 ORDER BY e.especialidad" ;
         return DB::select($sql);
     }
@@ -184,9 +189,13 @@ class Especialidad extends Model
     public static function ListEspecialidadAlumno($r)
     {
         $empresa_id = Auth::user()->empresa_id;
+        if( $r->has('sucursal_id') ){
+            $sucursal= " AND eps.sucursal_id=".$r->sucursal_id;
+        }
         $sql= " SELECT e.id, e.especialidad, ep.costo inscripcion, ep.costo_mat matricula, ep.fecha_inicio, ep.id id_ep
                 FROM mat_especialidades e
                 INNER JOIN mat_especialidades_programaciones ep ON ep.especialidad_id = e.id AND ep.tipo=2 AND ep.estado=1
+                INNER JOIN mat_especialidades_programaciones_sucursales eps ON eps.especialidad_programacion_id=ep.id AND eps.estado=1
                 INNER JOIN (
                 SELECT DISTINCT(md.especialidad_id) especialidad_id
                 FROM mat_matriculas_detalles md
@@ -196,6 +205,7 @@ class Especialidad extends Model
                 ) ea ON ea.especialidad_id=e.id
                 WHERE e.estado=1
                 AND e.empresa_id = $empresa_id
+                $sucursal
                 ORDER BY e.especialidad";
         return DB::select($sql);
     }
@@ -225,6 +235,10 @@ class Especialidad extends Model
                     $join->on('mep.especialidad_id','=','me.id')
                     ->where('mep.tipo','=',1)
                     ->where('mep.estado','=',1);
+                })
+                ->Join('mat_especialidades_programaciones_sucursales AS meps',function($join){
+                    $join->on('meps.especialidad_programacion_id','=','mep.id')
+                    ->where('meps.estado','=',1);
                 })
                 ->Join('mat_cursos_especialidades AS mce',function($join){
                     $join->on('mce.especialidad_id','=','me.id')
@@ -269,6 +283,12 @@ class Especialidad extends Model
                         $fecha_inicio=trim($r->fecha_inicio);
                         if( $fecha_inicio !='' ){
                             $query->where('mep.fecha_inicio','like','%'.$fecha_inicio.'%');
+                        }
+                    }
+                    if( $r->has("ode_estudio_id") ){
+                        $ode_estudio_id=trim($r->ode_estudio_id);
+                        if( $ode_estudio_id !='' ){
+                            $query->where('meps.sucursal_id','=',$ode_estudio_id);
                         }
                     }
                 })

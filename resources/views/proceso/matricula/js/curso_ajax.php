@@ -35,10 +35,10 @@ var AjaxMatricula={
         data={};
         masterG.postAjax(url,data,evento);
     },
-    CargarEspecialidad:function(evento,val,persona_id){
+    CargarEspecialidad:function(evento,val,persona_id, sucursal_id){
         url='AjaxDinamic/Mantenimiento.EspecialidadEM@ListEspecialidad';
         if(persona_id==''){ persona_id=0 }
-        data={validacion:val, persona_id: persona_id};
+        data={validacion:val, persona_id: persona_id, sucursal_id:sucursal_id};
         masterG.postAjax(url,data,evento);
     },
 };
