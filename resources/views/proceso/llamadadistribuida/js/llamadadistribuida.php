@@ -2,6 +2,7 @@
 var PersonaIdG=0;
 var cursos_selec=[];
 var AddEdit=0; //0: Editar | 1: Agregar
+var PersonaG={id:0};
 var EspecialidadG={id:0,
     especialidad:"",
     certificado_especialidad:"",
@@ -211,6 +212,7 @@ HTMLCargar=function(result){ //INICIO HTML
 
 AbrirLlamada=function(id){
     PersonaIdG=id;
+    PersonaG.id=id;
     paterno=$("#trid_"+id+" .paterno").text();
     materno=$("#trid_"+id+" .materno").text();
     nombre=$("#trid_"+id+" .nombre").text();

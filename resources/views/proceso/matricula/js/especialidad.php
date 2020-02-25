@@ -20,15 +20,15 @@ $(document).ready(function() {
     $("#ModalMatriculaForm #txt_fecha").val(hoy);
     
     $( "#ModalMatriculaForm #slct_region_id" ).change(function() {
-            var region_id= $('#ModalMatriculaForm #slct_region_id').val();
-            AjaxMatricula.CargarProvincia(SlctCargarProvincia,region_id);
-            data={};
-            SlctCargarDistrito(data);
+        var region_id= $('#ModalMatriculaForm #slct_region_id').val();
+        AjaxMatricula.CargarProvincia(SlctCargarProvincia,region_id);
+        data={};
+        SlctCargarDistrito(data);
     });
     
     $( "#ModalMatriculaForm #slct_provincia_id" ).change(function() {
-            var provincia_id= $('#ModalMatriculaForm #slct_provincia_id').val();
-            AjaxMatricula.CargarDistrito(SlctCargarDistrito,provincia_id);
+        var provincia_id= $('#ModalMatriculaForm #slct_provincia_id').val();
+        AjaxMatricula.CargarDistrito(SlctCargarDistrito,provincia_id);
     });
     
     $( "#ModalMatriculaForm #exonerar_matricula" ).change(function() {
@@ -190,23 +190,21 @@ ValidaTabla=function(){
     var ValidaTotal=0;
     var contador=0;
          $("#t_pago>tbody tr").each(function(){
+              if($(this).find("td:eq(1) input[type='text']").val()==''){
+                  r=false;
+                  msjG.mensaje('warning','Ingrese N° Recibo del Curso',4000);
+              }
+              else if($(this).find("td:eq(2) input[type='text']").val()==''){
+                  r=false;
+                  msjG.mensaje('warning','Ingrese Importe del Curso',4000);   
+              }
 
-                  if($(this).find("td:eq(1) input[type='text']").val()==''){
-                      r=false;
-                      msjG.mensaje('warning','Ingrese N° Recibo del Curso',4000);
-                  }
-                  else if($(this).find("td:eq(2) input[type='text']").val()==''){
-                      r=false;
-                      msjG.mensaje('warning','Ingrese Importe del Curso',4000);   
-                  }
+              if( $(this).find("input[type='checkbox']").is(':checked') ){
+                  ValidaTotal++;
+              }
 
-                  if( $(this).find("input[type='checkbox']").is(':checked') ){
-                      ValidaTotal++;
-                  }
-
-                  $(this).find("input[type='checkbox']").attr("value",contador);
-                  contador++;
-          
+              $(this).find("input[type='checkbox']").attr("value",contador);
+              contador++;
          });
          /*if( (ValidaTotal>PromocionG) || (ValidaTotal<PromocionG && ValidaTotal>0) ){
             r=false;

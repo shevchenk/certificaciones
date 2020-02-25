@@ -14,8 +14,13 @@
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
+    {{ Html::style('lib/EasyAutocomplete1.3.5/easy-autocomplete.min.css') }}
+    {{ Html::script('lib/EasyAutocomplete1.3.5/jquery.easy-autocomplete.min.js') }}
+
     @include( 'proceso.llamadadistribuida.js.llamadadistribuida_ajax' )
     @include( 'proceso.llamadadistribuida.js.llamadadistribuida' )
+    @include( 'mantenimiento.persona.js.persona_adicional_ajax' )
+    @include( 'mantenimiento.persona.js.persona_adicional' )
 @stop
 
 @section('content')
