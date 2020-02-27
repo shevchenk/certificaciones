@@ -13,6 +13,17 @@ $(document).ready(function() {
         autoclose: true,
         todayBtn: false
     });
+
+    $(".horas").datetimepicker({
+        format: "hh:ii:00",
+        language: 'es',
+        showMeridian: true,
+        time:true,
+        minView:0,
+        startView:1,
+        autoclose: true,
+        todayBtn: false
+    });
     
     $(".fecha").datetimepicker({
         format: "yyyy-mm-dd",
@@ -48,7 +59,7 @@ $(document).ready(function() {
     $('#ModalProgramacion').on('shown.bs.modal', function (event) {
         $('#ModalProgramacionForm .txt_aula,#ModalProgramacionForm .slct_dia').css( "display","none" );
         $('#ModalProgramacionForm #label_curso').text( "Seminario" );
-        
+        $('#ModalProgramacionForm #slct_curso_id, #ModalProgramacionForm #slct_sucursal_id').removeAttr( 'disabled' );
 
         if( AddEdit==1 ){        
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
@@ -56,6 +67,7 @@ $(document).ready(function() {
         else{
             $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
             $("#ModalProgramacionForm").append("<input type='hidden' value='"+ProgramacionG.id+"' name='id'>");
+            $('#ModalProgramacionForm #slct_curso_id, #ModalProgramacionForm #slct_sucursal_id').attr( 'disabled','true' );
         }
         var dia = ProgramacionG.dia.split(",");
         $('#ModalProgramacionForm #txt_docente').val( ProgramacionG.persona );
@@ -66,8 +78,10 @@ $(document).ready(function() {
         $('#ModalProgramacionForm #txt_aula').val( ProgramacionG.aula );
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',dia);
         $('#ModalProgramacionForm #slct_turno').selectpicker('val',ProgramacionG.turno);
-        $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio );
-        $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final );
+        $('#ModalProgramacionForm #txt_fecha_inicio').val( ProgramacionG.fecha_inicio.split(" ")[0] );
+        $('#ModalProgramacionForm #txt_hora_inicio').val( ProgramacionG.fecha_inicio.split(" ")[1] );
+        $('#ModalProgramacionForm #txt_fecha_final').val( ProgramacionG.fecha_final.split(" ")[0] );
+        $('#ModalProgramacionForm #txt_hora_final').val( ProgramacionG.fecha_final.split(" ")[1] );
         $('#ModalProgramacionForm #txt_fecha_campaña').val( ProgramacionG.fecha_campaña );
         $('#ModalProgramacionForm #txt_meta_max').val( ProgramacionG.meta_max );
         $('#ModalProgramacionForm #txt_meta_min').val( ProgramacionG.meta_min );
@@ -93,13 +107,14 @@ $(document).ready(function() {
 });
 
 ValidaOde=function(v){
-    $("#ModalProgramacionForm .validaode").css("display",'block');
+    
     if( v==1 ){
         $('#ModalProgramacionForm #slct_dia').selectpicker('val',['LU','MA','MI','JU','VI','SA','DO']);
         //$('#ModalProgramacionForm #txt_fecha_inicio').val( '2019-01-01 00:00:00' );
-        $('#ModalProgramacionForm #txt_fecha_final').val( '2200-12-31 23:59:59' );
+        $('#ModalProgramacionForm #txt_fecha_final').val( '2200-12-31' );
+        $('#ModalProgramacionForm #txt_hora_inicio').val( '00:00:00' );
+        $('#ModalProgramacionForm #txt_hora_final').val( '23:59:59' );
         $('#ModalProgramacionForm #txt_aula').val( 'Libre' );
-        $("#ModalProgramacionForm .validaode").css("display",'none');
     }
 }
 
@@ -116,6 +131,14 @@ ValidaForm=function(){
     else if( $.trim( $("#ModalProgramacionForm #slct_curso_id").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione Seminario',4000);
+    }
+    else if( $.trim( $("#ModalProgramacionForm #txt_hora_inicio").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Hora de Inicio',4000);
+    }
+    else if( $.trim( $("#ModalProgramacionForm #txt_hora_final").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Hora Final',4000);
     }
     else if( $.trim( $("#ModalProgramacionForm #txt_fecha_inicio").val() )=='' ){
         r=false;
@@ -294,7 +317,7 @@ CargarSlct=function(slct){
 }
 
 SlctCargarSucursal1=function(result){
-    var html="<option value='0'>.::Seleccione::.</option>";
+    var html="";
     $.each(result.data,function(index,r){
         html+="<option value="+r.id+">"+r.sucursal+"</option>";
     });
