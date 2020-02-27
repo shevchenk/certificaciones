@@ -87,11 +87,27 @@
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th class="col-xs-2">
+                                            <th class="col-xs-2" style="display: none;">
                                                 <div class="form-group">
                                                     <label><h4>Final:</h4></label>
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="txt_final" id="txt_final" placeholder="Final" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label><h4>Hora Inicio:</h4></label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="txt_hora_inicio" id="txt_hora_inicio" placeholder="Inicio" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th class="col-xs-2" style="display: none;">
+                                                <div class="form-group">
+                                                    <label><h4>Hora Final:</h4></label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="txt_hora_final" id="txt_hora_final" placeholder="Final" onkeypress="return masterG.enterGlobal(event, '#txt_docente', 1);">
                                                     </div>
                                                 </div>
                                             </th>

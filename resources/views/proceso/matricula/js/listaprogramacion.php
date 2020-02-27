@@ -512,9 +512,9 @@ HTMLCargarProgramacion=function(result){
             "<td "+validasem+">"+r.dia+"</td>"+
             "<td class='aula' "+validasem+">"+r.aula+"</td>"+
             "<td>"+r.fecha_inicio.split(" ")[0]+"</td>"+
-            "<td>"+r.fecha_final.split(" ")[0]+"</td>"+
+            "<td "+validasem+">"+r.fecha_final.split(" ")[0]+"</td>"+
             "<td>"+r.fecha_inicio.split(" ")[1]+"</td>"+
-            "<td>"+r.fecha_final.split(" ")[1]+"</td>"+
+            "<td "+validasem+">"+r.fecha_final.split(" ")[1]+"</td>"+
             "<td><input type='checkbox' value='"+r.id+"'>"+
             //'<span class="btn btn-primary btn-sm" onClick="SeleccionarProgramacion(0,'+r.id+')"+><i class="glyphicon glyphicon-ok"></i></span>'+
             "<input type='hidden' class='costo' value='"+r.costo+"'>"+
