@@ -144,7 +144,8 @@ HTMLCambiarEstado=function(result){
 }
 
 HTMLListarPersonaEmpresa=function(result){
-    if( result.rst==1 ){
+    PersonaG.empresa_id='';
+    if( result.rst==1 && $.trim(result.data)!=''){
         PersonaG.empresa_id= result.data.empresa_id;
     }
 }

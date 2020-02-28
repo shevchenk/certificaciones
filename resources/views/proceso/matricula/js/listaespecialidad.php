@@ -89,7 +89,7 @@ HTMLCargarEspecialidad=function(result){
                 "<table class='table table-bordered table-hover'>"+
                     "<thead><tr>"+
                         "<th class='col-md-2'>N° Orden</th>"+
-                        "<th class='col-md-10'>Curso</th>"+
+                        "<th class='col-md-10'>Inicio / Curso</th>"+
                         /*"<th>N Veces</th>"+
                         "<th>Nota</th>"+*/
                     "</tr></thead>"+
