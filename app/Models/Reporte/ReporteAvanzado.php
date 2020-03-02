@@ -53,23 +53,23 @@ class ReporteAvanzado extends Model
         IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion
         , mc.curso AS curso, mp.dia AS frecuencia, CONCAT( TIME(mp.fecha_inicio),' - ',TIME(mp.fecha_final)) horario
         , DATE(mp.fecha_inicio) AS inicio
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-13,mm.id,NULL )) f14
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-12,mm.id,NULL )) f13
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-11,mm.id,NULL )) f12
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-10,mm.id,NULL )) f11
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-9,mm.id,NULL )) f10
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-8,mm.id,NULL )) f9
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-7,mm.id,NULL )) f8
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-6,mm.id,NULL )) f7
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-5,mm.id,NULL )) f6
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-4,mm.id,NULL )) f5
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-3,mm.id,NULL )) f4
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-2,mm.id,NULL )) f3
-        ,COUNT(IF( mm.fecha_matricula=CURDATE()-1,mm.id,NULL )) f2
-        ,COUNT(IF( mm.fecha_matricula=CURDATE(),mm.id,NULL )) f1
-        ,COUNT(IF( mm.fecha_matricula BETWEEN CURDATE()-13 AND CURDATE()-7,mm.id,NULL )) sa
-        ,COUNT(IF( mm.fecha_matricula BETWEEN CURDATE()-6 AND CURDATE(),mm.id,NULL )) ud
-        ,COUNT( mm.id ) total, mp.meta_max, mp.meta_min, mp.fecha_campaña
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-13,mm.id,NULL ))) f14
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-12,mm.id,NULL ))) f13
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-11,mm.id,NULL ))) f12
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-10,mm.id,NULL ))) f11
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-9,mm.id,NULL ))) f10
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-8,mm.id,NULL ))) f9
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-7,mm.id,NULL ))) f8
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-6,mm.id,NULL ))) f7
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-5,mm.id,NULL ))) f6
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-4,mm.id,NULL ))) f5
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-3,mm.id,NULL ))) f4
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-2,mm.id,NULL ))) f3
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-1,mm.id,NULL ))) f2
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE(),mm.id,NULL ))) f1
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula BETWEEN CURDATE()-13 AND CURDATE()-7,mm.id,NULL ))) sa
+        ,COUNT(DISTINCT(IF( mm.fecha_matricula BETWEEN CURDATE()-6 AND CURDATE(),mm.id,NULL ))) ud
+        ,COUNT( DISTINCT(mm.id) ) total, mp.meta_max, mp.meta_min, mp.fecha_campaña
         ,IF(DATEDIFF(CURDATE(),mp.fecha_campaña) >=0,DATEDIFF(CURDATE(),mp.fecha_campaña),0) AS dias_campaña
         ,IF(DATEDIFF(CURDATE(),DATE(mp.fecha_inicio)) >=0,0,(DATEDIFF(DATE(mp.fecha_inicio),CURDATE()) )) AS dias_falta
         ,'' ind_sa, '' ind_ud, '' pro_df, '' pro_fin, '' falta_meta, '' obs
@@ -230,12 +230,12 @@ class ReporteAvanzado extends Model
         $empresas = explode(",",$empresa);
         $detemp = '';
         for ($i=0; $i < count($empresas); $i++) { 
-            $detemp .= ", COUNT(IF(e.id=".$empresas[$i].", mm.id, NULL)) e".($i+1);
+            $detemp .= ", COUNT(DISTINCT(IF(e.id=".$empresas[$i].", mm.id, NULL))) e".($i+1);
         }
         $sql = "
         SELECT s.sucursal AS ode,'' nro, meca.medio_captacion
         $detemp
-        , COUNT(mm.id) total
+        , COUNT(DISTINCT(mm.id)) total
         FROM mat_matriculas AS mm 
         INNER JOIN mat_matriculas_detalles AS mmd ON mmd.matricula_id = mm.id AND mmd.estado = 1 
         INNER JOIN mat_cursos AS mc ON mc.id = mmd.curso_id 
