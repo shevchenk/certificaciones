@@ -358,4 +358,185 @@ class ReporteAvanzado extends Model
         $r['max']=$estaticoFin.chr($valFin); // Max. Celda en LETRA
         return $r;
     }
+
+    public static function runVendedorComision($r)
+    {
+        $id=Auth::user()->id;
+        $where='';$where2='';
+        if( $r->has("fecha_matricula") ){
+            $fecha_matricula=trim($r->fecha_matricula);
+            if( $fecha_matricula!=''){
+                $where2.=" AND DATE_FORMAT(mm.fecha_matricula, '%Y-%m') = '$fecha_matricula' ";
+            }
+        }
+
+        if( $r->has("vendedor") OR $r->has('vendedor2') ){
+            $vendedor = '';
+            if( $r->has('vendedor2') AND trim($r->vendedor2)!='' ){
+                $vendedor = $r->vendedor2;
+            }
+            else{
+                $vendedor= implode(",",$r->vendedor);
+            }
+
+            if( $vendedor !=''){
+                $where.=" AND meca.id IN ($vendedor) ";
+                $where2.=" AND mm.medio_captacion_id IN ($vendedor) ";
+            }
+        }
+
+        if( $r->has("empresa") OR $r->has('empresa2') ){
+            $empresa = '';
+            if( $r->has('empresa2') AND trim($r->empresa2)!='' ){
+                $empresa = $r->empresa2;
+            }
+            else{
+                $empresa= implode(",",$r->empresa);
+            }
+            
+            if( $empresa !=''){
+                $where.=" AND e.id IN ($empresa) ";
+                $where2.=" AND mc.empresa_id IN ($empresa)";
+            }
+        }
+        $empresas = explode(",",$empresa);
+        $detemp = '';
+        for ($i=0; $i < count($empresas); $i++) { 
+            $detemp .= ", COUNT(DISTINCT(IF(m.empresa_id=".$empresas[$i].", m.id, NULL))) e".($i+1);
+        }
+        $sql = "
+        SELECT '' id,GROUP_CONCAT(DISTINCT(t.codigo) ORDER BY t.id) codigo
+        , p.paterno, p.materno, p.nombre, p.dni, GROUP_CONCAT(DISTINCT(meca.medio_captacion) ORDER BY t.id) cargo
+        , COUNT( DISTINCT(m.id)) total
+        $detemp
+        FROM personas p
+        INNER JOIN mat_trabajadores t ON t.persona_id = p.id AND t.estado=1 AND t.rol_id = 1
+        INNER JOIN empresas AS e ON e.id = t.empresa_id 
+        INNER JOIN mat_medios_captaciones meca ON meca.id = t.medio_captacion_id 
+        LEFT JOIN 
+        (SELECT mm.id, mc.empresa_id, mm.persona_marketing_id
+        FROM mat_matriculas AS mm 
+        INNER JOIN mat_matriculas_detalles AS md ON md.matricula_id = mm.id AND md.estado=1 
+        INNER JOIN mat_cursos AS mc ON mc.id = md.curso_id 
+        WHERE mm.estado = 1
+        $where2
+        ) m ON m.persona_marketing_id = p.id 
+        WHERE p.estado = 1
+        $where
+        GROUP BY p.paterno, p.materno, p.nombre, p.dni
+        ";
+
+        $result= DB::select($sql);
+
+        return $result;
+    }
+
+    public static function runExportVendedorComision($r)
+    {
+        $rsql= ReporteAvanzado::runVendedorComision($r);
+        $mes = array('','ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SETIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE');
+        $messeleccionado = '';
+        if( $r->has("fecha_matricula") ){
+            $fecha_matricula=trim($r->fecha_matricula);
+            if( $fecha_matricula!=''){
+                $messeleccionado = $mes[substr($fecha_matricula, 5)*1];
+            }
+        }
+
+        if( $r->has("empresa") OR $r->has('empresa2') ){
+            $empresa = '';
+            if( $r->has('empresa2') AND trim($r->empresa2)!='' ){
+                $empresa = $r->empresa2;
+            }
+            else{
+                $empresa= implode(",",$r->empresa);
+            }
+        }
+        $empresas = explode(",",$empresa);
+
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,15,15,15,10,20
+            ,10.5,10.5,10.5,10.5,10.5,10.5,10.5,10.5,10.5,10.5,10.5,10.5
+            ,10.5,10.5,10.5,10.5,10.5,10.5,10.5,10.5,10.5
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array('PERSONA MARKETING','RESUMEN');
+
+        $valIni=65;
+        $min=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(6,count($empresas)+3);
+        $colorTit=array('#DDEBF7','#FFF2CC');
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min++;
+                $estaticoFin= chr($min);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min++;
+                    $estatico= chr($min);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°','Código','Paterno','Materno','Nombre','DNI','Cargo','Totales'
+        );
+        
+        $valauxIni=68;
+        $estaticoaux='';
+        for ($i=0; $i < count($empresas); $i++) { 
+            $empresa = ReporteAvanzado::find($empresas[$i]);
+            array_push($cabecera, $empresa->empresa);
+        }
+        array_push($cabecera, 'Total Comisión');
+        array_push($cabecera, 'Total a Cobrar');
+        array_push($cabecera, 'Firma');
+        $campos=array('');
+
+        $r['data']=$rsql;
+        $r['campos']=$campos;
+        $r['cabecera']=$cabecera;
+        $r['length']=$length;
+        $r['cabeceraTit']=$cabeceraTit;
+        $r['lengthTit']=$lengthTit;
+        $r['colorTit']=$colorTit;
+        $r['lengthDet']=$lengthDet;
+        $r['mes']=$messeleccionado;
+        $r['max']=$estaticoFin.chr($valFin); // Max. Celda en LETRA
+        return $r;
+    }
+    
 }
