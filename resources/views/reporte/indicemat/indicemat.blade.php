@@ -23,12 +23,12 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Indice Matrticulación
+        <h1>Reporte Índice de Inscripción
             <small>Reporte</small>
         </h1>
         <ol class="breadcrumb">
             <li><i class="fa fa-sitemap"></i> Reporte</li>
-            <li class="active">Indice Matrticulación</li>
+            <li class="active">FC</li>
         </ol>
     </section>
 
@@ -36,96 +36,143 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    <form id="IndiceMatForm">
-                        <div class="box-body no-padding">
-                            <div class="col-sm-12">
-                                <!--div class="col-sm-2 text-center">
-                                    <label class="control-label">Tipo</label>
-                                    <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tipo_curso" name="slct_tipo_curso">
-                                        <option value="1" selected>Curso</option>
-                                        <option value="2">Seminario</option>
+                    <form id="ReporteForm">
+                        <div class="box-body table-responsive no-padding">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <label class="control-label">Ode de Estudios:</label>
+                                    <select id="slct_sucursal" name="slct_sucursal[]" class="form-control selectpicker show-menu-arrow" multiple data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple>
+                                        <option>.::Seleccione Ode de Estudio::.</option>
                                     </select>
-                                </div-->
-                                <!--div class="col-sm-2 text-center">
-                                    <label class="control-label">Tipo Fecha</label>
-                                    <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_tipo_fecha" name="slct_tipo_fecha">
-                                        <option value="1" selected>Programación</option>
-                                        <option value="2">Matrícula</option>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">Empresas:</label>
+                                    <select id="slct_empresa" name="slct_empresa[]" class="form-control selectpicker show-menu-arrow" multiple data-selected-text-format="count > 3" data-live-search="true"  data-actions-box='true' multiple>
+                                        <option>.::Seleccione Empresa::.</option>
                                     </select>
-                                </div-->
-                                <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Inicial de Inscripción</label>
-                                    <div class="input-group">
-                                      <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini" name="txt_fecha_ini" readonly/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2 text-center">
-                                    <label class="control-label">Fecha Final de Inscripción</label>
-                                    <div class="input-group">
-                                      <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1" style="padding:24px">
-                                    <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
-                                </div>
-                                <div class="col-sm-1" style="padding:24px">
-                                    <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar</i></a>
                                 </div>
                             </div>
-                        </div><!-- .box-body -->
-                    </form><!-- .form -->
-                            <div class="box-body table-responsive no-padding">
-                                <table id="TableIndiceMat" class="table table-bordered table-hover">
+                            <div class="col-md-12">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Rango Inicial de Fecha Inicio:</label>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_inicial" name="txt_fecha_inicial" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="control-label">Rango Final de Fecha Inicio:</label>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_final" name="txt_fecha_final" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-1" style="padding:24px">
+                                    <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
+                                </div>
+                                <div class="col-md-1" style="padding:24px">
+                                    <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar</i></a>
+                                </div>
+                                <div class="col-md-1" style="padding:24px">&nbsp;
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <table id="TableReporte" class="table table-bordered table-hover">
                                     <thead>
-                                        <tr class="cabecera">
-                                            <th>N°</th>
-                                            <th>Empresa</th>
-                                            <th>Tipo Formación</th>
-                                            <th>Formación</th>
-                                            <th>FREC</th>
-                                            <th>Fecha Inicio</th>
-                                            <th>Inscritos Últimos 2 Días</th>
-                                            <th>Inscritos Último Día</th>
-                                            <th>Total Inscritos</th>
-                                            <th>Meta MAX</th>
-                                            <th>Meta MIN</th>
-                                            <th>Inicio Campaña</th>
-                                            <th>Dias Campaña</th>
-                                            <th>Indice x Día</th>
-                                            <th>Días que Falta</th>
-                                            <th>Proy. Días Faltantes</th>
-                                            <th>Proy. Final</th>
-                                            <th>Falta Lograr Meta</th>
+                                        <tr>
+                                            <th class="text-center" style="background-color: #DDEBF7;" colspan='7'>DATOS DE LA FORMACIÓN CONTINUA</th>
+                                            <th class="text-center" style="background-color: #E2EFDA;" colspan='7'>INSCRIPCIÓN DE LA SEMANA ANTERIOR</th>
+                                            <th class="text-center" style="background-color: #E2EFDA;" colspan='7'>INSCRIPCIÓN ÚLTIMOS 7 DÍAS</th>
+                                            <th class="text-center" style="background-color: #E2EFDA;" colspan='3'>INSCRIPCIONES</th>
+                                            <th class="text-center" style="background-color: #FFF2CC;" colspan='11'>CALCULO DE ÍNDICE DE INSCRIPCIÓN</th>
+                                        </tr>
+                                        <tr id="cabecera">
+                                            <th style="background-color: #DDEBF7;">Ode</th>
+                                            <th style="background-color: #DDEBF7;">Empresa</th>
+                                            <th style="background-color: #DDEBF7;">Carrera / Módulo</th>
+                                            <th style="background-color: #DDEBF7;">Inicio / Curso</th>
+                                            <th style="background-color: #DDEBF7;">Frecuencia</th>
+                                            <th style="background-color: #DDEBF7;">Horario</th>
+                                            <th style="background-color: #DDEBF7;">Fecha de Inicio</th>
+
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-13 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-12 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-11 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-10 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-9 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-8 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-7 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-6 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-5 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-4 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-3 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-2 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-1 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d');?></th>
+                                            <th style="background-color: #E2EFDA;">Semana Anterior</th>
+                                            <th style="background-color: #E2EFDA;">Últimos 7 días</th>
+                                            <th style="background-color: #E2EFDA;">Total Inscrito</th>
+                                            
+                                            <th style="background-color: #FFF2CC;">Meta Máxima</th>
+                                            <th style="background-color: #FFF2CC;">Meta Mínima</th>
+                                            <th style="background-color: #FFF2CC;">Inicio Campaña</th>
+                                            <th style="background-color: #FFF2CC;">Días Campaña</th>
+                                            <th style="background-color: #FFF2CC;">Días que falta</th>
+                                            <th style="background-color: #FFF2CC;">Índice Semana Anterior</th>
+                                            <th style="background-color: #FFF2CC;">Índice Últimos 7 días</th>
+                                            <th style="background-color: #FFF2CC;">Proy. días Faltantes</th>
+                                            <th style="background-color: #FFF2CC;">Proy. Final</th>
+                                            <th style="background-color: #FFF2CC;">Falta para lograr meta</th>
+                                            <th style="background-color: #FFF2CC;">Observación</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                     <tfoot>
-                                        <tr class="cabecera">
-                                            <th>N°</th>
-                                            <th>Empresa</th>
-                                            <th>Tipo Formación</th>
-                                            <th>Formación</th>
-                                            <th>FREC</th>
-                                            <th>Fecha Inicio</th>
-                                            <th>Inscritos Últimos 2 Días</th>
-                                            <th>Inscritos Último Día</th>
-                                            <th>Total Inscritos</th>
-                                            <th>Meta MAX</th>
-                                            <th>Meta MIN</th>
-                                            <th>Inicio Campaña</th>
-                                            <th>Dias Campaña</th>
-                                            <th>Indice x Día</th>
-                                            <th>Días que Falta</th>
-                                            <th>Proy. Días Faltantes</th>
-                                            <th>Proy. Final</th>
-                                            <th>Falta Lograr Meta</th>
+                                        <tr id="cabecera2">
+                                            <th style="background-color: #DDEBF7;">Ode</th>
+                                            <th style="background-color: #DDEBF7;">Empresa</th>
+                                            <th style="background-color: #DDEBF7;">Carrera / Módulo</th>
+                                            <th style="background-color: #DDEBF7;">Inicio / Curso</th>
+                                            <th style="background-color: #DDEBF7;">Frecuencia</th>
+                                            <th style="background-color: #DDEBF7;">Horario</th>
+                                            <th style="background-color: #DDEBF7;">Fecha de Inicio</th>
+
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-13 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-12 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-11 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-10 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-9 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-8 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-7 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-6 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-5 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-4 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-3 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-2 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d',strtotime('-1 day'));?></th>
+                                            <th style="background-color: #E2EFDA;"><?php echo date('Y-m-d');?></th>
+                                            <th style="background-color: #E2EFDA;">Semana Anterior</th>
+                                            <th style="background-color: #E2EFDA;">Últimos 7 días</th>
+                                            <th style="background-color: #E2EFDA;">Total Inscrito</th>
+                                            
+                                            <th style="background-color: #FFF2CC;">Meta Máxima</th>
+                                            <th style="background-color: #FFF2CC;">Meta Mínima</th>
+                                            <th style="background-color: #FFF2CC;">Inicio Campaña</th>
+                                            <th style="background-color: #FFF2CC;">Días Campaña</th>
+                                            <th style="background-color: #FFF2CC;">Días que falta</th>
+                                            <th style="background-color: #FFF2CC;">Índice Semana Anterior</th>
+                                            <th style="background-color: #FFF2CC;">Índice Últimos 7 días</th>
+                                            <th style="background-color: #FFF2CC;">Proy. días Faltantes</th>
+                                            <th style="background-color: #FFF2CC;">Proy. Final</th>
+                                            <th style="background-color: #FFF2CC;">Falta para lograr meta</th>
+                                            <th style="background-color: #FFF2CC;">Observación</th>
                                         </tr>
                                     </tfoot>
                                 </table>
-                            </div><!-- .box-body -->
+                            </div>
+                        </div><!-- .box-body -->
+                    </form><!-- .form -->
                     </div><!-- .box -->
                 </div><!-- .col -->
             </div><!-- .row -->

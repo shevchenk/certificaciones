@@ -19,6 +19,13 @@ $(document).ready(function() {
         $('#txt_fecha_final').focus();
     });
 
+    $('#spn_fecha_ins_ini').on('click', function(){
+        $('#txt_fecha_inscripcion_inicial').focus();
+    });
+    $('#spn_fecha_ins_fin').on('click', function(){
+        $('#txt_fecha_inscripcion_final').focus();
+    });
+
     
     $("#TableReporte").DataTable({
         "paging": true,
@@ -32,11 +39,17 @@ $(document).ready(function() {
     function DataToFilter(){
         var fecha_inicial = $('#txt_fecha_inicial').val();
         var fecha_final = $('#txt_fecha_final').val();
+        var fecha_inscripcion_inicial = $('#txt_fecha_inscripcion_inicial').val();
+        var fecha_inscripcion_final = $('#txt_fecha_inscripcion_final').val();
         data=true;
         
-        if( fecha_final=='' || fecha_inicial=='' ){
+        if( fecha_final=='' || fecha_inicial=='' || fecha_inscripcion_final=='' || fecha_inscripcion_inicial=='' ){
             data=false;
-            swal("Mensaje", "Por favor seleccione ambas fechas!")
+            swal("Mensaje", "Por favor seleccione todas las fechas!")
+        }
+        else if( $.trim($("#slct_empresa").val())=='' ){
+            data=false;
+            swal("Mensaje", "Por favor seleccione almenos 1 empresa!")
         }
         return data;
     }
@@ -50,7 +63,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnexport', function(event) {
         if( DataToFilter() ){
-            $(this).attr('href','ReportDinamic/Reporte.ReporteAvanzadoEM@ExportIndiceMatriculacion'+'?fecha_inicial='+$("#txt_fecha_inicial").val()+'&fecha_final='+$("#txt_fecha_final").val()+'&sucursal2='+$.trim($("#slct_sucursal").val())+'&empresa2='+$.trim($("#slct_empresa").val()));
+            $(this).attr('href','ReportDinamic/Reporte.ReporteAvanzadoEM@ExportMedioCaptacion'+'?fecha_inicial='+$("#txt_fecha_inicial").val()+'&fecha_final='+$("#txt_fecha_final").val()+'&fecha_inscripcion_inicial='+$("#txt_fecha_inscripcion_inicial").val()+'&fecha_inscripcion_final='+$("#txt_fecha_inscripcion_final").val()+'&sucursal2='+$.trim($("#slct_sucursal").val())+'&empresa2='+$.trim($("#slct_empresa").val()));
         }else{
             event.preventDefault();
         }
@@ -84,64 +97,33 @@ HTMLCargarReporte=function(result){
     var html="";
     $('#TableReporte').DataTable().destroy();
     $("#TableReporte tbody").html(html); 
-    $.each(result.data,function(index,r){
-        r.ind_sa = (r.sa / 7).toFixed(2);
-        r.ind_ud = (r.ud / 7).toFixed(2);
-        r.pro_df = (r.dias_falta * r.ind_ud).toFixed(0);
-        r.pro_fin = r.total*1 + r.pro_df*1;
-        r.falta_meta = r.meta_max - r.pro_fin;
-        if( r.falta_meta < 0 ){
-            r.falta_meta = 0;
-        }
-        //color="FFFF4848";
-        color = 'danger';
-        if( r.pro_fin >= r.meta_max ){
-            //color="FF35FF35";
-            color = 'success';
-        }
-        else if( r.pro_fin >= r.meta_min ){
-            //color="FFFFFF48";
-            color = 'warning';
-        }
 
+    $('#TableReporte #cabecera,#TableReporte #cabecera2').find(".cabecera").remove();
+    cantidad = $("#slct_empresa").val().length;
+    for (var i = 0; i < cantidad; i++) {
+        $('#TableReporte #cabecera,#TableReporte #cabecera2').append('<th class="cabecera" style="background-color: #FFF2CC;">'+$("#slct_empresa option[value='"+$("#slct_empresa").val()[i]+"']").text()+'</th>');
+    }
+    $('#TableReporte #cabecera,#TableReporte #cabecera2').append('<th class="cabecera" style="background-color: #FFF2CC;">Total</th>');
+    $("#titmedio").attr("colspan",cantidad*1+4);
+
+    var ode_aux='';
+    $.each(result.data,function(index,r){
+        if( ode_aux!=r.ode ){
+            ode_aux=r.ode;
+            contador=0;
+        }
+        contador++;
+        r.nro = contador;
         html="<tr>"+
             "<td>"+r.ode+"</td>"+
-            "<td>"+r.empresa+"</td>"+
-            "<td>"+r.formacion+"</td>"+
-            "<td>"+r.curso+"</td>"+
-            "<td>"+r.frecuencia+"</td>"+
-            "<td>"+r.horario+"</td>"+
-            "<td>"+r.inicio+"</td>"+
+            "<td>"+r.nro+"</td>"+
+            "<td>"+r.medio_captacion+"</td>";
 
-            "<td>"+r.f14+"</td>"+
-            "<td>"+r.f13+"</td>"+
-            "<td>"+r.f12+"</td>"+
-            "<td>"+r.f11+"</td>"+
-            "<td>"+r.f10+"</td>"+
-            "<td>"+r.f9+"</td>"+
-            "<td>"+r.f8+"</td>"+
-            "<td>"+r.f7+"</td>"+
-            "<td>"+r.f6+"</td>"+
-            "<td>"+r.f5+"</td>"+
-            "<td>"+r.f4+"</td>"+
-            "<td>"+r.f3+"</td>"+
-            "<td>"+r.f2+"</td>"+
-            "<td>"+r.f1+"</td>"+
-            "<td>"+r.sa+"</td>"+
-            "<td>"+r.ud+"</td>"+
-            "<td>"+r.total+"</td>"+
-
-            "<td>"+r.meta_max+"</td>"+
-            "<td>"+r.meta_min+"</td>"+
-            "<td>"+r.fecha_campaña+"</td>"+
-            "<td>"+r.dias_campaña+"</td>"+
-            "<td>"+r.dias_falta+"</td>"+
-            "<td>"+r.ind_sa+"</td>"+
-            "<td>"+r.ind_ud+"</td>"+
-            "<td>"+r.pro_df+"</td>"+
-            "<td class='"+color+"'>"+r.pro_fin+"</td>"+
-            "<td>"+r.falta_meta+"</td>"+
-            "<td>"+r.obs+"</td>"+
+        for (var i = 1; i <= cantidad; i++) {
+        html+="<td>"+r['e'+i]+"</td>";
+        }
+        
+        html+="<td>"+r.total+"</td>"+
             "</tr>";
             $("#TableReporte tbody").append(html); 
     });

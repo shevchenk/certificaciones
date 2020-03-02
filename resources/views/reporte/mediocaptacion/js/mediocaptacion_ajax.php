@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var Reporte={
     Cargar:function(evento){
-        url='AjaxDinamic/Reporte.ReporteAvanzadoEM@LoadIndiceMatriculacion';
+        url='AjaxDinamic/Reporte.ReporteAvanzadoEM@LoadMedioCaptacion';
         data = $("#ReporteForm").serialize().split("txt_").join("").split("slct_").join("");
         masterG.postAjax(url,data,evento);
     },
