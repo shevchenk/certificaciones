@@ -29,7 +29,7 @@ class Trabajador extends Model
         $trabajador->tarea_id = trim( $r->tarea_id );
         $trabajador->codigo = trim( $r->codigo );
         $trabajador->medio_captacion_id = null;
-        if( $r->has('rol_id')=='1' ){
+        if( $r->has('rol_id') AND $r->rol_id=='1' ){
             $trabajador->medio_captacion_id = trim( $r->medio_captacion_id );
         }
         $trabajador->estado = trim( $r->estado );
@@ -45,7 +45,7 @@ class Trabajador extends Model
         $trabajador->tarea_id = trim( $r->tarea_id );
         $trabajador->codigo = trim( $r->codigo );
         $trabajador->medio_captacion_id = null;
-        if( $r->has('rol_id')=='1' ){
+        if( $r->has('rol_id') AND $r->rol_id=='1' ){
             $trabajador->medio_captacion_id = trim( $r->medio_captacion_id );
         }
         $trabajador->estado = trim( $r->estado );
