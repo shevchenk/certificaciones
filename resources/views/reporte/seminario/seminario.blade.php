@@ -71,11 +71,11 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color: #F2DCDB;" colspan='6'>DATOS DEL INSCRITO</th>
-                                            <th style="background-color: #C5D9F1;" colspan='10'>SOBRE LA INFORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #C5D9F1;" colspan='11'>SOBRE LA INFORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FFFF00;" colspan='4'>PAGO POR CURSO</th>
                                             <th style="background-color: #8DB4E2;" colspan='3'>PAGO POR CONJUNTO DE CURSOS</th>
                                             <th style="background-color: #8DB4E2;" colspan='3'>PAGO POR INSCRIPCIÓN</th>
-                                            <th style="background-color: #FCD5B4;" colspan='7'>DATOS DE LA VENTA</th>
+                                            <th style="background-color: #FCD5B4;" colspan='6'>DATOS DE LA VENTA</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #F2DCDB;">DNI</th>
