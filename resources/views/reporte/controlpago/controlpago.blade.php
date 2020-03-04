@@ -83,7 +83,7 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color: #DDEBF7;" colspan='6'>DATOS DEL ALUMNO</th>
-                                            <th style="background-color: #E2EFDA;" colspan='9'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #E2EFDA;" colspan='10'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FCE4D6;" colspan='3'>PAGO POR CURSO INDEPENDIENTE</th>
                                             <th style="background-color: #E2EFDA;" colspan='3'>PAGO POR CONJUNTO DE CURSOS</th>
                                             <th style="background-color: #FFF2CC;" colspan='3'>PAGO POR INSCRIPCIÓN</th>

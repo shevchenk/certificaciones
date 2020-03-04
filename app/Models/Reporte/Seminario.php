@@ -511,7 +511,9 @@ class Seminario extends Model
                     ,'e.empresa AS empresa_inscripcion','mm.fecha_matricula'
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
-                    ,'mc.curso AS curso', 's.sucursal AS local', 'mp.dia AS frecuencia', 'mp.turno', 'mp.fecha_inicio AS inicio'
+                    ,'mc.curso AS curso', 's.sucursal AS local', 'mp.dia AS frecuencia'
+                    , DB::raw('CONCAT(TIME(mp.fecha_inicio)," - ",TIME(mp.fecha_final)) AS horario')
+                    , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')
                     ,'mmd.nro_pago_certificado AS nro_pago'
                     ,'mmd.monto_pago_certificado AS monto_pago'
                     ,DB::raw(' CASE 
@@ -692,7 +694,7 @@ class Seminario extends Model
         $pos=array(
             5,15,15,15,15,15,20,
             15,15,15,25,25,
-            20,15,15,15,
+            20,15,15,15,15,
             15,15,15,
             15,15,15,
             15,15,15,
@@ -722,7 +724,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,8,2,2,2,0,1,1,1);
+        $nrocabeceraTit=array(5,9,2,2,2,0,1,1,1);
         $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6');
         $lengthTit=array();
         $lengthDet=array();
@@ -756,8 +758,8 @@ class Seminario extends Model
         $cabecera=array(
             'N°'
             ,'DNI','Nombre','Paterno','Materno','Celular','Email'
-            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua'
-            ,'Local','Frecuencia','Turno','Inicio'
+            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Carrera / Módulo','Inicio / Curso'
+            ,'Local','Frecuencia','Horario','Turno','Inicio'
             ,'Nro Pago','Monto Pago','Tipo Pago'
             ,'Nro Recibo PCC','Monto PPC','Tipo Pago'
             ,'Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago'
