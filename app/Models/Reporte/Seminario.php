@@ -281,7 +281,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(1,6,9,3,2,2,5);
+        $nrocabeceraTit=array(1,6,10,3,2,2,5);
         $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#8DB4E2','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
