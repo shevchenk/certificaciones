@@ -316,7 +316,7 @@ class Seminario extends Model
             'N°','Fuente de Datos','Fuente de Datos de Empresa'
             ,'DNI','Nombre','Paterno','Materno','Telefono','Celular','Email'
             ,'Validó Email?','Fecha Inscripción','Donde Estudiará','Empresa'
-            ,'Tipo de Formación Continua','Nombre del Módulo','Formación Continua','Frecuencia','Turno','Inicio'
+            ,'Tipo de Formación Continua','Carrera / Módulo','Inicio / Curso','Frecuencia','Horario','Turno','Inicio'
             ,'Nro Pago','Monto Pago','Tipo Pago','Total Pagado'
             ,'Nro Recibo PCC','Monto PPC','Tipo Pago PPC','Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago Inscripción'
             ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Medio Captación','Supervisor(a)'
@@ -331,7 +331,7 @@ class Seminario extends Model
         $r['lengthTit']=$lengthTit;
         $r['colorTit']=$colorTit;
         $r['lengthDet']=$lengthDet;
-        $r['max']='AI'; // Max. Celda en LETRA
+        $r['max']='AK'; // Max. Celda en LETRA
         return $r;
     }
 
