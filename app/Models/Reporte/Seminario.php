@@ -630,7 +630,14 @@ class Seminario extends Model
                                         WHERE ep.estado = 1
                                         AND ms.id IS NULL AND mc.id IS NULL 
                                         AND ep.fecha_cronograma<= CURDATE()
-                                        AND m.id = mm.id),0) AS deuda_total ')
+                                        AND m.id = mm.id),0)
+                                +
+                                IFNULL((SELECT MIN(saldo) sal
+                                FROM mat_matriculas_saldos
+                                WHERE estado=1
+                                AND matricula_detalle_id= mmd.id
+                                GROUP BY matricula_detalle_id
+                                HAVING sal > 0 ),0) AS deuda_total ')
                     )
             ->where( 
                 function($query) use ($r){
@@ -736,7 +743,7 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','DEUDA TOTAL A LA FECHA'
+            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','A LA FECHA'
         );
 
         $valIni=66;

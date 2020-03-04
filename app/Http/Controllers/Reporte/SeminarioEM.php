@@ -482,7 +482,7 @@ class SeminarioEM extends Controller
 
             $count = $sheet->getHighestRow();
             $sheet->getStyle('A2:'.$renturnModel['max']."3")->getAlignment()->setWrapText(true);
-            $sheet->getStyle('O4:AF'.$count)->getAlignment()->setWrapText(true);
+            $sheet->getStyle('O4:AG'.$count)->getAlignment()->setWrapText(true);
             
             $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
 
