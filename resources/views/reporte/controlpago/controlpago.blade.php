@@ -91,6 +91,7 @@
                                             <th style="background-color: #FCE4D6;" colspan='2'>DEUDA Y NOTA FINAL DEL CURSO</th>
                                             <th style="background-color: #DDEBF7;" colspan='2'>PROGRAMACION Y PAGO - CUOTAS</th>
                                             <th style="background-color: #FCE4D6;" colspan='2'>PAGO Y DEUDA DE SALDOS - CUOTAS</th>
+                                            <th style="background-color: #FCE4D6;" colspan='2'>A LA FECHA</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #DDEBF7;">DNI</th>
@@ -133,6 +134,7 @@
 
                                             <th style="background-color: #FCE4D6;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
                                             <th style="background-color: #FCE4D6;">Cuota / Monto Deuda</th>
+                                            <th style="background-color: #FCE4D6;">Deuda Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -179,6 +181,7 @@
 
                                             <th style="background-color: #FCE4D6;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
                                             <th style="background-color: #FCE4D6;">Cuota / Monto Deuda</th>
+                                            <th style="background-color: #FCE4D6;">Deuda Total</th>
                                         </tr>
                                     </tfoot>
                                 </table>
