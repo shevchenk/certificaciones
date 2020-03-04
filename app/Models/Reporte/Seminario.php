@@ -50,6 +50,9 @@ class Seminario extends Model
             ->join('personas AS pmat',function($join){
                 $join->on('pmat.id','=','mm.persona_matricula_id');
             })
+            ->leftJoin('mat_medios_captaciones AS meca',function($join){
+                $join->on('meca.id','=','mm.medio_captacion_id');
+            })
             ->leftJoin('mat_programaciones AS mp',function($join){
                 $join->on('mp.id','=','mmd.programacion_id');
             })
@@ -67,7 +70,9 @@ class Seminario extends Model
                     ,'mm.fecha_matricula',DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
-                    ,'mc.curso AS curso', 'mp.dia AS frecuencia', 'mp.turno', 'mp.fecha_inicio AS inicio'
+                    ,'mc.curso AS curso', 'mp.dia AS frecuencia'
+                    , DB::raw('CONCAT(TIME(mp.fecha_inicio)," - ",TIME(mp.fecha_final)) AS horario')
+                    , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')
                     ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
                                 "",
                                 GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
@@ -118,6 +123,7 @@ class Seminario extends Model
                     ,'s.sucursal','s2.sucursal AS recogo_certificado'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
+                    ,'meca.medio_captacion'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
                     )
             ->where( 
@@ -145,10 +151,10 @@ class Seminario extends Model
             ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','mm.validada'
                     ,'mm.fecha_matricula','e.empresa'
-                    ,'mmd.especialidad_id','mc.curso','mc.tipo_curso','me.especialidad','mp.dia','mp.turno','mp.fecha_inicio'
+                    ,'mmd.especialidad_id','mc.curso','mc.tipo_curso','me.especialidad','mp.dia','mp.turno','mp.fecha_inicio','mp.fecha_final'
                     ,'mm.especialidad_programacion_id'
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion'
-                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion');
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion');
             
         $result = $sql->orderBy('mm.id','asc')->get();
         return $result;
@@ -251,7 +257,7 @@ class Seminario extends Model
             15,15,15,15,15,
             15,15,15,15,15,15,
             20,20,20,
-            15,15,15,20
+            15,15,15,20,20
         );
 
         $estatico='';
@@ -275,7 +281,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(1,6,9,3,2,2,4);
+        $nrocabeceraTit=array(1,6,9,3,2,2,5);
         $colorTit=array('#FDE9D9','#F2DCDB','#C5D9F1','#FFFF00','#8DB4E2','#8DB4E2','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -313,7 +319,7 @@ class Seminario extends Model
             ,'Tipo de Formación Continua','Nombre del Módulo','Formación Continua','Frecuencia','Turno','Inicio'
             ,'Nro Pago','Monto Pago','Tipo Pago','Total Pagado'
             ,'Nro Recibo PCC','Monto PPC','Tipo Pago PPC','Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago Inscripción'
-            ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Supervisor(a)'
+            ,'Sede De Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Medio Captación','Supervisor(a)'
         );
         $campos=array('');
 
