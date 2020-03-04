@@ -4,7 +4,7 @@
         <div class="modal-header btn-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title">Iniciao / Curso</h4>
+           <h4 class="modal-title">Inicio / Curso</h4>
         </div>
         <div class="modal-body"><!-- INICIO BODY-->
             <form id="ModalCursoForm" name="ModalCursoForm"><!-- INICIO FORM-->
