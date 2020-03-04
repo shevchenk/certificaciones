@@ -99,8 +99,8 @@
                                             <th style="background-color: #E2EFDA;">Empresa</th>
                                             <th style="background-color: #E2EFDA;">Fecha de Inscripción</th>
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
-                                            <th style="background-color: #E2EFDA;">Nombre del Módulo</th>
-                                            <th style="background-color: #E2EFDA;">Formación Continua</th>
+                                            <th style="background-color: #E2EFDA;">Carrera / Módulo</th>
+                                            <th style="background-color: #E2EFDA;">Inicio / Curso</th>
                                             <th style="background-color: #E2EFDA;">Local</th>
                                             <th style="background-color: #E2EFDA;">Frecuencia</th>
                                             <th style="background-color: #E2EFDA;">Turno</th>
@@ -124,8 +124,8 @@
                                             <th style="background-color: #E2EFDA;">Empresa</th>
                                             <th style="background-color: #E2EFDA;">Fecha de Inscripción</th>
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
-                                            <th style="background-color: #E2EFDA;">Nombre del Módulo</th>
-                                            <th style="background-color: #E2EFDA;">Formación Continua</th>
+                                            <th style="background-color: #E2EFDA;">Carrera / Módulo</th>
+                                            <th style="background-color: #E2EFDA;">Inicio / Curso</th>
                                             <th style="background-color: #E2EFDA;">Local</th>
                                             <th style="background-color: #E2EFDA;">Frecuencia</th>
                                             <th style="background-color: #E2EFDA;">Turno</th>
