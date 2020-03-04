@@ -127,7 +127,7 @@ HTMLCargarReporte=function(result){
             
             "<td><ul><li>"+$.trim(pagos_cuota)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(pagos_cuota)+"</li></ul></td>"+
-            "<td><ul><li>"+$.trim(deuda_total)+"</li></ul></td>";
+            "<td><ul><li>"+$.trim(r.deuda_total)+"</li></ul></td>";
 
         html+="</tr>";
     });
