@@ -103,6 +103,7 @@ HTMLCargarReporte=function(result){
             "<td>"+r.formacion+"</td>"+
             "<td>"+r.curso+"</td>"+
             "<td>"+$.trim(r.frecuencia)+"</td>"+
+            "<td>"+$.trim(r.horario)+"</td>"+
             "<td>"+$.trim(r.turno)+"</td>"+
             "<td>"+$.trim(r.inicio)+"</td>"+
             
@@ -123,6 +124,7 @@ HTMLCargarReporte=function(result){
             "<td>"+r.recogo_certificado+"</td>"+
             "<td>"+r.cajera+"</td>"+
             "<td>"+r.marketing+"</td>"+
+            "<td>"+r.medio_captacion+"</td>"+
             "<td>"+r.matricula+"</td>";
         html+="</tr>";
     });

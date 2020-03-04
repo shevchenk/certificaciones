@@ -75,7 +75,7 @@
                                             <th style="background-color: #FFFF00;" colspan='4'>PAGO POR CURSO</th>
                                             <th style="background-color: #8DB4E2;" colspan='3'>PAGO POR CONJUNTO DE CURSOS</th>
                                             <th style="background-color: #8DB4E2;" colspan='3'>PAGO POR INSCRIPCIÓN</th>
-                                            <th style="background-color: #FCD5B4;" colspan='6'>DATOS DE LA VENTA</th>
+                                            <th style="background-color: #FCD5B4;" colspan='7'>DATOS DE LA VENTA</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #F2DCDB;">DNI</th>
@@ -90,9 +90,10 @@
                                             <th style="background-color: #C5D9F1;">Donde Estudiará</th>
                                             <th style="background-color: #C5D9F1;">Empresa</th>
                                             <th style="background-color: #C5D9F1;">Tipo de Formación Continua</th>
-                                            <th style="background-color: #C5D9F1;">Nombre del Módulo</th>
-                                            <th style="background-color: #C5D9F1;">Formación Continua</th>
+                                            <th style="background-color: #C5D9F1;">Carrera / Módulo</th>
+                                            <th style="background-color: #C5D9F1;">Inicio / Curso</th>
                                             <th style="background-color: #C5D9F1;">Frecuencia</th>
+                                            <th style="background-color: #C5D9F1;">Horario</th>
                                             <th style="background-color: #C5D9F1;">Turno</th>
                                             <th style="background-color: #C5D9F1;">Inicio</th>
                                         
@@ -113,6 +114,7 @@
                                             <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
                                             <th style="background-color: #FCD5B4;">Cajero(a)</th>
                                             <th style="background-color: #FCD5B4;">Vendedor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Medio Captación</th>
                                             <th style="background-color: #FCD5B4;">Supervisor(a)</th>
                                         </tr>
                                     </thead>
@@ -132,9 +134,10 @@
                                             <th style="background-color: #C5D9F1;">Donde Estudiará</th>
                                             <th style="background-color: #C5D9F1;">Empresa</th>
                                             <th style="background-color: #C5D9F1;">Tipo de Formación Continua</th>
-                                            <th style="background-color: #C5D9F1;">Nombre del Módulo</th>
-                                            <th style="background-color: #C5D9F1;">Formación Continua</th>
+                                            <th style="background-color: #C5D9F1;">Carrera / Módulo</th>
+                                            <th style="background-color: #C5D9F1;">Inicio / Curso</th>
                                             <th style="background-color: #C5D9F1;">Frecuencia</th>
+                                            <th style="background-color: #C5D9F1;">Horario</th>
                                             <th style="background-color: #C5D9F1;">Turno</th>
                                             <th style="background-color: #C5D9F1;">Inicio</th>
                                         
@@ -155,6 +158,7 @@
                                             <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
                                             <th style="background-color: #FCD5B4;">Cajero(a)</th>
                                             <th style="background-color: #FCD5B4;">Vendedor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Medio Captación</th>
                                             <th style="background-color: #FCD5B4;">Supervisor(a)</th>
                                         </tr>
                                     </tfoot>
