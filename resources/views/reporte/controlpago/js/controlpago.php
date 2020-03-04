@@ -101,6 +101,7 @@ HTMLCargarReporte=function(result){
             "<td>"+r.curso+"</td>"+
             "<td>"+$.trim(r.local)+"</td>"+
             "<td>"+$.trim(r.frecuencia)+"</td>"+
+            "<td>"+$.trim(r.horario)+"</td>"+
             "<td>"+$.trim(r.turno)+"</td>"+
             "<td>"+$.trim(r.inicio)+"</td>"+
             
