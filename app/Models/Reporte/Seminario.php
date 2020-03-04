@@ -603,7 +603,7 @@ class Seminario extends Model
                                 WHERE nro_pago!=""
                                 AND estado=1
                                 AND matricula_id= mm.id),"") AS pagos_cuota ')
-                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT( IF(cuota=-1,"Ins.",cuota)," / ", sal ORDER BY cuota SEPARATOR "\n" )
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT( IF(cuota=-1,"Ins.", IF(cuota=0,"Mat.",cuota))," / ", sal ORDER BY cuota SEPARATOR "\n" )
                                         FROM (
                                             SELECT matricula_id, cuota, MIN(saldo) sal
                                             FROM mat_matriculas_saldos
@@ -612,6 +612,25 @@ class Seminario extends Model
                                             HAVING sal > 0
                                         ) cuota_deuda
                                         WHERE matricula_id = mm.id),0) AS deuda_cuota ')
+                    ,DB::raw('  IFNULL((SELECT SUM(sal)
+                                        FROM (
+                                            SELECT matricula_id, cuota, MIN(saldo) sal
+                                            FROM mat_matriculas_saldos
+                                            WHERE estado=1
+                                            GROUP BY matricula_id,cuota
+                                            HAVING sal > 0
+                                        ) cuota_deuda
+                                        WHERE matricula_id = mm.id),0)
+                                +
+                                IFNULL((SELECT SUM(ep.monto_cronograma)
+                                        FROM mat_especialidades_programaciones_cronogramas ep 
+                                        INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id AND m.estado=1
+                                        LEFT JOIN mat_matriculas_saldos ms ON ms.matricula_id=m.id AND ms.cuota=ep.cuota
+                                        LEFT JOIN mat_matriculas_cuotas mc ON mc.matricula_id=m.id AND mc.cuota=ep.cuota
+                                        WHERE ep.estado = 1
+                                        AND ms.id IS NULL AND mc.id IS NULL 
+                                        AND ep.fecha_cronograma<= CURDATE()
+                                        AND m.id = mm.id),0) AS deuda_total ')
                     )
             ->where( 
                 function($query) use ($r){
@@ -700,7 +719,7 @@ class Seminario extends Model
             15,15,15,
             30,
             15,15,
-            30,50,50,30
+            30,50,50,30,20
         );
 
         $estatico='';
@@ -717,15 +736,15 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS'
+            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','DEUDA TOTAL A LA FECHA'
         );
 
         $valIni=66;
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,9,2,2,2,0,1,1,1);
-        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6');
+        $nrocabeceraTit=array(5,9,2,2,2,0,1,1,1,0);
+        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6');
         $lengthTit=array();
         $lengthDet=array();
 
@@ -766,7 +785,7 @@ class Seminario extends Model
             ,'Monto Pago / Nro Pago / Tipo Pago'
             ,'Deuda a la Fecha','Promedio Final del Curso'
             ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
-            ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda'
+            ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda','Deuda Total'
         );
         $campos=array('');
 
@@ -778,7 +797,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'AF'; //$estatico.chr($min);
+        $return['max']= 'AG'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;
