@@ -1029,7 +1029,9 @@ class Seminario extends Model
         $sql = "SELECT mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa AS empresa_inscripcion, mm.fecha_matricula,
                 IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion,
                 IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion
-                ,mc.curso AS curso, s.sucursal AS local, mp.dia AS frecuencia, mp.turno, mp.fecha_inicio AS inicio
+                ,mc.curso AS curso, s.sucursal AS local, mp.dia AS frecuencia
+                , CONCAT(TIME(mp.fecha_inicio),' - ',TIME(mp.fecha_final)) horario
+                , mp.turno, DATE(mp.fecha_inicio) AS inicio
                 $notas
                 ,mmd.nota_curso_alum AS promedio 
 
@@ -1083,7 +1085,7 @@ class Seminario extends Model
                         }
                     }
 
-                $sql.=" GROUP BY mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa, mm.fecha_matricula, mmd.especialidad_id, mc.tipo_curso, mc.curso, mmd.nota_curso_alum, me.especialidad, mp.dia, mp.turno, mp.fecha_inicio, s.sucursal";
+                $sql.=" GROUP BY mm.id,p.dni, p.nombre, p.paterno, p.materno, p.celular, p.email, e.empresa, mm.fecha_matricula, mmd.especialidad_id, mc.tipo_curso, mc.curso, mmd.nota_curso_alum, me.especialidad, mp.dia, mp.turno, mp.fecha_inicio, mp.fecha_final, s.sucursal";
 
         $result= DB::select($sql);
 
@@ -1100,7 +1102,7 @@ class Seminario extends Model
         $pos=array(
             5,15,15,15,15,15,20,
             15,15,15,25,25,
-            20,15,15,15,
+            20,15,15,15,15,
             15,15,15,15,15,
             15,15,15,15,15,
             15,15,15,15,15
@@ -1127,7 +1129,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,8,count($cursos));
+        $nrocabeceraTit=array(5,9,count($cursos));
         $colorTit=array('#DDEBF7','#E2EFDA','#FFF2CC');
         $lengthTit=array();
         $lengthDet=array();
@@ -1161,8 +1163,8 @@ class Seminario extends Model
         $cabecera=array(
             'N°'
             ,'DNI','Nombre','Paterno','Materno','Celular','Email'
-            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Nombre del Módulo','Formación Continua'
-            ,'Local','Frecuencia','Turno','Inicio');
+            ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Carrera / Módulo','Inicio / Curso'
+            ,'Local','Frecuencia','Horario','Turno','Inicio');
 
         foreach ($cursos as $key => $value) {
             array_push($cabecera, 'Nota '.($key+1));
