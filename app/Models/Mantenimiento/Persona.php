@@ -498,13 +498,12 @@ class Persona extends Model
                 $join->on('p2.id','=','t.persona_id')
                 ->where('p2.estado',1);
             })
-            ->leftJoin('llamadas AS ll', function($join){
-                $join->on('ll.persona_id','=','p.id')
-                ->where('ll.estado',1)
-                ->where('ll.ultimo_registro',1);
-            })
-            ->leftJoin('tipo_llamadas AS tl', function($join){
-                $join->on('tl.id','=','ll.tipo_llamada_id');
+            ->leftJoin(DB::raw('(SELECT tl.peso, tl.tipo_llamada,ll.persona_id
+                FROM llamadas AS ll 
+                INNER JOIN mat_trabajadores t2 ON t2.id = ll.trabajador_id AND t2.empresa_id = 1 
+                INNER JOIN `tipo_llamadas` AS `tl` ON `tl`.`id` = `ll`.`tipo_llamada_id` 
+                WHERE `ll`.`estado` = 1 AND `ll`.`ultimo_registro` = 1 ) AS tl'), function($join){
+                $join->on('tl.persona_id','=','p.id');
             })
             ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
