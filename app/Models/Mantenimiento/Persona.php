@@ -484,7 +484,7 @@ class Persona extends Model
 
     public static function runLoadDistribuida($r)
     {
-        $sql=DB::table('personas_llamadas AS p')
+        $sql=DB::table('personas_llamadass AS p')
             ->Join('personas_distribuciones AS pd', function($join){
                 $join->on('pd.persona_id','=','p.id')
                 ->where('pd.estado',1);
@@ -621,7 +621,7 @@ class Persona extends Model
         $result = $sql->orderBy('tl.peso','asc')
                     ->orderBy('tl.tipo_llamada','asc')
                     ->orderBy('pd.fecha_distribucion','desc')
-                    ->paginate(10);
+                    ->get();
         return $result;
     }
 
