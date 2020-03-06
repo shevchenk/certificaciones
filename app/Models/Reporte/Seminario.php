@@ -41,14 +41,14 @@ class Seminario extends Model
             ->join('empresas AS e',function($join){
                 $join->on('e.id','=','mc.empresa_id');
             })
-            ->join('personas AS pcaj',function($join){
-                $join->on('pcaj.id','=','mm.persona_caja_id');
-            })
-            ->join('personas AS pmar',function($join){
-                $join->on('pmar.id','=','mm.persona_marketing_id');
-            })
             ->join('personas AS pmat',function($join){
                 $join->on('pmat.id','=','mm.persona_matricula_id');
+            })
+            ->leftJoin('personas AS pcaj',function($join){
+                $join->on('pcaj.id','=','mm.persona_caja_id');
+            })
+            ->leftJoin('personas AS pmar',function($join){
+                $join->on('pmar.id','=','mm.persona_marketing_id');
             })
             ->leftJoin('mat_medios_captaciones AS meca',function($join){
                 $join->on('meca.id','=','mm.medio_captacion_id');
