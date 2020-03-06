@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\Models\Proceso\Visita;
 use App\Models\Proceso\Matricula;
-use App\Models\Mantenimiento\PersonaLLamada;
+use App\Models\Mantenimiento\PersonaLlamada;
 use DB;
 
 class Persona extends Model
