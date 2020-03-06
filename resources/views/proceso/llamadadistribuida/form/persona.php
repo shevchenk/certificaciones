@@ -72,11 +72,11 @@
                             <input type="text" class="form-control fechas" id="txt_fecha_nacimiento" name="txt_fecha_nacimiento" placeholder="AAAA-MM-DD" readonly=""> <!-- onfocus="blur()"/-->
                         </div>
                     </div>
-                    <div class="col-sm-12 panel">
+                    <div class="col-sm-12 panel" style="display: none;">
                         <hr>
                         <div class="panel-heading bg-info"><center>DATOS ADICIONALES</center></div>
                     </div>
-                    <div class="col-sm-12"> <!--INICIO DE COL SM 12-->
+                    <div class="col-sm-12" style="display: none;"> <!--INICIO DE COL SM 12-->
                         <div class="col-sm-4">
                             <label>Pais Nacimiento:</label>
                             <input type="hidden" class="mant" id="txt_pais_id" name="txt_pais_id">
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                     </div> <!--FIN DE COL SM 12-->
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" style="display: none;">
                         <div class="col-sm-6 paisafectado">
                             <label>Distrito Nacimiento:</label>
                             <input type="hidden" class="mant" id="txt_distrito_id" name="txt_distrito_id">
@@ -114,7 +114,7 @@
                             <input type="text" disabled class="form-control" id="txt_region" placeholder="Región">
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" style="display: none;">
                         <div class="col-sm-6">
                             <label>Distrito Dirección:</label>
                             <input type="hidden" class="mant" id="txt_distrito_id_dir" name="txt_distrito_id_dir">
@@ -142,7 +142,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" style="display: none;">
                         <div class="col-sm-6">
                             <label>Dirección:</label>
                             <textarea cols="3" class="form-control" id="txt_direccion_dir" name="txt_direccion_dir" placeholder="Dirección"></textarea>

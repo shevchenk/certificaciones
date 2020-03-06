@@ -124,13 +124,15 @@ class Reporte extends Model
             GROUP BY ll.persona_id, t.empresa_id
         ) l ON l.persona_id=pc.persona_id AND l.empresa_id=pc.empresa_id 
         LEFT JOIN (
-            SELECT mm.persona_id, mc.empresa_id 
+            SELECT pl.id persona_id, mc.empresa_id 
             FROM mat_matriculas mm
             INNER JOIN mat_matriculas_detalles mmd ON mmd.matricula_id=mm.id 
             INNER JOIN mat_cursos mc ON mc.id=mmd.curso_id
+            INNER JOIN personas pp ON pp.id = mm.persona_id 
+            INNER JOIN personas_llamadas pl ON pl.dni=pp.dni 
             WHERE mm.fecha_matricula>='$fecha_ini'
             AND mm.estado=1
-            GROUP BY mm.persona_id, mc.empresa_id
+            GROUP BY pl.id, mc.empresa_id
         ) m ON m.persona_id=pc.persona_id AND m.empresa_id=pc.empresa_id 
         LEFT JOIN (
             SELECT pd.persona_id, t.empresa_id
@@ -892,7 +894,7 @@ class Reporte extends Model
             ($r->has("empresa") AND trim($r->empresa)!='') OR 
             ( $r->has("fecha_ini_dis") AND $r->has("fecha_fin_dis") AND trim($r->fecha_ini_dis)!='' AND trim($r->fecha_fin_dis)!='' )
         ){
-            $sql->join('personas AS p',function($join) use ( $r ){
+            $sql->join('personas_llamadas AS p',function($join) use ( $r ){
                 $join->on('p.id','=','ll.persona_id');
                 if( $r->has("fuente") AND trim($r->fuente)!='' ){
                     $fuente=explode(',',$r->fuente);
@@ -996,7 +998,7 @@ class Reporte extends Model
             ($r->has("empresa") AND trim($r->empresa)!='') OR 
             ( $r->has("fecha_ini_dis") AND $r->has("fecha_fin_dis") AND trim($r->fecha_ini_dis)!='' AND trim($r->fecha_fin_dis)!='' )
         ){
-            $sql->join('personas AS p',function($join) use ( $r ){
+            $sql->join('personas_llamadas AS p',function($join) use ( $r ){
                 $join->on('p.id','=','ll.persona_id');
                 if( $r->has("fuente") AND trim($r->fuente)!='' ){
                     $fuente=explode(',',$r->fuente);
@@ -1105,7 +1107,7 @@ class Reporte extends Model
             ($r->has("empresa") AND trim($r->empresa)!='') OR 
             ( $r->has("fecha_ini_dis") AND $r->has("fecha_fin_dis") AND trim($r->fecha_ini_dis)!='' AND trim($r->fecha_fin_dis)!='' )
         ){
-            $sql->join('personas AS p',function($join) use ( $r ){
+            $sql->join('personas_llamadas AS p',function($join) use ( $r ){
                 $join->on('p.id','=','ll.persona_id');
                 if( $r->has("fuente") AND trim($r->fuente)!='' ){
                     $fuente=explode(',',$r->fuente);
@@ -1209,7 +1211,7 @@ class Reporte extends Model
             ($r->has("empresa") AND trim($r->empresa)!='') OR 
             ( $r->has("fecha_ini_dis") AND $r->has("fecha_fin_dis") AND trim($r->fecha_ini_dis)!='' AND trim($r->fecha_fin_dis)!='' )
         ){
-            $sql->join('personas AS p',function($join) use ( $r ){
+            $sql->join('personas_llamadas AS p',function($join) use ( $r ){
                 $join->on('p.id','=','ll.persona_id');
                 if( $r->has("fuente") AND trim($r->fuente)!='' ){
                     $fuente=explode(',',$r->fuente);
@@ -1282,7 +1284,7 @@ class Reporte extends Model
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','tr.persona_id');
             })
-            ->Join('personas AS p2', function($join){
+            ->Join('personas_llamadas AS p2', function($join){
                 $join->on('p2.id','=','ll.persona_id');
             })
             ->leftJoin('tipo_llamadas_sub AS tls', function($join){

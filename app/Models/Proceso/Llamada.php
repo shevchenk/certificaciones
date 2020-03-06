@@ -100,7 +100,7 @@ class Llamada extends Model
             ->Join('personas AS p', function($join){
                 $join->on('p.id','=','tr.persona_id');
             })
-            ->Join('personas AS p2', function($join){
+            ->Join('personas_llamadas AS p2', function($join){
                 $join->on('p2.id','=','ll.persona_id');
             })
             ->select(
@@ -264,13 +264,15 @@ class Llamada extends Model
                             GROUP BY ll.persona_id, t.empresa_id
                         ) l ON l.persona_id=pc.persona_id AND l.empresa_id=pc.empresa_id 
                         LEFT JOIN (
-                            SELECT mm.persona_id, mc.empresa_id 
+                            SELECT pl.id persona_id, mc.empresa_id 
                             FROM mat_matriculas mm
                             INNER JOIN mat_matriculas_detalles mmd ON mmd.matricula_id=mm.id 
                             INNER JOIN mat_cursos mc ON mc.id=mmd.curso_id
+                            INNER JOIN personas pp ON pp.id=mm.persona_id
+                            INNER JOIN personas_llamadas pl ON pl.dni=pp.dni 
                             WHERE mm.fecha_matricula>='$fecha_ini'
                             AND mm.estado=1
-                            GROUP BY mm.persona_id, mc.empresa_id
+                            GROUP BY pl.id, mc.empresa_id
                         ) m ON m.persona_id=pc.persona_id AND m.empresa_id=pc.empresa_id 
                         LEFT JOIN (
                             SELECT pd.persona_id, t.empresa_id

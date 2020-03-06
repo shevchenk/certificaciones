@@ -134,7 +134,7 @@ class CargarPR extends Controller
             DB::beginTransaction();
 
             $sql="  UPDATE interesados i
-                    INNER JOIN personas p ON (p.email=i.EMAIL AND p.email!='') or (p.dni=i.DNI AND p.dni!='')
+                    INNER JOIN personas_llamadas p ON (p.email=i.EMAIL AND p.email!='') or (p.dni=i.DNI AND p.dni!='')
                     SET i.dni_final=p.dni
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
@@ -142,16 +142,14 @@ class CargarPR extends Controller
             DB::update($sql);
 
             $sql="  UPDATE interesados i
-                    INNER JOIN personas p ON p.dni=i.dni_final
-                    LEFT JOIN mat_matriculas m ON m.persona_id=p.id
+                    INNER JOIN personas_llamadas p ON p.dni=i.dni_final
                     SET p.carrera = IF(i.CARRERA!='',i.CARRERA,p.carrera)
                     , p.fuente=i.FUENTE, p.email_externo= i.EMAIL
                     ,p.email = IF(i.EMAIL!='',i.EMAIL,p.email), p.celular = IF(i.CELULAR!='',i.CELULAR,p.celular)
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
                     AND i.dni_final!=''
-                    AND i.asignar=1
-                    AND m.id IS NULL ".$regioni;
+                    AND i.asignar=1 ".$regioni;
             DB::update($sql);
 
             $sql="  UPDATE interesados i
@@ -166,7 +164,7 @@ class CargarPR extends Controller
             $sql="SET @numero=".$inicial.";";
             DB::statement($sql);
 
-            $sql="  INSERT INTO personas (`password`, fuente, tipo, fecha_registro
+            $sql="  INSERT INTO personas_llamadas (`password`, fuente, tipo, fecha_registro
                     , dni, paterno, materno, nombre, celular, email, email_externo, distrito_domicilio
                     , carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
                     SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\"
@@ -195,13 +193,13 @@ class CargarPR extends Controller
             DB::update($sql);
 
             //Actualiza a estado activo a los usuarios
-            $sql="  UPDATE personas
+            $sql="  UPDATE personas_llamadas
                     SET estado=1
                     WHERE estado=3";
             DB::update($sql);
 
             $sql="  UPDATE interesados i
-                    INNER JOIN personas p ON p.dni=i.dni_final
+                    INNER JOIN personas_llamadas p ON p.dni=i.dni_final
                     INNER JOIN personas_captadas pc ON pc.interesado=i.CARRERA AND pc.persona_id=p.id AND pc.empresa_id=$empresa_id 
                     SET pc.estado=0
                     WHERE i.usuario=".$usuario."
@@ -213,14 +211,14 @@ class CargarPR extends Controller
             $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, ad_name, campaign_name, fuente, interesado, distrito, fecha_registro, costo, estado, created_at, persona_id_created_at)
                     SELECT p.id, $empresa_id, i.EMPRESA, i.TIPO, i.FUENTE, i.CARRERA, i.DISTRITO, i.FECHA_REGISTRO, i.COSTO, 1, '$fyh', $usuario
                     FROM interesados i
-                    INNER JOIN personas p ON p.dni=i.dni_final
+                    INNER JOIN personas_llamadas p ON p.dni=i.dni_final
                     WHERE i.usuario=".$usuario."
                     AND i.asignar=1
                     AND i.file='".$file."' ".$regioni;
             DB::insert($sql);
 
             $sql="  UPDATE interesados i
-                    INNER JOIN personas p ON p.dni=i.dni_final
+                    INNER JOIN personas_llamadas p ON p.dni=i.dni_final
                     INNER JOIN personas_distribuciones pd ON pd.persona_id=p.id 
                     INNER JOIN mat_trabajadores mt ON mt.id=pd.trabajador_id AND mt.empresa_id=$empresa_id 
                     SET pd.estado=0, pd.updated_at= NOW()
@@ -230,7 +228,7 @@ class CargarPR extends Controller
             DB::update($sql);
 
             $sql="  UPDATE interesados i
-                    INNER JOIN personas p ON p.dni=i.dni_final
+                    INNER JOIN personas_llamadas p ON p.dni=i.dni_final
                     INNER JOIN personas_captadas pc ON pc.persona_id=p.id AND pc.empresa_id=$empresa_id 
                     SET pc.estado=0, pc.updated_at= NOW()
                     WHERE i.usuario=".$usuario."
