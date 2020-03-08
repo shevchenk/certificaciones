@@ -464,8 +464,8 @@ class Seminario extends Model
     public static function runControlPago($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -819,8 +819,8 @@ class Seminario extends Model
     public static function runEvaluaciones($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -1020,8 +1020,8 @@ class Seminario extends Model
     public static function runRegistroNota($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -1224,8 +1224,8 @@ class Seminario extends Model
     public static function runAsesoria($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -1409,8 +1409,8 @@ class Seminario extends Model
     public static function runPagos($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -1430,7 +1430,8 @@ class Seminario extends Model
             ms.saldo,
             IF(cd.cuota=-1,'Inscripción',CONCAT('Cuota # ',cd.cuota) ) cuotacd, cd.salcd,
             CONCAT('Cuota # ',cp.cuota) cuota_cronograma, cp.fecha_cronograma, cp.monto_cronograma,
-            si.salsi, si.salsi_id, cd.salcd_id
+            si.salsi, si.salsi_id, cd.salcd_id,
+            sm.salsm, sm.salsm_id
             FROM `mat_matriculas` AS `mm` 
             INNER JOIN `mat_matriculas_detalles` AS `mmd` ON `mmd`.`matricula_id` = `mm`.`id` AND `mmd`.`estado` = 1 
             INNER JOIN `personas` AS `p` ON `p`.`id` = `mm`.`persona_id` 
@@ -1472,6 +1473,14 @@ class Seminario extends Model
             GROUP BY matricula_id,cuota
             HAVING salsi > 0
             ) si ON si.matricula_id = mm.id
+            LEFT JOIN (
+            SELECT matricula_id, cuota, MIN(saldo) salsm, MAX(id) salsm_id
+            FROM mat_matriculas_saldos
+            WHERE estado=1
+            AND cuota='0'
+            GROUP BY matricula_id,cuota
+            HAVING salsm > 0
+            ) sm ON sm.matricula_id = mm.id
             WHERE `mm`.`estado` = 1 
             ";
 

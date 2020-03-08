@@ -49,13 +49,13 @@ $(document).ready(function() {
     $(document).on('click', '.btnexport', function(event) {
         var r = DataToFilter( $(this).attr('data-reporte') );
         if( r ){
-            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@'+$(this).attr('data-reporte')+'?fecha_ini='+$('#txt_fecha_ini').val()+'&fecha_fin='+$('#txt_fecha_fin').val()+'&vendedor='+$.trim($('#slct_vendedor').val())+'&tipo='+$.trim($('#slct_tipo').val())+'&empresa='+$.trim($('#slct_empresa').val())+'&fuente='+$.trim($('#slct_fuente').val())+'&ultimo_registro='+$.trim($('#slct_ultimo_registro').val()));
+            $(this).attr('href','ReportDinamic/Reporte.ReporteEM@'+$(this).attr('data-reporte')+'?fecha_ini='+$('#txt_fecha_ini').val()+'&fecha_fin='+$('#txt_fecha_fin').val()+'&vendedor='+$.trim($('#slct_vendedor').val())+'&tipo='+$.trim($('#slct_tipo').val())+'&empresa='+$.trim($('#slct_empresa').val())+'&ultimo_registro='+$.trim($('#slct_ultimo_registro').val()));
         }else{
             event.preventDefault();
         }
     });
     AjaxLlamada.ListarVendedor(SlctListarVendedor);
-    AjaxLlamada.ListarFuente(SlctListarFuente);
+    //AjaxLlamada.ListarFuente(SlctListarFuente);
 
 });
 

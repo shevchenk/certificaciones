@@ -518,6 +518,7 @@ class Alumno extends Model
                 $MSF->persona_id_created_at = $user_id;
                 $MSF->save();
 
+                $extension='';
                 if( trim($r->pago_nombre)!='' ){
                     $type=explode(".",$r->pago_nombre);
                     $extension=".".$type[1];
@@ -539,6 +540,7 @@ class Alumno extends Model
                 $MC->monto_cuota= trim($r->monto_pago);
                 $MC->tipo_pago_cuota= trim($r->tipo_pago);
 
+                $extension='';
                 if( trim($r->pago_nombre)!='' ){
                     $type=explode(".",$r->pago_nombre);
                     $extension=".".$type[1];
@@ -605,6 +607,7 @@ class Alumno extends Model
             $MSF->persona_id_created_at = $user_id;
             $MSF->save();
 
+            $extension='';
             if( trim($r->pago_nombre)!='' ){
                 $type=explode(".",$r->pago_nombre);
                 $extension=".".$type[1];

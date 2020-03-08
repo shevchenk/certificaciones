@@ -51,7 +51,7 @@ var AjaxEspecialidad={
         masterG.postAjax(url,data, evento);
     },
     CargarLlamadaPendiente:function(evento){
-        var data={};
+        var data={fecha_inicio:$("#txt_fecha_ini").val(),fecha_final:$("#txt_fecha_fin").val()};
         url='AjaxDinamic/Proceso.AlumnoPR@CargarLlamadaPendiente';
         masterG.postAjax(url,data, evento);
     },

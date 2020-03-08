@@ -187,6 +187,25 @@
             <div class="panel panel-warning">
                 <div class="panel-heading" style="background-color: #FFBC9B;color:black"><center>ATENCIÓN PENDIENTE</center></div>
                 <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2 text-center">
+                            <label class="control-label">Fecha Inicial - Registro</label>
+                            <div class="input-group">
+                              <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                              <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini" name="txt_fecha_ini" value="<?php echo date('Y-m-d');?>" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <label class="control-label">Fecha Final - Registro</label>
+                            <div class="input-group">
+                              <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                              <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" value="<?php echo date('Y-m-d');?>" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="padding:24px">
+                            <span class="btn btn-primary btn-md" onclick="GenerarPendientes();" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Listar</span>
+                        </div>
+                    </div>
                     <div class="col-md-12 table-responsive">
                         <table id="t_matricula" class="table table-striped">
                             <thead style="background-color: #FFBC9B;color:black">

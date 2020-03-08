@@ -73,12 +73,12 @@
                                         <option>.::Todo::.</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-2 text-center">
+                                <!--div class="col-sm-2 text-center">
                                     <label class="control-label">Fuente</label>
                                     <select class="form-control selectpicker show-menu-arrow" data-actions-box='true' id="slct_fuente" name="slct_fuente[]" multiple>
                                         <option>.::Todo::.</option>
                                     </select>
-                                </div>
+                                </div-->
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
