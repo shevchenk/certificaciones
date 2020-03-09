@@ -67,6 +67,30 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="col-md-12">
+                      <div class="col-md-8">
+                        <label>Logo de la empresa:</label>
+                        <input type="text"  readOnly class="form-control input-sm" id="txt_logo_nombre"  name="txt_logo_nombre" value="">
+                        <input type="text" style="display: none;" id="txt_logo_archivo" name="txt_logo_archivo">
+                        <label class="btn btn-default btn-flat margin btn-xs">
+                            <i class="fa fa-file-image-o fa-3x"></i>
+                            <i class="fa fa-file-pdf-o fa-3x"></i>
+                            <i class="fa fa-file-word-o fa-3x"></i>
+                            <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#txt_logo_nombre','#txt_logo_archivo','#logo_img');" >
+                        </label>
+                      </div>
+                      <div class="col-md-4">
+                        <a id="logo_href">
+                        <img id="logo_img" class="img-circle" style="height: 142px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <label>Contenido Ficha:</label>
+                            <textarea rows="6" class="form-control" id="txt_contenido_ficha" name='txt_contenido_ficha'></textarea>
+                        </div>
+                    </div>
                 </form>
                 </div>
             </div>

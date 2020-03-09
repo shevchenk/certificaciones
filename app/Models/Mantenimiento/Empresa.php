@@ -28,10 +28,24 @@ class Empresa extends Model
         $empresa->empresa = trim( $r->empresa );
         $empresa->nota_minima = trim( $r->nota_minima );
         $empresa->trabajo_final = trim( $r->trabajo_final );
+        $empresa->contenido_ficha = trim( $r->contenido_ficha );
         if( isset($r->peso_trabajo_final) ){
             $empresa->peso_trabajo_final = trim( $r->peso_trabajo_final );
         }
         $empresa->persona_id_created_at=$usuario;
+        $empresa->save();
+
+        $extension='';
+        if( trim($r->logo_nombre)!='' ){
+            $type=explode(".",$r->logo_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/empresa/logo_".$empresa->id.$extension; 
+        if( trim($r->logo_archivo)!='' ){
+            $empresa->logo_archivo=$url;
+            Menu::fileToFile($r->logo_archivo, $url);
+        }
+
         $empresa->save();
 
         $peso_evaluacion= $r->peso_evaluacion;
@@ -98,11 +112,25 @@ class Empresa extends Model
         $empresa = Empresa::find($r->id);
         $empresa->empresa = trim( $r->empresa );
         $empresa->nota_minima = trim( $r->nota_minima );
+        $empresa->contenido_ficha = trim( $r->contenido_ficha );
         $empresa->trabajo_final = trim( $r->trabajo_final );
         if( isset($r->peso_trabajo_final) ){
             $empresa->peso_trabajo_final = trim( $r->peso_trabajo_final );
         }
         $empresa->persona_id_updated_at=$usuario;
+        $empresa->save();
+
+        $extension='';
+        if( trim($r->logo_nombre)!='' ){
+            $type=explode(".",$r->logo_nombre);
+            $extension=".".$type[1];
+        }
+        $url = "img/empresa/logo_".$empresa->id.$extension; 
+        if( trim($r->logo_archivo)!='' ){
+            $empresa->logo_archivo=$url;
+            Menu::fileToFile($r->logo_archivo, $url);
+        }
+
         $empresa->save();
 
         DB::table('empresas_tipos_evaluaciones')
@@ -149,6 +177,7 @@ class Empresa extends Model
             'e.id',
             'e.empresa','e.nota_minima',
             'e.trabajo_final','e.peso_trabajo_final',
+            'e.logo_archivo', 'e.contenido_ficha',
             'e.estado'
             )
             ->where( 

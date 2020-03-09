@@ -28,6 +28,9 @@ $(document).ready(function() {
 
         $('#ModalEmpresaForm #txt_empresa').val( EmpresaG.empresa );
         $('#ModalEmpresaForm #txt_nota_minima').val( EmpresaG.nota_minima );
+        $('#ModalEmpresaForm #txt_logo_nombre').val( EmpresaG.logo_archivo );
+        $('#ModalEmpresaForm #txt_contenido_ficha').val( EmpresaG.contenido_ficha );
+        masterG.SelectImagen(EmpresaG.logo_archivo, '#logo_img');
         
         $('#ModalEmpresaForm #slct_estado').selectpicker('val', EmpresaG.estado );
         $("#ModalEmpresaForm #slct_trabajo_final").selectpicker( 'val', EmpresaG.trabajo_final );
@@ -65,6 +68,8 @@ AgregarEditar=function(val,id){
     EmpresaG.nota_minima='0';
     EmpresaG.trabajo_final='0';
     EmpresaG.peso_trabajo_final='0';
+    EmpresaG.logo_archivo='';
+    EmpresaG.contenido_ficha='';
     if( val==0 ){
         EmpresaG.id=id;
         EmpresaG.empresa=$("#TableEmpresa #trid_"+id+" .empresa").text();
@@ -72,6 +77,8 @@ AgregarEditar=function(val,id){
         EmpresaG.nota_minima=$("#TableEmpresa #trid_"+id+" .nota_minima").val();
         EmpresaG.trabajo_final=$("#TableEmpresa #trid_"+id+" .trabajo_final").val();
         EmpresaG.peso_trabajo_final=$("#TableEmpresa #trid_"+id+" .peso_trabajo_final").val();
+        EmpresaG.logo_archivo=$("#TableEmpresa #trid_"+id+" .logo_archivo").val();
+        EmpresaG.contenido_ficha=$("#TableEmpresa #trid_"+id+" .contenido_ficha").val();
     }
     $('#ModalEmpresa').modal('show');
 }
@@ -119,6 +126,8 @@ HTMLCargarEmpresa=function(result){
             "<td>";
         html+="<input type='hidden' class='trabajo_final' value='"+r.trabajo_final+"'>";
         html+="<input type='hidden' class='peso_trabajo_final' value='"+r.peso_trabajo_final+"'>";
+        html+="<input type='hidden' class='logo_archivo' value='"+$.trim(r.logo_archivo)+"'>";
+        html+="<input type='hidden' class='contenido_ficha' value='"+$.trim(r.contenido_ficha)+"'>";
         html+="<input type='hidden' class='nota_minima' value='"+r.nota_minima+"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
