@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\Models\Proceso\Visita;
 use App\Models\Proceso\Matricula;
+use App\Models\Mantenimiento\PersonaLlamada;
 use DB;
 
 class Persona extends Model
@@ -333,6 +334,57 @@ class Persona extends Model
         DB::commit();
     }
 
+    public static function runEditLibreLlamada($r)
+    {
+        DB::beginTransaction();
+        $persona_id = Auth::user()->id;
+        $persona = PersonaLLamada::find($r->id);
+        $persona->paterno = trim( $r->paterno );
+        $persona->materno = trim( $r->materno );
+        $persona->nombre = trim( $r->nombre );
+        if( $r->dni!=$persona->dni){
+            $persona->password=bcrypt($r->dni);
+        }
+        $persona->dni = trim( $r->dni );
+        $persona->sexo = trim( $r->sexo );
+        $persona->email = trim( $r->email );
+        $persona->telefono = trim( $r->telefono );
+        $persona->celular = trim( $r->celular );
+        $persona->carrera = trim( $r->carrera );
+        $persona->persona_id_updated_at=$persona_id;
+
+        $persona->tenencia = trim( $r->tenencia );
+        $persona->estado_civil = trim( $r->estado_civil );
+        $persona->direccion_dir = trim( $r->direccion_dir );
+        $persona->referencia_dir = trim( $r->referencia_dir );
+        if( $r->has('pais_id') AND trim($r->pais_id)!='' ){
+            $persona->pais_id = $r->pais_id;
+        }
+
+        if( $r->has('colegio_id') AND trim($r->colegio_id)!='' ){
+            $persona->colegio_id = $r->colegio_id;
+        }
+
+        if( $r->has('distrito_id_dir') AND trim($r->distrito_id_dir)!='' ){
+            $persona->distrito_id_dir = $r->distrito_id_dir;
+            $persona->provincia_id_dir = $r->provincia_id_dir;
+            $persona->region_id_dir = $r->region_id_dir;
+        }
+
+        if( $r->has('distrito_id') AND trim($r->distrito_id)!='' ){
+            $persona->distrito_id = $r->distrito_id;
+            $persona->provincia_id = $r->provincia_id;
+            $persona->region_id = $r->region_id;
+        }
+
+        if( $r->has('fecha_nacimiento') AND trim( $r->fecha_nacimiento )!='' ){
+            $persona->fecha_nacimiento = trim( $r->fecha_nacimiento );
+        }
+
+        $persona->save();
+        DB::commit();
+    }
+
     public static function runLoad($r)
     {
         $sql=DB::table('personas AS p')
@@ -432,7 +484,7 @@ class Persona extends Model
 
     public static function runLoadDistribuida($r)
     {
-        $sql=DB::table('personas AS p')
+        $sql=DB::table('personas_llamadas AS p')
             ->Join('personas_distribuciones AS pd', function($join){
                 $join->on('pd.persona_id','=','p.id')
                 ->where('pd.estado',1);
@@ -446,18 +498,17 @@ class Persona extends Model
                 $join->on('p2.id','=','t.persona_id')
                 ->where('p2.estado',1);
             })
-            ->leftJoin('llamadas AS ll', function($join){
-                $join->on('ll.persona_id','=','p.id')
-                ->where('ll.estado',1)
-                ->where('ll.ultimo_registro',1);
-            })
-            ->leftJoin('tipo_llamadas AS tl', function($join){
-                $join->on('tl.id','=','ll.tipo_llamada_id');
+            ->leftJoin(DB::raw('(SELECT tl.peso, tl.tipo_llamada,ll.persona_id
+                FROM llamadas AS ll 
+                INNER JOIN mat_trabajadores t2 ON t2.id = ll.trabajador_id AND t2.empresa_id = 1 
+                INNER JOIN `tipo_llamadas` AS `tl` ON `tl`.`id` = `ll`.`tipo_llamada_id` 
+                WHERE `ll`.`estado` = 1 AND `ll`.`ultimo_registro` = 1 ) AS tl'), function($join){
+                $join->on('tl.persona_id','=','p.id');
             })
             ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
             'p.celular','p.password','p.estado','p.empresa','p.fuente','p.tipo','tl.tipo_llamada','p.fecha_registro',
-            DB::raw(' (SELECT count(id) FROM mat_matriculas AS m WHERE m.persona_id=p.id AND m.estado=1) AS matricula,
+            DB::raw('0 AS matricula,
             CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor, tl.peso'))
             ->where('p.id','!=',1)
             ->where( 

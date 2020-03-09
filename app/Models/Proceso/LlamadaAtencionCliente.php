@@ -159,6 +159,17 @@ class LlamadaAtencionCliente extends Model
                     if( $r->has('solopendiente') AND trim($r->solopendiente)==1 ){
                         $query->whereNull('llac.respuesta');
                     }
+                    if( $r->has("fecha_inicio") && $r->has("fecha_final") ){
+                        $fecha_inicio=trim($r->fecha_inicio);
+                        $fecha_final=trim($r->fecha_final);
+                        if( $fecha_final !='' AND $fecha_inicio !='' ){
+                            $query->whereBetween('llac.fecha_registro', array($fecha_inicio,$fecha_final));
+                        }
+                    }
+                }
+            )
+            ->where(
+                function($query) use ($r){
                     if( $r->has('pendiente') AND trim($r->pendiente)==1 ){
                         $query->whereNull('llac.respuesta')
                         ->orWhere(function($dquery){

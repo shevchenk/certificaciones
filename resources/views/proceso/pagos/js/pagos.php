@@ -134,6 +134,36 @@ HTMLCargarReporte=function(result){
                 html+="</tr>";
             }
 
+            if( $.trim(r.salsm)!='' ){
+                html+="<tr id='trid_"+index+"_0m'>"+
+                    "<td>"+r.dni+"</td>"+
+                    "<td>"+r.nombre+"</td>"+
+                    "<td>"+r.paterno+"</td>"+
+                    "<td>"+r.materno+"</td>"+
+
+                    "<td>"+r.empresa_inscripcion+"</td>"+
+                    "<td>"+r.fecha_matricula+"</td>"+
+                    "<td>"+r.tipo_formacion+"</td>"+
+                    "<td>"+r.formacion+"</td>"+
+                    "<td>"+r.curso+"</td>"+
+                    "<td>"+$.trim(r.local)+"</td>"+
+                    "<td>"+$.trim(r.frecuencia)+"</td>"+
+                    "<td>"+$.trim(r.turno)+"</td>"+
+                    "<td>"+$.trim(r.inicio)+"</td>"+
+                    
+                    "<td>"+$.trim('Matrícula')+"</td>"+
+                    "<td>"+$.trim('')+"</td>"+
+                    "<td>"+$.trim(r.salsm)+"</td>"+
+                    "<td>"+
+                        "<input type='hidden' class='mmd' value='"+$.trim(r.matricula_detalle_id)+"'>"+
+                        "<input type='hidden' class='mm' value='"+$.trim(r.matricula_id)+"'>"+
+                        "<input type='hidden' class='c' value='0'>"+
+                        "<input type='hidden' class='saldo' value='"+$.trim(r.salsm)+"'>"+
+                        "<input type='hidden' class='detalle' value='Matrícula'>"+
+                        "<a class='btn btn-flat btn-success' onClick='ValidarPago(\""+index+"_0m\");'><i class='fa fa-money fa-lg'></i></a></td>";
+                html+="</tr>";
+            }
+
         }
 
         if( importe*1>0 ){
@@ -266,9 +296,9 @@ GuardarPago=function(){
     else if( $.trim($('#ModalPago #slct_tipo_pago').val())=='0' ){
         msjG.mensaje('warning','Seleccione el tipo de operación',4000);
     }
-    else if( $.trim($('#ModalPago #txt_pago_archivo').val())=='' ){
+    /*else if( $.trim($('#ModalPago #txt_pago_archivo').val())=='' ){
         msjG.mensaje('warning','Ingrese un archivo de pago',4000);
-    }
+    }*/
     else if( $.trim($('#ModalPago #txt_persona_caja_id').val())=='' ){
         msjG.mensaje('warning','Busque y seleccione un responsable de caja',4000);
     }

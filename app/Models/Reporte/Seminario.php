@@ -41,14 +41,14 @@ class Seminario extends Model
             ->join('empresas AS e',function($join){
                 $join->on('e.id','=','mc.empresa_id');
             })
-            ->join('personas AS pcaj',function($join){
-                $join->on('pcaj.id','=','mm.persona_caja_id');
-            })
-            ->join('personas AS pmar',function($join){
-                $join->on('pmar.id','=','mm.persona_marketing_id');
-            })
             ->join('personas AS pmat',function($join){
                 $join->on('pmat.id','=','mm.persona_matricula_id');
+            })
+            ->leftJoin('personas AS pcaj',function($join){
+                $join->on('pcaj.id','=','mm.persona_caja_id');
+            })
+            ->leftJoin('personas AS pmar',function($join){
+                $join->on('pmar.id','=','mm.persona_marketing_id');
             })
             ->leftJoin('mat_medios_captaciones AS meca',function($join){
                 $join->on('meca.id','=','mm.medio_captacion_id');
@@ -464,8 +464,8 @@ class Seminario extends Model
     public static function runControlPago($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -819,8 +819,8 @@ class Seminario extends Model
     public static function runEvaluaciones($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -1020,8 +1020,8 @@ class Seminario extends Model
     public static function runRegistroNota($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -1224,8 +1224,8 @@ class Seminario extends Model
     public static function runAsesoria($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -1409,8 +1409,8 @@ class Seminario extends Model
     public static function runPagos($r)
     {
         
-        $servidor = 'telesup_pae';
-        $aulaservidor = 'telesup_aula';
+        $servidor = 'formacion_continua';
+        $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'formacion_continua';
             $aulaservidor = 'aula_formacion_continua';
@@ -1430,7 +1430,8 @@ class Seminario extends Model
             ms.saldo,
             IF(cd.cuota=-1,'Inscripción',CONCAT('Cuota # ',cd.cuota) ) cuotacd, cd.salcd,
             CONCAT('Cuota # ',cp.cuota) cuota_cronograma, cp.fecha_cronograma, cp.monto_cronograma,
-            si.salsi, si.salsi_id, cd.salcd_id
+            si.salsi, si.salsi_id, cd.salcd_id,
+            sm.salsm, sm.salsm_id
             FROM `mat_matriculas` AS `mm` 
             INNER JOIN `mat_matriculas_detalles` AS `mmd` ON `mmd`.`matricula_id` = `mm`.`id` AND `mmd`.`estado` = 1 
             INNER JOIN `personas` AS `p` ON `p`.`id` = `mm`.`persona_id` 
@@ -1472,6 +1473,14 @@ class Seminario extends Model
             GROUP BY matricula_id,cuota
             HAVING salsi > 0
             ) si ON si.matricula_id = mm.id
+            LEFT JOIN (
+            SELECT matricula_id, cuota, MIN(saldo) salsm, MAX(id) salsm_id
+            FROM mat_matriculas_saldos
+            WHERE estado=1
+            AND cuota='0'
+            GROUP BY matricula_id,cuota
+            HAVING salsm > 0
+            ) sm ON sm.matricula_id = mm.id
             WHERE `mm`.`estado` = 1 
             ";
 
@@ -1587,7 +1596,8 @@ class Seminario extends Model
                     ) importe_pen
                 ,m.observacion promocion, su.sucursal ode_inscripcion, su3.sucursal ode_estudio, su2.sucursal ode_recogo
                 ,tp.tipo_participante, pu.medio_publicitario, '' med_cap, ta.tarea tipo_vendedor
-                ,CONCAT(p2.paterno,' ',p2.materno,' ',p2.nombre,' - ',tra.codigo) vendedor
+                ,CONCAT(p2.paterno,' ',p2.materno,' ',p2.nombre,' (COD:',tra.codigo,')') vendedor
+                ,CONCAT(p2.paterno,' ',p2.materno,' ',p2.nombre) res_matricula
                 FROM mat_matriculas m 
                 INNER JOIN personas p ON p.id=m.persona_id 
                 INNER JOIN (
@@ -1605,6 +1615,7 @@ class Seminario extends Model
                 LEFT JOIN mat_especialidades_programaciones ep ON ep.id=m.especialidad_programacion_id
                 LEFT JOIN mat_tareas ta ON ta.id=tra.tarea_id
                 LEFT JOIN personas p2 ON p2.id=m.persona_marketing_id
+                LEFT JOIN personas p3 ON p3.id=m.persona_matricula_id
                 LEFT JOIN mat_tipos_participantes tp ON tp.id=m.tipo_participante_id
                 LEFT JOIN medios_publicitarios pu ON pu.id=p.medio_publicitario_id
                 LEFT JOIN sucursales su ON su.id=m.sucursal_id
@@ -1729,7 +1740,7 @@ class Seminario extends Model
             ,'CONC. DE PAGO M','MEDIO DE PAGO M','DOC. DE PAGO M','FECHA DE PAGO M','IMPORTE M'
             ,'CONC. DE PAGO P','MEDIO DE PAGO P','DOC. DE PAGO P','FECHA DE PAGO P','IMPORTE P'
             ,'PROMOCIÓN','ODE DE INSCRIPCIÓN','ODE DONDE ESTUDIARÁ','ODE DONDE RECOJERÁ SUS CERTIFICADOS'
-            ,'TIP. DE PARTICIPANTE','SOLIC. INFORM.','MED. CAPTAC.','TIPO DE VEND.','APELLIDOS Y NOMBRES DE PROMOTOR - COD'
+            ,'TIP. DE PARTICIPANTE','SOLIC. INFORM.','MED. CAPTAC.','TIPO DE VEND.','APELLIDOS Y NOMBRES DE PROMOTOR (COD)','RESPONSABLE DE MATRÍCULA'
         );
         $campos=array('');
 
@@ -1741,7 +1752,7 @@ class Seminario extends Model
         $r['lengthTit']=$lengthTit;
         $r['colorTit']=$colorTit;
         $r['lengthDet']=$lengthDet;
-        $r['max']='BR'; // Max. Celda en LETRA
+        $r['max']='BS'; // Max. Celda en LETRA
         return $r;
     }
 }

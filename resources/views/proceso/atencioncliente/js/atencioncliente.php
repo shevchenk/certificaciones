@@ -23,7 +23,7 @@ $(document).ready(function() {
     });
 
     AjaxEspecialidad.Cargar(HTMLCargar);
-    AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
+    
     $("#EspecialidadForm #TableDatos select").change(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
     $("#EspecialidadForm #TableDatos input").blur(function(){ AjaxEspecialidad.Cargar(HTMLCargar); });
 
@@ -36,6 +36,10 @@ $(document).ready(function() {
         $("#ModalEntregaForm .seminario").show();
     });
 });
+
+GenerarPendientes=function(){
+    AjaxEspecialidad.CargarLlamadaPendiente(HTMLCargarLlamadaPendiente);
+}
 
 HTMLCargar=function(result){ //INICIO HTML
     var html="";

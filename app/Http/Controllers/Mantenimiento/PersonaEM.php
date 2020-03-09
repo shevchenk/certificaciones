@@ -147,6 +147,50 @@ class PersonaEM extends Controller
         }
     }
 
+    public function EditLibreLlamada(Request $r )
+    {
+        if ( $r->ajax() ) {
+            
+            $mensaje= array(
+                'required'    => ':attribute es requerido',
+                'unique'        => ':attribute solo debe ser único',
+
+            );
+
+            $rules = array(
+                'dni' => 
+                       ['required',
+                        Rule::unique('personas','dni')->ignore($r->id)->where(function ($query) use($r) {
+                            if( $r->dni=='99999999' ){
+                                $query->where('dni','!=' ,$r->dni);
+                            }
+                        }),
+                        ],
+           
+            );
+
+            $validator=Validator::make($r->all(), $rules,$mensaje);
+            
+            if (!$validator->fails()) {
+                $valida= Matricula::where('persona_id',$r->id)->where('estado','1')->exists();
+                if( $valida ){
+                    $return['rst'] = 2;
+                    $return['msj'] = 'Persona fue inscrita en algunos de nuestros productos, coordinar con responsable para modificar en caso sea necesario';
+                }
+                else{
+                    Persona::runEditLibreLlamada($r);
+                    $return['rst'] = 1;
+                    $return['msj'] = 'Registro actualizado';
+                }
+            }else{
+                $return['rst'] = 2;
+                $return['msj'] = $validator->errors()->all()[0];
+            }
+            
+            return response()->json($return);
+        }
+    }
+
     public function EditLibreG(Request $r )
     {
         if ( $r->ajax() ) {
