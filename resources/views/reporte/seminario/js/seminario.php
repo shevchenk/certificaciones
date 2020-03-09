@@ -69,6 +69,17 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('click', '#btnexportpdf', function(event) {
+        var data = DataToFilter();
+        if(data.length > 0){
+            $(this).attr('href','http://miaula.formacioncontinua.pe/ReportDinamic/Proceso.EvaluacionPR@DescargarCertificadoMasivo?programacion_id=440,441,442,443,444&nota_minima=0&quitar_firma=1');
+            //$(this).attr('href','reporte/seminario'+'?fecha_inicial='+data[0]['fecha_inicial']+'&fecha_final='+data[0]['fecha_final']);
+        }else{
+            event.preventDefault();
+        }
+    });
+
+
 });
 
 
