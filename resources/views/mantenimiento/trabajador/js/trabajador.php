@@ -32,6 +32,7 @@ $(document).ready(function() {
         $('#ModalTrabajadorForm #txt_persona_id').val( TrabajadorG.persona_id );
         $('#ModalTrabajadorForm #slct_rol_id').selectpicker('val', TrabajadorG.rol_id );
         $('#ModalTrabajadorForm #slct_tarea_id').selectpicker('val', TrabajadorG.tarea_id );
+        $('#ModalTrabajadorForm #slct_medio_captacion_id').selectpicker('val', TrabajadorG.medio_captacion_id );
         $('#ModalTrabajadorForm #txt_codigo').val( TrabajadorG.codigo );
         $('#ModalTrabajadorForm #slct_estado').selectpicker('val', TrabajadorG.estado );
         $('#ModalTrabajadorForm #txt_trabajador').focus();
