@@ -229,7 +229,7 @@ HTMLCargarEvaluaciones=function(result){
                 '<td><input type="hidden" name="txt_tipo_evaluacion[]" value="'+r.id+'">'+r.tipo_evaluacion+'</td>'+
                 '<td><select name="slct_peso_evaluacion[]">'+
                     '<option value="">.::Seleccione::.</option>';
-                for (var i = 1; i < 6; i++) {
+                for (var i = 1; i < 11; i++) {
                     selected='';
                     if(i==r.peso_evaluacion){
                         selected='selected';
