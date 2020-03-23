@@ -175,10 +175,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione al menos un Inicio / Curso',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_persona_caja_id").val() )==''){
+    /*else if( $.trim( $("#ModalMatriculaForm #txt_persona_caja_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Responsable de Caja',4000);
-    }
+    }*/
     else if( $.trim( $("#ModalMatriculaForm #slct_medio_captacion_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Medio de Captación',4000);

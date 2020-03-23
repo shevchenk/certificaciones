@@ -1247,7 +1247,7 @@ class Seminario extends Model
 
         $sql = "SELECT ce.curso_id, c.curso_apocope AS codigo, c.curso, c.credito, c.hora
                 FROM mat_cursos_especialidades ce
-                INNER JOIN mat_cursos c ON c.id=ce.curso_id
+                INNER JOIN mat_cursos c ON c.id=ce.curso_id AND c.estado=1
                 WHERE ce.especialidad_id = $especialidad_id
                 AND ce.estado = 1";
         $cursos = DB::select($sql);
@@ -1270,7 +1270,7 @@ class Seminario extends Model
                 INNER JOIN personas AS p ON p.id = mm.persona_id
                 INNER JOIN mat_cursos AS mc ON mc.id = mmd.curso_id AND mc.empresa_id = $empresa_id
                 INNER JOIN empresas AS e ON e.id = mc.empresa_id 
-                INNER JOIN mat_programaciones AS mp ON mp.id = mmd.programacion_id
+                INNER JOIN mat_programaciones AS mp ON mp.id = mmd.programacion_id 
                 INNER JOIN sucursales AS s ON s.id = mp.sucursal_id
                 LEFT JOIN mat_especialidades AS me ON me.id = mmd.especialidad_id 
                 LEFT JOIN mat_cursos_especialidades AS ce ON ce.curso_id=mp.curso_id AND ce.especialidad_id = $especialidad_id

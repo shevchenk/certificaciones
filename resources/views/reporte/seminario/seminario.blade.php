@@ -62,9 +62,9 @@
                                 <div class="col-sm-3" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexportdetalle" name="btnexportdetalle" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar para Ficha de Inscripción</i></a>
                                 </div>
-                                <!--div class="col-sm-3" style="padding:24px">
+                                <div class="col-sm-3" style="padding:24px">
                                     <a class='btn btn-success btn-md' id="btnexportpdf" name="btnexportpdf" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar Ficha PDF</i></a>
-                                </div-->
+                                </div>
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->

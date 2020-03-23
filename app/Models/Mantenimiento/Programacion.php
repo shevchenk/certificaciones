@@ -274,8 +274,15 @@ class Programacion extends Model
                             $query->where('mp.fecha_campaña','like','%'.$campaña.'%');
                         }
                     }
-                    if( $r->has("estado") ){
-                        $estado=trim($r->estado);
+                    if( $r->has("estado") or $r->has("estado_filtro") ){
+                        $estado='2';
+                        if($r->has('estado_filtro')){
+                            $estado=trim($r->estado_filtro);
+                        }
+                        else{
+                            $estado=trim($r->estado);
+                        }
+
                         if( $estado !='' ){
                             $query->where('mp.estado','=',$estado);
                         }

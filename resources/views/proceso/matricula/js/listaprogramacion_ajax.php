@@ -11,6 +11,7 @@ var AjaxListaprogramacion={
               $("#ListaprogramacionForm").append("<input type='hidden' value='"+dfiltros[i].split(":")[1]+"' name='"+dfiltros[i].split(":")[0]+"'>");
           }
         }
+        $("#ListaprogramacionForm").append("<input type='hidden' value='1' name='estado_filtro'>");
         data=$("#ListaprogramacionForm").serialize().split("txt_").join("").split("slct_").join("");
         $("#ListaprogramacionForm input[type='hidden']").remove();
         url='AjaxDinamic/Mantenimiento.ProgramacionEM@Load';
@@ -27,6 +28,7 @@ var AjaxListaprogramacion={
               $("#ListaprogramacionForm2").append("<input type='hidden' value='"+dfiltros[i].split(":")[1]+"' name='"+dfiltros[i].split(":")[0]+"'>");
           }
         }
+        $("#ListaprogramacionForm2").append("<input type='hidden' value='1' name='estado_filtro'>");
         data=$("#ListaprogramacionForm2").serialize().split("txt_").join("").split("slct_").join("");
         $("#ListaprogramacionForm2 input[type='hidden']").remove();
         url='AjaxDinamic/Mantenimiento.ProgramacionEM@Load';

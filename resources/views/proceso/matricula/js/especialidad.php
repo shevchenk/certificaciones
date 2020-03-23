@@ -142,10 +142,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione al menos una Carrera / Módulo',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_persona_caja_id").val() )==''){
+    /*else if( $.trim( $("#ModalMatriculaForm #txt_persona_caja_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Responsable de Caja',4000);
-    }
+    }*/
     else if( $.trim( $("#ModalMatriculaForm #txt_nro_pago_inscripcion").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==true){
         r=false;
         msjG.mensaje('warning','Ingrese número de pago de Inscripción',4000);
