@@ -176,6 +176,11 @@ ValidarTipoEvaluacion=function(){
                     '<option value="3" >3</option>'+
                     '<option value="4" >4</option>'+
                     '<option value="5" >5</option>'+
+                    '<option value="6" >6</option>'+
+                    '<option value="7" >7</option>'+
+                    '<option value="8" >8</option>'+
+                    '<option value="9" >9</option>'+
+                    '<option value="10" >10</option>'+
                 '</select></td>'+
                 '<td><a onClick="QuitarTipoEvaluacion('+$('#slct_tipo_evaluacion').val()+');" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td>'+
             '</tr>';
@@ -224,7 +229,7 @@ HTMLCargarEvaluaciones=function(result){
                 '<td><input type="hidden" name="txt_tipo_evaluacion[]" value="'+r.id+'">'+r.tipo_evaluacion+'</td>'+
                 '<td><select name="slct_peso_evaluacion[]">'+
                     '<option value="">.::Seleccione::.</option>';
-                for (var i = 1; i < 6; i++) {
+                for (var i = 1; i < 11; i++) {
                     selected='';
                     if(i==r.peso_evaluacion){
                         selected='selected';
