@@ -115,7 +115,7 @@ class CargarPR extends Controller
               , CELULAR, EMAIL, COSTO, asignar, COD_VENDEDOR
             ) 
             SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1,
-            DNI= IF(DNI!='',SUBSTRING(DNI,1,12),0),
+            DNI= SUBSTRING(DNI,1,12),
             FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");
             
             $sql="";
@@ -138,7 +138,7 @@ class CargarPR extends Controller
                     SET i.dni_final=p.dni
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
-                    AND (i.DNI*1 > 0 OR i.EMAIL!='') ".$regioni;
+                    AND (i.DNI!='' OR i.EMAIL!='') ".$regioni;
             DB::update($sql);
 
             $sql="  UPDATE interesados i
@@ -157,7 +157,7 @@ class CargarPR extends Controller
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
                     AND i.dni_final=''
-                    AND i.DNI*1 = 0 
+                    AND i.DNI = '' 
                     AND i.EMAIL='' ".$regioni;
             DB::update($sql);
 
@@ -169,7 +169,7 @@ class CargarPR extends Controller
                     , carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
                     SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\"
                     , MIN(i.FUENTE), MIN(i.TIPO), MIN(i.FECHA_REGISTRO)
-                    , IF(MIN(i.DNI)*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),MIN(i.DNI))
+                    , i.DNI
                     , i.PATERNO, i.MATERNO, i.NOMBRE, MIN(i.CELULAR), MIN(i.EMAIL)
                     , MIN(i.EMAIL), MIN(i.DISTRITO), MIN(i.CARRERA), 3, NOW(), IF(MIN(i.DNI)*1=0,0,$usuario), $usuario
                     FROM interesados AS i
@@ -185,7 +185,7 @@ class CargarPR extends Controller
             DB::statement($sql);
 
             $sql="  UPDATE interesados
-                    SET dni_final=IF(DNI*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),DNI)
+                    SET dni_final=DNI
                     WHERE dni_final=''
                     AND usuario=".$usuario."
                     AND asignar=1
