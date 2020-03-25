@@ -500,7 +500,7 @@ class Persona extends Model
             })
             ->leftJoin(DB::raw('(SELECT tl.peso, tl.tipo_llamada,ll.persona_id
                 FROM llamadas AS ll 
-                INNER JOIN mat_trabajadores t2 ON t2.id = ll.trabajador_id AND t2.empresa_id = 1 
+                INNER JOIN mat_trabajadores t2 ON t2.id = ll.trabajador_id AND t2.empresa_id = '.Auth::user()->empresa_id.' 
                 INNER JOIN `tipo_llamadas` AS `tl` ON `tl`.`id` = `ll`.`tipo_llamada_id` 
                 WHERE `ll`.`estado` = 1 AND `ll`.`ultimo_registro` = 1 ) AS tl'), function($join){
                 $join->on('tl.persona_id','=','p.id');
