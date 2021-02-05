@@ -126,24 +126,27 @@ class EspecialidadProgramacion extends Model
         
         $fecha_cronograma = $r->fecha_cronograma;
         $monto_cronograma = $r->monto_cronograma;
-
-        for ($i=0; $i < count($fecha_cronograma); $i++) { 
-            $EPC = new EspecialidadProgramacionCronograma;
-            $EPC->especialidad_programacion_id = $especialidadProgramacion->id;
-            $EPC->cuota = ($i+1);
-            $EPC->fecha_cronograma = $fecha_cronograma[$i];
-            $EPC->monto_cronograma = $monto_cronograma[$i];
-            $EPC->persona_id_created_at = $usuario;
-            $EPC->save();
+        if( $r->has('fecha_cronograma') ){
+            for ($i=0; $i < count($fecha_cronograma); $i++) { 
+                $EPC = new EspecialidadProgramacionCronograma;
+                $EPC->especialidad_programacion_id = $especialidadProgramacion->id;
+                $EPC->cuota = ($i+1);
+                $EPC->fecha_cronograma = $fecha_cronograma[$i];
+                $EPC->monto_cronograma = $monto_cronograma[$i];
+                $EPC->persona_id_created_at = $usuario;
+                $EPC->save();
+            }
         }
 
         $sucursal_id = $r->sucursal_id;
-        for ($i=0; $i < count($sucursal_id); $i++) { 
-            $EPS = new EspecialidadProgramacionSucursal;
-            $EPS->especialidad_programacion_id = $especialidadProgramacion->id;
-            $EPS->sucursal_id = $sucursal_id[$i];
-            $EPS->persona_id_created_at = $usuario;
-            $EPS->save();
+        if( $r->has('sucursal_id') ){
+            for ($i=0; $i < count($sucursal_id); $i++) { 
+                $EPS = new EspecialidadProgramacionSucursal;
+                $EPS->especialidad_programacion_id = $especialidadProgramacion->id;
+                $EPS->sucursal_id = $sucursal_id[$i];
+                $EPS->persona_id_created_at = $usuario;
+                $EPS->save();
+            }
         }
         DB::commit();
     }

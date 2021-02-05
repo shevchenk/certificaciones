@@ -83,13 +83,18 @@ class CargarPR extends Controller
             }
 
             $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
-            if (!move_uploaded_file($tmpArchivo, $file)) {
+            
+	        $fileCarga = $r->file('carga');
+            //if (!move_uploaded_file($tmpArchivo, $file)) {
+            if (!$fileCarga->move( $uploadFolder, $archivoNuevo)) {
                 $return['rst'] = 2;
                 $return['msj'] = $m;
                 return response()->json($return);
             }
             
-            $usuario= Auth::user()->id;
+ 	    unset($_FILES['carga']);
+	    
+	    $usuario= Auth::user()->id;
             $empresa_id= Auth::user()->empresa_id;
             $region='';$regioni='';
 
@@ -284,7 +289,10 @@ class CargarPR extends Controller
             //@unlink($file);
 
             $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
-            if (!move_uploaded_file($tmpArchivo, $file)) {
+            
+            $fileCarga = $r->file('carga');
+            //if (!move_uploaded_file($tmpArchivo, $file)) {
+            if (!$fileCarga->move( $uploadFolder, $archivoNuevo)) {
                 $return['rst'] = 2;
                 $return['msj'] = $m;
                 return response()->json($return);
@@ -486,7 +494,9 @@ class CargarPR extends Controller
             //@unlink($file);
 
             $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
-            if (!move_uploaded_file($tmpArchivo, $file)) {
+            $fileCarga = $r->file('carga');
+            //if (!move_uploaded_file($tmpArchivo, $file)) {
+            if (!$fileCarga->move( $uploadFolder, $archivoNuevo)) {
                 $return['rst'] = 2;
                 $return['msj'] = $m;
                 return response()->json($return);
@@ -649,7 +659,9 @@ class CargarPR extends Controller
             //@unlink($file);
 
             $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
-            if (!move_uploaded_file($tmpArchivo, $file)) {
+            $fileCarga = $r->file('carga_m');
+            //if (!move_uploaded_file($tmpArchivo, $file)) {
+            if (!$fileCarga->move( $uploadFolder, $archivoNuevo)) {
                 $return['rst'] = 2;
                 $return['msj'] = $m;
                 return response()->json($return);
@@ -1074,7 +1086,9 @@ class CargarPR extends Controller
             //@unlink($file);
 
             $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
-            if (!move_uploaded_file($tmpArchivo, $file)) {
+            $fileCarga = $r->file('carga');
+            //if (!move_uploaded_file($tmpArchivo, $file)) {
+            if (!$fileCarga->move( $uploadFolder, $archivoNuevo)) {
                 $return['rst'] = 2;
                 $return['msj'] = $m;
                 return response()->json($return);

@@ -50,15 +50,17 @@ class Empresa extends Model
 
         $peso_evaluacion= $r->peso_evaluacion;
         $tipo_evaluacion= $r->tipo_evaluacion;
-        for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
-            $EE = new EmpresaEvaluacion;
-            $EE->empresa_id = $empresa->id;
-            $EE->tipo_evaluacion_id = $tipo_evaluacion[$i];
-            $EE->persona_id_created_at = $usuario;
-            $EE->peso_evaluacion=$peso_evaluacion[$i];
-            $EE->orden= ($i+1);
-            $EE->estado=1;
-            $EE->save();
+        if( isset($r->tipo_evaluacion) ){
+            for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
+                $EE = new EmpresaEvaluacion;
+                $EE->empresa_id = $empresa->id;
+                $EE->tipo_evaluacion_id = $tipo_evaluacion[$i];
+                $EE->persona_id_created_at = $usuario;
+                $EE->peso_evaluacion=$peso_evaluacion[$i];
+                $EE->orden= ($i+1);
+                $EE->estado=1;
+                $EE->save();
+            }
         }
 
         $sql="
@@ -145,27 +147,29 @@ class Empresa extends Model
 
         $peso_evaluacion= $r->peso_evaluacion;
         $tipo_evaluacion= $r->tipo_evaluacion;
-        for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
-            $valida=DB::table('empresas_tipos_evaluaciones')
-            ->select('id')
-            ->where('empresa_id', '=', $r->id)
-            ->where('tipo_evaluacion_id',$tipo_evaluacion[$i])
-            ->first();
-
-            if( isset($valida->id) AND $valida->id!='' ){
-                $EE = EmpresaEvaluacion::find($valida->id);
-                $EE->persona_id_updated_at = $usuario;
+        if( isset($r->tipo_evaluacion) ){
+            for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
+                $valida=DB::table('empresas_tipos_evaluaciones')
+                ->select('id')
+                ->where('empresa_id', '=', $r->id)
+                ->where('tipo_evaluacion_id',$tipo_evaluacion[$i])
+                ->first();
+    
+                if( isset($valida->id) AND $valida->id!='' ){
+                    $EE = EmpresaEvaluacion::find($valida->id);
+                    $EE->persona_id_updated_at = $usuario;
+                }
+                else{
+                    $EE = new EmpresaEvaluacion;
+                    $EE->empresa_id = $r->id;
+                    $EE->tipo_evaluacion_id = $tipo_evaluacion[$i];
+                    $EE->persona_id_created_at = $usuario;
+                }
+                $EE->peso_evaluacion=$peso_evaluacion[$i];
+                $EE->orden= ($i+1);
+                $EE->estado=1;
+                $EE->save();
             }
-            else{
-                $EE = new EmpresaEvaluacion;
-                $EE->empresa_id = $r->id;
-                $EE->tipo_evaluacion_id = $tipo_evaluacion[$i];
-                $EE->persona_id_created_at = $usuario;
-            }
-            $EE->peso_evaluacion=$peso_evaluacion[$i];
-            $EE->orden= ($i+1);
-            $EE->estado=1;
-            $EE->save();
         }
         DB::commit();
     }

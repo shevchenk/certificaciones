@@ -200,59 +200,60 @@ class Bandeja extends Model
         $id=$r->id;
         $usuario_id = Auth::user()->id;
         
-        for($i=0;$i<count($id);$i++){     
-                $certificado = Bandeja::find($id[$i]);
-                $r->certificado_estado_id=$certificado->certificado_estado_id;
-                $r->sucursal_id=$certificado->sucursal_id;
+        if( $r->has('id') ){
+            for($i=0;$i<count($id);$i++){     
+                    $certificado = Bandeja::find($id[$i]);
+                    $r->certificado_estado_id=$certificado->certificado_estado_id;
+                    $r->sucursal_id=$certificado->sucursal_id;
 
-                $alumno= Alumnos::find($certificado->alumno_id);
+                    $alumno= Alumnos::find($certificado->alumno_id);
 
-                $certificados=CertificadoEstado::find($certificado->certificado_estado_id);
+                    $certificados=CertificadoEstado::find($certificado->certificado_estado_id);
 
-                if( $alumno->tipo_certificado==1 ){
-                    if( $r->sucursal_id!=1 ){
-                        $r->certificado_estado_id = $certificados->ruta_sede_pago;
+                    if( $alumno->tipo_certificado==1 ){
+                        if( $r->sucursal_id!=1 ){
+                            $r->certificado_estado_id = $certificados->ruta_sede_pago;
+                        }
+                        else{
+                            $r->certificado_estado_id = $certificados->ruta_online_pago;
+                        }
                     }
-                    else{
-                        $r->certificado_estado_id = $certificados->ruta_online_pago;
+                    elseif( $alumno->tipo_certificado==2 ){
+                        if( $r->sucursal_id!=1 ){
+                            $r->certificado_estado_id = $certificados->ruta_sede_nopago;
+                        }
+                        else{
+                            $r->certificado_estado_id = $certificados->ruta_online_nopago;
+                        }
                     }
-                }
-                elseif( $alumno->tipo_certificado==2 ){
-                    if( $r->sucursal_id!=1 ){
-                        $r->certificado_estado_id = $certificados->ruta_sede_nopago;
+                    elseif( $alumno->tipo_certificado==3 ){
+                        if( $r->sucursal_id!=1 ){
+                            $r->certificado_estado_id = $certificados->ruta_sede_snpago;
+                        }
+                        else{
+                            $r->certificado_estado_id = $certificados->ruta_online_snpago;
+                        }
                     }
-                    else{
-                        $r->certificado_estado_id = $certificados->ruta_online_nopago;
-                    }
-                }
-                elseif( $alumno->tipo_certificado==3 ){
-                    if( $r->sucursal_id!=1 ){
-                        $r->certificado_estado_id = $certificados->ruta_sede_snpago;
-                    }
-                    else{
-                        $r->certificado_estado_id = $certificados->ruta_online_snpago;
-                    }
-                }
 
-                $certificado->certificado_estado_id=$r->certificado_estado_id;
+                    $certificado->certificado_estado_id=$r->certificado_estado_id;
 
-                if( $r->has('nro_pago') AND trim($r->nro_pago)!='' ){
-                    $certificado->nro_pago = $r->nro_pago;
-                    $certificado->monto_pago = $r->monto_pago;
-                    $certificado->fecha_pago = $r->fecha_pago;
-                    $certificado->tipo_pago = $r->tipo_pago;
-                }
+                    if( $r->has('nro_pago') AND trim($r->nro_pago)!='' ){
+                        $certificado->nro_pago = $r->nro_pago;
+                        $certificado->monto_pago = $r->monto_pago;
+                        $certificado->fecha_pago = $r->fecha_pago;
+                        $certificado->tipo_pago = $r->tipo_pago;
+                    }
 
-                $certificado->persona_id_updated_at=$usuario_id;
-                $certificado->save();
+                    $certificado->persona_id_updated_at=$usuario_id;
+                    $certificado->save();
 
-                $certificado_hist = new BandejaHistorico;
-                $certificado_hist->certificado_id=$certificado->id;
-                $certificado_hist->certificado_estado_id=$r->certificado_estado_id;
-                $certificado_hist->persona_id_created_at=$usuario_id;
-                $certificado_hist->save(); 
+                    $certificado_hist = new BandejaHistorico;
+                    $certificado_hist->certificado_id=$certificado->id;
+                    $certificado_hist->certificado_estado_id=$r->certificado_estado_id;
+                    $certificado_hist->persona_id_created_at=$usuario_id;
+                    $certificado_hist->save(); 
+            }
         }
-        
     }
 
 }

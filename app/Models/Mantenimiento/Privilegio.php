@@ -32,13 +32,15 @@ class Privilegio extends Model
         $opcion = $r->opcion_id;
 
         //ESTO HACE QUE GRABE EN LA TABLE DETALLE LAS OPCIONES, LO QUE SE ESCOJE EN EL COMBO OPCION
-        for($i=0;$i<count($opcion);$i++)
-        {
-            $privilegios_opciones = new PrivilegioOpcion;
-            $privilegios_opciones->opcion_id = $opcion[$i];
-            $privilegios_opciones->privilegio_id = $privilegio->id;
-            $privilegios_opciones->persona_id_created_at = Auth::user()->id;
-            $privilegios_opciones->save();
+        if( $r->has('opcion_id') ){
+            for($i=0;$i<count($opcion);$i++)
+            {
+                $privilegios_opciones = new PrivilegioOpcion;
+                $privilegios_opciones->opcion_id = $opcion[$i];
+                $privilegios_opciones->privilegio_id = $privilegio->id;
+                $privilegios_opciones->persona_id_created_at = Auth::user()->id;
+                $privilegios_opciones->save();
+            }
         }
     }
 
@@ -54,35 +56,37 @@ class Privilegio extends Model
         $opcion = $r->opcion_id;
 
         //ESTO HACE QUE GRABE EN LA TABLE DETALLE LOS CURSOS, LO QUE SE ESCOJE EN EL COMBO CURSO
-        if( count($opcion)>0 ){
-            DB::table('privilegios_opciones')
-            ->where('privilegio_id', '=', $privilegio->id)
-            ->update(
-                array(
-                    'estado' => 0,
-                    'persona_id_updated_at' => Auth::user()->id,
-                    'updated_at' => date('Y-m-d H:i:s')
-                    )
-                );
-        }
-        for($i=0;$i<count($opcion);$i++)
-        {
-            $privilegios_opciones=DB::table('privilegios_opciones')
-            ->where('privilegio_id', '=', $privilegio->id)
-            ->where('opcion_id', '=', $opcion[$i])
-            ->first();
-            if( !isset($privilegios_opciones->id) ){
-                $privilegios_opciones = new PrivilegioOpcion;
-                $privilegios_opciones->opcion_id = $opcion[$i];
-                $privilegios_opciones->privilegio_id = $privilegio->id;
-                $privilegios_opciones->persona_id_created_at = Auth::user()->id;
+        if( $r->has('opcion_id') ){
+            if( count($opcion)>0 ){
+                DB::table('privilegios_opciones')
+                ->where('privilegio_id', '=', $privilegio->id)
+                ->update(
+                    array(
+                        'estado' => 0,
+                        'persona_id_updated_at' => Auth::user()->id,
+                        'updated_at' => date('Y-m-d H:i:s')
+                        )
+                    );
             }
-            else{
-                $privilegios_opciones = PrivilegioOpcion::find($privilegios_opciones->id);
-                $privilegios_opciones->estado = 1;
-                $privilegios_opciones->persona_id_updated_at = Auth::user()->id;
+            for($i=0;$i<count($opcion);$i++)
+            {
+                $privilegios_opciones=DB::table('privilegios_opciones')
+                ->where('privilegio_id', '=', $privilegio->id)
+                ->where('opcion_id', '=', $opcion[$i])
+                ->first();
+                if( !isset($privilegios_opciones->id) ){
+                    $privilegios_opciones = new PrivilegioOpcion;
+                    $privilegios_opciones->opcion_id = $opcion[$i];
+                    $privilegios_opciones->privilegio_id = $privilegio->id;
+                    $privilegios_opciones->persona_id_created_at = Auth::user()->id;
+                }
+                else{
+                    $privilegios_opciones = PrivilegioOpcion::find($privilegios_opciones->id);
+                    $privilegios_opciones->estado = 1;
+                    $privilegios_opciones->persona_id_updated_at = Auth::user()->id;
+                }
+                $privilegios_opciones->save();
             }
-            $privilegios_opciones->save();
         }
     }
 

@@ -157,6 +157,7 @@ class Persona extends Model
 
     public static function runEdit($r)
     {
+        $validaAct= 0;
         DB::beginTransaction();
         $persona_id = Auth::user()->id;
         $persona = Persona::find($r->id);
@@ -166,9 +167,11 @@ class Persona extends Model
         $persona->sexo = trim( $r->sexo );
         $persona->email = trim( $r->email );
         if(trim( $r->password )!=''){
-        $persona->password=bcrypt($r->password);
+            $validaAct = 1;
+            $persona->password=bcrypt($r->password);
         }
         else if( $r->dni!=$persona->dni){
+            $validaAct = 1;
             $persona->password=bcrypt($r->dni);
         }
         
@@ -188,6 +191,11 @@ class Persona extends Model
         $persona->estado = trim( $r->estado );
         $persona->persona_id_updated_at=$persona_id;
         $persona->save();
+
+        if( $validaAct == 1 ){
+            $sql= 'UPDATE fomacioncontinua_aula.v_personas SET password = "'.$persona->password.'" WHERE dni = "'.$persona->dni.'"';
+            DB::update($sql);
+        }
         
         DB::table('personas_privilegios_sucursales')
                 ->where('persona_id', $r->id)

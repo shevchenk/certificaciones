@@ -314,13 +314,15 @@ class Alumno extends Model
         $notas = $r->notas;
 
         //ESTO HACE QUE GRABE EN LA TABLE DETALLE LOS CURSOS, LO QUE SE ESCOJE EN EL COMBO CURSO
-        for($i=0;$i<count($id_mat);$i++)
-        {
-        	if($notas[$i] !='' ){
-	            $alumno = MatriculaDetalle::find($id_mat[$i]);
-	        	$alumno->nota_curso_alum = $r->notas[$i];
-	            $alumno->save();
-        	}
+        if( $r->has('id_mat') ){
+            for($i=0;$i<count($id_mat);$i++)
+            {
+                if($notas[$i] !='' ){
+                    $alumno = MatriculaDetalle::find($id_mat[$i]);
+                    $alumno->nota_curso_alum = $r->notas[$i];
+                    $alumno->save();
+                }
+            }
         }
     }
 

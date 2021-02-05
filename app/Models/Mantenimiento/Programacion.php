@@ -520,30 +520,32 @@ class Programacion extends Model
                 )
             );
 
-        for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
-            $valida=DB::table('mat_programaciones_evaluaciones')
-            ->select('id')
-            ->where('programacion_id', '=', $r->id)
-            ->where('tipo_evaluacion_id',$tipo_evaluacion[$i])
-            ->first();
+        if( $r->has('tipo_evaluacion') ){
+            for ($i=0; $i < count($tipo_evaluacion) ; $i++) { 
+                $valida=DB::table('mat_programaciones_evaluaciones')
+                ->select('id')
+                ->where('programacion_id', '=', $r->id)
+                ->where('tipo_evaluacion_id',$tipo_evaluacion[$i])
+                ->first();
 
-            if( isset($valida->id) AND $valida->id!='' ){
-                $PE = ProgramacionEvaluacion::find($valida->id);
-                $PE->persona_id_updated_at = $usuario;
+                if( isset($valida->id) AND $valida->id!='' ){
+                    $PE = ProgramacionEvaluacion::find($valida->id);
+                    $PE->persona_id_updated_at = $usuario;
+                }
+                else{
+                    $PE = new ProgramacionEvaluacion;
+                    $PE->programacion_id = $r->id;
+                    $PE->tipo_evaluacion_id = $tipo_evaluacion[$i];
+                    $PE->persona_id_created_at = $usuario;
+                }
+                $PE->peso_evaluacion=$peso_evaluacion[$i];
+                $PE->fecha_evaluacion_ini=$fecha_inicio[$i];
+                $PE->fecha_evaluacion_fin=$fecha_final[$i];
+                $PE->activa_fecha=$activa_fecha[$i];
+                $PE->orden=($i+1);
+                $PE->estado=1;
+                $PE->save();
             }
-            else{
-                $PE = new ProgramacionEvaluacion;
-                $PE->programacion_id = $r->id;
-                $PE->tipo_evaluacion_id = $tipo_evaluacion[$i];
-                $PE->persona_id_created_at = $usuario;
-            }
-            $PE->peso_evaluacion=$peso_evaluacion[$i];
-            $PE->fecha_evaluacion_ini=$fecha_inicio[$i];
-            $PE->fecha_evaluacion_fin=$fecha_final[$i];
-            $PE->activa_fecha=$activa_fecha[$i];
-            $PE->orden=($i+1);
-            $PE->estado=1;
-            $PE->save();
         }
         DB::commit();
     }

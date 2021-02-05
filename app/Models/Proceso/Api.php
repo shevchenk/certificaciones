@@ -28,16 +28,16 @@ class Api extends Model
     {
         $bd='prabtoea_telesup_pae';
         if( $_SERVER['SERVER_NAME']=='localhost' ){
-            $bd= 'telesup_pae';
+            $bd= 'formacion_continua';
         }
         elseif( $_SERVER['SERVER_NAME']=='capafc.jssoluciones.pe' ){
             $bd='prabtoea_pae';
         }
         elseif( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
-            $bd='formacion_continua';
+            $bd='fomacioncontinua_fc';
         }
         elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
-            $bd='capa_formacion_continua';
+            $bd='fomacioncontinua_fc_capa';
         }
         return $bd;
     }
@@ -713,9 +713,11 @@ class Api extends Model
                 $mtdetalle->tipo_pago=0;
                 $mtdetalle->curso_id=$value->curso_id;
 
-                for ($i=0; $i < count($programacion_id); $i++) { 
-                    if( $curso_id[$i]==$value->curso_id ){
-                        $mtdetalle->programacion_id= $programacion_id[$i];
+                if( $r->has('programacion_id') ){
+                    for ($i=0; $i < count($programacion_id); $i++) { 
+                        if( $curso_id[$i]==$value->curso_id ){
+                            $mtdetalle->programacion_id= $programacion_id[$i];
+                        }
                     }
                 }
                 $mtdetalle->persona_id_created_at= $usuario;
@@ -725,30 +727,32 @@ class Api extends Model
         else{
             $nro_pago= $r->nro_pago_programacion;
             $monto_pago= $r->monto_pago_programacion;
-            for ($i=0; $i < count($programacion_id); $i++) { 
+            if( $r->has('programacion_id') ){
+                for ($i=0; $i < count($programacion_id); $i++) { 
 
-                $curso= Curso::find( $curso_id[$i] );
+                    $curso= Curso::find( $curso_id[$i] );
 
-                $mtdetalle=new MatriculaDetalle;
-                $mtdetalle->norden=$i+1;
-                $mtdetalle->matricula_id=$matricula->id;
-                $mtdetalle->programacion_id=$programacion_id[$i]; 
-                
-                if( $curso->tipo_curso==2 ){
-                    $mtdetalle->tipo_matricula_detalle=4;
+                    $mtdetalle=new MatriculaDetalle;
+                    $mtdetalle->norden=$i+1;
+                    $mtdetalle->matricula_id=$matricula->id;
+                    $mtdetalle->programacion_id=$programacion_id[$i]; 
+                    
+                    if( $curso->tipo_curso==2 ){
+                        $mtdetalle->tipo_matricula_detalle=4;
+                    }
+                    else{
+                        $mtdetalle->tipo_matricula_detalle=3;
+                    }
+
+                    $mtdetalle->nro_pago=0;
+                    $mtdetalle->monto_pago=0;
+                    $mtdetalle->nro_pago_certificado=$nro_pago[$i];
+                    $mtdetalle->monto_pago_certificado=$monto_pago[$i];
+                    $mtdetalle->tipo_pago=0;
+                    $mtdetalle->curso_id=$curso_id[$i];
+                    $mtdetalle->persona_id_created_at= $usuario;
+                    $mtdetalle->save();
                 }
-                else{
-                    $mtdetalle->tipo_matricula_detalle=3;
-                }
-
-                $mtdetalle->nro_pago=0;
-                $mtdetalle->monto_pago=0;
-                $mtdetalle->nro_pago_certificado=$nro_pago[$i];
-                $mtdetalle->monto_pago_certificado=$monto_pago[$i];
-                $mtdetalle->tipo_pago=0;
-                $mtdetalle->curso_id=$curso_id[$i];
-                $mtdetalle->persona_id_created_at= $usuario;
-                $mtdetalle->save();
             }
         }
 

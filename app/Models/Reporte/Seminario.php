@@ -467,8 +467,8 @@ class Seminario extends Model
         $servidor = 'formacion_continua';
         $aulaservidor = 'aula_formacion_continua';
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
-            $servidor = 'formacion_continua';
-            $aulaservidor = 'aula_formacion_continua';
+            $servidor = 'fomacioncontinua_fc';
+            $aulaservidor = 'fomacioncontinua_aula';
         }
         elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
             $servidor = 'capa_formacion_continua';
