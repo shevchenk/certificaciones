@@ -160,6 +160,157 @@ class Seminario extends Model
         return $result;
     }
 
+    public static function runLoadSeminario2($r)
+    {
+        $id=Auth::user()->id;
+        $sql=DB::table('mat_matriculas AS mm')
+            ->join('mat_matriculas_detalles AS mmd',function($join){
+                $join->on('mmd.matricula_id','=','mm.id')
+                ->where('mmd.estado',1);
+            })
+            ->join('personas AS p',function($join){
+                $join->on('p.id','=','mm.persona_id');
+            })
+            ->join('mat_alumnos AS ma',function($join){
+                $join->on('ma.id','=','mm.alumno_id');
+            })
+            ->join('sucursales AS s',function($join){
+                $join->on('s.id','=','mm.sucursal_id');
+            })
+            ->join('sucursales AS s2',function($join){
+                $join->on('s2.id','=','mm.sucursal_destino_id');
+            })
+            ->join('mat_tipos_participantes AS mtp',function($join){
+                $join->on('mtp.id','=','mm.tipo_participante_id');
+            })
+            ->join('mat_cursos AS mc',function($join) use($r){
+                $join->on('mc.id','=','mmd.curso_id');
+                if( !$r->has('global') ){
+                    $join->where('mc.empresa_id', Auth::user()->empresa_id);
+                }
+            })
+            ->join('empresas AS e',function($join){
+                $join->on('e.id','=','mc.empresa_id');
+            })
+            ->join('personas AS pmat',function($join){
+                $join->on('pmat.id','=','mm.persona_matricula_id');
+            })
+            ->join('mat_programaciones AS mp',function($join){
+                $join->on('mp.id','=','mmd.programacion_id');
+            })
+            ->join('sucursales AS s3',function($join){
+                $join->on('s3.id','=','mp.sucursal_id');
+            })
+            ->leftJoin('personas AS pcaj',function($join){
+                $join->on('pcaj.id','=','mm.persona_caja_id');
+            })
+            ->leftJoin('personas AS pmar',function($join){
+                $join->on('pmar.id','=','mm.persona_marketing_id');
+            })
+            ->leftJoin('mat_medios_captaciones AS meca',function($join){
+                $join->on('meca.id','=','mm.medio_captacion_id');
+            })
+            ->leftJoin('mat_especialidades_programaciones AS mep',function($join){
+                $join->on('mep.id','=','mm.especialidad_programacion_id');
+            })
+            ->leftJoin('mat_especialidades AS me',function($join){
+                $join->on('me.id','=','mmd.especialidad_id');
+            })
+            ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email','mm.validada'
+                    ,'mm.fecha_matricula',DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
+                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
+                    , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
+                    ,'mc.curso AS curso', 'mp.dia AS frecuencia'
+                    , DB::raw('CONCAT(TIME(mp.fecha_inicio)," - ",TIME(mp.fecha_final)) AS horario')
+                    , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS nro_pago')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS monto_pago')
+                    ,DB::raw(' IF(mm.especialidad_programacion_id IS NOT NULL, 
+                                "",
+                                GROUP_CONCAT( 
+                                CASE 
+                                    WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mmd.tipo_pago="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mmd.tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN mmd.tipo_pago="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END ORDER BY mmd.id SEPARATOR "\n")
+                                ) AS tipo_pago')
+                    ,DB::raw('SUM(mmd.monto_pago_certificado) total')
+                    ,'mm.nro_promocion','mm.monto_promocion'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mm.tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END AS tipo_pago_promocion')
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago_inscripcion="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago_inscripcion="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago_inscripcion="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mm.tipo_pago_inscripcion="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago_inscripcion="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END AS tipo_pago_inscripcion')
+                    //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
+                    ,'s.sucursal','s2.sucursal AS recogo_certificado'
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
+                    ,'meca.medio_captacion'
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
+                    )
+            ->where( 
+                function($query) use ($r){
+
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            //$query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has('vendedor') AND $r->vendedor==1 ){
+                        $persona_id=Auth::user()->id;
+                        $query->where('mm.persona_marketing_id',$persona_id);
+                    }
+                }
+            )
+            ->where('mm.estado',1)
+            ->whereRaw('mm.sucursal_id IN (SELECT DISTINCT(ppv.sucursal_id)
+                            FROM personas_privilegios_sucursales ppv
+                            WHERE ppv.persona_id='.$id.')')
+            ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email','mm.validada'
+                    ,'mm.fecha_matricula','e.empresa'
+                    ,'mmd.especialidad_id','mc.curso','mc.tipo_curso','me.especialidad','mp.dia','mp.turno','mp.fecha_inicio','mp.fecha_final'
+                    ,'mm.especialidad_programacion_id'
+                    ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion');
+            
+        $result = $sql->orderBy('mm.id','asc')->get();
+        return $result;
+    }
+
     public static function runLoadSeminarioDetalle($r)
     {
         $id=Auth::user()->id;
@@ -247,7 +398,7 @@ class Seminario extends Model
 
     public static function runExportSeminario($r)
     {
-        $rsql= Seminario::runLoadSeminario($r);
+        $rsql= Seminario::runLoadSeminario2($r);
 
         $length=array('A'=>5);
         $pos=array(
@@ -1610,6 +1761,8 @@ class Seminario extends Model
                     WHERE md_aux.programacion_id IS NOT NULL
                     GROUP BY md_aux.matricula_id
                 ) md ON md.matricula_id = m.id AND md.empresa_id = $empresa_id
+                INNER JOIN mat_programaciones pro ON pro.id=md.programacion_id
+                INNER JOIN sucursales su3 ON su3.id=pro.sucursal_id
                 LEFT JOIN mat_matriculas_detalles md2 ON md2.id = SUBSTRING_INDEX(md.id,'|',-1)*1
                 LEFT JOIN mat_trabajadores tra ON tra.persona_id=m.persona_marketing_id AND tra.rol_id=1 AND tra.empresa_id=md.empresa_id
                 LEFT JOIN mat_especialidades_programaciones ep ON ep.id=m.especialidad_programacion_id
@@ -1621,8 +1774,6 @@ class Seminario extends Model
                 LEFT JOIN sucursales su ON su.id=m.sucursal_id
                 LEFT JOIN sucursales su2 ON su2.id=m.sucursal_destino_id
                 LEFT JOIN mat_especialidades es ON es.id=md.especialidad_id
-                LEFT JOIN mat_programaciones pro ON pro.id=md.programacion_id
-                LEFT JOIN sucursales su3 ON su3.id=pro.sucursal_id
                 LEFT JOIN paises pa ON pa.id=p.pais_id 
                 LEFT JOIN mat_ubicacion_region re ON re.id=p.region_id
                 LEFT JOIN mat_ubicacion_provincia pr ON pr.id=p.provincia_id
