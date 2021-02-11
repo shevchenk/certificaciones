@@ -612,6 +612,62 @@ class Seminario extends Model
         return $r;
     }
 
+    public static function validarDeuda($r)
+    {
+        $valida = 
+        DB::table('mat_matriculas AS mm')
+        ->join('mat_matriculas_detalles AS mmd',function($join){
+            $join->on('mmd.matricula_id','=','mm.id')
+            ->where('mmd.estado',1);
+        })
+        ->select( 
+                DB::raw('  
+                IFNULL((SELECT SUM(sal)
+                        FROM (
+                            SELECT matricula_id, cuota, MIN(saldo) sal
+                            FROM mat_matriculas_saldos
+                            WHERE estado=1
+                            GROUP BY matricula_id,cuota
+                            HAVING sal > 0
+                        ) cuota_deuda
+                        WHERE matricula_id = mm.id),0)
+                +
+                IFNULL((SELECT SUM(ep.monto_cronograma)
+                        FROM mat_especialidades_programaciones_cronogramas ep 
+                        INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id AND m.estado=1
+                        LEFT JOIN mat_matriculas_saldos ms ON ms.matricula_id=m.id AND ms.cuota=ep.cuota
+                        LEFT JOIN mat_matriculas_cuotas mc ON mc.matricula_id=m.id AND mc.cuota=ep.cuota
+                        WHERE ep.estado = 1
+                        AND ms.id IS NULL AND mc.id IS NULL 
+                        AND ep.fecha_cronograma<= CURDATE()
+                        AND m.id = mm.id),0)
+                +
+                IFNULL((SELECT MIN(saldo) sal
+                        FROM mat_matriculas_saldos
+                        WHERE estado=1
+                        AND matricula_detalle_id= mmd.id
+                        GROUP BY matricula_detalle_id
+                        HAVING sal > 0 ),0) AS deuda_total ') )
+        ->where( 
+            function($query) use ($r){
+                if( $r->has("matricula_detalle_id") ){
+                    $matricula_detalle_id = trim($r->matricula_detalle_id);
+                    if( $matricula_detalle_id !='' ){
+                        $query->where('mmd.id', '=', $matricula_detalle_id);
+                    }
+                }
+            }
+        )
+        ->first();
+        
+        $deuda = 0;
+        if( isset($valida->deuda_total) ){
+            $deuda = $valida->deuda_total;
+        }
+
+        return $deuda;
+    }
+
     public static function runControlPago($r)
     {
         
@@ -663,17 +719,17 @@ class Seminario extends Model
             ->leftJoin('mat_especialidades AS me',function($join){
                 $join->on('me.id','=','mmd.especialidad_id');
             })
-            ->select('mm.id','p.dni','p.nombre','p.paterno','p.materno'
-                    ,'p.celular','p.email'
-                    ,'e.empresa AS empresa_inscripcion','mm.fecha_matricula'
+            ->select('mm.id', 'mmd.id AS matricula_detalle_id', 'p.dni', 'p.nombre', 'p.paterno', 'p.materno'
+                    , 'p.celular', 'p.email', 'mmd.archivo_certificado'
+                    , 'e.empresa AS empresa_inscripcion', 'mm.fecha_matricula'
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
                     ,'mc.curso AS curso', 's.sucursal AS local', 'mp.dia AS frecuencia'
                     , DB::raw('CONCAT(TIME(mp.fecha_inicio)," - ",TIME(mp.fecha_final)) AS horario')
                     , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')
-                    ,'mmd.nro_pago_certificado AS nro_pago'
-                    ,'mmd.monto_pago_certificado AS monto_pago'
-                    ,DB::raw(' CASE 
+                    , 'mmd.nro_pago_certificado AS nro_pago'
+                    , 'mmd.monto_pago_certificado AS monto_pago'
+                    , DB::raw(' CASE 
                                     WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
