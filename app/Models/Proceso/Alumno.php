@@ -101,12 +101,39 @@ class Alumno extends Model
             })
             ->select(
             'mmd.id','mmd.validavideo',
-            'mc.curso','mp.link','mm.fecha_matricula','mmd.comentario',
+            'mc.curso','mp.link','mm.fecha_matricula','mmd.comentario', 'mmd.archivo_certificado',
             DB::raw('IF(mp.sucursal_id=1,"Virtual","Presencial") as modalidad'),
             DB::raw('CONCAT(p.nombre," ", p.paterno," ", p.materno) as profesor'),
             DB::raw('DATE(mp.fecha_inicio) as fecha'),
             DB::raw('CONCAT(TIME(mp.fecha_inicio)," a ",TIME(mp.fecha_final)) as horario'),
-            DB::raw('s.sucursal as sucursal')
+            DB::raw('s.sucursal as sucursal'),
+            DB::raw('  
+                IFNULL((SELECT SUM(sal)
+                        FROM (
+                            SELECT matricula_id, cuota, MIN(saldo) sal
+                            FROM mat_matriculas_saldos
+                            WHERE estado=1
+                            GROUP BY matricula_id,cuota
+                            HAVING sal > 0
+                        ) cuota_deuda
+                        WHERE matricula_id = mm.id),0)
+                +
+                IFNULL((SELECT SUM(ep.monto_cronograma)
+                        FROM mat_especialidades_programaciones_cronogramas ep 
+                        INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id AND m.estado=1
+                        LEFT JOIN mat_matriculas_saldos ms ON ms.matricula_id=m.id AND ms.cuota=ep.cuota
+                        LEFT JOIN mat_matriculas_cuotas mc ON mc.matricula_id=m.id AND mc.cuota=ep.cuota
+                        WHERE ep.estado = 1
+                        AND ms.id IS NULL AND mc.id IS NULL 
+                        AND ep.fecha_cronograma<= CURDATE()
+                        AND m.id = mm.id),0)
+                +
+                IFNULL((SELECT MIN(saldo) sal
+                        FROM mat_matriculas_saldos
+                        WHERE estado=1
+                        AND matricula_detalle_id= mmd.id
+                        GROUP BY matricula_detalle_id
+                        HAVING sal > 0 ),0) AS deuda_total ')
             )
             ->where('mm.estado','1')
             ->where( 

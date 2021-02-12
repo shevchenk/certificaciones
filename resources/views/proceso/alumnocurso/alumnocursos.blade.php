@@ -24,7 +24,7 @@
 
 @section('content')
 <style>
-.modal { overflow: auto !important; 
+.modal { overflow: auto !important; }
 </style>
 <section class="content-header">
     <h1>Listado de Cursos

@@ -35,9 +35,10 @@ HTMLCargarAlumno=function(result){
 
 HTMLCargarCurso=function(result){
     var html="";
+    $("#t_matricula tbody").html(html);
     
     $.each(result.data,function(index,r){
-        html+="<tr id='tr"+r.id+"'>";
+        html="<tr id='tr"+r.id+"'>";
         html+="<td>"+r.modalidad+"</td>";
         html+="<td class='curso'>"+r.curso+"</td>";
         html+="<td>"+r.profesor+"</td>";
@@ -54,15 +55,38 @@ HTMLCargarCurso=function(result){
         else{
             html+="<td>&nbsp;</td>";
         }
+
         if( $.trim(r.comentario)!='' ){
-            html+="<td><textarea rows='4' cols='30' class='form-control' disabled>"+$.trim(r.comentario)+"</textarea></td>";
+            html+="<td><textarea rows='4' cols='30' class='form-control' disabled>ss"+$.trim(r.comentario)+"</textarea></td>";
         }
         else{
             html+="<td><a class='btn btn-lg btn-dropbox' onClick='ComentarSeminario("+r.id+")'><i class='fa fa-pencil-square-o'></i></a></td>";
         }
+
+        if( $.trim(r.archivo_certificado) != '' ){
+            html+="<td> Click para descargar"+
+                '<a id="pago_href'+index+'">'+
+                    '<img id="pago_img'+index+'" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                '</a>'+
+            "</td>";
+        }
+        else if( r.deuda_total * 1 == 0 ){
+            html += '<td><div class="alert alert-success" role="alert">'+
+                        'Estamos generando su certificado'+
+                    '</div></td>';
+        }
+        else{
+            html += '<td><div class="alert alert-danger" role="alert">'+
+                        'Tiene deuda pendiente'+
+                    '</div></td>';
+        }
+
         html+="</tr>";
+        $("#t_matricula tbody").append(html);
+        if( $.trim(r.archivo_certificado) != '' ){
+            masterG.SelectImagen(r.archivo_certificado, "#pago_img"+index, "#pago_href"+index);
+        }
     });
-    $("#t_matricula tbody").html(html); 
 };
 
 ValidarVideo=function(id){

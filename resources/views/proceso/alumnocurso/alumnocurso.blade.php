@@ -24,7 +24,7 @@
 
 @section('content')
 <style>
-.modal { overflow: auto !important; 
+.modal { overflow: auto !important; }
 </style>
 <section class="content-header">
     <h1>Listado de Seminarios
@@ -85,6 +85,7 @@
                                                     <th>Tipo Seminario</th>
                                                     <th>Link del Seminario</th>
                                                     <th>Comentario del Seminario</th>
+                                                    <th>Descargar Certificado</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_matricula">
