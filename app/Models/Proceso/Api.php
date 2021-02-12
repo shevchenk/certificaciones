@@ -100,7 +100,34 @@ class Api extends Model
                     ,'mp.fecha_inicio', 'mp.fecha_final', 'p.dni AS docente_dni', 'p.paterno AS docente_paterno'
                     ,'p.materno AS docente_materno','p.nombre AS docente_nombre', 'mmd.id AS programacion_externo_id'
                     ,DB::raw('IFNULL(me.especialidad,"Curso Libre") AS carrera','mc.empresa_id AS empresa_externo_id')
-                    ,'mc.empresa_id AS empresa_externo_id', 'mm.fecha_matricula'
+                    ,'mc.empresa_id AS empresa_externo_id', 'mm.fecha_matricula', 'mmd.archivo_certificado'
+                    , DB::raw('  
+                        IFNULL((SELECT SUM(sal)
+                                FROM (
+                                    SELECT matricula_id, cuota, MIN(saldo) sal
+                                    FROM mat_matriculas_saldos
+                                    WHERE estado=1
+                                    GROUP BY matricula_id,cuota
+                                    HAVING sal > 0
+                                ) cuota_deuda
+                                WHERE matricula_id = mm.id),0)
+                        +
+                        IFNULL((SELECT SUM(ep.monto_cronograma)
+                                FROM mat_especialidades_programaciones_cronogramas ep 
+                                INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id AND m.estado=1
+                                LEFT JOIN mat_matriculas_saldos ms ON ms.matricula_id=m.id AND ms.cuota=ep.cuota
+                                LEFT JOIN mat_matriculas_cuotas mc ON mc.matricula_id=m.id AND mc.cuota=ep.cuota
+                                WHERE ep.estado = 1
+                                AND ms.id IS NULL AND mc.id IS NULL 
+                                AND ep.fecha_cronograma<= CURDATE()
+                                AND m.id = mm.id),0)
+                        +
+                        IFNULL((SELECT MIN(saldo) sal
+                                FROM mat_matriculas_saldos
+                                WHERE estado=1
+                                AND matricula_detalle_id= mmd.id
+                                GROUP BY matricula_detalle_id
+                                HAVING sal > 0 ),0) AS deuda_total ')
                     )
                     ->where('mm.estado',1)
                     ->where('mm.persona_id',$persona[0]->id)
