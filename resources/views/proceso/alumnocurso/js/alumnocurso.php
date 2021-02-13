@@ -63,22 +63,22 @@ HTMLCargarCurso=function(result){
             html+="<td><a class='btn btn-lg btn-dropbox' onClick='ComentarSeminario("+r.id+")'><i class='fa fa-pencil-square-o'></i></a></td>";
         }
 
-        if( $.trim(r.archivo_certificado) != '' ){
-            html+="<td> Click para descargar"+
-                '<a id="pago_href'+index+'">'+
-                    '<img id="pago_img'+index+'" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
-                '</a>'+
-            "</td>";
+        if( r.deuda_total * 1 > 0 ){
+            html += '<td><div class="alert alert-danger" role="alert">'+
+                        'Tiene deuda pendiente'+
+                    '</div></td>';
         }
-        else if( r.deuda_total * 1 == 0 ){
+        else if( r.deuda_total * 1 == 0 && $.trim(r.archivo_certificado) == '' ){
             html += '<td><div class="alert alert-success" role="alert">'+
                         'Estamos generando su certificado'+
                     '</div></td>';
         }
         else{
-            html += '<td><div class="alert alert-danger" role="alert">'+
-                        'Tiene deuda pendiente'+
-                    '</div></td>';
+            html+="<td> Click para descargar"+
+                '<a id="pago_href'+index+'">'+
+                    '<img id="pago_img'+index+'" class="img-circle" style="height: 100px;width: 95%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                '</a>'+
+            "</td>";
         }
 
         html+="</tr>";
