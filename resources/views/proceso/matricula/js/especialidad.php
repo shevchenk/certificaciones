@@ -4,6 +4,7 @@ var PromocionGeneral=0;
 var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
                curso_id:"",aula:"",fecha_inicio:"",fecha_final:"",estado:1}; // Datos Globales
 var MatriculaIdG=0;
+var ProgramacionIdG = false;
 $(document).ready(function() {
 
     $( "#ModalMatriculaForm #file_inscripcion, #ModalMatriculaForm #file_matricula, #ModalMatriculaForm #file_dni" ).prop("disabled",true);
@@ -101,6 +102,10 @@ ValidaCheckInscripcion=function(){
 ValidaTipo=function(v){}
 
 ValidaForm=function(){
+    $("#ModalMatriculaForm input[name='txt_programacion_id[]']").each(function(index, r) { 
+        if( $.trim( r.value ) != '' ){ ProgramacionIdG = true; } 
+    });
+
     var r=true;
     if( $.trim( $("#ModalMatriculaForm #txt_persona_id").val() )==''){
         r=false;
@@ -138,9 +143,13 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Referencia',4000);
     }*/
-    else if( $.trim( $("#ModalMatriculaForm #txt_programacion_id").val() )=='' && $.trim( $("#ModalMatriculaForm #txt_especialidad_id").val() )==''){
+    else if( $.trim( $("#ModalMatriculaForm #txt_especialidad_id").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione al menos una Carrera / Módulo',4000);
+    }
+    else if( ProgramacionIdG == false ){
+        r=false;
+        msjG.mensaje('warning','Seleccione al menos una programación',4000);
     }
     /*else if( $.trim( $("#ModalMatriculaForm #txt_persona_caja_id").val() )==''){
         r=false;
@@ -259,7 +268,7 @@ HTMLAgregarEditar=function(result){
         ActivarPago(1);
         MatriculaIdG = result.matricula_id;
     }else{
-        msjG.mensaje('warning',result.msj,3000);
+        msjG.mensaje('warning',result.msj,5000);
     }
 }
 

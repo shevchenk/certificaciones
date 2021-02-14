@@ -82,9 +82,10 @@ HTMLCargarEspecialidad=function(result){
             detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;' class='costo'>"+r.nro_cuota+"</span> </li><li> Costo Ins.: <span style='color:red;' class='precio'>"+r.costo+"</span> </li><li> Costo Mat.: <span style='color:red;' class='precio_mat'>"+r.costo_mat+"</span> </li></ul>";
             cuota="<ol><li>C - "+$.trim(r.cronograma).split("|").join("</li><li>C - ")+"</li></ol>";
         }
+        // +r.fecha_inicio+"<hr>" para limpiar fecha
         html+="<tr id='trides_"+r.id+"'>"+
             "<td class='col-md-4'><div class='especialidad'>"+r.especialidad+"</div><hr><input type='hidden' class='tipo' value='"+r.tipo+"'>"+detalle+"</td>"+
-            "<td class='fecha_inicio col-md-1'>"+r.fecha_inicio+"<hr>"+cuota+"</td>"+
+            "<td class='fecha_inicio col-md-1'>"+cuota+"</td>"+
             "<td class='curso col-md-5'>"+
                 "<table class='table table-bordered table-hover'>"+
                     "<thead><tr>"+
@@ -124,6 +125,7 @@ HTMLCargarEspecialidad=function(result){
 };
 
 SeleccionarEspecialidad=function(id){
+    ProgramacionIdG = false; // este campo viene de especialidad js y resetea el valor de programacion seleccionado
     EspecialidadIDG=id;
     $("#ModalMatriculaForm #txt_ode_estudio_id").val($("#ModalListaespecialidad #slct_ode_estudio_id option:selected").val());
     $("#TableListaprogramacion #txt_sucursal").val($("#ModalListaespecialidad #slct_ode_estudio_id option:selected").text());

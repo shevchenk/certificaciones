@@ -62,6 +62,7 @@ class MatriculaPR extends Controller
                 }
                 else{
                     $curso_id = $r->curso_id;
+                    $programacion_id=$r->programacion_id;
                     for($i=0;$i<count($curso_id);$i++){
                         $nro_p = $r->nro_pago_certificado[$i];
                         $monto_p = $r->monto_pago_certificado[$i];
@@ -87,8 +88,27 @@ class MatriculaPR extends Controller
                                 return response()->json($return);
                             }
                         }
+
+                        if( isset($programacion_id[$i]) ){
+                            //Validamos si ya tiene el curso inscrito con esa programación
+                            $sql = "SELECT m.id 
+                                    FROM mat_matriculas m
+                                    INNER JOIN mat_matriculas_detalles md ON md.matricula_id = m.id AND md.estado = 1 
+                                    WHERE m.persona_id = $r->persona_id
+                                    AND md.programacion_id = $programacion_id[$i]
+                                    AND m.estado = 1";
+
+                            $datos = DB::select($sql);
+                            if( isset($datos[0]->id) ){
+                                $return['rst'] = 2;
+                                $return['msj'] = 'La programación del curso seleccionada, ya fue registrado anteriormente';
+                                return response()->json($return);
+                            }
+                        }
                     }
                 }
+
+
                 $id=Matricula::runNew($r);
                 $return['rst'] = 1;
                 $return['matricula_id'] = $id;
