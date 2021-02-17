@@ -47,5 +47,28 @@ class CargarCertificadoPR extends Controller
         return response()->json($return);
     }
 
+    public function EliminarArchivo(Request $r)
+    {
+        $return = array();
+        if( $r->has('matricula_detalle_id') ){
+            DB::beginTransaction();
+            $matricula_detalle = MatriculaDetalle::find($r->matricula_detalle_id);
+            $url = $matricula_detalle->archivo_certificado;
+            $matricula_detalle->archivo_certificado = '';
+            $matricula_detalle->save();
+
+            @unlink($url);
+            DB::commit();
+            $return['rst'] = 1;
+            $return['msj'] = 'Archivo eliminado correctamente';
+        }
+        else{
+            $return['rst'] = 3;
+            $return['msj'] = 'Faltan datos!!';
+        }
+
+        return response()->json($return);
+    }
+
 
 }

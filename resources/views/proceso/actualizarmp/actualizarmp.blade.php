@@ -14,8 +14,8 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 
-@include( 'proceso.cargarcertificado.js.cargarcertificado_ajax' )
-@include( 'proceso.cargarcertificado.js.cargarcertificado' )
+@include( 'proceso.actualizarmp.js.actualizarmp_ajax' )
+@include( 'proceso.actualizarmp.js.actualizarmp' )
 @stop
 
 @section('content')
@@ -79,20 +79,10 @@
                                 <table id="TableReporte" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th style="background-color: #DDEBF7;" colspan='6'>DATOS DEL ALUMNO</th>
-                                            <th style="background-color: #E2EFDA;" colspan='10'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
-                                            <th style="background-color: #FCE4D6;" colspan='2'>CERTIFICADOS</th>
+                                            <th style="background-color: #E2EFDA;" colspan='8'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #FCE4D6;" colspan='2'>[-]</th>
                                         </tr>
                                         <tr>
-                                            <th style="background-color: #DDEBF7;">DNI</th>
-                                            <th style="background-color: #DDEBF7;">Nombres</th>
-                                            <th style="background-color: #DDEBF7;">Paterno</th>
-                                            <th style="background-color: #DDEBF7;">Materno</th>
-                                            <th style="background-color: #DDEBF7;">Celular</th>
-                                            <th style="background-color: #DDEBF7;">Email</th>
-
-                                            <th style="background-color: #E2EFDA;">Empresa</th>
-                                            <th style="background-color: #E2EFDA;">Fecha de Inscripción</th>
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
                                             <th style="background-color: #E2EFDA;">Carrera / Módulo</th>
                                             <th style="background-color: #E2EFDA;">Inicio / Curso</th>
@@ -102,23 +92,14 @@
                                             <th style="background-color: #E2EFDA;">Turno</th>
                                             <th style="background-color: #E2EFDA;">Inicio</th>
                                             
-                                            <th style="background-color: #FCE4D6;">Deuda Total</th>
-                                            <th style="background-color: #FCE4D6;">Certificado</th>
+                                            <th style="background-color: #FCE4D6;">Cant</th>
+                                            <th style="background-color: #FCE4D6;">[]</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th style="background-color: #DDEBF7;">DNI</th>
-                                            <th style="background-color: #DDEBF7;">Nombres</th>
-                                            <th style="background-color: #DDEBF7;">Paterno</th>
-                                            <th style="background-color: #DDEBF7;">Materno</th>
-                                            <th style="background-color: #DDEBF7;">Celular</th>
-                                            <th style="background-color: #DDEBF7;">Email</th>
-
-                                            <th style="background-color: #E2EFDA;">Empresa</th>
-                                            <th style="background-color: #E2EFDA;">Fecha de Inscripción</th>
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
                                             <th style="background-color: #E2EFDA;">Carrera / Módulo</th>
                                             <th style="background-color: #E2EFDA;">Inicio / Curso</th>
@@ -128,8 +109,8 @@
                                             <th style="background-color: #E2EFDA;">Turno</th>
                                             <th style="background-color: #E2EFDA;">Inicio</th>
                                             
-                                            <th style="background-color: #FCE4D6;">Deuda Total</th>
-                                            <th style="background-color: #FCE4D6;">Certificado</th>
+                                            <th style="background-color: #FCE4D6;">Cant</th>
+                                            <th style="background-color: #FCE4D6;">[]</th>
                                         </tr>
                                     </tfoot>
                                 </table>

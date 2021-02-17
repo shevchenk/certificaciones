@@ -1663,7 +1663,7 @@ class Seminario extends Model
             LEFT JOIN mat_matriculas_saldos mms ON mms.matricula_id=m.id AND mms.cuota=ep.cuota AND mms.estado=1 
             WHERE ep.estado = 1
             GROUP BY m.id, ep.cuota, ep.fecha_cronograma, ep.monto_cronograma
-            HAVING IF((SUM(mms.pago)>0 AND MIN(mms.saldo)=0) OR (MIN(mmc.monto_cuota)=ep.monto_cronograma),FALSE,TRUE)
+            HAVING IF((SUM(mms.pago)>0 AND MIN(mms.saldo)=0) OR (MIN(mmc.monto_cuota)>=ep.monto_cronograma),FALSE,TRUE)
             ) cp ON cp.matricula_id = mm.id 
             LEFT JOIN (
             SELECT matricula_id, cuota, MIN(saldo) salcd, MAX(id) salcd_id

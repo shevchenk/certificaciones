@@ -120,6 +120,7 @@ HTMLCargarReporte=function(result){
                 '<hr>'+
                 '<div class="col-md-12">'+
                     '<input type="button" class="btn btn-primary" onClick="GuardarArchivo('+index+');" value="Guardar Archivo">'+
+                    '<input type="button" class="btn btn-danger" onClick="EliminarArchivo('+index+');" value="Eliminar Archivo">'+
                 '</div>'+
             "</td>"+
             "</tr>";
@@ -146,6 +147,12 @@ GuardarArchivo = (index)=> {
     matricula_detalle_id = $("#txt_matricula_detalle_id"+index).val();
     data = {matricula_detalle_id: matricula_detalle_id, archivo: archivo, nombre: nombre};
     Reporte.GuardarArchivo(HTMLGuardarArchivo, data);
+}
+
+EliminarArchivo = (index)=> {
+    matricula_detalle_id = $("#txt_matricula_detalle_id"+index).val();
+    data = {matricula_detalle_id: matricula_detalle_id};
+    Reporte.EliminarArchivo(HTMLGuardarArchivo, data);
 }
 
 HTMLGuardarArchivo = (result)=> {

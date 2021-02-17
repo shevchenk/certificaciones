@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var Reporte={
+var MPAjax={
     Cargar:function(evento){
         url='AjaxDinamic/Reporte.SeminarioEM@LoadControlPago';
         data = $("#PaeForm").serialize().split("txt_").join("").split("slct_").join("");
