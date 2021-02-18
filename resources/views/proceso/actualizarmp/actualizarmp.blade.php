@@ -23,7 +23,7 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Cargar Certificado
+        <h1>Actualizar Programación - Masivo
             <small>Proceso</small>
         </h1>
         <ol class="breadcrumb">
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label">Inicio / Curso:</label>
-                                    <select id="slct_curso" name="slct_curso[]" class='selectpicker form-control' multiple data-actions-box='true' data-live-search="true">
+                                    <select id="slct_curso" name="slct_curso[]" class='selectpicker form-control' multiple data-size="15" data-actions-box='true' data-live-search="true">
                                         <option>.::Seleccione Inicio / Curso::.</option>
                                     </select>
                                 </div>
@@ -80,7 +80,7 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color: #E2EFDA;" colspan='8'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
-                                            <th style="background-color: #FCE4D6;" colspan='2'>[-]</th>
+                                            <th style="background-color: #FCE4D6;" colspan='2'>Actualizar</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #E2EFDA;">Tipo de Formación Continua</th>
@@ -117,9 +117,92 @@
                             </div>
                         </div><!-- .box-body -->
                     </form><!-- .form -->
-                    </div><!-- .box -->
-                </div><!-- .col -->
-            </div><!-- .row -->
-        </section><!-- .content -->
+                </div><!-- .box -->
+            </div><!-- .col -->
+            <div class="col-md-12">
+                <div class="box">
+                    <form id="MPForm" class="hidden">
+                        <div class="box-body">
+                            <div class="col-md-12 table-responsive">
+                                <table id="MPTable" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color: #9FD08D;" colspan='8'>DATOS DEL CURSO DE FORMACIÓN CONTINUA SELECCIONADO</th>
+                                            <th style="background-color: #F7B38B;" colspan='8'>Nro de Afectados</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="background-color: #9FD08D;">Tipo de Formación Continua</th>
+                                            <th style="background-color: #9FD08D;">Carrera / Módulo</th>
+                                            <th style="background-color: #9FD08D;">Inicio / Curso</th>
+                                            <th style="background-color: #9FD08D;">Local</th>
+                                            <th style="background-color: #9FD08D;">Frecuencia</th>
+                                            <th style="background-color: #9FD08D;">Horario</th>
+                                            <th style="background-color: #9FD08D;">Turno</th>
+                                            <th style="background-color: #9FD08D;">Inicio</th>
+
+                                            <th style="background-color: #F7B38B;">Cant</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label">Se dividirá en:</label>
+                                <input type="text" class="form-control mant" id="txt_cant" placeholder="Ingrese Cantidad">
+                                <input type="hidden" class="form-control mant" id="txt_especialidad_id" name="txt_especialidad_id">
+                                <input type="hidden" class="form-control mant" id="txt_programacion_id" name="txt_programacion_id">
+                                <input type="hidden" class="form-control mant" id="txt_paterno" name="txt_paterno">
+                                <input type="hidden" class="form-control mant" id="txt_materno" name="txt_materno">
+                                <input type="hidden" class="form-control mant" id="txt_nombre" name="txt_nombre">
+                                <input type="hidden" class="form-control mant" id="txt_dni" name="txt_dni">
+                            </div>
+                            <div class="col-md-1">
+                                <br>
+                                <span class="btn btn-warning btn-md" id="btn_DividirMP">
+                                    <i class="glyphicon glyphicon-search"></i> Generar
+                                </span>
+                            </div>
+                            
+                            <div class="col-md-12 plantilla">
+                                <fieldset style="border-inline: dotted;">
+                                    <legend>Bloque #1:</legend>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Cantidad a actualizar</label>
+                                        <input type="text" class="form-control" id="txt_cant_0" name="txt_cant[]" placeholder="Ingrese Cantidad">
+                                    </div>
+                                    <div class="col-md-8 validar">
+                                        <label class="control-label">Carrera / Módulo:</label>
+                                        <select id="slct_especialidad_0" name="slct_especialidad[]" onChange="MP.ListarProgramacion(this);" class='selectpicker form-control' data-actions-box='true'>
+                                            <option>.::Seleccione Carrera / Módulo::.</option>
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <div class="col-md-12">
+                                        <label class="control-label">Inicio / Curso:</label>
+                                        <select id="slct_programacion_0" name="slct_programacion[]" class='selectpicker form-control' data-size="15" data-actions-box='true' data-live-search="true">
+                                            <option value = ''>.::Seleccione Inicio / Curso::.</option>
+                                        </select>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-12 agregados">
+                            </div>
+
+                            <div class="col-md-12">
+                                <br>
+                                <div class="col-md-3">
+                                    <span class="btn btn-info btn-lg" id="btn_ActualizarMP">
+                                        <i class="glyphicon glyphicon-edit"></i> Actualizar
+                                    </span>
+                                </div>
+                            </div>
+                        </div><!-- .box-body -->
+                    </form><!-- .form -->
+                </div><!-- .box -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </section><!-- .content -->
         @stop
 
