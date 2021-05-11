@@ -192,8 +192,16 @@ class Persona extends Model
         $persona->persona_id_updated_at=$persona_id;
         $persona->save();
 
+        $bd= 'formacion_continua_aula';//LocalHost
+        if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
+            $bd='fomacioncontinua_aula';
+        }
+        elseif( $_SERVER['SERVER_NAME']=='inturperufc.com' ){
+            $bd='formacioncontinua_aula_intur';
+        }
+
         if( $validaAct == 1 ){
-            $sql= 'UPDATE fomacioncontinua_aula.v_personas SET password = "'.$persona->password.'" WHERE dni = "'.$persona->dni.'"';
+            $sql= 'UPDATE '.$bd.'.v_personas SET password = "'.$persona->password.'" WHERE dni = "'.$persona->dni.'"';
             DB::update($sql);
         }
         

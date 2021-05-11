@@ -168,7 +168,7 @@ var MP = {
         let cant = $("#MPForm #txt_cant").val();
         let html = '';
         for (let index = 1; index < cant; index++) {
-            html = $("#MPForm .plantilla").html().replace(/_0/g,"_"+index).replace(/Bloque #1/g, "Bloque #"+(index*1+1));
+            html = $("#MPForm .plantilla").html().replace(/_0/g,"_"+index).replace(/Grupo #1/g, "Grupo #"+(index*1+1));
             $("#MPForm .agregados").append(html);
         }
         $("#MPForm select").selectpicker('refresh');

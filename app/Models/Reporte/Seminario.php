@@ -673,6 +673,7 @@ class Seminario extends Model
         
         $servidor = 'formacion_continua';
         $aulaservidor = 'aula_formacion_continua';
+        
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'fomacioncontinua_fc';
             $aulaservidor = 'fomacioncontinua_aula';
@@ -680,6 +681,10 @@ class Seminario extends Model
         elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
             $servidor = 'capa_formacion_continua';
             $aulaservidor = 'capa_aula_formacion_continua';
+        }
+        elseif( $_SERVER['SERVER_NAME']=='inturperufc.com' ){
+            $servidor='formacioncontinua_fc_intur';
+            $aulaservidor='formacioncontinua_aula_intur';
         }
 
         $sql= " UPDATE $servidor.mat_matriculas_detalles md
@@ -1229,13 +1234,18 @@ class Seminario extends Model
         
         $servidor = 'formacion_continua';
         $aulaservidor = 'aula_formacion_continua';
+        
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
-            $servidor = 'formacion_continua';
-            $aulaservidor = 'aula_formacion_continua';
+            $servidor = 'fomacioncontinua_fc';
+            $aulaservidor = 'fomacioncontinua_aula';
         }
         elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
             $servidor = 'capa_formacion_continua';
             $aulaservidor = 'capa_aula_formacion_continua';
+        }
+        elseif( $_SERVER['SERVER_NAME']=='inturperufc.com' ){
+            $servidor='formacioncontinua_fc_intur';
+            $aulaservidor='formacioncontinua_aula_intur';
         }
 
         $sql= " UPDATE $servidor.mat_matriculas_detalles md
@@ -1257,7 +1267,8 @@ class Seminario extends Model
                 INNER JOIN $aulaservidor.v_cursos c ON c.id=uc.curso_id 
                 INNER JOIN $aulaservidor.v_tipos_evaluaciones te ON FIND_IN_SET(te.id,uc.tipo_evaluacion_id)
                 WHERE uc.estado = 1 AND c.curso_externo_id = $curso_id
-                GROUP BY c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion";
+                GROUP BY c.curso_externo_id, te.tipo_evaluacion_externo_id, te.tipo_evaluacion
+                ORDER BY uc.id";
         $cursos = DB::select($sql);
 
         $notas = "";

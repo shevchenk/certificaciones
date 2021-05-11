@@ -41,13 +41,13 @@
                             <div class="col-md-12">
                                 <div class="col-md-2">
                                     <label class="control-label">Carrera / Módulo:</label>
-                                    <select id="slct_especialidad" name="slct_especialidad[]" class='selectpicker form-control' multiple data-actions-box='true'>
+                                    <select id="slct_especialidad" name="slct_especialidad[]" class='selectpicker form-control' multiple data-actions-box='true' data-live-search="true">
                                         <option>.::Seleccione Carrera / Módulo::.</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label">Inicio / Curso:</label>
-                                    <select id="slct_curso" name="slct_curso[]" class='selectpicker form-control' multiple data-actions-box='true'>
+                                    <select id="slct_curso" name="slct_curso[]" class='selectpicker form-control' multiple data-actions-box='true' data-live-search="true">
                                         <option>.::Seleccione Inicio / Curso::.</option>
                                     </select>
                                 </div>

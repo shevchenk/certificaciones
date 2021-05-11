@@ -39,6 +39,9 @@ class Api extends Model
         elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
             $bd='fomacioncontinua_fc_capa';
         }
+        elseif( $_SERVER['SERVER_NAME']=='inturperufc.com' ){
+            $bd='formacioncontinua_fc_intur';
+        }
         return $bd;
     }
     

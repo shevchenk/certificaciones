@@ -67,7 +67,7 @@ HTMLCargarEspecialidad=function(result){
 }
 
 HTMLCargarCurso=function(result){
-    var html='';
+    var html='<option value="">.::Seleccione::.</option>';
     $.each(result.data,function(index,r){
         html+='<option value="'+r.id+'">'+r.curso+'</option>';
     })
@@ -117,6 +117,19 @@ HTMLCargarReporte=function(result){
         html+="<td>"+r.promedio+"</td>";
         html+="</tr>";
     });
+
+    html1="<tr>";
+    html2="<tr>";
+    $.each(result.data[1],function(index,r){
+        html1 += "<td>N"+(index+1)+"</td>";
+        html2 += "<td>"+r.tipo_evaluacion+"</td>";
+    });
+    html1+='</tr>';
+    html2+='</tr>';
+
+    $("#TableNotas thead").html(html1);
+    $("#TableNotas tbody").html(html2);
+
     $("#TableReporte tbody").html(html); 
     $("#TableReporte").DataTable({
         "paging": true,

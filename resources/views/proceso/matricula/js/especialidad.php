@@ -393,7 +393,7 @@ ActivarPago=function(id){
     if(id==1){
         var contador=0;
         $("#t_pago textarea").each(function(){ contador++; });
-        if(contador<=10){
+        if(contador*1 <= 15*1){
             PromocionGeneral=1;
             $("#t_pago").hide(1500);
             $("#t_pago_promocion").show(1500);
@@ -416,7 +416,7 @@ ActivarPago=function(id){
         }
         else{
             //msjG.mensaje('warning','Para activar la promoción, requiere de '+PromocionG+' seminarios seleccionados',3000);
-            msjG.mensaje('warning','El pago único solo puede darse hasta un máximo de 10 seminarios seleccionados',3000);
+            msjG.mensaje('warning','El pago único solo puede darse hasta un máximo de 15 seminarios seleccionados',3000);
         }
     }
     else{

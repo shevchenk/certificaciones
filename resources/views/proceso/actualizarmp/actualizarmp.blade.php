@@ -23,7 +23,7 @@
     .modal { overflow: auto !important; }
     </style>
     <section class="content-header">
-        <h1>Actualizar Programación - Masivo
+        <h1>Cambiar de grupos a los alumnos
             <small>Proceso</small>
         </h1>
         <ol class="breadcrumb">
@@ -128,7 +128,7 @@
                                     <thead>
                                         <tr>
                                             <th style="background-color: #9FD08D;" colspan='8'>DATOS DEL CURSO DE FORMACIÓN CONTINUA SELECCIONADO</th>
-                                            <th style="background-color: #F7B38B;" colspan='8'>Nro de Afectados</th>
+                                            <th style="background-color: #F7B38B;" colspan='8'>Nro de alumnos</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #9FD08D;">Tipo de Formación Continua</th>
@@ -147,8 +147,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-2">
-                                <label class="control-label">Se dividirá en:</label>
+                            <div class="col-md-1">
+                                <label class="control-label">N° de grupos a dividir:</label>
                                 <input type="text" class="form-control mant" id="txt_cant" placeholder="Ingrese Cantidad">
                                 <input type="hidden" class="form-control mant" id="txt_especialidad_id" name="txt_especialidad_id">
                                 <input type="hidden" class="form-control mant" id="txt_programacion_id" name="txt_programacion_id">
@@ -160,15 +160,15 @@
                             <div class="col-md-1">
                                 <br>
                                 <span class="btn btn-warning btn-md" id="btn_DividirMP">
-                                    <i class="glyphicon glyphicon-search"></i> Generar
+                                    <i class="glyphicon glyphicon-search"></i> Muestra grupos
                                 </span>
                             </div>
                             
                             <div class="col-md-12 plantilla">
                                 <fieldset style="border-inline: dotted;">
-                                    <legend>Bloque #1:</legend>
-                                    <div class="col-md-2">
-                                        <label class="control-label">Cantidad a actualizar</label>
+                                    <legend>Grupo #1:</legend>
+                                    <div class="col-md-1">
+                                        <label class="control-label">N° de alumnos para este grupo:</label>
                                         <input type="text" class="form-control" id="txt_cant_0" name="txt_cant[]" placeholder="Ingrese Cantidad">
                                     </div>
                                     <div class="col-md-8 validar">

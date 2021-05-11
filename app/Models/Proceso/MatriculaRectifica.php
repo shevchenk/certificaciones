@@ -101,11 +101,11 @@ class MatriculaRectifica extends Model
             ->Join('mat_tipos_participantes AS mtp', function($join){
                 $join->on('mtp.id','=','mm.tipo_participante_id');
             })
-            ->Join('personas AS p', function($join){
-                $join->on('p.id','=','mm.persona_marketing_id');
-            })
             ->Join('sucursales AS s', function($join){
                 $join->on('s.id','=','mm.sucursal_id');
+            })
+            ->leftJoin('personas AS p', function($join){
+                $join->on('p.id','=','mm.persona_marketing_id');
             })
             ->leftJoin('mat_especialidades AS me', function($join){
                 $join->on('me.id','=','mmd.especialidad_id')
