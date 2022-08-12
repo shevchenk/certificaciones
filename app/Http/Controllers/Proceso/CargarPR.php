@@ -73,7 +73,7 @@ class CargarPR extends Controller
             $narchivo= $nombreArchivo[0]."_u";
             $interesado= DB::table('interesados')
                         ->whereRaw(' file LIKE "'.$uploadFolder.'/'.$narchivo.'%" ')
-                        ->where('dni_final','!=','')
+                        //->where('dni_final','!=','')
                         ->first();
             $m = "Archivo fue procesado anteriormente";
             if ( isset($interesado->file) ) {
@@ -120,8 +120,9 @@ class CargarPR extends Controller
               , CELULAR, EMAIL, COSTO, asignar, COD_VENDEDOR
             ) 
             SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1,
-            DNI= IF(DNI REGEXP '^[0-9]+$',SUBSTRING(DNI,1,12),0),
+            DNI= SUBSTRING(DNI,1,12),
             FECHA_REGISTRO= IF(FECHA_REGISTRO='0000-00-00', CURDATE(), FECHA_REGISTRO);");
+            //DNI= IF(DNI REGEXP '^[0-9]+$',SUBSTRING(DNI,1,12),0),
             
             $sql="";
             $correlativo= Persona::where('persona_id_created_at',0)
@@ -138,15 +139,16 @@ class CargarPR extends Controller
 
             DB::beginTransaction();
 
-            $sql="  UPDATE interesados i
+            /*$sql="  UPDATE interesados i
                     INNER JOIN personas_llamadas p ON (p.email=i.EMAIL AND p.email!='') or (p.dni=i.DNI AND p.dni!='')
                     SET i.dni_final=p.dni
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
                     AND (i.DNI*1 > 0 OR i.EMAIL!='') ".$regioni;
-            DB::update($sql);
+            DB::update($sql);*/
 
-            $sql="  UPDATE interesados i
+
+            /*$sql="  UPDATE interesados i
                     INNER JOIN personas_llamadas p ON p.dni=i.dni_final
                     SET p.carrera = IF(i.CARRERA!='',i.CARRERA,p.carrera)
                     , p.fuente=i.FUENTE, p.email_externo= i.EMAIL
@@ -155,37 +157,39 @@ class CargarPR extends Controller
                     AND i.file='".$file."'
                     AND i.dni_final!=''
                     AND i.asignar=1 ".$regioni;
-            DB::update($sql);
+            DB::update($sql);*/
 
-            $sql="  UPDATE interesados i
+            /*$sql="  UPDATE interesados i
                     SET i.dni_final='xxxx'
                     WHERE i.usuario=".$usuario."
                     AND i.file='".$file."'
                     AND i.dni_final=''
                     AND i.DNI*1 = 0 
                     AND i.EMAIL='' ".$regioni;
-            DB::update($sql);
+            DB::update($sql);*/
 
             $sql="SET @numero=".$inicial.";";
             DB::statement($sql);
 
             $sql="  INSERT INTO personas_llamadas (`password`, fuente, tipo, fecha_registro
                     , dni, paterno, materno, nombre, celular, email, email_externo, distrito_domicilio
-                    , carrera, estado, created_at, persona_id_created_at, persona_id_updated_at)
+                    , carrera, estado, created_at, persona_id_created_at, persona_id_updated_at, interesado_id)
                     SELECT \"\$2y\$10\$wOoTWVzNC4892hQXE97ne.7wfOfEfP4zp2XdjrBnMck0IXf2DRCwu\"
-                    , MIN(i.FUENTE), MIN(i.TIPO), MIN(i.FECHA_REGISTRO)
-                    , IF(MIN(i.DNI)*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),MIN(i.DNI))
-                    , i.PATERNO, i.MATERNO, i.NOMBRE, MIN(i.CELULAR), MIN(i.EMAIL)
-                    , MIN(i.EMAIL), MIN(i.DISTRITO), MIN(i.CARRERA), 3, NOW(), IF(MIN(i.DNI)*1=0,0,$usuario), $usuario
+                    , i.FUENTE, i.TIPO, i.FECHA_REGISTRO
+                    , i.DNI
+                    , i.PATERNO, i.MATERNO, i.NOMBRE, i.CELULAR, i.EMAIL
+                    , i.EMAIL, i.DISTRITO, i.CARRERA, 1, NOW(), IF(i.DNI*1=0,0,$usuario), $usuario, i.id
                     FROM interesados AS i
-                    WHERE i.dni_final=''
-                    AND i.usuario=".$usuario."
-                    AND i.asignar=1
+                    WHERE i.usuario=".$usuario."
                     AND i.file='".$file."' ".$regioni." 
-                    GROUP BY i.PATERNO, i.MATERNO, i.NOMBRE
                     ";
+                    //i.dni_final='' AND 
+                    // AND i.asignar=1
+                    //, IF(MIN(i.DNI)*1=0,CONCAT('ID-',LPAD(@numero:=@numero+1,9,'0')),MIN(i.DNI))
+                    //GROUP BY i.PATERNO, i.MATERNO, i.NOMBRE
             DB::insert($sql);
 
+            /*
             $sql="SET @numero=".$inicial.";";
             DB::statement($sql);
 
@@ -195,34 +199,33 @@ class CargarPR extends Controller
                     AND usuario=".$usuario."
                     AND asignar=1
                     AND file='".$file."' ".$region;
-            DB::update($sql);
+            DB::update($sql);*/
 
             //Actualiza a estado activo a los usuarios
-            $sql="  UPDATE personas_llamadas
+            /*$sql="  UPDATE personas_llamadas
                     SET estado=1
                     WHERE estado=3";
-            DB::update($sql);
+            DB::update($sql);*/
 
-            $sql="  UPDATE interesados i
+            /*$sql="  UPDATE interesados i
                     INNER JOIN personas_llamadas p ON p.dni=i.dni_final
                     INNER JOIN personas_captadas pc ON pc.interesado=i.CARRERA AND pc.persona_id=p.id AND pc.empresa_id=$empresa_id 
                     SET pc.estado=0
                     WHERE i.usuario=".$usuario."
                     AND i.asignar=1
                     AND i.file='".$file."' ".$regioni;
-            DB::update($sql);
+            DB::update($sql);*/
 
             $fyh = date('Y-m-d H:i:s');
             $sql="  INSERT INTO personas_captadas (persona_id, empresa_id, ad_name, campaign_name, fuente, interesado, distrito, fecha_registro, costo, estado, created_at, persona_id_created_at)
                     SELECT p.id, $empresa_id, i.EMPRESA, i.TIPO, i.FUENTE, i.CARRERA, i.DISTRITO, i.FECHA_REGISTRO, i.COSTO, 1, '$fyh', $usuario
                     FROM interesados i
-                    INNER JOIN personas_llamadas p ON p.dni=i.dni_final
+                    INNER JOIN personas_llamadas p ON p.interesado_id=i.id
                     WHERE i.usuario=".$usuario."
-                    AND i.asignar=1
                     AND i.file='".$file."' ".$regioni;
             DB::insert($sql);
 
-            $sql="  UPDATE interesados i
+            /*$sql="  UPDATE interesados i
                     INNER JOIN personas_llamadas p ON p.dni=i.dni_final
                     INNER JOIN personas_distribuciones pd ON pd.persona_id=p.id 
                     INNER JOIN mat_trabajadores mt ON mt.id=pd.trabajador_id AND mt.empresa_id=$empresa_id 
@@ -239,7 +242,7 @@ class CargarPR extends Controller
                     WHERE i.usuario=".$usuario."
                     AND i.asignar=0
                     AND i.file='".$file."' ".$regioni;
-            DB::update($sql);
+            DB::update($sql);*/
 
             DB::commit();
 

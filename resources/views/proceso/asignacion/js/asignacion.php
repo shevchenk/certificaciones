@@ -154,8 +154,8 @@ SlctCargarTrabajador=function(result){
     $.each(result.data,function(index,r){
         html+="<option value="+r.id+">"+r.trabajador+"</option>";
     });
-    $("#AsignacionForm #slct_trabajador").html(html); 
-    $("#AsignacionForm #slct_trabajador").selectpicker('refresh');
+    $("#AsignacionForm #slct_trabajador, #AsignacionForm #slct_trabajadores").html(html); 
+    $("#AsignacionForm #slct_trabajador, #AsignacionForm #slct_trabajadores").selectpicker('refresh');
 
 };
 
@@ -260,7 +260,8 @@ HTMLCargarVisita=function(result){
             "<td>"+$.trim(r.fecha_carga)+"</td>"+
             "<td>"+$.trim(r.fmin)+"</td>"+
             "<td>"+$.trim(r.fmax)+"</td>"+
-            "<td>"+$.trim(r.interes)+"</td>"+
+            "<td>"+$.trim(r.campana)+"</td>"+
+            "<td><ul><li>"+$.trim(r.interes).split(",").join("</li><li>")+"</li></ul></td>"+
             "<td>"+$.trim(r.cantidad)+"</td>"+
             "<td>"+$.trim(r.costo_min)+"</td>"+
             "<td>"+$.trim(r.total)+"</td>"+

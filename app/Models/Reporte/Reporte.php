@@ -90,6 +90,7 @@ class Reporte extends Model
         $order = $r->order;
         $campana = '';
         $distrito = '';
+        $trabajadores = '';
 
         if( trim($r->campana)!='' ){
             $campana = " AND pc.ad_name = '".$r->campana."' ";
@@ -98,11 +99,16 @@ class Reporte extends Model
         if( trim($r->distrito)!='' ){
             $distrito = " AND pc.distrito = '".$r->distrito."' ";
         }
-
+        
+        if( isset($r->trabajadores) AND count($r->trabajadores) > 0 ){
+            $trabajadores = " INNER JOIN personas_distribuciones pd ON pd.persona_id = pc.persona_id AND pd.trabajador_id IN (".implode(",", $r->trabajadores).") AND pd.estado = 1 ";
+        }
+        
+        
         $sql="  
         SELECT e.id, 
         e.empresa, pc.created_at fecha_carga, MIN(pc.fecha_registro) fmin, MAX(pc.fecha_registro) fmax,  
-        pc.interesado AS interes, COUNT(pc.id) cantidad, MIN(pc.costo) costo_min , SUM(pc.costo) total,
+        GROUP_CONCAT(DISTINCT( pc.interesado )) AS interes, pc.ad_name AS campana, COUNT(pc.id) cantidad, MIN(pc.costo) costo_min , SUM(pc.costo) total,
         COUNT(IF(d.persona_id IS NOT NULL, 1, NULL)) si_asignado, COUNT(IF(d.persona_id IS NULL, 1, NULL)) no_asignado, 
         COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NULL, 1, NULL)) no_llamada, 
         COUNT(IF(d.persona_id IS NOT NULL AND l.persona_id IS NOT NULL, 1, NULL)) si_llamada, 
@@ -113,6 +119,7 @@ class Reporte extends Model
         COUNT(IF(d.persona_id IS NOT NULL AND l.obs=0, 1, NULL)) otros
         FROM personas_captadas pc 
         INNER JOIN empresas e ON e.id=pc.empresa_id AND e.id = $empresa_id
+        $trabajadores
         LEFT JOIN (
             SELECT ll.persona_id, t.empresa_id, MIN(tll.obs) obs
             FROM llamadas ll
@@ -144,9 +151,9 @@ class Reporte extends Model
         WHERE pc.estado = 1
         AND DATE(pc.created_at) BETWEEN '$fecha_ini' AND '$fecha_fin'
         $campana  $distrito  
-        GROUP BY pc.created_at,e.id, e.empresa, pc.interesado
+        GROUP BY pc.created_at,e.id, e.empresa, pc.ad_name
         ORDER BY e.empresa, ".$order;
-                
+        
         $r= DB::select($sql);
         return $r;
     }
