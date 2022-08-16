@@ -1637,6 +1637,10 @@ class Seminario extends Model
             $servidor = 'capa_formacion_continua';
             $aulaservidor = 'capa_aula_formacion_continua';
         }
+        elseif( $_SERVER['SERVER_NAME']=='capa.formacioncontinua.pe' ){
+            $servidor = 'capa_formacion_continua';
+            $aulaservidor = 'capa_aula_formacion_continua';
+        }
 
 
         $id=Auth::user()->id;

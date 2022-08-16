@@ -505,6 +505,11 @@ class Persona extends Model
                 $join->on('pd.persona_id','=','p.id')
                 ->where('pd.estado',1);
             })
+            ->Join('personas_captadas AS pc', function($join){
+                $join->on('pc.persona_id','=','p.id')
+                ->where('pc.empresa_id', Auth::user()->empresa_id)
+                ->where('pc.estado',1);
+            })
             ->Join('mat_trabajadores AS t', function($join){
                 $join->on('t.id','=','pd.trabajador_id')
                 ->where('t.empresa_id', Auth::user()->empresa_id)
@@ -521,8 +526,8 @@ class Persona extends Model
                 WHERE `ll`.`estado` = 1 AND `ll`.`ultimo_registro` = 1 ) AS tl'), function($join){
                 $join->on('tl.persona_id','=','p.id');
             })
-            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion',
-            'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','p.carrera',
+            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion', 'pc.ad_name AS campana',
+            'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','pc.interesado as carrera',
             'p.celular','p.password','p.estado','p.empresa','p.fuente','p.tipo','tl.tipo_llamada','p.fecha_registro',
             DB::raw('0 AS matricula,
             CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor, tl.peso'))

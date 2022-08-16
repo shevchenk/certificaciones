@@ -163,9 +163,9 @@ HTMLCargar=function(result){ //INICIO HTML
         html+="</td>"+
                 "<td bgcolor='"+color+"' >"+'<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a>'+"</td>"+
                 "<td bgcolor='"+color+"' class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
-                "<td bgcolor='"+color+"' class='paterno'>"+r.paterno+"</td>"+
-                "<td bgcolor='"+color+"' class='materno'>"+r.materno+"</td>"+
-                "<td bgcolor='"+color+"' class='nombre'>"+r.nombre+"</td>"+
+                "<td bgcolor='"+color+"' class='paterno'>"+ $.trim(r.nombre +" "+ r.paterno +" "+ r.materno) +"</td>"+
+                "<td bgcolor='"+color+"' class='materno'>"+r.campana+"</td>"+
+                //"<td bgcolor='"+color+"' class='nombre'>"+"</td>"+
                 "<td class='celular'>"+$.trim(r.celular)+"</td>"+
                 "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
                 "<td class='fecha_registro'>"+$.trim(r.fecha_registro)+"</td>"+
@@ -238,6 +238,7 @@ AbrirLlamada=function(id){
     $("#ModalLlamadaForm #txt_fuente").val( fuente );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
     AjaxEspecialidad.CargarInfo(HTMLCargarInfo);
+    AjaxEspecialidad.CargarMatricula(HTMLCargarMatricula);
     $('#ModalLlamada').modal('show');
 }
 
@@ -308,6 +309,7 @@ AbrirLlamadaPendiente=function(id){
     $("#ModalLlamadaForm #txt_fuente").val( fuente );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
     AjaxEspecialidad.CargarInfo(HTMLCargarInfo);
+    AjaxEspecialidad.CargarMatricula(HTMLCargarMatricula);
     $('#ModalLlamada').modal('show');
 }
 
@@ -315,6 +317,7 @@ HTMLCargarLlamada=function(result){
     var html='';
     $.each(result.data,function(index,r){
         html+="<tr id='tr"+r.id+"'>";
+        html+="<td>"+r.id+"</td>";
         html+="<td>"+r.fecha_llamada+"</td>";
         html+="<td>"+r.teleoperador+"</td>";
         html+="<td>"+$.trim(r.tipo_llamada)+"</td>";
@@ -336,6 +339,28 @@ HTMLCargarInfo=function(result){
     });
 
     $("#tb_info").html(html); 
+}
+
+HTMLCargarMatricula=function(result){
+    var html='';
+    var deuda = 'Incompleto';
+    
+    $.each(result.data,function(index,r){
+        deuda = 'Incompleto';
+        if( result.deuda[index] == 0 ){
+            deuda = "Completo";
+        }
+        html+="<tr id='tr"+r.id+"'>";
+        html+="<td>"+r.id+"</td>";
+        html+="<td>"+r.estado_mat+"</td>";
+        html+="<td>"+$.trim(r.fecha_estado)+"</td>";
+        html+="<td>"+ deuda +"</td>";
+        html+="<td>"+r.expediente+"</td>";
+        html+="<td>"+$.trim(r.fecha_expediente)+"</td>";
+        html+="</tr>";
+    });
+
+    $("#tb_matricula").html(html); 
 }
 
 ValidaForm=function(){

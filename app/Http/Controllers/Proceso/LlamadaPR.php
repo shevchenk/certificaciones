@@ -73,6 +73,18 @@ class LlamadaPR extends Controller
         }
     }
 
+    public function CargarMatricula(Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Llamada::CargarMatricula($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel[0];
+            $return['deuda'] = $renturnModel[1];
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
     public function CargarLlamadaPendiente(Request $r )
     {
         if ( $r->ajax() ) {

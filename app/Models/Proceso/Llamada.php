@@ -141,6 +141,71 @@ class Llamada extends Model
         return $result;
     }
 
+    public static function CargarMatricula($r)
+    {
+        $empresa_id= Auth::user()->empresa_id;
+        $sql=DB::table('llamadas AS ll')
+            ->Join('mat_matriculas AS m', function($join){
+                $join->on('m.llamada_id','=','ll.id');
+            })
+            ->select(
+            'll.id', 'm.id AS matricula_id', 'm.estado_mat', 'm.fecha_estado'
+            , DB::raw('IF(m.estado_mat = "Aprobado", m.expediente, "") expediente')
+            , DB::raw('IF(m.estado_mat = "Aprobado", m.fecha_expediente, "") fecha_expediente')
+            )
+            ->where( 
+                function($query) use ($r){
+                    if( $r->has("persona_id") ){
+                        $persona_id=trim($r->persona_id);
+                        if( $persona_id !='' ){
+                            $query->where('ll.persona_id',$persona_id);
+                        }
+                    }
+                }
+            );
+
+            $result[0] = $sql->orderBy('ll.fecha_llamada','desc')->get();
+            
+            $deuda = array();
+            foreach ($result[0] as $key => $value) {
+                $sqldeuda =     "SELECT ms.matricula_id, ms.matricula_detalle_id, ms.cuota 
+                                FROM mat_matriculas_saldos ms 
+                                INNER JOIN (
+                                    SELECT id 
+                                    FROM mat_matriculas_saldos 
+                                    WHERE cuota < 2 
+                                    AND (
+                                        matricula_id IN (
+                                            SELECT m.id 
+                                            FROM mat_matriculas m 
+                                            INNER JOIN llamadas ll ON ll.id = m.llamada_id 
+                                            WHERE m.id = $value->matricula_id 
+                                        )
+                                        OR matricula_detalle_id IN (
+                                            SELECT md.id 
+                                            FROM mat_matriculas m 
+                                            INNER JOIN mat_matriculas_detalles md ON md.matricula_id = m.id 
+                                            WHERE m.id = $value->matricula_id 
+                                        )
+                                    )
+                                ) ms2 ON ms2.id = ms.id 
+                                GROUP BY ms.matricula_id, ms.matricula_detalle_id, ms.cuota";
+    
+                $rsdeuda = DB::select($sqldeuda);
+                if( isset($rsdeuda[0]->cuota) AND $rsdeuda[0]->cuota != '' ){
+                    array_push( $deuda, 1 );
+                }
+                else{
+                    array_push( $deuda, 0 );
+                }
+
+                # code...
+            }
+            $result[1] = $deuda;
+
+        return $result;
+    }
+
     public static function GuardarAsignacion($r)
     {
         DB::beginTransaction();

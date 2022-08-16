@@ -119,25 +119,47 @@
                         </table>
                     </div>
                     <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead style="background-color: #A9D08E;color:black">
-                                <tr>
-                                    <th colspan="5" style="text-align: center;"> Historico </th>
-                                </tr>
-                                <tr>
-                                    <th>Fecha de Llamada</th>
-                                    <th>Teleoperador(a)</th>
-                                    <th>Tipo Llamada</th>
-                                    <th>Fecha Programada</th>
-                                    <th>Comentario</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tb_llamada">
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead style="background-color: #A9D08E;color:black">
+                                    <tr>
+                                        <th colspan="6" style="text-align: center;"> Historico </th>
+                                    </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha de Llamada</th>
+                                        <th>Teleoperador(a)</th>
+                                        <th>Tipo Llamada</th>
+                                        <th>Fecha Programada</th>
+                                        <th>Comentario</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_llamada">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead style="background-color: #8898D7;color:black">
+                                    <tr>
+                                        <th colspan="6" style="text-align: center;"> Matrícula </th>
+                                    </tr>
+                                    <tr>
+                                        <th>ID Histórico</th>
+                                        <th>Estado de matrícula</th>
+                                        <th>Fecha estado de matrícula</th>
+                                        <th>Pago</th>
+                                        <th>Nro del expediente</th>
+                                        <th>Fecha del expediente</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_matricula">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </form>
                 </div>
             </div>
