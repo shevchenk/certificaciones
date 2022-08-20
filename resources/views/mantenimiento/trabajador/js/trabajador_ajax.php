@@ -17,6 +17,11 @@ var AjaxTrabajador={
         url='AjaxDinamic/Mantenimiento.TrabajadorEM@Load';
         masterG.postAjax(url,data,evento);
     },
+    CargarHistorico: (evento) => {
+        var data=$("#ModalTrabajadorForm").serialize().split("txt_").join("").split("slct_").join("");
+        url='AjaxDinamic/Mantenimiento.TrabajadorEM@LoadHistorico';
+        masterG.postAjax(url,data,evento);
+    },
     CambiarEstado:function(evento,AI,id){
         $("#ModalTrabajadorForm").append("<input type='hidden' value='"+AI+"' name='estadof'>");
         $("#ModalTrabajadorForm").append("<input type='hidden' value='"+id+"' name='id'>");
@@ -38,6 +43,11 @@ var AjaxTrabajador={
     CargarMedioCaptacion:function(evento){
         url='AjaxDinamic/Mantenimiento.MedioCaptacionMA@ListMedioCaptacion';
         data={tipo_medio:1};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarCentroOperacion:function(evento){
+        url='AjaxDinamic/Mantenimiento.CentroOperacionMA@ListCentroOperacion';
+        data={estado:1};
         masterG.postAjax(url,data,evento);
     },
 };

@@ -1,5 +1,6 @@
 <script type="text/javascript">
 var AddEdit=0; //0: Editar | 1: Agregar
+var AddTrab=0; //0: Editar | 1: Agregar
 var TrabajadorG={id:0,persona_id:0,trabajador:'',rol_id:0,codigo:'',estado:1}; // Datos Globales
 
 $(document).ready(function() {
@@ -11,19 +12,37 @@ $(document).ready(function() {
         "info": true,
         "autoWidth": false
     });
+    $(".fecha").datetimepicker({
+        format: "yyyy-mm-dd",
+        language: 'es',
+        showMeridian: false,
+        time:false,
+        minView:2,
+        autoclose: true,
+        todayBtn: false
+    });
+    $("#ModalTrabajador").find('.modal-footer .btn-warning').attr('onClick','AgregarEditarAjax(1);');
     CargarSlct(1);
     AjaxTrabajador.Cargar(HTMLCargarTrabajador);
     AjaxTrabajador.CargarMedioCaptacion(SlctCargarMedioCaptacion);
+    AjaxTrabajador.CargarCentroOperacion(SlctCargarCentroOperacion);
     $("#TrabajadorForm #TableTrabajador select").change(function(){ AjaxTrabajador.Cargar(HTMLCargarTrabajador); });
     $("#TrabajadorForm #TableTrabajador input").blur(function(){ AjaxTrabajador.Cargar(HTMLCargarTrabajador); });
 
     $('#ModalTrabajador').on('shown.bs.modal', function (event) {
+        $("#ModalTrabajadorForm .bntpersona").removeAttr("disabled");
+        $(this).find('.modal-footer .btn-warning').hide();
         if( AddEdit==1 ){
-            $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax();');
+            $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax(0);');
+            $("#ModalTrabajadorForm .nuevo").hide();
         }
         else{
-            $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax();');
+            $(this).find('.modal-footer .btn-primary').text('Actualizar').attr('onClick','AgregarEditarAjax(0);');
             $("#ModalTrabajadorForm").append("<input type='hidden' value='"+TrabajadorG.id+"' name='id'>");
+            $("#ModalTrabajadorForm .nuevo").show();
+            $("#ModalTrabajadorForm .bntpersona").attr("disabled",true);
+            $(this).find('.modal-footer .btn-warning').show();
+            AjaxTrabajador.CargarHistorico(HTMLCargarTrabajadorHistorico);
         }
 
             CargaTarea(TrabajadorG.rol_id);
@@ -33,7 +52,12 @@ $(document).ready(function() {
         $('#ModalTrabajadorForm #slct_rol_id').selectpicker('val', TrabajadorG.rol_id );
         $('#ModalTrabajadorForm #slct_tarea_id').selectpicker('val', TrabajadorG.tarea_id );
         $('#ModalTrabajadorForm #slct_medio_captacion_id').selectpicker('val', TrabajadorG.medio_captacion_id );
+        $('#ModalTrabajadorForm #slct_centro_operacion_id').selectpicker('val', TrabajadorG.centro_operacion_id );
         $('#ModalTrabajadorForm #txt_codigo').val( TrabajadorG.codigo );
+        $('#ModalTrabajadorForm #txt_remuneracion').val( TrabajadorG.remuneracion );
+        $('#ModalTrabajadorForm #txt_horario').val( TrabajadorG.horario );
+        $('#ModalTrabajadorForm #txt_fecha_ingreso').val( TrabajadorG.fecha_ingreso );
+        $('#ModalTrabajadorForm #txt_fecha_termino, #ModalTrabajadorForm #txt_observacion').val( '' );
         $('#ModalTrabajadorForm #slct_estado').selectpicker('val', TrabajadorG.estado );
         $('#ModalTrabajadorForm #txt_trabajador').focus();
     });
@@ -50,6 +74,10 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Trabajador',4000);
     }
+    else if( $.trim( $("#ModalTrabajadorForm #slct_centro_operacion_id").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione Centro de Operación',4000);
+    }
     else if( $.trim( $("#ModalTrabajadorForm #slct_rol_id").val() )=='0' ){
         r=false;
         msjG.mensaje('warning','Seleccione Rol',4000);
@@ -61,6 +89,26 @@ ValidaForm=function(){
     else if( $("#ModalTrabajadorForm #slct_rol_id").val()==1 && $.trim( $("#ModalTrabajadorForm #slct_medio_captacion_id").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Medio de Captación',4000);
+    }
+    else if( $.trim( $("#ModalTrabajadorForm #txt_remuneracion").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese su Remuneración',4000);
+    }
+    else if( $.trim( $("#ModalTrabajadorForm #txt_horario").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese su Horario',4000);
+    }
+    else if( $.trim( $("#ModalTrabajadorForm #txt_fecha_ingreso").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Seleccione la fecha de ingreso',4000);
+    }
+    else if( AddTrab==1  && $.trim($("#ModalTrabajadorForm #txt_fecha_termino").val()) == ''){
+        r=false;
+        msjG.mensaje('warning','Seleccione la fecha de termino del cargo anterior',4000);
+    }
+    else if( AddTrab==1 && $.trim($("#ModalTrabajadorForm #txt_observacion").val()) == '' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese observación del cambio',4000);
     }
     /*
     else if( $.trim( $("#ModalTrabajadorForm #txt_codigo").val() )=='' ){
@@ -80,7 +128,11 @@ AgregarEditar=function(val,id){
     TrabajadorG.rol_id='0';
     TrabajadorG.tarea_id='0';
     TrabajadorG.medio_captacion_id='';
+    TrabajadorG.centro_operacion_id='';
     TrabajadorG.codigo='';
+    TrabajadorG.remuneracion='';
+    TrabajadorG.horario='';
+    TrabajadorG.fecha_ingreso='';
     TrabajadorG.estado='1';
     if( val==0 ){
         TrabajadorG.id=id;
@@ -91,6 +143,10 @@ AgregarEditar=function(val,id){
         TrabajadorG.codigo=$("#TableTrabajador #trid_"+id+" .codigo").text();
         TrabajadorG.estado=$("#TableTrabajador #trid_"+id+" .estado").val();
         TrabajadorG.medio_captacion_id=$("#TableTrabajador #trid_"+id+" .medio_captacion_id").val();
+        TrabajadorG.centro_operacion_id=$("#TableTrabajador #trid_"+id+" .centro_operacion_id").val();
+        TrabajadorG.remuneracion=$("#TableTrabajador #trid_"+id+" .remuneracion").val();
+        TrabajadorG.horario=$("#TableTrabajador #trid_"+id+" .horario").val();
+        TrabajadorG.fecha_ingreso=$("#TableTrabajador #trid_"+id+" .fecha_ingreso").val();
     }
     $('#ModalTrabajador').modal('show');
 }
@@ -106,7 +162,11 @@ HTMLCambiarEstado=function(result){
     }
 }
 
-AgregarEditarAjax=function(){
+AgregarEditarAjax=function(v){
+    AddTrab = v;
+    if( v == 0 ){
+        $('#ModalTrabajadorForm #txt_fecha_termino, #ModalTrabajadorForm #txt_observacion').val( '' );
+    }
     if( ValidaForm() ){
         AjaxTrabajador.AgregarEditar(HTMLAgregarEditar);
     }
@@ -124,6 +184,26 @@ HTMLAgregarEditar=function(result){
 }
 
 ValidaTipo=function(){}
+
+HTMLCargarTrabajadorHistorico  = (result) => {
+    var html="";
+    $('#tb_historico').html('');
+    $.each(result.data,function(index,r){
+        html += "<tr>"+
+                    "<td>"+ r.codigo +"</td>"+
+                    "<td>"+ r.rol +"</td>"+
+                    "<td>"+ r.tarea +"</td>"+
+                    "<td>"+ r.medio_captacion +"</td>"+
+                    "<td>"+ r.centro_operacion +"</td>"+
+                    "<td>"+ r.remuneracion +"</td>"+
+                    "<td>"+ r.horario +"</td>"+
+                    "<td>"+ r.fecha_ingreso +"</td>"+
+                    "<td>"+ $.trim(r.fecha_termino) +"</td>"+
+                    "<td>"+$.trim(r.observacion)+"</td>"+
+                "</tr>";
+    });
+    $('#tb_historico').html(html);
+}
 
 HTMLCargarTrabajador=function(result){
     var html="";
@@ -143,8 +223,12 @@ HTMLCargarTrabajador=function(result){
             "<td>"+
             "<input type='hidden' class='rol_id' value='"+r.rol_id+"'>"+
             "<input type='hidden' class='tarea_id' value='"+r.tarea_id+"'>"+
-            "<input type='hidden' class='medio_captacion_id' value='"+r.medio_captacion_id+"'>"+
-            "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>";
+            "<input type='hidden' class='medio_captacion_id' value='"+ $.trim(r.medio_captacion_id) +"'>"+
+            "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
+            "<input type='hidden' class='centro_operacion_id' value='"+ $.trim(r.centro_operacion_id) +"'>"+
+            "<input type='hidden' class='remuneracion' value='"+r.remuneracion+"'>"+
+            "<input type='hidden' class='horario' value='"+r.horario+"'>"+
+            "<input type='hidden' class='fecha_ingreso' value='"+ $.trim(r.fecha_ingreso) +"'>";
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";
@@ -192,6 +276,17 @@ SlctCargarRol=function(result){
     $("#ModalTrabajador #slct_rol_id").selectpicker('refresh');
 
 };
+
+SlctCargarCentroOperacion=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.centro_operacion+"</option>";
+    });
+    $("#ModalTrabajador #slct_centro_operacion_id").html(html); 
+    $("#ModalTrabajador #slct_centro_operacion_id").selectpicker('refresh');
+
+};
+
 SlctCargarTarea=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
     $.each(result.data,function(index,r){

@@ -5,7 +5,7 @@
     {{ Html::style('lib/datatables/dataTables.bootstrap.css') }}
     {{ Html::script('lib/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('lib/datatables/dataTables.bootstrap.min.js') }}
-    
+
     {{ Html::style('lib/bootstrap-select/dist/css/bootstrap-select.min.css') }}
     {{ Html::script('lib/bootstrap-select/dist/js/bootstrap-select.min.js') }}
     {{ Html::script('lib/bootstrap-select/dist/js/i18n/defaults-es_ES.min.js') }}
@@ -13,26 +13,23 @@
     {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
-    
-    @include( 'mantenimiento.trabajador.js.trabajador_ajax' )
-    @include( 'mantenimiento.trabajador.js.trabajador' )
-    @include( 'mantenimiento.programacion.js.listapersona_ajax' )
-    @include( 'mantenimiento.programacion.js.listapersona' )
-    @include( 'mantenimiento.programacion.js.aepersona_ajax' )
-    @include( 'mantenimiento.programacion.js.aepersona' )
+
+    {{ Html::style('lib/EasyAutocomplete1.3.5/easy-autocomplete.min.css') }}
+    {{ Html::script('lib/EasyAutocomplete1.3.5/jquery.easy-autocomplete.min.js') }}
+
+    @include( 'mantenimiento.centro.js.operaciones_ajax' )
+    @include( 'mantenimiento.centro.js.operaciones' )
+    @include( 'mantenimiento.centro.js.operaciones_adicional' )
 @stop
 
 @section('content')
-<style>
-.modal { overflow: auto !important;}
-</style>
 <section class="content-header">
-    <h1>Trabajador
+    <h1>Centro Operación
         <small>Mantenimiento</small>
     </h1>
     <ol class="breadcrumb">
         <li><i class="fa fa-sitemap"></i> Mantenimiento</a></li>
-        <li class="active">Trabajador</li>
+        <li class="active">Centro Operación</li>
     </ol>
 </section>
 
@@ -40,45 +37,55 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <form id="TrabajadorForm">
+                <form id="CentroOperacionForm">
                     <div class="box-body table-responsive no-padding">
-                        <table id="TableTrabajador" class="table table-bordered table-hover">
+                        <table id="TableCentroOperacion" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
+
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Trabajador:</h4></label>
+                                            <label><h4>Centro de Operación:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_trabajador" id="txt_trabajador" placeholder="Buscar Trabajador" onkeypress="return masterG.enterGlobal(event,'#txt_rol',1);">
-                                            </div>                                          
-                                        </div>
-                                    </th>
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Rol:</h4></label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_rol" id="txt_rol" placeholder="Buscar Rol" onkeypress="return masterG.enterGlobal(event,'#txt_trabajador',1);">
+                                                <input type="text" class="form-control" name="txt_centro_operacion" id="txt_centro_operacion" placeholder="Buscar Centro Operación" onkeypress="return masterG.enterGlobal(event,'#txt_direccion',1);">
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Tarea:</h4></label>
+                                            <label><h4>Dirección:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_tarea" id="txt_tarea" placeholder="Buscar Tarea" onkeypress="return masterG.enterGlobal(event,'#txt_rol',1);">
+                                                <input type="text" class="form-control" name="txt_direccion" id="txt_direccion" placeholder="Buscar Dirección" onkeypress="return masterG.enterGlobal(event,'#txt_centro_operacion',1);">
                                             </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
                                         <div class="form-group">
-                                            <label><h4>Código:</h4></label>
+                                            <label><h4>Región:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_codigo" id="txt_codigo" placeholder="Buscar Código" onkeypress="return masterG.enterGlobal(event,'#txt_rol',1);">
-                                            </div>                                          
+                                                <input type="text" class="form-control" name="txt_region" id="txt_region" placeholder="Buscar Región" onkeypress="return masterG.enterGlobal(event,'#txt_centro_operacion',1);">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Provincia:</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_provincia" id="txt_provincia" placeholder="Buscar Provincia" onkeypress="return masterG.enterGlobal(event,'#txt_centro_operacion',1);">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-2">
+                                        <div class="form-group">
+                                            <label><h4>Distrito:</h4></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" name="txt_distrito" id="txt_distrito" placeholder="Buscar Distrito" onkeypress="return masterG.enterGlobal(event,'#txt_centro_operacion',1);">
+                                            </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2">
@@ -100,10 +107,11 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cabecera">
-                                  <th>Trabajador</th>
-                                  <th>Rol</th>
-                                  <th>Tarea</th>
-                                  <th>Código</th>
+                                  <th>Centro de Operación</th>
+                                  <th>Dirección</th>
+                                  <th>Región</th>
+                                  <th>Provincia</th>
+                                  <th>Distrito</th>
                                   <th>Estado</th>
                                   <th>[-]</th>
                                 </tr>
@@ -121,7 +129,5 @@
 @stop
 
 @section('form')
-     @include( 'mantenimiento.trabajador.form.trabajador' )
-     @include( 'mantenimiento.programacion.form.listapersona' )
-     @include( 'mantenimiento.persona.form.persona' )
+     @include( 'mantenimiento.centro.form.operaciones' )
 @stop

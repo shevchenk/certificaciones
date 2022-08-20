@@ -3,22 +3,22 @@ namespace App\Http\Controllers\Mantenimiento;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mantenimiento\Trabajador;
+use App\Models\Mantenimiento\CentroOperacion;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Auth;
 
-class TrabajadorEM extends Controller
+class CentroOperacionMA extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
     } 
-    
+
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            Trabajador::runEditStatus($r);
+            CentroOperacion::runEditStatus($r);
             $return['rst'] = 1;
             $return['msj'] = 'Registro actualizado';
             return response()->json($return);
@@ -31,18 +31,14 @@ class TrabajadorEM extends Controller
 
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => 'Persona ya existe como Trabajador',
+                'unique'        => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'persona_id' => 
+                'centro_operacion' => 
                        ['required',
-                        Rule::unique('mat_trabajadores','persona_id')
-                            ->where('empresa_id', Auth::user()->empresa_id)
-                            ->where(function ($query) use($r) {
-                                $query->where('rol_id',$r->rol_id );
-                                //$query->where('tarea_id',$r->tarea_id );
-                            }),
+                        Rule::unique('mat_centro_operaciones','centro_operacion')
+                        ->where('empresa_id',Auth::user()->empresa_id),
                         ],
             );
 
@@ -50,7 +46,7 @@ class TrabajadorEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Trabajador::runNew($r);
+                CentroOperacion::runNew($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro creado';
             }
@@ -67,26 +63,22 @@ class TrabajadorEM extends Controller
         if ( $r->ajax() ) {
             $mensaje= array(
                 'required'    => ':attribute es requerido',
-                'unique'        => 'Persona ya existe como Trabajador',
+                'unique'        => ':attribute solo debe ser único',
             );
 
             $rules = array(
-                'persona_id' => 
+                'centro_operacion' => 
                        ['required',
-                        Rule::unique('mat_trabajadores','persona_id')
-                        ->where('empresa_id', Auth::user()->empresa_id)
-                        ->ignore($r->id)
-                        ->where(function ($query) use($r) {
-                                $query->where('rol_id',$r->rol_id );
-                                $query->where('tarea_id',$r->tarea_id );
-                        }),
+                        Rule::unique('mat_centro_operaciones','centro_operacion')
+                        ->where('empresa_id',Auth::user()->empresa_id)
+                        ->ignore($r->id),
                         ],
             );
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
             if ( !$validator->fails() ) {
-                Trabajador::runEdit($r);
+                CentroOperacion::runEdit($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
             }
@@ -101,18 +93,7 @@ class TrabajadorEM extends Controller
     public function Load(Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Trabajador::runLoad($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
-
-    public function LoadHistorico(Request $r )
-    {
-        if ( $r->ajax() ) {
-            $renturnModel = Trabajador::runLoadHistorico($r);
+            $renturnModel = CentroOperacion::runLoad($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
@@ -120,10 +101,10 @@ class TrabajadorEM extends Controller
         }
     }
     
-    public function ListarTeleoperadora(Request $r )
+    public function ListCentroOperacion (Request $r )
     {
         if ( $r->ajax() ) {
-            $renturnModel = Trabajador::ListarTeleoperadora($r);
+            $renturnModel = CentroOperacion::ListCentroOperacion($r);
             $return['rst'] = 1;
             $return['data'] = $renturnModel;
             $return['msj'] = "No hay registros aún";
@@ -131,15 +112,4 @@ class TrabajadorEM extends Controller
         }
     }
 
-    public function ListarTeleoperadores(Request $r )
-    {
-        if ( $r->ajax() ) {
-            $r['rol_id']=1;
-            $renturnModel = Trabajador::ListarTeleoperadora($r);
-            $return['rst'] = 1;
-            $return['data'] = $renturnModel;
-            $return['msj'] = "No hay registros aún";
-            return response()->json($return);
-        }
-    }
 }
