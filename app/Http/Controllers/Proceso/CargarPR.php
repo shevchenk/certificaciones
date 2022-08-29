@@ -64,11 +64,11 @@ class CargarPR extends Controller
             $keydata = explode(";",$csvxrow[0]);
             $keynumb = count($keydata); 
             $m = "Archivo no cuenta con la cabecera de asignar(0:Quitar Asignación | 1: Asignar)";
-            if( $keynumb<14 ){
+            /*if( $keynumb<14 ){
                 $return['rst'] = 2;
                 $return['msj'] = $m;
                 return response()->json($return);
-            }
+            }*/
 
             $narchivo= $nombreArchivo[0]."_u";
             $interesado= DB::table('interesados')
@@ -116,8 +116,8 @@ class CargarPR extends Controller
             IGNORE 1 ROWS 
             (
               FECHA_REGISTRO, EMPRESA, TIPO, FUENTE
-              , DISTRITO, CARRERA, DNI, NOMBRE, PATERNO, MATERNO
-              , CELULAR, EMAIL, COSTO, asignar, COD_VENDEDOR
+              , DISTRITO, CARRERA, DNI, NOMBRE
+              , CELULAR, EMAIL, COSTO
             ) 
             SET usuario = ".$usuario.", file = '".$file."', pos= @numero:= @numero+1,
             DNI= SUBSTRING(DNI,1,12),

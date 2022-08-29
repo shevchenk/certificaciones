@@ -237,7 +237,8 @@ class Llamada extends Model
             $detchk= explode("|",$chknoasig[$i]);
             $filtro=
             "(
-            pc.interesado='".$detchk[1]."'
+            pc.ad_name='".$detchk[0]."'
+            AND FIND_IN_SET( pc.interesado, '".$detchk[1]."' ) 
             AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NULL
             )";
@@ -247,7 +248,8 @@ class Llamada extends Model
             $detchk= explode("|",$chknocall[$i]);
             $filtro=
             "(
-            pc.interesado='".$detchk[1]."'
+            pc.ad_name='".$detchk[0]."'
+            AND FIND_IN_SET( pc.interesado, '".$detchk[1]."' ) 
             AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.persona_id IS NULL
@@ -258,7 +260,8 @@ class Llamada extends Model
             $detchk= explode("|",$chkinteresado[$i]);
             $filtro=
             "(
-            pc.interesado='".$detchk[1]."'
+            pc.ad_name='".$detchk[0]."'
+            AND FIND_IN_SET( pc.interesado, '".$detchk[1]."' ) 
             AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.obs=1
@@ -269,7 +272,8 @@ class Llamada extends Model
             $detchk= explode("|",$chkpendiente[$i]);
             $filtro=
             "(
-            pc.interesado='".$detchk[1]."'
+            pc.ad_name='".$detchk[0]."'
+            AND FIND_IN_SET( pc.interesado, '".$detchk[1]."' ) 
             AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.obs=2
@@ -280,7 +284,8 @@ class Llamada extends Model
             $detchk= explode("|",$chknointeresado[$i]);
             $filtro=
             "(
-            pc.interesado='".$detchk[1]."'
+            pc.ad_name='".$detchk[0]."'
+            AND FIND_IN_SET( pc.interesado, '".$detchk[1]."' ) 
             AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.obs=3
@@ -291,7 +296,8 @@ class Llamada extends Model
             $detchk= explode("|",$chkotros[$i]);
             $filtro=
             "(
-            pc.interesado='".$detchk[1]."'
+            pc.ad_name='".$detchk[0]."'
+            AND FIND_IN_SET( pc.interesado, '".$detchk[1]."' ) 
             AND pc.created_at='".$detchk[2]."'
             AND d.persona_id IS NOT NULL 
             AND l.obs=0

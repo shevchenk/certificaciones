@@ -65,6 +65,11 @@
                                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
                             </button>
                         </div>
+                        <div class="col-sm-2 text-center">
+                            <a href="csv/interesados.csv" class="btn btn-success">
+                                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Plantilla
+                            </a>
+                        </div>
                     </div>
                 </form>
                 <!-- 
