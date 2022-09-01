@@ -296,12 +296,12 @@ AgregarEditarAjax=function(){
 
 FinalizarRegistro = () => {
     if( ValidaForm() && validaPromocion() ){
-        if( ValidaTabla() ){
+        //if( ValidaTabla() ){
             AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
-        }
+        /*}
         else{
             sweetalertG.pregunta('Inscripción sin pago','Usted esta inscribiendo al alumno sin registrar pago. ¿El alumno estudiará gratis y pagará cuando solicite el certificado?',EjecutarVenta);
-        }
+        }*/
     }
 }
 
