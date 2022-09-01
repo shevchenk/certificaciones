@@ -99,6 +99,8 @@ class Matricula extends Model
     
         $matricula->persona_id_created_at=Auth::user()->id;
         $matricula->observacion=$r->observacion;
+        $matricula->llamada_id=$r->llamada_id;
+        $matricula->fecha_estado= date("Y-m-d");
         $matricula->save();
             
             if( trim($r->pago_nombre_matricula)!='' ){
@@ -243,6 +245,14 @@ class Matricula extends Model
                 $mtdetalle=new MatriculaDetalle;
                 $mtdetalle->norden=$i+1;
                 $mtdetalle->matricula_id=$matricula->id;
+
+                if( !isset($nro_pago_certificado[$i]) ){
+                    $nro_pago_certificado[$i] = 0;
+                    $monto_pago_certificado[$i] = 0;
+                }
+                if( !isset($tipo_pago[$i]) ){
+                    $tipo_pago[$i] = 0;
+                }
                 if(Input::has('programacion_id')){
                     $mtdetalle->programacion_id=$programacion_id[$i]; 
 
@@ -277,6 +287,10 @@ class Matricula extends Model
                         $mtdetalle->gratis=1;
                     }
                 }*/
+                if( !isset($nro_pago[$i]) ){
+                    $nro_pago[$i] = 0;
+                    $monto_pago[$i] = 0;
+                }
                 $mtdetalle->nro_pago=$nro_pago[$i];
                 $mtdetalle->monto_pago=$monto_pago[$i];
                 $mtdetalle->nro_pago_certificado=$nro_pago_certificado[$i];
@@ -311,12 +325,12 @@ class Matricula extends Model
                         $mtdetalle->tipo_pago=0;
                     }
 
-                    if( trim($pago_nombre_certificado[$i])!='' ){
+                    if( isset($pago_nombre_certificado[$i]) AND trim($pago_nombre_certificado[$i])!='' ){
                         $type=explode(".",$pago_nombre_certificado[$i]);
                         $extension=".".$type[1];
                     }
                     $url = "upload/m$matricula->id/cer_".$i.$extension; 
-                    if( trim($pago_archivo_certificado[$i])!='' ){
+                    if( isset($pago_archivo_certificado[$i]) AND trim($pago_archivo_certificado[$i])!='' ){
                         $mtdetalle->archivo_pago_certificado=$url;
                         Menu::fileToFile($pago_archivo_certificado[$i], $url);
                     }
@@ -325,32 +339,32 @@ class Matricula extends Model
                 }
                 
                 if( trim($r->nro_promocion)==''){
-                    if( trim($pago_nombre[$i])!='' ){
+                    if( isset($pago_nombre[$i]) AND trim($pago_nombre[$i])!='' ){
                         $type=explode(".",$pago_nombre[$i]);
                         $extension=".".$type[1];
                     }
                     $url = "upload/m$matricula->id/cur_".$i.$extension; 
-                    if( trim($pago_archivo[$i])!='' ){
+                    if( isset( $pago_archivo[$i] ) AND trim($pago_archivo[$i])!='' ){
                         $mtdetalle->archivo_pago=$url;
                         Menu::fileToFile($pago_archivo[$i], $url);
                     }
 
-                    if( trim($pago_nombre_certificado[$i])!='' ){
+                    if( isset( $pago_nombre_certificado[$i] ) AND trim($pago_nombre_certificado[$i])!='' ){
                         $type=explode(".",$pago_nombre_certificado[$i]);
                         $extension=".".$type[1];
                     }
                     $url = "upload/m$matricula->id/cer_".$i.$extension; 
-                    if( trim($pago_archivo_certificado[$i])!='' ){
+                    if( isset( $pago_archivo_certificado[$i] ) AND trim($pago_archivo_certificado[$i])!='' ){
                         $mtdetalle->archivo_pago_certificado=$url;
                         Menu::fileToFile($pago_archivo_certificado[$i], $url);
                     }
 
-                    if( trim($dni_nombre_detalle[$i])!='' ){
+                    if( isset( $dni_nombre_detalle[$i] ) AND trim($dni_nombre_detalle[$i])!='' ){
                         $type=explode(".",$dni_nombre_detalle[$i]);
                         $extension=".".$type[1];
                     }
                     $url = "upload/m$matricula->id/cer_dni_".$i.$extension; 
-                    if( trim($dni_archivo_detalle[$i])!='' ){
+                    if( isset( $dni_archivo_detalle[$i] ) AND trim($dni_archivo_detalle[$i])!='' ){
                         $mtdetalle->archivo_dni=$url;
                         Menu::fileToFile($dni_archivo_detalle[$i], $url);
                     }

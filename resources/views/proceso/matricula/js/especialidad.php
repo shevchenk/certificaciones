@@ -54,7 +54,9 @@ ValidaMedioCaptacion=function(){
 }
 
 ValidaCheckMatricula=function(){
+    $("#t_pago_matricula").hide();
     if( $('#ModalMatriculaForm #exonerar_matricula').prop('checked') ) {
+        $("#t_pago_matricula").show();
           $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
           $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",false);
           $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).removeAttr("disabled");
@@ -76,7 +78,9 @@ ValidaCheckMatricula=function(){
 }
 
 ValidaCheckInscripcion=function(){
+    $("#t_pago_inscripcion").hide();
     if( $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked') ) {
+        $("#t_pago_inscripcion").show();
           $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",false);
           $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",false);
           $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion" ).removeAttr("disabled");
@@ -236,8 +240,20 @@ ValidaTabla=function(){
     return r;     
 }
 AgregarEditarAjax=function(){
-    if( ValidaTabla() && ValidaForm()){
+    if( $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo')==1 && $.trim( $("#txt_llamada_id").val() ) == '' ){
+        sweetalertG.pregunta('LLamadas','No cuenta con ID de llamada seleccionada. ¿Desea continuar sin seleccionar una llamada?', FinalizarRegistro);
+    }
+    else{
+        FinalizarRegistro();
+    }
+}
+
+FinalizarRegistro = () => {
+    if( ValidaForm() && ValidaTabla() ){
         AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
+    }
+    else{
+        sweetalertG.pregunta('Inscripción sin pago','Usted esta inscribiendo al alumno sin registrar pago. ¿El alumno estudiará gratis y pagará cuando solicite el certificado?',EjecutarVenta);
     }
 }
 

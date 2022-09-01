@@ -32,6 +32,8 @@
 @include( 'mantenimiento.persona.js.persona_adicional_ajax' )
 @include( 'mantenimiento.trabajador.js.listatrabajador_ajax' )
 @include( 'mantenimiento.trabajador.js.listatrabajador' )
+@include( 'proceso.matricula.js.listallamada_ajax' )
+@include( 'proceso.matricula.js.listallamada' )
 
 @stop
 
@@ -294,7 +296,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <table class="table" id="t_pago_inscripcion">
+                                        <table class="table" id="t_pago_matricula">
                                             <thead class="bg-info">
                                                 <tr>
                                                     <th colspan="4" style="text-align:center;">Pago de Matrícula &nbsp;&nbsp;
@@ -532,24 +534,33 @@
                             <div class="panel panel-success">
                                 <div class="panel-heading"><center>MARKETING:</center></div>
                                 <div class="panel-body">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Medio de Captación</label>
                                             <select name="slct_medio_captacion_id" id="slct_medio_captacion_id" class="form-control selectpicker" onchange="ValidaMedioCaptacion()"></select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-6 validamediocaptacion" style="display: none;">
+                                    <div class="col-md-5 validamediocaptacion" style="display: none;">
                                         <div class="form-group">
                                             <label>Persona Marketing</label>
                                             <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
                                             <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
                                         </div> 
                                     </div>
-                                    <div class="col-md-1 validamediocaptacion" style="display: none;">
+                                    <div class="col-md-2 validamediocaptacion" style="display: none;">
                                         <div class="form-group">
                                             <label>&nbsp;&nbsp;&nbsp;</label>
                                             <span class="input-group-btn">
                                                 <button type="button" id="btn_marketing" data-id="ModalMatriculaForm #btn_marketing" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-filtros2="" data-personaid="ModalMatriculaForm #txt_marketing_id"  data-persona="ModalMatriculaForm #txt_marketing">Buscar Persona Marketing</button>
+                                            </span>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-2 validamediocaptacion" style="display: none;">
+                                        <div class="form-group">
+                                            <label>ID Llamada</label>
+                                            <input class="form-control" type="text" id="txt_llamada_id" name="txt_llamada_id" readonly>
+                                            <span class="input-group-btn">
+                                                <button type="button" id="btn_llamadas" class="btn btn-warning btn-flat" data-toggle="modal" data-target="#ModalLlamada" data-persona_id="#ModalMatriculaForm #txt_marketing_id" data-persona="#ModalMatriculaForm #txt_marketing" data-id="#ModalMatriculaForm #txt_llamada_id">Selecciona LLamada</button>
                                             </span>
                                         </div> 
                                     </div>
@@ -574,7 +585,7 @@
                     </form>
                 </div>
                 <div class="box-footer">
-                    <button type="button" class="btn btn-success pull-right" onclick="DescargarFicha()">Descargar Datos para Ficha</button>
+                    <button type="button" class="btn btn-success pull-right" style="margin-left: 30px;" onclick="DescargarFicha()">Descargar Datos para Ficha</button>
                     <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Inscripción</button>
                 </div>
             </div><!-- .box -->
@@ -589,4 +600,5 @@
 @include( 'proceso.matricula.form.listaprogramacion2' )
 @include( 'mantenimiento.persona.form.persona' )
 @include( 'mantenimiento.trabajador.form.listatrabajador' )
+@include( 'proceso.matricula.form.llamadas' )
 @stop

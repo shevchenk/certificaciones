@@ -64,28 +64,31 @@ class MatriculaPR extends Controller
                     $curso_id = $r->curso_id;
                     $programacion_id=$r->programacion_id;
                     for($i=0;$i<count($curso_id);$i++){
-                        $nro_p = $r->nro_pago_certificado[$i];
-                        $monto_p = $r->monto_pago_certificado[$i];
-                        $tipo_p = $r->tipo_pago_detalle[$i];
-                        if( $nro_p!='' AND $monto_p!='' ){
-                            $sql="
-                            SELECT id
-                            FROM mat_matriculas
-                            WHERE nro_promocion='$nro_p'
-                            AND monto_promocion='$monto_p'
-                            AND tipo_pago='$tipo_p'
-                            UNION 
-                            SELECT id
-                            FROM mat_matriculas_detalles
-                            WHERE nro_pago_certificado='$nro_p'
-                            AND monto_pago_certificado='$monto_p'
-                            AND tipo_pago='$tipo_p'
-                            ";
-                            $datos = DB::select($sql);
-                            if( isset($datos[0]->id) ){
-                                $return['rst'] = 2;
-                                $return['msj'] = 'El nro:'.$nro_p.'| monto:'.$monto_p.' ya fue registrado anteriormente';
-                                return response()->json($return);
+                        
+                        if( isset($r->nro_pago_certificado[$i]) ){
+                            $nro_p = $r->nro_pago_certificado[$i];
+                            $monto_p = $r->monto_pago_certificado[$i];
+                            $tipo_p = $r->tipo_pago_detalle[$i];
+                            if( $nro_p!='' AND $monto_p!='' ){
+                                $sql="
+                                SELECT id
+                                FROM mat_matriculas
+                                WHERE nro_promocion='$nro_p'
+                                AND monto_promocion='$monto_p'
+                                AND tipo_pago='$tipo_p'
+                                UNION 
+                                SELECT id
+                                FROM mat_matriculas_detalles
+                                WHERE nro_pago_certificado='$nro_p'
+                                AND monto_pago_certificado='$monto_p'
+                                AND tipo_pago='$tipo_p'
+                                ";
+                                $datos = DB::select($sql);
+                                if( isset($datos[0]->id) ){
+                                    $return['rst'] = 2;
+                                    $return['msj'] = 'El nro:'.$nro_p.'| monto:'.$monto_p.' ya fue registrado anteriormente';
+                                    return response()->json($return);
+                                }
                             }
                         }
 

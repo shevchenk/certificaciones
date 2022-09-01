@@ -86,6 +86,33 @@ class Llamada extends Model
         return $sql;
     }
 
+    public static function HistorialLlamada($r)
+    {
+        $empresa_id= Auth::user()->empresa_id;
+
+        $sql=DB::table('llamadas AS ll')
+            ->join('personas_llamadas AS pl', 'pl.id', '=', 'll.persona_id')
+            ->join('tipo_llamadas AS tl', 'tl.id', '=', 'll.tipo_llamada_id')
+            ->select(DB::raw('CONCAT(pl.nombre, " ", pl.paterno, " ",pl.materno ) persona'), 'll.fecha_llamada', 'tl.tipo_llamada as estado_llamada',
+            'll.comentario', 'll.fechas AS fecha_programada', 'll.id')
+            ->where(
+                function($query) use($r){
+                    if( $r->has("trabajador_id") ){
+                        $trabajador_id=trim($r->trabajador_id);
+                        if( $trabajador_id !='' ){
+                            $query->where('ll.trabajador_id',$trabajador_id);
+                        }
+                    }
+                }
+            )
+            ->where('ll.estado',1)
+            ->orderBy('ll.created_at','desc')
+            ->limit(10)
+            ->get();
+
+        return $sql;
+    }
+
     public static function CargarLlamada($r)
     {
         $empresa_id= Auth::user()->empresa_id;

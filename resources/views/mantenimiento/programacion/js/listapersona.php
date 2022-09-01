@@ -39,7 +39,7 @@ $(document).ready(function() {
            LDValidarPersona=button.data('validarpersona');  
       }
       
-      AjaxListapersona.Cargar(HTMLCargarListaPersona);
+      //AjaxListapersona.Cargar(HTMLCargarListaPersona);
 
       LTtextoIdPersona= button.data('personaid');
       LTtextoPersona= button.data('persona');

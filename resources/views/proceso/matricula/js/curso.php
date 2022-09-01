@@ -56,29 +56,33 @@ ValidaMedioCaptacion=function(){
 }
 
 ValidaCheckMatricula=function(){
+    $("#t_pago_matricula").hide();
     if( $('#ModalMatriculaForm #exonerar_matricula').prop('checked') ) {
-          $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
-          $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",false);
-          $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).removeAttr("disabled");
-          $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",false);
+        $("#t_pago_matricula").show();
+        $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",false);
+        $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",false);
+        $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).removeAttr("disabled");
+        $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",false);
     }else{
-          $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",true);
-          $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",true);
-          $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).prop("disabled",true);
-          $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).val("0");
-          $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).val("");
-          $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).val("");
-          $("#ModalMatriculaForm #i_monto_deuda_matricula" ).text("0");
-          $( "#ModalMatriculaForm #pago_nombre_matricula" ).val("");
-          $( "#ModalMatriculaForm #pago_archivo_matricula" ).val("");
-          $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",true);
-          $("#txt_monto_pago_matricula_ico,#i_monto_deuda_matricula_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
+        $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).prop("readOnly",true);
+        $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).prop("readOnly",true);
+        $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).prop("disabled",true);
+        $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).val("0");
+        $( "#ModalMatriculaForm #txt_nro_pago_matricula" ).val("");
+        $( "#ModalMatriculaForm #txt_monto_pago_matricula" ).val("");
+        $("#ModalMatriculaForm #i_monto_deuda_matricula" ).text("0");
+        $( "#ModalMatriculaForm #pago_nombre_matricula" ).val("");
+        $( "#ModalMatriculaForm #pago_archivo_matricula" ).val("");
+        $( "#ModalMatriculaForm #file_matricula" ).prop("disabled",true);
+        $("#txt_monto_pago_matricula_ico,#i_monto_deuda_matricula_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-warning-sign');
     }
-          $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).selectpicker("refresh");
+    $( "#ModalMatriculaForm #slct_tipo_pago_matricula" ).selectpicker("refresh");
 }
 
 ValidaCheckInscripcion=function(){
+    $("#t_pago_inscripcion").hide();
     if( $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked') ) {
+        $("#t_pago_inscripcion").show();
           $( "#ModalMatriculaForm #txt_nro_pago_inscripcion" ).prop("readOnly",false);
           $( "#ModalMatriculaForm #txt_monto_pago_inscripcion" ).prop("readOnly",false);
           $( "#ModalMatriculaForm #slct_tipo_pago_inscripcion" ).removeAttr("disabled");
@@ -282,6 +286,15 @@ ValidaTipo=function(v){
 }
 
 AgregarEditarAjax=function(){
+    if( $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo')==1 && $.trim( $("#txt_llamada_id").val() ) == '' ){
+        sweetalertG.pregunta('LLamadas','No cuenta con ID de llamada seleccionada. ¿Desea continuar sin seleccionar una llamada?', FinalizarRegistro);
+    }
+    else{
+        FinalizarRegistro();
+    }
+}
+
+FinalizarRegistro = () => {
     if( ValidaForm() && validaPromocion() ){
         if( ValidaTabla() ){
             AjaxMatricula.AgregarEditar(HTMLAgregarEditar);
@@ -342,7 +355,8 @@ HTMLAgregarEditar=function(result){
 
 DescargarFicha=function(){
     if( MatriculaIdG>0 ){
-        window.open('ReportDinamic/Reporte.SeminarioEM@ExportFicha'+'?matricula_id='+MatriculaIdG, '_blank');
+        //window.open('ReportDinamic/Reporte.SeminarioEM@ExportFicha'+'?matricula_id='+MatriculaIdG, '_blank');
+        msjG.mensaje('info','.::En Proceso::.',5000);
     }
     else{
         msjG.mensaje('warning','Debe realizar una inscripción',5000);

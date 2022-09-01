@@ -671,8 +671,8 @@ class Seminario extends Model
     public static function runControlPago($r)
     {
         
-        $servidor = 'formacion_continua';
-        $aulaservidor = 'aula_formacion_continua';
+        $servidor = 'formacioncontinua';
+        $aulaservidor = 'aula_formacioncontinua';
         
         if( $_SERVER['SERVER_NAME']=='formacioncontinua.pe' ){
             $servidor = 'fomacioncontinua_fc';
