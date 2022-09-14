@@ -136,4 +136,45 @@ class MatriculaPR extends Controller
         }
     }
 
+    public function BandejaValida (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Matricula::BandejaValida($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function BandejaHistorica (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Matricula::BandejaValida($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            $return['msj'] = "No hay registros aún";
+            return response()->json($return);
+        }
+    }
+
+    public function ActualizaEstadoMat (Request $r)
+    {
+        if ( $r->ajax() ) {
+            Matricula::ActualizaEstadoMat($r);
+            $return['rst'] = 1;
+            return response()->json($return);
+        }
+    }
+
+    public function LoadCuotas (Request $r )
+    {
+        if ( $r->ajax() ) {
+            $renturnModel = Matricula::LoadCuotas($r);
+            $return['rst'] = 1;
+            $return['data'] = $renturnModel;
+            return response()->json($return);
+        }
+    }
+
 }

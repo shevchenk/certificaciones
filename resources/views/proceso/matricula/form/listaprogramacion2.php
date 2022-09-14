@@ -13,7 +13,7 @@
                     <div class="box">
                         <form id="ListaprogramacionForm2">
                             <div class="box-body table-responsive no-padding">
-                                <table id="TableListaprogramacion" class="table table-bordered table-hover">
+                                <table id="TableListaprogramacion2" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
                                             <th class="col-xs-2">

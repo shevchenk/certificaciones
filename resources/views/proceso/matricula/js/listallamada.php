@@ -45,9 +45,11 @@ SeleccionarLlamada = function(id){
 HTMLCargarListaLlamada=function(result){
     var html="";
     $('#TableLlamada tbody').html('');
+    $('#TableLlamada').DataTable().destroy();
 
-    $.each(result.data,function(index,r){
+    $.each(result.data.data,function(index,r){
         html+="<tr id='trid_"+r.id+"'>"+
+            "<td class='ID'>"+r.id+"</td>"+
             "<td class='fecha_llamada'>"+r.fecha_llamada+"</td>"+
             "<td class='estado_llamada'>"+r.estado_llamada+"</td>"+
             "<td class='persona'>"+r.persona+"</td>"+
@@ -58,5 +60,22 @@ HTMLCargarListaLlamada=function(result){
         html+="</tr>";
     });
     $("#TableLlamada tbody").html(html); 
+    $("#TableLlamada").DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "lengthMenu": [10],
+        "language": {
+            "info": "Mostrando página "+result.data.current_page+" / "+result.data.last_page+" de "+result.data.total,
+            "infoEmpty": "No éxite registro(s) aún",
+        },
+        "initComplete": function () {
+            $('#TableLlamada_paginate ul').remove();
+            masterG.CargarPaginacion('HTMLCargarListaLlamada','AjaxLlamada.HistorialLlamada',result.data,'#TableLlamada_paginate');
+        } 
+    });
 };
 </script>

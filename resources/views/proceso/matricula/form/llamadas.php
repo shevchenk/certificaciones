@@ -18,21 +18,18 @@
                                 <table id="TableLlamada" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
+                                            <th class="col-md-1">ID Llamada</th>
                                             <th class="col-md-2">
-                                                <label><h4>Fecha Llamada:</h4></label>
-                                                <input type="text" class="form-control" name="txt_fecha_llamada" id="txt_fecha_llamada" placeholder="Fecha Llamada" onkeypress="return masterG.enterGlobal(event, '#txt_persona', 1);" style="width: 100px;">
+                                                <input type="text" class="col-md-12 input-lg" name="txt_fecha_llamada" id="txt_fecha_llamada" placeholder="Fecha Llamada" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_programada',1);">
                                             </th>
                                             <th class="col-md-2">
-                                                <label><h4>Estado Llamada:</h4></label>
-                                                <input type="text" class="form-control" name="txt_estado_llamada" id="txt_estado_llamada" placeholder="Estado Llamada" onkeypress="return masterG.enterGlobal(event, '#txt_persona', 1);" style="width: 100px;">
+                                                <input type="text" class="col-md-12 input-lg" name="txt_estado_llamada" id="txt_estado_llamada" placeholder="Estado Llamada" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_programada',1);">
                                             </th>
                                             <th class="col-md-3">
-                                                <label><h4>Persona:</h4></label>
-                                                <input type="text" class="form-control" name="txt_persona" id="txt_persona" placeholder="Persona" onkeypress="return masterG.enterGlobal(event, '#txt_fecha_llamada', 1);" style="width: 180px;">
+                                                <input type="text" class="col-md-12 input-lg" name="txt_persona" id="txt_persona" placeholder="Persona" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_programada',1);">
                                             </th>                                            
                                             <th class="col-md-2">
-                                                <label><h4>Fecha Programada:</h4></label>
-                                                <input type="text" class="form-control" name="txt_fecha_programada" id="txt_fecha_programada" placeholder="Fecha Programada" onkeypress="return masterG.enterGlobal(event, '#txt_persona', 1);" style="width: 100px;">
+                                                <input type="text" class="col-md-12 input-lg" name="txt_fecha_programada" id="txt_fecha_programada" placeholder="Fecha Programada" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_programada',1);">
                                             </th>
                                             <th class="col-md-2">
                                                 <label><h4>Comentario</h4></label>
@@ -44,6 +41,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr class="cabecera">
+                                            <th>ID Llamada</th>
                                             <th>Fecha Llamada</th>
                                             <th>Estado Llamada</th>
                                             <th>Persona</th>

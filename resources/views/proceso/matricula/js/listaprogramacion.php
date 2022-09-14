@@ -11,7 +11,7 @@ var CheckedG=0; // Indica cuantos tiene
 var buttonG='';
 var bfiltrosG='';
 $(document).ready(function() {
-    $("#TableListaprogramacion").DataTable({
+    $("#TableListaprogramacion,#TableListaprogramacion2").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -23,8 +23,8 @@ $(document).ready(function() {
     $("#ListaprogramacionForm #TableListaprogramacion select").change(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
     $("#ListaprogramacionForm #TableListaprogramacion input").blur(function(){ AjaxListaprogramacion.Cargar(HTMLCargarProgramacion); });
 
-    $("#ListaprogramacionForm2 #TableListaprogramacion select").change(function(){ AjaxListaprogramacion.Cargar2(HTMLCargarProgramacion2); });
-    $("#ListaprogramacionForm2 #TableListaprogramacion input").blur(function(){ AjaxListaprogramacion.Cargar2(HTMLCargarProgramacion2); });
+    $("#ListaprogramacionForm2 #TableListaprogramacion2 select").change(function(){ AjaxListaprogramacion.Cargar2(HTMLCargarProgramacion2); });
+    $("#ListaprogramacionForm2 #TableListaprogramacion2 input").blur(function(){ AjaxListaprogramacion.Cargar2(HTMLCargarProgramacion2); });
 
     $('#ModalListaprogramacion').on('shown.bs.modal', function (event) {
           buttonG = $(event.relatedTarget); // captura al boton
@@ -97,7 +97,7 @@ ValidaCheck2=function(){
     $("#ModalListaprogramacion2 table tbody input[type='checkbox']").each(function(t){
         if( $(this).is(":checked") ){
             cont++;
-            SeleccionarProgramacion(0, $(this).val());
+            SeleccionarProgramacion(0, $(this).val(),2);
         }
     });
 
@@ -109,21 +109,22 @@ ValidaCheck2=function(){
     }
 }
 
-SeleccionarProgramacion = function(val,id){
+SeleccionarProgramacion = function(val,id, tipo){
+    tipo = $.trim(tipo); //Para identificar q tabla es
     var existe=$("#t_matricula #trid_"+id+"").val();
     if( val==0 && typeof(existe)=='undefined'){
         var mod='PRESENCIAL';
-        var docente=$("#TableListaprogramacion #trid_"+id+" .docente").text();
-        var persona_id=$("#TableListaprogramacion #trid_"+id+" .persona_id").val();
-        var sucursal_id=$("#TableListaprogramacion #trid_"+id+" .sucursal_id").val();
-        var sucursal=$("#TableListaprogramacion #trid_"+id+" .sucursal:eq(0)").text();
-        var curso_id=$("#TableListaprogramacion #trid_"+id+" .curso_id").val();
-        var dia=$("#TableListaprogramacion #trid_"+id+" .dia").val();
-        var turno=$("#TableListaprogramacion #trid_"+id+" .turno").val();
-        var curso=$("#TableListaprogramacion #trid_"+id+" .curso").text();
-        var costo=$("#TableListaprogramacion #trid_"+id+" .costo").val();
-        var fecha_inicio=$.trim($("#TableListaprogramacion #trid_"+id+" .fecha_inicio").val());
-        var fecha_final=$.trim($("#TableListaprogramacion #trid_"+id+" .fecha_final").val());
+        var docente=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .docente").text();
+        var persona_id=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .persona_id").val();
+        var sucursal_id=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .sucursal_id").val();
+        var sucursal=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .sucursal:eq(0)").text();
+        var curso_id=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .curso_id").val();
+        var dia=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .dia").val();
+        var turno=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .turno").val();
+        var curso=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .curso").text();
+        var costo=$("#TableListaprogramacion"+tipo+" #trid_"+id+" .costo").val();
+        var fecha_inicio=$.trim($("#TableListaprogramacion"+tipo+" #trid_"+id+" .fecha_inicio").val());
+        var fecha_final=$.trim($("#TableListaprogramacion"+tipo+" #trid_"+id+" .fecha_final").val());
         var fecha_i=fecha_inicio.split(" ");
         var fecha_f=fecha_final.split(" ");
         if(sucursal_id==1){
@@ -271,7 +272,7 @@ SeleccionarProgramacion = function(val,id){
             '<img id="pago_certificado_img'+id+'" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
                 '</a></div>'+
             "</td>"+
-            "<td>"+
+            "<td style='display:none;'>"+
                 '<input type="text"  readOnly class="form-control input-sm" id="dni_nombre_detalle'+id+'"  name="dni_nombre_detalle[]" value="">'+
                 '<input type="text" style="display: none;" id="dni_archivo_detalle'+id+'" name="dni_archivo_detalle[]">'+
                 '<label class="btn btn-default btn-flat margin btn-xs">'+
@@ -551,7 +552,7 @@ HTMLCargarProgramacion=function(result){
 
 HTMLCargarProgramacion2=function(result){
     var html="";
-    $('#TableListaprogramacion').DataTable().destroy();
+    $('#TableListaprogramacion2').DataTable().destroy();
 
     $.each(result.data.data,function(index,r){
         validasem="style='display:none;'";
@@ -583,8 +584,8 @@ HTMLCargarProgramacion2=function(result){
         html+="</td>";
         html+="</tr>";
     });
-    $("#TableListaprogramacion tbody").html(html); 
-    $("#TableListaprogramacion").DataTable({
+    $("#TableListaprogramacion2 tbody").html(html); 
+    $("#TableListaprogramacion2").DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -597,8 +598,8 @@ HTMLCargarProgramacion2=function(result){
             "infoEmpty": "No éxite registro(s) aún",
         },
         "initComplete": function () {
-            $('#TableListaprogramacion_paginate ul').remove();
-            masterG.CargarPaginacion('HTMLCargarProgramacion','AjaxListaprogramacion',result.data,'#TableListaprogramacion_paginate');
+            $('#TableListaprogramacion2_paginate ul').remove();
+            masterG.CargarPaginacion('HTMLCargarProgramacion2','AjaxListaprogramacion.Cargar2',result.data,'#TableListaprogramacion2_paginate');
         } 
     });
 };

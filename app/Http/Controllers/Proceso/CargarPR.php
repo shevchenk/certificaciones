@@ -115,7 +115,7 @@ class CargarPR extends Controller
             LINES TERMINATED BY '\n'
             IGNORE 1 ROWS 
             (
-              FECHA_REGISTRO, EMPRESA, TIPO, FUENTE
+              FECHA_REGISTRO, EMPRESA, FUENTE
               , DISTRITO, CARRERA, DNI, NOMBRE
               , CELULAR, EMAIL, COSTO
             ) 

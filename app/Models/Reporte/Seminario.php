@@ -1655,13 +1655,21 @@ class Seminario extends Model
             si.salsi, si.salsi_id, cd.salcd_id,
             sm.salsm, sm.salsm_id
             FROM `mat_matriculas` AS `mm` 
-            INNER JOIN `mat_matriculas_detalles` AS `mmd` ON `mmd`.`matricula_id` = `mm`.`id` AND `mmd`.`estado` = 1 
+            INNER JOIN mat_especialidades_programaciones ep on ep.id = mm.especialidad_programacion_id
+            INNER JOIN `mat_matriculas_detalles` AS `mmd` ON `mmd`.`matricula_id` = `mm`.`id` 
+            AND (mmd.id in (
+                    SELECT MAX(md2.id)
+                    FROM mat_matriculas m2 
+                    INNER JOIN mat_matriculas_detalles md2 on md2.matricula_id = m2.id 
+                    INNER JOIN mat_especialidades_programaciones ep2 on ep2.id = m2.especialidad_programacion_id and ep2.tipo=1
+                    GROUP BY m2.id
+            ) or ep.tipo = 2)
             INNER JOIN `personas` AS `p` ON `p`.`id` = `mm`.`persona_id` 
             INNER JOIN `mat_alumnos` AS `ma` ON `ma`.`id` = `mm`.`alumno_id` 
             INNER JOIN `mat_cursos` AS `mc` ON `mc`.`id` = `mmd`.`curso_id` AND `mc`.`empresa_id` = $empresa_id 
             INNER JOIN `empresas` AS `e` ON `e`.`id` = `mc`.`empresa_id` 
-            INNER JOIN `mat_programaciones` AS `mp` ON `mp`.`id` = `mmd`.`programacion_id` 
-            INNER JOIN `sucursales` AS `s` ON `s`.`id` = `mp`.`sucursal_id` 
+            LEFT JOIN `mat_programaciones` AS `mp` ON `mp`.`id` = `mmd`.`programacion_id` 
+            LEFT JOIN `sucursales` AS `s` ON `s`.`id` = `mp`.`sucursal_id` 
             LEFT JOIN `mat_especialidades` AS `me` ON `me`.`id` = `mmd`.`especialidad_id` 
             LEFT JOIN (
             SELECT matricula_detalle_id, MIN(saldo) saldo
@@ -1673,7 +1681,7 @@ class Seminario extends Model
             LEFT JOIN (
             SELECT m.id matricula_id, ep.cuota, ep.fecha_cronograma, ep.monto_cronograma
             FROM mat_especialidades_programaciones_cronogramas ep
-            INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id AND m.estado=1
+            INNER JOIN mat_matriculas m ON m.especialidad_programacion_id = ep.especialidad_programacion_id 
             LEFT JOIN mat_matriculas_cuotas mmc ON mmc.matricula_id=m.id AND mmc.cuota=ep.cuota AND mmc.estado=1
             LEFT JOIN mat_matriculas_saldos mms ON mms.matricula_id=m.id AND mms.cuota=ep.cuota AND mms.estado=1 
             WHERE ep.estado = 1
@@ -1703,8 +1711,14 @@ class Seminario extends Model
             GROUP BY matricula_id,cuota
             HAVING salsm > 0
             ) sm ON sm.matricula_id = mm.id
-            WHERE `mm`.`estado` = 1 
+            WHERE e.estado = 1
             ";
+                    if( $r->has("matricula_id") AND trim($r->matricula_id) != '' ){
+                        $sql.=" AND mm.id = $r->matricula_id";
+                    }
+                    else{
+                        $sql.=" AND mm.estado = 1 AND mmd.estado = 1";
+                    }
 
                     if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
                         $inicial=trim($r->fecha_inicial);

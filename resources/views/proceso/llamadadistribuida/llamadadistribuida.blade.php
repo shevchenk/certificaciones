@@ -49,72 +49,49 @@
                                         <input type="text" class="form-control" name="txt_tipo_llamada" id="txt_tipo_llamada" placeholder="Último Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre_completo',1);" style="width: 130px;">
                                     </th>
                                     <th>
-                                        <label><h4>Nombre Completo</h4></label>
-                                        <input type="text" class="form-control" name="txt_nombre_completo" id="txt_nombre_completo" placeholder="Nombre Completo" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 130px;">
+                                        <label><h4>Fecha Estado</h4></label>
+                                        <input type="text" class="form-control" name="txt_fecha_llamada" id="txt_fecha_llamada" placeholder="Fecha Estado" onkeypress="return masterG.enterGlobal(event,'#txt_nombre_completo',1);" style="width: 130px;">
                                     </th>
                                     <th>
-                                        <label><h4>Campaña</h4></label>
-                                        <input type="text" class="form-control" name="txt_campana" id="txt_campana" placeholder="Materno" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 130px;">
-                                    </th>
-                                    <!-- <th>
-                                        <label><h4>Datos Adicionales(Falta validar)</h4></label>
-                                        <input type="text" class="form-control" name="txt_nombre" id="txt_nombre" placeholder="Nombres" onkeypress="return masterG.enterGlobal(event,'#txt_paterno',1);" style="width: 130px;">
-                                    </th> -->
-                                    <th>
-                                        <label><h4>Celular</h4></label>
-                                        <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Celular" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
+                                        <label><h4>Vendedor</h4></label>
+                                        <input type="text" class="form-control" name="txt_vendedor" id="txt_vendedor" placeholder="Vendedor" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
                                     </th>
                                     <th>
-                                        <label><h4>Teléfono</h4></label>
-                                        <input type="text" class="form-control" name="txt_telefono" id="txt_telefono" placeholder="Teléfono" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
-                                    </th>
-                                    <th>
-                                        <label><h4>Fecha Registro</h4></label>
-                                        <input type="text" class="form-control" name="txt_fecha_registro" id="txt_fecha_registro" placeholder="Fecha Registro" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
+                                        <label><h4>Fecha Leads</h4></label>
+                                        <input type="text" class="form-control" name="txt_fecha_registro" id="txt_fecha_registro" placeholder="Fecha Leads" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
                                     </th>
                                     <th>
                                         <label><h4>Fecha Distribuida</h4></label>
                                         <input type="text" class="form-control" name="txt_fecha_distribucion" id="txt_fecha_distribucion" placeholder="Fecha Distribuida" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
                                     </th>
                                     <th>
-                                        <label><h4>Fuente</h4></label>
-                                        <input type="text" class="form-control" name="txt_fuente" id="txt_fuente" placeholder="Fuente" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
-                                    </th>
-                                    <!--th>
-                                        <label><h4>Tipo</h4></label>
-                                        <input type="text" class="form-control" name="txt_tipo" id="txt_tipo" placeholder="Tipo" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
+                                        <label><h4>Nombre Completo</h4></label>
+                                        <input type="text" class="form-control" name="txt_nombre_completo" id="txt_nombre_completo" placeholder="Nombre Completo" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 130px;">
                                     </th>
                                     <th>
-                                        <label><h4>Empresa</h4></label>
-                                        <input type="text" class="form-control" name="txt_empresa" id="txt_empresa" placeholder="Empresa" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
-                                    </th-->
-                                    <th>
-                                        <label><h4>Vendedor</h4></label>
-                                        <input type="text" class="form-control" name="txt_vendedor" id="txt_vendedor" placeholder="Vendedor" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
-                                    </th>
-                                    <th>
-                                        <label><h4>Carrera</h4></label>
-                                        <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Carrera" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);">
+                                        <label><h4>Celular</h4></label>
+                                        <input type="text" class="form-control" name="txt_celular" id="txt_celular" placeholder="Celular" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
                                     </th>
                                     <th>
                                         <label><h4>Email</h4></label>
                                         <input type="text" class="form-control" name="txt_email" id="txt_email" placeholder="Email" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);">
                                     </th>
-
-                                <!--
-                                    <th class="col-xs-2">
-                                        <div class="form-group">
-                                            <label><h4>Estado</h4></label>
-                                            <div class="input-group">
-                                                <select class="form-control" name="slct_estado" id="slct_estado">
-                                                    <option value='' selected>.::Todo::.</option>
-                                                    <option value='0'>Inactivo</option>
-                                                    <option value='1'>Activo</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                    <th>
+                                        <label><h4>Estudios que solicita</h4></label>
+                                        <input type="text" class="form-control" name="txt_carrera" id="txt_carrera" placeholder="Estudios que solicita" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);">
                                     </th>
-                                -->
+                                    <th>
+                                        <label><h4>Fuente</h4></label>
+                                        <input type="text" class="form-control" name="txt_fuente" id="txt_fuente" placeholder="Fuente" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Campaña</h4></label>
+                                        <input type="text" class="form-control" name="txt_campana" id="txt_campana" placeholder="Materno" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 130px;">
+                                    </th>
+                                    <th>
+                                        <label><h4>Región</h4></label>
+                                        <input type="text" class="form-control" name="txt_region" id="txt_region" placeholder="Región" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
+                                    </th>
                                     <th>[-]</th>
                                 </tr>
                             </thead>
@@ -124,21 +101,17 @@
                                 <tr class="cabecera">
                                   <th>[-]</th>
                                   <th>Último Estado</th>
-                                  <th>Nombre Completo</th>
-                                  <th>Campaña</th>
-                                  <!--th></th-->
-                                  <th>Celular</th>
-                                  <th>Telefono</th>
-                                  <th>Fecha Registro</th>
-                                  <th>Fecha Distribuida</th>
-                                  <th>Fuente</th>
-                                  <!--th>Tipo</th>
-                                  <th>Empresa</th-->
+                                  <th>Fecha Estado</th>
                                   <th>Vendedor</th>
-                                  <th>Carrera</th>
+                                  <th>Fecha Leads</th>
+                                  <th>Fecha Distribuida</th>
+                                  <th>Nombre Completo</th>
+                                  <th>Celular</th>
                                   <th>Email</th>
-
-                                  <!-- <th>Estado</th> -->
+                                  <th>Estudios que solicita</th>
+                                  <th>Fuente</th>
+                                  <th>Campaña</th>
+                                  <th>Región</th>
                                   <th>[-]</th>
                                 </tr>
                             </tfoot>
@@ -164,7 +137,7 @@
                             <thead style="background-color: #FFBC9B;color:black">
                                 <tr>
                                     <th>DNI</th>
-                                    <th>Persona</th>
+                                    <th>Interesado</th>
                                     <th>Fecha de Llamada</th>
                                     <th>Teleoperador(a)</th>
                                     <th>Tipo Llamada</th>

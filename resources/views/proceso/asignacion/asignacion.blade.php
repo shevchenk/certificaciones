@@ -120,8 +120,8 @@
                                             <th style="background-color: #BDD7EE;color:black">Fecha de<br>la Carga</th>
                                             <th style="background-color: #BDD7EE;color:black">Fecha Inicio<br>del leads</th>
                                             <th style="background-color: #BDD7EE;color:black">Fecha Final<br>del leads</th>
-                                            <th style="background-color: #BDD7EE;color:black">Campaña que participa</th>
-                                            <th style="background-color: #BDD7EE;color:black">Carrera que solicita</th>
+                                            <th style="background-color: #BDD7EE;color:black">Campaña</th>
+                                            <th style="background-color: #BDD7EE;color:black">Estudios que solicita</th>
                                             <th style="background-color: #BDD7EE;color:black">Clientes<br>Potenciales</th>
                                             <th style="background-color: #BDD7EE;color:black">Costo<br>por<br>leads</th>
                                             <th style="background-color: #BDD7EE;color:black">Costo<br>de la<br>Data</th>

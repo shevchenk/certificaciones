@@ -66,7 +66,7 @@
                             </button>
                         </div>
                         <div class="col-sm-2 text-center">
-                            <a href="csv/interesados.csv" class="btn btn-success">
+                            <a href="csv/interesados.csv?{{date('His')}}" class="btn btn-success">
                                 <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Plantilla
                             </a>
                         </div>

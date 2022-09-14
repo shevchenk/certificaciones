@@ -246,6 +246,9 @@ var masterG ={
         });
     },
     CargarPaginacion:function(HTML,ajax,result,id){
+        if( typeof(ajax.split(".")[1]) == 'undefined' ){
+            ajax = ajax+".Cargar";
+        }
         var html='<ul class="pagination">';
         if( result.current_page==1 ){
             html+=  '<li class="paginate_button previous disabled">'+
@@ -253,7 +256,7 @@ var masterG ={
                     '</li>';
         }
         else{
-            html+=  '<li class="paginate_button previous" onClick="'+ajax+'.Cargar('+HTML+','+(result.current_page-1)+');">'+
+            html+=  '<li class="paginate_button previous" onClick="'+ajax+'('+HTML+','+(result.current_page-1)+');">'+
                         '<a>Atras</a>'+
                     '</li>';
         }
@@ -272,7 +275,7 @@ var masterG ={
         }
 
         if( (ini>1 && result.current_page>4) || (result.last_page-3<=result.current_page && result.current_page<=4 && ini>1) ){
-            html+=  '<li class="paginate_button" onClick="'+ajax+'.Cargar('+HTML+',1);">'+
+            html+=  '<li class="paginate_button" onClick="'+ajax+'('+HTML+',1);">'+
                         '<a>1</a>'+
                     '</li>';
             html+=  '<li class="paginate_button disabled"><a>…</a></li>';
@@ -284,14 +287,14 @@ var masterG ={
                         '</li>';
             }
             else{
-                html+=  '<li class="paginate_button" onClick="'+ajax+'.Cargar('+HTML+','+i+');">'+
+                html+=  '<li class="paginate_button" onClick="'+ajax+'('+HTML+','+i+');">'+
                             '<a>'+i+'</a>'+
                         '</li>';
             }
         }
         if( fin>=5 && result.last_page>5 && result.last_page-3>result.current_page){
             html+=  '<li class="paginate_button disabled"><a>…</a></li>';
-            html+=  '<li class="paginate_button" onClick="'+ajax+'.Cargar('+HTML+','+result.last_page+');">'+
+            html+=  '<li class="paginate_button" onClick="'+ajax+'('+HTML+','+result.last_page+');">'+
                         '<a>'+result.last_page+'</a>'+
                     '</li>';
         }
@@ -302,7 +305,7 @@ var masterG ={
                     '</li>';
         }
         else{
-            html+=  '<li class="paginate_button next" onClick="'+ajax+'.Cargar('+HTML+','+(result.current_page*1+1)+');">'+
+            html+=  '<li class="paginate_button next" onClick="'+ajax+'('+HTML+','+(result.current_page*1+1)+');">'+
                         '<a>Siguiente</a>'+
                     '</li>';
         }
@@ -513,5 +516,102 @@ $(window).resize(function(){
     redimensionG.validar();
 });
 
+const msjG2 ={
+    //TODO: icons: success, error, warning, info, question
+    alert: (icon, title, time)=> {
+        btn=icon;
+        if( icon=='error' ){ btn='danger'; }
+        
+        Swal.fire({
+          icon: icon,
+          title: title,
+          showConfirmButton: true,
+          timer: time,
+          showClass: {
+            popup: 'animated fadeInDown slow'
+          },
+          hideClass: {
+            popup: 'animated fadeOutUp slow'
+          },
+          allowEscapeKey: false,
+          allowOutsideClick: false,
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: 'btn btn-lg btn-'+btn,
+          },
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        });
+    },
+    question: (title, question, fn)=> {
+        Swal.fire({
+          icon: 'question',
+          title: title,
+          html: question,
+          showClass: {
+            popup: 'animated fadeInDown slow'
+          },
+          hideClass: {
+            popup: 'animated fadeOutUp slow'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'SI',
+          cancelButtonText: 'NO',
+          reverseButtons: true,
+          customClass: {
+            confirmButton: 'btn btn-lg btn-success mg-15',
+            cancelButton: 'btn btn-lg btn-danger'
+          },
+          allowEscapeKey: false,
+          allowOutsideClick: false,
+          buttonsStyling: false,
+        }).then((result) => {
+            if (result.value) {
+              fn();
+            }
+        });
+    },
+    alertfn: (icon, title, time, fn)=> {
+      Swal.fire({
+        icon: icon,
+        title: title,
+        html: 'Cerrando en <b>2000</b> milisegundo(s).',
+        timer: time,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        showClass: {
+          popup: 'animated fadeInDown slow'
+        },
+        hideClass: {
+          popup: 'animated fadeOutUp slow'
+        },
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading()
+          msjIntervalG = setInterval(() => {
+            const content = Swal.getHtmlContainer()
+            console.log('hola');
+            if (content) {
+              const b = content.querySelector('b')
+              if (b) {
+                b.textContent = Swal.getTimerLeft()
+              }
+            }
+          }, 100)
+        },
+        didDestroy: () => {
+          clearInterval(msjIntervalG)
+        }
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          fn();
+        }
+      })
+    }
+}
 
 </script>

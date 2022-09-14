@@ -121,21 +121,22 @@ class Persona extends Model
                         $cargoId = $cargos[$i];
 
                          $areas = $r['areas'.$cargoId];
-
-                        for ($j=0; $j<count($areas); $j++) {
-                            //recorrer las areas y buscar si exten
-                            $areaId = $areas[$j];
-                            DB::table('personas_privilegios_sucursales')->insert(
-                                array(
-                                    'sucursal_id' => $areaId,
-                                    'privilegio_id' => $cargoId,
-                                    'persona_id' => $persona->id,
-                                    'created_at'=> date('Y-m-d H:i:s'),
-                                    'persona_id_created_at'=> Auth::user()->id,
-                                    'estado' => 1,
-                                    'persona_id_updated_at' => Auth::user()->id
-                                )
-                            );
+                        if($areas){
+                            for ($j=0; $j<count($areas); $j++) {
+                                //recorrer las areas y buscar si exten
+                                $areaId = $areas[$j];
+                                DB::table('personas_privilegios_sucursales')->insert(
+                                    array(
+                                        'sucursal_id' => $areaId,
+                                        'privilegio_id' => $cargoId,
+                                        'persona_id' => $persona->id,
+                                        'created_at'=> date('Y-m-d H:i:s'),
+                                        'persona_id_created_at'=> Auth::user()->id,
+                                        'estado' => 1,
+                                        'persona_id_updated_at' => Auth::user()->id
+                                    )
+                                );
+                            }
                         }
                     }
                 }
@@ -231,35 +232,37 @@ class Persona extends Model
                                 );
                     
                     //almacenar las areas seleccionadas
-                    for ($j=0; $j<count($areas); $j++) {
-                        //recorrer las areas y buscar si exten
-                        $areaId = $areas[$j];
-                        $areaCargoPersona=DB::table('personas_privilegios_sucursales')
+                    if($areas){
+                        for ($j=0; $j<count($areas); $j++) {
+                            //recorrer las areas y buscar si exten
+                            $areaId = $areas[$j];
+                            $areaCargoPersona=DB::table('personas_privilegios_sucursales')
+                                    ->where('sucursal_id', '=', $areaId)
+                                    ->where('privilegio_id', $cargoId)
+                                    ->where('persona_id', $r->id)
+                                    ->first();
+                            if (!isset($areaCargoPersona->id)) {
+                                DB::table('personas_privilegios_sucursales')->insert(
+                                    array(
+                                        'sucursal_id' => $areaId,
+                                        'privilegio_id' => $cargoId,
+                                        'persona_id' => $r->id,
+                                        'created_at'=> date('Y-m-d H:i:s'),
+                                        'persona_id_created_at'=> Auth::user()->id,
+                                        'estado' => 1,
+                                        'persona_id_updated_at' => Auth::user()->id
+                                    )
+                                );
+                            } else {
+                                DB::table('personas_privilegios_sucursales')
                                 ->where('sucursal_id', '=', $areaId)
-                                ->where('privilegio_id', $cargoId)
-                                ->where('persona_id', $r->id)
-                                ->first();
-                        if (!isset($areaCargoPersona->id)) {
-                            DB::table('personas_privilegios_sucursales')->insert(
-                                array(
-                                    'sucursal_id' => $areaId,
-                                    'privilegio_id' => $cargoId,
-                                    'persona_id' => $r->id,
-                                    'created_at'=> date('Y-m-d H:i:s'),
-                                    'persona_id_created_at'=> Auth::user()->id,
-                                    'estado' => 1,
-                                    'persona_id_updated_at' => Auth::user()->id
-                                )
-                            );
-                        } else {
-                            DB::table('personas_privilegios_sucursales')
-                            ->where('sucursal_id', '=', $areaId)
-                            ->where('privilegio_id', '=', $cargoId)
-                            ->update(
-                                array(
-                                    'estado' => 1,
-                                    'persona_id_updated_at' => Auth::user()->id
-                                ));
+                                ->where('privilegio_id', '=', $cargoId)
+                                ->update(
+                                    array(
+                                        'estado' => 1,
+                                        'persona_id_updated_at' => Auth::user()->id
+                                    ));
+                            }
                         }
                     }
                 }
@@ -519,16 +522,16 @@ class Persona extends Model
                 $join->on('p2.id','=','t.persona_id')
                 ->where('p2.estado',1);
             })
-            ->leftJoin(DB::raw('(SELECT tl.peso, tl.tipo_llamada,ll.persona_id
+            ->leftJoin(DB::raw('(SELECT tl.peso, tl.tipo_llamada,ll.persona_id, DATE(ll.fecha_llamada) as fecha_llamada
                 FROM llamadas AS ll 
                 INNER JOIN mat_trabajadores t2 ON t2.id = ll.trabajador_id AND t2.empresa_id = '.Auth::user()->empresa_id.' 
                 INNER JOIN `tipo_llamadas` AS `tl` ON `tl`.`id` = `ll`.`tipo_llamada_id` 
                 WHERE `ll`.`estado` = 1 AND `ll`.`ultimo_registro` = 1 ) AS tl'), function($join){
                 $join->on('tl.persona_id','=','p.id');
             })
-            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion', 'pc.ad_name AS campana',
+            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion', 'pc.ad_name AS campana', 'pc.distrito as region',
             'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','pc.interesado as carrera',
-            'p.celular','p.password','p.estado','p.empresa','p.fuente','p.tipo','tl.tipo_llamada','p.fecha_registro',
+            'p.celular','p.password','p.estado','p.empresa','pc.fuente','p.tipo','tl.tipo_llamada', 'tl.fecha_llamada','pc.fecha_registro',
             DB::raw('0 AS matricula,
             CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor, tl.peso'))
             ->where('p.id','!=',1)
@@ -615,7 +618,13 @@ class Persona extends Model
                     if( $r->has("fuente") ){
                         $fuente=trim($r->fuente);
                         if( $fuente !='' ){
-                            $query->where('p.fuente','like','%'.$fuente.'%');
+                            $query->where('pc.fuente','like','%'.$fuente.'%');
+                        }
+                    }
+                    if( $r->has("region") ){
+                        $region=trim($r->region);
+                        if( $region !='' ){
+                            $query->where('pc.distrito','like','%'.$region.'%');
                         }
                     }
                     if( $r->has("tipo") ){
@@ -633,7 +642,19 @@ class Persona extends Model
                     if( $r->has("fecha_registro") ){
                         $fecha_registro=trim($r->fecha_registro);
                         if( $fecha_registro !='' ){
-                            $query->where('p.fecha_registro','like','%'.$fecha_registro.'%');
+                            $query->where('pc.fecha_registro','like','%'.$fecha_registro.'%');
+                        }
+                    }
+                    if( $r->has("fecha_leads") ){
+                        $fecha_leads=trim($r->fecha_leads);
+                        if( $fecha_leads !='' ){
+                            $query->where('pc.fecha_registro','like','%'.$fecha_leads.'%');
+                        }
+                    }
+                    if( $r->has("fecha_llamada") ){
+                        $fecha_llamada=trim($r->fecha_llamada);
+                        if( $fecha_llamada !='' ){
+                            $query->where('tl.fecha_llamada','like','%'.$fecha_llamada.'%');
                         }
                     }
                 }

@@ -97,18 +97,30 @@ class Llamada extends Model
             'll.comentario', 'll.fechas AS fecha_programada', 'll.id')
             ->where(
                 function($query) use($r){
-                    if( $r->has("trabajador_id") ){
-                        $trabajador_id=trim($r->trabajador_id);
-                        if( $trabajador_id !='' ){
-                            $query->where('ll.trabajador_id',$trabajador_id);
-                        }
+                    if( $r->has("trabajador_id") AND trim($r->trabajador_id) != '' ){
+                        $query->where('ll.trabajador_id',$r->trabajador_id);
+                    }
+
+                    if( $r->has("fecha_llamada") AND trim($r->fecha_llamada) != '' ){
+                        $query->where('ll.fecha_llamada', 'like','%'.$r->fecha_llamada.'%');
+                    }
+
+                    if( $r->has("estado_llamada") AND trim($r->estado_llamada) != '' ){
+                        $query->where('tl.tipo_llamada', 'like','%'.$r->estado_llamada.'%');
+                    }
+
+                    if( $r->has("persona") AND trim($r->persona) != '' ){
+                        $query->whereRaw('CONCAT(pl.nombre, " ", pl.paterno, " ",pl.materno) LIKE "%'.$r->persona.'%"');
+                    }
+
+                    if( $r->has("fecha_programada") AND trim($r->fecha_programada) != '' ){
+                        $query->where('ll.fechas', 'like','%'.$r->fecha_programada.'%');
                     }
                 }
             )
             ->where('ll.estado',1)
             ->orderBy('ll.created_at','desc')
-            ->limit(10)
-            ->get();
+            ->paginate(10);
 
         return $sql;
     }
@@ -130,9 +142,12 @@ class Llamada extends Model
             ->Join('personas_llamadas AS p2', function($join){
                 $join->on('p2.id','=','ll.persona_id');
             })
+            ->Join('personas_captadas AS pc', function($join){
+                $join->on('pc.persona_id','=','p2.id');
+            })
             ->select(
-            'll.fecha_llamada',DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador')
-            ,DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),'p2.dni'
+            'll.fecha_llamada',DB::raw('CONCAT(p.paterno,\' \',p.materno,\' \',p.nombre) AS teleoperador')
+            ,DB::raw('CONCAT(p2.nombre,\' \',p2.paterno,\' \',p2.materno) AS persona'),'p2.dni'
             ,'tl.tipo_llamada','ll.fechas','ll.comentario','ll.id'
             )
             ->where( 
@@ -157,7 +172,7 @@ class Llamada extends Model
                     ->where('pd.estado',1)
                     ->where('pd.trabajador_id',$r->teleoperadora);
                 });
-                $sql->addSelect(DB::raw('p2.id AS persona_id,p2.carrera,p2.empresa,p2.fuente,pd.fecha_distribucion,p2.telefono,p2.celular,current_date() AS hoy'));
+                $sql->addSelect(DB::raw('p2.id AS persona_id,p2.carrera,p2.empresa,pc.fuente, pc.distrito as region ,pd.fecha_distribucion,p2.telefono,p2.celular,current_date() AS hoy'));
                 $result= $sql->orderBy('ll.fechas','asc')->get();
             }
             else{

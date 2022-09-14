@@ -12,7 +12,7 @@
                     <div class="col-md-12">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Alumno:</label>
+                            <label>Interesado:</label>
                             <input class="form-control mant" type="hidden" id="txt_persona_id" name="txt_persona_id" value="">
                             <input class="form-control" type="text" id="txt_alumno" name="txt_alumno" value="" disabled>
                             <a class="btn btn-primary btn-sm" id="btnEditPersona" onClick="EditarPersona()"><i class="fa fa-edit fa-lg"></i> </a>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Teléfono/Celular:</label>
+                            <label>Celular:</label>
                             <textarea class="form-control" id="txt_celular" name="txt_celular" value="" disabled></textarea>
                         </div>
                     </div>
@@ -34,14 +34,14 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Carrera:</label>
+                            <label>Estudios que solicita:</label>
                             <input class="form-control" type="text" id="txt_carrera" name="txt_carrera" value="" disabled>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Empresa:</label>
-                            <input class="form-control" type="text" id="txt_empresa" name="txt_empresa" value="" disabled>
+                            <label>Region:</label>
+                            <input class="form-control" type="text" id="txt_region" name="txt_region" value="" disabled>
                         </div>
                     </div>
                     <div class="col-md-4">

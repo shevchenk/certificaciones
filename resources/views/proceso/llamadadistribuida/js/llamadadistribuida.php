@@ -80,6 +80,7 @@ HTMLCargarLlamadaPendiente=function(result){
                 "<input type='hidden' class='fecha_distribucion' value='"+$.trim(r.fecha_distribucion)+"'>"+
                 "<input type='hidden' class='empresa' value='"+r.empresa+"'>"+
                 "<input type='hidden' class='fuente' value='"+r.fuente+"'>"+
+                "<input type='hidden' class='region' value='"+r.region+"'>"+
                 "<input type='hidden' class='persona_id' value='"+r.persona_id+"'>"+
                 '<a class="btn btn-primary btn-sm" onClick="AbrirLlamadaPendiente('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
         html+="</tr>";
@@ -163,19 +164,20 @@ HTMLCargar=function(result){ //INICIO HTML
         html+="</td>"+
                 "<td bgcolor='"+color+"' >"+'<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a>'+"</td>"+
                 "<td bgcolor='"+color+"' class='tipo_llamada'>"+$.trim(r.tipo_llamada)+"</td>"+
-                "<td bgcolor='"+color+"' class='paterno'>"+ $.trim(r.nombre +" "+ r.paterno +" "+ r.materno) +"</td>"+
-                "<td bgcolor='"+color+"' class='materno'>"+r.campana+"</td>"+
-                //"<td bgcolor='"+color+"' class='nombre'>"+"</td>"+
-                "<td class='celular'>"+$.trim(r.celular)+"</td>"+
-                "<td class='telefono'>"+$.trim(r.telefono)+"</td>"+
+                "<td bgcolor='"+color+"' class='fecha_llamada'>"+$.trim(r.fecha_llamada)+"</td>"+
+                "<td class='vendedor'>"+$.trim(r.vendedor)+"</td>"+
                 "<td class='fecha_registro'>"+$.trim(r.fecha_registro)+"</td>"+
                 "<td class='fecha_distribucion'>"+r.fecha_distribucion+"</td>"+
+                "<td bgcolor='"+color+"' class='paterno'>"+ $.trim(r.nombre +" "+ r.paterno +" "+ r.materno) +"</td>"+
+                "<td class='celular'>"+$.trim(r.celular)+"</td>"+
+                "<td class='email'>"+$.trim(r.email)+"</td>"+
+                "<td class='carrera'>"+r.carrera+"</td>"+
                 "<td class='fuente'>"+$.trim(r.fuente)+"</td>"+
+                "<td bgcolor='"+color+"' class='materno'>"+r.campana+"</td>"+
+                "<td class='region'>"+$.trim(r.region)+"</td>";
+                //"<td bgcolor='"+color+"' class='nombre'>"+"</td>"+
                 /*"<td class='tipo'>"+$.trim(r.tipo)+"</td>"+
                 "<td class='empresa'>"+$.trim(r.empresa)+"</td>"+*/
-                "<td class='vendedor'>"+$.trim(r.vendedor)+"</td>"+
-                "<td class='carrera'>"+r.carrera+"</td>"+
-                "<td class='email'>"+$.trim(r.email)+"</td>";
                 //"<td>";
                 //"<input type='hidden' class='curso_id' value='"+r.curso_id+"'>";
 
@@ -216,12 +218,12 @@ AbrirLlamada=function(id){
     paterno=$("#trid_"+id+" .paterno").text();
     materno=$("#trid_"+id+" .materno").text();
     nombre=$("#trid_"+id+" .nombre").text();
-    telefono=$("#trid_"+id+" .telefono").text();
     celular=$("#trid_"+id+" .celular").text();
+    region=$("#trid_"+id+" .region").text();
     carrera=$("#trid_"+id+" .carrera").text();
     fecha_distribucion=$("#trid_"+id+" .fecha_distribucion").text();
     empresa=$("#trid_"+id+" .empresa").val();
-    fuente=$("#trid_"+id+" .fuente").val();
+    fuente=$("#trid_"+id+" .fuente").text();
     matricula=$("#trid_"+id+" .matricula").val();
 
     $("#ModalLlamadaForm #btnEditPersona").css('display','block');
@@ -230,11 +232,11 @@ AbrirLlamada=function(id){
     }
 
     $("#ModalLlamadaForm #txt_persona_id").val( id );
-    $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
-    $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+    $("#ModalLlamadaForm #txt_alumno").val( nombre +' '+paterno+' '+materno );
+    $("#ModalLlamadaForm #txt_celular").val( celular );
     $("#ModalLlamadaForm #txt_carrera").val( carrera );
     $("#ModalLlamadaForm #txt_fecha_distribucion").val( fecha_distribucion );
-    $("#ModalLlamadaForm #txt_empresa").val( empresa );
+    $("#ModalLlamadaForm #txt_region").val( region );
     $("#ModalLlamadaForm #txt_fuente").val( fuente );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
     AjaxEspecialidad.CargarInfo(HTMLCargarInfo);
@@ -248,7 +250,6 @@ EditarPersona=function(){
     materno=$("#trid_"+id+" .materno").text();
     nombre=$("#trid_"+id+" .nombre").text();
     celular=$("#trid_"+id+" .celular").text();
-    telefono=$("#trid_"+id+" .telefono").text();
     carrera=$("#trid_"+id+" .carrera").text();
     dni=$("#trid_"+id+" .dni").val();
     sexo=$("#trid_"+id+" .sexo").val();
@@ -261,7 +262,6 @@ EditarPersona=function(){
     $('#ModalPersonaForm #slct_sexo').selectpicker('val',sexo);
     $('#ModalPersonaForm #txt_email').val(email);
     $('#ModalPersonaForm #txt_celular').val(celular);
-    $('#ModalPersonaForm #txt_telefono').val(telefono);
     $('#ModalPersonaForm #txt_carrera').val(carrera);
     $('#ModalPersona').modal('show');
 }
@@ -277,11 +277,10 @@ HTMLActualizarPersona=function(result){
         paterno=$('#ModalPersonaForm #txt_paterno').val();
         materno=$('#ModalPersonaForm #txt_materno').val();
         nombre=$('#ModalPersonaForm #txt_nombre').val();
-        telefono=$('#ModalPersonaForm #txt_telefono').val()
         celular=$('#ModalPersonaForm #txt_celular').val()
         carrera=$('#ModalPersonaForm #txt_carrera').val()
-        $("#ModalLlamadaForm #txt_alumno").val( paterno +' '+materno+', '+nombre );
-        $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+        $("#ModalLlamadaForm #txt_alumno").val( nombre +' '+paterno+', '+materno );
+        $("#ModalLlamadaForm #txt_celular").val( celular );
         $("#ModalLlamadaForm #txt_carrera").val( carrera );
         $('#ModalPersona').modal('hide');
     }
@@ -293,20 +292,21 @@ HTMLActualizarPersona=function(result){
 AbrirLlamadaPendiente=function(id){
     PersonaIdG=$("#llp_"+id+" .persona_id").val();
     persona=$("#llp_"+id+" .persona").text();
-    telefono=$("#llp_"+id+" .telefono").val();
     celular=$("#llp_"+id+" .celular").val();
     carrera=$("#llp_"+id+" .carrera").val();
     fecha_distribucion=$("#llp_"+id+" .fecha_distribucion").val();
     empresa=$("#llp_"+id+" .empresa").val();
     fuente=$("#llp_"+id+" .fuente").val();
+    region=$("#llp_"+id+" .region").val();
 
     $("#ModalLlamadaForm #txt_persona_id").val( PersonaIdG );
     $("#ModalLlamadaForm #txt_alumno").val( persona );
-    $("#ModalLlamadaForm #txt_celular").val( telefono +' / '+celular );
+    $("#ModalLlamadaForm #txt_celular").val( celular );
     $("#ModalLlamadaForm #txt_carrera").val( carrera );
     $("#ModalLlamadaForm #txt_fecha_distribucion").val( fecha_distribucion );
     $("#ModalLlamadaForm #txt_empresa").val( empresa );
     $("#ModalLlamadaForm #txt_fuente").val( fuente );
+    $("#ModalLlamadaForm #txt_region").val( region );
     AjaxEspecialidad.CargarLlamada(HTMLCargarLlamada);
     AjaxEspecialidad.CargarInfo(HTMLCargarInfo);
     AjaxEspecialidad.CargarMatricula(HTMLCargarMatricula);

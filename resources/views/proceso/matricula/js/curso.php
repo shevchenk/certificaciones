@@ -262,7 +262,7 @@ ValidaTipo=function(v){
     console.log(v);
     $('#ModalMatriculaForm #tb_matricula, #ModalMatriculaForm #tb_pago').html('');
     $("#ModalMatriculaForm #txt_marketing,#ModalMatriculaForm #txt_marketing_id,#ModalMatriculaForm #txt_persona_caja,#ModalMatriculaForm #txt_persona_caja_id").val('');
-    $("#ModalMatriculaForm select").not("#slct_ode_estudio_id").selectpicker('val','0');
+    $("#ModalMatriculaForm select").not("#slct_ode_estudio_id,#slct_sucursal_id,#slct_sucursal_destino_id,#slct_tipo_participante_id").selectpicker('val','0');
     $("#txt_observacion").val('S/O');
     if( v==1 ){
         var html="<option value='0'>.::Curso Libre::.</option>";

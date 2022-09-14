@@ -459,6 +459,7 @@ class Alumno extends Model
                         $query->where('ms.id',0);
                     }
                 })
+                ->where('ms.estado', 1)
                 ->orderBy('ms.id','desc');
         $r = $sql->get();
 

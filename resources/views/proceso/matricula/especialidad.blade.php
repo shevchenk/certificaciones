@@ -280,7 +280,6 @@
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>
                                                     <th>Archivo Pago</th>
-                                                    <th>Archivo DNI</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_pago_promocion">
@@ -329,21 +328,6 @@
                                                         <div>
                                                         <a id="pago_href">
                                                         <img id="pago_img_ins" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
-                                                        </a>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text"  readOnly class="form-control input-sm" id="dni_nombre"  name="dni_nombre" value="">
-                                                        <input type="text" style="display: none;" id="dni_archivo" name="dni_archivo">
-                                                        <label class="btn btn-default btn-flat margin btn-xs">
-                                                            <i class="fa fa-file-image-o fa-3x"></i>
-                                                            <i class="fa fa-file-pdf-o fa-3x"></i>
-                                                            <i class="fa fa-file-word-o fa-3x"></i>
-                                                            <input type="file" class="mant" style="display: none;" onchange="masterG.onImagen(event,'#dni_nombre','#dni_archivo','#dni_img');" >
-                                                        </label>
-                                                        <div>
-                                                        <a id="dni_href">
-                                                        <img id="dni_img" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
                                                         </a>
                                                         </div>
                                                     </td>

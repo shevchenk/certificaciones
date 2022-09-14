@@ -49,7 +49,7 @@ SeleccionarTrabajador = function(val,id){
         var tarea=$("#TableListatrabajador #trid_"+id+" .tarea").text();
         var persona_id=$("#TableListatrabajador #trid_"+id+" .persona_id").val();
         $("#"+LTtextoTrabajador).val(trabajador+' | '+tarea+' | '+codigo);
-        $("#"+LTtextoIdPersona).val(persona_id);
+        $("#"+LTtextoIdPersona).val(id);
         $('#ModalListatrabajador').modal('hide');
     }
     }

@@ -558,4 +558,283 @@ class Matricula extends Model
         $matricula= Matricula::find($matricula_id);
         return $matricula->validada;
     }
+
+    public static function BandejaValida($r)
+    {
+        $id=Auth::user()->id;
+        $set=DB::statement('SET group_concat_max_len := @@max_allowed_packet');
+        $sql=DB::table('mat_matriculas AS mm')
+            ->join('mat_especialidades_programaciones AS ep',function($join){
+                $join->on('ep.id','=','mm.especialidad_programacion_id');
+            })
+            ->join('mat_matriculas_detalles AS mmd',function($join) use($r) {
+                $join->on('mmd.matricula_id','=','mm.id');
+                if( $r->has("estado_mat") AND $r->estado_mat == 'Anulado' ){
+                    $join->where('mmd.estado',0);
+                }
+                else{
+                    $join->where('mmd.estado',1);
+                }
+            })
+            ->join('personas AS p',function($join){
+                $join->on('p.id','=','mm.persona_id');
+            })
+            ->join('mat_alumnos AS ma',function($join){
+                $join->on('ma.id','=','mm.alumno_id');
+            })
+            ->join('sucursales AS s',function($join){
+                $join->on('s.id','=','mm.sucursal_id');
+            })
+            ->join('sucursales AS s2',function($join){
+                $join->on('s2.id','=','mm.sucursal_destino_id');
+            })
+            ->join('mat_tipos_participantes AS mtp',function($join){
+                $join->on('mtp.id','=','mm.tipo_participante_id');
+            })
+            ->join('mat_cursos AS mc',function($join) use($r){
+                $join->on('mc.id','=','mmd.curso_id');
+                if( !$r->has('global') ){
+                    $join->where('mc.empresa_id', Auth::user()->empresa_id);
+                }
+            })
+            ->join('empresas AS e',function($join){
+                $join->on('e.id','=','mc.empresa_id');
+            })
+            ->join('personas AS pmat',function($join){
+                $join->on('pmat.id','=','mm.persona_matricula_id');
+            })
+            ->leftJoin('mat_programaciones AS mp',function($join){
+                $join->on('mp.id','=','mmd.programacion_id');
+            })
+            ->leftJoin('sucursales AS s3',function($join){
+                $join->on('s3.id','=','mp.sucursal_id');
+            })
+            ->leftJoin('personas AS pcaj',function($join){
+                $join->on('pcaj.id','=','mm.persona_caja_id');
+            })
+            ->leftJoin('personas AS pmar',function($join){
+                $join->on('pmar.id','=','mm.persona_marketing_id');
+            })
+            ->leftJoin('mat_medios_captaciones AS meca',function($join){
+                $join->on('meca.id','=','mm.medio_captacion_id');
+            })
+            ->leftJoin('mat_especialidades_programaciones AS mep',function($join){
+                $join->on('mep.id','=','mm.especialidad_programacion_id');
+            })
+            ->leftJoin('mat_especialidades AS me',function($join){
+                $join->on('me.id','=','mmd.especialidad_id');
+            })
+            ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email','mm.validada'
+                    ,'mm.fecha_matricula',DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
+                    , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") ) AS tipo_formacion')
+                    , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) ) AS formacion')
+                    /*,'mc.curso AS curso', 'mp.dia AS frecuencia'
+                    , DB::raw('CONCAT(TIME(mp.fecha_inicio)," - ",TIME(mp.fecha_final)) AS horario')
+                    , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')*/
+                    , DB::raw('GROUP_CONCAT( CONCAT(mc.curso, "|", IFNULL(mp.dia,""), "|", IFNULL(TIME(mp.fecha_inicio),""), " - ", IFNULL(TIME(mp.fecha_final),""), "|", IFNULL(mp.turno,""), "|", IFNULL(DATE(mp.fecha_inicio),"")) ORDER BY mmd.id SEPARATOR "^^" ) AS detalle')
+                    ,DB::raw(' IF(ep.tipo = 1, 
+                                "",
+                                GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id )
+                                ) AS nro_pago')
+                    ,DB::raw(' IF(ep.tipo = 1, 
+                                "",
+                                GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id )
+                                ) AS monto_pago')
+                    ,DB::raw(' IF(ep.tipo = 1, 
+                                "",
+                                GROUP_CONCAT( 
+                                CASE 
+                                    WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mmd.tipo_pago="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mmd.tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN mmd.tipo_pago="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END ORDER BY mmd.id )
+                                ) AS tipo_pago')
+                    ,DB::raw(' IF(ep.tipo = 1, "", GROUP_CONCAT( mmd.tipo_pago ORDER BY mmd.id ) ) AS tipo_pago_id')
+                    ,DB::raw('SUM(mmd.monto_pago_certificado) total')
+                    ,'mm.nro_pago AS nro_pago_matricula','mm.monto_pago AS monto_pago_matricula'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago_matricula="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago_matricula="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago_matricula="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago_matricula="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mm.tipo_pago_matricula="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago_matricula="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago_matricula="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago_matricula="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END AS tipo_pago_matricula')
+                    ,'mm.tipo_pago_matricula AS tipo_pago_matricula_id'
+                    ,'mm.nro_promocion','mm.monto_promocion'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mm.tipo_pago="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END AS tipo_pago_promocion')
+                    ,'mm.tipo_pago AS tipo_pago_promocion_id'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago_inscripcion="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago_inscripcion="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago_inscripcion="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mm.tipo_pago_inscripcion="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago_inscripcion="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago_inscripcion="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END AS tipo_pago_inscripcion')
+                    ,'mm.tipo_pago_inscripcion AS tipo_pago_inscripcion_id'
+                    //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
+                    ,'s.sucursal','s2.sucursal AS recogo_certificado', 'mm.estado_mat', 'mm.fecha_estado', DB::raw('MIN(mm.observacion) AS obs')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
+                    ,'meca.medio_captacion'
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
+                    )
+            ->where( 
+                function($query) use ($r){
+
+                    if( $r->has("fecha_matricula") AND trim($r->fecha_matricula) != '' ){
+                        $query->where('mm.fecha_matricula', $r->fecha_matricula);
+                    }
+
+                    if( $r->has("fecha_estado") AND trim($r->fecha_estado) != '' ){
+                        $query->where('mm.fecha_estado', $r->fecha_estado);
+                    }
+
+                    if( $r->has("trabajador") AND trim($r->trabajador) != '' ){
+                        $query->whereRaw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) LIKE "'.$r->trabajador.'%"');
+                    }
+
+                    if( $r->has("alumno") AND trim($r->alumno) != '' ){
+                        $query->whereRaw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) LIKE "'.$r->alumno.'%"');
+                    }
+
+                    if( $r->has("carrera") AND trim($r->carrera) != '' ){
+                        $query->whereRaw('me.especialidad LIKE "%'.$r->carrera.'%"');
+                    }
+
+                    if( $r->has("curso") AND trim($r->curso) != '' ){
+                        $query->whereRaw('mc.curso LIKE "%'.$r->curso.'%"');
+                    }
+
+                    if( $r->has("estado_mat") AND trim($r->estado_mat) != '' ){
+                        if( $r->estado_mat == 'JefeVenta' ){
+                            $query->where('mm.estado_mat', '!=', 'Pendiente');
+                        }
+                        elseif( $r->estado_mat == 'Marketing' ){
+                            $query->where('mm.estado_mat', '!=', 'Observado');
+                        }
+                        else {
+                            $query->where('mm.estado_mat', $r->estado_mat);
+                        }
+                    }
+
+                    if( $r->has("estado_mat") AND $r->estado_mat == 'Anulado' ){
+                        $query->where('mm.estado',0);
+                    }
+                    else{
+                        $query->where('mm.estado',1);
+                    }
+
+                    if( $r->has("fecha_inicial") AND $r->has("fecha_final")){
+                        $inicial=trim($r->fecha_inicial);
+                        $final=trim($r->fecha_final);
+                        if( $inicial !=''AND $final!=''){
+                            //$query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has('vendedor') AND $r->vendedor==1 ){
+                        $persona_id=Auth::user()->id;
+                        $query->where('mm.persona_marketing_id',$persona_id);
+                    }
+                }
+            )
+            ->whereRaw('FIND_IN_SET( mm.sucursal_id, (SELECT GROUP_CONCAT(DISTINCT(ppv.sucursal_id))
+                            FROM personas_privilegios_sucursales ppv
+                            WHERE ppv.persona_id='.$id.') ) > 0')
+            ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
+                    ,'p.telefono','p.celular','p.email','mm.validada'
+                    ,'mm.fecha_matricula','e.empresa','ep.tipo'
+                    ,'mm.especialidad_programacion_id'
+                    ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion', 'mm.monto_pago', 'mm.nro_pago', 'mm.estado_mat', 'mm.fecha_estado'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion'
+                    ,'mm.tipo_pago_matricula');
+            
+        $result = $sql->orderBy('mm.id','asc')->paginate(10);
+        return $result;
+    }
+
+    public static function ActualizaEstadoMat($r)
+    {
+        DB::beginTransaction();
+
+        $id=Auth::user()->id;
+        //dd('hola');
+        $matricula= Matricula::find($r->matricula_id);
+        $matricula->estado_mat = $r->estado_mat;
+        $matricula->fecha_estado = date("Y-m-d");
+        $matricula->persona_id_updated_at = $id;
+        if( $r->estado_mat == 'Anulado' ){
+            $matricula->observacion = $r->observacion . " | ".$matricula->observacion;
+            $matricula->estado = 0;
+
+            DB::table('mat_matriculas_detalles')
+            ->where('matricula_id', '=', $r->matricula_id)
+            ->update(
+                array(
+                    'estado' => 0,
+                    'persona_id_updated_at' => $id,
+                    'updated_at' => date('Y-m-d H:i:s')
+                )
+            );
+        }
+        elseif( $r->estado_mat == 'Observado' ){
+            $matricula->observacion_mat = $r->observacion;
+        }
+        $matricula->save();
+
+        DB::commit();
+    }
+
+    public static function LoadCuotas($r)
+    {
+        $result =   DB::table('mat_matriculas_cuotas AS mmc')
+                    ->select('mmc.nro_cuota','mmc.monto_cuota', 'mmc.cuota', 'mmc.archivo_cuota'
+                        ,DB::raw('CASE  WHEN mmc.tipo_pago_cuota="1.1" THEN "Transferencia - BCP"
+                                    WHEN mmc.tipo_pago_cuota="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mmc.tipo_pago_cuota="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mmc.tipo_pago_cuota="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mmc.tipo_pago_cuota="2.1" THEN "Depósito - BCP"
+                                    WHEN mmc.tipo_pago_cuota="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mmc.tipo_pago_cuota="2.3" THEN "Depósito - BBVA"
+                                    WHEN mmc.tipo_pago_cuota="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END AS tipo_pago_cuota')
+                    )
+                    ->where('mmc.estado', '1')
+                    ->where( 
+                        function($query) use ($r){
+                            if( $r->has("matricula_id") AND trim($r->matricula_id) != '' ){
+                                $query->where('mmc.matricula_id', $r->matricula_id);
+                            }
+                        }
+                    )
+                    ->orderBy('mmc.id','asc')
+                    ->get();
+
+        return $result;
+    }
 }
