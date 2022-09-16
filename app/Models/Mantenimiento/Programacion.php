@@ -325,8 +325,7 @@ class Programacion extends Model
                             }
                             if($tipo_modalidad==2){
                                 $query->where('mp.sucursal_id','=',1);
-                            }
-                            
+                            }                            
                         }
                     }
                 }

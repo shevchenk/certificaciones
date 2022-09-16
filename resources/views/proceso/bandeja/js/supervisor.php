@@ -225,7 +225,7 @@ let Detalle = {
         /*****************************************************************/
         let total = 0;
         html = '';
-        $.each( Matricula.nro_pago.split(","), (key, value) =>{
+        $.each( $.trim(Matricula.nro_pago).split(","), (key, value) =>{
             total += Matricula.monto_pago.split(",")[key]*1;
             if( value != '' && Matricula.monto_pago.split(",")[key]*1 > 0 ){
                 html+=  "<tr>"+

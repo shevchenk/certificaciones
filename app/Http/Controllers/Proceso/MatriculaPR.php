@@ -167,6 +167,15 @@ class MatriculaPR extends Controller
         }
     }
 
+    public function ActualizaMat (Request $r)
+    {
+        if ( $r->ajax() ) {
+            Matricula::ActualizaMat($r);
+            $return['rst'] = 1;
+            return response()->json($return);
+        }
+    }
+
     public function LoadCuotas (Request $r )
     {
         if ( $r->ajax() ) {

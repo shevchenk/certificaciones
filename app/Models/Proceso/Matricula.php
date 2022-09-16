@@ -625,14 +625,14 @@ class Matricula extends Model
                 $join->on('me.id','=','mmd.especialidad_id');
             })
             ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
-                    ,'p.telefono','p.celular','p.email','mm.validada'
+                    ,'p.telefono','p.celular','p.email','mm.validada','ep.tipo AS tipo_mat'
                     ,'mm.fecha_matricula',DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
                     , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") ) AS tipo_formacion')
                     , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) ) AS formacion')
                     /*,'mc.curso AS curso', 'mp.dia AS frecuencia'
                     , DB::raw('CONCAT(TIME(mp.fecha_inicio)," - ",TIME(mp.fecha_final)) AS horario')
                     , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')*/
-                    , DB::raw('GROUP_CONCAT( CONCAT(mc.curso, "|", IFNULL(mp.dia,""), "|", IFNULL(TIME(mp.fecha_inicio),""), " - ", IFNULL(TIME(mp.fecha_final),""), "|", IFNULL(mp.turno,""), "|", IFNULL(DATE(mp.fecha_inicio),"")) ORDER BY mmd.id SEPARATOR "^^" ) AS detalle')
+                    , DB::raw('GROUP_CONCAT( CONCAT(mc.curso, "|", IFNULL(mp.dia,""), "|", IFNULL(TIME(mp.fecha_inicio),""), " - ", IFNULL(TIME(mp.fecha_final),""), "|", IFNULL(mp.turno,""), "|", IFNULL(DATE(mp.fecha_inicio),""), "|", mmd.id, "|", mmd.especialidad_id, "|", IFNULL(mmd.programacion_id,"")) ORDER BY mmd.id SEPARATOR "^^" ) AS detalle')
                     ,DB::raw(' IF(ep.tipo = 1, 
                                 "",
                                 GROUP_CONCAT( mmd.nro_pago_certificado ORDER BY mmd.id )
@@ -657,6 +657,7 @@ class Matricula extends Model
                                 END ORDER BY mmd.id )
                                 ) AS tipo_pago')
                     ,DB::raw(' IF(ep.tipo = 1, "", GROUP_CONCAT( mmd.tipo_pago ORDER BY mmd.id ) ) AS tipo_pago_id')
+                    ,DB::raw(' IF(ep.tipo = 1, "", GROUP_CONCAT( mmd.id ORDER BY mmd.id ) ) AS matricula_detalle_id')
                     ,DB::raw('SUM(mmd.monto_pago_certificado) total')
                     ,'mm.nro_pago AS nro_pago_matricula','mm.monto_pago AS monto_pago_matricula'
                     ,DB::raw('CASE  WHEN mm.tipo_pago_matricula="1.1" THEN "Transferencia - BCP"
@@ -695,7 +696,7 @@ class Matricula extends Model
                                 END AS tipo_pago_inscripcion')
                     ,'mm.tipo_pago_inscripcion AS tipo_pago_inscripcion_id'
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
-                    ,'s.sucursal','s2.sucursal AS recogo_certificado', 'mm.estado_mat', 'mm.fecha_estado', DB::raw('MIN(mm.observacion) AS obs')
+                    ,'s.sucursal','s2.sucursal AS recogo_certificado', 'mm.estado_mat', 'mm.fecha_estado', DB::raw('MIN(mm.observacion) AS obs, MIN(mm.observacion_mat) AS obs2')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
                     ,'meca.medio_captacion'
@@ -777,16 +778,283 @@ class Matricula extends Model
         return $result;
     }
 
+    public static function ActualizaMat($r)
+    {
+        DB::beginTransaction();
+
+        $id=Auth::user()->id;
+        
+        $matricula= Matricula::find($r->matricula_id);
+        $matricula->persona_id_updated_at = $id;
+
+        /* TODO: Inscripción   ************************************************************************************************/
+        if( $r->has('nro_pago_inscripcion') AND trim($matricula->nro_pago_inscripcion) != trim($r->nro_pago_inscripcion) ){
+            $matricula->nro_pago_inscripcion = trim($r->nro_pago_inscripcion);
+        }
+        if( $r->has('tipo_pago_inscripcion') AND trim($matricula->tipo_pago_inscripcion) != trim($r->tipo_pago_inscripcion) ){
+            $matricula->tipo_pago_inscripcion = trim($r->tipo_pago_inscripcion);
+        }
+        if( $r->has('monto_pago_inscripcion') AND trim($matricula->monto_pago_inscripcion) != trim($r->monto_pago_inscripcion) ){
+            $total = trim($matricula->monto_pago_inscripcion)*1;
+            $matricula->monto_pago_inscripcion = trim($r->monto_pago_inscripcion)*1;
+            if( $r->has('salsi') AND trim($r->salsi) != '' ){
+                $matriculaSaldo = MatriculaSaldo::find($r->salsi_id);
+                $total = $matriculaSaldo->precio;
+                $saldo = $total - trim($matricula->monto_pago_inscripcion)*1;
+                if( $saldo > 0  ){
+                    $matriculaSaldo->pago = $matricula->monto_pago_inscripcion;
+                    $matriculaSaldo->saldo = $saldo;
+                    $matriculaSaldo->tipo_pago = $matricula->tipo_pago_inscripcion;
+                    $matriculaSaldo->nro_pago = $matricula->nro_pago_inscripcion;
+                }
+                else{
+                    $matriculaSaldo->estado = 0;
+                }
+                $matriculaSaldo->persona_id_updated_at = $id;
+                $matriculaSaldo->save();
+            }
+            else{
+                $saldo = $total - trim($matricula->monto_pago_inscripcion)*1;
+                if( $saldo > 0  ){
+                    $matriculaSaldo = new MatriculaSaldo;
+                    $matriculaSaldo->matricula_id = $matricula->id;
+                    $matriculaSaldo->persona_caja_id = $matricula->persona_caja_id;
+                    $matriculaSaldo->cuota = "-1";
+                    $matriculaSaldo->precio = $total;
+                    $matriculaSaldo->pago = $matricula->monto_pago_inscripcion;
+                    $matriculaSaldo->saldo = $saldo;
+                    $matriculaSaldo->tipo_pago = $matricula->tipo_pago_inscripcion;
+                    $matriculaSaldo->nro_pago = $matricula->nro_pago_inscripcion;
+                    $matriculaSaldo->archivo = $matricula->archivo_pago_inscripcion;
+                    $matriculaSaldo->estado = 1;
+                    $matriculaSaldo->persona_id_created_at = $id;
+                    $matriculaSaldo->save();
+                }
+            }
+        }
+        /**********************************************************************************************************************/
+        /* TODO: Matrícula   **************************************************************************************************/
+        if( $r->has('nro_pago_matricula') AND trim($matricula->nro_pago) != trim($r->nro_pago_matricula) ){
+            $matricula->nro_pago = trim($r->nro_pago_matricula);
+        }
+        if( $r->has('tipo_pago_matricula') AND trim($matricula->tipo_pago_matricula) != trim($r->tipo_pago_matricula) ){
+            $matricula->tipo_pago_matricula = trim($r->tipo_pago_matricula);
+        }
+        if( $r->has('monto_pago_matricula') AND trim($matricula->monto_pago) != trim($r->monto_pago_matricula) ){
+            $total = trim($matricula->monto_pago)*1;
+            $matricula->monto_pago = trim($r->monto_pago_matricula)*1;
+            if( $r->has('salsm') AND trim($r->salsm) != '' ){
+                $matriculaSaldo = MatriculaSaldo::find($r->salsm_id);
+                $total = $matriculaSaldo->precio;
+                $saldo = $total - trim($matricula->monto_pago)*1;
+                if( $saldo > 0  ){
+                    $matriculaSaldo->pago = $matricula->monto_pago;
+                    $matriculaSaldo->saldo = $saldo;
+                    $matriculaSaldo->tipo_pago = $matricula->tipo_pago_matricula;
+                    $matriculaSaldo->nro_pago = $matricula->nro_pago;
+                }
+                else{
+                    $matriculaSaldo->estado = 0;
+                }
+                $matriculaSaldo->persona_id_updated_at = $id;
+                $matriculaSaldo->save();
+            }
+            else{
+                $saldo = $total - trim($matricula->monto_pago)*1;
+                if( $saldo > 0  ){
+                    $matriculaSaldo = new MatriculaSaldo;
+                    $matriculaSaldo->matricula_id = $matricula->id;
+                    $matriculaSaldo->persona_caja_id = $matricula->persona_caja_id;
+                    $matriculaSaldo->cuota = "0";
+                    $matriculaSaldo->precio = $total;
+                    $matriculaSaldo->pago = $matricula->monto_pago;
+                    $matriculaSaldo->saldo = $saldo;
+                    $matriculaSaldo->tipo_pago = $matricula->tipo_pago_matricula;
+                    $matriculaSaldo->nro_pago = $matricula->nro_pago;
+                    $matriculaSaldo->archivo = $matricula->archivo_pago_matricula;
+                    $matriculaSaldo->estado = 1;
+                    $matriculaSaldo->persona_id_created_at = $id;
+                    $matriculaSaldo->save();
+                }
+            }
+        }
+        /**********************************************************************************************************************/
+        /* TODO: Promoción   **************************************************************************************************/
+        if( $r->has('nro_promocion') AND trim($matricula->nro_promocion) != trim($r->nro_promocion) ){
+            $matricula->nro_promocion = trim($r->nro_promocion);
+        }
+        if( $r->has('tipo_pago_promocion') AND trim($matricula->tipo_pago) != trim($r->tipo_pago_promocion) ){
+            $matricula->tipo_pago = trim($r->tipo_pago_promocion);
+        }
+        if( $r->has('monto_promocion') AND trim($matricula->monto_promocion) != trim($r->monto_promocion) ){
+            $matricula->monto_promocion = trim($r->monto_promocion)*1;
+        }
+        /**********************************************************************************************************************/
+        /* TODO: Cuotas   *****************************************************************************************************/
+        if( $r->has('cuota_id') AND is_array($r->cuota_id) ){
+            foreach ($r->cuota_id as $key => $value) {
+                $matriculaCuotas = MatriculaCuota::find($value);
+
+                if( trim($matriculaCuotas->nro_cuota) != trim($r->nro_cuota[$key]) ){
+                    $matriculaCuotas->nro_cuota = trim($r->nro_cuota[$key]);
+                }
+                if( trim($matriculaCuotas->tipo_pago_cuota) != trim($r->tipo_pago_cuota[$key]) ){
+                    $matriculaCuotas->tipo_pago_cuota = trim($r->tipo_pago_cuota[$key]);
+                }
+                if( trim($matriculaCuotas->monto_cuota) != trim($r->monto_cuota[$key]) ){
+                    $total = trim($matriculaCuotas->monto_cuota)*1;
+                    $matriculaCuotas->monto_cuota = trim($r->monto_cuota[$key])*1;
+                    
+                    if( $matriculaCuotas->monto_cuota*1 == 0 ){
+                        $matriculaCuotas->estado = 0;
+                    }
+                    $saldc =    MatriculaSaldo::where('cuota', $matriculaCuotas->cuota)
+                                ->where('matricula_id', $matriculaCuotas->matricula_id)
+                                ->where('estado', 1)
+                                ->where('saldo','>',0)
+                                ->orderBy('saldo','asc')
+                                ->first();
+                    if( isset($saldc->id) ){
+                        $matriculaSaldo = MatriculaSaldo::find($saldc->id);
+                        $total = $matriculaSaldo->precio;
+                        $saldo = $total - trim($matriculaCuotas->monto_cuota)*1;
+                        if( $saldo > 0 AND $matriculaCuotas->estado == 1 ){
+                            $matriculaSaldo->pago = $matriculaCuotas->monto_cuota;
+                            $matriculaSaldo->saldo = $saldo;
+                            $matriculaSaldo->tipo_pago = $matriculaCuotas->tipo_pago_cuota;
+                            $matriculaSaldo->nro_pago = $matriculaCuotas->nro_cuota;
+                        }
+                        else{
+                            $matriculaSaldo->estado = 0;
+                        }
+                        $matriculaSaldo->persona_id_updated_at = $id;
+                        $matriculaSaldo->save();
+                    }
+                    elseif( $matriculaCuotas->estado == 1 ){
+                        $saldo = $total - trim($matriculaCuotas->monto_cuota)*1;
+                        if( $saldo > 0  ){
+                            $matriculaSaldo = new MatriculaSaldo;
+                            $matriculaSaldo->matricula_id = $matriculaCuotas->matricula_id;
+                            $matriculaSaldo->persona_caja_id = $matriculaCuotas->persona_caja_id;
+                            $matriculaSaldo->cuota = $matriculaCuotas->cuota;
+                            $matriculaSaldo->precio = $total;
+                            $matriculaSaldo->pago = $matriculaCuotas->monto_cuota;
+                            $matriculaSaldo->saldo = $saldo;
+                            $matriculaSaldo->tipo_pago = $matriculaCuotas->tipo_pago_cuota;
+                            $matriculaSaldo->nro_pago = $matriculaCuotas->nro_cuota;
+                            $matriculaSaldo->archivo = $matriculaCuotas->archivo_cuota;
+                            $matriculaSaldo->estado = 1;
+                            $matriculaSaldo->persona_id_created_at = $id;
+                            $matriculaSaldo->save();
+                        }
+                    }
+                }
+
+                $matriculaCuotas->persona_id_updated_at = $id;
+                $matriculaCuotas->save();
+            }
+        }
+        /**********************************************************************************************************************/
+        /* TODO: Cursos   *****************************************************************************************************/
+        if( $r->has('matricula_detalle_id') AND is_array($r->matricula_detalle_id) ){
+            foreach ($r->matricula_detalle_id as $key => $value) {
+                $matriculaDetalle = MatriculaDetalle::find($value);
+
+                if( trim($matriculaDetalle->nro_pago_certificado) != trim($r->nro_pago_certificado[$key]) ){
+                    $matriculaDetalle->nro_pago_certificado = trim($r->nro_pago_certificado[$key]);
+                }
+                if( trim($matriculaDetalle->tipo_pago) != trim($r->tipo_pago[$key]) ){
+                    $matriculaDetalle->tipo_pago = trim($r->tipo_pago[$key]);
+                }
+                if( trim($matriculaDetalle->monto_pago_certificado) != trim($r->monto_pago_certificado[$key]) ){
+                    $total = trim($matriculaDetalle->monto_pago_certificado)*1;
+                    $matriculaDetalle->monto_pago_certificado = trim($r->monto_pago_certificado[$key])*1;
+                    
+                    $saldc =    MatriculaSaldo::where('cuota', '-1')
+                                ->where('matricula_detalle_id', $matriculaDetalle->id)
+                                ->where('estado', 1)
+                                ->where('saldo','>',0)
+                                ->orderBy('saldo','asc')
+                                ->first();
+                    $saldo = 0;
+                    if( isset($saldc->id) ){
+                        $matriculaSaldo = MatriculaSaldo::find($saldc->id);
+                        $total = $matriculaSaldo->precio;
+                        $saldo = $total - trim($matriculaDetalle->monto_pago_certificado)*1;
+                        if( $saldo > 0 ){
+                            $matriculaSaldo->pago = $matriculaDetalle->monto_pago_certificado;
+                            $matriculaSaldo->saldo = $saldo;
+                            $matriculaSaldo->tipo_pago = $matriculaDetalle->tipo_pago;
+                            $matriculaSaldo->nro_pago = $matriculaDetalle->nro_pago_certificado;
+                        }
+                        else{
+                            $matriculaSaldo->estado = 0;
+                        }
+                        $matriculaSaldo->persona_id_updated_at = $id;
+                        $matriculaSaldo->save();
+                    }
+                    else{
+                        $saldo = $total - trim($matriculaDetalle->monto_pago_certificado)*1;
+                        if( $saldo > 0  ){
+                            $matriculaSaldo = new MatriculaSaldo;
+                            $matriculaSaldo->matricula_detalle_id = $matriculaDetalle->id;
+                            $matriculaSaldo->persona_caja_id = $matricula->persona_caja_id;
+                            $matriculaSaldo->cuota = '-1';
+                            $matriculaSaldo->precio = $total;
+                            $matriculaSaldo->pago = $matriculaDetalle->monto_pago_certificado;
+                            $matriculaSaldo->saldo = $saldo;
+                            $matriculaSaldo->tipo_pago = $matriculaDetalle->tipo_pago;
+                            $matriculaSaldo->nro_pago = $matriculaDetalle->nro_pago_certificado;
+                            $matriculaSaldo->archivo = $matriculaDetalle->archivo_pago_certificado;
+                            $matriculaSaldo->estado = 1;
+                            $matriculaSaldo->persona_id_created_at = $id;
+                            $matriculaSaldo->save();
+                        }
+                    }
+
+                    if( $saldo < 0 ){
+                        $saldo = 0;
+                    }
+                    $matriculaDetalle->saldo = $saldo;
+                }
+
+                $matriculaDetalle->persona_id_updated_at = $id;
+                $matriculaDetalle->save();
+            }
+        }
+        /**********************************************************************************************************************/
+        /* TODO: Programacion**************************************************************************************************/
+        if( $r->has('mmd_id') AND is_array($r->mmd_id) ){
+            foreach ($r->mmd_id as $key => $value) {
+                $programacion = Programacion::find($r->mmd_programacion_id[$key]);
+                $matriculaDetalle = MatriculaDetalle::find($value);
+
+                if( trim($matriculaDetalle->programacion_id) != $programacion->id ){
+                    $matriculaDetalle->programacion_id = $programacion->id;
+                    $matriculaDetalle->curso_id = $programacion->curso_id;
+                }
+
+                $matriculaDetalle->persona_id_updated_at = $id;
+                $matriculaDetalle->save();
+            }
+        }
+        /**********************************************************************************************************************/
+        $matricula->save();
+
+        DB::commit();
+    }
+
     public static function ActualizaEstadoMat($r)
     {
         DB::beginTransaction();
 
         $id=Auth::user()->id;
-        //dd('hola');
+        
         $matricula= Matricula::find($r->matricula_id);
         $matricula->estado_mat = $r->estado_mat;
         $matricula->fecha_estado = date("Y-m-d");
         $matricula->persona_id_updated_at = $id;
+
         if( $r->estado_mat == 'Anulado' ){
             $matricula->observacion = $r->observacion . " | ".$matricula->observacion;
             $matricula->estado = 0;
@@ -812,7 +1080,7 @@ class Matricula extends Model
     public static function LoadCuotas($r)
     {
         $result =   DB::table('mat_matriculas_cuotas AS mmc')
-                    ->select('mmc.nro_cuota','mmc.monto_cuota', 'mmc.cuota', 'mmc.archivo_cuota'
+                    ->select('mmc.nro_cuota','mmc.monto_cuota', 'mmc.cuota', 'mmc.archivo_cuota', 'mmc.tipo_pago_cuota AS tipo_pago_cuota_id', 'mmc.id', 'mmc.matricula_id'
                         ,DB::raw('CASE  WHEN mmc.tipo_pago_cuota="1.1" THEN "Transferencia - BCP"
                                     WHEN mmc.tipo_pago_cuota="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mmc.tipo_pago_cuota="1.3" THEN "Transferencia - BBVA"
@@ -832,7 +1100,7 @@ class Matricula extends Model
                             }
                         }
                     )
-                    ->orderBy('mmc.id','asc')
+                    ->orderBy('mmc.cuota','asc')
                     ->get();
 
         return $result;

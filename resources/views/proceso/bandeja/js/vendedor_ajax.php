@@ -26,16 +26,35 @@ var AjaxBandeja={
     LoadCuotas: (evento) => {
         data={ matricula_id: MatriculaG.Id };
         url='AjaxDinamic/Proceso.MatriculaPR@LoadCuotas';
-        masterG.postAjax(url,data,evento);
+        masterG.postAjax(url,data,evento,null,false);
     },
     ActualizaEstadoMat: (evento) =>{
+        data={ matricula_id: MatriculaG.Id, estado_mat: MatriculaG.Estado_Mat, observacion: MatriculaG.Observacion };
+        url='AjaxDinamic/Proceso.MatriculaPR@ActualizaEstadoMat';
+        masterG.postAjax(url,data,evento);
+    },
+    ActualizaMat: (evento) =>{
         $("#FormBandeja").append("<input type='hidden' value='"+MatriculaG.Id+"' name='matricula_id'>");
-        $("#FormBandeja").append("<input type='hidden' value='"+MatriculaG.Estado_Mat+"' name='estado_mat'>");
-        $("#FormBandeja").append("<input type='hidden' value='"+MatriculaG.Observacion+"' name='observacion'>");
         data=$("#FormBandeja").serialize().split("txt_").join("").split("slct_").join("");
         $("#FormBandeja input[type='hidden']").not('.mant').remove();
 
-        url='AjaxDinamic/Proceso.MatriculaPR@ActualizaEstadoMat';
+        url='AjaxDinamic/Proceso.MatriculaPR@ActualizaMat';
+        masterG.postAjax(url,data,evento);
+    },
+    ListaProgramacion: (evento,pag) =>{
+        if( typeof(pag)!='undefined' ){
+            $("#ListaprogramacionForm").append("<input type='hidden' value='"+pag+"' name='page'>");
+        }
+        if( MatriculaG.LDfiltrosG!='' ){
+          dfiltros = MatriculaG.LDfiltrosG.split("|");
+          for(i=0;i<dfiltros.length;i++){
+              $("#ListaprogramacionForm").append("<input type='hidden' value='"+dfiltros[i].split(":")[1]+"' name='"+dfiltros[i].split(":")[0]+"'>");
+          }
+        }
+        $("#ListaprogramacionForm").append("<input type='hidden' value='1' name='estado_filtro'>");
+        data=$("#ListaprogramacionForm").serialize().split("txt_").join("").split("slct_").join("");
+        $("#ListaprogramacionForm input[type='hidden']").remove();
+        url='AjaxDinamic/Mantenimiento.ProgramacionEM@Load';
         masterG.postAjax(url,data,evento);
     },
 };

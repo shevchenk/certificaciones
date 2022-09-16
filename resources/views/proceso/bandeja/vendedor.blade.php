@@ -173,7 +173,7 @@
         <option value="2.2">Depósito - Scotiabank</option>
         <option value="2.3">Depósito - BBVA</option>
         <option value="2.4">Depósito - Interbank</option>
-        <option value="3.3" selected>Caja</option>
+        <option value="3.0" selected>Caja</option>
     </select>
     <form id="FormBandeja">
     <div class="row">
@@ -199,9 +199,13 @@
                         <label>Nombre:</label>
                         <span class="form-control nombre"></span>
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <label>Observación:</label>
                         <textarea disabled class="form-control obs"></textarea>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Observación del Supervisor:</label>
+                        <textarea disabled class="form-control alert-danger obs2"></textarea>
                     </div>
                 </div>
             </div>
@@ -243,6 +247,7 @@
                                 <th class="text-center">Curso</th>
                                 <th class="text-center">Frecuencia</th>
                                 <th class="text-center">Horario</th>
+                                <th class="text-center">[]</th>
                             </tr>
                         </thead>
                         <tbody class="cursos"></tbody>
@@ -380,7 +385,8 @@
                 </div>
                 <div class="box-footer text-right btns">
                     <a class="btn btn-danger btn-lg Anulado"> <i class="fa fa-trash">&nbsp;Anulado</i></a>
-                    <a class="btn btn-success btn-lg Aprobado"> <i class="fa fa-check">&nbsp;Actualizar y pasar a Pendiente</i></a>
+                    <a class="btn btn-info btn-lg Actualizar"> <i class="fa fa-edit">&nbsp;Actualizar</i></a>
+                    <a class="btn btn-success btn-lg Aprobado"> <i class="fa fa-check">&nbsp;Pendiente</i></a>
                 </div>
             </div>
         </div>
@@ -390,5 +396,5 @@
 @stop
 
 @section('form')
-     
+    @include( 'proceso.bandeja.form.listaprogramacion' )
 @stop
