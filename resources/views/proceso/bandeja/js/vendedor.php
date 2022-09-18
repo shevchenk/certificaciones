@@ -257,6 +257,20 @@ let Detalle = {
         else{
             Matricula = MatriculaG.Historica[id];
         }
+
+        $("#archivo_inscripcion").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
+        $("#archivo_inscripcion i").addClass('fa-ban').removeClass('fa-download');
+        if( Matricula.archivo_pago_inscripcion != '' ){
+            $("#archivo_inscripcion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_inscripcion);
+            $("#archivo_inscripcion i").addClass('fa-download').removeClass('fa-ban');
+        }
+
+        $("#archivo_matricula").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
+        $("#archivo_matricula i").addClass('fa-ban').removeClass('fa-download');
+        if( Matricula.archivo_pago_matricula != '' ){
+            $("#archivo_matricula").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_matricula);
+            $("#archivo_matricula i").addClass('fa-download').removeClass('fa-ban');
+        }
         
         $.each( Matricula, (key, value) => {
             valida = true;

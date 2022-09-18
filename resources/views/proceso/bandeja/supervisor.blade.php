@@ -192,6 +192,14 @@
                         <label>Observación:</label>
                         <textarea disabled class="form-control obs"></textarea>
                     </div>
+                    <div class="col-lg-4">
+                        <label>Archivo de Inscripción:</label>
+                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_inscripcion"><i class="fa fa-download fa-lg"></i></a>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Archivo de Matrícula:</label>
+                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_matricula"><i class="fa fa-download fa-lg"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
