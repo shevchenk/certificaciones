@@ -1080,7 +1080,10 @@ class Matricula extends Model
     public static function LoadCuotas($r)
     {
         $result =   DB::table('mat_matriculas_cuotas AS mmc')
-                    ->select('mmc.nro_cuota','mmc.monto_cuota', 'mmc.cuota', 'mmc.archivo_cuota', 'mmc.tipo_pago_cuota AS tipo_pago_cuota_id', 'mmc.id', 'mmc.matricula_id'
+                    ->join('mat_matriculas AS m','m.id', '=', 'mmc.matricula_id')
+                    ->join('mat_especialidades_programaciones AS ep','ep.id', '=', 'm.especialidad_programacion_id')
+                    ->select('mmc.nro_cuota','mmc.monto_cuota', 'mmc.cuota', 'mmc.archivo_cuota', 'mmc.tipo_pago_cuota AS tipo_pago_cuota_id'
+                        ,'mmc.id', 'mmc.matricula_id', 'ep.nro_cuota AS programado'
                         ,DB::raw('CASE  WHEN mmc.tipo_pago_cuota="1.1" THEN "Transferencia - BCP"
                                     WHEN mmc.tipo_pago_cuota="1.2" THEN "Transferencia - Scotiabank"
                                     WHEN mmc.tipo_pago_cuota="1.3" THEN "Transferencia - BBVA"

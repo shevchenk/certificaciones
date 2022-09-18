@@ -229,6 +229,7 @@ let Detalle = {
             total += Matricula.monto_pago.split(",")[key]*1;
             if( value != '' && Matricula.monto_pago.split(",")[key]*1 > 0 ){
                 html+=  "<tr>"+
+                            "<td>"+Matricula.curso[key]+"</td>"+
                             "<td>"+value+"</td>"+
                             "<td>"+Matricula.monto_pago.split(",")[key]+"</td>"+
                             "<td>"+Matricula.tipo_pago.split(",")[key]+"</td>"+
@@ -236,7 +237,7 @@ let Detalle = {
             }
         });
         html+=  "<tr style='background-color: #F9CE88;' id='total'>"+
-                    "<td class='text-right'>Total:</td>"+
+                    "<td class='text-right' colspan='2'>Total:</td>"+
                     "<td>"+total.toFixed(2)+"</td>"+
                 "</tr>";
         $("#FormBandeja .curso_pagos").html(html);
@@ -254,7 +255,7 @@ let Detalle = {
             let importe = 0;
             
             if( $.trim(r.saldo)!='' ){
-                ds = 'Curso';
+                ds = r.curso;
                 importe = r.saldo;
             }
 
@@ -311,6 +312,7 @@ let Detalle = {
             if( importe*1>0 ){
                 html+=  "<tr>"+
                             "<td>"+$.trim(r.cuota)+"</td>"+
+                            //"<td>"+$.trim( (r.programado.split("-")[1]*1).toFixed(2) )+"</td>"+
                             "<td>"+$.trim(r.nro_cuota)+"</td>"+
                             "<td>"+$.trim(importe)+"</td>"+
                             "<td>"+$.trim(r.tipo_pago_cuota)+"</td>"+

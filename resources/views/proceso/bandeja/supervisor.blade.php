@@ -199,7 +199,7 @@
         <div class="col-lg-6 col-md-6">
             <div class="box box-info">
                 <div class="box-header bg-navy-active text-center">
-                    <div class="box-title">Datos de Formación Continua</div>
+                    <div class="box-title">Datos Académicos de la Inscripción</div>
                 </div>
                 <div class="box-body">
                     <div class="col-lg-4 col-md-4 ">
@@ -247,15 +247,15 @@
                 </div>
                 <div class="box-body">
                     <div class="col-lg-4">
-                        <label>Nro Pago:</label>
+                        <label>Doc de Pago:</label>
                         <span class="form-control nro_pago_inscripcion"></span>
                     </div>
                     <div class="col-lg-4">
-                        <label>Monto Pago:</label>
+                        <label>Monto Pagado:</label>
                         <span class="form-control monto_pago_inscripcion"></span>
                     </div>
                     <div class="col-lg-4">
-                        <label>Tipo Pago:</label>
+                        <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_inscripcion"></span>
                     </div>
                 </div>
@@ -269,15 +269,15 @@
                 </div>
                 <div class="box-body">
                     <div class="col-lg-4">
-                        <label>Nro Pago:</label>
+                        <label>Doc de Pago:</label>
                         <span class="form-control nro_pago_matricula"></span>
                     </div>
                     <div class="col-lg-4">
-                        <label>Monto Pago:</label>
+                        <label>Monto Pagado:</label>
                         <span class="form-control monto_pago_matricula"></span>
                     </div>
                     <div class="col-lg-4">
-                        <label>Tipo Pago:</label>
+                        <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_matricula"></span>
                     </div>
                 </div>
@@ -291,15 +291,15 @@
                 </div>
                 <div class="box-body">
                     <div class="col-lg-4">
-                        <label>Nro Pago:</label>
+                        <label>Doc de Pago:</label>
                         <span class="form-control nro_promocion"></span>
                     </div>
                     <div class="col-lg-4">
-                        <label>Monto Pago:</label>
+                        <label>Monto Pagado:</label>
                         <span class="form-control monto_promocion"></span>
                     </div>
                     <div class="col-lg-4">
-                        <label>Tipo Pago:</label>
+                        <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_promocion"></span>
                     </div>
                 </div>
@@ -315,9 +315,10 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr style="background-color: #DDEBF7;">
-                                <th class="text-center">Nro Pago</th>
-                                <th class="text-center">Monto Pago</th>
-                                <th class="text-center">Tipo Pago</th>
+                                <th class="text-center">Curso</th>
+                                <th class="text-center">Doc de Pago</th>
+                                <th class="text-center">Monto Pagado</th>
+                                <th class="text-center">Tipo de Pago</th>
                             </tr>
                         </thead>
                         <tbody class="curso_pagos"></tbody>
@@ -335,10 +336,11 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr style="background-color: #DDEBF7;">
-                                <th class="text-center">Cuota</th>
-                                <th class="text-center">Nro Pago</th>
-                                <th class="text-center">Monto Pago</th>
-                                <th class="text-center">Tipo Pago</th>
+                                <th class="text-center">Nro de Cuota</th>
+                                <!-- <th class="text-center">Monto a Pagar</th> -->
+                                <th class="text-center">Doc de Pago</th>
+                                <th class="text-center">Monto Pagado</th>
+                                <th class="text-center">Tipo de Pago</th>
                             </tr>
                         </thead>
                         <tbody class="cuotas"></tbody>

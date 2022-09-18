@@ -105,7 +105,6 @@ $(document).ready(function() {
     $('#ModalListaProgramacion').on('shown.bs.modal', function (event) {
         var button = $(event.relatedTarget); // captura al boton
         var bfiltros= button.data('filtros');
-        console.log(button.parent().find("input:eq(1)").val());
         MatriculaG.Programacion_Id = button.parent().find("input:eq(1)").val();
         if( typeof (bfiltros)!='undefined'){
             MatriculaG.LDfiltrosG=bfiltros;
@@ -324,6 +323,7 @@ let Detalle = {
                     MatriculaG.TotalCur[ Matricula.matricula_detalle_id.split(",")[key] ] = Matricula.monto_pago.split(",")[key]*1;
                     html=  "<tr>"+
                                 "<input type='hidden' name='matricula_detalle_id[]' value='"+ Matricula.matricula_detalle_id.split(",")[key] +"'>"+
+                                "<td>"+Matricula.curso[key]+"</td>"+
                                 "<td>"+"<input type='text' class='form-control' name='txt_nro_pago_certificado[]' value='"+ value + "'>"+"</td>"+
                                 "<td>"+"<input type='text' class='form-control' id='"+Matricula.matricula_detalle_id.split(",")[key]+"' name='txt_monto_pago_certificado[]' value='"+ Matricula.monto_pago.split(",")[key] + "'>"+"</td>"+
                                 "<td>"+"<select class='form-control' name='slct_tipo_pago[]'>"+$("#slct_tipo_demo").html() + "</select>"+"</td>"+
@@ -331,17 +331,18 @@ let Detalle = {
                 }
                 else{
                     html=  "<tr>"+
+                                "<td>"+Matricula.curso[key]+"</td>"+
                                 "<td>"+value+"</td>"+
                                 "<td>"+Matricula.monto_pago.split(",")[key]+"</td>"+
                                 "<td>"+Matricula.tipo_pago.split(",")[key]+"</td>"+
                             "</tr>";
                 }
                 $("#FormBandeja .curso_pagos").append(html);
-                $("#FormBandeja .curso_pagos tr:eq("+key+") select").val(Matricula.tipo_pago_id.split(",")[key]);
+                $("#FormBandeja .curso_pagos tr:last-child select").val(Matricula.tipo_pago_id.split(",")[key]);
             }
         });
         html=  "<tr style='background-color: #F9CE88;' id='total'>"+
-                    "<td class='text-right'>Total:</td>"+
+                    "<td class='text-right' colspan='2'>Total:</td>"+
                     "<td>"+total.toFixed(2)+"</td>"+
                 "</tr>";
         $("#FormBandeja .curso_pagos").append(html);
@@ -361,7 +362,7 @@ let Detalle = {
             let ids = '';
             
             if( $.trim(r.saldo)!='' ){
-                ds = 'Curso';
+                ds = r.curso;
                 importe = r.saldo;
                 MatriculaG.TotalCur[r.matricula_detalle_id] += $.trim(r.saldo)*1;
             }
@@ -448,7 +449,7 @@ let Detalle = {
                 }
                 total+= $.trim(importe)*1;
                 $("#FormBandeja .cuotas").append(html);
-                $("#FormBandeja .cuotas tr:eq("+index+") select").val(r.tipo_pago_cuota_id);
+                $("#FormBandeja .cuotas tr:last-child select").val(r.tipo_pago_cuota_id);
             }
         });
         html=  "<tr style='background-color: #F9CE88;' id='total'>"+

@@ -241,7 +241,7 @@ ValidaTabla=function(){
 }
 AgregarEditarAjax=function(){
     if( $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo')==1 && $.trim( $("#txt_llamada_id").val() ) == '' ){
-        sweetalertG.pregunta('LLamadas','No cuenta con ID de llamada seleccionada. ¿Desea continuar sin seleccionar una llamada?', FinalizarRegistro);
+        sweetalertG.pregunta('LLamadas','No ha seleccionado "ID DE LLAMADA" ¿Desea continuar?', FinalizarRegistro);
     }
     else{
         FinalizarRegistro();
