@@ -1649,11 +1649,11 @@ class Seminario extends Model
             IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion, 
             IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion, 
             `mc`.`curso` AS `curso`, `s`.`sucursal` AS `local`, `mp`.`dia` AS `frecuencia`, `mp`.`turno`, `mp`.`fecha_inicio` AS `inicio`,
-            ms.saldo,
+            ms.saldo, ms.precio,
             IF(cd.cuota=-1,'Inscripción',CONCAT('Cuota # ',cd.cuota) ) cuotacd, cd.salcd,
             CONCAT('Cuota # ',cp.cuota) cuota_cronograma, cp.fecha_cronograma, cp.monto_cronograma,
-            si.salsi, si.salsi_id, cd.salcd_id,
-            sm.salsm, sm.salsm_id
+            si.salsi, si.salsi_id, cd.salcd_id, si.presi,
+            sm.salsm, sm.salsm_id, sm.presm
             FROM `mat_matriculas` AS `mm` 
             INNER JOIN mat_especialidades_programaciones ep on ep.id = mm.especialidad_programacion_id
             INNER JOIN `mat_matriculas_detalles` AS `mmd` ON `mmd`.`matricula_id` = `mm`.`id` 
@@ -1672,7 +1672,7 @@ class Seminario extends Model
             LEFT JOIN `sucursales` AS `s` ON `s`.`id` = `mp`.`sucursal_id` 
             LEFT JOIN `mat_especialidades` AS `me` ON `me`.`id` = `mmd`.`especialidad_id` 
             LEFT JOIN (
-            SELECT matricula_detalle_id, MIN(saldo) saldo
+            SELECT matricula_detalle_id, MIN(saldo) saldo, MIN(precio) precio
             FROM mat_matriculas_saldos
             WHERE estado=1
             GROUP BY matricula_detalle_id
@@ -1696,7 +1696,7 @@ class Seminario extends Model
             HAVING salcd > 0
             ) cd ON cd.matricula_id = mm.id AND cd.cuota=cp.cuota
             LEFT JOIN (
-            SELECT matricula_id, cuota, MIN(saldo) salsi, MAX(id) salsi_id
+            SELECT matricula_id, cuota, MIN(saldo) salsi, MAX(id) salsi_id, MAX(precio) presi
             FROM mat_matriculas_saldos
             WHERE estado=1
             AND cuota='-1'
@@ -1704,7 +1704,7 @@ class Seminario extends Model
             HAVING salsi > 0
             ) si ON si.matricula_id = mm.id
             LEFT JOIN (
-            SELECT matricula_id, cuota, MIN(saldo) salsm, MAX(id) salsm_id
+            SELECT matricula_id, cuota, MIN(saldo) salsm, MAX(id) salsm_id, MAX(precio) presm
             FROM mat_matriculas_saldos
             WHERE estado=1
             AND cuota='0'

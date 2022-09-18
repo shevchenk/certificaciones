@@ -373,9 +373,10 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr style="background-color: #DDEBF7;">
-                                <th class="text-center">Saldo</th>
-                                <th class="text-center">Cuota Completa</th>
-                                <th class="text-center">Importe</th>
+                                <th class="text-center">Deuda por</th>
+                                <th class="text-center">Monto a Pagar</th>
+                                <th class="text-center">Monto Pagado</th>
+                                <th class="text-center alert-danger">Pendiente a Pagar</th>
                             </tr>
                         </thead>
                         <tbody class="deudas"></tbody>

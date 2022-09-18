@@ -252,27 +252,36 @@ let Detalle = {
         $.each(result.data,function(index,r){
             let ds = '';
             let ddc = '';
-            let importe = 0;
+            let importe = 0; //Pendiente
+            let comprometido = 0;
+            let pagado = 0;
             
             if( $.trim(r.saldo)!='' ){
                 ds = r.curso;
-                importe = r.saldo;
+                importe = r.saldo*1;
+                comprometido = r.precio*1;
+            }
+            else{
+                comprometido = r.monto_cronograma*1;
             }
 
             if( $.trim(r.salcd)!='' ){
-                ds = r.cuotacd;
-                importe = r.salcd;
+                ds = r.cuotacd+' / FV:'+r.fecha_cronograma;
+                importe = r.salcd*1;
             }
             else if( $.trim(r.cuota_cronograma)!='' ){
-                ddc = r.cuota_cronograma+' / FV:'+r.fecha_cronograma;
-                importe = r.monto_cronograma;
+                ds = r.cuota_cronograma+' / FV:'+r.fecha_cronograma;
+                importe = r.monto_cronograma*1;
             }
+
+            pagado = comprometido - importe;
 
             if( index == 0 ){
                 if( $.trim(r.salsi)!='' ){
                     html+=  "<tr id='trid_"+index+"_0'>"+
                                 "<td>Inscripción</td>"+
-                                "<td>&nbsp;</td>"+
+                                "<td>"+$.trim(r.presi)+"</td>"+
+                                "<td>"+(r.presi*1 - r.salsi*1).toFixed(2)+"</td>"+
                                 "<td>"+$.trim(r.salsi)+"</td>"+
                             "</tr>";
                     total+= $.trim(r.salsi)*1;
@@ -281,7 +290,8 @@ let Detalle = {
                 if( $.trim(r.salsm)!='' ){
                     html+=  "<tr id='trid_"+index+"_0m'>"+
                                 "<td>Matrícula</td>"+
-                                "<td>&nbsp;</td>"+
+                                "<td>"+$.trim(r.presm)+"</td>"+
+                                "<td>"+(r.presm*1 - r.salsm*1).toFixed(2)+"</td>"+
                                 "<td>"+$.trim(r.salsm)+"</td>"+
                             "</tr>";
                     total+= $.trim(r.salsm)*1;
@@ -291,15 +301,15 @@ let Detalle = {
             if( importe*1>0 ){
                 html+=  "<tr id='trid_"+index+"'>"+
                             "<td>"+$.trim(ds)+"</td>"+
-                            "<td>"+$.trim(ddc)+"</td>"+
-                            "<td>"+$.trim(importe)+"</td>"+
+                            "<td>"+comprometido.toFixed(2)+"</td>"+
+                            "<td>"+pagado.toFixed(2)+"</td>"+
+                            "<td>"+importe.toFixed(2)+"</td>"+
                         "</tr>";
                 total+= $.trim(importe)*1;
             }
         });
         html+=  "<tr style='background-color: #F9CE88;' id='total'>"+
-                    "<td>&nbsp;</td>"+
-                    "<td class='text-right'>Total:</td>"+
+                    "<td colspan='3' class='text-right'>Total:</td>"+
                     "<td>"+total.toFixed(2)+"</td>"+
                 "</tr>";
         $("#FormBandeja .deudas").html(html);
