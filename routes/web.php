@@ -10,6 +10,9 @@ Route::resource('apiaula', 'Proceso\ApiPR',
 Route::resource('apifc', 'Proceso\ApiPR',
     ['only' => ['index', 'store', 'update', 'destroy', 'show']]
 );
+Route::resource('apipro', 'Proceso\ApiProceso',
+    ['only' => ['index', 'store', 'show']]
+);
 
 
 //Route::get('/email/{ruta}','SecureAccess\PersonaSA@Menu');

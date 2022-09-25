@@ -357,6 +357,15 @@ let Detalle = {
             msjG.mensaje('success','Se proceso correctamente',3000);
             AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida);
         }
+        else if(result.rst == 2){
+            msjG.mensaje('warning','Usuario responsable no registrado en el Software de Procesos',4000);
+        }
+        else if(result.rst == 3){
+            msjG.mensaje('warning','Alumno no registrado en el Software de Procesos',4000);
+        }
+        else{
+            msjG.mensaje('warning','No se pudo generar el expediente, vuelva a intentarlo',4000);
+        }
     },
 }
 </script>

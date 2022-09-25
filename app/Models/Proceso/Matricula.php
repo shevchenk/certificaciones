@@ -5,6 +5,7 @@ namespace App\Models\Proceso;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Proceso\Alumno;
+use App\Models\Proceso\ApiPro;
 use App\Models\Proceso\MatriculaDetalle;
 use App\Models\Proceso\MatriculaSaldo;
 use Illuminate\Support\Facades\Input;
@@ -1048,7 +1049,7 @@ class Matricula extends Model
     public static function ActualizaEstadoMat($r)
     {
         DB::beginTransaction();
-
+        $return = array('rst' => 1);
         $id=Auth::user()->id;
         
         $matricula= Matricula::find($r->matricula_id);
@@ -1073,9 +1074,47 @@ class Matricula extends Model
         elseif( $r->estado_mat == 'Observado' ){
             $matricula->observacion_mat = $r->observacion;
         }
-        $matricula->save();
+        elseif( $r->estado_mat == 'Pre Aprobado' ){
+            $persona = Persona::find($matricula->persona_id);
+            $datos = array(
+                "opcion" => "IniciarProceso",
+                "dni_alumno" => $persona->dni,
+                "dni_responsable" => Auth::user()->dni,
+                "telefono_alumno" => $persona->telefono,
+                "celular_alumno" => $persona->celular,
+                "email_alumno" => $persona->email,
+                "direccion_alumno" => $persona->direccion_dir,
+                "empresa_id" => "e".Auth::user()->empresa_id,
+            );
 
+            $datos = json_encode($datos);
+            $key = base64_encode(hash_hmac("sha256", $datos.date("Ymd"), env('KEY'), true));
+
+            $parametros = array(
+                'key' => $key,
+                'datos' => $datos,
+            );
+            $url = env('URL_PROCESO'.Auth::user()->empresa_id)."?".http_build_query($parametros);
+            $objArr = ApiPro::curl($url, $parametros);
+
+            if( !empty($objArr) AND isset($objArr->rst) AND $objArr->rst == 1 ){
+                $matricula->expediente = $objArr->expediente;
+                $matricula->fecha_expediente = $objArr->fecha_expediente;
+            }
+            elseif( !empty($objArr) AND isset($objArr->rst) ){
+                DB::rollBack();
+                $return['rst'] = $objArr->rst;
+                return $return;
+            }
+            else{
+                DB::rollBack();
+                $return['rst'] = 0;
+                return $return;
+            }
+        }
+        $matricula->save();
         DB::commit();
+        return $return;
     }
 
     public static function LoadCuotas($r)
