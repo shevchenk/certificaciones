@@ -1085,6 +1085,34 @@ class Matricula extends Model
                 "email_alumno" => $persona->email,
                 "direccion_alumno" => $persona->direccion_dir,
                 "empresa_id" => "e".Auth::user()->empresa_id,
+                "carrera" => "",
+                "curso" => "",
+                "modalidad" => "",
+                "fecha_inicio" => "",
+                "horario" => "",
+                "frecuencia" => "",
+                "local_estudios" => "",
+
+                "nro_ins" => "",
+                "tipo_ins" => "",
+                "monto_ins" => "",
+
+                "nro_mat" => "",
+                "tipo_mat" => "",
+                "monto_mat" => "",
+
+                "nro_cur" => "",
+                "tipo_cur" => "",
+                "monto_cur" => "",
+                "total_cur" => "",
+
+                "nro_pro" => "",
+                "tipo_pro" => "",
+                "monto_pro" => "",
+                
+                "cajero" => "",
+                "vendedor" => "",
+                "responsable" => "",
             );
 
             $datos = json_encode($datos);

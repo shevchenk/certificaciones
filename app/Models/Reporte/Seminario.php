@@ -687,8 +687,8 @@ class Seminario extends Model
             $aulaservidor='formacioncontinua_aula_intur';
         }
 
-        $sql= " UPDATE $servidor.mat_matriculas_detalles md
-                INNER JOIN $aulaservidor.v_programaciones p ON p.programacion_externo_id=md.id 
+        $sql= " UPDATE ".env('BD_SERVER').".mat_matriculas_detalles md
+                INNER JOIN ".env('BD_SERVER_AULA').".v_programaciones p ON p.programacion_externo_id=md.id 
                 SET md.nota_curso_alum = p.nota_final
                 WHERE p.nota_final>0";
         $update = DB::update($sql);
