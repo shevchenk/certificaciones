@@ -97,23 +97,40 @@
                   </select>
                 </div>
               </div>
-            <div class="col-md-12">
-              <br>
-                <table class="table table-bordered table-striped">
-                  <thead class="bg-info">
-                    <tr>
-                      <th style='width:10% !important;'>Nro Cuota</th>
-                      <th style='width:40% !important;'>Fecha</th>
-                      <th style='width:40% !important;'>Monto</th>
-                      <th style='width:10% !important;'>Eliminar</th>
-                    </tr>
-                  </thead>
-                  <tbody id="sortable">
-                  </tbody>
-                </table>
-            </div>
+              <div class="col-md-12">
+                <br>
+                  <table class="table table-bordered table-striped">
+                    <thead class="bg-info">
+                      <tr>
+                        <th style='width:10% !important;'>Nro Cuota</th>
+                        <th style='width:40% !important;'>Fecha</th>
+                        <th style='width:40% !important;'>Monto</th>
+                        <th style='width:10% !important;'>Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody id="sortable">
+                    </tbody>
+                  </table>
+              </div>
+              <div class="col-md-12">
+                <br>
+                  <table class="table table-bordered table-striped">
+                    <thead class="bg-info">
+                      <tr>
+                        <th>
+                          Descripción del Dato Adicional
+                        </th>
+                        <th>
+                          <a class="btn btn-success" onClick='AgregarAdicional()'><i class="fa fa-plus fa-lg"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody id="datoadicional">
+                    </tbody>
+                  </table>
+              </div>
 
-          </div> <!-- FIN FORM GROUP-->
+            </div> <!-- FIN FORM GROUP-->
           
           </form><!-- FIN FORM-->
         </div><!-- FIN BOODY-->

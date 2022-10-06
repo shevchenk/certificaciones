@@ -43,6 +43,7 @@ class EspecialidadProgramacion extends Model
             'mep.estado',
             'mep.costo',
             'mep.costo_mat',
+            DB::raw('MIN(mep.adicional) AS adicional'),
             DB::raw('GROUP_CONCAT( DISTINCT(CONCAT(mepc.fecha_cronograma," => S/ ",mepc.monto_cronograma)) ORDER BY mepc.cuota) AS fecha_cronograma'),
             DB::raw('GROUP_CONCAT( DISTINCT(s.sucursal) ORDER BY s.sucursal SEPARATOR "|") AS sucursal'),
             DB::raw('GROUP_CONCAT( DISTINCT(s.id) ) AS sucursal_id')
@@ -122,6 +123,9 @@ class EspecialidadProgramacion extends Model
         if( $r->has('nro_cuota') && $r->nro_cuota!='' ){
             $especialidadProgramacion->nro_cuota= $r->nro_cuota."-".$r->monto_cuota;
         }
+        if( $r->has('adicional') && $r->adicional != '' ){
+            $especialidadProgramacion->adicional = implode("|", $r->adicional );
+        }
         $especialidadProgramacion->save();
         
         $fecha_cronograma = $r->fecha_cronograma;
@@ -164,6 +168,9 @@ class EspecialidadProgramacion extends Model
         $especialidadProgramacion->persona_id_updated_at=$usuario;
         if( $r->has('nro_cuota') && $r->nro_cuota!='' ){
             $especialidadProgramacion->nro_cuota= $r->nro_cuota."-".$r->monto_cuota;
+        }
+        if( $r->has('adicional') && $r->adicional != '' ){
+            $especialidadProgramacion->adicional = implode("|", $r->adicional );
         }
         $especialidadProgramacion->save();
 

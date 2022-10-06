@@ -62,6 +62,13 @@ $(document).ready(function() {
             AjaxEspecialidadProgramacion.CargarCronograma(HTMLCargarCronograma,EPG.id);
             $('#ModalEspecialidadProgramacionForm #txt_costo').focus();
         }
+
+        $('#datoadicional').html('');
+        if( $.trim(EPG.adicional) != '' ){
+            $.each( EPG.adicional.split("|"), (index, value)=>{
+                AgregarAdicional(value);
+            } )
+        }
     });
 
     $('#ModalEspecialidadProgramacion').on('hidden.bs.modal', function (event) {
@@ -122,6 +129,7 @@ AgregarEditar=function(val,id){
     EPG.costo='0';
     EPG.costo_mat='0';
     EPG.estado='1';
+    EPG.adicional='';
     if( val==0 ){
         EPG.id=id;
         EPG.especialidad_id=$("#TableEspecialidad #trid_"+id+" .especialidad_id").val();
@@ -133,6 +141,7 @@ AgregarEditar=function(val,id){
         EPG.costo=$("#TableEspecialidad #trid_"+id+" .costo").val();
         EPG.costo_mat=$("#TableEspecialidad #trid_"+id+" .costo_mat").val();
         EPG.estado=$("#TableEspecialidad #trid_"+id+" .estado").val();
+        EPG.adicional=$("#TableEspecialidad #trid_"+id+" .adicional").val();
     }
     $('#ModalEspecialidadProgramacion').modal('show');
 }
@@ -160,6 +169,23 @@ CargarCronograma=function(){
     else{
         msjG.mensaje('warning','La fecha del cronograma seleccionado ya fue agregado',4000);
     }
+}
+
+AgregarAdicional = (v) => {
+    if( typeof(v) == 'undefined' ){
+        v = '';
+    }
+    html = '<tr>'+
+                '<td><input type="text" class="form-control" placeholder="Ingrese descripción del adicional" value="'+ v +'" name="txt_adicional[]" ></td>'+
+                '<td><a onClick="EliminarTr2(this);" class="btn btn-flat btn-danger"><i class="fa fa-trash fa-lg"></i></a></td>'+
+            '</tr>';
+
+    $('#datoadicional').append(html);
+}
+
+EliminarTr2 = (t) =>{
+    btn = t.parentNode.parentNode;
+    $(btn).remove();
 }
 
 EliminarTr=function(t){
@@ -264,6 +290,7 @@ HTMLCargar=function(result){ //INICIO HTML
             "<input type='hidden' class='nro_cuota' value='"+r.nro_cuota+"'>"+
             "<input type='hidden' class='costo' value='"+r.costo+"'>"+
             "<input type='hidden' class='costo_mat' value='"+r.costo_mat+"'>"+
+            "<input type='hidden' class='adicional' value='"+$.trim(r.adicional)+"'>"+
             "<input type='hidden' class='sucursal_id' value='"+r.sucursal_id+"'>";
 
         html+="<input type='hidden' class='estado' value='"+r.estado+"'>"+estadohtml+"</td>"+
