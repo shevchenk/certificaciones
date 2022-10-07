@@ -74,7 +74,9 @@ class Matricula extends Model
         if( trim( $r->responsable_id )!=''){
         $matricula->persona_matricula_id = trim( $r->responsable_id );}
         if( trim( $r->medio_captacion_id )!=''){
-        $matricula->medio_captacion_id = trim( $r->medio_captacion_id );}
+            $matricula->medio_captacion_id = trim( $r->medio_captacion_id );}
+        if( trim( $r->medio_captacion_id2 )!=''){
+            $matricula->medio_captacion_id2 = trim( $r->medio_captacion_id2 );}
         if( trim( $r->marketing_id )!=''){
         $matricula->persona_marketing_id = trim( $r->marketing_id );}
         $matricula->fecha_matricula = trim( $r->fecha );

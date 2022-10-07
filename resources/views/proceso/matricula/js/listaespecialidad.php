@@ -82,6 +82,9 @@ HTMLCargarEspecialidad=function(result){
             detalle= "<ul><li> Tipo de Pago: <span style='color:red;'>Por Cuota(s)</span> </li><li> Escala: <span style='color:red;' class='costo'>"+r.nro_cuota+"</span> </li><li> Costo Ins.: <span style='color:red;' class='precio'>"+r.costo+"</span> </li><li> Costo Mat.: <span style='color:red;' class='precio_mat'>"+r.costo_mat+"</span> </li></ul>";
             cuota="<ol><li>C - "+$.trim(r.cronograma).split("|").join("</li><li>C - ")+"</li></ol>";
         }
+        if( $.trim(r.adicional) != '' ){
+            cuota +="<hr><h3 class='text-bold'>Adicional:</h3><ul><li>"+$.trim(r.adicional).split("|").join("</li><li>")+"</li></ul>";
+        }
         // +r.fecha_inicio+"<hr>" para limpiar fecha
         html+="<tr id='trides_"+r.id+"'>"+
             "<td class='col-md-4'><div class='especialidad'>"+r.especialidad+"</div><hr><input type='hidden' class='tipo' value='"+r.tipo+"'>"+detalle+"</td>"+
@@ -223,7 +226,8 @@ SeleccionarEspecialidad=function(id){
         $("#txt_monto_pago_matricula").attr('onkeyup','masterG.DecimalMax(this, 2);ValidaDeuda3('+precio_mat+',this);');
         $("#tb_matricula").html(html);
 
-        html='';
+        html=''; htmladicional = '';
+        $("#t_adicional").hide();
         $("#titpago").text("Pago de Cuotas de la Especialidad");
         $("#subtitpago").text("Cuota(s) Programadas");
         if( $('#trides_'+id+' .tipo').val()==2 ){
@@ -287,8 +291,18 @@ SeleccionarEspecialidad=function(id){
                     '</td>'+
                 '</tr>';
             })
-        }
 
+            $("#trides_"+id+" td:eq(1) ul>li").each( function(index){
+                htmladicional+=''+
+                '<tr>'+
+                    '<td>'+$(this).text()+'</td>'+
+                '</tr>';
+            });
+        }
+        if( htmladicional != '' ){
+            $("#t_adicional").show();
+        }
+        $("#tb_adicional").html(htmladicional);
         $("#tb_pago_cuota").html(html);
         $("#ModalListaespecialidad").modal('hide');
 }

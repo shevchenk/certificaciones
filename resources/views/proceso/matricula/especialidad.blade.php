@@ -432,6 +432,19 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    <div class="col-md-12">
+                                        <table class="table" id="t_adicional">
+                                            <thead class="bg-info">
+                                                <tr>
+                                                    <th style="text-align:center;">Adicional &nbsp;&nbsp;
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_adicional">
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
 
                             </div>
@@ -468,6 +481,12 @@
                                             <span class="input-group-btn">
                                                 <button type="button" id="btn_llamadas" class="btn btn-warning btn-flat" data-toggle="modal" data-target="#ModalLlamada" data-persona_id="#ModalMatriculaForm #txt_marketing_id" data-persona="#ModalMatriculaForm #txt_marketing" data-id="#ModalMatriculaForm #txt_llamada_id">Selecciona LLamada</button>
                                             </span>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Como llegó aquí</label>
+                                            <select name="slct_medio_captacion_id2" id="slct_medio_captacion_id2" class="form-control selectpicker"></select>
                                         </div> 
                                     </div>
                                 </div>

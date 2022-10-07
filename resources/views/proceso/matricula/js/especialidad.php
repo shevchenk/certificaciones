@@ -183,13 +183,17 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione tipo de operación de Matrícula',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #slct_medio_captacion_id").val() )==''){
+    /*else if( $.trim( $("#ModalMatriculaForm #slct_medio_captacion_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Medio de Captación',4000);
-    }
+    }*/
     else if( $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo')==1 && $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Persona Marketing',4000);
+    }
+    else if( $.trim( $("#ModalMatriculaForm #slct_medio_captacion_id2").val() )==''){
+        r=false;
+        msjG.mensaje('warning','Seleccione como llegó aquí',4000);
     }
     else if( $.trim( $("#ModalMatriculaForm #txt_observacion").val() )=='' ){
         r=false;
@@ -325,11 +329,18 @@ SlctCargarSucursalTotal=function(result){
 
 SlctCargarMedioCaptacion=function(result){
     var html="<option value=''>.::Seleccione::.</option>";
+    var html2=html;
     $.each(result.data,function(index,r){
-          html+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+        if( r.tipo_medio == '1' ){
+            html+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+        }
+        else{
+            html2+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+        }
     });
-    $("#ModalMatriculaForm #slct_medio_captacion_id").html(html); 
-    $("#ModalMatriculaForm #slct_medio_captacion_id").selectpicker('refresh');
+    $("#ModalMatriculaForm #slct_medio_captacion_id").html(html);
+    $("#ModalMatriculaForm #slct_medio_captacion_id2").html(html2);
+    $("#ModalMatriculaForm #slct_medio_captacion_id, #ModalMatriculaForm #slct_medio_captacion_id2").selectpicker('refresh');
 }
 
 SlctCargarSucursal1=function(result){

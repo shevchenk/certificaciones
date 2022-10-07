@@ -267,6 +267,7 @@ class Especialidad extends Model
                     $join->on('mps.curso_id','=','mc.id');
                 })
                 ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','mep.costo','mep.costo_mat'
+                ,DB::raw('MIN(mep.adicional) AS adicional')
                 /*,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')*/
                 ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso ORDER BY mce.orden SEPARATOR "^^" ) cursos')
                 )
