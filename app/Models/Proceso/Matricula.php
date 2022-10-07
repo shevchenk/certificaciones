@@ -10,6 +10,7 @@ use App\Models\Proceso\MatriculaDetalle;
 use App\Models\Proceso\MatriculaSaldo;
 use Illuminate\Support\Facades\Input;
 use App\Models\Mantenimiento\Menu;
+use App\Models\Mantenimiento\Persona;
 use App\Models\Mantenimiento\Programacion;
 use App\Models\Proceso\MatriculaCuota;
 use App\Mail\EmailSend;
