@@ -231,11 +231,11 @@
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <label>Estado Matrícula:</label>
-                        <span class="form-control estado_mat"></span>
+                        <span class="form-control alert-warning estado_mat"></span>
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <label>Fecha Estado:</label>
-                        <span class="form-control fecha_estado"></span>
+                        <span class="form-control alert-warning fecha_estado"></span>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <label>Lugar de Inscripción:</label>

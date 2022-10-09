@@ -56,13 +56,13 @@
                             </select>
                         </div>    
                         <div class="col-sm-4">
-                            <label>Teléfono</label>
-                            <textarea class="form-control" id="txt_telefono" name="txt_telefono" placeholder="Teléfono">
+                            <label>Celular Notificación</label>
+                            <textarea class="form-control" id="txt_celular" name="txt_celular" placeholder="Celular">
                             </textarea>
                         </div>
                         <div class="col-sm-4">
-                            <label>Celular</label>
-                            <textarea class="form-control" id="txt_celular" name="txt_celular" placeholder="Celular">
+                            <label>Celular Adicionales</label>
+                            <textarea class="form-control" id="txt_telefono" name="txt_telefono" placeholder="Teléfono">
                             </textarea>
                         </div>
                     </div>

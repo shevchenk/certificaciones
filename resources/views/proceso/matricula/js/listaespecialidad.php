@@ -83,7 +83,17 @@ HTMLCargarEspecialidad=function(result){
             cuota="<ol><li>C - "+$.trim(r.cronograma).split("|").join("</li><li>C - ")+"</li></ol>";
         }
         if( $.trim(r.adicional) != '' ){
-            cuota +="<hr><h3 class='text-bold'>Adicional:</h3><ul><li>"+$.trim(r.adicional).split("|").join("</li><li>")+"</li></ul>";
+            if( $.trim(r.adicional).split("|")[0] != '' || $.trim(r.adicional).split("|")[1] != '' ){
+                cuota +="<hr><ul><h3>Adicional:</h3>";
+                if( $.trim(r.adicional).split("|")[0] != '' ){
+                    cuota +="<li>2do Ciclo o Módulo en Adelante: <span style='font-style: italic;'>"+$.trim(r.adicional).split("|")[0]+"</span></li>";
+                }
+                if( $.trim(r.adicional).split("|")[1] != '' ){
+                    cuota +="<li>Promoción de la venta: <span style='font-style: italic;'>"+$.trim(r.adicional).split("|")[1]+"</span></li>";
+                }
+                cuota +="</ul>";
+            }
+            
         }
         // +r.fecha_inicio+"<hr>" para limpiar fecha
         html+="<tr id='trides_"+r.id+"'>"+
@@ -295,7 +305,7 @@ SeleccionarEspecialidad=function(id){
             $("#trides_"+id+" td:eq(1) ul>li").each( function(index){
                 htmladicional+=''+
                 '<tr>'+
-                    '<td>'+$(this).text()+'</td>'+
+                    '<td>'+$(this).html()+'</td>'+
                 '</tr>';
             });
         }

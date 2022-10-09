@@ -84,16 +84,44 @@ ValidaForm2=function(){
         r=false;
         msjG.mensaje('warning','Ingrese Apellido Materno',4000);
     }
-    
     else if( $.trim( $("#ModalPersonaForm #txt_dni").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese DNI',4000);
     }
+    else if( $.trim( $("#ModalPersonaForm #txt_email").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Email',4000);
+    }
     else if( $.trim( $("#ModalPersonaForm #slct_sexo").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Sleccione Sexo',4000);
+        msjG.mensaje('warning','Seleccione Sexo',4000);
     }
-   
+    else if( $.trim( $("#ModalPersonaForm #txt_celular").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese celular a notificar',4000);
+    }
+
+    else if( $.trim( $("#ModalPersonaForm #txt_pais_id").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Busque y seleccione pais de nacimiento',4000);
+    }
+    else if( !$("#ModalPersonaForm #txt_distrito_id").attr('disabled') && $.trim( $("#ModalPersonaForm #txt_distrito_id").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Busque y seleccione distrito de nacimiento',4000);
+    }
+    else if( $.trim( $("#ModalPersonaForm #txt_distrito_id_dir").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Busque y seleccione distrito de dirección',4000);
+    }
+    else if( $.trim( $("#ModalPersonaForm #txt_direccion_dir").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese dirección',4000);
+    }
+    else if( $.trim( $("#ModalPersonaForm #txt_referencia_dir").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese referencia',4000);
+    }
+
     return r;
 }
 
