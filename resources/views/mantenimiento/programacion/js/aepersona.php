@@ -100,6 +100,10 @@ ValidaForm2=function(){
         r=false;
         msjG.mensaje('warning','Ingrese celular a notificar',4000);
     }
+    else if( $.trim( $("#ModalPersonaForm #txt_fecha_nacimiento").val() )=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese fecha de nacimiento',4000);
+    }
 
     else if( $.trim( $("#ModalPersonaForm #txt_pais_id").val() )=='' ){
         r=false;

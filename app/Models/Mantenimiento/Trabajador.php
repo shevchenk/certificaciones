@@ -69,10 +69,12 @@ class Trabajador extends Model
         $trabajadorHistoricoA = TrabajadorHistorico::where('trabajador_id', $trabajador->id)->whereNull('fecha_termino')->first();
         
         if( $r->has('fecha_termino') AND trim($r->fecha_termino) != '' ){
-            $trabajadorHistoricoA->fecha_termino = $r->fecha_termino;
-            $trabajadorHistoricoA->observacion = $r->observacion;
-            $trabajadorHistoricoA->persona_id_updated_at=Auth::user()->id;
-            $trabajadorHistoricoA->save();
+            if( isset($trabajadorHistoricoA->id) ){
+                $trabajadorHistoricoA->fecha_termino = $r->fecha_termino;
+                $trabajadorHistoricoA->observacion = $r->observacion;
+                $trabajadorHistoricoA->persona_id_updated_at=Auth::user()->id;
+                $trabajadorHistoricoA->save();
+            }
 
             $trabajadorHistorico = new TrabajadorHistorico;
             $trabajadorHistorico->trabajador_id = $trabajador->id;
@@ -108,7 +110,7 @@ class Trabajador extends Model
         $trabajador->save();
 
 
-        if( trim($trabajadorHistoricoA->fecha_termino) == '' ){
+        if( isset($trabajadorHistoricoA->fecha_termino) AND trim($trabajadorHistoricoA->fecha_termino) == '' ){
             $trabajadorHistoricoA->rol_id = $trabajador->rol_id;
             $trabajadorHistoricoA->tarea_id = $trabajador->tarea_id;
             $trabajadorHistoricoA->medio_captacion_id = $trabajador->medio_captacion_id;

@@ -32,6 +32,7 @@ $(document).ready(function() {
     $('#ModalTrabajador').on('shown.bs.modal', function (event) {
         $("#ModalTrabajadorForm .bntpersona").removeAttr("disabled");
         $(this).find('.modal-footer .btn-warning').hide();
+        $('#tb_historico').html('');
         if( AddEdit==1 ){
             $(this).find('.modal-footer .btn-primary').text('Guardar').attr('onClick','AgregarEditarAjax(0);');
             $("#ModalTrabajadorForm .nuevo").hide();
