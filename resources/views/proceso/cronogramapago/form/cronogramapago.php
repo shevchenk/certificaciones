@@ -117,15 +117,20 @@
                   <table class="table table-bordered table-striped">
                     <thead class="bg-info">
                       <tr>
-                        <th>
-                          Descripción del Dato Adicional
-                        </th>
-                        <th>
-                          <a class="btn btn-success" onClick='AgregarAdicional()'><i class="fa fa-plus fa-lg"></i></a>
-                        </th>
+                          <th style='width:30%;'>Tipo de Dato Adicional</th>
+                          <th style='width:70%;'>Descripción del Dato Adicional</th>
+                          <!-- <th><a class="btn btn-success" onClick='AgregarAdicional()'><i class="fa fa-plus fa-lg"></i></a></th> -->
                       </tr>
                     </thead>
-                    <tbody id="datoadicional">
+                    <tbody> <!-- id="datoadicional" -->
+                          <tr>
+                            <td><label class="form-control">2do Ciclo o Módulo en Adelante</label></td>
+                            <td><textarea id="adicional1" name="txt_adicional[]" class="form-control"></textarea></td>
+                          </tr>
+                          <tr>
+                            <td><label class="form-control">Promoción de la venta</label></td>
+                            <td><textarea id="adicional2" name="txt_adicional[]" class="form-control"></textarea></td>
+                          </tr>
                     </tbody>
                   </table>
               </div>

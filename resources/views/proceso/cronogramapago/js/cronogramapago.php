@@ -63,11 +63,13 @@ $(document).ready(function() {
             $('#ModalEspecialidadProgramacionForm #txt_costo').focus();
         }
 
-        $('#datoadicional').html('');
+        $('#adicional1,#adicional2').val('');
         if( $.trim(EPG.adicional) != '' ){
-            $.each( EPG.adicional.split("|"), (index, value)=>{
+            $("#adicional1").val( EPG.adicional.split("|")[0] );
+            $("#adicional2").val( EPG.adicional.split("|")[1] );
+            /*$.each( EPG.adicional.split("|"), (index, value)=>{
                 AgregarAdicional(value);
-            } )
+            } )*/
         }
     });
 
@@ -171,7 +173,7 @@ CargarCronograma=function(){
     }
 }
 
-AgregarAdicional = (v) => {
+/*AgregarAdicional = (v) => {
     if( typeof(v) == 'undefined' ){
         v = '';
     }
@@ -181,7 +183,7 @@ AgregarAdicional = (v) => {
             '</tr>';
 
     $('#datoadicional').append(html);
-}
+}*/
 
 EliminarTr2 = (t) =>{
     btn = t.parentNode.parentNode;
