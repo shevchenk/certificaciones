@@ -171,7 +171,7 @@ HTMLCargarPersona=function(result){
         btn='';
         if(r.estado==1){
             estadohtml='<span id="'+r.id+'" onClick="CambiarEstado(0,'+r.id+','+r.persona_id+')" class="btn btn-success">Docente</span>';
-            btn='<a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a>';
+            //btn='<a class="btn btn-primary btn-sm" onClick="AgregarEditar(0,'+r.id+')"><i class="fa fa-edit fa-lg"></i> </a>';
         }
 
         html+="<tr id='trid_"+r.id+"'>"+
@@ -187,8 +187,8 @@ HTMLCargarPersona=function(result){
             "<input type='hidden' class='telefono' value='"+$.trim(r.telefono)+"'>"+
             "<input type='hidden' class='celular' value='"+$.trim(r.celular)+"'>"+
             "<input type='hidden' class='estado' value='"+$.trim(r.estado)+"'>"+estadohtml+
-            "</td>"+
-            '<td>'+btn+'</td>';
+            "</td>";
+            //'<td>'+btn+'</td>';
         html+="</tr>";
     });
     $("#TablePersona tbody").html(html); 

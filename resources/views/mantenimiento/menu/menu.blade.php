@@ -35,7 +35,7 @@
                                             <label><h4>Menu:</h4></label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" name="txt_estado_certificado" id="txt_estado_certificado" placeholder="Buscar Menu" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
+                                                <input type="text" class="form-control" name="txt_menu" id="txt_menu" placeholder="Buscar Menu" onkeypress="return masterG.enterGlobal(event,'.input-group',1);">
                                             </div>                                          
                                         </div>
                                     </th>

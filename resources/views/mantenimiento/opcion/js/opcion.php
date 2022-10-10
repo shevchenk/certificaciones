@@ -34,7 +34,7 @@ $(document).ready(function() {
         $('#ModalOpcionForm #txt_opcion').val( OpcionG.opcion );
         $('#ModalOpcionForm #txt_ruta').val( OpcionG.ruta );
         $('#ModalOpcionForm #txt_class_icono').val( OpcionG.class_icono );
-        $('#ModalOpcionForm #slct_estado').val( OpcionG.estado );
+        $('#ModalOpcionForm #slct_estado').selectpicker( 'val', OpcionG.estado );
         $('#ModalOpcionForm #txt_opcion').focus();
     });
 

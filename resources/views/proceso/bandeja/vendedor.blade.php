@@ -48,6 +48,17 @@
                                 <table id="TableBandejaValida" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
+                                            <th>Fecha Matrícula</th>
+                                            <th>Persona Marketing</th>
+                                            <th>Alumno</th>
+                                            <th>Carrera / Módulo</th>
+                                            <th>Curso</th>
+                                            <th>Programación</th>
+                                            <th>Estado Matrícula</th>
+                                            <th>Fecha Estado</th>
+                                            <th>[-]</th>
+                                        </tr>
+                                        <tr class="cabecera">
                                             <th class="col-xs-1" style="min-width: 125px;">
                                                 <input type="text" class="col-md-12 input-lg fecha" name="txt_fecha_matricula" id="txt_fecha_matricula" placeholder="Seleccione Fecha Matrícula">
                                             </th>
@@ -106,6 +117,17 @@
                             <div class="box-body table-responsive no-padding">                        
                                 <table id="TableBandejaHistorica" class="table table-bordered table-hover">
                                     <thead>
+                                        <tr class="cabecera">
+                                            <th>Fecha Matrícula</th>
+                                            <th>Persona Marketing</th>
+                                            <th>Alumno</th>
+                                            <th>Carrera / Módulo</th>
+                                            <th>Curso</th>
+                                            <th>Programación</th>
+                                            <th>Estado Matrícula</th>
+                                            <th>Fecha Estado</th>
+                                            <th>[-]</th>
+                                        </tr>
                                         <tr class="cabecera">
                                             <th class="col-xs-1" style="min-width: 125px;">
                                                 <input type="text" class="col-md-12 input-lg fecha" name="txt_fecha_matricula" id="txt_fecha_matricula" placeholder="Seleccione Fecha Matrícula">

@@ -1105,6 +1105,8 @@ class Matricula extends Model
             }
             $detcurso = explode(",", $bandeja->monto_pago);
             $total_pago = 0;
+            $cuotas = Matricula::LoadCuotas($r);
+            dd($cuotas);
             if( trim($bandeja->nro_promocion) == '' ){
                 foreach( $detcurso as $key => $value ){
                     $total_pago += $value*1;
@@ -1115,8 +1117,6 @@ class Matricula extends Model
                 $bandeja->monto_pago = '';
                 $bandeja->tipo_pago = '';
             }
-
-            $cuotas = Matricula::LoadCuotas($r);
 
             $datos = array(
                 "opcion" => "IniciarProceso",

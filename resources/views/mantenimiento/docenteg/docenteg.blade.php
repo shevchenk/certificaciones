@@ -98,7 +98,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-1">[-]</th>
+                                    <!-- <th class="col-xs-1">[-]</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,7 +111,7 @@
                                   <th>DNI</th>
                                   <th>Email</th>
                                   <th>Estado</th>
-                                  <th>[-]</th>
+                                  <!-- <th>[-]</th> -->
                                 </tr>
                             </tfoot>
                         </table>

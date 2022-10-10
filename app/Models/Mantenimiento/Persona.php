@@ -202,7 +202,7 @@ class Persona extends Model
         }
 
         if( $validaAct == 1 ){
-            $sql= 'UPDATE '.$bd.'.v_personas SET password = "'.$persona->password.'" WHERE dni = "'.$persona->dni.'"';
+            $sql= 'UPDATE '.env('BD_SERVER_AULA').'.v_personas SET password = "'.$persona->password.'" WHERE dni = "'.$persona->dni.'"';
             DB::update($sql);
         }
         
