@@ -4,16 +4,18 @@ namespace App\Models\Proceso;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Proceso\Alumno;
-use App\Models\Proceso\ApiPro;
-use App\Models\Proceso\MatriculaDetalle;
-use App\Models\Proceso\MatriculaSaldo;
-use Illuminate\Support\Facades\Input;
+use App\Models\Mantenimiento\EspecialidadProgramacion;
 use App\Models\Mantenimiento\Menu;
 use App\Models\Mantenimiento\Persona;
 use App\Models\Mantenimiento\Programacion;
+use App\Models\Proceso\Alumno;
+use App\Models\Proceso\ApiPro;
 use App\Models\Proceso\MatriculaCuota;
+use App\Models\Proceso\MatriculaDetalle;
+use App\Models\Proceso\MatriculaSaldo;
+use App\Models\Reporte\Seminario;
 use App\Mail\EmailSend;
+use Illuminate\Support\Facades\Input;
 use DB;
 use Mail;
 
@@ -1086,6 +1088,10 @@ class Matricula extends Model
             if( trim($matricula->adicional) != '' ){
                 $adicional = explode("|",$matricula->adicional);
             }
+            if( !isset($adicional[1]) ){ //En caso no exista dicho valor.
+                $adicional[1] = "";
+            }
+
             $sexo = array("M"=> "Masculino", "F"=> "Femenino");
             $bandeja = Matricula::InformacionMatricula($r);
             $detalle = explode("^^", $bandeja->detalle);
@@ -1106,8 +1112,27 @@ class Matricula extends Model
             $detcurso = explode(",", $bandeja->monto_pago);
             $total_pago = 0;
             $cuotas = Matricula::LoadCuotas($r);
-            dd($cuotas);
-            if( trim($bandeja->nro_promocion) == '' ){
+            $pagos = Seminario::runPagos($r);
+            $especialidadProgramacion = EspecialidadProgramacion::find($matricula->especialidad_programacion_id);
+            
+            $presi = 0; //Precio Inscripción;
+            $presm = 0; //Precio Matricula;
+            if( isset( $pagos[0]->presi ) ){
+                $presi = $pagos[0]->presi;
+            }
+            if( isset( $pagos[0]->presm ) ){
+                $presm = $pagos[0]->presm;
+            }
+
+            $nro_cuota = "";
+            $monto_cuota = "";
+            if( isset( $especialidadProgramacion->tipo ) AND $especialidadProgramacion->tipo == 1 ){
+                $detcuota = explode("-", $especialidadProgramacion->nro_cuota);
+                $nro_cuota = $detcuota[0];
+                $monto_cuota = $detcuota[1];
+            }
+
+            if( trim($bandeja->nro_promocion) == '' AND !isset($cuotas[0]->id) ){
                 foreach( $detcurso as $key => $value ){
                     $total_pago += $value*1;
                 }
@@ -1138,12 +1163,12 @@ class Matricula extends Model
                 "frecuencia" => implode(" | ", $frecuencia),
                 "local_estudios" => $bandeja->lugar_estudio,
 
-                "inscripcion" => $bandeja->monto_pago_inscripcion,
-                "matricula" => $bandeja->monto_pago_matricula,
-                "cuotas" => "",
-                "1c" => "",
-                "2c" => "",
-                "3c" => "",
+                "inscripcion" => $presi,
+                "matricula" => $presm,
+                "cuotas" => $nro_cuota,
+                "1c" => $monto_cuota,
+                "2c" => $monto_cuota,
+                "3c" => $monto_cuota,
                 "adicional1" => $adicional[0],
                 "adicional2" => $adicional[1],
 
@@ -1170,7 +1195,6 @@ class Matricula extends Model
                 "created_at" => $bandeja->created_at,
                 "updated_at" => $bandeja->updated_at,
             );
-            dd($cuotas, $datos);
 
             $datos = json_encode($datos);
             $key = base64_encode(hash_hmac("sha256", $datos.date("Ymd"), env('KEY'), true));
