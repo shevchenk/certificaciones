@@ -162,6 +162,7 @@ class MatriculaPR extends Controller
     {
         if ( $r->ajax() ) {
             $return = Matricula::ActualizaEstadoMat($r);
+            //dd($return);
             return response()->json($return);
         }
     }

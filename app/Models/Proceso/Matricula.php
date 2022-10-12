@@ -618,8 +618,14 @@ class Matricula extends Model
             ->leftJoin('personas AS pmar',function($join){
                 $join->on('pmar.id','=','mm.persona_marketing_id');
             })
+            ->leftJoin('personas AS psup',function($join){
+                $join->on('psup.id','=','mm.persona_id_updated_at');
+            })
             ->leftJoin('mat_medios_captaciones AS meca',function($join){
                 $join->on('meca.id','=','mm.medio_captacion_id');
+            })
+            ->leftJoin('mat_medios_captaciones AS meca2',function($join){
+                $join->on('meca2.id','=','mm.medio_captacion_id2');
             })
             ->leftJoin('mat_especialidades_programaciones AS mep',function($join){
                 $join->on('mep.id','=','mm.especialidad_programacion_id');
@@ -703,8 +709,9 @@ class Matricula extends Model
                     ,'s.sucursal','s2.sucursal AS recogo_certificado', 'mm.estado_mat', 'mm.fecha_estado', DB::raw('MIN(mm.observacion) AS obs, MIN(mm.observacion_mat) AS obs2')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
-                    ,'meca.medio_captacion'
+                    ,'meca.medio_captacion','meca2.medio_captacion AS medio_captacion2'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",psup.paterno,psup.materno,psup.nombre))) as supervisor')
                     )
             ->where( 
                 function($query) use ($r, $id){
@@ -781,7 +788,7 @@ class Matricula extends Model
                     ,'mm.fecha_matricula','e.empresa','ep.tipo'
                     ,'mm.especialidad_programacion_id'
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion', 'mm.monto_pago', 'mm.nro_pago', 'mm.estado_mat', 'mm.fecha_estado'
-                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion','meca2.medio_captacion'
                     ,'mm.tipo_pago_matricula');
             
         $result = $sql->orderBy('mm.id','asc')->paginate(10);
@@ -1192,37 +1199,38 @@ class Matricula extends Model
                 "cajero" => $bandeja->cajera,
                 "vendedor" => $bandeja->marketing,
                 "responsable" => $bandeja->matricula,
+                "supervisor" => $bandeja->supervisor,
                 "created_at" => $bandeja->created_at,
                 "updated_at" => $bandeja->updated_at,
+                "medio_captacion2" => $bandeja->medio_captacion2,
             );
-
             $datos = json_encode($datos);
             $key = base64_encode(hash_hmac("sha256", $datos.date("Ymd"), env('KEY'), true));
-
+            
             $parametros = array(
                 'key' => $key,
                 'datos' => $datos,
             );
             $url = env('URL_PROCESO'.Auth::user()->empresa_id)."?".http_build_query($parametros);
             $objArr = ApiPro::curl($url, $parametros);
-
-            if( !empty($objArr) AND isset($objArr->rst) AND $objArr->rst == 1 ){
+            if( isset($objArr->rst) AND $objArr->rst*1 == 1 ){
                 $matricula->expediente = $objArr->expediente;
                 $matricula->fecha_expediente = $objArr->fecha_expediente;
             }
-            elseif( !empty($objArr) AND isset($objArr->rst) ){
+            elseif( isset($objArr->rst) ){
                 DB::rollBack();
                 $return['rst'] = $objArr->rst;
-                return $return;
             }
             else{
                 DB::rollBack();
                 $return['rst'] = 0;
-                return $return;
             }
         }
-        $matricula->save();
-        DB::commit();
+        
+        if( $return['rst'] == 1 ){
+            $matricula->save();
+            DB::commit();
+        }
         return $return;
     }
 
@@ -1308,8 +1316,14 @@ class Matricula extends Model
             ->leftJoin('personas AS pmar',function($join){
                 $join->on('pmar.id','=','mm.persona_marketing_id');
             })
+            ->leftJoin('personas AS psup',function($join){
+                $join->on('psup.id','=','mm.persona_id_updated_at');
+            })
             ->leftJoin('mat_medios_captaciones AS meca',function($join){
                 $join->on('meca.id','=','mm.medio_captacion_id');
+            })
+            ->leftJoin('mat_medios_captaciones AS meca2',function($join){
+                $join->on('meca2.id','=','mm.medio_captacion_id2');
             })
             ->leftJoin('mat_especialidades_programaciones AS mep',function($join){
                 $join->on('mep.id','=','mm.especialidad_programacion_id');
@@ -1394,8 +1408,9 @@ class Matricula extends Model
                     ,DB::raw('MIN(mm.created_at) AS created_at, MIN(mm.updated_at) AS updated_at')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
-                    ,'meca.medio_captacion'
+                    ,'meca.medio_captacion','meca2.medio_captacion'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",psup.paterno,psup.materno,psup.nombre))) as supervisor')
                     )
             ->where( 
                 function($query) use ($r){
@@ -1409,7 +1424,7 @@ class Matricula extends Model
                     ,'mm.fecha_matricula','e.empresa','ep.tipo'
                     ,'mm.especialidad_programacion_id'
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion', 'mm.monto_pago', 'mm.nro_pago', 'mm.estado_mat', 'mm.fecha_estado'
-                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion','meca2.medio_captacion'
                     ,'mm.tipo_pago_matricula');
             
         $result = $sql->orderBy('mm.id','asc')->first();
