@@ -1408,7 +1408,7 @@ class Matricula extends Model
                     ,DB::raw('MIN(mm.created_at) AS created_at, MIN(mm.updated_at) AS updated_at')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
-                    ,'meca.medio_captacion','meca2.medio_captacion'
+                    ,'meca.medio_captacion','meca2.medio_captacion AS medio_captacion2'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",psup.paterno,psup.materno,psup.nombre))) as supervisor')
                     )
