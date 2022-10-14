@@ -8,6 +8,7 @@ use App\Models\Mantenimiento\EspecialidadProgramacion;
 use App\Models\Mantenimiento\Menu;
 use App\Models\Mantenimiento\Persona;
 use App\Models\Mantenimiento\Programacion;
+use App\Models\Mantenimiento\Trabajador;
 use App\Models\Proceso\Alumno;
 use App\Models\Proceso\ApiPro;
 use App\Models\Proceso\MatriculaCuota;
@@ -73,7 +74,8 @@ class Matricula extends Model
         $matricula->sucursal_id = trim( $r->sucursal_id);
         $matricula->sucursal_destino_id = trim( $r->sucursal_destino_id);
         if( trim( $r->persona_caja_id )!=''){
-        $matricula->persona_caja_id = trim( $r->persona_caja_id );}
+        $trabajador = Trabajador::find($r->persona_caja_id);
+        $matricula->persona_caja_id = $trabajador->persona_id;}
         if( trim( $r->responsable_id )!=''){
         $matricula->persona_matricula_id = trim( $r->responsable_id );}
         if( trim( $r->medio_captacion_id )!=''){
@@ -81,7 +83,8 @@ class Matricula extends Model
         if( trim( $r->medio_captacion_id2 )!=''){
             $matricula->medio_captacion_id2 = trim( $r->medio_captacion_id2 );}
         if( trim( $r->marketing_id )!=''){
-        $matricula->persona_marketing_id = trim( $r->marketing_id );}
+        $trabajador = Trabajador::find($r->marketing_id);
+        $matricula->persona_marketing_id = $trabajador->persona_id;}
         $matricula->fecha_matricula = trim( $r->fecha );
         $matricula->tipo_matricula = trim( $r->tipo_matricula );
 
@@ -1124,6 +1127,12 @@ class Matricula extends Model
             
             $presi = 0; //Precio Inscripción;
             $presm = 0; //Precio Matricula;
+            if( $bandeja->monto_pago_inscripcion*1 > 0 ){
+                $presi = $bandeja->monto_pago_inscripcion*1;
+            }
+            if( $bandeja->monto_pago_matricula*1 > 0 ){
+                $presm = $bandeja->monto_pago_matricula*1;
+            }
             if( isset( $pagos[0]->presi ) ){
                 $presi = $pagos[0]->presi;
             }
@@ -1132,22 +1141,59 @@ class Matricula extends Model
             }
 
             $nro_cuota = "";
-            $monto_cuota = "";
-            if( isset( $especialidadProgramacion->tipo ) AND $especialidadProgramacion->tipo == 1 ){
-                $detcuota = explode("-", $especialidadProgramacion->nro_cuota);
-                $nro_cuota = $detcuota[0];
-                $monto_cuota = $detcuota[1];
+            $detcuota = array("","","");
+            if( ($bandeja->cronograma) != '' AND isset( $especialidadProgramacion->tipo ) AND $especialidadProgramacion->tipo == 1 ){
+                $detcuota = explode(",", $bandeja->cronograma);
+                $nro_cuota = count($detcuota)."C";
+                if( !isset($detcuota[1]) ){
+                    $detcuota[1] = "";
+                }
+                if( !isset($detcuota[2]) ){
+                    $detcuota[2] = "";
+                }
             }
 
-            if( trim($bandeja->nro_promocion) == '' AND !isset($cuotas[0]->id) ){
+            $nro_pago = '';
+            $monto_pago = '';
+            $tipo_pago = '';
+
+            if( isset( $especialidadProgramacion->tipo ) AND $especialidadProgramacion->tipo == 1 ){ //Deterinar si cargo pago de cuotas o pagos de cursos
+                foreach ($cuotas as $key => $value) {
+                    $coma = ",";
+                    if($key == 0){
+                        $coma = "";
+                    }
+                    $nro_pago .= $coma.$value->nro_cuota;
+                    $monto_pago .= $coma.$value->monto_cuota;
+                    $tipo_pago .= $coma.$value->tipo_pago_cuota;
+                    $total_pago += $value->monto_cuota*1;
+                }
+            }
+            elseif( trim($bandeja->nro_promocion) == '' ){
+                $nro_pago = $bandeja->nro_pago;
+                $monto_pago = $bandeja->monto_pago;
+                $tipo_pago = $bandeja->tipo_pago;
                 foreach( $detcurso as $key => $value ){
                     $total_pago += $value*1;
                 }
             }
-            else{
-                $bandeja->nro_pago = '';
-                $bandeja->monto_pago = '';
-                $bandeja->tipo_pago = '';
+
+            if( trim($bandeja->nro_pago_inscripcion) == '' ){
+                $bandeja->nro_pago_inscripcion="";
+                $bandeja->tipo_pago_inscripcion="";
+                $bandeja->monto_pago_inscripcion="";
+            }
+
+            if( trim($bandeja->nro_pago_matricula) == '' ){
+                $bandeja->nro_pago_matricula="";
+                $bandeja->tipo_pago_matricula="";
+                $bandeja->monto_pago_matricula="";
+            }
+
+            if( trim($bandeja->nro_promocion) == '' ){
+                $bandeja->nro_promocion="";
+                $bandeja->tipo_pago_promocion="";
+                $bandeja->monto_promocion="";
             }
 
             $datos = array(
@@ -1156,6 +1202,9 @@ class Matricula extends Model
                 "sexo" => $sexo[$persona->sexo],
                 "fecha_nacimiento" => $persona->fecha_nacimiento,
                 "dni_alumno" => $persona->dni,
+                "paterno_alumno" => $persona->paterno,
+                "materno_alumno" => $persona->materno,
+                "nombre_alumno" => $persona->nombre,
                 "dni_responsable" => Auth::user()->dni,
                 "telefono_alumno" => $persona->telefono,
                 "celular_alumno" => $persona->celular,
@@ -1173,9 +1222,9 @@ class Matricula extends Model
                 "inscripcion" => $presi,
                 "matricula" => $presm,
                 "cuotas" => $nro_cuota,
-                "1c" => $monto_cuota,
-                "2c" => $monto_cuota,
-                "3c" => $monto_cuota,
+                "1c" => $detcuota[0],
+                "2c" => $detcuota[1],
+                "3c" => $detcuota[2],
                 "adicional1" => $adicional[0],
                 "adicional2" => $adicional[1],
 
@@ -1187,9 +1236,9 @@ class Matricula extends Model
                 "tipo_mat" => $bandeja->tipo_pago_matricula,
                 "monto_mat" => $bandeja->monto_pago_matricula,
 
-                "nro_cur" => str_replace( ",", " | ", $bandeja->nro_pago),
-                "tipo_cur" => str_replace( ",", " | ", $bandeja->tipo_pago),
-                "monto_cur" => str_replace( ",", " | ", $bandeja->monto_pago),
+                "nro_cur" => str_replace( ",", " | ", $nro_pago),
+                "tipo_cur" => str_replace( ",", " | ", $tipo_pago),
+                "monto_cur" => str_replace( ",", " | ", $monto_pago),
                 "total_cur" => $total_pago,
 
                 "nro_pro" => $bandeja->nro_promocion,
@@ -1404,6 +1453,7 @@ class Matricula extends Model
                                 END AS tipo_pago_inscripcion')
                     ,'mm.tipo_pago_inscripcion AS tipo_pago_inscripcion_id'
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
+                    ,DB::raw(' ( SELECT GROUP_CONCAT(mepc.monto_cronograma ORDER BY mepc.cuota) FROM mat_especialidades_programaciones_cronogramas mepc WHERE mepc.estado = 1 AND mepc.especialidad_programacion_id = mm.especialidad_programacion_id ) AS cronograma')
                     ,'s.sucursal','s2.sucursal AS recogo_certificado', 'mm.estado_mat', 'mm.fecha_estado', DB::raw('MIN(mm.observacion) AS obs, MIN(mm.observacion_mat) AS obs2')
                     ,DB::raw('MIN(mm.created_at) AS created_at, MIN(mm.updated_at) AS updated_at')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')

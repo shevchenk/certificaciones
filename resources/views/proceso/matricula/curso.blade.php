@@ -531,6 +531,12 @@
                                             </span>
                                         </div> 
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Como llegó aquí</label>
+                                            <select name="slct_medio_captacion_id2" id="slct_medio_captacion_id2" class="form-control selectpicker"></select>
+                                        </div> 
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -552,7 +558,6 @@
                     </form>
                 </div>
                 <div class="box-footer">
-                    <button type="button" class="btn btn-success pull-right" style="margin-left: 30px;" onclick="DescargarFicha()">Descargar Datos para Ficha</button>
                     <button type="submit" class="btn btn-info pull-right" onclick="AgregarEditarAjax()">Guardar Inscripción</button>
                 </div>
             </div><!-- .box -->

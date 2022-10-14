@@ -361,7 +361,10 @@ let Detalle = {
             msjG.mensaje('warning','Usuario responsable no registrado en el Software de Procesos',4000);
         }
         else if(result.rst == 3){
-            msjG.mensaje('warning','Alumno no registrado en el Software de Procesos',4000);
+            msjG.mensaje('warning','Local de estudios no registrado en el Software de Procesos',4000);
+        }
+        else if(result.rst == 4){
+            msjG.mensaje('warning','Alumno no pudo registrarse, verifique que su email sea único en el Software de Procesos',6000);
         }
         else{
             msjG.mensaje('warning','No se pudo generar el expediente, vuelva a intentarlo',4000);
