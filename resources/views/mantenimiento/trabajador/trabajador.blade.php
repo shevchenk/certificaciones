@@ -13,6 +13,9 @@
     {{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
     {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
+
+    {{ Html::style('lib/EasyAutocomplete1.3.5/easy-autocomplete.min.css') }}
+    {{ Html::script('lib/EasyAutocomplete1.3.5/jquery.easy-autocomplete.min.js') }}
     
     @include( 'mantenimiento.trabajador.js.trabajador_ajax' )
     @include( 'mantenimiento.trabajador.js.trabajador' )
@@ -20,6 +23,8 @@
     @include( 'mantenimiento.programacion.js.listapersona' )
     @include( 'mantenimiento.programacion.js.aepersona_ajax' )
     @include( 'mantenimiento.programacion.js.aepersona' )
+    @include( 'mantenimiento.persona.js.persona_adicional' )
+    @include( 'mantenimiento.persona.js.persona_adicional_ajax' )
 @stop
 
 @section('content')
