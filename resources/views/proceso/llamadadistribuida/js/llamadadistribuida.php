@@ -168,12 +168,12 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='vendedor'>"+$.trim(r.vendedor)+"</td>"+
                 "<td class='fecha_registro'>"+$.trim(r.fecha_registro)+"</td>"+
                 "<td class='fecha_distribucion'>"+r.fecha_distribucion+"</td>"+
-                "<td bgcolor='"+color+"' class='paterno'>"+ $.trim(r.nombre +" "+ r.paterno +" "+ r.materno) +"</td>"+
+                "<td bgcolor='"+color+"' class='nombre'>"+ $.trim(r.nombre +" "+ r.paterno +" "+ r.materno) +"</td>"+
                 "<td class='celular'>"+$.trim(r.celular)+"</td>"+
                 "<td class='email'>"+$.trim(r.email)+"</td>"+
                 "<td class='carrera'>"+r.carrera+"</td>"+
                 "<td class='fuente'>"+$.trim(r.fuente)+"</td>"+
-                "<td bgcolor='"+color+"' class='materno'>"+r.campana+"</td>"+
+                "<td bgcolor='"+color+"' class='campaña'>"+r.campana+"</td>"+
                 "<td class='region'>"+$.trim(r.region)+"</td>";
                 //"<td bgcolor='"+color+"' class='nombre'>"+"</td>"+
                 /*"<td class='tipo'>"+$.trim(r.tipo)+"</td>"+

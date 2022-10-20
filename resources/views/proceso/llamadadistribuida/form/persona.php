@@ -10,15 +10,15 @@
                 <div class="row">
                 <form id="ModalPersonaForm">
                     <div class="col-sm-12"> <!--INICIO DE COL SM 12-->
-                        <div class="col-sm-4">
+                        <div class="col-sm-12">
                             <label>Nombre</label>
                             <input type="text" class="form-control" id="txt_nombre" name="txt_nombre" placeholder="Nombre">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 hidden">
                             <label>Apellido Paterno</label>
                             <input type="text" class="form-control" id="txt_paterno" name="txt_paterno" placeholder="Apellido Paterno">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 hidden">
                             <label>Apellido Materno</label>
                             <input type="text" class="form-control" id="txt_materno" name="txt_materno" placeholder="Apellido Materno">
                         </div>           
