@@ -1303,7 +1303,7 @@ class Reporte extends Model
             ->select(
             DB::raw('DATE(ll.fecha_llamada) AS fecha_llamada'),DB::raw('TIME(ll.fecha_llamada) AS hora_llamada')
             ,DB::raw('CONCAT(p.paterno,\' \',p.materno,\', \',p.nombre) AS teleoperador'),
-            DB::raw('CONCAT(p2.paterno,\' \',p2.materno,\', \',p2.nombre) AS persona'),
+            DB::raw('CONCAT(p2.nombre,\' \',p2.paterno,\' \',p2.materno) AS persona'),
             'tl.tipo_llamada','tls.tipo_llamada_sub','tlsd.tipo_llamada_sub_detalle',
             'll.fechas','ll.comentario','ll.objecion','ll.pregunta','p2.fuente','p2.carrera','p2.celular', 'p2.email'
             )

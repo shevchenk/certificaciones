@@ -708,15 +708,15 @@ class ReporteEM extends Controller
 
         });
         
-        })->export('xlsx');
+    })->export('xlsx');
     }
-
+    
     public function ExportLlamadas(Request $r )
     {
         ini_set('memory_limit', '1024M');
         set_time_limit(300);
         $renturnModel = Reporte::runExportLlamadas($r);
-        
+        //dd($renturnModel);
         Excel::create('Llamadas', function($excel) use($renturnModel,$r) {
 
         $excel->setTitle('Reporte de Llamadas')
@@ -749,6 +749,7 @@ class ReporteEM extends Controller
                     'bold'       =>  true
                 ));
             });
+            
             $sheet->mergeCells('A2:'.$renturnModel['max'].'2');
             $sheet->cells('A2:'.$renturnModel['max'].'2', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
@@ -765,11 +766,17 @@ class ReporteEM extends Controller
                 $cells->setValignment('center');
                 $cells->setTextRotation(90);
             });
-
-            $data=json_decode(json_encode($renturnModel['data']), true);
+            $data=json_decode(json_encode($renturnModel['data']), false);
             $sheet->rows($data);
+            
+            /*$pos=4;
+            $posaux=0;
+            for ($i=0; $i<count($data); $i++) {
+                //unset($renturnModel['data']->total);
+            }*/
+            //dd($renturnModel['data'][0], "hola 11");
             //$pos=3;
-            $contador=0;
+            //$contador=0;
             
             $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
                 $cells->setBorder('solid', 'none', 'none', 'solid');
@@ -782,7 +789,7 @@ class ReporteEM extends Controller
                 ));
                 $cells->setBackground('#95B3D7');
             });
-
+            
             $count = $sheet->getHighestRow();
             $sheet->cell('A'.$count,'Total General');
             $sheet->cells('A'.$count.':'.$renturnModel['max'].$count, function($cells) {
