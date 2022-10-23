@@ -279,12 +279,20 @@ let Detalle = {
                 comprometido = r.monto_cronograma*1;
             }
 
-            if( $.trim(r.salcd)!='' ){
+            if( $.trim(r.salcd)!='' && r.tipo_matricula == 1 ){
                 ds = r.cuotacd+' / FV:'+r.fecha_cronograma;
                 importe = r.salcd*1;
             }
-            else if( $.trim(r.cuota_cronograma)!='' ){
+            else if( $.trim(r.cuota_cronograma)!='' && r.tipo_matricula == 1){
                 ds = r.cuota_cronograma+' / FV:'+r.fecha_cronograma;
+                importe = r.monto_cronograma*1;
+            }
+            else if( $.trim(r.salcd)!='' && r.tipo_matricula == 2 ){
+                ds = r.cuotacd;
+                importe = r.salcd*1;
+            }
+            else if( $.trim(r.cuota_cronograma)!='' && r.tipo_matricula == 2){
+                ds = r.cuota_cronograma;
                 importe = r.monto_cronograma*1;
             }
 

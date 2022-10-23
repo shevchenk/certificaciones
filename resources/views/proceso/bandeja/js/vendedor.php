@@ -1,7 +1,7 @@
 <script type="text/javascript">
 let MatriculaG = {
     Valida: [], Historica:[], Programacion:[], 
-    Id:'', Estado_Mat: '', Observacion: '', Tipo: '', TotalIns: 0, TotalMat: 0, LDfiltrosG: '', Programacion_Id: '',
+    Id:'', Estado_Mat: '', Observacion: '', Tipo: '', TotalIns: 0, TotalMat: 0, LDfiltrosG: '', Programacion_Id: '', Btn:'Default',
     TotalCuo: [], TotalCur: [], TotalIds: []
 };
 $(document).ready(function() {
@@ -49,6 +49,7 @@ $(document).ready(function() {
     $("#BandejaHistoricaForm #TableBandejaHistorica input").not(".fecha").blur(() => { AjaxBandeja.BandejaHistorica(Historica.HTMLBandejaHistorica); });
 
     $("#FormBandeja .Aprobado").click(()=>{
+        MatriculaG.Btn = 'Aprobado';
         MatriculaG.Estado_Mat = 'Pendiente';
         MatriculaG.Observacion = '';
         $("#FormBandeja .observacion").val('');
@@ -57,6 +58,7 @@ $(document).ready(function() {
     });
 
     $("#FormBandeja .Actualizar").click(()=>{
+        MatriculaG.Btn = 'Actualizar';
         $("#FormBandeja .observacion").val('');
         valida = true;
         if( MatriculaG.TotalIns < $("#txt_monto_pago_inscripcion").val()*1 ){
@@ -87,6 +89,7 @@ $(document).ready(function() {
     });
 
     $("#FormBandeja .Anulado").click(()=>{
+        MatriculaG.Btn = 'Anulado';
         MatriculaG.Estado_Mat = 'Anulado';
         MatriculaG.Observacion = $.trim( $("#FormBandeja .observacion").val() );
         if( MatriculaG.Observacion == '' ){
@@ -118,7 +121,9 @@ let Valida = {
     HTMLBandejaValida: (result) => {
         var html="";
         MatriculaG.Valida = [];
-        $("#FormBandeja").hide(500);
+        if(MatriculaG.Btn != 'Actualizar'){
+            $("#FormBandeja").hide(500);
+        }        
         $('#TableBandejaValida').DataTable().destroy();
     
         $.each(result.data.data, (index,r) => {
@@ -172,7 +177,11 @@ let Valida = {
                 $('#TableBandejaValida_paginate ul').remove();
                 masterG.CargarPaginacion('Valida.HTMLBandejaValida','AjaxBandeja.BandejaValida',result.data,'#TableBandejaValida_paginate');
             }
-        });        
+        });
+        
+        if(MatriculaG.Btn == 'Actualizar'){
+            Detalle.Visualizar(MatriculaG.Id, MatriculaG.Tipo);
+        }
     },
 }
 
@@ -388,7 +397,10 @@ let Detalle = {
             }
 
             if( $.trim(r.salcd)!='' ){
-                ds = r.cuotacd+' / FV:'+r.fecha_cronograma;;
+                ds = r.cuotacd+' / FV:'+r.fecha_cronograma;
+                if( r.tipo_matricula == 2 ){
+                    ds = r.cuotacd;
+                }
                 importe = r.salcd*1;
                 ids = "<input type='hidden' name='salcd_id' value='"+$.trim(r.salcd_id)+"'>"+
                         "<input type='hidden' name='salcd' value='"+$.trim(r.salcd)+"'>";
@@ -396,6 +408,9 @@ let Detalle = {
             }
             else if( $.trim(r.cuota_cronograma)!='' ){
                 ds = r.cuota_cronograma+' / FV:'+r.fecha_cronograma;
+                if( r.tipo_matricula == 2 ){
+                    ds = r.cuota_cronograma;
+                }
                 importe = r.monto_cronograma*1;
             }
 

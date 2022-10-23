@@ -1649,7 +1649,7 @@ class Seminario extends Model
             IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion, 
             IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion, 
             `mc`.`curso` AS `curso`, `s`.`sucursal` AS `local`, `mp`.`dia` AS `frecuencia`, `mp`.`turno`, `mp`.`fecha_inicio` AS `inicio`,
-            ms.saldo, ms.precio,
+            ms.saldo, ms.precio, mm.tipo_matricula,
             IF(cd.cuota=-1,'Inscripción',CONCAT('Cuota # ',cd.cuota) ) cuotacd, cd.salcd,
             CONCAT('Cuota # ',cp.cuota) cuota_cronograma, cp.fecha_cronograma, cp.monto_cronograma,
             si.salsi, si.salsi_id, cd.salcd_id, si.presi,
