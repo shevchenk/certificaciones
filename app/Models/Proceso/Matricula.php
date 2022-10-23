@@ -641,7 +641,7 @@ class Matricula extends Model
                     ,'mm.fecha_matricula',DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
                     , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") ) AS tipo_formacion')
                     , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) ) AS formacion')
-                    , DB::raw(' MIN(mm.archivo_pago) as archivo_pago_matricula, MIN(mm.archivo_pago_inscripcion) AS archivo_pago_inscripcion ')
+                    , DB::raw(' MIN(mm.archivo_pago) as archivo_pago_matricula, MIN(mm.archivo_pago_inscripcion) AS archivo_pago_inscripcion, MIN(mm.archivo_promocion) AS archivo_pago_promocion ')
                     /*,'mc.curso AS curso', 'mp.dia AS frecuencia'
                     , DB::raw('CONCAT(TIME(mp.fecha_inicio)," - ",TIME(mp.fecha_final)) AS horario')
                     , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')*/
@@ -654,6 +654,10 @@ class Matricula extends Model
                                 "",
                                 GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id )
                                 ) AS monto_pago')
+                    ,DB::raw(' IF(ep.tipo = 1, 
+                                "",
+                                GROUP_CONCAT( mmd.archivo_pago_certificado ORDER BY mmd.id )
+                                ) AS archivo')
                     ,DB::raw(' IF(ep.tipo = 1, 
                                 "",
                                 GROUP_CONCAT( 

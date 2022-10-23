@@ -214,14 +214,6 @@
                         <label>Observación:</label>
                         <textarea disabled class="form-control obs"></textarea>
                     </div>
-                    <div class="col-lg-4">
-                        <label>Archivo de Inscripción:</label>
-                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_inscripcion"><i class="fa fa-download fa-lg"></i></a>
-                    </div>
-                    <div class="col-lg-4">
-                        <label>Archivo de Matrícula:</label>
-                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_matricula"><i class="fa fa-download fa-lg"></i></a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -276,17 +268,22 @@
                     <div class="box-title">Pago de Inscripción</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_pago_inscripcion"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_pago_inscripcion"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_inscripcion"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <br>
+                        <label>Archivo:</label>
+                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_inscripcion"><i class="fa fa-download fa-lg"></i></a>
                     </div>
                 </div>
             </div>
@@ -298,17 +295,22 @@
                     <div class="box-title">Pago de Matrícula</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_pago_matricula"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_pago_matricula"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_matricula"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <br>
+                        <label>Archivo:</label>
+                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_matricula"><i class="fa fa-download fa-lg"></i></a>
                     </div>
                 </div>
             </div>
@@ -320,17 +322,22 @@
                     <div class="box-title">Pago de Promoción</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_promocion"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_promocion"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_promocion"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <br>
+                        <label>Archivo:</label>
+                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_promocion"><i class="fa fa-download fa-lg"></i></a>
                     </div>
                 </div>
             </div>
@@ -349,6 +356,7 @@
                                 <th class="text-center">Doc de Pago</th>
                                 <th class="text-center">Monto Pagado</th>
                                 <th class="text-center">Tipo de Pago</th>
+                                <th class="text-center">Archivo</th>
                             </tr>
                         </thead>
                         <tbody class="curso_pagos"></tbody>
@@ -371,6 +379,7 @@
                                 <th class="text-center">Doc de Pago</th>
                                 <th class="text-center">Monto Pagado</th>
                                 <th class="text-center">Tipo de Pago</th>
+                                <th class="text-center">Archivo</th>
                             </tr>
                         </thead>
                         <tbody class="cuotas"></tbody>

@@ -1,5 +1,9 @@
 <script type="text/javascript">
-let MatriculaG = {Valida: [], Historica:[], Id:'', Estado_Mat: '', Observacion: ''};
+let MatriculaG = {
+    Valida: [], Historica:[], Id:'', Estado_Mat: '', Observacion: '',
+    BtnAuxSi: '<a class="btn btn-flat btn-info btn-lg" href="#" target="blank"><i class="fa fa-download fa-lg"></i></a>',
+    BtnAuxNo: '<a class="btn btn-flat btn-danger btn-lg"><i class="fa fa-ban fa-lg"></i></a>'
+};
 $(document).ready(function() {
     $(".fecha").datetimepicker({
         format: "yyyy-mm-dd",
@@ -221,6 +225,13 @@ let Detalle = {
             $("#archivo_matricula").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_matricula);
             $("#archivo_matricula i").addClass('fa-download').removeClass('fa-ban');
         }
+
+        $("#archivo_promocion").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
+        $("#archivo_promocion i").addClass('fa-ban').removeClass('fa-download');
+        if( Matricula.archivo_pago_promocion != '' ){
+            $("#archivo_promocion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_promocion);
+            $("#archivo_promocion i").addClass('fa-download').removeClass('fa-ban');
+        }
         
         $.each( Matricula, (key, value) => {
             $("#FormBandeja ."+key).text( $.trim(value) );
@@ -242,11 +253,16 @@ let Detalle = {
         $.each( $.trim(Matricula.nro_pago).split(","), (key, value) =>{
             total += Matricula.monto_pago.split(",")[key]*1;
             if( value != '' && Matricula.monto_pago.split(",")[key]*1 > 0 ){
+                btnaux = MatriculaG.BtnAuxNo;
+                if( Matricula.archivo.split(",")[key] != '' ){
+                    btnaux = MatriculaG.BtnAuxSi.replace("#", Matricula.archivo.split(",")[key]);
+                }
                 html+=  "<tr>"+
                             "<td>"+Matricula.curso[key]+"</td>"+
                             "<td>"+value+"</td>"+
                             "<td>"+Matricula.monto_pago.split(",")[key]+"</td>"+
                             "<td>"+Matricula.tipo_pago.split(",")[key]+"</td>"+
+                            "<td>"+btnaux+"</td>"+
                         "</tr>";
             }
         });
@@ -342,12 +358,17 @@ let Detalle = {
         $.each(result.data,function(index,r){
             let importe = r.monto_cuota;
             if( importe*1>0 ){
+                btnaux = MatriculaG.BtnAuxNo;
+                if( $.trim(r.archivo_cuota) != '' ){
+                    btnaux = MatriculaG.BtnAuxSi.replace("#", r.archivo_cuota);
+                }
                 html+=  "<tr>"+
                             "<td>"+$.trim(r.cuota)+"</td>"+
                             //"<td>"+$.trim( (r.programado.split("-")[1]*1).toFixed(2) )+"</td>"+
                             "<td>"+$.trim(r.nro_cuota)+"</td>"+
                             "<td>"+$.trim(importe)+"</td>"+
                             "<td>"+$.trim(r.tipo_pago_cuota)+"</td>"+
+                            "<td>"+btnaux+"</td>"+
                         "</tr>";
                 total+= $.trim(importe)*1;
             }
