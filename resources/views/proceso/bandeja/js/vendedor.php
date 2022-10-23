@@ -2,7 +2,9 @@
 let MatriculaG = {
     Valida: [], Historica:[], Programacion:[], 
     Id:'', Estado_Mat: '', Observacion: '', Tipo: '', TotalIns: 0, TotalMat: 0, LDfiltrosG: '', Programacion_Id: '', Btn:'Default',
-    TotalCuo: [], TotalCur: [], TotalIds: []
+    TotalCuo: [], TotalCur: [], TotalIds: [],
+    BtnAuxSi: '<a class="btn btn-flat btn-info btn-lg" href="#" target="blank"><i class="fa fa-download fa-lg"></i></a>',
+    BtnAuxNo: '<a class="btn btn-flat btn-danger btn-lg"><i class="fa fa-ban fa-lg"></i></a>'
 };
 $(document).ready(function() {
     $(".fecha").datetimepicker({
@@ -256,29 +258,45 @@ let Detalle = {
         let html = '';
         MatriculaG.Id = id;
         MatriculaG.Tipo = tipo;
+        $(".CursosG").show(1500);
+        $(".CuotasG").hide(1000);
+
+        $("#pago_nombre_inscripcion, #pago_nombre_matricula, #pago_nombre_promocion, #pago_archivo_inscripcion, #pago_archivo_matricula, #pago_archivo_promocion").val('');
+        $("#pago_img_ins, #pago_img_mat, #pago_img").attr('src','archivo/default.png');
         
         $("#FormBandeja").show(500);
         $("#FormBandeja .btns").hide(1000);
+        $(".ArchivosG").hide();
         if( tipo == 'Valida' ){
             $("#FormBandeja .btns").show(1500);
+            $(".ArchivosG").show();
             Matricula = MatriculaG.Valida[id];
         }
         else{
             Matricula = MatriculaG.Historica[id];
         }
+        const d = new Date();
+        let time = d.getTime();
 
         $("#archivo_inscripcion").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
         $("#archivo_inscripcion i").addClass('fa-ban').removeClass('fa-download');
         if( Matricula.archivo_pago_inscripcion != '' ){
-            $("#archivo_inscripcion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_inscripcion);
+            $("#archivo_inscripcion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_inscripcion+"?time="+time);
             $("#archivo_inscripcion i").addClass('fa-download').removeClass('fa-ban');
         }
 
         $("#archivo_matricula").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
         $("#archivo_matricula i").addClass('fa-ban').removeClass('fa-download');
         if( Matricula.archivo_pago_matricula != '' ){
-            $("#archivo_matricula").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_matricula);
+            $("#archivo_matricula").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_matricula+"?time="+time);
             $("#archivo_matricula i").addClass('fa-download').removeClass('fa-ban');
+        }
+
+        $("#archivo_promocion").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
+        $("#archivo_promocion i").addClass('fa-ban').removeClass('fa-download');
+        if( Matricula.archivo_pago_promocion != '' ){
+            $("#archivo_promocion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_promocion+"?time="+time);
+            $("#archivo_promocion i").addClass('fa-download').removeClass('fa-ban');
         }
         
         $.each( Matricula, (key, value) => {
@@ -341,6 +359,10 @@ let Detalle = {
         $.each( $.trim(Matricula.nro_pago).split(","), (key, value) =>{
             total += Matricula.monto_pago.split(",")[key]*1;
             if( value != '' && Matricula.monto_pago.split(",")[key]*1 > 0 ){
+                btnaux = MatriculaG.BtnAuxNo;
+                if( Matricula.archivo.split(",")[key] != '' ){
+                    btnaux = MatriculaG.BtnAuxSi.replace("#", Matricula.archivo.split(",")[key]+"?time="+time);
+                }
                 if( MatriculaG.Tipo == 'Valida' ){
                     MatriculaG.TotalIds.push(Matricula.matricula_detalle_id.split(",")[key]);
                     MatriculaG.TotalCur[ Matricula.matricula_detalle_id.split(",")[key] ] = Matricula.monto_pago.split(",")[key]*1;
@@ -350,6 +372,23 @@ let Detalle = {
                                 "<td>"+"<input type='text' class='form-control' name='txt_nro_pago_certificado[]' value='"+ value + "'>"+"</td>"+
                                 "<td>"+"<input type='text' class='form-control' id='"+Matricula.matricula_detalle_id.split(",")[key]+"' name='txt_monto_pago_certificado[]' value='"+ Matricula.monto_pago.split(",")[key] + "'>"+"</td>"+
                                 "<td>"+"<select class='form-control' name='slct_tipo_pago[]'>"+$("#slct_tipo_demo").html() + "</select>"+"</td>"+
+                                "<td>"+btnaux+"</td>"+
+                                "<td>"+
+                                    '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'"  name="pago_nombre_certificado[]" value="" readonly="">'+
+                                    '<input type="text" style="display: none;" class="mant" id="pago_archivo_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'" name="pago_archivo_certificado[]">'+
+                                    '<label class="btn btn-warning  btn-flat margin">'+
+                                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
+                                        '<i class="fa fa-file-word-o fa-lg"></i>'+
+                                        '<i class="fa fa-file-image-o fa-lg"></i>'+
+                                        '<input type="file" style="display: none;" class="mant" onchange="masterG.onImagen(event,\'#pago_nombre_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'\',\'#pago_archivo_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'\',\'#pago_img_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'\');">'+
+                                    '</label>'+
+                                    '<label class="btn btn-danger  btn-flat margin" onClick="Detalle.Limpiar(\'_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'\',\'_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'\')">'+
+                                        '<i class="fa fa-remove fa-lg"></i>'+
+                                    '</label>'+
+                                    '<a id="">'+
+                                    '<img id="pago_img_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                                    '</a>'+
+                                "</td>"+
                             "</tr>";
                 }
                 else{
@@ -358,6 +397,7 @@ let Detalle = {
                                 "<td>"+value+"</td>"+
                                 "<td>"+Matricula.monto_pago.split(",")[key]+"</td>"+
                                 "<td>"+Matricula.tipo_pago.split(",")[key]+"</td>"+
+                                "<td>"+btnaux+"</td>"+
                             "</tr>";
                 }
                 $("#FormBandeja .curso_pagos").append(html);
@@ -464,9 +504,15 @@ let Detalle = {
         let html = '';
         let total = 0;
         $("#FormBandeja .cuotas").html(html);
+        const d = new Date();
+        let time = d.getTime();
         $.each(result.data,function(index,r){
             let importe = r.monto_cuota;
             if( importe*1>0 ){
+                btnaux = MatriculaG.BtnAuxNo;
+                if( $.trim(r.archivo_cuota) != '' ){
+                    btnaux = MatriculaG.BtnAuxSi.replace("#", r.archivo_cuota+"?time="+time);
+                }
                 if( MatriculaG.Tipo == 'Valida' ){
                     MatriculaG.TotalIds.push(r.matricula_id+"_"+r.cuota);
                     MatriculaG.TotalCuo[r.matricula_id+"_"+r.cuota] = $.trim(importe)*1;
@@ -476,6 +522,23 @@ let Detalle = {
                                 "<td>"+"<input type='text' class='form-control' name='txt_nro_cuota[]' value='"+ $.trim(r.nro_cuota) + "'>"+"</td>"+
                                 "<td>"+"<input type='text' class='form-control' id='"+r.matricula_id+"_"+r.cuota+"' name='txt_monto_cuota[]' value='"+ $.trim(importe) + "'>"+"</td>"+
                                 "<td>"+"<select class='form-control' name='slct_tipo_pago_cuota[]'>"+$("#slct_tipo_demo").html() + "</select>"+"</td>"+
+                                "<td>"+btnaux+"</td>"+
+                                "<td>"+
+                                    '<input type="text" readonly class="form-control" id="pago_nombre_cuota'+r.id+'"  name="pago_nombre_cuota[]" value="" readonly="">'+
+                                    '<input type="text" style="display: none;" class="mant" id="pago_archivo_cuota'+r.id+'" name="pago_archivo_cuota[]">'+
+                                    '<label class="btn btn-warning  btn-flat margin">'+
+                                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
+                                        '<i class="fa fa-file-word-o fa-lg"></i>'+
+                                        '<i class="fa fa-file-image-o fa-lg"></i>'+
+                                        '<input type="file" style="display: none;" class="mant" onchange="masterG.onImagen(event,\'#pago_nombre_cuota'+r.id+'\',\'#pago_archivo_cuota'+r.id+'\',\'#pago_img_cuota'+r.id+'\');">'+
+                                    '</label>'+
+                                    '<label class="btn btn-danger  btn-flat margin" onClick="Detalle.Limpiar(\'_cuota'+r.id+'\',\'_cuota'+r.id+'\')">'+
+                                        '<i class="fa fa-remove fa-lg"></i>'+
+                                    '</label>'+
+                                    '<a id="">'+
+                                    '<img id="pago_img_cuota'+r.id+'" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">'+
+                                    '</a>'+
+                                "</td>"+
                             "</tr>";
                 }
                 else{
@@ -484,6 +547,7 @@ let Detalle = {
                                 "<td>"+$.trim(r.nro_cuota)+"</td>"+
                                 "<td>"+$.trim(importe)+"</td>"+
                                 "<td>"+$.trim(r.tipo_pago_cuota)+"</td>"+
+                                "<td>"+btnaux+"</td>"+
                             "</tr>";
                 }
                 total+= $.trim(importe)*1;
@@ -497,6 +561,10 @@ let Detalle = {
                     "<td>"+total.toFixed(2)+"</td>"+
                 "</tr>";
         $("#FormBandeja .cuotas").append(html);
+        if( total*1 > 0 ){
+            $(".CuotasG").show(1500);
+            $(".CursosG").hide(1000);
+        }
     },
     HTMLActualizaEstadoMat: (result) =>{
         if(result.rst == 1){
@@ -504,6 +572,10 @@ let Detalle = {
             msjG.mensaje('success','Se proceso correctamente',3000);
             AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida);
         }
+    },
+    Limpiar: (t1, i1) => {
+        $("#pago_nombre"+t1+", #pago_archivo"+t1).val('');
+        $("#pago_img"+i1).attr('src','archivo/default.png');
     },
 }
 

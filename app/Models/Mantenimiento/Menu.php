@@ -82,6 +82,7 @@ class Menu extends Model
     
     public static function fileToFile($file, $url)
     {
+        @unlink($url);
         $urld=explode("/",$url);
         $urlt=array();
         for ($i=0; $i < (count($urld)-1) ; $i++) { 

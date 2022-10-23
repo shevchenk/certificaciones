@@ -914,6 +914,31 @@ class Matricula extends Model
             $matricula->monto_promocion = trim($r->monto_promocion)*1;
         }
         /**********************************************************************************************************************/
+        /* TODO: Archivos Ins, Mat y Pro **************************************************************************************/
+        if( $r->has('pago_archivo_matricula') AND trim($r->pago_archivo_matricula)!='' ){
+            $type=explode(".",$r->pago_nombre_matricula);
+            $extension=".".$type[1];
+            $url = "upload/m$matricula->id/ma_0".$extension;
+            $matricula->archivo_pago=$url;
+            Menu::fileToFile($r->pago_archivo_matricula, $url);
+        }
+
+        if( $r->has('pago_archivo_inscripcion') AND trim($r->pago_archivo_inscripcion)!='' ){
+            $type=explode(".",$r->pago_nombre_inscripcion);
+            $extension=".".$type[1];
+            $url = "upload/m$matricula->id/ins_0".$extension; 
+            $matricula->archivo_pago_inscripcion=$url;
+            Menu::fileToFile($r->pago_archivo_inscripcion, $url);
+        }
+
+        if( $r->has('pago_archivo_promocion') AND trim($r->pago_archivo_promocion)!='' ){
+            $type=explode(".",$r->pago_nombre_promocion);
+            $extension=".".$type[1];
+            $url = "upload/m$matricula->id/pro_0".$extension; 
+            $matricula->archivo_promocion=$url;
+            Menu::fileToFile($r->pago_archivo_promocion, $url);
+        }
+        /**********************************************************************************************************************/
         /* TODO: Cuotas   *****************************************************************************************************/
         if( $r->has('cuota_id') AND is_array($r->cuota_id) ){
             foreach ($r->cuota_id as $key => $value) {
@@ -972,6 +997,14 @@ class Matricula extends Model
                             $matriculaSaldo->save();
                         }
                     }
+                }
+
+                if( $r->has('pago_archivo_cuota') AND trim($r->pago_archivo_cuota[$key])!='' ){
+                    $type=explode(".",$r->pago_nombre_cuota[$key]);
+                    $extension=".".$type[1];
+                    $url = "upload/m$matricula->id/cuotas/C".$matriculaCuotas->cuota.$extension;
+                    $matriculaCuotas->archivo_cuota= $url;
+                    Menu::fileToFile($r->pago_archivo_cuota[$key], $url);
                 }
 
                 $matriculaCuotas->persona_id_updated_at = $id;
@@ -1040,6 +1073,14 @@ class Matricula extends Model
                         $saldo = 0;
                     }
                     $matriculaDetalle->saldo = $saldo;
+                }
+
+                if( $r->has('pago_archivo_certificado') AND trim($r->pago_archivo_certificado[$key])!='' ){
+                    $type=explode(".",$r->pago_nombre_certificado[$key]);
+                    $extension=".".$type[1];
+                    $url = "upload/m$matricula->id/cer_".$matriculaDetalle->id.$extension;
+                    $matriculaDetalle->archivo_pago_certificado=$url;
+                    Menu::fileToFile($r->pago_archivo_certificado[$key], $url);
                 }
 
                 $matriculaDetalle->persona_id_updated_at = $id;

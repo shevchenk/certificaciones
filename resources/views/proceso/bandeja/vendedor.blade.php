@@ -229,14 +229,6 @@
                         <label>Observación del Supervisor:</label>
                         <textarea disabled class="form-control alert-danger obs2"></textarea>
                     </div>
-                    <div class="col-lg-4">
-                        <label>Archivo de Inscripción:</label>
-                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_inscripcion"><i class="fa fa-download fa-lg"></i></a>
-                    </div>
-                    <div class="col-lg-4">
-                        <label>Archivo de Matrícula:</label>
-                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_matricula"><i class="fa fa-download fa-lg"></i></a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -292,17 +284,41 @@
                     <div class="box-title">Pago de Inscripción</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_pago_inscripcion"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_pago_inscripcion"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_inscripcion"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <br>
+                        <label>Archivo:</label>
+                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_inscripcion"><i class="fa fa-download fa-lg"></i></a>
+                    </div>
+                    <div class="ArchivosG col-lg-8">
+                        <label>Subir Archivo</label>
+                        <input type="text" readonly class="form-control" id="pago_nombre_inscripcion"  name="pago_nombre_inscripcion" value="" readonly="">
+                        <input type="text" style="display: none;" class="mant" id="pago_archivo_inscripcion" name="pago_archivo_inscripcion">
+                        <label class="btn btn-warning  btn-flat margin">
+                            <i class="fa fa-file-pdf-o fa-lg"></i>
+                            <i class="fa fa-file-word-o fa-lg"></i>
+                            <i class="fa fa-file-image-o fa-lg"></i>
+                            <input type="file" style="display: none;" class="mant" onchange="masterG.onImagen(event,'#pago_nombre_inscripcion','#pago_archivo_inscripcion','#pago_img_ins');" id="file_inscripcion">
+                        </label>
+                        <label class="btn btn-danger  btn-flat margin" onClick="Detalle.Limpiar('_inscripcion','_ins')">
+                            <i class="fa fa-remove fa-lg"></i>
+                        </label>
+                    </div>
+                    <div class="ArchivosG col-lg-4">
+                        <a id="">
+                        <img id="pago_img_ins" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -314,17 +330,41 @@
                     <div class="box-title">Pago de Matrícula</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_pago_matricula"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_pago_matricula"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_matricula"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <br>
+                        <label>Archivo:</label>
+                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_matricula"><i class="fa fa-download fa-lg"></i></a>
+                    </div>
+                    <div class="ArchivosG col-lg-8">
+                        <label>Subir Archivo</label>
+                        <input type="text" readonly class="form-control" id="pago_nombre_matricula"  name="pago_nombre_matricula" value="" readonly="">
+                        <input type="text" style="display: none;" class="mant" id="pago_archivo_matricula" name="pago_archivo_matricula">
+                        <label class="btn btn-warning  btn-flat margin">
+                            <i class="fa fa-file-pdf-o fa-lg"></i>
+                            <i class="fa fa-file-word-o fa-lg"></i>
+                            <i class="fa fa-file-image-o fa-lg"></i>
+                            <input type="file" style="display: none;" class="mant" onchange="masterG.onImagen(event,'#pago_nombre_matricula','#pago_archivo_matricula','#pago_img_mat');" id="file_matricula">
+                        </label>
+                        <label class="btn btn-danger  btn-flat margin" onClick="Detalle.Limpiar('_matricula','_mat')">
+                            <i class="fa fa-remove fa-lg"></i>
+                        </label>
+                    </div>
+                    <div class="ArchivosG col-lg-4">
+                        <a id="">
+                        <img id="pago_img_mat" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -336,23 +376,47 @@
                     <div class="box-title">Pago de Promoción</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_promocion"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_promocion"></span>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
                         <span class="form-control tipo_pago_promocion"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <br>
+                        <label>Archivo:</label>
+                        <a class="btn btn-flat btn-info btn-lg" target="blank" id="archivo_promocion"><i class="fa fa-download fa-lg"></i></a>
+                    </div>
+                    <div class="ArchivosG col-lg-8">
+                        <label>Subir Archivo</label>
+                        <input type="text" readonly class="form-control" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="" readonly="">
+                        <input type="text" style="display: none;" class="mant" id="pago_archivo_promocion" name="pago_archivo_promocion">
+                        <label class="btn btn-warning  btn-flat margin">
+                            <i class="fa fa-file-pdf-o fa-lg"></i>
+                            <i class="fa fa-file-word-o fa-lg"></i>
+                            <i class="fa fa-file-image-o fa-lg"></i>
+                            <input type="file" style="display: none;" class="mant" onchange="masterG.onImagen(event,'#pago_nombre_promocion','#pago_archivo_promocion','#pago_img');" id="file_promocion">
+                        </label>
+                        <label class="btn btn-danger  btn-flat margin" onClick="Detalle.Limpiar('_promocion','')">
+                            <i class="fa fa-remove fa-lg"></i>
+                        </label>
+                    </div>
+                    <div class="ArchivosG col-lg-4">
+                        <a id="">
+                        <img id="pago_img" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6">
+        <div class="CursosG col-lg-8 col-md-6">
             <div class="box box-info">
                 <div class="box-header bg-navy-active text-center">
                     <div class="box-title">Pago por Curso</div>
@@ -365,6 +429,8 @@
                                 <th class="text-center">Doc de Pago</th>
                                 <th class="text-center">Monto Pagado</th>
                                 <th class="text-center">Tipo de Pago</th>
+                                <th class="text-center">Archivo</th>
+                                <th class="text-center ArchivosG">Subir Archivo</th>
                             </tr>
                         </thead>
                         <tbody class="curso_pagos"></tbody>
@@ -373,7 +439,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6">
+        <div class="CuotasG col-lg-8 col-md-6">
             <div class="box box-info">
                 <div class="box-header bg-navy-active text-center">
                     <div class="box-title">Pago por Cuota</div>
@@ -386,6 +452,8 @@
                                 <th class="text-center">Doc de Pago</th>
                                 <th class="text-center">Monto Pagado</th>
                                 <th class="text-center">Tipo de Pago</th>
+                                <th class="text-center">Archivo</th>
+                                <th class="text-center ArchivosG">Subir Archivo</th>
                             </tr>
                         </thead>
                         <tbody class="cuotas"></tbody>
