@@ -251,6 +251,7 @@ class Especialidad extends Model
                 ->leftJoin(DB::raw(
                     '(SELECT mepc.especialidad_programacion_id
                     , GROUP_CONCAT(mepc.fecha_cronograma," - ",mepc.monto_cronograma ORDER BY mepc.cuota SEPARATOR \'|\') cronograma
+                    , GROUP_CONCAT(mepc.monto_cronograma ORDER BY mepc.cuota SEPARATOR \'|\') cronograma2
                     FROM mat_especialidades_programaciones_cronogramas AS mepc
                     WHERE mepc.estado=1
                     GROUP BY mepc.especialidad_programacion_id) AS cro'
@@ -266,7 +267,7 @@ class Especialidad extends Model
                     ),function($join){
                     $join->on('mps.curso_id','=','mc.id');
                 })
-                ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','mep.costo','mep.costo_mat'
+                ->select(DB::raw('CONCAT(me.id,"_",mep.id) AS id'),'me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','cro.cronograma2','mep.costo','mep.costo_mat'
                 ,DB::raw('MIN(mep.adicional) AS adicional')
                 /*,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso, "|", IFNULL(mps.cant,0), "|", IFNULL(mps.nota,"") ORDER BY mce.orden SEPARATOR "^^" ) cursos')*/
                 ,DB::raw('GROUP_CONCAT( mce.orden, "<input type=\'hidden\' class=\'curso_id\' value=\'",mce.curso_id,"\'>", "|", mc.curso ORDER BY mce.orden SEPARATOR "^^" ) cursos')
@@ -293,7 +294,7 @@ class Especialidad extends Model
                         }
                     }
                 })
-                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','mep.costo','mep.costo_mat');
+                ->groupBy('me.id','mep.id','me.especialidad','mep.fecha_inicio','mep.tipo','mep.nro_cuota','cro.cronograma','cro.cronograma2','mep.costo','mep.costo_mat');
         $result = $sql->orderBy('me.especialidad','asc')->paginate(10);
         return $result;
     }

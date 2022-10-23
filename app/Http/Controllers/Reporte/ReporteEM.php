@@ -766,16 +766,9 @@ class ReporteEM extends Controller
                 $cells->setValignment('center');
                 $cells->setTextRotation(90);
             });
-            $data=json_decode(json_encode($renturnModel['data']), false);
+            $data=json_decode(json_encode($renturnModel['data']), true);
             $sheet->rows($data);
             
-            /*$pos=4;
-            $posaux=0;
-            for ($i=0; $i<count($data); $i++) {
-                //unset($renturnModel['data']->total);
-            }*/
-            //dd($renturnModel['data'][0], "hola 11");
-            //$pos=3;
             //$contador=0;
             
             $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
