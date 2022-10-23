@@ -43,6 +43,7 @@
                 <div class="tab-pane active" id="tab_1">
                     <div class="col-xs-12 box">
                         <form id="BandejaValidaForm">
+                        <input type='hidden' class="mant" name='vendedor' value='1'>
                             <h2>.::Bandeja a Validar::.</h2>
                             <div class="box-body table-responsive no-padding">                        
                                 <table id="TableBandejaValida" class="table table-bordered table-hover">
@@ -113,6 +114,7 @@
                 <div class="tab-pane" id="tab_2">
                     <div class="col-xs-12 box">
                         <form id="BandejaHistoricaForm">
+                            <input type='hidden' class="mant" name='vendedor' value='1'>
                             <h2>.::Bandeja Histórica::.</h2>
                             <div class="box-body table-responsive no-padding">                        
                                 <table id="TableBandejaHistorica" class="table table-bordered table-hover">
