@@ -167,7 +167,7 @@ class Especialidad extends Model
         if( $r->has('sucursal_id') ){
             $sucursal= " AND eps.sucursal_id=".$r->sucursal_id;
         }
-        $sql= " SELECT e.id, e.especialidad, ep.costo inscripcion, ep.costo_mat matricula, ep.fecha_inicio, ep.id id_ep
+        $sql= " SELECT e.id, e.especialidad, ep.costo inscripcion, ep.costo_mat matricula, ep.fecha_inicio, ep.id id_ep, ep.adicional
                 FROM mat_especialidades e
                 INNER JOIN mat_especialidades_programaciones ep ON ep.especialidad_id = e.id AND ep.tipo=2 AND ep.estado=1
                 INNER JOIN mat_especialidades_programaciones_sucursales eps ON eps.especialidad_programacion_id=ep.id AND eps.estado=1
@@ -192,7 +192,7 @@ class Especialidad extends Model
         if( $r->has('sucursal_id') ){
             $sucursal= " AND eps.sucursal_id=".$r->sucursal_id;
         }
-        $sql= " SELECT e.id, e.especialidad, ep.costo inscripcion, ep.costo_mat matricula, ep.fecha_inicio, ep.id id_ep
+        $sql= " SELECT e.id, e.especialidad, ep.costo inscripcion, ep.costo_mat matricula, ep.fecha_inicio, ep.id id_ep, ep.adicional
                 FROM mat_especialidades e
                 INNER JOIN mat_especialidades_programaciones ep ON ep.especialidad_id = e.id AND ep.tipo=2 AND ep.estado=1
                 INNER JOIN mat_especialidades_programaciones_sucursales eps ON eps.especialidad_programacion_id=ep.id AND eps.estado=1

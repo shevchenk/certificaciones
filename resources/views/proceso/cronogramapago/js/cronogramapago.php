@@ -80,9 +80,9 @@ $(document).ready(function() {
 });
 
 ValidaTipo=function(v){
-    $("#ModalEspecialidadProgramacionForm .validatipo").css('display','block');
+    $("#ModalEspecialidadProgramacionForm .validatipo").show();
     if( v==2 ){
-        $("#ModalEspecialidadProgramacionForm .validatipo").css('display','none');
+        $("#ModalEspecialidadProgramacionForm .validatipo").hide();
     }
 }
 

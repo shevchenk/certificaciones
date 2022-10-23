@@ -112,7 +112,8 @@
                     </tbody>
                   </table>
               </div>
-              <div class="col-md-12">
+            </div> <!-- FIN FORM GROUP-->
+            <div class="col-md-12">
                 <br>
                   <table class="table table-bordered table-striped">
                     <thead class="bg-info">
@@ -123,7 +124,7 @@
                       </tr>
                     </thead>
                     <tbody> <!-- id="datoadicional" -->
-                          <tr>
+                          <tr class="validatipo">
                             <td><label class="form-control">2do Ciclo o Módulo en Adelante</label></td>
                             <td><textarea id="adicional1" name="txt_adicional[]" class="form-control"></textarea></td>
                           </tr>
@@ -134,9 +135,6 @@
                     </tbody>
                   </table>
               </div>
-
-            </div> <!-- FIN FORM GROUP-->
-          
           </form><!-- FIN FORM-->
         </div><!-- FIN BOODY-->
         <div class="modal-footer">

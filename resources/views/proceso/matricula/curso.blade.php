@@ -493,8 +493,19 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="col-md-12">
+                                        <table class="table" id="t_adicional">
+                                            <thead class="bg-info">
+                                                <tr>
+                                                    <th style="text-align:center;">Adicional &nbsp;&nbsp;
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_adicional">
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-12">

@@ -384,6 +384,14 @@ ValidarCobro=function(v){
     precio_ins = $("#slct_especialidad2_id option:selected").attr("data-ins");
     precio_mat = $("#slct_especialidad2_id option:selected").attr("data-mat");
     id_ep = $("#slct_especialidad2_id option:selected").attr("data-id_ep");
+    adicional = $("#slct_especialidad2_id option:selected").attr("data-adicional");
+
+    $("#t_adicional").hide();
+    $("#tb_adicional").html("");
+    if( $.trim(adicional.split("|")[1]) != '' ){
+        $("#t_adicional").show();
+        $("#tb_adicional").html("Promoción de la venta: <span style='font-style: italic;'>"+$.trim(adicional).split("|")[1]+"</span></li>");
+    }
 
     $("#ModalMatriculaForm #txt_especialidad_programacion_id2" ).val(id_ep);
     $("#precio_ins").html(precio_ins);
@@ -405,7 +413,11 @@ ValidarCobro=function(v){
 SlctCargarEspecialidad=function(result){
     var html="";
     $.each(result.data,function(index,r){
-          html+="<option data-id_ep='"+r.id_ep+"' data-mat='"+r.matricula+"' data-ins='"+r.inscripcion+"' value='"+r.id+"'>"+r.especialidad+" => FI:"+r.fecha_inicio+" / Ins:"+r.inscripcion+" / Mat:"+r.matricula+"</option>";
+        adicional = '|';
+        if( $.trim(r.adicional) != '' ){
+            adicional = r.adicional;
+        }
+        html+="<option data-id_ep='"+r.id_ep+"' data-adicional='"+ adicional +"'  data-mat='"+r.matricula+"' data-ins='"+r.inscripcion+"' value='"+r.id+"'>"+r.especialidad+" => FI:"+r.fecha_inicio+" / Ins:"+r.inscripcion+" / Mat:"+r.matricula+"</option>";
     });
     $("#ModalMatriculaForm #slct_especialidad2_id").html(html); 
     $("#ModalMatriculaForm #slct_especialidad2_id").selectpicker('refresh');
