@@ -93,7 +93,7 @@ class Llamada extends Model
         $sql=DB::table('llamadas AS ll')
             ->join('personas_llamadas AS pl', 'pl.id', '=', 'll.persona_id')
             ->join('tipo_llamadas AS tl', 'tl.id', '=', 'll.tipo_llamada_id')
-            ->select(DB::raw('CONCAT(pl.nombre, " ", pl.paterno, " ",pl.materno ) persona'), 'll.fecha_llamada', 'tl.tipo_llamada as estado_llamada',
+            ->select(DB::raw('CONCAT(pl.nombre, " ", pl.paterno, " ",pl.materno ) persona'), 'pl.dni', 'll.fecha_llamada', 'tl.tipo_llamada as estado_llamada',
             'll.comentario', 'll.fechas AS fecha_programada', 'll.id')
             ->where(
                 function($query) use($r){
@@ -107,6 +107,10 @@ class Llamada extends Model
 
                     if( $r->has("estado_llamada") AND trim($r->estado_llamada) != '' ){
                         $query->where('tl.tipo_llamada', 'like','%'.$r->estado_llamada.'%');
+                    }
+
+                    if( $r->has("dni") AND trim($r->dni) != '' ){
+                        $query->where('pl.dni', 'like', $r->dni.'%');
                     }
 
                     if( $r->has("persona") AND trim($r->persona) != '' ){

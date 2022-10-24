@@ -1,7 +1,7 @@
 <!-- /.modal -->
 <div class="modal fade" id="ModalLlamada" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal fade" id="areaModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
-    <div class="modal-dialog modal-xlg">
+    <div class="modal-dialog modal-full">
         <div class="modal-content">
             <div class="modal-header btn-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -14,11 +14,21 @@
                         <form id="LlamadaForm">
                             <label>Trabajador:</label>
                             <label class="form-control" id="trabajador">Hola</label>
+                            <input type='hidden'class="mant" id="txt_dni" name='txt_dni' value=''>
                             <div class="box-body table-responsive no-padding">
                                 <table id="TableLlamada" class="table table-bordered table-hover">
                                     <thead>
                                         <tr class="cabecera">
-                                            <th class="col-md-1">ID Llamada</th>
+                                            <th rowspan=2>ID Llamada</th>
+                                            <th>Fecha Llamada</th>
+                                            <th>Estado Llamada</th>
+                                            <th rowspan=2>DNI</th>
+                                            <th>Persona</th>
+                                            <th>Fecha Programada</th>
+                                            <th rowspan=2>Comentario</th>
+                                            <th rowspan=2>[-]</th>
+                                        </tr>
+                                        <tr class="cabecera">
                                             <th class="col-md-2">
                                                 <input type="text" class="col-md-12 input-lg" name="txt_fecha_llamada" id="txt_fecha_llamada" placeholder="Fecha Llamada" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_programada',1);">
                                             </th>
@@ -31,10 +41,6 @@
                                             <th class="col-md-2">
                                                 <input type="text" class="col-md-12 input-lg" name="txt_fecha_programada" id="txt_fecha_programada" placeholder="Fecha Programada" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_programada',1);">
                                             </th>
-                                            <th class="col-md-2">
-                                                <label><h4>Comentario</h4></label>
-                                            </th>
-                                            <th class="col-md-1">[-]</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -44,6 +50,7 @@
                                             <th>ID Llamada</th>
                                             <th>Fecha Llamada</th>
                                             <th>Estado Llamada</th>
+                                            <th>DNI</th>
                                             <th>Persona</th>
                                             <th>Fecha Programada</th>
                                             <th>Comentario</th>

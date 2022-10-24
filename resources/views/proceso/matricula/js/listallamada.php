@@ -11,7 +11,7 @@ $(document).ready(function() {
     $('#ModalLlamada').on('shown.bs.modal', function (event) {
         
       var button = $(event.relatedTarget); // captura al boton
-      
+      $("#LlamadaForm #txt_dni").val( $("#ModalMatriculaForm #txt_dni").val() );
       
       LlamadaG.persona_id = $.trim( $( button.data().persona_id ).val() );
       LlamadaG.persona = $.trim( $( button.data().persona ).val() );
@@ -52,6 +52,7 @@ HTMLCargarListaLlamada=function(result){
             "<td class='ID'>"+r.id+"</td>"+
             "<td class='fecha_llamada'>"+r.fecha_llamada+"</td>"+
             "<td class='estado_llamada'>"+r.estado_llamada+"</td>"+
+            "<td class='dni'>"+r.dni+"</td>"+
             "<td class='persona'>"+r.persona+"</td>"+
             "<td class='fecha_programada'>"+$.trim(r.fecha_programada)+"</td>"+
             "<td class='comentario'>"+$.trim(r.comentario)+"</td>"+
