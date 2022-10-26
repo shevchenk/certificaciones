@@ -52,7 +52,7 @@
                                             <th>Persona Marketing</th>
                                             <th>Alumno</th>
                                             <th>Carrera / Módulo</th>
-                                            <th>Curso</th>
+                                            <th>Curso / Inicio</th>
                                             <th>Programación</th>
                                             <th>Estado Matrícula</th>
                                             <th>Fecha Estado</th>
@@ -97,7 +97,7 @@
                                             <th>Persona Marketing</th>
                                             <th>Alumno</th>
                                             <th>Carrera / Módulo</th>
-                                            <th>Curso</th>
+                                            <th>Curso / Inicio</th>
                                             <th>Programación</th>
                                             <th>Estado Matrícula</th>
                                             <th>Fecha Estado</th>
@@ -122,7 +122,7 @@
                                             <th>Persona Marketing</th>
                                             <th>Alumno</th>
                                             <th>Carrera / Módulo</th>
-                                            <th>Curso</th>
+                                            <th>Curso / Inicio</th>
                                             <th>Programación</th>
                                             <th>Estado Matrícula</th>
                                             <th>Fecha Estado</th>
@@ -170,7 +170,7 @@
                                             <th>Persona Marketing</th>
                                             <th>Alumno</th>
                                             <th>Carrera / Módulo</th>
-                                            <th>Curso</th>
+                                            <th>Curso / Inicio</th>
                                             <th>Programación</th>
                                             <th>Estado Matrícula</th>
                                             <th>Fecha Estado</th>

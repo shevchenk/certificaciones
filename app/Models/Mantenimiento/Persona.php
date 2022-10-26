@@ -555,6 +555,12 @@ class Persona extends Model
                             $query->where('p.nombre','like','%'.$nombre.'%');
                         }
                     }
+                    if( $r->has("nombre_completo") ){
+                        $nombre_completo=trim($r->nombre_completo);
+                        if( $nombre_completo !='' ){
+                            $query->where('p.nombre','like','%'.$nombre_completo.'%');
+                        }
+                    }
                     if( $r->has("dni") ){
                         $dni=trim($r->dni);
                         if( $dni !='' ){
