@@ -1,7 +1,8 @@
 <style>
     body{
         font-family: sans-serif;
-        margin-top: 50px;
+        font-size: 14px;
+        margin-top: 60px;
     }
     @page {
         margin: 40px 40px;
@@ -27,7 +28,7 @@
     footer {
         position: fixed;
         left: 0px;
-        bottom: 0px;
+        bottom: -10px;
         right: 0px;
         height: 40px;
         border-bottom: 2px solid #ddd;
@@ -68,5 +69,8 @@
     }
     .tab3{
         padding-left: 6em;
+    }
+    ol.nota{
+        font-size: 11px;
     }
 </style>
