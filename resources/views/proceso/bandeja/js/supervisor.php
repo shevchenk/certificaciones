@@ -106,6 +106,7 @@ let Valida = {
                 r.inicio.push( r2.split("|")[4] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
+            btn = '<a class="btn btn-info" onClick="Detalle.ExportarFicha('+r.id+')"><i class="fa fa-file-pdf-o fa-lg"></i>'
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+
@@ -114,7 +115,7 @@ let Valida = {
                         "<td class='curso'><ul><li>"+r.curso.join("</li><li>")+"</li></ul></td>"+
                         "<td class='programacion'><ul><li>"+r.programacion.join("</li><li>")+"</li></ul></td>"+
                         "<td class='estado_mat'>"+r.estado_mat+"</td>"+
-                        "<td class='fecha_estado'>"+r.fecha_estado+"</td>"+
+                        "<td class='fecha_estado'>"+r.fecha_estado+ btn +"</td>"+
                         '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+', \'Valida\')"><i class="fa fa-edit fa-lg"></i> </a></td>'+
                     "</tr>";
             MatriculaG.Valida[r.id] = r;
@@ -399,5 +400,8 @@ let Detalle = {
             msjG.mensaje('warning','No se pudo generar el expediente, vuelva a intentarlo',4000);
         }
     },
+    ExportarFicha: (id) =>{
+        window.open('ReportDinamic/Reporte.PDFRE@ExportPrueba?matricula_id='+id, '_blank');
+    }
 }
 </script>

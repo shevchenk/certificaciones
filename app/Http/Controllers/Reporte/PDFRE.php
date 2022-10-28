@@ -123,6 +123,8 @@ class PDFRE extends Controller
             'persona' => trim($persona->nombre." ".$persona->paterno." ".$persona->materno),
             'dni' => $persona->dni,
             'formacion' => $bandeja->formacion,
+            'detalle' => $detalle,
+            'lugar_estudio' => $bandeja->lugar_estudio,
         ];
 
         $pdf = PDF::loadView('reporte.pdf.prueba', $data);

@@ -36,8 +36,8 @@
                 $mod = "VIRTUAL";
             }
             @endphp
-        <p><span class="negrita tab1"> {{ $dvalue[0] }} </span>(Mod: {{ $mod }}, Fec-inic: {{ $dvalue[4] }}, Fec fin: 2023-02-23, Hora inicio: {{ $dvalue[2] }}, Frecuencia: {{ $dvalue[1] }} Local: {{ $bandeja->lugar_estudio }})</p>
-        @endfor
+        <p><span class="negrita tab1"> {{ $dvalue[0] }} </span>(Mod: {{ $mod }}, Fec-inic: {{ $dvalue[4] }}, Fec fin: 2023-02-23, Hora inicio: {{ $dvalue[2] }}, Frecuencia: {{ $dvalue[1] }} Local: {{ $lugar_estudio }})</p>
+        @endforeach
         <p class="negrita">Ha realizado los siguientes pagos</p>
         <p class="negrita">Pensión:</p>
         <p><span class="negrita tab1">Cuota 1: </span>(N° de Boleta/N° de Operación: BOL001-005687, Importe: S/229, Fecha: 24-10-2022,Tipo: Transferencia, Banco: Continental) CANCELADO</p>
