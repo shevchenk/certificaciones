@@ -1410,6 +1410,10 @@ class Matricula extends Model
             ->leftJoin('personas AS pmar',function($join){
                 $join->on('pmar.id','=','mm.persona_marketing_id');
             })
+            ->leftJoin('mat_trabajadores AS t',function($join) use($r){
+                $join->on('t.persona_id','=','mm.persona_marketing_id')
+                ->where('t.empresa_id', '=', Auth::user()->empresa_id);
+            })
             ->leftJoin('personas AS psup',function($join){
                 $join->on('psup.id','=','mm.persona_id_updated_at');
             })
@@ -1502,7 +1506,7 @@ class Matricula extends Model
                     ,'s.sucursal','s2.sucursal AS recogo_certificado', 'mm.estado_mat', 'mm.fecha_estado', DB::raw('MIN(mm.observacion) AS obs, MIN(mm.observacion_mat) AS obs2')
                     ,DB::raw('MIN(mm.created_at) AS created_at, MIN(mm.updated_at) AS updated_at')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
-                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre,"|",t.codigo))) as marketing')
                     ,'meca.medio_captacion','meca2.medio_captacion AS medio_captacion2'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",psup.paterno,psup.materno,psup.nombre))) as supervisor')

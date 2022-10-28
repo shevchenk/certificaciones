@@ -31,14 +31,12 @@ class PDFRE extends Controller
         }
         $meses = array("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre");
         $fecha_matricula = explode("-", $matricula->fecha_matricula);
-        $fecha = $fecha_matricula[0]." de ".$meses[$fecha_matricula[1]*1]." del ".$fecha_matricula[2];
+        $fecha = $fecha_matricula[2]." de ".$meses[$fecha_matricula[1]*1]." del ".$fecha_matricula[0];
 
         $sexo = array("M"=> "Masculino", "F"=> "Femenino");
         $bandeja = Matricula::InformacionMatricula($r);
         
         $detalle = explode("^^", $bandeja->detalle);
-        
-        $detcurso = explode(",", $bandeja->monto_pago);
         $total_pago = 0;
         $cuotas = Matricula::LoadCuotas($r);
         $pagos = Seminario::runPagos($r);
@@ -59,7 +57,7 @@ class PDFRE extends Controller
             $presm = $pagos[0]->presm;
         }
 
-        $nro_cuota = "";
+        /*$nro_cuota = "";
         $detcuota = array("","","");
         if( ($bandeja->cronograma) != '' AND isset( $especialidadProgramacion->tipo ) AND $especialidadProgramacion->tipo == 1 ){
             $detcuota = explode(",", $bandeja->cronograma);
@@ -70,30 +68,33 @@ class PDFRE extends Controller
             if( !isset($detcuota[2]) ){
                 $detcuota[2] = "";
             }
-        }
+        }*/
 
-        $nro_pago = '';
-        $monto_pago = '';
-        $tipo_pago = '';
+        $nombre_pago = array();
+        $nro_pago = array();
+        $monto_pago = array();
+        $tipo_pago = array();
 
         if( isset( $especialidadProgramacion->tipo ) AND $especialidadProgramacion->tipo == 1 ){ //Deterinar si cargo pago de cuotas o pagos de cursos
             foreach ($cuotas as $key => $value) {
-                $coma = ",";
-                if($key == 0){
-                    $coma = "";
-                }
-                $nro_pago .= $coma.$value->nro_cuota;
-                $monto_pago .= $coma.$value->monto_cuota;
-                $tipo_pago .= $coma.$value->tipo_pago_cuota;
-                $total_pago += $value->monto_cuota*1;
+                array_push( $nombre_pago, "Cuota ".$value->cuota);
+                array_push( $nro_pago, $value->nro_cuota);
+                array_push( $monto_pago, $value->monto_cuota);
+                array_push( $tipo_pago, $value->tipo_pago_cuota);
             }
         }
         elseif( trim($bandeja->nro_promocion) == '' ){
-            $nro_pago = $bandeja->nro_pago;
-            $monto_pago = $bandeja->monto_pago;
-            $tipo_pago = $bandeja->tipo_pago;
-            foreach( $detcurso as $key => $value ){
-                $total_pago += $value*1;
+            $nro_pago = explode(",", $bandeja->nro_pago);
+            $monto_pago = explode(",", $bandeja->monto_pago);
+            $tipo_pago = explode(",", $bandeja->tipo_pago);
+            foreach( $monto_pago as $key => $value ){
+                if( $value*1 > 0 ){
+                    $nombre = explode("|", $detalle[$key]);
+                    array_push( $nombre_pago, $nombre[0]);
+                    array_push( $nro_pago, $nro_pago[$key]);
+                    array_push( $monto_pago, $monto_pago[$key]);
+                    array_push( $tipo_pago, $tipo_pago[$key]);
+                }
             }
         }
 
@@ -125,10 +126,27 @@ class PDFRE extends Controller
             'formacion' => $bandeja->formacion,
             'detalle' => $detalle,
             'lugar_estudio' => $bandeja->lugar_estudio,
+            'adicional' => $adicional,
+            'medio_captacion2' => $bandeja->medio_captacion2,
+            'marketing' => $bandeja->marketing,
+            'nombre_pago' => $nombre_pago,
+            'nro_pago' => $nro_pago,
+            'monto_pago' => $monto_pago,
+            'tipo_pago' => $tipo_pago,
+            'pagos' => $pagos,
+            'nro_pago_inscripcion' => $bandeja->nro_pago_inscripcion,
+            'monto_pago_inscripcion' => $bandeja->monto_pago_inscripcion,
+            'tipo_pago_inscripcion' => $bandeja->tipo_pago_inscripcion,
+            'nro_pago_matricula' => $bandeja->nro_pago_matricula,
+            'monto_pago_matricula' => $bandeja->monto_pago_matricula,
+            'tipo_pago_matricula' => $bandeja->tipo_pago_matricula,
+            'nro_pago_promocion' => $bandeja->nro_promocion,
+            'monto_pago_promocion' => $bandeja->monto_promocion,
+            'tipo_pago_promocion' => $bandeja->tipo_pago_promocion,
         ];
 
-        $pdf = PDF::loadView('reporte.pdf.prueba', $data);
-        return $pdf->download('pruebapdf.pdf');
+        $pdf = PDF::loadView('reporte.pdf.matricula', $data);
+        return $pdf->download('prematricula.pdf');
     }
     
 }

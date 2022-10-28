@@ -2,7 +2,8 @@
 let MatriculaG = {
     Valida: [], Historica:[], Id:'', Estado_Mat: '', Observacion: '',
     BtnAuxSi: '<a class="btn btn-flat btn-info btn-lg" href="#" target="blank"><i class="fa fa-download fa-lg"></i></a>',
-    BtnAuxNo: '<a class="btn btn-flat btn-danger btn-lg"><i class="fa fa-ban fa-lg"></i></a>'
+    BtnAuxNo: '<a class="btn btn-flat btn-danger btn-lg"><i class="fa fa-ban fa-lg"></i></a>',
+    BtnExportar: '<a class="btn btn-info" onClick="Detalle.ExportarFicha(#)"><i class="fa fa-file-pdf-o fa-lg"></i>',
 };
 $(document).ready(function() {
     $(".fecha").datetimepicker({
@@ -106,7 +107,7 @@ let Valida = {
                 r.inicio.push( r2.split("|")[4] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
-            btn = '<a class="btn btn-info" onClick="Detalle.ExportarFicha('+r.id+')"><i class="fa fa-file-pdf-o fa-lg"></i>'
+            btnaux = MatriculaG.BtnExportar.replace("#", r.id);
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+
@@ -115,8 +116,8 @@ let Valida = {
                         "<td class='curso'><ul><li>"+r.curso.join("</li><li>")+"</li></ul></td>"+
                         "<td class='programacion'><ul><li>"+r.programacion.join("</li><li>")+"</li></ul></td>"+
                         "<td class='estado_mat'>"+r.estado_mat+"</td>"+
-                        "<td class='fecha_estado'>"+r.fecha_estado+ btn +"</td>"+
-                        '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+', \'Valida\')"><i class="fa fa-edit fa-lg"></i> </a></td>'+
+                        "<td class='fecha_estado'>"+r.fecha_estado+"</td>"+
+                        '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+', \'Valida\')"><i class="fa fa-edit fa-lg"></i> </a>'+btnaux+'</td>'+
                     "</tr>";
             MatriculaG.Valida[r.id] = r;
         });
@@ -163,6 +164,7 @@ let Historica = {
                 r.inicio.push( r2.split("|")[4] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
+            btnaux = MatriculaG.BtnExportar.replace("#", r.id);
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+
@@ -172,7 +174,7 @@ let Historica = {
                         "<td class='programacion'><ul><li>"+r.programacion.join("</li><li>")+"</li></ul></td>"+
                         "<td class='estado_mat'>"+r.estado_mat+"</td>"+
                         "<td class='fecha_estado'>"+r.fecha_estado+"</td>"+
-                        '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+',\'Historica\')"><i class="fa fa-edit fa-lg"></i> </a></td>'+
+                        '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+',\'Historica\')"><i class="fa fa-edit fa-lg"></i> </a>'+btnaux+'</td>'+
                     "</tr>";
             MatriculaG.Historica[r.id] = r;
         });

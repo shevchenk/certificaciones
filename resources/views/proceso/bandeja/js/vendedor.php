@@ -4,7 +4,8 @@ let MatriculaG = {
     Id:'', Estado_Mat: '', Observacion: '', Tipo: '', TotalIns: 0, TotalMat: 0, LDfiltrosG: '', Programacion_Id: '', Btn:'Default',
     TotalCuo: [], TotalCur: [], TotalIds: [],
     BtnAuxSi: '<a class="btn btn-flat btn-info btn-lg" href="#" target="blank"><i class="fa fa-download fa-lg"></i></a>',
-    BtnAuxNo: '<a class="btn btn-flat btn-danger btn-lg"><i class="fa fa-ban fa-lg"></i></a>'
+    BtnAuxNo: '<a class="btn btn-flat btn-danger btn-lg"><i class="fa fa-ban fa-lg"></i></a>',
+    BtnExportar: '<a class="btn btn-info" onClick="Detalle.ExportarFicha(#)"><i class="fa fa-file-pdf-o fa-lg"></i>',
 };
 $(document).ready(function() {
     $(".fecha").datetimepicker({
@@ -149,6 +150,7 @@ let Valida = {
                 r.mmd_programacion_id.push( r2.split("|")[7] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
+            btnaux = MatriculaG.BtnExportar.replace("#", r.id);
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+
@@ -158,7 +160,7 @@ let Valida = {
                         "<td class='programacion'><ul><li>"+r.programacion.join("</li><li>")+"</li></ul></td>"+
                         "<td class='estado_mat'>"+r.estado_mat+"</td>"+
                         "<td class='fecha_estado'>"+r.fecha_estado+"</td>"+
-                        '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+', \'Valida\')"><i class="fa fa-edit fa-lg"></i> </a></td>'+
+                        '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+', \'Valida\')"><i class="fa fa-edit fa-lg"></i> </a>'+btnaux+'</td>'+
                     "</tr>";
             MatriculaG.Valida[r.id] = r;
         });
@@ -215,6 +217,7 @@ let Historica = {
                 r.mmd_programacion_id.push( r2.split("|")[7] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
+            btnaux = MatriculaG.BtnExportar.replace("#", r.id);
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+

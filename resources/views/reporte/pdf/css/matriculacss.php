@@ -73,4 +73,11 @@
     ol.nota{
         font-size: 11px;
     }
+    .detalle{
+        font-size: 12.5px;
+    }
+    .danger{
+        background-color: #dd4b39 !important;
+        color: #fff !important;
+    }
 </style>
