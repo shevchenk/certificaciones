@@ -25,6 +25,12 @@ class ApiProceso extends Controller
             if($datos['opcion']=='ObtenerPersona'){
                 $result = $this->ObtenerPersona($datos);
             }
+            elseif($datos['opcion']=='AprobarMatricula'){
+                $result = $this->AprobarMatricula($datos);
+            }
+            elseif($datos['opcion']=='AnularMatricula'){
+                $result = $this->AnularMatricula($datos);
+            }
             elseif($datos['opcion']=='Prueba'){
                 $result = array();
             }
@@ -66,6 +72,18 @@ class ApiProceso extends Controller
         $return['rst'] = 1;
         $return['data'] = $renturnModel;
         return $return;
+    }
+
+    public function AprobarMatricula($r)
+    {
+        $result['rst'] = 1;
+        return $result;
+    }
+
+    public function AnularMatricula($r)
+    {
+        $result['rst'] = 1;
+        return $result;
     }
 
 }
