@@ -575,7 +575,7 @@ class Matricula extends Model
             })
             ->join('mat_matriculas_detalles AS mmd',function($join) use($r) {
                 $join->on('mmd.matricula_id','=','mm.id');
-                if( $r->has("estado_mat") AND $r->estado_mat == 'Anulado' ){
+                if( $r->has("estado_mat") AND ($r->estado_mat == 'Anulado' OR $r->estado_mat == 'Rechazado') ){
                     $join->where('mmd.estado',0);
                 }
                 else{
@@ -759,7 +759,7 @@ class Matricula extends Model
                         }
                     }
 
-                    if( $r->has("estado_mat") AND $r->estado_mat == 'Anulado' ){
+                    if( $r->has("estado_mat") AND ($r->estado_mat == 'Anulado' OR $r->estado_mat == 'Rechazado') ){
                         $query->where('mm.estado',0);
                     }
                     else{

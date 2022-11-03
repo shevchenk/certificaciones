@@ -154,6 +154,7 @@
                                                     <option value='Aprobado'>Aprobado</option>
                                                     <option value='Observado'>Observado</option>
                                                     <option value='Anulado'>Anulado</option>
+                                                    <option value='Rechazado'>Rechazado</option>
                                                 </select>
                                             </th>
                                             <th class="col-xs-1" style="min-width: 125px;">

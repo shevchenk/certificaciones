@@ -8,6 +8,7 @@ use App\Models\Proceso\Matricula;
 use App\Models\Mantenimiento\Persona;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+use DB;
 
 class ApiProceso extends Controller
 {
