@@ -101,7 +101,7 @@ class ApiProceso extends Controller
         }
         DB::beginTransaction();
         $matricula= Matricula::find($r['matricula_id']);
-        $matricula->estado_mat = 'Anulado';
+        $matricula->estado_mat = 'Rechazado';
         $matricula->fecha_estado = date("Y-m-d");
         $matricula->expediente = '';
         $matricula->fecha_expediente = null;
