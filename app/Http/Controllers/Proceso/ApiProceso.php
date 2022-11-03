@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Proceso;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Proceso\ApiPro;
+use App\Models\Proceso\Matricula;
+use App\Models\Mantenimiento\Persona;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
@@ -76,12 +78,48 @@ class ApiProceso extends Controller
 
     public function AprobarMatricula($r)
     {
+        $persona = Persona::where('dni', $r['dni'])->first();
+        $id = 1;
+        if( isset($persona->id) ){
+            $id = $persona->id;
+        }
+        $matricula= Matricula::find($r['matricula_id']);
+        $matricula->estado_mat = 'Aprobado';
+        $matricula->fecha_estado = date("Y-m-d");
+        $matricula->persona_id_updated_at = $id;
+        $matricula->save();
         $result['rst'] = 1;
         return $result;
     }
 
     public function AnularMatricula($r)
     {
+        $persona = Persona::where('dni', $r['dni'])->first();
+        $id = 1;
+        if( isset($persona->id) ){
+            $id = $persona->id;
+        }
+        DB::beginTransaction();
+        $matricula= Matricula::find($r['matricula_id']);
+        $matricula->estado_mat = 'Anulado';
+        $matricula->fecha_estado = date("Y-m-d");
+        $matricula->expediente = '';
+        $matricula->fecha_expediente = null;
+        $matricula->persona_id_updated_at = $id;
+        $matricula->observacion = "Anulado por Tesorería | ".$matricula->observacion;
+        $matricula->estado = 0;
+        $matricula->save();
+
+        DB::table('mat_matriculas_detalles')
+        ->where('matricula_id', '=', $r['matricula_id'])
+        ->update(
+            array(
+                'estado' => 0,
+                'persona_id_updated_at' => $id,
+                'updated_at' => date('Y-m-d H:i:s')
+            )
+        );
+        DB::commit();
         $result['rst'] = 1;
         return $result;
     }
