@@ -155,6 +155,8 @@
                                                     <option value='Observado'>Observado</option>
                                                     <option value='Anulado'>Anulado</option>
                                                     <option value='Rechazado'>Rechazado</option>
+                                                    <option value='Registrado'>Registrado</option>
+                                                    <option value='A Corregir'>A Corregir</option>
                                                 </select>
                                             </th>
                                             <th class="col-xs-1" style="min-width: 125px;">
@@ -211,9 +213,13 @@
                         <label>Nombre:</label>
                         <span class="form-control nombre"></span>
                     </div>
-                    <div class="col-lg-12">
-                        <label>Observación:</label>
+                    <div class="col-lg-6">
+                        <label>Observación de la Matrícula:</label>
                         <textarea disabled class="form-control obs"></textarea>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Observación del Supervisor:</label>
+                        <textarea disabled class="form-control alert-danger obs2"></textarea>
                     </div>
                 </div>
             </div>
@@ -254,6 +260,7 @@
                             <tr style="background-color: #DDEBF7;">
                                 <th class="text-center">Curso</th>
                                 <th class="text-center">Frecuencia</th>
+                                <th class="text-center">Fecha Inicio</th>
                                 <th class="text-center">Horario</th>
                             </tr>
                         </thead>

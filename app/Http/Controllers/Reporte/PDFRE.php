@@ -17,7 +17,7 @@ class PDFRE extends Controller
         $this->middleware('auth');  //Esto debe activarse cuando estemos con sessión
     } 
     
-    public function ExportPrueba(Request $r )
+    public function ExportMatricula(Request $r )
     {
         $id=Auth::user()->id;
         $matricula= Matricula::find($r->matricula_id);
@@ -143,6 +143,7 @@ class PDFRE extends Controller
             'nro_pago_promocion' => $bandeja->nro_promocion,
             'monto_pago_promocion' => $bandeja->monto_promocion,
             'tipo_pago_promocion' => $bandeja->tipo_pago_promocion,
+            'estado_mat' => $bandeja->estado_mat,
         ];
 
         $pdf = PDF::loadView('reporte.pdf.matricula', $data);

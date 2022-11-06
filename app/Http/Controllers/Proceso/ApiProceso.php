@@ -34,6 +34,12 @@ class ApiProceso extends Controller
             elseif($datos['opcion']=='AnularMatricula'){
                 $result = $this->AnularMatricula($datos);
             }
+            elseif($datos['opcion']=='RegistrarMatricula'){
+                $result = $this->RegistrarMatricula($datos);
+            }
+            elseif($datos['opcion']=='CorregirMatricula'){
+                $result = $this->CorregirMatricula($datos);
+            }
             elseif($datos['opcion']=='Prueba'){
                 $result = array();
             }
@@ -107,7 +113,7 @@ class ApiProceso extends Controller
         $matricula->expediente = '';
         $matricula->fecha_expediente = null;
         $matricula->persona_id_updated_at = $id;
-        $matricula->observacion = "Anulado por Tesorería | ".$matricula->observacion;
+        $matricula->observacion_mat = "Anulado por Tesorería | ".$matricula->observacion_mat;
         $matricula->estado = 0;
         $matricula->save();
 
@@ -121,6 +127,39 @@ class ApiProceso extends Controller
             )
         );
         DB::commit();
+        $result['rst'] = 1;
+        return $result;
+    }
+
+    public function RegistrarMatricula($r)
+    {
+        $persona = Persona::where('dni', $r['dni'])->first();
+        $id = 1;
+        if( isset($persona->id) ){
+            $id = $persona->id;
+        }
+        $matricula= Matricula::find($r['matricula_id']);
+        $matricula->estado_mat = 'Registrado';
+        $matricula->fecha_estado = date("Y-m-d");
+        $matricula->persona_id_updated_at = $id;
+        $matricula->save();
+        $result['rst'] = 1;
+        return $result;
+    }
+
+    public function CorregirMatricula($r)
+    {
+        $persona = Persona::where('dni', $r['dni'])->first();
+        $id = 1;
+        if( isset($persona->id) ){
+            $id = $persona->id;
+        }
+        $matricula= Matricula::find($r['matricula_id']);
+        $matricula->estado_mat = 'A Corregir';
+        $matricula->fecha_estado = date("Y-m-d");
+        $matricula->persona_id_updated_at = $id;
+        $matricula->observacion_mat = "A Corregir por Coordinación Académica | ".$matricula->observacion_mat;
+        $matricula->save();
         $result['rst'] = 1;
         return $result;
     }

@@ -107,7 +107,10 @@ let Valida = {
                 r.inicio.push( r2.split("|")[4] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
-            btnaux = MatriculaG.BtnExportar.replace("#", r.id);
+            btnaux = '';
+            if( r.estado_mat == 'Pre Aprobado' || r.estado_mat == 'Aprobado' || r.estado_mat == 'Registrado' ){
+                btnaux = MatriculaG.BtnExportar.replace("#", r.id);
+            }
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+
@@ -164,7 +167,10 @@ let Historica = {
                 r.inicio.push( r2.split("|")[4] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
-            btnaux = MatriculaG.BtnExportar.replace("#", r.id);
+            btnaux = '';
+            if( r.estado_mat == 'Pre Aprobado' || r.estado_mat == 'Aprobado' || r.estado_mat == 'Registrado' ){
+                btnaux = MatriculaG.BtnExportar.replace("#", r.id);
+            }
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+
@@ -214,25 +220,27 @@ let Detalle = {
         else{
             Matricula = MatriculaG.Historica[id];
         }
+        const d = new Date();
+        let time = d.getTime();
 
         $("#archivo_inscripcion").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
         $("#archivo_inscripcion i").addClass('fa-ban').removeClass('fa-download');
         if( Matricula.archivo_pago_inscripcion != '' ){
-            $("#archivo_inscripcion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_inscripcion);
+            $("#archivo_inscripcion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_inscripcion+"?time="+time);
             $("#archivo_inscripcion i").addClass('fa-download').removeClass('fa-ban');
         }
 
         $("#archivo_matricula").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
         $("#archivo_matricula i").addClass('fa-ban').removeClass('fa-download');
         if( Matricula.archivo_pago_matricula != '' ){
-            $("#archivo_matricula").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_matricula);
+            $("#archivo_matricula").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_matricula+"?time="+time);
             $("#archivo_matricula i").addClass('fa-download').removeClass('fa-ban');
         }
 
         $("#archivo_promocion").addClass('btn-danger').removeClass('btn-info').removeAttr('href');
         $("#archivo_promocion i").addClass('fa-ban').removeClass('fa-download');
         if( Matricula.archivo_pago_promocion != '' ){
-            $("#archivo_promocion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_promocion);
+            $("#archivo_promocion").addClass('btn-info').removeClass('btn-danger').attr('href', Matricula.archivo_pago_promocion+"?time="+time);
             $("#archivo_promocion i").addClass('fa-download').removeClass('fa-ban');
         }
         
@@ -245,6 +253,7 @@ let Detalle = {
             html+=  "<tr>"+
                         "<td>"+value+"</td>"+
                         "<td>"+Matricula.frecuencia[key]+"</td>"+
+                        "<td>"+Matricula.inicio[key]+"</td>"+
                         "<td>"+Matricula.horario[key]+"</td>"+
                     "</tr>";
         });
@@ -258,7 +267,7 @@ let Detalle = {
             if( value != '' && Matricula.monto_pago.split(",")[key]*1 > 0 ){
                 btnaux = MatriculaG.BtnAuxNo;
                 if( Matricula.archivo.split(",")[key] != '' ){
-                    btnaux = MatriculaG.BtnAuxSi.replace("#", Matricula.archivo.split(",")[key]);
+                    btnaux = MatriculaG.BtnAuxSi.replace("#", Matricula.archivo.split(",")[key]+"?time="+time);
                 }
                 html+=  "<tr>"+
                             "<td>"+Matricula.curso[key]+"</td>"+
@@ -358,12 +367,14 @@ let Detalle = {
     HTMLLoadCuotas: (result) => {
         let html = '';
         let total = 0;
+        const d = new Date();
+        let time = d.getTime();
         $.each(result.data,function(index,r){
             let importe = r.monto_cuota;
             if( importe*1>0 ){
                 btnaux = MatriculaG.BtnAuxNo;
                 if( $.trim(r.archivo_cuota) != '' ){
-                    btnaux = MatriculaG.BtnAuxSi.replace("#", r.archivo_cuota);
+                    btnaux = MatriculaG.BtnAuxSi.replace("#", r.archivo_cuota+"?time="+time);
                 }
                 html+=  "<tr>"+
                             "<td>"+$.trim(r.cuota)+"</td>"+
@@ -403,7 +414,7 @@ let Detalle = {
         }
     },
     ExportarFicha: (id) =>{
-        window.open('ReportDinamic/Reporte.PDFRE@ExportPrueba?matricula_id='+id, '_blank');
+        window.open('ReportDinamic/Reporte.PDFRE@ExportMatricula?matricula_id='+id, '_blank');
     }
 }
 </script>

@@ -150,7 +150,10 @@ let Valida = {
                 r.mmd_programacion_id.push( r2.split("|")[7] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
-            btnaux = MatriculaG.BtnExportar.replace("#", r.id);
+            btnaux = '';
+            if( r.estado_mat == 'Pre Aprobado' || r.estado_mat == 'Aprobado' || r.estado_mat == 'Registrado' ){
+                btnaux = MatriculaG.BtnExportar.replace("#", r.id);
+            }
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+
@@ -217,7 +220,10 @@ let Historica = {
                 r.mmd_programacion_id.push( r2.split("|")[7] );
                 r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
             })
-            btnaux = MatriculaG.BtnExportar.replace("#", r.id);
+            btnaux = '';
+            if( r.estado_mat == 'Pre Aprobado' || r.estado_mat == 'Aprobado' || r.estado_mat == 'Registrado' ){
+                btnaux = MatriculaG.BtnExportar.replace("#", r.id);
+            }
             html+=  "<tr id='trid_"+r.id+"'>"+
                         "<td class='fecha_matricula'>"+r.fecha_matricula+"</td>"+
                         "<td class='marketing'>"+r.marketing+"</td>"+
@@ -346,6 +352,7 @@ let Detalle = {
             html+=  "<tr id='tr_programacion_id_"+Matricula.mmd_programacion_id[key]+"'>"+
                         "<td>"+value+"</td>"+
                         "<td>"+Matricula.frecuencia[key]+"</td>"+
+                        "<td>"+Matricula.inicio[key]+"</td>"+
                         "<td>"+Matricula.horario[key]+"</td>"+
                         "<td>"+btn+"</td>"+
                     "</tr>";
@@ -580,6 +587,9 @@ let Detalle = {
         $("#pago_nombre"+t1+", #pago_archivo"+t1).val('');
         $("#pago_img"+i1).attr('src','archivo/default.png');
     },
+    ExportarFicha: (id) =>{
+        window.open('ReportDinamic/Reporte.PDFRE@ExportMatricula?matricula_id='+id, '_blank');
+    }
 }
 
 let Modal = {

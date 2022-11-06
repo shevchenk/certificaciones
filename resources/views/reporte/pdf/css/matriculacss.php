@@ -14,10 +14,14 @@
         right: 0px;
         height: 60px;
         width: 70%;
-        
-        background-color: #20124D;
         color: #FEFFFF;
         text-align: center;
+    }
+    header.azul{
+        background-color: #20124D;
+    }
+    header.rojo{
+        background-color: #D90000;
     }
     header h1,header h2,header h3{
         margin: 10px 0 5px 0;
