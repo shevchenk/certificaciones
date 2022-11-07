@@ -233,7 +233,7 @@ let Historica = {
                         "<td class='programacion'><ul><li>"+r.programacion.join("</li><li>")+"</li></ul></td>"+
                         "<td class='estado_mat'>"+r.estado_mat+"</td>"+
                         "<td class='fecha_estado'>"+r.fecha_estado+"</td>"+
-                        '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+',\'Historica\')"><i class="fa fa-edit fa-lg"></i> </a></td>'+
+                        '<td><a class="btn btn-primary" onClick="Detalle.Visualizar('+r.id+',\'Historica\')"><i class="fa fa-edit fa-lg"></i></a>'+btnaux+'</td>'+
                     "</tr>";
             MatriculaG.Historica[r.id] = r;
         });
