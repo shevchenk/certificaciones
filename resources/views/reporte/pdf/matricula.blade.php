@@ -12,7 +12,9 @@
 @endphp
 <header class="{{ $color }}">
     <h3>{{ $ficha }} MATRÍCULA NRO: {{ $id }}</h3>
+    @if( $estado_mat == 'Pre Aprobado' )
     <h5>En un plazo no mayor a 4 días a partir de hoy se le remitirá la Ficha de matrícula.</h5>
+    @endif
     <img class="logo" src="{{ $url_logo }}"></img>
 </header>
 <footer>
@@ -137,8 +139,10 @@
         @if( $adicional[1] != '' )
             <p><span class="negrita">Promoción de la matrícula:</span> {{ $adicional[1] }}</p>
         @endif
+        <!--
         <p><span class="negrita">Código promocional:</span>{{ $marketing }}</p>
-        <p><span class="negrita">Se enteró de INTUR PERÚ, a través de:</span> {{ $medio_captacion2 }}</p>
+        <p><span class="negrita">Se enteró de INTUR PERÚ, a través de:</span> {{ $medio_captacion2 }}</p> 
+        -->
         <hr>
         <p>EL ALUMNO(A) DECLARA CONOCER LO SIGUIENTE:</p>
         <ol class="nota">
