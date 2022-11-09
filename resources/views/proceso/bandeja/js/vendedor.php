@@ -148,7 +148,7 @@ let Valida = {
                 r.mmd_id.push( r2.split("|")[5] );
                 r.mmd_especialidad_id.push( r2.split("|")[6] );
                 r.mmd_programacion_id.push( r2.split("|")[7] );
-                r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
+                r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[4] +" | "+ r2.split("|")[2] );
             })
             btnaux = '';
             if( r.estado_mat == 'Pre Aprobado' || r.estado_mat == 'Aprobado' || r.estado_mat == 'Registrado' ){
@@ -218,7 +218,7 @@ let Historica = {
                 r.mmd_id.push( r2.split("|")[5] );
                 r.mmd_especialidad_id.push( r2.split("|")[6] );
                 r.mmd_programacion_id.push( r2.split("|")[7] );
-                r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
+                r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[4] +" | "+ r2.split("|")[2] );
             })
             btnaux = '';
             if( r.estado_mat == 'Pre Aprobado' || r.estado_mat == 'Aprobado' || r.estado_mat == 'Registrado' ){
