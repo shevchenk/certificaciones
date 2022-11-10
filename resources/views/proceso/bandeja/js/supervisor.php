@@ -105,7 +105,7 @@ let Valida = {
                 r.horario.push( r2.split("|")[2] );
                 r.turno.push( r2.split("|")[3] );
                 r.inicio.push( r2.split("|")[4] );
-                r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
+                r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[4] +" | "+ r2.split("|")[2] );
             })
             btnaux = '';
             if( r.estado_mat == 'Pre Aprobado' || r.estado_mat == 'Aprobado' || r.estado_mat == 'Registrado' ){
@@ -165,7 +165,7 @@ let Historica = {
                 r.horario.push( r2.split("|")[2] );
                 r.turno.push( r2.split("|")[3] );
                 r.inicio.push( r2.split("|")[4] );
-                r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[2] );
+                r.programacion.push( r2.split("|")[1] +" | "+ r2.split("|")[4] +" | "+ r2.split("|")[2] );
             })
             btnaux = '';
             if( r.estado_mat == 'Pre Aprobado' || r.estado_mat == 'Aprobado' || r.estado_mat == 'Registrado' ){
