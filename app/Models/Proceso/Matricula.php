@@ -1272,14 +1272,17 @@ class Matricula extends Model
                 "3c" => $detcuota[2],
                 "adicional1" => $adicional[0],
                 "adicional2" => $adicional[1],
+                "url" => env('APP_URL'),
 
                 "nro_ins" => $bandeja->nro_pago_inscripcion,
                 "tipo_ins" => $bandeja->tipo_pago_inscripcion,
                 "monto_ins" => $bandeja->monto_pago_inscripcion,
+                "archivo_ins" => $bandeja->archivo_pago_inscripcion,
 
                 "nro_mat" => $bandeja->nro_pago_matricula,
                 "tipo_mat" => $bandeja->tipo_pago_matricula,
                 "monto_mat" => $bandeja->monto_pago_matricula,
+                "archivo_mat" => $bandeja->archivo_pago_matricula,
 
                 "nro_cur" => str_replace( ",", " | ", $nro_pago),
                 "tipo_cur" => str_replace( ",", " | ", $tipo_pago),
@@ -1289,6 +1292,7 @@ class Matricula extends Model
                 "nro_pro" => $bandeja->nro_promocion,
                 "tipo_pro" => $bandeja->tipo_pago_promocion,
                 "monto_pro" => $bandeja->monto_promocion,
+                "archivo_pro" => $bandeja->archivo_pago_promocion,
                 
                 "cajero" => $bandeja->cajera,
                 "vendedor" => $bandeja->marketing,
