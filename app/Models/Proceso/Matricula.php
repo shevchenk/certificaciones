@@ -1201,6 +1201,7 @@ class Matricula extends Model
             $nro_pago = '';
             $monto_pago = '';
             $tipo_pago = '';
+            $archivo_pago = '';
 
             if( isset( $especialidadProgramacion->tipo ) AND $especialidadProgramacion->tipo == 1 ){ //Deterinar si cargo pago de cuotas o pagos de cursos
                 foreach ($cuotas as $key => $value) {
@@ -1212,12 +1213,14 @@ class Matricula extends Model
                     $monto_pago .= $coma.$value->monto_cuota;
                     $tipo_pago .= $coma.$value->tipo_pago_cuota;
                     $total_pago += $value->monto_cuota*1;
+                    $archivo_pago .= $coma.$value->archivo_cuota;
                 }
             }
             elseif( trim($bandeja->nro_promocion) == '' ){
                 $nro_pago = $bandeja->nro_pago;
                 $monto_pago = $bandeja->monto_pago;
                 $tipo_pago = $bandeja->tipo_pago;
+                $archivo_pago = $bandeja->archivo;
                 foreach( $detcurso as $key => $value ){
                     $total_pago += $value*1;
                 }
@@ -1273,6 +1276,7 @@ class Matricula extends Model
                 "adicional1" => $adicional[0],
                 "adicional2" => $adicional[1],
                 "url" => env('APP_URL'),
+                "tipo_documento_id" => 541,
 
                 "nro_ins" => $bandeja->nro_pago_inscripcion,
                 "tipo_ins" => $bandeja->tipo_pago_inscripcion,
@@ -1287,6 +1291,7 @@ class Matricula extends Model
                 "nro_cur" => str_replace( ",", " | ", $nro_pago),
                 "tipo_cur" => str_replace( ",", " | ", $tipo_pago),
                 "monto_cur" => str_replace( ",", " | ", $monto_pago),
+                "archivo_cur" => $archivo_pago,
                 "total_cur" => $total_pago,
 
                 "nro_pro" => $bandeja->nro_promocion,
@@ -1451,6 +1456,10 @@ class Matricula extends Model
                                 "",
                                 GROUP_CONCAT( mmd.monto_pago_certificado ORDER BY mmd.id )
                                 ) AS monto_pago')
+                    ,DB::raw(' IF(ep.tipo = 1, 
+                                "",
+                                GROUP_CONCAT( mmd.archivo_pago_certificado ORDER BY mmd.id )
+                                ) AS archivo')
                     ,DB::raw(' IF(ep.tipo = 1, 
                                 "",
                                 GROUP_CONCAT( 
