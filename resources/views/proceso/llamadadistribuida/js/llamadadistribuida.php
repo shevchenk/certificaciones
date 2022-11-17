@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var PersonaIdG=0;
 var cursos_selec=[];
-var AddEdit=0; //0: Editar | 1: Agregar
+var AddEdit=1; //0: Editar | 1: Agregar
 var PersonaG={id:0};
 var EspecialidadG={id:0,
     especialidad:"",
@@ -188,6 +188,8 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<input type='hidden' class='dni' value='"+r.dni+"'>"+
                 "<input type='hidden' class='matricula' value='"+$.trim(r.matricula)+"'>"+
                 "<input type='hidden' class='sexo' value='"+$.trim(r.sexo)+"'>"+
+                "<input type='hidden' class='fecha_nacimiento' value='"+$.trim(r.fecha_nacimiento)+"'>"+
+                "<input type='hidden' class='estado_civil' value='"+$.trim(r.estado_civil)+"'>"+
                 '<a class="btn btn-primary btn-sm" onClick="AbrirLlamada('+r.id+')"><i class="fa fa-phone fa-lg"></i> </a></td>';
         html+="</tr>";
     });//FIN FUNCTION
@@ -254,6 +256,8 @@ EditarPersona=function(){
     dni=$("#trid_"+id+" .dni").val();
     sexo=$("#trid_"+id+" .sexo").val();
     email=$("#trid_"+id+" .email").text();
+    estado_civil=$("#trid_"+id+" .estado_civil").val();
+    fecha_nacimiento=$("#trid_"+id+" .fecha_nacimiento").val();
 
     $('#ModalPersonaForm #txt_paterno').val(paterno);
     $('#ModalPersonaForm #txt_materno').val(materno);
@@ -263,6 +267,8 @@ EditarPersona=function(){
     $('#ModalPersonaForm #txt_email').val(email);
     $('#ModalPersonaForm #txt_celular').val(celular);
     $('#ModalPersonaForm #txt_carrera').val(carrera);
+    $('#ModalPersonaForm #slct_estado_civil').selectpicker('val', estado_civil);
+    $('#ModalPersonaForm #txt_fecha_nacimiento').val(fecha_nacimiento);
     $('#ModalPersona').modal('show');
 }
 
