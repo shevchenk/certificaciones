@@ -1244,10 +1244,15 @@ class Matricula extends Model
                 $bandeja->monto_promocion="";
             }
 
+            $sexo = 'M';
+            if( isset($sexo[$persona->sexo]) AND trim($sexo[$persona->sexo])!='' ){
+                $sexo = $sexo[$persona->sexo];
+            }
+
             $datos = array(
                 "opcion" => "IniciarProceso",
                 "id" => $matricula->id,
-                "sexo" => $sexo[$persona->sexo],
+                "sexo" => $sexo,
                 "fecha_nacimiento" => $persona->fecha_nacimiento,
                 "dni_alumno" => $persona->dni,
                 "paterno_alumno" => $persona->paterno,
