@@ -80,16 +80,16 @@
                         <div class="col-sm-4">
                             <label>Pais Nacimiento:</label>
                             <input type="hidden" class="mant" id="txt_pais_id" name="txt_pais_id">
-                            <div id="txt_pais_ico" class="has-error has-feedback">
-                                <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_pais_id');" id="txt_pais" placeholder="Pais">
+                            <div id="txt_pais_ico" class="has-warning has-feedback">
+                                <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_pais_id');" id="txt_pais" name="txt_pais" placeholder="Pais">
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                         </div>
                         <div class="col-sm-8 paisafectado">
                             <label>Colegio:</label>
                             <input type="hidden" class="mant" id="txt_colegio_id" name="txt_colegio_id">
-                            <div id="txt_colegio_ico" class="has-error has-feedback">
-                                <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_colegio_id');" id="txt_colegio" placeholder="Colegio">
+                            <div id="txt_colegio_ico" class="has-warning has-feedback">
+                                <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_colegio_id');" id="txt_colegio" name="txt_colegio" placeholder="Colegio">
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                         </div>
@@ -100,18 +100,18 @@
                             <input type="hidden" class="mant" id="txt_distrito_id" name="txt_distrito_id">
                             <input type="hidden" class="mant" id="txt_provincia_id" name="txt_provincia_id">
                             <input type="hidden" class="mant" id="txt_region_id" name="txt_region_id">
-                            <div id="txt_distrito_ico" class="has-error has-feedback">
-                                <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_distrito_id,#txt_provincia_id,#txt_region_id,#txt_provincia,#txt_region');" id="txt_distrito" placeholder="Distrito Nacimiento">
+                            <div id="txt_distrito_ico" class="has-warning has-feedback">
+                                <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_distrito_id,#txt_provincia_id,#txt_region_id,#txt_provincia,#txt_region');" id="txt_distrito" name="txt_distrito" placeholder="Distrito Nacimiento">
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                         </div>
                         <div class="col-sm-3 paisafectado2">
                             <label>Provincia:</label>
-                            <input type="text" disabled class="form-control" id="txt_provincia" placeholder="Provincia">
+                            <input type="text" class="form-control" id="txt_provincia" name="txt_provincia" placeholder="Provincia">
                         </div>
                         <div class="col-sm-3 paisafectado2">
                             <label>Región:</label>
-                            <input type="text" disabled class="form-control" id="txt_region" placeholder="Región">
+                            <input type="text" class="form-control" id="txt_region" name="txt_region" placeholder="Región">
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -120,18 +120,18 @@
                             <input type="hidden" class="mant" id="txt_distrito_id_dir" name="txt_distrito_id_dir">
                             <input type="hidden" class="mant" id="txt_provincia_id_dir" name="txt_provincia_id_dir">
                             <input type="hidden" class="mant" id="txt_region_id_dir" name="txt_region_id_dir">
-                            <div id="txt_distrito_dir_ico" class="has-error has-feedback">
-                                <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_distrito_id_dir,#txt_provincia_id_dir,#txt_region_id_dir,#txt_provincia_dir,#txt_region_dir');" id="txt_distrito_dir" placeholder="Distrito Dirección">
+                            <div id="txt_distrito_dir_ico" class="has-warning has-feedback">
+                                <input type="text" class="form-control" onblur="LimpiarPersonaModal('txt_distrito_id_dir,#txt_provincia_id_dir,#txt_region_id_dir,#txt_provincia_dir,#txt_region_dir');" id="txt_distrito_dir" name="txt_distrito_dir" placeholder="Distrito Dirección">
                                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <label>Provincia:</label>
-                            <input type="text" disabled class="form-control" id="txt_provincia_dir" placeholder="Provincia">
+                            <input type="text" class="form-control" id="txt_provincia_dir" name="txt_provincia_dir" placeholder="Provincia">
                         </div>
                         <div class="col-sm-2">
                             <label>Región:</label>
-                            <input type="text" disabled class="form-control" id="txt_region_dir" placeholder="Región">
+                            <input type="text" class="form-control" id="txt_region_dir" name="txt_region_dir" placeholder="Región">
                         </div>
                         <div class="col-sm-2">
                             <label>Tenencia:</label>

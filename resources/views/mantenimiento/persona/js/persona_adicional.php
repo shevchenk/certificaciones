@@ -22,7 +22,7 @@ var ColegioOpciones = {
     ajaxSettings: { dataType: "json", method: "POST", data: {},
         success: function(r) {
             if(r.data.length==0){ 
-                msjG.mensaje('warning',$("#ModalPersonaForm #txt_colegio").val()+' <b>sin resultados</b>',6000);
+                //msjG.mensaje('warning',$("#ModalPersonaForm #txt_colegio").val()+' <b>sin resultados</b>',6000);
             }
         }, 
     },
@@ -34,10 +34,10 @@ var ColegioOpciones = {
         onClickEvent: function() {
             var value = $("#ModalPersonaForm #txt_colegio").getSelectedItemData().id;
             $("#ModalPersonaForm #txt_colegio_id").val(value).trigger("change");
-            $("#ModalPersonaForm #txt_colegio_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            $("#ModalPersonaForm #txt_colegio_ico").removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-edit').addClass('glyphicon-ok');
         },
         onLoadEvent: function() {
-            $("#ModalPersonaForm #txt_colegio_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            $("#ModalPersonaForm #txt_colegio_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-edit');
         },
     },
     template: {
@@ -56,7 +56,7 @@ var PaisOpciones = {
     ajaxSettings: { dataType: "json", method: "POST", data: {},
         success: function(r) {
             if(r.data.length==0){ 
-                msjG.mensaje('warning',$("#ModalPersonaForm #txt_pais").val()+' <b>sin resultados</b>',6000);
+                //msjG.mensaje('warning',$("#ModalPersonaForm #txt_pais").val()+' <b>sin resultados</b>',6000);
             }
         }, 
     },
@@ -70,13 +70,13 @@ var PaisOpciones = {
             $("#ModalPersonaForm #txt_pais_id").val(value).trigger("change");
 
             $(".paisafectado input").removeAttr('disabled');
-            if( $("#ModalPersonaForm #txt_pais").getSelectedItemData().id!=173 ){
+            /*if( $("#ModalPersonaForm #txt_pais").getSelectedItemData().id!=173 ){
                 $(".paisafectado input,.paisafectado2 input").val('').attr('disabled','true');
-            }
-            $("#ModalPersonaForm #txt_pais_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            }*/
+            $("#ModalPersonaForm #txt_pais_ico").removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-edit').addClass('glyphicon-ok');
         },
         onLoadEvent: function() {
-            $("#ModalPersonaForm #txt_pais_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            $("#ModalPersonaForm #txt_pais_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-edit');
         },
     },
     template: {
@@ -95,7 +95,7 @@ var DistritoOpciones = {
     ajaxSettings: { dataType: "json", method: "POST", data: {},
         success: function(r) {
             if(r.data.length==0){ 
-                msjG.mensaje('warning',$("#ModalPersonaForm #txt_distrito").val()+' <b>sin resultados</b>',6000);
+                //msjG.mensaje('warning',$("#ModalPersonaForm #txt_distrito").val()+' <b>sin resultados</b>',6000);
             }
         }, 
     },
@@ -115,10 +115,10 @@ var DistritoOpciones = {
             $("#ModalPersonaForm #txt_region_id").val(value3).trigger("change");
             $("#ModalPersonaForm #txt_provincia").val(value4).trigger("change");
             $("#ModalPersonaForm #txt_region").val(value5).trigger("change");
-            $("#ModalPersonaForm #txt_distrito_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            $("#ModalPersonaForm #txt_distrito_ico").removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-edit').addClass('glyphicon-ok');
         },
         onLoadEvent: function() {
-            $("#ModalPersonaForm #txt_distrito_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            $("#ModalPersonaForm #txt_distrito_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-edit');
         },
     },
     template: {
@@ -137,7 +137,7 @@ var DistritoDirOpciones = {
     ajaxSettings: { dataType: "json", method: "POST", data: {},
         success: function(r) {
             if(r.data.length==0){ 
-                msjG.mensaje('warning',$("#ModalPersonaForm #txt_distrito_dir").val()+' <b>sin resultados</b>',6000);
+                //msjG.mensaje('warning',$("#ModalPersonaForm #txt_distrito_dir").val()+' <b>sin resultados</b>',6000);
             }
         }, 
     },
@@ -157,10 +157,10 @@ var DistritoDirOpciones = {
             $("#ModalPersonaForm #txt_region_id_dir").val(value3).trigger("change");
             $("#ModalPersonaForm #txt_provincia_dir").val(value4).trigger("change");
             $("#ModalPersonaForm #txt_region_dir").val(value5).trigger("change");
-            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-edit').addClass('glyphicon-ok');
         },
         onLoadEvent: function() {
-            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            $("#ModalPersonaForm #txt_distrito_dir_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-edit');
         },
     },
     template: {
@@ -193,10 +193,10 @@ $(document).ready(function() {
     $('#ModalPersona').on('show.bs.modal', function (event) {
         CargarModal();
         if( AddEdit==1 ){
-            $("#ModalPersonaForm #txt_distrito_dir_ico, #ModalPersonaForm #txt_distrito_ico, #ModalPersonaForm #txt_pais_ico, #ModalPersonaForm #txt_colegio_ico").removeClass('has-success').addClass("has-error").find('span').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            $("#ModalPersonaForm #txt_distrito_dir_ico, #ModalPersonaForm #txt_distrito_ico, #ModalPersonaForm #txt_pais_ico, #ModalPersonaForm #txt_colegio_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-edit');
         }
         else{
-            $("#ModalPersonaForm #txt_distrito_dir_ico, #ModalPersonaForm #txt_distrito_ico, #ModalPersonaForm #txt_pais_ico, #ModalPersonaForm #txt_colegio_ico").removeClass('has-error').addClass("has-success").find('span').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            $("#ModalPersonaForm #txt_distrito_dir_ico, #ModalPersonaForm #txt_distrito_ico, #ModalPersonaForm #txt_pais_ico, #ModalPersonaForm #txt_colegio_ico").removeClass('has-warning').addClass("has-success").find('span').removeClass('glyphicon-edit').addClass('glyphicon-ok');
         }
     });
 
@@ -257,9 +257,9 @@ HTMLPersonaAdicional=function(result){
         $('#ModalPersonaForm #txt_distrito_dir').val( $.trim(result.data.distrito_dir) );
         
         $(".paisafectado input").removeAttr('disabled');
-        if( $.trim(result.data.pais_id)!=173 ){
+        /*if( $.trim(result.data.pais_id)!=173 ){
             $(".paisafectado input,.paisafectado2 input").attr('disabled','true');
-        }
+        }*/
     }
     $("#ModalPersonaForm select").not('.mant').selectpicker('refresh');
 }
