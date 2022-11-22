@@ -209,7 +209,7 @@ CargarModal=function(){
 }
 
 HTMLPersonaAdicional=function(result){
-    $(".paisafectado input,.paisafectado2 input").attr('disabled','true');
+    //$(".paisafectado input,.paisafectado2 input").attr('disabled','true');
     $('#ModalPersonaForm #txt_pais_id').val( '' );
     $('#ModalPersonaForm #txt_colegio_id').val( '' );
     $('#ModalPersonaForm #txt_region_id').val( '' );

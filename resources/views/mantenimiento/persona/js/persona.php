@@ -72,11 +72,24 @@ $(document).ready(function() {
 });
 
 ActualizarPersona=function(){
-    AjaxPersona.ActualizarPersona(HTMLAgregarEditar);
+    if( ValidaForm() ){
+        AjaxPersona.ActualizarPersona(HTMLAgregarEditar);
+    }
 }
 
 ValidaForm=function(){
     var r=true;
+    var distrito = false;
+    var distrito_dir = false;
+
+    if( $.trim( $("#ModalPersonaForm #txt_distrito").val() )!='' || $.trim( $("#ModalPersonaForm #txt_provincia").val() )!='' || $.trim( $("#ModalPersonaForm #txt_region").val() )!='' ){
+        distrito = true;
+    }
+    if( $.trim( $("#ModalPersonaForm #txt_distrito_dir").val() )!='' || $.trim( $("#ModalPersonaForm #txt_provincia_dir").val() )!='' || $.trim( $("#ModalPersonaForm #txt_region_dir").val() )!='' ){
+        distrito_dir = true;
+    }
+
+
     if( $.trim( $("#ModalPersonaForm #txt_nombre").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Ingrese Nombre',4000);
@@ -96,9 +109,34 @@ ValidaForm=function(){
     }
     else if( $.trim( $("#ModalPersonaForm #slct_sexo").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Sleccione Sexo',4000);
+        msjG.mensaje('warning','Seleccione Sexo',4000);
     }
-   
+       
+    else if( distrito==true && $("#ModalPersonaForm #txt_distrito").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Distrito Nacimiento',4000);
+    }
+    else if( distrito==true && $("#ModalPersonaForm #txt_provincia").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Provincia Nacimiento',4000);
+    }
+    else if( distrito==true && $("#ModalPersonaForm #txt_region").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Region Nacimiento',4000);
+    }
+
+    else if( distrito_dir==true && $("#ModalPersonaForm #txt_distrito_dir").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Distrito Dirección',4000);
+    }
+    else if( distrito_dir==true && $("#ModalPersonaForm #txt_provincia_dir").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Provincia Dirección',4000);
+    }
+    else if( distrito_dir==true && $("#ModalPersonaForm #txt_region_dir").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Region Dirección',4000);
+    }
    
     return r;
 }

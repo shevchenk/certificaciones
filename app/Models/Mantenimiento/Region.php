@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Region extends Model
 {
-    protected   $table = 'mat_ubicacion_region as r';
+    protected   $table = 'mat_ubicacion_region';
      
     
         public static function ListRegion($r)
