@@ -1,9 +1,15 @@
 <script type="text/javascript">
 var AjaxAEPersona={
     AgregarEditar2:function(evento){
-//        $("#ModalPersonaForm input[name='cargos_selec']").remove();
+        valida = $("#ModalPersona #txt_dni").attr("disabled");
+        if( valida ){
+            $("#ModalPersona #txt_dni").removeAttr("disabled");
+        }
         $("#ModalPersonaForm").append("<input type='hidden' value='"+cargos_selec+"' name='cargos_selec'>");
         var data=$("#ModalPersonaForm").serialize().split("txt_").join("").split("slct_").join("");
+        if( valida ){
+            $("#ModalPersona #txt_dni").attr("disabled", "disabled");
+        }
         url='AjaxDinamic/Mantenimiento.PersonaEM@New';
         if(AddEdit2==0){
             url='AjaxDinamic/Mantenimiento.PersonaEM@EditLibre';

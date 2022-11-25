@@ -99,21 +99,150 @@ class Persona extends Model
         if( $r->has('referencia_dir') AND trim($r->referencia_dir)!='' ){
             $persona->referencia_dir = $r->referencia_dir;
         }
+
         if( $r->has('pais_id') AND trim($r->pais_id)!='' ){
             $persona->pais_id = $r->pais_id;
         }
-        if( $r->has('colegio_id') AND trim($r->colegio_id)!='' ){
-            $persona->colegio_id = $r->colegio_id;
+        elseif( $r->has('pais') AND trim($r->pais)!='' ){
+            $pais = new Pais;
+            $pais->pais = $r->pais;
+            $pais->estado = 1;
+            $pais->persona_id_created_at = Auth::user()->id;
+            $pais->save();
+            $persona->pais_id = $pais->id;
         }
+
         if( $r->has('distrito_id_dir') AND trim($r->distrito_id_dir)!='' ){
             $persona->distrito_id_dir = $r->distrito_id_dir;
             $persona->provincia_id_dir = $r->provincia_id_dir;
             $persona->region_id_dir = $r->region_id_dir;
         }
+        elseif( $r->has('distrito_dir') AND trim($r->distrito_dir)!='' ){
+            $region = Region::where('region', $r->region_dir)->where('pais_id', 173)->first();
+            if( isset($region->id) ){
+                $region = Region::find($region->id);
+            }
+            else{
+                $region = new Region;
+                $region->region = $r->region_dir;
+                $region->persona_id_created_at = Auth::user()->id;
+                $region->estado = 1;
+                $region->pais_id = 173;
+                $region->save();
+            }
+
+            $provincia = Provincia::where('provincia', $r->provincia_dir)->where('region_id', $region->id)->first();
+            if( isset($provincia->id) ){
+                $provincia = Provincia::find($provincia->id);
+            }
+            else{
+                $provincia = new Provincia;
+                $provincia->provincia = $r->provincia_dir;
+                $provincia->region_id = $region->id;
+                $provincia->persona_id_created_at = Auth::user()->id;
+                $provincia->estado = 1;
+                $provincia->save();
+            }
+
+            $distrito = Distrito::where('distrito', $r->distrito_dir)->where('provincia_id', $provincia->id)->first();
+            if( isset($distrito->id) ){
+                $distrito = Distrito::find($distrito->id);
+            }
+            else{
+                $distrito = new Distrito;
+                $distrito->distrito = $r->distrito_dir;
+                $distrito->provincia_id = $provincia->id;
+                $distrito->persona_id_created_at = Auth::user()->id;
+                $distrito->estado = 1;
+                $distrito->save();
+            }
+
+            $persona->distrito_id_dir = $distrito->id;
+            $persona->provincia_id_dir = $provincia->id;
+            $persona->region_id_dir = $region->id;
+        }
+
         if( $r->has('distrito_id') AND trim($r->distrito_id)!='' ){
             $persona->distrito_id = $r->distrito_id;
             $persona->provincia_id = $r->provincia_id;
             $persona->region_id = $r->region_id;
+        }
+        elseif( $r->has('distrito') AND trim($r->distrito)!='' ){
+            $region = Region::where('region', $r->region)->first();
+            if( isset($region->id) ){
+                $region = Region::find($region->id);
+            }
+            else{
+                $region = new Region;
+                $region->region = $r->region;
+                $region->persona_id_created_at = Auth::user()->id;
+                $region->estado = 1;
+                if( trim($persona->pais_id) != '' ){
+                    $region->pais_id = $persona->pais_id;
+                }
+                $region->save();
+            }
+
+            $provincia = Provincia::where('provincia', $r->provincia)->where('region_id', $region->id)->first();
+            if( isset($provincia->id) ){
+                $provincia = Provincia::find($provincia->id);
+            }
+            else{
+                $provincia = new Provincia;
+                $provincia->provincia = $r->provincia;
+                $provincia->region_id = $region->id;
+                $provincia->persona_id_created_at = Auth::user()->id;
+                $provincia->estado = 1;
+                $provincia->save();
+            }
+
+            $distrito = Distrito::where('distrito', $r->distrito)->where('provincia_id', $provincia->id)->first();
+            if( isset($distrito->id) ){
+                $distrito = Distrito::find($distrito->id);
+            }
+            else{
+                $distrito = new Distrito;
+                $distrito->distrito = $r->distrito;
+                $distrito->provincia_id = $provincia->id;
+                $distrito->persona_id_created_at = Auth::user()->id;
+                $distrito->estado = 1;
+                $distrito->save();
+            }
+
+            $persona->distrito_id = $distrito->id;
+            $persona->provincia_id = $provincia->id;
+            $persona->region_id = $region->id;
+        }
+        
+
+        if( $r->has('colegio_id') AND trim($r->colegio_id)!='' ){
+            $persona->colegio_id = $r->colegio_id;            
+        }
+        elseif( $r->has('colegio') AND trim($r->colegio)!='' ){
+            $colegio = new Colegio;
+            $colegio->colegio = $r->colegio;
+            $colegio->estado = 1;
+            $colegio->tipo = 1;
+            $colegio->direccion = '';
+            $colegio->referencia = '';
+            $colegio->telefono = '';
+            $colegio->celular = '';
+            $colegio->email = '';
+            $colegio->director = '';
+            $colegio->ugel = '0';
+            $colegio->persona_id_created_at = Auth::user()->id;
+            if( $r->has('distrito_id') AND trim($r->distrito_id)!='' ){
+                $colegio->distrito_id = $r->distrito_id;
+            }
+            elseif( isset($distrito->id) AND $distrito->id != '' ){
+                $colegio->distrito_id = $distrito->id;
+            }
+            else{
+                $colegio->distrito_id = 1243; // Por default Lima
+            }
+            $colegio->save();
+
+            $persona->colegio_id = $colegio->id;
         }
 
         $persona->save();
@@ -312,13 +441,20 @@ class Persona extends Model
         DB::beginTransaction();
         $persona_id = Auth::user()->id;
         $persona = Persona::find($r->id);
-        $persona->paterno = trim( $r->paterno );
-        $persona->materno = trim( $r->materno );
-        $persona->nombre = trim( $r->nombre );
+        if( $r->has('paterno') AND trim($r->paterno)!='' ){
+            $persona->paterno = trim( $r->paterno );
+        }
+        if( $r->has('materno') AND trim($r->materno)!='' ){
+            $persona->materno = trim( $r->materno );
+        }
+        if( $r->has('nombre') AND trim($r->nombre)!='' ){
+            $persona->nombre = trim( $r->nombre );
+        }
+        
+        $persona->dni = trim( $r->dni );
         if( $r->dni!=$persona->dni){
             $persona->password=bcrypt($r->dni);
         }
-        $persona->dni = trim( $r->dni );
         $persona->sexo = trim( $r->sexo );
         $persona->email = trim( $r->email );
         $persona->telefono = trim( $r->telefono );

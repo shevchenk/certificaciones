@@ -128,16 +128,16 @@ class PersonaEM extends Controller
             $validator=Validator::make($r->all(), $rules,$mensaje);
             
             if (!$validator->fails()) {
-                $valida= Matricula::where('persona_id',$r->id)->where('estado','1')->exists();
+                /*$valida= Matricula::where('persona_id',$r->id)->where('estado','1')->exists();
                 if( $valida ){
                     $return['rst'] = 2;
                     $return['msj'] = 'Persona fue inscrita en algunos de nuestros productos, coordinar con responsable para modificar en caso sea necesario';
                 }
-                else{
+                else{*/
                     Persona::runEditLibre($r);
                     $return['rst'] = 1;
                     $return['msj'] = 'Registro actualizado';
-                }
+                //}
             }else{
                 $return['rst'] = 2;
                 $return['msj'] = $validator->errors()->all()[0];

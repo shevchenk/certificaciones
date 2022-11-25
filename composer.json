@@ -53,6 +53,7 @@
         "optimize-autoloader": true,
         "allow-plugins": {
             "kylekatarnls/update-helper": true
-        }
+        },
+        "platform-check": false
     }
 }

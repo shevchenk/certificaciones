@@ -105,17 +105,35 @@ ValidaForm2=function(){
         msjG.mensaje('warning','Ingrese fecha de nacimiento',4000);
     }
 
-    else if( $.trim( $("#ModalPersonaForm #txt_pais_id").val() )=='' ){
+    else if( $.trim( $("#ModalPersonaForm #txt_pais").val() )=='' ){
         r=false;
-        msjG.mensaje('warning','Busque y seleccione pais de nacimiento',4000);
+        msjG.mensaje('warning','Ingrese pais de nacimiento',4000);
     }
-    else if( !$("#ModalPersonaForm #txt_distrito_id").attr('disabled') && $.trim( $("#ModalPersonaForm #txt_distrito_id").val() )=='' ){
+    
+    else if( $("#ModalPersonaForm #txt_distrito").val()=='' ){
         r=false;
-        msjG.mensaje('warning','Busque y seleccione distrito de nacimiento',4000);
+        msjG.mensaje('warning','Ingrese Distrito Nacimiento',4000);
     }
-    else if( $.trim( $("#ModalPersonaForm #txt_distrito_id_dir").val() )=='' ){
+    else if( $("#ModalPersonaForm #txt_provincia").val()=='' ){
         r=false;
-        msjG.mensaje('warning','Busque y seleccione distrito de dirección',4000);
+        msjG.mensaje('warning','Ingrese Provincia Nacimiento',4000);
+    }
+    else if( $("#ModalPersonaForm #txt_region").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Region Nacimiento',4000);
+    }
+
+    else if( $("#ModalPersonaForm #txt_distrito_dir").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Distrito Dirección',4000);
+    }
+    else if( $("#ModalPersonaForm #txt_provincia_dir").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Provincia Dirección',4000);
+    }
+    else if( $("#ModalPersonaForm #txt_region_dir").val()=='' ){
+        r=false;
+        msjG.mensaje('warning','Ingrese Region Dirección',4000);
     }
     else if( $.trim( $("#ModalPersonaForm #txt_direccion_dir").val() )=='' ){
         r=false;
@@ -143,8 +161,9 @@ AgregarEditar2=function(val,id){
     PersonaG.celular='';
     PersonaG.fecha_nacimiento='';
     PersonaG.estado='1';
+    $("#ModalPersona #txt_nombre,#ModalPersona #txt_paterno,#ModalPersona #txt_materno,#ModalPersona #txt_dni").removeAttr("disabled");
     if( val==0 ){
-
+        $("#ModalPersona #txt_nombre,#ModalPersona #txt_paterno,#ModalPersona #txt_materno,#ModalPersona #txt_dni").attr("disabled","disabled");
         PersonaG.id=id;
         PersonaG.paterno=$("#TableListapersona #trid_"+id+" .paterno").text();
 
@@ -172,7 +191,7 @@ HTMLAgregarEditar2=function(result){
     if( result.rst==1 ){
         msjG.mensaje('success',result.msj,4000);
         $('#ModalPersona').modal('hide');
-        AjaxListapersona.Cargar(HTMLCargarPersona);
+        AjaxListapersona.Cargar(HTMLCargarListaPersona);
     }
     else{
         msjG.mensaje('warning',result.msj,3000);

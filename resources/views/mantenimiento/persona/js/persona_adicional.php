@@ -190,7 +190,7 @@ $(document).ready(function() {
     $("#ModalPersonaForm #txt_distrito_dir").easyAutocomplete(DistritoDirOpciones);
     
 
-    $('#ModalPersona').on('show.bs.modal', function (event) {
+    $('#ModalPersona').on('shown.bs.modal', function (event) {
         CargarModal();
         if( AddEdit==1 ){
             $("#ModalPersonaForm #txt_distrito_dir_ico, #ModalPersonaForm #txt_distrito_ico, #ModalPersonaForm #txt_pais_ico, #ModalPersonaForm #txt_colegio_ico").removeClass('has-success').addClass("has-warning").find('span').removeClass('glyphicon-ok').addClass('glyphicon-edit');
