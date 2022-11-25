@@ -117,7 +117,7 @@ class PDFRE extends Controller
         }
         $data = [
             'titulo' => 'Styde.net',
-            'id' => '1565',
+            'id' => $bandeja->id,
             'empresa' => 'Intur Perú',
             'url_logo' => 'img/inscripcion/logo1.png',
             'fecha' => $fecha,

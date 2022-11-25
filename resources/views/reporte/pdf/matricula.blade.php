@@ -4,14 +4,14 @@
 </head>
 @php 
     $color = 'rojo';
-    $ficha = 'FICHA DE';
+    $ficha = 'FICHA DE MATRICULA';
     if( $estado_mat == 'Pre Aprobado' ){
         $color = 'azul';
-        $ficha = 'FICHA DE PRE -';
+        $ficha = 'FICHA DE INSCRIPCIÓN';
     }
 @endphp
 <header class="{{ $color }}">
-    <h3>{{ $ficha }} MATRÍCULA NRO: {{ $id }}</h3>
+    <h3>{{ $ficha }} NRO: {{ $id }}</h3>
     @if( $estado_mat == 'Pre Aprobado' )
     <h5>En un plazo no mayor a 4 días a partir de hoy se le remitirá la Ficha de matrícula.</h5>
     @endif
