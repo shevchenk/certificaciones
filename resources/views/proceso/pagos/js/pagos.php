@@ -268,6 +268,7 @@ ValidaDeuda = function(c,t){
 
 HTMLVerSaldos=function(result){
     var html="";
+    $("#tb_pago").append('');
     $.each(result.data,function(index,r){
         html+="<tr>";
         html+="<td>"+r.precio+"</td>";
@@ -277,13 +278,14 @@ HTMLVerSaldos=function(result){
         html+="<td>"+r.tipo_pago+"</td>";
         html+="<td>";
         if( $.trim(r.archivo)!=''){
-            html+='<img src="'+r.archivo+'" class="img-circle" style="height: 100px;width: 180px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">';
+            html+='<a class="btn btn-flat btn-info btn-lg" href="'+r.archivo+'" target="blank"><i class="fa fa-download fa-lg"></i></a>';
+            //html+='<img src="'++'" class="img-circle" style="height: 100px;width: 180px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">';
         }
         html+="</td>";
         html+="</tr>";
+        $("#tb_pago").append(html);
     });
 
-    $("#tb_pago").html(html); 
 }
 
 GuardarPago=function(){
