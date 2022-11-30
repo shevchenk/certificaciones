@@ -481,7 +481,8 @@ class SeminarioEM extends Controller
             $data=json_decode(json_encode($renturnModel['data']), true);
             $pos=3;
             for ($i=0; $i<count($data); $i++) {
-                //unset($data[$i]['ndet']);
+                unset($data[$i]['matricula_detalle_id']);
+                unset($data[$i]['archivo_certificado']);
                 $data[$i]['id']=$i+1;
                 $pos++;
                 $sheet->row( $pos, $data[$i] );

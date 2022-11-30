@@ -117,6 +117,10 @@ HTMLCargarReporte=function(result){
             "<td>"+$.trim(r.monto_pago_inscripcion)+"</td>"+
             "<td>"+$.trim(r.tipo_pago_inscripcion)+"</td>"+
 
+            "<td>"+$.trim(r.nro_pago_matricula)+"</td>"+
+            "<td>"+$.trim(r.monto_pago_matricula)+"</td>"+
+            "<td>"+$.trim(r.tipo_pago_matricula)+"</td>"+
+
             "<td><ul><li>"+$.trim(pagos)+"</li></ul></td>"+
 
             "<td>"+$.trim(r.deuda)+"</td>"+

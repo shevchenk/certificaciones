@@ -767,6 +767,17 @@ class Seminario extends Model
                                     WHEN mm.tipo_pago_inscripcion="2.4" THEN "Depósito - Interbank"
                                     ELSE "Caja"
                                 END AS tipo_pago_inscripcion')
+                    ,'mm.nro_pago AS nro_pago_matricula','mm.monto_pago AS monto_pago_matricula'
+                    ,DB::raw('CASE  WHEN mm.tipo_pago_matricula="1.1" THEN "Transferencia - BCP"
+                                    WHEN mm.tipo_pago_matricula="1.2" THEN "Transferencia - Scotiabank"
+                                    WHEN mm.tipo_pago_matricula="1.3" THEN "Transferencia - BBVA"
+                                    WHEN mm.tipo_pago_matricula="1.4" THEN "Transferencia - Interbank"
+                                    WHEN mm.tipo_pago_matricula="2.1" THEN "Depósito - BCP"
+                                    WHEN mm.tipo_pago_matricula="2.2" THEN "Depósito - Scotiabank"
+                                    WHEN mm.tipo_pago_matricula="2.3" THEN "Depósito - BBVA"
+                                    WHEN mm.tipo_pago_matricula="2.4" THEN "Depósito - Interbank"
+                                    ELSE "Caja"
+                                END AS tipo_pago_matricula')
                     ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(pago," / ",nro_pago," / ",
                                 CASE  WHEN tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN tipo_pago="1.2" THEN "Transferencia - Scotiabank"
@@ -942,6 +953,7 @@ class Seminario extends Model
             15,15,15,
             15,15,15,
             15,15,15,
+            15,15,15,
             30,
             15,15,
             30,50,50,30,20
@@ -961,15 +973,15 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','A LA FECHA'
+            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO POR MATRÍCULA','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','A LA FECHA'
         );
 
         $valIni=66;
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,9,2,2,2,0,1,1,1,0);
-        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6');
+        $nrocabeceraTit=array(5,9,2,2,2,2,0,1,1,1,0);
+        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6');
         $lengthTit=array();
         $lengthDet=array();
 
@@ -1007,6 +1019,7 @@ class Seminario extends Model
             ,'Nro Pago','Monto Pago','Tipo Pago'
             ,'Nro Recibo PCC','Monto PPC','Tipo Pago'
             ,'Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago'
+            ,'Nro Pago Matrícula','Monto Pago Matrícula','Tipo Pago'
             ,'Monto Pago / Nro Pago / Tipo Pago'
             ,'Deuda a la Fecha','Promedio Final del Curso'
             ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
@@ -1022,7 +1035,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'AG'; //$estatico.chr($min);
+        $return['max']= 'AK'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;
@@ -1645,7 +1658,7 @@ class Seminario extends Model
 
         $id=Auth::user()->id;
         $empresa_id = Auth::user()->empresa_id;
-        $sql="SELECT `mm`.`id` matricula_id, mmd.id matricula_detalle_id, IFNULL(cp.cuota,'') cuota, `p`.`dni`, `p`.`nombre`, `p`.`paterno`, `p`.`materno`, `p`.`celular`, `p`.`email`, `e`.`empresa` AS `empresa_inscripcion`, `mm`.`fecha_matricula`, 
+        $sql="SELECT `mm`.`id` matricula_id, mmd.id matricula_detalle_id, IFNULL(cp.cuota,'') cuota, LPAD(cp.cuota, 2, '0') norden, `p`.`dni`, `p`.`nombre`, `p`.`paterno`, `p`.`materno`, `p`.`celular`, `p`.`email`, `e`.`empresa` AS `empresa_inscripcion`, `mm`.`fecha_matricula`, 
             IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), 'Modular') AS tipo_formacion, 
             IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion, 
             `mc`.`curso` AS `curso`, `s`.`sucursal` AS `local`, `mp`.`dia` AS `frecuencia`, `mp`.`turno`, `mp`.`fecha_inicio` AS `inicio`,
@@ -1778,7 +1791,7 @@ class Seminario extends Model
                         }
                     }
 
-        $sql.=" ORDER BY mm.id,cuota ASC";
+        $sql.=" ORDER BY mm.id,norden ASC";
             
         $result = DB::select($sql);
 

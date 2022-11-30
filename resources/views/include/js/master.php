@@ -398,22 +398,24 @@ var masterG ={
             return;
         var image = new Image();
         var reader = new FileReader();
+        const d = new Date();
+        let time = d.getTime();
         reader.onload = (e) => {
             $(archivo).val(e.target.result);
             if(files[0].name.split('.')[1]=='pdf'){
-              $(src).attr('src','archivo/pdf.jpg');
+              $(src).attr('src','archivo/pdf.jpg?time='+time);
             }
             else if(files[0].name.split('.')[1]=='docx' || files[0].name.split('.')[1]=='doc'){
-              $(src).attr('src','archivo/word.png');
+              $(src).attr('src','archivo/word.png?time='+time);
             }
             else if(files[0].name.split('.')[1]=='xlsx' || files[0].name.split('.')[1]=='xls'){
-              $(src).attr('src','archivo/excel.jpg');
+              $(src).attr('src','archivo/excel.jpg?time='+time);
             }
             else if(files[0].name.split('.')[1]=='pptx' || files[0].name.split('.')[1]=='ppt'){
-              $(src).attr('src','archivo/ppt.png');
+              $(src).attr('src','archivo/ppt.png?time='+time);
             }
             else if(files[0].name.split('.')[1]=='txt'){
-              $(src).attr('src','archivo/txt.jpg');
+              $(src).attr('src','archivo/txt.jpg?time='+time);
             }
             else{
               $(src).attr('src',e.target.result);
