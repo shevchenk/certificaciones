@@ -734,6 +734,7 @@ class Seminario extends Model
                     , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')
                     , 'mmd.nro_pago_certificado AS nro_pago'
                     , 'mmd.monto_pago_certificado AS monto_pago'
+                    , DB::raw(' mm.archivo_pago as archivo_pago_matricula, mm.archivo_pago_inscripcion AS archivo_pago_inscripcion, mm.archivo_promocion AS archivo_pago_promocion ')
                     , DB::raw(' CASE 
                                     WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
                                     WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
@@ -877,6 +878,14 @@ class Seminario extends Model
                         if( $inicial !=''AND $final!=''){
                             //$query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
                             $query ->whereBetween('mm.fecha_matricula', array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has("fecha_ini") AND $r->has("fecha_fin")){
+                        $inicial=trim($r->fecha_ini);
+                        $final=trim($r->fecha_fin);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween('mm.fecha_matricula', array($r->fecha_ini,$r->fecha_fin));
                         }
                     }
 

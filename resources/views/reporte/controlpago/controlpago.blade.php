@@ -69,6 +69,22 @@
                                     <label class="control-label">Nombre:</label>
                                     <input type="text" class="form-control" placeholder="Nombre" id="txt_nombre" name="txt_nombre">
                                 </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <label class="control-label">Fecha Inscripción - Inicio:</label>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini" name="txt_fecha_ini" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">Fecha Inscripción - Final:</label>
+                                    <div class="input-group">
+                                      <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                      <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
+                                    </div>
+                                </div>
                                 <div class="col-md-1" style="padding:24px">
                                     <span class="btn btn-primary btn-md" id="btn_generar" name="btn_generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>

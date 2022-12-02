@@ -483,6 +483,10 @@ class SeminarioEM extends Controller
             for ($i=0; $i<count($data); $i++) {
                 unset($data[$i]['matricula_detalle_id']);
                 unset($data[$i]['archivo_certificado']);
+                unset($data[$i]['archivo_pago_matricula']);
+                unset($data[$i]['archivo_pago_inscripcion']);
+                unset($data[$i]['archivo_pago_promocion']);
+
                 $data[$i]['id']=$i+1;
                 $pos++;
                 $sheet->row( $pos, $data[$i] );

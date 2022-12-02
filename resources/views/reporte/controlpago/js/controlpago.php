@@ -1,4 +1,8 @@
 <script type="text/javascript">
+let MatriculaG = {
+    BtnAuxSi: '<a class="btn btn-flat btn-info" href="#" target="blank"><i class="fa fa-download fa-lg"></i></a>',
+    BtnAuxNo: '<a class="btn btn-flat btn-danger"><i class="fa fa-ban fa-lg"></i></a>',
+};
 $(document).ready(function() {
 
     $(".fecha").datetimepicker({
@@ -9,14 +13,15 @@ $(document).ready(function() {
         minView:2,
         startView:2,
         autoclose: true,
+        container : 'body',
         todayBtn: false
     });
 
     $('#spn_fecha_ini').on('click', function(){
-        $('#txt_fecha_inicial').focus();
+        $('#txt_fecha_ini').focus();
     });
     $('#spn_fecha_fin').on('click', function(){
-        $('#txt_fecha_final').focus();
+        $('#txt_fecha_fin').focus();
     });
 
     
@@ -86,6 +91,30 @@ HTMLCargarReporte=function(result){
         var pagos_cuota= r.pagos_cuota.split('\n').join("</li><li>");
         var pagos2_cuota= r.pagos2_cuota.split('\n').join("</li><li>");
         var deuda_cuota= r.deuda_cuota.split('\n').join("</li><li>");
+        const d = new Date();
+        let time = d.getTime();
+    
+        if( r.archivo_pago_matricula != '' ){
+            r.archivo_pago_matricula = MatriculaG.BtnAuxSi.replace("#", r.archivo_pago_matricula+"?time="+time);
+        }
+        else{
+            r.archivo_pago_matricula = MatriculaG.BtnAuxNo;
+        }
+
+        if( r.archivo_pago_inscripcion != '' ){
+            r.archivo_pago_inscripcion = MatriculaG.BtnAuxSi.replace("#", r.archivo_pago_inscripcion+"?time="+time);
+        }
+        else{
+            r.archivo_pago_inscripcion = MatriculaG.BtnAuxNo;
+        }
+
+        if( r.archivo_pago_promocion != '' ){
+            r.archivo_pago_promocion = MatriculaG.BtnAuxSi.replace("#", r.archivo_pago_promocion+"?time="+time);
+        }
+        else{
+            r.archivo_pago_promocion = MatriculaG.BtnAuxNo;
+        }
+
         html+="<tr id='trid_"+r.id+"'>"+
             "<td>"+r.dni+"</td>"+
             "<td>"+r.nombre+"</td>"+
@@ -111,15 +140,15 @@ HTMLCargarReporte=function(result){
             
             "<td>"+$.trim(r.nro_promocion)+"</td>"+
             "<td>"+$.trim(r.monto_promocion)+"</td>"+
-            "<td>"+$.trim(r.tipo_pago_promocion)+"</td>"+
+            "<td>"+$.trim(r.tipo_pago_promocion)+r.archivo_pago_promocion+"</td>"+
 
             "<td>"+$.trim(r.nro_pago_inscripcion)+"</td>"+
             "<td>"+$.trim(r.monto_pago_inscripcion)+"</td>"+
-            "<td>"+$.trim(r.tipo_pago_inscripcion)+"</td>"+
+            "<td>"+$.trim(r.tipo_pago_inscripcion)+r.archivo_pago_inscripcion+"</td>"+
 
             "<td>"+$.trim(r.nro_pago_matricula)+"</td>"+
             "<td>"+$.trim(r.monto_pago_matricula)+"</td>"+
-            "<td>"+$.trim(r.tipo_pago_matricula)+"</td>"+
+            "<td>"+$.trim(r.tipo_pago_matricula)+r.archivo_pago_matricula+"</td>"+
 
             "<td><ul><li>"+$.trim(pagos)+"</li></ul></td>"+
 
