@@ -983,7 +983,7 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO POR MATRÍCULA','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','A LA FECHA'
+            'DATOS DEL ALUMNO','DATOS ADICIONALES DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO POR MATRÍCULA','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','A LA FECHA'
         );
 
         $valIni=66;
@@ -1024,6 +1024,7 @@ class Seminario extends Model
         $cabecera=array(
             'N°'
             ,'DNI','Nombre','Paterno','Materno','Celular','Email'
+            ,'Estado Civil','Sexo','Fecha Nacimiento','País Nacimiento','Colegio','Distrito Nacimiento','Provincia Nacimiento','Región Nacimiento','Distrito Dirección','Provincia Dirección','Región Dirección','Tenencia','Dirección','Referencia' 
             ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Carrera / Módulo','Inicio / Curso'
             ,'Local','Frecuencia','Horario','Turno','Inicio'
             ,'Nro Pago','Monto Pago','Tipo Pago'
