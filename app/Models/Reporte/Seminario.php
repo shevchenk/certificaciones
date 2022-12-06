@@ -726,6 +726,7 @@ class Seminario extends Model
             })
             ->select('mm.id', 'mmd.id AS matricula_detalle_id', 'p.dni', 'p.nombre', 'p.paterno', 'p.materno'
                     , 'p.celular', 'p.email', 'mmd.archivo_certificado'
+                    , DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento')
                     , 'e.empresa AS empresa_inscripcion', 'mm.fecha_matricula'
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
