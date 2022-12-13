@@ -51,6 +51,8 @@ class SeminarioEM extends Controller
 
     public function LoadControlPago(Request $r )
     {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(300);
         if ( $r->ajax() ) {
             $url=explode("/",$_SERVER['HTTP_REFERER']);
             if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
@@ -402,6 +404,8 @@ class SeminarioEM extends Controller
 
     public function ExportControlPago(Request $r )
     {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(300);
         $url=explode("/",$_SERVER['HTTP_REFERER']);
         if( $url[count($url)-1]=="reporte.inscrito.inscrito" ){
             $r['global']=1;
@@ -412,7 +416,7 @@ class SeminarioEM extends Controller
         $renturnModel = Seminario::runExportControlPago($r);
 
         
-        Excel::create('Seminario', function($excel) use($renturnModel) {
+        Excel::create('Control de Pagos', function($excel) use($renturnModel) {
 
         $excel->setTitle('Reporte de Seminarios')
               ->setCreator('Jorge Salcedo')
@@ -434,7 +438,7 @@ class SeminarioEM extends Controller
             ));
 
             $sheet->cell('A1', function($cell) {
-                $cell->setValue('CONTROL DE PAGOS Y NOTAS');
+                $cell->setValue('CONTROL DE PAGOS');
                 $cell->setFont(array(
                     'family'     => 'Bookman Old Style',
                     'size'       => '24',

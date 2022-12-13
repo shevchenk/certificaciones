@@ -721,12 +721,69 @@ class Seminario extends Model
             ->join('sucursales AS s',function($join){
                 $join->on('s.id','=','mp.sucursal_id');
             })
+            ->join('sucursales AS s2',function($join){
+                $join->on('s2.id','=','mm.sucursal_id');
+            })
+            ->join('sucursales AS s3',function($join){
+                $join->on('s3.id','=','mm.sucursal_destino_id');
+            })
+            ->join('personas AS pmat',function($join){
+                $join->on('pmat.id','=','mm.persona_matricula_id');
+            })
+            ->leftJoin('personas AS pcaj',function($join){
+                $join->on('pcaj.id','=','mm.persona_caja_id');
+            })
+            ->leftJoin('personas AS pmar',function($join){
+                $join->on('pmar.id','=','mm.persona_marketing_id');
+            })
+            ->leftJoin('mat_medios_captaciones AS meca',function($join){
+                $join->on('meca.id','=','mm.medio_captacion_id');
+            })
+            ->leftJoin('mat_medios_captaciones AS meca2',function($join){
+                $join->on('meca2.id','=','mm.medio_captacion_id2');
+            })
+
             ->leftJoin('mat_especialidades AS me',function($join){
                 $join->on('me.id','=','mmd.especialidad_id');
             })
+            ->leftJoin('mat_ubicacion_distrito AS di',function($join){
+                $join->on('p.distrito_id','=','di.id')
+                ->where('di.estado','=',1);
+            })
+            ->leftJoin('mat_ubicacion_provincia AS pr',function($join){
+                $join->on('p.provincia_id','=','pr.id')
+                ->where('pr.estado','=',1);
+            })
+            ->leftJoin('mat_ubicacion_region AS re',function($join){
+                $join->on('p.region_id','=','re.id')
+                ->where('re.estado','=',1);
+            })
+            ->leftJoin('mat_ubicacion_distrito AS di2',function($join){
+                $join->on('p.distrito_id_dir','=','di2.id')
+                ->where('di2.estado','=',1);
+            })
+            ->leftJoin('mat_ubicacion_provincia AS pr2',function($join){
+                $join->on('p.provincia_id_dir','=','pr2.id')
+                ->where('pr2.estado','=',1);
+            })
+            ->leftJoin('mat_ubicacion_region AS re2',function($join){
+                $join->on('p.region_id_dir','=','re2.id')
+                ->where('re2.estado','=',1);
+            })
+            ->leftJoin('paises AS pa',function($join){
+                $join->on('p.pais_id','=','pa.id')
+                ->where('pa.estado','=',1);
+            })
+            ->leftJoin('colegios AS co',function($join){
+                $join->on('p.colegio_id','=','co.id')
+                ->where('co.estado','=',1);
+            })            
             ->select('mm.id', 'mmd.id AS matricula_detalle_id', 'p.dni', 'p.nombre', 'p.paterno', 'p.materno'
                     , 'p.celular', 'p.email', 'mmd.archivo_certificado'
-                    , DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento')
+                    , 'p.estado_civil', 'p.sexo', DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento')
+                    , 'pa.pais', 'co.colegio', 'di.distrito', 'pr.provincia', 're.region'
+                    , 'di2.distrito AS distrito_dir', 'pr2.provincia AS provincia_dir', 're2.region AS region_dir'
+                    , 'p.tenencia', 'p.direccion_dir', 'p.referencia_dir'
                     , 'e.empresa AS empresa_inscripcion', 'mm.fecha_matricula'
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") AS tipo_formacion')
                     , DB::raw( 'IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) AS formacion')
@@ -869,6 +926,11 @@ class Seminario extends Model
                                 AND matricula_detalle_id= mmd.id
                                 GROUP BY matricula_detalle_id
                                 HAVING sal > 0 ),0) AS deuda_total ')
+                    ,'s2.sucursal','s3.sucursal AS recogo_certificado'
+                    ,DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera')
+                    ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
+                    ,'meca.medio_captacion','meca2.medio_captacion as comollego'
+                    ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
                     )
             ->where( 
                 function($query) use ($r){
@@ -958,6 +1020,7 @@ class Seminario extends Model
         $length=array('A'=>5);
         $pos=array(
             5,15,15,15,15,15,20,
+            15,15,15,15,25,15,15,15,15,15,15,15,25,25,
             15,15,15,25,25,
             20,15,15,15,15,
             15,15,15,
@@ -966,7 +1029,8 @@ class Seminario extends Model
             15,15,15,
             30,
             15,15,
-            30,50,50,30,20
+            30,50,50,30,20,
+            20,20,30,30,20,20,30
         );
 
         $estatico='';
@@ -983,15 +1047,15 @@ class Seminario extends Model
         }
 
         $cabeceraTit=array(
-            'DATOS DEL ALUMNO','DATOS ADICIONALES DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO POR MATRÍCULA','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','A LA FECHA'
+            'DATOS DEL ALUMNO','DATOS ADICIONALES DEL ALUMNO','DATOS DEL CURSO DE FORMACION CONTINUA','PAGO POR CURSO INDEPENDIENTE','PAGO POR CONJUNTO DE CURSOS','PAGO POR INSCRIPCIÓN','PAGO POR MATRÍCULA','PAGO DE SALDOS','DEUDA Y NOTA FINAL DEL CURSO','PROGRAMACION Y PAGO - CUOTAS','PAGO Y DEUDA DE SALDOS - CUOTAS','A LA FECHA','DATOS DE LA VENTA'
         );
 
         $valIni=66;
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,9,2,2,2,2,0,1,1,1,0);
-        $colorTit=array('#DDEBF7','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6');
+        $nrocabeceraTit=array(5,13,9,2,2,2,2,0,1,1,1,0,6);
+        $colorTit=array('#DDEBF7','#88BAE3','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
 
@@ -1035,6 +1099,7 @@ class Seminario extends Model
             ,'Deuda a la Fecha','Promedio Final del Curso'
             ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
             ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda','Deuda Total'
+            ,'Sede de Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Medio Captación','Como llegó aquí','Supervisor(a)'
         );
         $campos=array('');
 
@@ -1046,7 +1111,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'AK'; //$estatico.chr($min);
+        $return['max']= 'BF'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;

@@ -51,7 +51,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnexport', function(event) {
         if( DataToFilter() ){
-            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportControlPago'+'?paterno='+$("#txt_paterno").val()+'&materno='+$("#txt_materno").val()+'&nombre='+$("#txt_nombre").val()+'&especialidad2='+$.trim($("#slct_especialidad").val())+'&curso2='+$.trim($("#slct_curso").val())+'&dni='+$.trim($("#txt_dni").val()));
+            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportControlPago'+'?paterno='+$("#txt_paterno").val()+'&materno='+$("#txt_materno").val()+'&nombre='+$("#txt_nombre").val()+'&especialidad2='+$.trim($("#slct_especialidad").val())+'&curso2='+$.trim($("#slct_curso").val())+'&dni='+$.trim($("#txt_dni").val())+'&fecha_ini='+$.trim($("#txt_fecha_ini").val())+'&fecha_fin='+$.trim($("#txt_fecha_fin").val()));
         }else{
             event.preventDefault();
         }
@@ -115,6 +115,13 @@ HTMLCargarReporte=function(result){
             r.archivo_pago_promocion = MatriculaG.BtnAuxNo;
         }
 
+        if( r.tenencia = 0 ){
+            r.tenencia = 'Alquilado';
+        }
+        else{
+            r.tenencia = 'Propio';
+        }
+
         html+="<tr id='trid_"+r.id+"'>"+
             "<td>"+r.dni+"</td>"+
             "<td>"+r.nombre+"</td>"+
@@ -122,6 +129,21 @@ HTMLCargarReporte=function(result){
             "<td>"+r.materno+"</td>"+
             "<td>"+r.celular+"</td>"+
             "<td>"+r.email+"</td>"+
+
+            "<td>"+$.trim(r.estado_civil)+"</td>"+
+            "<td>"+$.trim(r.sexo)+"</td>"+
+            "<td>"+$.trim(r.fecha_nacimiento)+"</td>"+
+            "<td>"+$.trim(r.pais)+"</td>"+
+            "<td>"+$.trim(r.colegio)+"</td>"+
+            "<td>"+$.trim(r.distrito)+"</td>"+
+            "<td>"+$.trim(r.provincia)+"</td>"+
+            "<td>"+$.trim(r.region)+"</td>"+
+            "<td>"+$.trim(r.distrito_dir)+"</td>"+
+            "<td>"+$.trim(r.provincia_dir)+"</td>"+
+            "<td>"+$.trim(r.region_dir)+"</td>"+
+            "<td>"+$.trim(r.tenencia)+"</td>"+
+            "<td>"+$.trim(r.direccion)+"</td>"+
+            "<td>"+$.trim(r.referencia)+"</td>"+
 
             "<td>"+r.empresa_inscripcion+"</td>"+
             "<td>"+r.fecha_matricula+"</td>"+
@@ -160,7 +182,15 @@ HTMLCargarReporte=function(result){
             
             "<td><ul><li>"+$.trim(pagos_cuota)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(deuda_cuota)+"</li></ul></td>"+
-            "<td><ul><li>"+$.trim(r.deuda_total)+"</li></ul></td>";
+            "<td><ul><li>"+$.trim(r.deuda_total)+"</li></ul></td>"+
+            
+            "<td><ul><li>"+$.trim(r.sucursal)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.recogo_certificado)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.cajera)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.marketing)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.medio_captacion)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.comollego)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.matricula)+"</li></ul></td>";
 
         html+="</tr>";
     });

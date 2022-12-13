@@ -109,7 +109,8 @@
                                             <th style="background-color: #FCE4D6;" colspan='2'>DEUDA Y NOTA FINAL DEL CURSO</th>
                                             <th style="background-color: #DDEBF7;" colspan='2'>PROGRAMACION Y PAGO - CUOTAS</th>
                                             <th style="background-color: #FCE4D6;" colspan='2'>PAGO Y DEUDA DE SALDOS - CUOTAS</th>
-                                            <th style="background-color: #FCE4D6;" colspan='2'>A LA FECHA</th>
+                                            <th style="background-color: #FCE4D6;" colspan='1'>A LA FECHA</th>
+                                            <th style="background-color: #FCD5B4;" colspan='7'>DATOS DE LA VENTA</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #DDEBF7;">DNI</th>
@@ -172,6 +173,14 @@
                                             <th style="background-color: #FCE4D6; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
                                             <th style="background-color: #FCE4D6; min-width: 140px !important;">Cuota / Monto Deuda</th>
                                             <th style="background-color: #FCE4D6;">Deuda Total</th>
+
+                                            <th style="background-color: #FCD5B4;">Sede de Inscripción</th>
+                                            <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Cajero(a)</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Vendedor(a)</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Medio Captación</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Como llegó aquí</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Supervisor(a)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -238,6 +247,14 @@
                                             <th style="background-color: #FCE4D6;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
                                             <th style="background-color: #FCE4D6;">Cuota / Monto Deuda</th>
                                             <th style="background-color: #FCE4D6;">Deuda Total</th>
+
+                                            <th style="background-color: #FCD5B4;">Sede de Inscripción</th>
+                                            <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
+                                            <th style="background-color: #FCD5B4;">Cajero(a)</th>
+                                            <th style="background-color: #FCD5B4;">Vendedor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Medio Captación</th>
+                                            <th style="background-color: #FCD5B4;">Como llegó aquí</th>
+                                            <th style="background-color: #FCD5B4;">Supervisor(a)</th>
                                         </tr>
                                     </tfoot>
                                 </table>
