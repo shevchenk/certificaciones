@@ -217,6 +217,7 @@
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>
                                                     <th>Archivo Pago</th>
+                                                    <th>Fecha Pago</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_pago_inscripcion">
@@ -267,6 +268,12 @@
                                                         </a>
                                                         </div>
                                                     </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <span id="spn_fecha_pago_inscripcion" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                                            <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago_inscripcion" name="txt_fecha_pago_inscripcion" readonly/>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -291,6 +298,7 @@
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>
                                                     <th>Archivo Pago</th>
+                                                    <th>Fecha Pago</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb_pago_matricula">
@@ -339,6 +347,12 @@
                                                         <a id="">
                                                         <img id="pago_img_mat" class="img-circle" style="height: 80px;width: 140px;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px">
                                                         </a>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <span id="spn_fecha_pago_matricula" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                                            <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago_matricula" name="txt_fecha_pago_matricula" readonly/>
                                                         </div>
                                                     </td>
                                                 </tr>
