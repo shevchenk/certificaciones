@@ -18,13 +18,14 @@ $(document).ready(function() {
       LlamadaG.id = button.data().id;
       $(LlamadaG.id).val('');
       $("#ModalLlamada #trabajador").text(LlamadaG.persona);
-        if( LlamadaG.persona == '' ){
+        /*if( LlamadaG.persona == '' ){
           $('#ModalLlamada .modal-footer button').click();
           msjG.mensaje('warning','Busque y seleccione Persona Marketing',4000);
         }
         else{
+        */
             AjaxLlamada.HistorialLlamada(HTMLCargarListaLlamada);
-        }
+        //}
 
     });
 
