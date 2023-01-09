@@ -1281,7 +1281,7 @@ class Matricula extends Model
                 "adicional1" => $adicional[0],
                 "adicional2" => $adicional[1],
                 "url" => env('APP_URL'),
-                "tipo_documento_id" => 541,
+                "tipo_documento_id" => env('DOCUMENTO_ID'), //Esto varia según el documento de BD
 
                 "nro_ins" => $bandeja->nro_pago_inscripcion,
                 "tipo_ins" => $bandeja->tipo_pago_inscripcion,
@@ -1319,6 +1319,7 @@ class Matricula extends Model
                 'key' => $key,
                 'datos' => $datos,
             );
+            //dd($parametros);
             $url = env('URL_PROCESO'.Auth::user()->empresa_id)."?".http_build_query($parametros);
             $objArr = ApiPro::curl($url, $parametros);
             if( isset($objArr->rst) AND $objArr->rst*1 == 1 ){
