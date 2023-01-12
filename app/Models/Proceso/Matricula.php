@@ -1244,9 +1244,11 @@ class Matricula extends Model
                 $bandeja->monto_promocion="";
             }
 
-            $sexo = 'M';
             if( isset($sexo[$persona->sexo]) AND trim($sexo[$persona->sexo])!='' ){
                 $sexo = $sexo[$persona->sexo];
+            }
+            else{
+                $sexo = '';
             }
 
             $datos = array(
