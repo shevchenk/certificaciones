@@ -455,13 +455,13 @@
                                 <div class="panel-body">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Medio de Captación</label>
+                                            <label>Tipo de Vendedor</label>
                                             <select name="slct_medio_captacion_id" id="slct_medio_captacion_id" class="form-control selectpicker" onchange="ValidaMedioCaptacion()"></select>
                                         </div> 
                                     </div>
                                     <div class="col-md-5 validamediocaptacion" style="display: none;">
                                         <div class="form-group">
-                                            <label>Persona Marketing</label>
+                                            <label>Vendedor</label>
                                             <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
                                             <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
                                         </div> 
@@ -485,7 +485,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Como llegó aquí</label>
+                                            <label>Medio de Captación</label>
                                             <select name="slct_medio_captacion_id2" id="slct_medio_captacion_id2" class="form-control selectpicker"></select>
                                         </div> 
                                     </div>
