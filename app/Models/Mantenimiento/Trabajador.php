@@ -42,7 +42,7 @@ class Trabajador extends Model
         $trabajador->persona_id_created_at=Auth::user()->id;
         $trabajador->save();
 
-        $trabajador->codigo = 'INTUR - '.$trabajador->id;
+        $trabajador->codigo = 'VEN - '.$trabajador->id;
         $trabajador->save();
 
         $trabajadorHistorico = new TrabajadorHistorico;

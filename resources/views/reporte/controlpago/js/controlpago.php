@@ -188,6 +188,7 @@ HTMLCargarReporte=function(result){
             "<td><ul><li>"+$.trim(r.recogo_certificado)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(r.cajera)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(r.marketing)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.centro_operacion)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(r.medio_captacion)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(r.comollego)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(r.matricula)+"</li></ul></td>";

@@ -736,6 +736,16 @@ class Seminario extends Model
             ->leftJoin('personas AS pmar',function($join){
                 $join->on('pmar.id','=','mm.persona_marketing_id');
             })
+            ->leftJoin('mat_trabajadores AS t',function($join) use($r){
+                $join->on('t.persona_id','=','pmar.id');
+                if( !$r->has('global') ){
+                    $join->where('t.empresa_id', Auth::user()->empresa_id);
+                }
+            })
+            ->leftJoin('mat_centro_operaciones AS co2',function($join){
+                $join->on('co2.id','=','t.centro_operacion_id');
+            })
+
             ->leftJoin('mat_medios_captaciones AS meca',function($join){
                 $join->on('meca.id','=','mm.medio_captacion_id');
             })
@@ -929,7 +939,7 @@ class Seminario extends Model
                     ,'s2.sucursal','s3.sucursal AS recogo_certificado'
                     ,DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera')
                     ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
-                    ,'meca.medio_captacion','meca2.medio_captacion as comollego'
+                    ,'co2.centro_operacion' ,'meca.medio_captacion','meca2.medio_captacion as comollego'
                     ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
                     )
             ->where( 
@@ -1030,7 +1040,7 @@ class Seminario extends Model
             30,
             15,15,
             30,50,50,30,20,
-            20,20,30,30,20,20,30
+            20,20,30,30,20,20,20,30
         );
 
         $estatico='';
@@ -1054,7 +1064,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,13,9,2,2,2,2,0,1,1,1,0,6);
+        $nrocabeceraTit=array(5,13,9,2,2,2,2,0,1,1,1,0,7);
         $colorTit=array('#DDEBF7','#88BAE3','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -1099,7 +1109,7 @@ class Seminario extends Model
             ,'Deuda a la Fecha','Promedio Final del Curso'
             ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
             ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda','Deuda Total'
-            ,'Sede de Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Medio Captación','Como llegó aquí','Supervisor(a)'
+            ,'Sede de Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Centro de Operación','Medio Captación','Como llegó aquí','Supervisor(a)'
         );
         $campos=array('');
 
@@ -1111,7 +1121,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'BF'; //$estatico.chr($min);
+        $return['max']= 'BG'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;

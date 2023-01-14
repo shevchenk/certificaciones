@@ -22,8 +22,9 @@
                                 <select class="form-control selectpicker show-menu-arrow" name="slct_tipo_medio" id="slct_tipo_medio">
                                     <option value='' selected>.::Seleccione::.</option>
                                     <option value='0'>Masivo</option>
-                                    <option value='1'>Comisiona</option>
-                                    <option value='2'>No Comisiona</option>
+                                    <option value='1'>Comisiona - Persona</option>
+                                    <option value='2'>No Comisiona - Persona</option>
+                                    <option value='3'>No Comisiona</option>
                                 </select>
                             </div> 
                         </div>

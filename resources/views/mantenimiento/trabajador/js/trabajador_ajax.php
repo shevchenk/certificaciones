@@ -42,7 +42,7 @@ var AjaxTrabajador={
     },
     CargarMedioCaptacion:function(evento){
         url='AjaxDinamic/Mantenimiento.MedioCaptacionMA@ListMedioCaptacion';
-        data={tipo_medio:1};
+        data={tipo_medio:-1};
         masterG.postAjax(url,data,evento);
     },
     CargarCentroOperacion:function(evento){

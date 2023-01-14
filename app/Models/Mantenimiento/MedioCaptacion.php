@@ -87,7 +87,10 @@ class MedioCaptacion extends Model
                 function($query) use ($r){
                     if( $r->has("tipo_medio") ){
                         $tipo_medio=trim($r->tipo_medio);
-                        if( $tipo_medio !='' ){
+                        if( $tipo_medio !='' AND $tipo_medio == -1 ){
+                            $query->whereIn('tipo_medio' , [1,2]);
+                        }
+                        elseif( $tipo_medio !='' ){
                             $query->where('tipo_medio',$tipo_medio);
                         }
                     }
