@@ -47,7 +47,7 @@ ValidaMedioCaptacion=function(){
     tipo = $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo');
     $("#ModalMatriculaForm .validamediocaptacion").hide();
     $("#ModalMatriculaForm #txt_marketing_id, #ModalMatriculaForm #txt_marketing").val('');
-    if( tipo*1==1 ){
+    if( tipo*1==1 || tipo*1==2 ){
         $("#ModalMatriculaForm #btn_marketing").attr("data-filtros2","estado:1|rol_id:1|medio_captacion_id:"+$("#ModalMatriculaForm #slct_medio_captacion_id").val());
         $(".validamediocaptacion").show();
     }
@@ -110,6 +110,7 @@ ValidaForm=function(){
         if( $.trim( r.value ) != '' ){ ProgramacionIdG = true; } 
     });
 
+    let tipo = $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo');
     var r=true;
     if( $.trim( $("#ModalMatriculaForm #txt_persona_id").val() )==''){
         r=false;
@@ -187,7 +188,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Medio de Captación',4000);
     }*/
-    else if( $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo')==1 && $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
+    else if( (tipo==1 || tipo==2) && $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Persona Marketing',4000);
     }
@@ -244,7 +245,8 @@ ValidaTabla=function(){
     return r;     
 }
 AgregarEditarAjax=function(){
-    if( $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo')==1 && $.trim( $("#txt_llamada_id").val() ) == '' ){
+    let tipo = $("#ModalMatriculaForm #slct_medio_captacion_id option:selected").attr('data-tipo');
+    if( (tipo==1 || tipo==2) && $.trim( $("#txt_llamada_id").val() ) == '' ){
         sweetalertG.pregunta('LLamadas','No ha seleccionado "ID DE LLAMADA" ¿Desea continuar?', FinalizarRegistro);
     }
     else{
@@ -331,7 +333,7 @@ SlctCargarMedioCaptacion=function(result){
     var html="<option value=''>.::Seleccione::.</option>";
     var html2=html;
     $.each(result.data,function(index,r){
-        if( r.tipo_medio == '1' ){
+        if( r.tipo_medio == '1' || r.tipo_medio == '2' ){
             html+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
         }
         else{
