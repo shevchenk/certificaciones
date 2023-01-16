@@ -42,7 +42,7 @@ class Trabajador extends Model
         $trabajador->persona_id_created_at=Auth::user()->id;
         $trabajador->save();
 
-        $trabajador->codigo = 'VEN - '.$trabajador->id;
+        $trabajador->codigo = 'VEN - '.trim( $r->persona_id );
         $trabajador->save();
 
         $trabajadorHistorico = new TrabajadorHistorico;
@@ -131,9 +131,10 @@ class Trabajador extends Model
              ->join('personas as p','p.id','=','t.persona_id')
              ->join('mat_roles as r','r.id','=','t.rol_id')
              ->join('mat_tareas as ta','ta.id','=','t.tarea_id')
+             ->leftJoin('mat_centro_operaciones as co','co.id','=','t.centro_operacion_id')
              ->select('t.codigo','t.id','t.persona_id',DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre ) as trabajador')
              ,'t.rol_id','r.rol','t.tarea_id','ta.tarea','t.estado','t.medio_captacion_id','t.centro_operacion_id', 't.remuneracion'
-             ,'t.horario', 't.fecha_ingreso')
+             ,'t.horario', 't.fecha_ingreso', 'co.centro_operacion')
              ->where('t.empresa_id', Auth::user()->empresa_id)
              ->where( 
                 function($query) use ($r){
@@ -171,6 +172,12 @@ class Trabajador extends Model
                         $medio_captacion_id=trim($r->medio_captacion_id);
                         if( $medio_captacion_id !='' ){
                             $query->where('t.medio_captacion_id','=',$medio_captacion_id);
+                        }
+                    }
+                    if( $r->has("centro_operacion") ){
+                        $centro_operacion=trim($r->centro_operacion);
+                        if( $centro_operacion !='' ){
+                            $query->where('co.centro_operacion','like','%'.$centro_operacion.'%');
                         }
                     }
                     if( $r->has("codigo") ){
