@@ -1321,7 +1321,7 @@ class Matricula extends Model
                 'key' => $key,
                 'datos' => $datos,
             );
-            //dd($parametros);
+            
             $url = env('URL_PROCESO'.Auth::user()->empresa_id)."?".http_build_query($parametros);
             $objArr = ApiPro::curl($url, $parametros);
             if( isset($objArr->rst) AND $objArr->rst*1 == 1 ){
