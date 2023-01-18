@@ -19,6 +19,7 @@ class PDFRE extends Controller
     
     public function ExportMatricula(Request $r )
     {
+        ini_set('memory_limit', '128M');
         $id=Auth::user()->id;
         $matricula= Matricula::find($r->matricula_id);
         $persona = Persona::find($matricula->persona_id);
@@ -147,7 +148,12 @@ class PDFRE extends Controller
         ];
 
         $pdf = PDF::loadView('reporte.pdf.matricula', $data);
-        return $pdf->download('prematricula.pdf');
+
+        $ficha = 'FICHA DE MATRÍCULA';
+        if( $bandeja->estado_mat == 'Pre Aprobado' ){
+            $ficha = 'FICHA DE INSCRIPCIÓN';
+        }
+        return $pdf->download($ficha);
     }
     
 }

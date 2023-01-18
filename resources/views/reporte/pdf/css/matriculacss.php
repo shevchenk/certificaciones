@@ -76,6 +76,7 @@
     }
     ol.nota{
         font-size: 11px;
+        text-align: justify;
     }
     .detalle{
         font-size: 12.5px;
