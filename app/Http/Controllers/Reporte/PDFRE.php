@@ -149,9 +149,9 @@ class PDFRE extends Controller
 
         $pdf = PDF::loadView('reporte.pdf.matricula', $data);
 
-        $ficha = 'FICHA DE MATRÍCULA';
+        $ficha = 'FICHA DE MATRÍCULA.pdf';
         if( $bandeja->estado_mat == 'Pre Aprobado' ){
-            $ficha = 'FICHA DE INSCRIPCIÓN';
+            $ficha = 'FICHA DE INSCRIPCIÓN.pdf';
         }
         return $pdf->download($ficha);
     }
