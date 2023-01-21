@@ -46,7 +46,7 @@
                 $mod = "VIRTUAL";
             }
             @endphp
-            <p><span class="negrita tab1"> {{ $dvalue[0] }} </span><span class="detalle">(Mod: {{ $mod }}, Fec-inic: {{ $dvalue[4] }}, Hora inicio: {{ $dvalue[2] }}, Frecuencia: {{ $dvalue[1] }} Local: {{ $lugar_estudio }})</span></p>
+            <p><span class="negrita tab1"> {{ $dvalue[0] }} </span><span class="detalle">(Fec-inic: {{ $dvalue[4] }}, Hora inicio: {{ $dvalue[2] }}, Frecuencia: {{ $dvalue[1] }} Local: {{ $lugar_estudio }})</span></p>
         @endforeach
         <p class="negrita">Ha realizado los siguientes pagos:</p>
         @if( $nro_pago_inscripcion != '' )
