@@ -941,6 +941,7 @@ class Seminario extends Model
                     ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
                     ,'co2.centro_operacion' ,'meca.medio_captacion','meca2.medio_captacion as comollego'
                     ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
+                    , 'mm.estado_mat', 'mm.fecha_estado', 'mm.expediente', 'mm.fecha_expediente'
                     )
             ->where( 
                 function($query) use ($r){
@@ -1040,7 +1041,8 @@ class Seminario extends Model
             30,
             15,15,
             30,50,50,30,20,
-            20,20,30,30,20,20,20,30
+            20,20,30,30,20,20,20,30,
+            20,20,20,20
         );
 
         $estatico='';
@@ -1064,7 +1066,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,13,9,2,2,2,2,0,1,1,1,0,7);
+        $nrocabeceraTit=array(5,13,9,2,2,2,2,0,1,1,1,0,11);
         $colorTit=array('#DDEBF7','#88BAE3','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -1110,6 +1112,7 @@ class Seminario extends Model
             ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
             ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda','Deuda Total'
             ,'Sede de Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Centro de Operación','Medio Captación','Como llegó aquí','Supervisor(a)'
+            ,'Estado de la Matrícula', 'Fecha del Estado de la Matrícula', 'Nro Expediente', 'Fecha de Expediente'
         );
         $campos=array('');
 
@@ -1121,7 +1124,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'BG'; //$estatico.chr($min);
+        $return['max']= 'BK'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;

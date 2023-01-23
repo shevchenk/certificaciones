@@ -191,7 +191,11 @@ HTMLCargarReporte=function(result){
             "<td><ul><li>"+$.trim(r.centro_operacion)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(r.medio_captacion)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(r.comollego)+"</li></ul></td>"+
-            "<td><ul><li>"+$.trim(r.matricula)+"</li></ul></td>";
+            "<td><ul><li>"+$.trim(r.matricula)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.estado_mat)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.fecha_estado)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.expediente)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.fecha_expediente)+"</li></ul></td>";
 
         html+="</tr>";
     });

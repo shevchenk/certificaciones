@@ -110,7 +110,7 @@
                                             <th style="background-color: #DDEBF7;" colspan='2'>PROGRAMACION Y PAGO - CUOTAS</th>
                                             <th style="background-color: #FCE4D6;" colspan='2'>PAGO Y DEUDA DE SALDOS - CUOTAS</th>
                                             <th style="background-color: #FCE4D6;" colspan='1'>A LA FECHA</th>
-                                            <th style="background-color: #FCD5B4;" colspan='8'>DATOS DE LA VENTA</th>
+                                            <th style="background-color: #FCD5B4;" colspan='12'>DATOS DE LA VENTA</th>
                                         </tr>
                                         <tr>
                                             <th style="background-color: #DDEBF7;">DNI</th>
@@ -182,6 +182,10 @@
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Medio Captación</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Como llegó aquí</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Supervisor(a)</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Estado de la Matrícula</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Fecha del Estado de la Matrícula</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Nro Expediente</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Fecha de Expediente</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -257,6 +261,10 @@
                                             <th style="background-color: #FCD5B4;">Medio Captación</th>
                                             <th style="background-color: #FCD5B4;">Como llegó aquí</th>
                                             <th style="background-color: #FCD5B4;">Supervisor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Estado de la Matrícula</th>
+                                            <th style="background-color: #FCD5B4;">Fecha del Estado de la Matrícula</th>
+                                            <th style="background-color: #FCD5B4;">Nro Expediente</th>
+                                            <th style="background-color: #FCD5B4;">Fecha de Expediente</th>
                                         </tr>
                                     </tfoot>
                                 </table>
