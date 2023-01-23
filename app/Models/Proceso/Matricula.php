@@ -752,7 +752,10 @@ class Matricula extends Model
                             $query->where('mm.estado_mat', '!=', 'Pendiente');
                         }
                         elseif( $r->estado_mat == 'Marketing' ){
-                            $query->where('mm.estado_mat', '!=', 'Observado');
+                            $query->whereNotIn('mm.estado_mat', ['Observado','A Corregir']);
+                        }
+                        elseif( $r->estado_mat == 'Observado' ){
+                            $query->whereIn('mm.estado_mat', ['Observado','A Corregir']);
                         }
                         else {
                             $query->where('mm.estado_mat', $r->estado_mat);

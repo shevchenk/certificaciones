@@ -34,7 +34,7 @@
  max-height: auto !important;
  overflow-y: scroll;
 }*/
-.modal { overflow: auto !important; 
+.modal { overflow: auto !important; }
 </style>
 <section class="content-header">
     <h1>Programación de Inicios / Cursos
@@ -56,7 +56,7 @@
                         <table id="TableProgramacion" class="table table-bordered table-hover">
                             <thead>
                                 <tr class="cabecera">
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-2" style="min-width: 250px;">
                                         <div class="form-group">
                                             <label><h4>Inicio / Curso:</h4></label>
                                             <div class="input-group">
@@ -65,7 +65,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-2" style="min-width: 180px;">
                                         <div class="form-group">
                                             <label><h4>Docente:</h4></label>
                                             <div class="input-group">
@@ -74,7 +74,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2">
+                                    <th class="col-xs-2" style="min-width: 150px;">
                                         <div class="form-group">
                                             <label><h4>Local de Estudios:</h4></label>
                                             <div class="input-group">
@@ -83,7 +83,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-1">
+                                    <th class="col-xs-1" style="min-width: 120px;">
                                         <div class="form-group">
                                             <label><h4>Aula:</h4></label>
                                             <div class="input-group">
@@ -92,7 +92,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-1">
+                                    <th class="col-xs-1" style="min-width: 120px;">
                                         <div class="form-group">
                                             <label><h4>Turno:</h4></label>
                                             <div class="input-group">
@@ -105,7 +105,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-1">
+                                    <th class="col-xs-1" style="min-width: 120px;">
                                         <div class="form-group">
                                             <label><h4>Días:</h4></label>
                                             <div class="input-group">
@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                     <th class="col-xs-2" style="min-width: 120px;">
+                                     <th class="col-xs-2" style="min-width: 150px;">
                                         <div class="form-group">
                                             <label><h4>Fecha Inicio:</h4></label>
                                             <div class="input-group">
@@ -123,7 +123,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2" style="min-width: 120px;">
+                                    <th class="col-xs-2" style="min-width: 150px;">
                                         <div class="form-group">
                                             <label><h4>Fecha Final:</h4></label>
                                             <div class="input-group">
@@ -132,7 +132,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2" style="min-width: 100px;">
+                                    <th class="col-xs-2" style="min-width: 120px;">
                                         <div class="form-group">
                                             <label><h4>Hora Inicio:</h4></label>
                                             <div class="input-group">
@@ -141,7 +141,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2" style="min-width: 100px;">
+                                    <th class="col-xs-2" style="min-width: 120px;">
                                         <div class="form-group">
                                             <label><h4>Hora Final:</h4></label>
                                             <div class="input-group">
@@ -150,7 +150,7 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th class="col-xs-2" style="min-width: 120px;">
+                                    <th class="col-xs-2" style="min-width: 150px;">
                                         <div class="form-group">
                                             <label><h4>Semestre:</h4></label>
                                             <div class="input-group">
