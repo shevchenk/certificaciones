@@ -56,6 +56,21 @@ $(document).ready(function() {
         $("#ModalLlamadaForm input[type='hidden']").not('.mant').remove();
     });
 
+    $(document).on('click', '.btn_consultar', function(event) {
+        let ini = $("#txt_fecha_distribucion_ini").val();
+        let fin = $("#txt_fecha_distribucion_fin").val();
+        if( ini == '' ){
+            ini = '<?php echo date("Y-m-d");?>';
+            $("#txt_fecha_distribucion_ini, #txt_fecha_distribucion_fin").val( ini );
+        }
+        if( fin == '' ){
+            fin = ini;
+            $("#txt_fecha_distribucion_fin").val( ini );
+        }
+        $("#txt_fecha_distribucion_rango").val(ini+" - "+fin);
+        AjaxEspecialidad.Cargar(HTMLCargar);
+    });
+
     $(document).on('click', '.btn_exportar', function(event) {
         data=$("#EspecialidadForm").serialize().split("txt_").join("").split("slct_").join("");
         window.open('ReportDinamic/Reporte.ReporteEM@ExportCargarLlamada?'+data+'&exportar=1', '_blank');

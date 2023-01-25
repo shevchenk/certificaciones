@@ -119,6 +119,7 @@
                                     <th>
                                         <label><h4>Responsable</h4></label>
                                         <input type="text" class="form-control" name="txt_responsable" id="txt_responsable" placeholder="Región" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 150px;">
+                                        <input type="text" class="form-control" name="txt_fecha_distribucion_rango" id="txt_fecha_distribucion_rango">
                                     </th>
                                     <th>[-]</th>
                                 </tr>

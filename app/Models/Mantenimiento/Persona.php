@@ -879,6 +879,12 @@ class Persona extends Model
                             $query->where('pd.fecha_distribucion','like','%'.$fecha_distribucion.'%');
                         }
                     }
+                    if( $r->has("fecha_distribucion_rango") ){
+                        if( trim($r->fecha_distribucion_rango) !='' ){
+                            $fechas = explode(' - ', $r->fecha_distribucion_rango);
+                            $query->whereBetween('pd.fecha_distribucion',[$fechas[0], $fechas[1]]);
+                        }
+                    }
                     if( $r->has("carrera") ){
                         $carrera=trim($r->carrera);
                         if( $carrera !='' ){
