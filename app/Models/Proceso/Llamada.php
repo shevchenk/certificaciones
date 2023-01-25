@@ -156,6 +156,11 @@ class Llamada extends Model
             )
             ->where( 
                 function($query) use ($r){
+                    if( $r->has("estado") ){
+                        if( trim($r->estado) !='' ){
+                            $query->where('ll.estado',trim($r->estado));
+                        }
+                    }
                     if( $r->has("persona_id") ){
                         $persona_id=trim($r->persona_id);
                         if( $persona_id !='' ){

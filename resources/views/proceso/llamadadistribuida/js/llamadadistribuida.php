@@ -55,6 +55,11 @@ $(document).ready(function() {
     $('#ModalLlamada').on('hidden.bs.modal', function (event) {
         $("#ModalLlamadaForm input[type='hidden']").not('.mant').remove();
     });
+
+    $(document).on('click', '.btn_exportar', function(event) {
+        data=$("#EspecialidadForm").serialize().split("txt_").join("").split("slct_").join("");
+        window.open('ReportDinamic/Reporte.ReporteEM@ExportCargarLlamada?'+data+'&exportar=1', '_blank');
+    });
 });
 
 HTMLCargarLlamadaPendiente=function(result){
@@ -174,7 +179,8 @@ HTMLCargar=function(result){ //INICIO HTML
                 "<td class='carrera'>"+r.carrera+"</td>"+
                 "<td class='fuente'>"+$.trim(r.fuente)+"</td>"+
                 "<td bgcolor='"+color+"' class='campaña'>"+r.campana+"</td>"+
-                "<td class='region'>"+$.trim(r.region)+"</td>";
+                "<td class='region'>"+$.trim(r.region)+"</td>"+
+                "<td class='responsable'>"+$.trim(r.responsable)+"</td>";
                 //"<td bgcolor='"+color+"' class='nombre'>"+"</td>"+
                 /*"<td class='tipo'>"+$.trim(r.tipo)+"</td>"+
                 "<td class='empresa'>"+$.trim(r.empresa)+"</td>"+*/

@@ -38,6 +38,15 @@
     <div class="row" id="div_alumnos_mat">
         <div class="col-xs-12">
             <div class="box">
+                    <div class="col-sm-2 text-center">
+                        <span class="btn btn-primary btn-lg btn_exportar">
+                            <i class="glyphicon glyphicon-download"></i>Exportar
+                        </span>
+                    </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="box">
                 <form id="EspecialidadForm">
                     <div class="box-body table-responsive no-padding">
                         <table id="TableDatos" class="table table-bordered table-hover">
@@ -92,6 +101,10 @@
                                         <label><h4>Región</h4></label>
                                         <input type="text" class="form-control" name="txt_region" id="txt_region" placeholder="Región" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 100px;">
                                     </th>
+                                    <th>
+                                        <label><h4>Responsable</h4></label>
+                                        <input type="text" class="form-control" name="txt_responsable" id="txt_responsable" placeholder="Región" onkeypress="return masterG.enterGlobal(event,'#txt_tipo_llamada',1);" style="width: 150px;">
+                                    </th>
                                     <th>[-]</th>
                                 </tr>
                             </thead>
@@ -112,6 +125,7 @@
                                   <th>Fuente</th>
                                   <th>Campaña</th>
                                   <th>Región</th>
+                                  <th>Responsable</th>
                                   <th>[-]</th>
                                 </tr>
                             </tfoot>

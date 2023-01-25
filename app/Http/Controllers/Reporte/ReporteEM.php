@@ -1456,4 +1456,119 @@ class ReporteEM extends Controller
         
         })->export('xlsx');
     }
+
+    public function ExportCargarLlamada(Request $r)
+    {
+        $renturnModel = Reporte::runExportCargarLlamada($r);
+        
+        Excel::create('Llamadas', function($excel) use($renturnModel) {
+
+        $excel->setTitle('Reporte de Llamadas')
+              ->setCreator('Jorge Salcedo')
+              ->setCompany('JS Soluciones')
+              ->setDescription('Llamadas');
+
+        $excel->sheet('Llamadas', function($sheet) use($renturnModel) {
+            $sheet->setOrientation('landscape');
+            $sheet->setPageMargin(array(
+                0.25, 0.30, 0.25, 0.30
+            ));
+
+            $sheet->setStyle(array(
+                'font' => array(
+                    'name'      =>  'Bookman Old Style',
+                    'size'      =>  8,
+                    'bold'      =>  false
+                )
+            ));
+
+            $sheet->cell('A1', function($cell) {
+                $cell->setValue('REPORTE DE LEADS ASIGNADOS');
+                $cell->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '24',
+                    'bold'       =>  true
+                ));
+            });
+            $sheet->mergeCells('A1:J1');
+            $sheet->cells('A1:J1', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+            });
+
+            $sheet->setWidth($renturnModel['length']);
+            $sheet->setHeight(2, 33.5);
+            $sheet->fromArray(array(
+                array(''),
+                $renturnModel['cabecera']
+            ));
+
+            for( $i=0; $i<COUNT($renturnModel['cabeceraTit']); $i++ ){
+                $posicion= explode(":",$renturnModel['lengthTit'][$i]);
+                $sheet->cell($posicion[0], function($cell) use( $renturnModel,$i ){
+                    $cell->setValue($renturnModel['cabeceraTit'][$i]);
+                    $cell->setFont(array(
+                            'family'     => 'Bookman Old Style',
+                            'size'       => '12',
+                            'bold'       =>  true
+                    ));
+                });
+                $sheet->mergeCells($renturnModel['lengthTit'][$i]);
+                $sheet->cells($renturnModel['lengthTit'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBorder('solid', 'none', 'none', 'solid');
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+
+                $sheet->cells($renturnModel['lengthDet'][$i], function($cells) use( $renturnModel,$i) {
+                    $cells->setBackground($renturnModel['colorTit'][$i]);
+                });
+            }
+
+            $data=json_decode(json_encode($renturnModel['data']), true);
+            $pos=3;
+            for ($i=0; $i<count($data); $i++) {
+                $data[$i]['id'] = $i+1;
+                $data[$i]['nombre'] = trim($data[$i]['nombre']." ".$data[$i]['paterno']." ".$data[$i]['materno']);
+
+                unset($data[$i]['dni']);
+                unset($data[$i]['fecha_nacimiento']);
+                unset($data[$i]['sexo']);
+                unset($data[$i]['telefono']);
+                unset($data[$i]['estado_civil']);
+                unset($data[$i]['password']);
+                unset($data[$i]['estado']);
+                unset($data[$i]['empresa']);
+                unset($data[$i]['tipo']);
+                unset($data[$i]['matricula']);
+                unset($data[$i]['peso']);
+                unset($data[$i]['paterno']);
+                unset($data[$i]['materno']);
+                
+                $pos++;
+                $sheet->row( $pos, $data[$i] );
+            }
+            
+            $sheet->cells('A3:'.$renturnModel['max'].'3', function($cells) {
+                $cells->setBorder('solid', 'none', 'none', 'solid');
+                $cells->setAlignment('center');
+                $cells->setValignment('center');
+                $cells->setFont(array(
+                    'family'     => 'Bookman Old Style',
+                    'size'       => '10',
+                    'bold'       =>  true
+                ));
+            });
+
+            $count = $sheet->getHighestRow();
+            $sheet->getStyle('A2:'.$renturnModel['max']."2")->getAlignment()->setWrapText(true);
+            
+            $sheet->setBorder('A2:'.$renturnModel['max'].$count, 'thin');
+
+        });
+        
+        })->export('xlsx');
+    }
 }

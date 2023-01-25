@@ -788,6 +788,10 @@ class Persona extends Model
                 $join->on('p2.id','=','t.persona_id')
                 ->where('p2.estado',1);
             })
+            ->leftJoin('personas AS p3', function($join){
+                $join->on('p3.id','=','pd.persona_id_created_at')
+                ->where('p3.estado',1);
+            })
             ->leftJoin(DB::raw('(SELECT tl.peso, tl.tipo_llamada,ll.persona_id, DATE(ll.fecha_llamada) as fecha_llamada
                 FROM llamadas AS ll 
                 INNER JOIN mat_trabajadores t2 ON t2.id = ll.trabajador_id AND t2.empresa_id = '.Auth::user()->empresa_id.' 
@@ -795,11 +799,11 @@ class Persona extends Model
                 WHERE `ll`.`estado` = 1 AND `ll`.`ultimo_registro` = 1 ) AS tl'), function($join){
                 $join->on('tl.persona_id','=','p.id');
             })
-            ->select('p.id','p.paterno','p.materno','p.nombre','p.dni','pd.fecha_distribucion', 'pc.ad_name AS campana', 'pc.distrito as region',
-            'p.email',DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'),'p.sexo','p.telefono','pc.interesado as carrera', 'p.estado_civil',
-            'p.celular','p.password','p.estado','p.empresa','pc.fuente','p.tipo','tl.tipo_llamada', 'tl.fecha_llamada','pc.fecha_registro',
-            DB::raw('0 AS matricula,
-            CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor, tl.peso'))
+            ->select('p.id', 'tl.tipo_llamada', 'tl.fecha_llamada', DB::raw('CONCAT(p2.paterno," ",p2.materno," ",p2.nombre) AS vendedor'), 
+            'pc.fecha_registro', 'pd.fecha_distribucion', 'p.nombre', 'p.paterno', 'p.materno', 'p.dni', 'p.celular', 'p.email',
+            'pc.interesado as carrera', 'pc.fuente', 'pc.ad_name AS campana', 'pc.distrito as region', DB::raw('CONCAT(p3.paterno," ",p3.materno," ",p3.nombre) AS responsable'),
+            DB::raw('IFNULL(p.fecha_nacimiento,"") as fecha_nacimiento'), 'p.sexo', 'p.telefono', 'p.estado_civil',
+            'p.password', 'p.estado', 'p.empresa', 'p.tipo', DB::raw('0 AS matricula, tl.peso'))
             ->where('p.id','!=',1)
             ->where( 
                 function($query) use ($r){
@@ -825,6 +829,12 @@ class Persona extends Model
                         $nombre_completo=trim($r->nombre_completo);
                         if( $nombre_completo !='' ){
                             $query->where('p.nombre','like','%'.$nombre_completo.'%');
+                        }
+                    }
+                    if( $r->has("responsable") ){
+                        $responsable=trim($r->responsable);
+                        if( $responsable !='' ){
+                            $query->whereRaw('CONCAT(p3.paterno," ",p3.materno," ",p3.nombre) LIKE "%'.$responsable.'%"');
                         }
                     }
                     if( $r->has("dni") ){
@@ -931,10 +941,21 @@ class Persona extends Model
                     }
                 }
             );
-        $result = $sql->orderBy('tl.peso','asc')
-                    ->orderBy('tl.tipo_llamada','asc')
-                    ->orderBy('pd.fecha_distribucion','desc')
-                    ->paginate(10);
+        
+            $result = array();
+            if( $r->has('exportar') ){
+                $result = $sql->orderBy('tl.peso','asc')
+                              ->orderBy('tl.tipo_llamada','asc')
+                              ->orderBy('pd.fecha_distribucion','desc')
+                              ->get();
+            }
+            else{
+                $result = $sql->orderBy('tl.peso','asc')
+                            ->orderBy('tl.tipo_llamada','asc')
+                            ->orderBy('pd.fecha_distribucion','desc')
+                            ->paginate(10);
+
+            }
         return $result;
     }
 

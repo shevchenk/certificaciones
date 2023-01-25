@@ -1,6 +1,8 @@
 <?php
 namespace App\Models\Reporte;
 
+use App\Models\Mantenimiento\Persona;
+use App\Models\Mantenimiento\Trabajador;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Auth;
@@ -1636,6 +1638,102 @@ class Reporte extends Model
             'Distrito','Provincia','Región','Referencia',
             'Sede de Registro','Medio Publicitario','Interesado en','Frecuencia','Hora Inicio','Hora Final',
             'Estado','Sub Estado','Detalle Sub Estado','Fecha Programada','Persona Registro');
+        $campos=array('');
+
+        $r['data']=$rsql;
+        $r['campos']=$campos;
+        $r['cabecera']=$cabecera;
+        $r['length']=$length;
+        $r['cabeceraTit']=$cabeceraTit;
+        $r['lengthTit']=$lengthTit;
+        $r['colorTit']=$colorTit;
+        $r['lengthDet']=$lengthDet;
+        $r['max']=$estatico.chr($min); // Max. Celda en LETRA
+        return $r;
+    }
+
+    public static function runExportCargarLlamada($r)
+    {
+        if( $r->has('distribuida') AND $r->distribuida != '' ){
+            $id=Auth::user()->id;
+            $empresa_id= Auth::user()->empresa_id;
+            $trabajador= Trabajador::where('persona_id',$id)
+                         ->where('empresa_id',$empresa_id)
+                         ->where('rol_id',1)
+                         ->first();
+            $trabajadorid=0;
+            if( isset($trabajador->id) ){
+                $trabajadorid=$trabajador->id;
+            }
+            $r['teleoperadora']=$trabajadorid;
+            $r['estado']=1;
+        }
+        $rsql= Persona::runLoadDistribuida($r);
+
+        $length=array('A'=>5);
+        $pos=array(
+            5,20,15,38,
+            15,18,38,15,20,
+            38,25,25,20,
+            38,15,15,15,
+            15,15,15,15
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array(
+            'LEADS ASIGNADOS'
+        );
+
+        $valIni=66;
+        $min2=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(12);
+        $colorTit=array('#FDE9D9');
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min2++;
+                $estaticoFin= chr($min2);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min2++;
+                    $estatico= chr($min2);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°', 'Ultimo Estado', 'Fecha Estado' ,'Vendedor', 'Fecha Leads', 'Fecha Distribuida', 'Nombre Completo', 'Celular',
+            'Email', 'Estudios que solicita', 'Fuente', 'Campaña', 'Región', 'RESPONSABLE DE LA DISTRIBUCIÓN');
         $campos=array('');
 
         $r['data']=$rsql;

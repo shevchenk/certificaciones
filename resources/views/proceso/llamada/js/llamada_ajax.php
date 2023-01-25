@@ -40,7 +40,7 @@ var AjaxEspecialidad={
         masterG.postAjax(url,data,evento);
     },
     CargarLlamada:function(evento){
-        var data=$("#ModalLlamadaForm").serialize().split("txt_").join("").split("slct_").join("");
+        var data=$("#ModalLlamadaForm").serialize().split("txt_").join("").split("slct_").join("")+'&estado=1';
         url='AjaxDinamic/Proceso.LlamadaPR@CargarLlamada';
         masterG.postAjax(url,data, evento);
     },
