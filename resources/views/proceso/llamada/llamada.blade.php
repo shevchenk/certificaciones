@@ -39,7 +39,22 @@
         <div class="col-xs-12">
             <div class="box">
                     <div class="col-sm-2 text-center">
-                        <span class="btn btn-primary btn-lg btn_exportar">
+                        <label>Fecha Distribuida Inicio:</label>
+                        <input type="text" class="form-control fechas" name="txt_fecha_distribucion_ini" id="txt_fecha_distribucion_ini" placeholder="Fecha Inicio">
+                    </div>
+                    <div class="col-sm-2 text-center">
+                        <label>Fecha Distribuida Final:</label>
+                        <input type="text" class="form-control fechas" name="txt_fecha_distribucion_fin" id="txt_fecha_distribucion_fin" placeholder="Fecha Final">
+                    </div>
+                    <div class="col-sm-2 text-center">
+                        <br>
+                        <span class="btn btn-primary btn-lg btn_consultar">
+                            <i class="glyphicon glyphicon-search"></i>Consultar
+                        </span>
+                    </div>
+                    <div class="col-sm-2 text-center">
+                        <br>
+                        <span class="btn btn-success btn-lg btn_exportar">
                             <i class="glyphicon glyphicon-download"></i>Exportar
                         </span>
                     </div>
