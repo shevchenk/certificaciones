@@ -119,7 +119,7 @@ class PDFRE extends Controller
         $data = [
             'titulo' => 'Styde.net',
             'id' => $bandeja->id,
-            'empresa' => 'Intur Perú',
+            'empresa' => env('APP_NAME'),
             'url_logo' => 'img/inscripcion/logo1.png',
             'fecha' => $fecha,
             'persona' => trim($persona->nombre." ".$persona->paterno." ".$persona->materno),
