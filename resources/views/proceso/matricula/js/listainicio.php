@@ -394,7 +394,7 @@ SeleccionarProgramacion=function(id){
     var fecha_final=$("#TableListaprogramacion #trid_"+id+" .fecha_final").val();
     var fecha_i=fecha_inicio.split(" ");
     var fecha_f=fecha_final.split(" ");
-    if(sucursal_id==1){
+    if(sucursal_id==1 || sucursal == 'ONLINE' || sucursal == 'ON LINE'){
         var mod='ONLINE';
     }
 
