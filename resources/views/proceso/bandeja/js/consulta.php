@@ -39,6 +39,11 @@ $(document).ready(function() {
     AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida);
     $("#BandejaValidaForm #TableBandejaValida select").change(() => { AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida); });
     $("#BandejaValidaForm #TableBandejaValida input").not(".fecha").blur(() => { AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida); });
+
+    $(document).on('click', '.btn_exportar', function(event) {
+        data=$("#BandejaValidaForm").serialize().split("txt_").join("").split("slct_").join("");
+        window.open('ReportDinamic/Proceso.MatriculaPR@ExportBandejaValida?'+data+'&exportar=1', '_blank');
+    });
 });
 let Valida = {
     HTMLBandejaValida: (result) => {

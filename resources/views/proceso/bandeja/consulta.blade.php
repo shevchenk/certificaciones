@@ -49,6 +49,10 @@
                                     <label>Fecha de estado final:</label>
                                     <input type="text" class="input-lg fecha" name="txt_fecha_estado_f" id="txt_fecha_estado_f" placeholder="Seleccione Fecha Estado Final">
                                 </div>
+                                <div class="col-xs-2">
+                                    <br>
+                                    <a class="btn btn-success" id="btn_exportar"><i class="glyphicon glyphicon-download-alt"></i> Exportar</a>
+                                </div>
                             </div>
                             <div class="box-body table-responsive no-padding">                        
                                 <table id="TableBandejaValida" class="table table-bordered table-hover">
@@ -84,9 +88,16 @@
                                                 <label tabindex="-1" class="label programacion" style="font-size:250% !important;">Programación</label>
                                             </th>
                                             <th class="col-xs-1 text-center">
-                                                <label class="label" style="font-size:150% !important;">Estado<br>Matrícula</label>
                                                 <select class="col-md-12 input-lg" name="slct_estado_mat" id="slct_estado_mat">
-                                                    <option value='Pendiente' selected>.::Pendiente - Estado Matrícula::.</option>
+                                                    <option value='' selected>.::Todos::.</option>
+                                                    <option value='Pendiente'>Pendiente</option>
+                                                    <option value='Pre Aprobado'>Pre Aprobado</option>
+                                                    <option value='Aprobado'>Aprobado</option>
+                                                    <option value='Observado'>Observado</option>
+                                                    <option value='Anulado'>Anulado</option>
+                                                    <option value='Rechazado'>Rechazado</option>
+                                                    <option value='Registrado'>Registrado</option>
+                                                    <option value='A Corregir'>A Corregir</option>
                                                 </select>
                                             </th>
                                             <th class="col-xs-1" style="min-width: 125px;">

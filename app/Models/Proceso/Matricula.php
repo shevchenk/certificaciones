@@ -807,8 +807,16 @@ class Matricula extends Model
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion', 'mm.monto_pago', 'mm.nro_pago', 'mm.estado_mat', 'mm.fecha_estado'
                     ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion','meca2.medio_captacion'
                     ,'mm.tipo_pago_matricula');
-            
-        $result = $sql->orderBy('mm.id','asc')->paginate(10);
+
+        $result = array();
+        if( $r->has('exportar') ){
+            $result = $sql->orderBy('mm.id','asc')->get();
+        }
+        else{
+            $result = $sql->orderBy('mm.id','asc')->paginate(10);
+
+        }
+        
         return $result;
     }
 
