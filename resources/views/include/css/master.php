@@ -71,4 +71,8 @@ li.dropdown>a>select{
 .mg-15{
     margin: 0 0 0 15px;
 }
+
+.modal-footer{
+    background: white;
+}
 </style>
