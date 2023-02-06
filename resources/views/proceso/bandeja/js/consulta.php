@@ -15,13 +15,8 @@ $(document).ready(function() {
         autoclose: true,
         todayBtn: false
     }).on('change', (e) => { 
-        id = e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("id");
-        if( id == "TableBandejaValida" ){
+        //id = e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("id");
             AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida);
-        }
-        else{
-            AjaxBandeja.BandejaHistorica(Historica.HTMLBandejaHistorica);
-        }
     });
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -39,7 +34,7 @@ $(document).ready(function() {
         "autoWidth": false
     });
 
-    $("#TableBandejaHistorica #txt_fecha_estado, #TableBandejaValida #txt_fecha_estado").val("<?php echo date("Y-m-d");?>");
+    $("#BandejaValidaForm #txt_fecha_estado_i, #BandejaValidaForm #txt_fecha_estado_f").val("<?php echo date("Y-m-d");?>");
 
     AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida);
     $("#BandejaValidaForm #TableBandejaValida select").change(() => { AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida); });

@@ -40,6 +40,16 @@
                     <div class="col-xs-12 box">
                         <form id="BandejaValidaForm">
                             <h2>.::Bandeja::.</h2>
+                            <div class="box-body">
+                                <div class="col-xs-2">
+                                    <label>Fecha de estado inicio:</label>
+                                    <input type="text" class="input-lg fecha" name="txt_fecha_estado_i" id="txt_fecha_estado_i" placeholder="Seleccione Fecha Estado Inicio">
+                                </div>
+                                <div class="col-xs-2">
+                                    <label>Fecha de estado final:</label>
+                                    <input type="text" class="input-lg fecha" name="txt_fecha_estado_f" id="txt_fecha_estado_f" placeholder="Seleccione Fecha Estado Final">
+                                </div>
+                            </div>
                             <div class="box-body table-responsive no-padding">                        
                                 <table id="TableBandejaValida" class="table table-bordered table-hover">
                                     <thead>
@@ -75,7 +85,7 @@
                                             </th>
                                             <th class="col-xs-1 text-center">
                                                 <label class="label" style="font-size:150% !important;">Estado<br>Matrícula</label>
-                                                <select class="col-md-12 input-lg hidden" name="slct_estado_mat" id="slct_estado_mat">
+                                                <select class="col-md-12 input-lg" name="slct_estado_mat" id="slct_estado_mat">
                                                     <option value='Pendiente' selected>.::Pendiente - Estado Matrícula::.</option>
                                                 </select>
                                             </th>

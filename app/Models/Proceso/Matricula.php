@@ -773,8 +773,15 @@ class Matricula extends Model
                         $inicial=trim($r->fecha_inicial);
                         $final=trim($r->fecha_final);
                         if( $inicial !=''AND $final!=''){
-                            //$query ->whereBetween(DB::raw('DATE_FORMAT(mm.fecha_matricula,"%Y-%m")'), array($r->fecha_inicial,$r->fecha_final));
                             $query ->whereBetween('mm.fecha_matricula', array($r->fecha_inicial,$r->fecha_final));
+                        }
+                    }
+
+                    if( $r->has("fecha_estado_i") AND $r->has("fecha_estado_f")){
+                        $inicial=trim($r->fecha_estado_i);
+                        $final=trim($r->fecha_estado_f);
+                        if( $inicial !=''AND $final!=''){
+                            $query ->whereBetween('mm.fecha_estado', array($r->fecha_estado_i,$r->fecha_estado_f));
                         }
                     }
 
