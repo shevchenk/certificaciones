@@ -8,6 +8,7 @@ use App\Models\Proceso\Alumno;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use DB;
+use Excel;
 
 class MatriculaPR extends Controller
 {
@@ -261,8 +262,60 @@ class MatriculaPR extends Controller
             for ($i=0; $i<count($data); $i++) {
                 $data[$i]['id'] = $i+1;
                 //$data[$i]['nombre'] = trim($data[$i]['nombre']." ".$data[$i]['paterno']." ".$data[$i]['materno']);
+                $data[$i]['nombre'] = $data[$i]['paterno'] ." ".$data[$i]['materno']." ".$data[$i]['nombre'];
+                $auxcurso = array(); $auxprogramacion = array();
+                $rdet = explode("^^", $data[$i]['detalle']);
+                foreach( $rdet as $rdet2 ){
+                    $auxredt = explode("|", $rdet2);
+                    array_push($auxcurso, $auxredt[0]);
+                    array_push($auxprogramacion, $auxredt[1]." / ".$auxredt[4]." / ".$auxredt[2]);
+                }
+                $data[$i]['paterno'] = implode(" | ", $auxcurso);
+                $data[$i]['materno'] = implode(" | ", $auxprogramacion);;
 
-                //unset($data[$i]['dni']);
+                unset($data[$i]['PLATAFORMA']);
+                unset($data[$i]['tipo_participante']);
+                unset($data[$i]['dni']);
+                unset($data[$i]['telefono']);
+                unset($data[$i]['detalle']);
+                unset($data[$i]['celular']);
+                unset($data[$i]['email']);
+                unset($data[$i]['validada']);
+                unset($data[$i]['tipo_mat']);
+                unset($data[$i]['lugar_estudio']);
+                unset($data[$i]['empresa_inscripcion']);
+                unset($data[$i]['tipo_formacion']);
+                unset($data[$i]['archivo_pago_matricula']);
+                unset($data[$i]['archivo_pago_inscripcion']);
+                unset($data[$i]['archivo_pago_promocion']);
+                unset($data[$i]['nro_pago']);
+                unset($data[$i]['monto_pago']);
+                unset($data[$i]['archivo']);
+                unset($data[$i]['tipo_pago']);
+                unset($data[$i]['tipo_pago_id']);
+                unset($data[$i]['matricula_detalle_id']);
+                unset($data[$i]['total']);
+                unset($data[$i]['nro_pago_matricula']);
+                unset($data[$i]['monto_pago_matricula']);
+                unset($data[$i]['tipo_pago_matricula']);
+                unset($data[$i]['tipo_pago_matricula_id']);
+                unset($data[$i]['nro_promocion']);
+                unset($data[$i]['monto_promocion']);
+                unset($data[$i]['tipo_pago_promocion']);
+                unset($data[$i]['tipo_pago_promocion_id']);
+                unset($data[$i]['nro_pago_inscripcion']);
+                unset($data[$i]['monto_pago_inscripcion']);
+                unset($data[$i]['tipo_pago_inscripcion']);
+                unset($data[$i]['tipo_pago_inscripcion_id']);
+                unset($data[$i]['sucursal']);
+                unset($data[$i]['recogo_certificado']);
+                unset($data[$i]['obs']);
+                unset($data[$i]['obs2']);
+                unset($data[$i]['cajera']);
+                unset($data[$i]['medio_captacion']);
+                unset($data[$i]['medio_captacion2']);
+                unset($data[$i]['matricula']);
+                unset($data[$i]['supervisor']);
                 $pos++;
                 $sheet->row( $pos, $data[$i] );
             }

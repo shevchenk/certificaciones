@@ -49,10 +49,18 @@
                                     <label>Fecha de estado final:</label>
                                     <input type="text" class="input-lg fecha" name="txt_fecha_estado_f" id="txt_fecha_estado_f" placeholder="Seleccione Fecha Estado Final">
                                 </div>
+                                <div class="col-xs-1">
+                                    <br>
+                                    <a class="btn btn-primary" id="btn_buscar" onclick = "AjaxBandeja.BandejaValida(Valida.HTMLBandejaValida);"><i class="glyphicon glyphicon-search"></i> Buscar</a>
+                                </div>
                                 <div class="col-xs-2">
                                     <br>
                                     <a class="btn btn-success" id="btn_exportar"><i class="glyphicon glyphicon-download-alt"></i> Exportar</a>
                                 </div>
+                                <!--div class="col-xs-2">
+                                    <br>
+                                    <a class="btn btn-warning" id="btn_exportar2"><i class="glyphicon glyphicon-download-alt"></i> Exportar Anulados y Rechazados</a>
+                                </div-->
                             </div>
                             <div class="box-body table-responsive no-padding">                        
                                 <table id="TableBandejaValida" class="table table-bordered table-hover">

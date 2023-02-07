@@ -575,7 +575,7 @@ class Matricula extends Model
             })
             ->join('mat_matriculas_detalles AS mmd',function($join) use($r) {
                 $join->on('mmd.matricula_id','=','mm.id');
-                if( $r->has("estado_mat") AND ($r->estado_mat == 'Anulado' OR $r->estado_mat == 'Rechazado') ){
+                if( ($r->has("inactivos") AND $r->inactivos == 1) OR ($r->has("estado_mat") AND ($r->estado_mat == 'Anulado' OR $r->estado_mat == 'Rechazado')) ){
                     $join->where('mmd.estado',0);
                 }
                 else{
@@ -636,9 +636,11 @@ class Matricula extends Model
             ->leftJoin('mat_especialidades AS me',function($join){
                 $join->on('me.id','=','mmd.especialidad_id');
             })
-            ->select('mm.id',DB::raw('"PLATAFORMA"'),'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
+            ->select('mm.id',DB::raw('"PLATAFORMA"'),'mm.fecha_matricula'
+                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
+                    ,'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','mm.validada','ep.tipo AS tipo_mat'
-                    ,'mm.fecha_matricula',DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
+                    ,DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
                     , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") ) AS tipo_formacion')
                     , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) ) AS formacion')
                     , DB::raw(' MIN(mm.archivo_pago) as archivo_pago_matricula, MIN(mm.archivo_pago_inscripcion) AS archivo_pago_inscripcion, MIN(mm.archivo_promocion) AS archivo_pago_promocion ')
@@ -715,7 +717,6 @@ class Matricula extends Model
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
                     ,'s.sucursal','s2.sucursal AS recogo_certificado', 'mm.estado_mat', 'mm.fecha_estado', DB::raw('MIN(mm.observacion) AS obs, MIN(mm.observacion_mat) AS obs2')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre))) as cajera')
-                    ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
                     ,'meca.medio_captacion','meca2.medio_captacion AS medio_captacion2'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre))) as matricula')
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",psup.paterno,psup.materno,psup.nombre))) as supervisor')
@@ -762,7 +763,7 @@ class Matricula extends Model
                         }
                     }
 
-                    if( $r->has("estado_mat") AND ($r->estado_mat == 'Anulado' OR $r->estado_mat == 'Rechazado') ){
+                    if( ($r->has("inactivos") AND $r->inactivos == 1) OR ($r->has("estado_mat") AND ($r->estado_mat == 'Anulado' OR $r->estado_mat == 'Rechazado')) ){
                         $query->where('mm.estado',0);
                     }
                     else{
@@ -1567,5 +1568,83 @@ class Matricula extends Model
             
         $result = $sql->orderBy('mm.id','asc')->first();
         return $result;
+    }
+
+    public static function runBandejaValida($r)
+    {
+        $rsql= Matricula::BandejaValida($r);
+
+        $length=array('A'=>5);
+        $pos=array(
+            5,15,35,35,35,35,35,20,20
+        );
+
+        $estatico='';
+        $cab=0;
+        $min=64;
+        for ($i=0; $i < count($pos); $i++) { 
+            if( $min==90 ){
+                $min=64;
+                $cab++;
+                $estatico= chr($min+$cab);
+            }
+            $min++;
+            $length[$estatico.chr($min)] = $pos[$i];
+        }
+
+        $cabeceraTit=array(
+            'ESTADOS DE LAS MATRÍCULAS'
+        );
+
+        $valIni=66;
+        $min2=64;
+        $estatico='';
+        $posTit=2; $posDet=3;
+        $nrocabeceraTit=array(10,5,4);
+        $colorTit=array('#FDE9D9');
+        $lengthTit=array();
+        $lengthDet=array();
+
+        for( $i=0; $i<count($cabeceraTit); $i++ ){
+            $cambio=false;
+            $valFin=$valIni+$nrocabeceraTit[$i];
+            $estaticoFin=$estatico;
+            if( $valFin>90 ){
+                $min2++;
+                $estaticoFin= chr($min2);
+                $valFin=64+$valFin-90;
+                $cambio=true;
+            }
+            array_push( $lengthTit, $estatico.chr($valIni).$posTit.":".$estaticoFin.chr($valFin).$posTit );
+            array_push( $lengthDet, $estatico.chr($valIni).$posDet.":".$estaticoFin.chr($valFin).$posDet );
+            $valIni=$valFin+1;
+            if( $cambio ){
+                $estatico=$estaticoFin;
+            }
+            else{
+                if($valIni>90){
+                    $min2++;
+                    $estatico= chr($min2);
+                    $estaticoFin= $estatico;
+                    $valIni=65;
+                }
+            }
+        }
+
+        $cabecera=array(
+            'N°','Fecha de Matrícula','Persona Marketing','Alumno',
+            'Carrera/Módulo', 'Curso/Inicio', 'Programación', 'Estado Matrícula', 'Fecha Estado');
+        $campos=array('');
+
+        $r['data']=$rsql;
+        $r['campos']=$campos;
+        $r['cabecera']=$cabecera;
+        $r['length']=$length;
+        $r['cabeceraTit']=$cabeceraTit;
+        $r['lengthTit']=$lengthTit;
+        $r['colorTit']=$colorTit;
+        $r['lengthDet']=$lengthDet;
+        $r['max']=$estatico.chr($min); // Max. Celda en LETRA
+        return $r;
     }
 }
