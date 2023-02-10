@@ -54,8 +54,18 @@ $(document).ready(function() {
 
     Reporte.CargarEspecialidad(HTMLCargarEspecialidad);
     Reporte.CargarCurso(HTMLCargarCurso);
+    Reporte.CargarBanco(SlctCargarBanco);
 
 });
+
+SlctCargarBanco=function(result){
+    var html="<option value='0'>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.banco+"</option>";
+    });
+    $("#PagoForm #slct_tipo_pago").html(html);
+    $("#PagoForm #slct_tipo_pago").selectpicker('refresh');
+}
 
 HTMLCargarEspecialidad=function(result){
     var html='';

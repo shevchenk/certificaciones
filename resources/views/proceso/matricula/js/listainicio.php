@@ -185,16 +185,7 @@ SeleccionarEspecialidad=function(id, t){
                     '</div>'+
                 '</td>'+
                 '<td><select class="form-control"  id="slct_tipo_pago_certificado" name="slct_tipo_pago_certificado[]">'+
-                    '<option value=\'0\'>.::Seleccione::.</option>'+
-                    "<option value='1.1'>Transferencia - BCP</option>"+
-                    "<option value='1.2'>Transferencia - Scotiabank</option>"+
-                    "<option value='1.3'>Transferencia - BBVA</option>"+
-                    "<option value='1.4'>Transferencia - Interbank</option>"+
-                    "<option value='2.1'>Depósito - BCP</option>"+
-                    "<option value='2.2'>Depósito - Scotiabank</option>"+
-                    "<option value='2.3'>Depósito - BBVA</option>"+
-                    "<option value='2.4'>Depósito - Interbank</option>"+
-                    '<option value=\'3.0\'>Caja</option>'+
+                    $("#ModalMatriculaForm #slct_tipo_pago_inscripcion").html()+
                     '</select></td>'+
                 '<td>'+
                     '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_certificado'+index+'"  name="pago_nombre_certificado[]" value="">'+
@@ -273,16 +264,7 @@ SeleccionarEspecialidad=function(id, t){
                         '</div>'+
                     '</td>'+
                     '<td><select class="form-control"  id="slct_tipo_pago_cuota" name="slct_tipo_pago_cuota[]">'+
-                        '<option value=\'0\'>.::Seleccione::.</option>'+
-                        "<option value='1.1'>Transferencia - BCP</option>"+
-                        "<option value='1.2'>Transferencia - Scotiabank</option>"+
-                        "<option value='1.3'>Transferencia - BBVA</option>"+
-                        "<option value='1.4'>Transferencia - Interbank</option>"+
-                        "<option value='2.1'>Depósito - BCP</option>"+
-                        "<option value='2.2'>Depósito - Scotiabank</option>"+
-                        "<option value='2.3'>Depósito - BBVA</option>"+
-                        "<option value='2.4'>Depósito - Interbank</option>"+
-                        '<option value=\'3.0\'>Caja</option>'+
+                        $("#ModalMatriculaForm #slct_tipo_pago_inscripcion").html()+
                         '</select></td>'+
                     '<td>'+
                         '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_cuota'+index+'"  name="pago_nombre_cuota[]" value="">'+

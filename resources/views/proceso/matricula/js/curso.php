@@ -19,6 +19,7 @@ $(document).ready(function() {
     $('#ModalPersonaForm').append("<input type='hidden' class='mant' name='alumnonuevo' value='1'>");
     CargarSlct(1);CargarSlct(2);CargarSlct(3);
     AjaxMatricula.CargarMedioCaptacion(SlctCargarMedioCaptacion);
+    AjaxMatricula.CargarBanco(SlctCargarBanco);
     var responsable='<?php echo Auth::user()->paterno .' '. Auth::user()->materno .' '. Auth::user()->nombre ?>';
     var responsable_id='<?php echo Auth::user()->id ?>';
     var hoy='<?php echo date('Y-m-d') ?>';
@@ -459,6 +460,15 @@ SlctCargarMedioCaptacion=function(result){
     $("#ModalMatriculaForm #slct_medio_captacion_id").html(html);
     $("#ModalMatriculaForm #slct_medio_captacion_id2").html(html2);
     $("#ModalMatriculaForm #slct_medio_captacion_id, #ModalMatriculaForm #slct_medio_captacion_id2").selectpicker('refresh');
+}
+
+SlctCargarBanco=function(result){
+    var html="<option value='0'>.::Seleccione::.</option>";
+    $.each(result.data,function(index,r){
+        html+="<option value="+r.id+">"+r.banco+"</option>";
+    });
+    $("#ModalMatriculaForm #slct_tipo_pago_matricula, #ModalMatriculaForm #slct_tipo_pago_inscripcion").html(html);
+    $("#ModalMatriculaForm #slct_tipo_pago_matricula, #ModalMatriculaForm #slct_tipo_pago_inscripcion").selectpicker('refresh');
 }
 
 SlctCargarSucursalTotal=function(result){

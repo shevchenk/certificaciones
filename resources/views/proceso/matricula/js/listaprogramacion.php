@@ -186,16 +186,7 @@ SeleccionarProgramacion = function(val,id, tipo){
             "<td><input type='text' class='form-control'  id='txt_nro_pago_certificado"+id+"' name='txt_nro_pago_certificado[]' value='0'></td>"+
             "<td><input type='text' class='form-control'  id='txt_monto_pago_certificado"+id+"' name='txt_monto_pago_certificado[]' value='0' onkeypress='return masterG.validaDecimal(event, this);' onkeyup='masterG.DecimalMax(this, 2);'></td>"+
             "<td><select class='form-control'  id='slct_tipo_pago_detalle"+id+"' name='slct_tipo_pago_detalle[]'>"+
-                "<option value=''>.::Seleccione::.</option>"+
-                "<option value='1.1'>Transferencia - BCP</option>"+
-                "<option value='1.2'>Transferencia - Scotiabank</option>"+
-                "<option value='1.3'>Transferencia - BBVA</option>"+
-                "<option value='1.4'>Transferencia - Interbank</option>"+
-                "<option value='2.1'>Depósito - BCP</option>"+
-                "<option value='2.2'>Depósito - Scotiabank</option>"+
-                "<option value='2.3'>Depósito - BBVA</option>"+
-                "<option value='2.4'>Depósito - Interbank</option>"+
-                "<option value='3.0'>Caja</option>"+
+                $("#ModalMatriculaForm #slct_tipo_pago_inscripcion").html()+
                 "</select></td>"+
             "<td>"+
                 '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
@@ -248,16 +239,7 @@ SeleccionarProgramacion = function(val,id, tipo){
                 '</div>'+
             "</td>"+
             "<td><select class='form-control'  id='slct_tipo_pago_detalle"+id+"' name='slct_tipo_pago_detalle[]'>"+
-                "<option value='0'>.::Seleccione::.</option>"+
-                "<option value='1.1'>Transferencia - BCP</option>"+
-                "<option value='1.2'>Transferencia - Scotiabank</option>"+
-                "<option value='1.3'>Transferencia - BBVA</option>"+
-                "<option value='1.4'>Transferencia - Interbank</option>"+
-                "<option value='2.1'>Depósito - BCP</option>"+
-                "<option value='2.2'>Depósito - Scotiabank</option>"+
-                "<option value='2.3'>Depósito - BBVA</option>"+
-                "<option value='2.4'>Depósito - Interbank</option>"+
-                "<option value='3.0'>Caja</option>"+
+                $("#ModalMatriculaForm #slct_tipo_pago_inscripcion").html()+
                 "</select></td>"+
             "<td>"+
                 '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+

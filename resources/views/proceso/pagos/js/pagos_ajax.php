@@ -28,5 +28,10 @@ var Reporte={
         url='AjaxDinamic/Proceso.AlumnoPR@GuardarPago';
         masterG.postAjax(url,data,evento);
     },
+    CargarBanco:function(evento){
+        url='AjaxDinamic/Mantenimiento.BancoMA@ListBanco';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

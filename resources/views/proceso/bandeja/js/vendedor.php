@@ -26,6 +26,8 @@ $(document).ready(function() {
         }
     });
 
+    AjaxBandeja.CargarBanco(Valida.SlctCargarBanco);;
+
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         e.target // newly activated tab
         e.relatedTarget // previous active tab
@@ -189,6 +191,13 @@ let Valida = {
         if(MatriculaG.Btn == 'Actualizar'){
             Detalle.Visualizar(MatriculaG.Id, MatriculaG.Tipo);
         }
+    },
+    SlctCargarBanco: (result) => {
+        var html="<option value='0'>.::Seleccione::.</option>";
+        $.each(result.data,function(index,r){
+            html+="<option value="+r.id+">"+r.banco+"</option>";
+        });
+        $("#slct_tipo_demo").html(html);
     },
 }
 

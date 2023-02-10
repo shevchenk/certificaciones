@@ -290,7 +290,7 @@
                                         <table class="table" id="t_pago_matricula">
                                             <thead class="bg-info">
                                                 <tr>
-                                                    <th colspan="4" style="text-align:center;">Pago de Matrícula &nbsp;&nbsp;
+                                                    <th colspan="5" style="text-align:center;">Pago de Matrícula &nbsp;&nbsp;
                                                     </th>
                                                 </tr>
                                                 <tr>

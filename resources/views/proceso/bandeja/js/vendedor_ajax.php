@@ -57,5 +57,10 @@ var AjaxBandeja={
         url='AjaxDinamic/Mantenimiento.ProgramacionEM@Load';
         masterG.postAjax(url,data,evento);
     },
+    CargarBanco: (evento) => {
+        url='AjaxDinamic/Mantenimiento.BancoMA@ListBanco';
+        data={};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>
