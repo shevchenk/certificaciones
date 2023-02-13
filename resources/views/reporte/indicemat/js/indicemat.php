@@ -58,6 +58,8 @@ $(document).ready(function() {
 
     Reporte.CargarSucursal(HTMLCargarSucursal);
     Reporte.CargarEmpresa(HTMLCargarEmpresa);
+    Reporte.CargarEspecialidad(HTMLCargarEspecialidad);
+    Reporte.CargarCurso(HTMLCargarCurso);
 
 });
 
@@ -77,6 +79,24 @@ HTMLCargarEmpresa=function(result){
     })
     $("#slct_empresa").html(html);
     $("#slct_empresa").selectpicker('refresh');
+}
+
+HTMLCargarEspecialidad=function(result){
+    var html='';
+    $.each(result.data,function(index,r){
+        html+='<option value="'+r.id+'">'+r.especialidad+'</option>';
+    })
+    $("#slct_especialidad").html(html);
+    $("#slct_especialidad").selectpicker('refresh');
+}
+
+HTMLCargarCurso=function(result){
+    var html='';
+    $.each(result.data,function(index,r){
+        html+='<option value="'+r.id+'">'+r.curso+'</option>';
+    })
+    $("#slct_curso").html(html);
+    $("#slct_curso").selectpicker('refresh');
 }
 
 

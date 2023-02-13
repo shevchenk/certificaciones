@@ -15,5 +15,15 @@ var Reporte={
         data={};
         masterG.postAjax(url,data,evento);
     },
+    CargarEspecialidad:function(evento){
+        url='AjaxDinamic/Mantenimiento.EspecialidadEM@ListEspecialidad';
+        data={global:1};
+        masterG.postAjax(url,data,evento);
+    },
+    CargarCurso:function(evento){
+        url='AjaxDinamic/Mantenimiento.CursoEM@ListCurso';
+        data={global:1};
+        masterG.postAjax(url,data,evento);
+    },
 };
 </script>

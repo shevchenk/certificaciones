@@ -131,7 +131,6 @@ class Curso extends Model
         $sql=Curso::select('id','curso','certificado_curso'
             ,'tipo_curso','estado','hora','credito','tipo_inicio_curso')
             ->where('estado','=','1')
-            ->where('empresa_id',Auth::user()->empresa_id)
             ->where( 
                 function($query) use ($r){
                     if( $r->has("tipo_curso") ){
@@ -139,6 +138,9 @@ class Curso extends Model
                         if( $tipo_curso !='' ){
                             $query->where('tipo_curso','=',$tipo_curso);
                         }
+                    }
+                    if( !$r->has('global') ){
+                        $query->where('empresa_id',Auth::user()->empresa_id);
                     }
                 }
             );

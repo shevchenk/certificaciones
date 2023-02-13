@@ -48,6 +48,29 @@ class ReporteAvanzado extends Model
                 $where.=" AND e.id IN ($empresa) ";
             }
         }
+
+        if( $r->has("especialidad") OR $r->has('especialidad2') ){
+            if( $r->has('especialidad2') ){
+                $r['especialidad'] = explode(",", trim($r->especialidad2) );
+            }
+            $especialidad = $r->especialidad;
+            if( count($especialidad)>0 AND trim($especialidad[0])!='' ){
+                $especialidad = implode(",", $especialidad);
+                $where.=" AND me.id IN ($especialidad) ";
+            }
+        }
+
+        if( $r->has("curso") OR $r->has('curso2') ){
+            if( $r->has('curso2') ){
+                $r['curso'] = explode(",", trim($r->curso2) );
+            }
+            $curso = $r->curso;
+            if( count($curso)>0 AND trim($curso[0])!='' ){
+                $curso = implode(",", $curso);
+                $where.=" AND mc.id IN ($curso) ";
+            }
+        }
+
         $sql = "
         SELECT '' AS id,s.sucursal AS ode, e.empresa AS empresa, 
         IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion

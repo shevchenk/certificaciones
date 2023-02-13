@@ -156,7 +156,13 @@ class Especialidad extends Model
     {
         $sql=Especialidad::select('id','especialidad','certificado_especialidad','estado')
             ->where('estado','=','1')
-            ->where('empresa_id',Auth::user()->empresa_id);
+            ->where(
+                function($query) use($r){
+                    if( !$r->has('global') ){
+                        $query->where('empresa_id',Auth::user()->empresa_id);
+                    }
+                }
+            );
         $result = $sql->orderBy('especialidad','asc')->get();
         return $result;
     }
