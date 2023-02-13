@@ -71,6 +71,16 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label class="control-label">Tipo de Vendedor:</label>
+                                    <input type="text" class="form-control" placeholder="Tipo de Vendedor" id="txt_medio_captacion" name="txt_medio_captacion">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">Como llegó aqui:</label>
+                                    <input type="text" class="form-control" placeholder="Como llegó aqui" id="txt_medio_captacion2" name="txt_medio_captacion2">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="col-md-2">
                                     <label class="control-label">Fecha Inscripción - Inicio:</label>
                                     <div class="input-group">
@@ -179,7 +189,7 @@
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Cajero(a)</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Vendedor(a)</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Centro de Operación</th>
-                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Medio Captación</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Tipo de Vendedor</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Como llegó aquí</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Supervisor(a)</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Estado de la Matrícula</th>
@@ -258,7 +268,7 @@
                                             <th style="background-color: #FCD5B4;">Cajero(a)</th>
                                             <th style="background-color: #FCD5B4;">Vendedor(a)</th>
                                             <th style="background-color: #FCD5B4;">Centro de Operación</th>
-                                            <th style="background-color: #FCD5B4;">Medio Captación</th>
+                                            <th style="background-color: #FCD5B4;">Tipo de Vendedor</th>
                                             <th style="background-color: #FCD5B4;">Como llegó aquí</th>
                                             <th style="background-color: #FCD5B4;">Supervisor(a)</th>
                                             <th style="background-color: #FCD5B4;">Estado de la Matrícula</th>

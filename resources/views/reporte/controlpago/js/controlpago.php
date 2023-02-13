@@ -51,7 +51,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnexport', function(event) {
         if( DataToFilter() ){
-            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportControlPago'+'?paterno='+$("#txt_paterno").val()+'&materno='+$("#txt_materno").val()+'&nombre='+$("#txt_nombre").val()+'&especialidad2='+$.trim($("#slct_especialidad").val())+'&curso2='+$.trim($("#slct_curso").val())+'&dni='+$.trim($("#txt_dni").val())+'&fecha_ini='+$.trim($("#txt_fecha_ini").val())+'&fecha_fin='+$.trim($("#txt_fecha_fin").val()));
+            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportControlPago'+'?paterno='+$("#txt_paterno").val()+'&materno='+$("#txt_materno").val()+'&nombre='+$("#txt_nombre").val()+'&especialidad2='+$.trim($("#slct_especialidad").val())+'&curso2='+$.trim($("#slct_curso").val())+'&dni='+$.trim($("#txt_dni").val())+'&fecha_ini='+$.trim($("#txt_fecha_ini").val())+'&fecha_fin='+$.trim($("#txt_fecha_fin").val())+'&medio_captacion='+$.trim($("#txt_medio_captacion").val())+'&medio_captacion2='+$.trim($("#txt_medio_captacion2").val()));
         }else{
             event.preventDefault();
         }
