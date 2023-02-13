@@ -636,6 +636,9 @@ class Matricula extends Model
             ->leftJoin('mat_especialidades AS me',function($join){
                 $join->on('me.id','=','mmd.especialidad_id');
             })
+            ->leftJoin('bancos AS b',function($join){
+                $join->on('b.id','=','mmd.tipo_pago');
+            })
             ->select('mm.id',DB::raw('"PLATAFORMA"'),'mm.fecha_matricula'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
                     ,'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
@@ -663,56 +666,19 @@ class Matricula extends Model
                     ,DB::raw(' IF(ep.tipo = 1, 
                                 "",
                                 GROUP_CONCAT( 
-                                CASE 
-                                    WHEN mmd.tipo_pago="1.1" THEN "Transferencia - BCP"
-                                    WHEN mmd.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
-                                    WHEN mmd.tipo_pago="1.3" THEN "Transferencia - BBVA"
-                                    WHEN mmd.tipo_pago="1.4" THEN "Transferencia - Interbank"
-                                    WHEN mmd.tipo_pago="2.1" THEN "Depósito - BCP"
-                                    WHEN mmd.tipo_pago="2.2" THEN "Depósito - Scotiabank"
-                                    WHEN mmd.tipo_pago="2.3" THEN "Depósito - BBVA"
-                                    WHEN mmd.tipo_pago="2.4" THEN "Depósito - Interbank"
-                                    ELSE "Caja"
-                                END ORDER BY mmd.id )
+                                    IFNULL(b.banco,"") ORDER BY mmd.id )
                                 ) AS tipo_pago')
                     ,DB::raw(' IF(ep.tipo = 1, "", GROUP_CONCAT( mmd.tipo_pago ORDER BY mmd.id ) ) AS tipo_pago_id')
                     ,DB::raw(' IF(ep.tipo = 1, "", GROUP_CONCAT( mmd.id ORDER BY mmd.id ) ) AS matricula_detalle_id')
                     ,DB::raw('SUM(mmd.monto_pago_certificado) total')
                     ,'mm.nro_pago AS nro_pago_matricula','mm.monto_pago AS monto_pago_matricula'
-                    ,DB::raw('CASE  WHEN mm.tipo_pago_matricula="1.1" THEN "Transferencia - BCP"
-                                    WHEN mm.tipo_pago_matricula="1.2" THEN "Transferencia - Scotiabank"
-                                    WHEN mm.tipo_pago_matricula="1.3" THEN "Transferencia - BBVA"
-                                    WHEN mm.tipo_pago_matricula="1.4" THEN "Transferencia - Interbank"
-                                    WHEN mm.tipo_pago_matricula="2.1" THEN "Depósito - BCP"
-                                    WHEN mm.tipo_pago_matricula="2.2" THEN "Depósito - Scotiabank"
-                                    WHEN mm.tipo_pago_matricula="2.3" THEN "Depósito - BBVA"
-                                    WHEN mm.tipo_pago_matricula="2.4" THEN "Depósito - Interbank"
-                                    ELSE "Caja"
-                                END AS tipo_pago_matricula')
+                    ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago_matricula) AS tipo_pago_matricula')
                     ,'mm.tipo_pago_matricula AS tipo_pago_matricula_id'
                     ,'mm.nro_promocion','mm.monto_promocion'
-                    ,DB::raw('CASE  WHEN mm.tipo_pago="1.1" THEN "Transferencia - BCP"
-                                    WHEN mm.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
-                                    WHEN mm.tipo_pago="1.3" THEN "Transferencia - BBVA"
-                                    WHEN mm.tipo_pago="1.4" THEN "Transferencia - Interbank"
-                                    WHEN mm.tipo_pago="2.1" THEN "Depósito - BCP"
-                                    WHEN mm.tipo_pago="2.2" THEN "Depósito - Scotiabank"
-                                    WHEN mm.tipo_pago="2.3" THEN "Depósito - BBVA"
-                                    WHEN mm.tipo_pago="2.4" THEN "Depósito - Interbank"
-                                    ELSE "Caja"
-                                END AS tipo_pago_promocion')
+                    ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago) AS tipo_pago_promocion')
                     ,'mm.tipo_pago AS tipo_pago_promocion_id'
                     ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
-                    ,DB::raw('CASE  WHEN mm.tipo_pago_inscripcion="1.1" THEN "Transferencia - BCP"
-                                    WHEN mm.tipo_pago_inscripcion="1.2" THEN "Transferencia - Scotiabank"
-                                    WHEN mm.tipo_pago_inscripcion="1.3" THEN "Transferencia - BBVA"
-                                    WHEN mm.tipo_pago_inscripcion="1.4" THEN "Transferencia - Interbank"
-                                    WHEN mm.tipo_pago_inscripcion="2.1" THEN "Depósito - BCP"
-                                    WHEN mm.tipo_pago_inscripcion="2.2" THEN "Depósito - Scotiabank"
-                                    WHEN mm.tipo_pago_inscripcion="2.3" THEN "Depósito - BBVA"
-                                    WHEN mm.tipo_pago_inscripcion="2.4" THEN "Depósito - Interbank"
-                                    ELSE "Caja"
-                                END AS tipo_pago_inscripcion')
+                    ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago_inscripcion) AS tipo_pago_inscripcion')
                     ,'mm.tipo_pago_inscripcion AS tipo_pago_inscripcion_id'
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
                     ,'s.sucursal','s2.sucursal AS recogo_certificado', 'mm.estado_mat', 'mm.fecha_estado', DB::raw('MIN(mm.observacion) AS obs, MIN(mm.observacion_mat) AS obs2')
@@ -794,7 +760,7 @@ class Matricula extends Model
                     if( $r->has('matricula_id') ){
                         $query->where('mm.id', $r->matricula_id);
                     }
-                    else{
+                    else if( !$r->has("fecha_estado_i") AND !$r->has("fecha_estado_f")){
                         $query->whereRaw('FIND_IN_SET( mm.sucursal_id, (SELECT GROUP_CONCAT(DISTINCT(ppv.sucursal_id))
                         FROM personas_privilegios_sucursales ppv
                         WHERE ppv.persona_id='.$id.') ) > 0');
@@ -1369,18 +1335,10 @@ class Matricula extends Model
         $result =   DB::table('mat_matriculas_cuotas AS mmc')
                     ->join('mat_matriculas AS m','m.id', '=', 'mmc.matricula_id')
                     ->join('mat_especialidades_programaciones AS ep','ep.id', '=', 'm.especialidad_programacion_id')
+                    ->leftJoin('bancos AS b', 'b.id', '=', 'mmc.tipo_pago_cuota')
                     ->select('mmc.nro_cuota','mmc.monto_cuota', 'mmc.cuota', 'mmc.archivo_cuota', 'mmc.tipo_pago_cuota AS tipo_pago_cuota_id'
                         ,'mmc.id', 'mmc.matricula_id', 'ep.nro_cuota AS programado'
-                        ,DB::raw('CASE  WHEN mmc.tipo_pago_cuota="1.1" THEN "Transferencia - BCP"
-                                    WHEN mmc.tipo_pago_cuota="1.2" THEN "Transferencia - Scotiabank"
-                                    WHEN mmc.tipo_pago_cuota="1.3" THEN "Transferencia - BBVA"
-                                    WHEN mmc.tipo_pago_cuota="1.4" THEN "Transferencia - Interbank"
-                                    WHEN mmc.tipo_pago_cuota="2.1" THEN "Depósito - BCP"
-                                    WHEN mmc.tipo_pago_cuota="2.2" THEN "Depósito - Scotiabank"
-                                    WHEN mmc.tipo_pago_cuota="2.3" THEN "Depósito - BBVA"
-                                    WHEN mmc.tipo_pago_cuota="2.4" THEN "Depósito - Interbank"
-                                    ELSE "Caja"
-                                END AS tipo_pago_cuota')
+                        ,DB::raw('b.banco AS tipo_pago_cuota')
                     )
                     ->where('mmc.estado', '1')
                     ->where( 

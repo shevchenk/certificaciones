@@ -769,6 +769,16 @@ class Persona extends Model
 
     public static function runLoadDistribuida($r)
     {
+        $sql ="UPDATE llamadas ll 
+                inner join (
+                select MIN(id) id, persona_id, count(persona_id) cant, max(ultimo_registro) ult
+                from llamadas 
+                GROUP BY persona_id
+                HAVING cant = 1
+                and ult = 0 ) ll2 on ll2.id = ll.id 
+                set ultimo_registro = 1";
+        DB::update($sql);
+
         $sql=DB::table('personas_llamadas AS p')
             ->Join('personas_distribuciones AS pd', function($join){
                 $join->on('pd.persona_id','=','p.id')
