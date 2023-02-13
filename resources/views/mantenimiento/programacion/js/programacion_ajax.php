@@ -2,7 +2,7 @@
 var AjaxProgramacion={
     AgregarEditar:function(evento){
         var data=$("#ModalProgramacionForm").serialize().split("txt_").join("").split("slct_").join("");
-        url='AjaxDinamic/Mantenimiento.ProgramacionEM@New';
+        url='AjaxDinamic/Mantenimiento.ProgramacionEM@New2';
         if(AddEdit==0){
             url='AjaxDinamic/Mantenimiento.ProgramacionEM@Edit';
         }

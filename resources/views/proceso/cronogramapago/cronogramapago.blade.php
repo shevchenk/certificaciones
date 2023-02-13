@@ -65,6 +65,9 @@
                                     <th class="col-xs-6" style="width:15% !important;">
                                         <div class="form-group">
                                             <label><h4>Odes a aplicar estos pagos:</h4></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="txt_local" id="txt_local" placeholder="Odes" onkeypress="return masterG.enterGlobal(event,'#txt_fecha_inicio',1);">
+                                            </div>
                                         </div>
                                     </th>
                                     <th class="col-xs-2" style="width:10% !important;">

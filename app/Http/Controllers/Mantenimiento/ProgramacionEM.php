@@ -67,6 +67,16 @@ class ProgramacionEM extends Controller
         }
     }
 
+    public function New2(Request $r )
+    {
+        if ( $r->ajax() ) {
+            Programacion::runNew($r);
+            $return['rst'] = 1;
+            $return['msj'] = 'Registro creado';
+            return response()->json($return);
+        }
+    }
+
     public function Edit(Request $r )
     {
         if ( $r->ajax() ) {

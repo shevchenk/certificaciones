@@ -85,7 +85,9 @@ class Matricula extends Model
         if( trim( $r->marketing_id )!=''){
         $trabajador = Trabajador::find($r->marketing_id);
         $matricula->persona_marketing_id = $trabajador->persona_id;}
-        $matricula->fecha_matricula = trim( $r->fecha );
+        //$matricula->fecha_matricula = trim( $r->fecha );
+        //
+        $matricula->fecha_matricula = date("Y-m-d");
         $matricula->tipo_matricula = trim( $r->tipo_matricula );
 
         if( trim( $r->nro_pago_matricula )!=''){

@@ -22,55 +22,85 @@ class Programacion extends Model
     public static function runNew($r)
     {
         $sucursal_id = $r->sucursal_id;
-        if( is_array($sucursal_id) ){
-            for ($i=0; $i < count($sucursal_id) ; $i++) { 
-                $sucursal = new Programacion; 
-                $sucursal->persona_id = trim( $r->persona_id);
-                $sucursal->docente_id = trim( $r->docente_id );
-                $sucursal->curso_id = trim( $r->curso_id);
-                $sucursal->sucursal_id = $sucursal_id[$i];
-                $sucursal->aula = trim( $r->aula );
-                $sucursal->turno = trim( $r->turno );
-                if( $r->has('dia') AND count($r->dia)>0 ){
-                    $dia=implode(",", $r->dia);
-                    $sucursal->dia = trim( $dia );
-                }
-                $sucursal->fecha_inicio = trim( $r->fecha_inicio );
-                $sucursal->fecha_final = trim( $r->fecha_final );
+        $curso_id =  $r->curso_id;
 
-                if( $r->has('hora_inicio') ){
-                    $sucursal->fecha_inicio = trim( $r->fecha_inicio )." ".trim( $r->hora_inicio );
-                    $sucursal->fecha_final = trim( $r->fecha_final )." ".trim( $r->hora_final );
-                }
+        if( is_array($sucursal_id) AND is_array($curso_id) ){
+            DB::beginTransaction();
+            for ($j=0; $j < count($curso_id) ; $j++) {
+                for ($i=0; $i < count($sucursal_id) ; $i++) { 
+                    $dia = '';
+                    if( $r->has('dia') AND count($r->dia)>0 ){
+                        $dia=implode(",", $r->dia);
+                    }
 
-                if( !$r->has('fecha_campaña') ){
-                    $r->fecha_campaña=date("Y-m-d",strtotime($r->fecha_inicio));
+                    $valida = Programacion::where('docente_id', $r->docente_id)
+                            ->where('curso_id', $curso_id[$j])
+                            ->where('sucursal_id', $sucursal_id[$i])
+                            ->where('fecha_inicio', $r->fecha_inicio)
+                            ->where('fecha_final', $r->fecha_final)
+                            ->where( 
+                                function($query) use ($dia){
+                                    if( $dia != '' ){
+                                        $query->where('dia',$dia );
+                                    }
+                                }
+                            )
+                            ->first();
+                    
+                        $programacion = array();
+                    if( !isset($valida->id) ){
+                        $programacion = new Programacion;
+                    }
+                    else{
+                        $programacion = Programacion::find($valida->id);
+                    }
+                        $programacion->persona_id = trim( $r->persona_id);
+                        $programacion->docente_id = trim( $r->docente_id );
+                        $programacion->curso_id = trim( $curso_id[$j]);
+                        $programacion->sucursal_id = $sucursal_id[$i];
+                        $programacion->aula = trim( $r->aula );
+                        $programacion->turno = trim( $r->turno );
+                        if( $r->has('dia') AND count($r->dia)>0 ){
+                            $programacion->dia = trim( $dia );
+                        }
+                        $programacion->fecha_inicio = trim( $r->fecha_inicio );
+                        $programacion->fecha_final = trim( $r->fecha_final );
+    
+                        if( $r->has('hora_inicio') ){
+                            $programacion->fecha_inicio = trim( $r->fecha_inicio )." ".trim( $r->hora_inicio );
+                            $programacion->fecha_final = trim( $r->fecha_final )." ".trim( $r->hora_final );
+                        }
+    
+                        if( !$r->has('fecha_campaña') ){
+                            $r->fecha_campaña=date("Y-m-d",strtotime($r->fecha_inicio));
+                        }
+                        $programacion->fecha_campaña = $r->fecha_campaña;
+    
+                        if( $r->has('meta_max') AND $r->meta_max!='' ){
+                            $programacion->meta_max = trim( $r->meta_max );
+                        }
+    
+                        if( $r->has('meta_min') AND $r->meta_min!='' ){
+                            $programacion->meta_min = trim( $r->meta_min );
+                        }
+    
+                        $programacion->costo = trim( $r->costo );
+                        if( $r->has('costo_ins') AND $r->costo_ins!='' ){
+                            $programacion->costo_ins = trim( $r->costo_ins );
+                            $programacion->costo_mat = trim( $r->costo_mat );
+                        }
+    
+                        if( $r->has('anio') AND $r->anio!='' ){
+                            $programacion->semestre = trim( $r->anio )."-".trim( $r->anio1 )." ".trim( $r->anio2 );
+                        }
+                        
+                        $programacion->link = trim( $r->link );
+                        $programacion->estado = trim( $r->estado );
+                        $programacion->persona_id_created_at=Auth::user()->id;
+                        $programacion->save();
                 }
-                $sucursal->fecha_campaña = $r->fecha_campaña;
-
-                if( $r->has('meta_max') AND $r->meta_max!='' ){
-                    $sucursal->meta_max = trim( $r->meta_max );
-                }
-
-                if( $r->has('meta_min') AND $r->meta_min!='' ){
-                    $sucursal->meta_min = trim( $r->meta_min );
-                }
-
-                $sucursal->costo = trim( $r->costo );
-                if( $r->has('costo_ins') AND $r->costo_ins!='' ){
-                    $sucursal->costo_ins = trim( $r->costo_ins );
-                    $sucursal->costo_mat = trim( $r->costo_mat );
-                }
-
-                if( $r->has('anio') AND $r->anio!='' ){
-                    $sucursal->semestre = trim( $r->anio )."-".trim( $r->anio1 )." ".trim( $r->anio2 );
-                }
-                
-                $sucursal->link = trim( $r->link );
-                $sucursal->estado = trim( $r->estado );
-                $sucursal->persona_id_created_at=Auth::user()->id;
-                $sucursal->save();
             }
+            DB::commit();
         }
         else{
             $sucursal = new Programacion; 

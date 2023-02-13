@@ -138,7 +138,7 @@ ValidaCurso=function(v){
 ValidaForm=function(){
     var r=true;
     var tipo = $("#ModalProgramacion #slct_curso_id option:selected").attr("data-tipo");
-    if( $.trim( $("#ModalProgramacionForm #slct_curso_id").val() )=='0' ){
+    if( $.trim( $("#ModalProgramacionForm #slct_curso_id").val() )=='' ){
         r=false;
         msjG.mensaje('warning','Seleccione Curso',4000);
     }
@@ -361,7 +361,7 @@ SlctCargarSucursal1=function(result){
 };
 
 SlctCargarCurso=function(result){
-    var html="<option value='0'>.::Seleccione::.</option>";
+    var html="";
     $.each(result.data,function(index,r){
         tipo_inicio_curso = " - Curso";
         if( r.tipo_inicio_curso==1 ){

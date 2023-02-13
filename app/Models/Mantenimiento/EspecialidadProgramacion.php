@@ -80,6 +80,12 @@ class EspecialidadProgramacion extends Model
                             $query->where('mep.tipo','=',$tipo);
                         }
                     }
+                    if( $r->has("local") ){
+                        $local=trim($r->local);
+                        if( $local !='' ){
+                            $query->where('s.sucursal','like','%'.$local.'%');
+                        }
+                    }
                 }
             );
         $result = $sql->groupBy('mep.id','me.especialidad','mep.especialidad_id','mep.tipo','mep.nro_cuota'

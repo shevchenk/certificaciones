@@ -11,8 +11,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label id="label_curso">Inicio / Curso</label>
-                            <select  class="form-control selectpicker show-menu-arrow" data-live-search="true" id="slct_curso_id" name="slct_curso_id" onchange="ValidaCurso(this.value);">
-                                <option value="0">.::Seleccione::.</option>
+                            <select  class="form-control selectpicker show-menu-arrow" multiple data-selected-text-format="count > 3" data-live-search="true" data-actions-box='true' multiple id="slct_curso_id" name="slct_curso_id[]" onchange="ValidaCurso(this.value);">
                             </select>
                         </div> 
                     </div>
