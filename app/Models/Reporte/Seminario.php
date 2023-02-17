@@ -1043,7 +1043,7 @@ class Seminario extends Model
             ,'Deuda a la Fecha','Promedio Final del Curso'
             ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
             ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda','Deuda Total'
-            ,'Sede de Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Centro de Operación','Medio Captación','Como llegó aquí','Supervisor(a)'
+            ,'Sede de Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Centro de Operación','Tipo de Vendedor','Como llegó aquí','Registrador(a)'
             ,'Estado de la Matrícula', 'Fecha del Estado de la Matrícula', 'Nro Expediente', 'Fecha de Expediente'
         );
         $campos=array('');

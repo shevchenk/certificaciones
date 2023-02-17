@@ -191,7 +191,7 @@
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Centro de Operación</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Tipo de Vendedor</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Como llegó aquí</th>
-                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Supervisor(a)</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Registrador(a)</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Estado de la Matrícula</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Fecha del Estado de la Matrícula</th>
                                             <th style="background-color: #FCD5B4; min-width: 200px !important;">Nro Expediente</th>
@@ -270,7 +270,7 @@
                                             <th style="background-color: #FCD5B4;">Centro de Operación</th>
                                             <th style="background-color: #FCD5B4;">Tipo de Vendedor</th>
                                             <th style="background-color: #FCD5B4;">Como llegó aquí</th>
-                                            <th style="background-color: #FCD5B4;">Supervisor(a)</th>
+                                            <th style="background-color: #FCD5B4;">Registrador(a)</th>
                                             <th style="background-color: #FCD5B4;">Estado de la Matrícula</th>
                                             <th style="background-color: #FCD5B4;">Fecha del Estado de la Matrícula</th>
                                             <th style="background-color: #FCD5B4;">Nro Expediente</th>
