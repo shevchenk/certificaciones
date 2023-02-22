@@ -73,11 +73,15 @@
                             <div class="col-md-12">
                                 <div class="col-md-4">
                                     <label class="control-label">Tipo de Vendedor:</label>
-                                    <input type="text" class="form-control" placeholder="Tipo de Vendedor" id="txt_medio_captacion" name="txt_medio_captacion">
+                                    <select id="slct_medio_captacion_id" name="slct_medio_captacion_id[]" class='selectpicker form-control' multiple data-actions-box='true' data-live-search="true">
+                                        <option>.::Seleccione Inicio / Curso::.</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="control-label">Como llegó aqui:</label>
-                                    <input type="text" class="form-control" placeholder="Como llegó aqui" id="txt_medio_captacion2" name="txt_medio_captacion2">
+                                    <select id="slct_medio_captacion_id2" name="slct_medio_captacion_id2[]" class='selectpicker form-control' multiple data-actions-box='true' data-live-search="true">
+                                        <option>.::Seleccione Inicio / Curso::.</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-12">

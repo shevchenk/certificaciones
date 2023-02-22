@@ -51,7 +51,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnexport', function(event) {
         if( DataToFilter() ){
-            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportControlPago'+'?paterno='+$("#txt_paterno").val()+'&materno='+$("#txt_materno").val()+'&nombre='+$("#txt_nombre").val()+'&especialidad2='+$.trim($("#slct_especialidad").val())+'&curso2='+$.trim($("#slct_curso").val())+'&dni='+$.trim($("#txt_dni").val())+'&fecha_ini='+$.trim($("#txt_fecha_ini").val())+'&fecha_fin='+$.trim($("#txt_fecha_fin").val())+'&medio_captacion='+$.trim($("#txt_medio_captacion").val())+'&medio_captacion2='+$.trim($("#txt_medio_captacion2").val()));
+            $(this).attr('href','ReportDinamic/Reporte.SeminarioEM@ExportControlPago'+'?paterno='+$("#txt_paterno").val()+'&materno='+$("#txt_materno").val()+'&nombre='+$("#txt_nombre").val()+'&especialidad2='+$.trim($("#slct_especialidad").val())+'&curso2='+$.trim($("#slct_curso").val())+'&dni='+$.trim($("#txt_dni").val())+'&fecha_ini='+$.trim($("#txt_fecha_ini").val())+'&fecha_fin='+$.trim($("#txt_fecha_fin").val())+'&medio_captacion_id='+$.trim($("#slct_medio_captacion_id").val())+'&medio_captacion_id2='+$.trim($("#slct_medio_captacion_id2").val()));
         }else{
             event.preventDefault();
         }
@@ -59,8 +59,25 @@ $(document).ready(function() {
 
     Reporte.CargarEspecialidad(HTMLCargarEspecialidad);
     Reporte.CargarCurso(HTMLCargarCurso);
+    Reporte.CargarMedioCaptacion(SlctCargarMedioCaptacion);
 
 });
+
+SlctCargarMedioCaptacion=function(result){
+    var html="";
+    var html2=html;
+    $.each(result.data,function(index,r){
+        if( r.tipo_medio == '1' || r.tipo_medio == '2' ){
+            html+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+        }
+        else{
+            html2+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+        }
+    });
+    $("#slct_medio_captacion_id").html(html);
+    $("#slct_medio_captacion_id2").html(html2);
+    $("#slct_medio_captacion_id, #slct_medio_captacion_id2").selectpicker('refresh');
+}
 
 HTMLCargarEspecialidad=function(result){
     var html='';

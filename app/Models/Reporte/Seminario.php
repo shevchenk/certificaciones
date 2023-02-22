@@ -943,6 +943,26 @@ class Seminario extends Model
                         }
                     }
 
+                    if( $r->has("medio_captacion_id") ){
+                        $medio_captacion = $r->medio_captacion_id;
+                        if( !is_array($r->medio_captacion_id) ){
+                            $medio_captacion = explode(",", $r->medio_captacion_id);
+                        }
+                        if( count($medio_captacion)>0 ){
+                            $query ->whereIn('meca.id', $medio_captacion);
+                        }
+                    }
+
+                    if( $r->has("medio_captacion_id2") ){
+                        $medio_captacion2 = $r->medio_captacion_id2;
+                        if( !is_array($r->medio_captacion_id2) ){
+                            $medio_captacion2 = explode(",", $r->medio_captacion_id2);
+                        }
+                        if( count($medio_captacion2)>0 ){
+                            $query ->whereIn('meca2.id',$medio_captacion2);
+                        }
+                    }
+
                     if( $r->has('vendedor') AND $r->vendedor==1 ){
                         $persona_id=Auth::user()->id;
                         $query->where('mm.persona_marketing_id',$persona_id);
