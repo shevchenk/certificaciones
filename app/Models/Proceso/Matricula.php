@@ -762,11 +762,11 @@ class Matricula extends Model
                     if( $r->has('matricula_id') ){
                         $query->where('mm.id', $r->matricula_id);
                     }
-                    else if( !$r->has("fecha_estado_i") AND !$r->has("fecha_estado_f")){
+                    /*else if( !$r->has("fecha_estado_i") AND !$r->has("fecha_estado_f")){
                         $query->whereRaw('FIND_IN_SET( mm.sucursal_id, (SELECT GROUP_CONCAT(DISTINCT(ppv.sucursal_id))
                         FROM personas_privilegios_sucursales ppv
                         WHERE ppv.persona_id='.$id.') ) > 0');
-                    }
+                    }*/
                 }
             )
             ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
