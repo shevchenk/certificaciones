@@ -8,6 +8,7 @@ $(document).ready(function() {
 
     $("#spn_fecha_pago_mat").click(()=>{ $("#txt_fecha_pago_mat").focus(); });
     $("#spn_fecha_pago_ins").click(()=>{ $("#txt_fecha_pago_ins").focus(); });
+    $("#spn_fecha_pago_pro").click(()=>{ $("#txt_fecha_pago_pro").focus(); });
 
     $( "#ModalMatriculaForm #file_inscripcion, #ModalMatriculaForm #file_matricula, #ModalMatriculaForm #file_dni" ).prop("disabled",true);
     $('#exonerar_matricula').prop('checked', false);
@@ -463,8 +464,8 @@ SlctCargarBanco=function(result){
     $.each(result.data,function(index,r){
         html+="<option value="+r.id+">"+r.banco+"</option>";
     });
-    $("#ModalMatriculaForm #slct_tipo_pago_matricula, #ModalMatriculaForm #slct_tipo_pago_inscripcion").html(html);
-    $("#ModalMatriculaForm #slct_tipo_pago_matricula, #ModalMatriculaForm #slct_tipo_pago_inscripcion").selectpicker('refresh');
+    $("#ModalMatriculaForm #slct_tipo_pago_matricula, #ModalMatriculaForm #slct_tipo_pago_inscripcion, #ModalMatriculaForm #slct_tipo_pago").html(html);
+    $("#ModalMatriculaForm #slct_tipo_pago_matricula, #ModalMatriculaForm #slct_tipo_pago_inscripcion, #ModalMatriculaForm #slct_tipo_pago").selectpicker('refresh');
 }
 
 SlctCargarSucursalTotal=function(result){
@@ -573,6 +574,7 @@ ActivarPago=function(id){
                 $(this).find("td:eq(2) input[type='text']").val('0');
                 total= $(this).find("td:eq(2) i").text()*1 + total*1;
                 $(this).find("td:eq(3) select").val('0');
+                $(this).find("td:eq(4) input[type='text']").val('');
 
                 $(this).find("td:eq(1) input[type='text']").attr('readOnly','true');
                 $(this).find("td:eq(2) input[type='text']").attr('readOnly','true');
@@ -585,9 +587,11 @@ ActivarPago=function(id){
 
             $("#txt_nro_promocion").removeAttr('disabled');
             $("#txt_monto_promocion").removeAttr('disabled');
+            $("#txt_fecha_pago_pro").removeAttr('disabled');
             $("#slct_tipo_pago").removeAttr('disabled');
             $("#txt_nro_promocion").val('');
             $("#txt_monto_promocion").val('');
+            $("#txt_fecha_pago_pro").val('');
             $("#slct_tipo_pago").val('');
             $("#i_costo_promocion").text(total.toFixed(2));
         }
@@ -610,10 +614,12 @@ ActivarPago=function(id){
         });
         $("#txt_nro_promocion").attr('disabled','true');
         $("#txt_monto_promocion").attr('disabled','true');
+        $("#txt_fecha_pago_pro").attr('disabled','true');
         $("#slct_tipo_pago").attr('disabled','true');
 
         $("#txt_nro_promocion").val('0');
         $("#txt_monto_promocion").val('0');
+        $("#txt_fecha_pago_pro").val('');
         $("#slct_tipo_pago").val('0');
         $("#i_costo_promocion").text(total.toFixed(2));
     }

@@ -491,6 +491,12 @@
                                                         <option value='3.0'>Caja</option>
                                                         </select></td>
                                                     <td>
+                                                        <div class="input-group">
+                                                            <span id="spn_fecha_pago_pro" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                                            <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago_pro" name="txt_fecha_pago_pro" readonly/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
                                                         <input type="text"  readOnly class="form-control input-sm" id="pago_nombre_promocion"  name="pago_nombre_promocion" value="">
                                                         <input type="text" style="display: none;" id="pago_archivo_promocion" name="pago_archivo_promocion">
                                                         <label class="btn btn-default btn-flat margin btn-xs">
