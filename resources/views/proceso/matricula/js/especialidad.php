@@ -42,6 +42,10 @@ $(document).ready(function() {
         ValidaCheckInscripcion();
     });
     ActivarPago(1);
+
+    $("#spn_fecha_pago_mat").click(()=>{ $("#txt_fecha_pago_mat").focus(); });
+    $("#spn_fecha_pago_ins").click(()=>{ $("#txt_fecha_pago_ins").focus(); });
+        
 });
 
 ValidaMedioCaptacion=function(){

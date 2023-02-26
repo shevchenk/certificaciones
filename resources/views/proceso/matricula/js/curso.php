@@ -6,12 +6,8 @@ var ProgramacionG={id:0,persona_id:0,persona:"",docente_id:0,sucursal_id:"",
 var MatriculaIdG=0;
 $(document).ready(function() {
 
-    $('#spn_fecha_pago_inscripcion').on('click', function(){
-        $('#txt_fecha_pago_inscripcion').focus();
-    });
-    $('#spn_fecha_pago_matricula').on('click', function(){
-        $('#txt_fecha_pago_matricula').focus();
-    });
+    $("#spn_fecha_pago_mat").click(()=>{ $("#txt_fecha_pago_mat").focus(); });
+    $("#spn_fecha_pago_ins").click(()=>{ $("#txt_fecha_pago_ins").focus(); });
 
     $( "#ModalMatriculaForm #file_inscripcion, #ModalMatriculaForm #file_matricula, #ModalMatriculaForm #file_dni" ).prop("disabled",true);
     $('#exonerar_matricula').prop('checked', false);
@@ -174,7 +170,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione tipo de operación de Inscripción',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_fecha_pago_inscripcion").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==true){
+    else if( $.trim( $("#ModalMatriculaForm #txt_fecha_pago_ins").val() )=='' && $('#ModalMatriculaForm #exonerar_inscripcion').prop('checked')==true){
         r=false;
         msjG.mensaje('warning','Ingrese la fecha de pago de la Inscripción',4000);
     }
@@ -190,7 +186,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione tipo de operación de Matrícula',4000);
     }
-    else if( $.trim( $("#ModalMatriculaForm #txt_fecha_pago_matricula").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==true){
+    else if( $.trim( $("#ModalMatriculaForm #txt_fecha_pago_mat").val() )=='' && $('#ModalMatriculaForm #exonerar_matricula').prop('checked')==true){
         r=false;
         msjG.mensaje('warning','Ingrese la fecha de pago de la Matrícula',4000);
     }

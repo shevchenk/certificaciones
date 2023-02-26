@@ -231,16 +231,18 @@ SeleccionarEspecialidad=function(id, t){
         $("#t_adicional").hide();
         $("#titpago").text("Pago de Cuotas de la Especialidad");
         $("#subtitpago").text("Cuota(s) Programadas");
+        $("#tb_pago_cuota").html(html);
         if( $('#trides_'+id+' .tipo').val()==2 ){
             $("#titpago").text("Pago por Curso de la Especialidad");
             $("#subtitpago").text("Curso(s) de la Especialidad");
             html= html2;
+            $("#tb_pago_cuota").append(html);
         }
         else{
              //costo = $('#trides_'+id).find('td:eq(0) .costo').text().split('-')[1];
             $("#trides_"+id+" ol>li").each( function(index){
                 costo = $(this).text().split(" - ")[1];
-                html+=''+
+                html=''+
                 '<tr>'+
                     '<td><input type="hidden" value="'+(index*1+1)+'" name="txt_cuota[]">'+(index*1+1)+$(this).text()+'</td>'+
                     '<td><input type="text" class="form-control" id="txt_nro_cuota" name="txt_nro_cuota[]" value="" placeholder="Nro"></td>'+
@@ -267,6 +269,12 @@ SeleccionarEspecialidad=function(id, t){
                         $("#ModalMatriculaForm #slct_tipo_pago_inscripcion").html()+
                         '</select></td>'+
                     '<td>'+
+                        '<div class="input-group">'+
+                            '<span id="spn_fecha_pago_cuota'+index+'" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>'+
+                            '<input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago_cuota'+index+'" name="txt_fecha_pago_cuota[]" readonly/>'+
+                        '</div>'+
+                    '</td>'+
+                    '<td>'+
                         '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_cuota'+index+'"  name="pago_nombre_cuota[]" value="">'+
                         '<input type="text" style="display: none;" id="pago_archivo_cuota'+index+'" name="pago_archivo_cuota[]">'+
                         '<label class="btn btn-default btn-flat margin btn-xs">'+
@@ -282,6 +290,8 @@ SeleccionarEspecialidad=function(id, t){
                         '</div>'+
                     '</td>'+
                 '</tr>';
+                $("#tb_pago_cuota").append(html);
+                $("#spn_fecha_pago_cuota"+index).click(()=>{ $("#txt_fecha_pago_cuota"+index).focus(); });
             })
 
             $("#trides_"+id+" td:eq(1) ul>li").each( function(index){
@@ -295,8 +305,16 @@ SeleccionarEspecialidad=function(id, t){
             $("#t_adicional").show();
         }
         $("#tb_adicional").html(htmladicional);
-        $("#tb_pago_cuota").html(html);
         $("#ModalListaespecialidad").modal('hide');
+        $(".fecha").datetimepicker({
+            format: "yyyy-mm-dd",
+            language: 'es',
+            showMeridian: false,
+            time:false,
+            minView:2,
+            autoclose: true,
+            todayBtn: false
+        });
 }
 
 ValidaDeuda = function(c,t,id){
