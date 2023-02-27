@@ -18,6 +18,7 @@ $(document).ready(function() {
     $('#spn_fecha_fin').on('click', function(){
         $('#txt_fecha_final').focus();
     });
+    $("#spn_fecha_pago").click(()=>{ $("#txt_fecha_pago").focus(); });
 
     
     $("#TableReporte").DataTable({
@@ -278,14 +279,15 @@ ValidaDeuda = function(c,t){
 
 HTMLVerSaldos=function(result){
     var html="";
-    $("#tb_pago").append('');
+    $("#tb_pago").html('');
     $.each(result.data,function(index,r){
-        html+="<tr>";
+        html="<tr>";
         html+="<td>"+r.precio+"</td>";
         html+="<td>"+r.pago+"</td>";
         html+="<td>"+r.nro_pago+"</td>";
         html+="<td>"+r.saldo+"</td>";
         html+="<td>"+r.tipo_pago+"</td>";
+        html+="<td>"+r.fecha_pago+"</td>";
         html+="<td>";
         if( $.trim(r.archivo)!=''){
             html+='<a class="btn btn-flat btn-info btn-lg" href="'+r.archivo+'" target="blank"><i class="fa fa-download fa-lg"></i></a>';
@@ -307,6 +309,9 @@ GuardarPago=function(){
     }
     else if( $.trim($('#ModalPago #slct_tipo_pago').val())=='0' ){
         msjG.mensaje('warning','Seleccione el tipo de operación',4000);
+    }
+    else if( $.trim($('#ModalPago #txt_fecha_pago').val())=='' ){
+        msjG.mensaje('warning','Seleccione fecha de pago',4000);
     }
     /*else if( $.trim($('#ModalPago #txt_pago_archivo').val())=='' ){
         msjG.mensaje('warning','Ingrese un archivo de pago',4000);
