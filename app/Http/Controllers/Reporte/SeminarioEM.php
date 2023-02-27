@@ -490,6 +490,7 @@ class SeminarioEM extends Controller
                 unset($data[$i]['archivo_pago_matricula']);
                 unset($data[$i]['archivo_pago_inscripcion']);
                 unset($data[$i]['archivo_pago_promocion']);
+                unset($data[$i]['archivo_pago_certificado']);
 
                 $data[$i]['id']=$i+1;
                 $pos++;

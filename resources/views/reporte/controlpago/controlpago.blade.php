@@ -115,10 +115,10 @@
                                             <th style="background-color: #DDEBF7;" colspan='6'>DATOS DEL ALUMNO</th>
                                             <th style="background-color: #88BAE3;" colspan='14'>DATOS ADICIONALES DEL ALUMNO</th>
                                             <th style="background-color: #E2EFDA;" colspan='10'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
-                                            <th style="background-color: #FCE4D6;" colspan='3'>PAGO POR CURSO INDEPENDIENTE</th>
-                                            <th style="background-color: #E2EFDA;" colspan='3'>PAGO POR CONJUNTO DE CURSOS</th>
-                                            <th style="background-color: #FFF2CC;" colspan='3'>PAGO POR INSCRIPCIÓN</th>
-                                            <th style="background-color: #FFF2CC;" colspan='3'>PAGO POR MATRÍCULA</th>
+                                            <th style="background-color: #FCE4D6;" colspan='4'>PAGO POR CURSO INDEPENDIENTE</th>
+                                            <th style="background-color: #E2EFDA;" colspan='4'>PAGO POR CONJUNTO DE CURSOS</th>
+                                            <th style="background-color: #FFF2CC;" colspan='4'>PAGO POR INSCRIPCIÓN</th>
+                                            <th style="background-color: #FFF2CC;" colspan='4'>PAGO POR MATRÍCULA</th>
                                             <th style="background-color: #DDEBF7;" colspan='1'>PAGO DE SALDOS</th>
                                             <th style="background-color: #FCE4D6;" colspan='2'>DEUDA Y NOTA FINAL DEL CURSO</th>
                                             <th style="background-color: #DDEBF7;" colspan='2'>PROGRAMACION Y PAGO - CUOTAS</th>
@@ -163,28 +163,32 @@
                                             <th style="background-color: #FCE4D6;">Nro Pago</th>
                                             <th style="background-color: #FCE4D6;">Monto Pago</th>
                                             <th style="background-color: #FCE4D6;">Tipo Pago</th>
+                                            <th style="background-color: #FCE4D6;">Fecha Pago</th>
 
                                             <th style="background-color: #E2EFDA;">Nro Recibo PCC</th>
                                             <th style="background-color: #E2EFDA;">Monto PCC</th>
                                             <th style="background-color: #E2EFDA;">Tipo Pago</th>
+                                            <th style="background-color: #E2EFDA;">Fecha Pago</th>
 
                                             <th style="background-color: #FFF2CC;">Nro Recibo Inscripción</th>
                                             <th style="background-color: #FFF2CC;">Monto Inscripción</th>
                                             <th style="background-color: #FFF2CC;">Tipo Pago</th>
+                                            <th style="background-color: #FFF2CC;">Fecha Pago</th>
 
                                             <th style="background-color: #FFF2CC;">Nro Recibo Matrícula</th>
                                             <th style="background-color: #FFF2CC;">Monto Matrícula</th>
                                             <th style="background-color: #FFF2CC;">Tipo Pago</th>
+                                            <th style="background-color: #FFF2CC;">Fecha Pago</th>
 
-                                            <th style="background-color: #DDEBF7; min-width: 210px !important;">Monto Pago / Nro Pago / Tipo Pago</th>
+                                            <th style="background-color: #DDEBF7; min-width: 210px !important;">Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
 
                                             <th style="background-color: #FCE4D6;">Deuda a la Fecha</th>
                                             <th style="background-color: #FCE4D6;">Promedio Final del Curso</th>
 
                                             <th style="background-color: #DDEBF7; min-width: 210px !important;">Cuota / Fecha Programada / Monto Programado</th>
-                                            <th style="background-color: #DDEBF7; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
+                                            <th style="background-color: #DDEBF7; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
 
-                                            <th style="background-color: #FCE4D6; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
+                                            <th style="background-color: #FCE4D6; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
                                             <th style="background-color: #FCE4D6; min-width: 140px !important;">Cuota / Monto Deuda</th>
                                             <th style="background-color: #FCE4D6;">Deuda Total</th>
 
