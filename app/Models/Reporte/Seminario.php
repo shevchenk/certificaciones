@@ -775,16 +775,18 @@ class Seminario extends Model
                     , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')
                     , 'mmd.nro_pago_certificado AS nro_pago'
                     , 'mmd.monto_pago_certificado AS monto_pago'
+                    , 'mmd.archivo_pago_certificado'
                     , DB::raw(' mm.archivo_pago as archivo_pago_matricula, mm.archivo_pago_inscripcion AS archivo_pago_inscripcion, mm.archivo_promocion AS archivo_pago_promocion ')
                     , DB::raw('(SELECT banco FROM bancos WHERE id = mmd.tipo_pago) AS tipo_pago')
-                    ,'mm.nro_promocion','mm.monto_promocion'
+                    ,'mmd.fecha_pago_certificado','mm.nro_promocion','mm.monto_promocion'
                     ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago) AS tipo_pago_promocion')
-                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
+                    ,'mm.fecha_pago_pro','mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
                     ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago_inscripcion) AS tipo_pago_inscripcion')
-                    ,'mm.nro_pago AS nro_pago_matricula','mm.monto_pago AS monto_pago_matricula'
+                    ,'mm.fecha_pago_ins','mm.nro_pago AS nro_pago_matricula','mm.monto_pago AS monto_pago_matricula'
                     ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago_matricula) AS tipo_pago_matricula')
+                    ,'mm.fecha_pago_mat'
                     ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(pago," / ",nro_pago," / ",
-                                (SELECT banco FROM bancos WHERE id = tipo_pago) 
+                                (SELECT banco FROM bancos WHERE id = tipo_pago), " / ", fecha_pago 
                                  SEPARATOR "\n") 
                                 FROM mat_matriculas_saldos
                                 WHERE nro_pago!=""
@@ -804,7 +806,7 @@ class Seminario extends Model
                                         WHERE ep.estado = 1
                                         AND m.id = mm.id),"") AS programacion_cuota ')
                     ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(mmc.cuota," / ",mmc.monto_cuota," / ",mmc.nro_cuota," / ",
-                                b.banco
+                                b.banco," / ",mmc.fecha_pago_cuota
                                  ORDER BY mmc.cuota SEPARATOR "\n") 
                                 FROM mat_matriculas_cuotas mmc 
                                 LEFT JOIN mat_matriculas_saldos mms ON mms.matricula_id = mmc.matricula_id AND mms.cuota=mmc.cuota AND mms.estado=1
@@ -812,8 +814,8 @@ class Seminario extends Model
                                 WHERE mmc.estado=1
                                 AND mms.id IS NULL
                                 AND mmc.matricula_id= mm.id),"") AS pagos2_cuota ')
-                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(IF(cuota=-1,"Ins.",cuota)," / ",pago," / ",nro_pago," / ",
-                                (SELECT banco FROM bancos WHERE id = tipo_pago) 
+                    ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(IF(cuota=-1,"Ins.",IF(cuota=0, "Mat.",cuota))," / ",pago," / ",nro_pago," / ",
+                                (SELECT banco FROM bancos WHERE id = tipo_pago), " / ", fecha_pago
                                  ORDER BY cuota,created_at SEPARATOR "\n") 
                                 FROM mat_matriculas_saldos
                                 WHERE nro_pago!=""
@@ -986,10 +988,10 @@ class Seminario extends Model
             15,15,15,15,25,15,15,15,15,15,15,15,25,25,
             15,15,15,25,25,
             20,15,15,15,15,
-            15,15,15,
-            15,15,15,
-            15,15,15,
-            15,15,15,
+            15,15,15,15,
+            15,15,15,15,
+            15,15,15,15,
+            15,15,15,15,
             30,
             15,15,
             30,50,50,30,20,
@@ -1018,7 +1020,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,13,9,2,2,2,2,0,1,1,1,0,11);
+        $nrocabeceraTit=array(5,13,9,3,3,3,3,0,1,1,1,0,11);
         $colorTit=array('#DDEBF7','#88BAE3','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -1055,11 +1057,11 @@ class Seminario extends Model
             ,'Estado Civil','Sexo','Fecha Nacimiento','País Nacimiento','Colegio','Distrito Nacimiento','Provincia Nacimiento','Región Nacimiento','Distrito Dirección','Provincia Dirección','Región Dirección','Tenencia','Dirección','Referencia' 
             ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Carrera / Módulo','Inicio / Curso'
             ,'Local','Frecuencia','Horario','Turno','Inicio'
-            ,'Nro Pago','Monto Pago','Tipo Pago'
-            ,'Nro Recibo PCC','Monto PPC','Tipo Pago'
-            ,'Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago'
-            ,'Nro Pago Matrícula','Monto Pago Matrícula','Tipo Pago'
-            ,'Monto Pago / Nro Pago / Tipo Pago'
+            ,'Nro Pago','Monto Pago','Tipo Pago','Fecha Pago'
+            ,'Nro Recibo PCC','Monto PPC','Tipo Pago','Fecha Pago'
+            ,'Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago','Fecha Pago'
+            ,'Nro Pago Matrícula','Monto Pago Matrícula','Tipo Pago','Fecha Pago'
+            ,'Monto Pago / Nro Pago / Tipo Pago / Fecha Pago'
             ,'Deuda a la Fecha','Promedio Final del Curso'
             ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
             ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda','Deuda Total'
@@ -1076,7 +1078,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'BK'; //$estatico.chr($min);
+        $return['max']= 'BO'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;

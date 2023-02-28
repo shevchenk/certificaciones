@@ -38,6 +38,7 @@ class MatriculaPR extends Controller
 
             if ( !$validator->fails() ) {
                 if( trim($r->nro_promocion)!=''){
+                    /*
                     $nro_p = trim( $r->nro_promocion);
                     $monto_p = trim( $r->monto_promocion);
                     $tipo_p = trim( $r->tipo_pago);
@@ -60,12 +61,13 @@ class MatriculaPR extends Controller
                         $return['msj'] = 'El nro:'.$nro_p.'| monto:'.$monto_p.' ya fue registrado anteriormente';
                         return response()->json($return);
                     }
+                    */
                 }
                 else{
                     $curso_id = $r->curso_id;
                     $programacion_id=$r->programacion_id;
                     for($i=0;$i<count($curso_id);$i++){
-                        
+                        /*
                         if( isset($r->nro_pago_certificado[$i]) ){
                             $nro_p = $r->nro_pago_certificado[$i];
                             $monto_p = $r->monto_pago_certificado[$i];
@@ -92,6 +94,7 @@ class MatriculaPR extends Controller
                                 }
                             }
                         }
+                        */
 
                         if( isset($programacion_id[$i]) ){
                             //Validamos si ya tiene el curso inscrito con esa programación

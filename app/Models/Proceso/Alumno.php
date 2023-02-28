@@ -433,19 +433,10 @@ class Alumno extends Model
     public static function ListarSaldos( $r )
     {
         $sql=   DB::table('mat_matriculas_saldos AS ms')
+                ->leftJoin('bancos AS b', 'b.id', '=', 'ms.tipo_pago')
                 ->select('ms.id','ms.precio','ms.pago','ms.saldo','ms.matricula_detalle_id'
-                ,'ms.archivo','ms.nro_pago',
-                DB::raw('CASE 
-                            WHEN ms.tipo_pago="1.1" THEN "Transferencia - BCP"
-                            WHEN ms.tipo_pago="1.2" THEN "Transferencia - Scotiabank"
-                            WHEN ms.tipo_pago="1.3" THEN "Transferencia - BBVA"
-                            WHEN ms.tipo_pago="1.4" THEN "Transferencia - Interbank"
-                            WHEN ms.tipo_pago="2.1" THEN "Depósito - BCP"
-                            WHEN ms.tipo_pago="2.2" THEN "Depósito - Scotiabank"
-                            WHEN ms.tipo_pago="2.3" THEN "Depósito - BBVA"
-                            WHEN ms.tipo_pago="2.4" THEN "Depósito - Interbank"
-                            ELSE "Caja"
-                        END AS tipo_pago')
+                ,'ms.archivo','ms.nro_pago', 'ms.fecha_pago',
+                DB::raw('b.banco AS tipo_pago')
                 )
                 ->where( function($query) use($r){
                     if( $r->has('matricula_detalle_id') AND trim($r->matricula_detalle_id)!='' ){
@@ -540,6 +531,7 @@ class Alumno extends Model
                 $MSF->pago = trim($r->monto_pago);
                 $MSF->tipo_pago = trim($r->tipo_pago);
                 $MSF->nro_pago = trim($r->nro_pago);
+                $MSF->fecha_pago = trim($r->fecha_pago);
 
                 $saldo= $MS->saldo - trim($r->monto_pago);
                 if( $saldo<0 ){ $saldo=0; }
@@ -569,6 +561,7 @@ class Alumno extends Model
                 $MC->nro_cuota= trim($r->nro_pago);
                 $MC->monto_cuota= trim($r->monto_pago);
                 $MC->tipo_pago_cuota= trim($r->tipo_pago);
+                $MC->fecha_pago_cuota= trim($r->fecha_pago);
 
                 $extension='';
                 if( trim($r->pago_nombre)!='' ){
@@ -611,6 +604,7 @@ class Alumno extends Model
                     $mtsaldo->precio= $monto_precio;
                     $mtsaldo->pago= $MC->monto_cuota;
                     $mtsaldo->tipo_pago= $MC->tipo_pago_cuota;
+                    $mtsaldo->fecha_pago= $MC->fecha_pago_cuota;
                     $mtsaldo->persona_caja_id = $MC->persona_caja_id;
                     $mtsaldo->persona_id_created_at= Auth::user()->id;
                     $mtsaldo->save();
@@ -629,6 +623,7 @@ class Alumno extends Model
             $MSF->pago = trim($r->monto_pago);
             $MSF->tipo_pago = trim($r->tipo_pago);
             $MSF->nro_pago = trim($r->nro_pago);
+            $MSF->fecha_pago = trim($r->fecha_pago);
 
             $saldo= $MS->saldo - trim($r->monto_pago);
             if( $saldo<0 ){ $saldo=0; }

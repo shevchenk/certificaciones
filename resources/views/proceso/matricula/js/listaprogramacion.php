@@ -155,7 +155,7 @@ SeleccionarProgramacion = function(val,id, tipo){
         
           var html1='';
           if(LDTipoTabla==0){
-          html1+="<tr id='trid_"+id+"'>"+
+          html1="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
             "<input type='hidden' name='txt_curso_id[]' class='form-control' value='"+curso_id+"' readOnly>"+
             "<div class='input-group margin'>"+
@@ -188,6 +188,12 @@ SeleccionarProgramacion = function(val,id, tipo){
             "<td><select class='form-control'  id='slct_tipo_pago_detalle"+id+"' name='slct_tipo_pago_detalle[]'>"+
                 $("#ModalMatriculaForm #slct_tipo_pago_inscripcion").html()+
                 "</select></td>"+
+            '<td>'+
+                '<div class="input-group">'+
+                    '<span id="spn_fecha_pago_certificado'+id+'" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>'+
+                    '<input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago_certificado'+id+'" name="txt_fecha_pago_certificado[]" readonly/>'+
+                '</div>'+
+            '</td>'+
             "<td>"+
                 '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                 '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
@@ -208,7 +214,7 @@ SeleccionarProgramacion = function(val,id, tipo){
             "</td>";
           html1+="</tr>";
         }else {
-          html1+="<tr id='trid_"+id+"'>"+
+          html1="<tr id='trid_"+id+"'>"+
             "<td><input type='hidden' id='txt_programacion_id' name='txt_programacion_id[]' class='form-control' value='"+id+"' readOnly>"+
             "<input type='hidden' name='txt_curso_id[]' class='form-control' value='"+curso_id+"' readOnly>"+
             "<div class=''>"+
@@ -241,6 +247,12 @@ SeleccionarProgramacion = function(val,id, tipo){
             "<td><select class='form-control'  id='slct_tipo_pago_detalle"+id+"' name='slct_tipo_pago_detalle[]'>"+
                 $("#ModalMatriculaForm #slct_tipo_pago_inscripcion").html()+
                 "</select></td>"+
+            '<td>'+
+                '<div class="input-group">'+
+                    '<span id="spn_fecha_pago_certificado'+id+'" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>'+
+                    '<input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago_certificado'+id+'" name="txt_fecha_pago_certificado[]" readonly/>'+
+                '</div>'+
+            '</td>'+
             "<td>"+
                 '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre_certificado'+id+'"  name="pago_nombre_certificado[]" value="">'+
                 '<input type="text" style="display: none;" id="pago_archivo_certificado'+id+'" name="pago_archivo_certificado[]">'+
@@ -275,6 +287,16 @@ SeleccionarProgramacion = function(val,id, tipo){
           html1+="</tr>";
         }
         $("#t_pago").append(html1);
+        $("#spn_fecha_pago_certificado"+id).click(()=>{ $("#txt_fecha_pago_certificado"+id).focus(); });
+        $(".fecha").datetimepicker({
+            format: "yyyy-mm-dd",
+            language: 'es',
+            showMeridian: false,
+            time:false,
+            minView:2,
+            autoclose: true,
+            todayBtn: false
+        });
         $("#promocion_seminario").text('');
         $("#t_pago textarea").each(function(){
             salto='';

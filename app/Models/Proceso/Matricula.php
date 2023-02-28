@@ -94,18 +94,21 @@ class Matricula extends Model
             $matricula->nro_pago = trim( $r->nro_pago_matricula);
             $matricula->monto_pago = trim( $r->monto_pago_matricula );
             $matricula->tipo_pago_matricula = trim( $r->tipo_pago_matricula );
+            $matricula->fecha_pago_mat = trim( $r->fecha_pago_mat );
         }
 
         if( trim( $r->nro_pago_inscripcion )!=''){
             $matricula->nro_pago_inscripcion = trim( $r->nro_pago_inscripcion);
             $matricula->monto_pago_inscripcion = trim( $r->monto_pago_inscripcion );
             $matricula->tipo_pago_inscripcion = trim( $r->tipo_pago_inscripcion );
+            $matricula->fecha_pago_ins = trim( $r->fecha_pago_ins );
         }
 
         if( trim($r->nro_promocion)!=''){
             $matricula->nro_promocion = trim( $r->nro_promocion);
             $matricula->monto_promocion = trim( $r->monto_promocion);
             $matricula->tipo_pago = trim( $r->tipo_pago);
+            $matricula->fecha_pago_pro = trim( $r->fecha_pago_pro );
         }
     
         $matricula->persona_id_created_at=Auth::user()->id;
@@ -188,6 +191,7 @@ class Matricula extends Model
                         $mtsaldo->precio= $monto_precio;
                         $mtsaldo->pago= $r->monto_pago_inscripcion;
                         $mtsaldo->tipo_pago= $r->tipo_pago_inscripcion;
+                        $mtsaldo->fecha_pago= $r->fecha_pago_ins;
                         $mtsaldo->persona_caja_id = $matricula->persona_caja_id;
                         $mtsaldo->persona_id_created_at= Auth::user()->id;
                         $mtsaldo->save();
@@ -211,6 +215,7 @@ class Matricula extends Model
                         $mtsaldo->precio= $monto_precio;
                         $mtsaldo->pago= $r->monto_pago_matricula;
                         $mtsaldo->tipo_pago= $r->tipo_pago_matricula;
+                        $mtsaldo->fecha_pago= $r->fecha_pago_mat;
                         $mtsaldo->persona_caja_id = $matricula->persona_caja_id;
                         $mtsaldo->persona_id_created_at= Auth::user()->id;
                         $mtsaldo->save();
@@ -234,6 +239,7 @@ class Matricula extends Model
         $monto_pago=$r->monto_pago;
         $nro_pago_certificado=$r->nro_pago_certificado;
         $monto_pago_certificado=$r->monto_pago_certificado;
+        $fecha_pago_certificado=$r->fecha_pago_certificado;
         $pago_archivo=$r->pago_archivo;
         $pago_nombre=$r->pago_nombre;
         $pago_archivo_certificado=$r->pago_archivo_certificado;
@@ -303,6 +309,9 @@ class Matricula extends Model
                 $mtdetalle->monto_pago=$monto_pago[$i];
                 $mtdetalle->nro_pago_certificado=$nro_pago_certificado[$i];
                 $mtdetalle->monto_pago_certificado=$monto_pago_certificado[$i];
+                if( isset($fecha_pago_certificado[$i]) AND trim($fecha_pago_certificado[$i])!='' ){
+                    $mtdetalle->fecha_pago_certificado=$fecha_pago_certificado[$i];
+                }
                 $mtdetalle->tipo_pago=$tipo_pago[$i];
                 $mtdetalle->curso_id=$curso_id[$i];
 
@@ -389,6 +398,7 @@ class Matricula extends Model
                     $mtsaldo->saldo= $monto_saldo;
                     $mtsaldo->precio= $monto_precio;
                     $mtsaldo->pago= $monto_pago_certificado[$i];
+                    $mtsaldo->fecha_pago= $fecha_pago_certificado[$i];
                     $mtsaldo->tipo_pago= $tipo_pago[$i];
                     $mtsaldo->persona_caja_id = $matricula->persona_caja_id;
                     $mtsaldo->persona_id_created_at= Auth::user()->id;
@@ -404,6 +414,7 @@ class Matricula extends Model
             $tipo_pago_cuota= $r->tipo_pago_cuota;
             $pago_nombre_cuota= $r->pago_nombre_cuota;
             $pago_archivo_cuota= $r->pago_archivo_cuota;
+            $fecha_pago_cuota= $r->fecha_pago_cuota;
 
             for ($i=0; $i < count($cuota) ; $i++) { 
                 if( trim($monto_cuota[$i])!='' ){
@@ -413,6 +424,9 @@ class Matricula extends Model
                     $matriculaCuotas->nro_cuota= $nro_cuota[$i];
                     $matriculaCuotas->monto_cuota= $monto_cuota[$i];
                     $matriculaCuotas->tipo_pago_cuota= $tipo_pago_cuota[$i];
+                    if( trim($fecha_pago_cuota[$i])!='' ){
+                        $matriculaCuotas->fecha_pago_cuota= $fecha_pago_cuota[$i];
+                    }
                     if( trim($pago_nombre_cuota[$i])!='' ){
                         $type=explode(".",$pago_nombre_cuota[$i]);
                         $extension=".".$type[1];
@@ -447,6 +461,7 @@ class Matricula extends Model
                         $mtsaldo->precio= $monto_precio;
                         $mtsaldo->pago= $monto_cuota[$i];
                         $mtsaldo->tipo_pago= $tipo_pago_cuota[$i];
+                        $mtsaldo->fecha_pago= $fecha_pago_cuota[$i];
                         $mtsaldo->persona_caja_id = $matricula->persona_caja_id;
                         $mtsaldo->persona_id_created_at= Auth::user()->id;
                         $mtsaldo->save();

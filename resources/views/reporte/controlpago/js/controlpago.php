@@ -132,6 +132,13 @@ HTMLCargarReporte=function(result){
             r.archivo_pago_promocion = MatriculaG.BtnAuxNo;
         }
 
+        if( r.archivo_pago_certificado != '' ){
+            r.archivo_pago_certificado = MatriculaG.BtnAuxSi.replace("#", r.archivo_pago_certificado+"?time="+time);
+        }
+        else{
+            r.archivo_pago_certificado = MatriculaG.BtnAuxNo;
+        }
+
         if( r.tenencia = 0 ){
             r.tenencia = 'Alquilado';
         }
@@ -175,19 +182,23 @@ HTMLCargarReporte=function(result){
             
             "<td>"+$.trim(r.nro_pago)+"</td>"+
             "<td>"+$.trim(r.monto_pago)+"</td>"+
-            "<td>"+$.trim(r.tipo_pago)+"</td>"+
+            "<td>"+$.trim(r.tipo_pago)+r.archivo_pago_certificado+"</td>"+
+            "<td>"+$.trim(r.fecha_pago_certificado)+"</td>"+
             
             "<td>"+$.trim(r.nro_promocion)+"</td>"+
             "<td>"+$.trim(r.monto_promocion)+"</td>"+
             "<td>"+$.trim(r.tipo_pago_promocion)+r.archivo_pago_promocion+"</td>"+
+            "<td>"+$.trim(r.fecha_pago_pro)+"</td>"+
 
             "<td>"+$.trim(r.nro_pago_inscripcion)+"</td>"+
             "<td>"+$.trim(r.monto_pago_inscripcion)+"</td>"+
             "<td>"+$.trim(r.tipo_pago_inscripcion)+r.archivo_pago_inscripcion+"</td>"+
+            "<td>"+$.trim(r.fecha_pago_ins)+"</td>"+
 
             "<td>"+$.trim(r.nro_pago_matricula)+"</td>"+
             "<td>"+$.trim(r.monto_pago_matricula)+"</td>"+
             "<td>"+$.trim(r.tipo_pago_matricula)+r.archivo_pago_matricula+"</td>"+
+            "<td>"+$.trim(r.fecha_pago_mat)+"</td>"+
 
             "<td><ul><li>"+$.trim(pagos)+"</li></ul></td>"+
 

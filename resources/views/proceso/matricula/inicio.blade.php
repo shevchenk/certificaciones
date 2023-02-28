@@ -279,6 +279,7 @@
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>
+                                                    <th>Fecha Pago</th>
                                                     <th>Archivo Pago</th>
                                                 </tr>
                                             </thead>
@@ -317,6 +318,12 @@
                                                         <option value='3.0'>Caja</option>
                                                         </select></td>
                                                     <td>
+                                                        <div class="input-group">
+                                                        <span id="spn_fecha_pago_ins" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                                        <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago_ins" name="txt_fecha_pago_ins" readonly/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
                                                         <input type="text"  readOnly class="form-control input-sm" id="pago_nombre_inscripcion"  name="pago_nombre_inscripcion" value="">
                                                         <input type="text" style="display: none;" id="pago_archivo_inscripcion" name="pago_archivo_inscripcion">
                                                         <label class="btn btn-default btn-flat margin btn-xs">
@@ -348,7 +355,7 @@
                                         <table class="table" id="t_pago_matricula">
                                             <thead class="bg-info">
                                                 <tr>
-                                                    <th colspan="5" style="text-align:center;">Pago de Matrícula &nbsp;&nbsp;
+                                                    <th colspan="6" style="text-align:center;">Pago de Matrícula &nbsp;&nbsp;
                                                     </th>
                                                 </tr>
                                                 <tr>
@@ -356,6 +363,7 @@
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>
+                                                    <th>Fecha Pago</th>
                                                     <th>Archivo Pago</th>
                                                 </tr>
                                             </thead>
@@ -394,6 +402,12 @@
                                                         <option value='3.0'>Caja</option>
                                                         </select></td>
                                                     <td>
+                                                        <div class="input-group">
+                                                        <span id="spn_fecha_pago_mat" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                                        <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago_mat" name="txt_fecha_pago_mat" readonly/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
                                                         <input type="text"  readOnly class="form-control input-sm" id="pago_nombre_matricula"  name="pago_nombre_matricula" value="">
                                                         <input type="text" style="display: none;" id="pago_archivo_matricula" name="pago_archivo_matricula">
                                                         <label class="btn btn-default btn-flat margin btn-xs">
@@ -417,7 +431,7 @@
                                         <table class="table" id="t_pago_cuota">
                                             <thead class="bg-info">
                                                 <tr>
-                                                    <th colspan="5" style="text-align:center;" id="titpago">Pago de Cuotas de la Especialidad &nbsp;&nbsp;
+                                                    <th colspan="6" style="text-align:center;" id="titpago">Pago de Cuotas de la Especialidad &nbsp;&nbsp;
                                                     </th>
                                                 </tr>
                                                 <tr>
@@ -425,6 +439,7 @@
                                                     <th>N° de Boleta/N° de Operación</th>
                                                     <th>Importe</th>
                                                     <th>Tipo Operación</th>
+                                                    <th>Fecha Pago</th>
                                                     <th>Archivo Pago</th>
                                                 </tr>
                                             </thead>

@@ -28,11 +28,11 @@
                         </div>
                         <div class="box">
                             <div class="box-body">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label>N° de Boleta/N° de Operación:</label>
                                     <input class="form-control" type="text" id="txt_nro_pago" name="txt_nro_pago" value="">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label>Saldo / Monto Pago:</label>
                                     <div class='input-group'>
                                         <div class='input-group-addon'>
@@ -51,7 +51,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label>Tipo de Operación:</label>
                                     <select class='form-control'  id='slct_tipo_pago' name='slct_tipo_pago'>
                                         <option value='0'>.::Seleccione::.</option>
@@ -65,6 +65,13 @@
                                         <option value='2.4'>Depósito - Interbank</option>
                                         <option value='3.0'>Caja</option>
                                     </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Fecha Pago</label>
+                                    <div class="input-group">
+                                        <span id="spn_fecha_pago" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                        <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_pago" name="txt_fecha_pago" readonly/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +118,7 @@
                                                 <th>N° de Boleta/N° de Operación</th>
                                                 <th>Saldo</th>
                                                 <th>Tipo Operación</th>
+                                                <th>Fecha Pago</th>
                                                 <th>Archivo Pago</th>
                                             </tr>
                                         </thead>
