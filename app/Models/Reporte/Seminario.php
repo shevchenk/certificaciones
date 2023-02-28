@@ -710,13 +710,11 @@ class Seminario extends Model
                 $join->on('pmar.id','=','mm.persona_marketing_id');
             })
             ->leftJoin('mat_trabajadores AS t',function($join) use($r){
-                $join->on('t.persona_id','=','pmar.id');
+                $join->on('t.persona_id','=','pmar.id')
+                ->where('t.rol_id', '=', 1);
                 if( !$r->has('global') ){
                     $join->where('t.empresa_id', Auth::user()->empresa_id);
                 }
-            })
-            ->leftJoin('mat_centro_operaciones AS co2',function($join){
-                $join->on('co2.id','=','t.centro_operacion_id');
             })
 
             ->leftJoin('mat_medios_captaciones AS meca',function($join){
@@ -773,6 +771,7 @@ class Seminario extends Model
                     ,'mc.curso AS curso', 's.sucursal AS local', 'mp.dia AS frecuencia'
                     , DB::raw('CONCAT(TIME(mp.fecha_inicio)," - ",TIME(mp.fecha_final)) AS horario')
                     , 'mp.turno', DB::raw('DATE(mp.fecha_inicio) AS inicio')
+                    , 'mm.observacion', 'mm.adicional'
                     , 'mmd.nro_pago_certificado AS nro_pago'
                     , 'mmd.monto_pago_certificado AS monto_pago'
                     , 'mmd.archivo_pago_certificado'
@@ -859,7 +858,10 @@ class Seminario extends Model
                     ,'s2.sucursal','s3.sucursal AS recogo_certificado'
                     ,DB::raw('CONCAT_WS(" ",pcaj.paterno,pcaj.materno,pcaj.nombre) as cajera')
                     ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
-                    ,'co2.centro_operacion' ,'meca.medio_captacion','meca2.medio_captacion as comollego'
+                    ,DB::raw('( SELECT GROUP_CONCAT(co.centro_operacion) 
+                                FROM mat_centro_operaciones AS co 
+                                INNER JOIN mat_trabajadores AS mt ON mt.id = t.id AND mt.centro_operacion_id = co.id
+                                WHERE co.estado = 1) centro_operacion') ,'meca.medio_captacion','meca2.medio_captacion as comollego'
                     ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
                     , 'mm.estado_mat', 'mm.fecha_estado', 'mm.expediente', 'mm.fecha_expediente'
                     )
@@ -987,7 +989,7 @@ class Seminario extends Model
             5,15,15,15,15,15,20,
             15,15,15,15,25,15,15,15,15,15,15,15,25,25,
             15,15,15,25,25,
-            20,15,15,15,15,
+            20,15,15,15,15,20,20,
             15,15,15,15,
             15,15,15,15,
             15,15,15,15,
@@ -1020,7 +1022,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,13,9,3,3,3,3,0,1,1,1,0,11);
+        $nrocabeceraTit=array(5,13,11,3,3,3,3,0,1,1,1,0,11);
         $colorTit=array('#DDEBF7','#88BAE3','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -1056,7 +1058,7 @@ class Seminario extends Model
             ,'DNI','Nombre','Paterno','Materno','Celular','Email'
             ,'Estado Civil','Sexo','Fecha Nacimiento','País Nacimiento','Colegio','Distrito Nacimiento','Provincia Nacimiento','Región Nacimiento','Distrito Dirección','Provincia Dirección','Región Dirección','Tenencia','Dirección','Referencia' 
             ,'Empresa','Fecha Inscripción','Tipo de Formación Continua','Carrera / Módulo','Inicio / Curso'
-            ,'Local','Frecuencia','Horario','Turno','Inicio'
+            ,'Local','Frecuencia','Horario','Turno','Inicio','Observación','Promoción'
             ,'Nro Pago','Monto Pago','Tipo Pago','Fecha Pago'
             ,'Nro Recibo PCC','Monto PPC','Tipo Pago','Fecha Pago'
             ,'Nro Pago Inscripción','Monto Pago Inscripción','Tipo Pago','Fecha Pago'
@@ -1078,7 +1080,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'BO'; //$estatico.chr($min);
+        $return['max']= 'BQ'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;

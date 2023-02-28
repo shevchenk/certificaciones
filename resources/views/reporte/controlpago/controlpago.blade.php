@@ -114,7 +114,7 @@
                                         <tr>
                                             <th style="background-color: #DDEBF7;" colspan='6'>DATOS DEL ALUMNO</th>
                                             <th style="background-color: #88BAE3;" colspan='14'>DATOS ADICIONALES DEL ALUMNO</th>
-                                            <th style="background-color: #E2EFDA;" colspan='10'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
+                                            <th style="background-color: #E2EFDA;" colspan='12'>DATOS DEL CURSO DE FORMACIÓN CONTINUA</th>
                                             <th style="background-color: #FCE4D6;" colspan='4'>PAGO POR CURSO INDEPENDIENTE</th>
                                             <th style="background-color: #E2EFDA;" colspan='4'>PAGO POR CONJUNTO DE CURSOS</th>
                                             <th style="background-color: #FFF2CC;" colspan='4'>PAGO POR INSCRIPCIÓN</th>
@@ -159,6 +159,8 @@
                                             <th style="background-color: #E2EFDA;">Horario</th>
                                             <th style="background-color: #E2EFDA;">Turno</th>
                                             <th style="background-color: #E2EFDA;">Inicio</th>
+                                            <th style="background-color: #E2EFDA; min-width: 220px !important;">Observación</th>
+                                            <th style="background-color: #E2EFDA; min-width: 220px !important;">Promociones</th>
                                             
                                             <th style="background-color: #FCE4D6;">Nro Pago</th>
                                             <th style="background-color: #FCE4D6;">Monto Pago</th>
@@ -242,47 +244,53 @@
                                             <th style="background-color: #E2EFDA;">Horario</th>
                                             <th style="background-color: #E2EFDA;">Turno</th>
                                             <th style="background-color: #E2EFDA;">Inicio</th>
+                                            <th style="background-color: #E2EFDA;">Observación</th>
+                                            <th style="background-color: #E2EFDA;">Promociones</th>
                                             
                                             <th style="background-color: #FCE4D6;">Nro Pago</th>
                                             <th style="background-color: #FCE4D6;">Monto Pago</th>
                                             <th style="background-color: #FCE4D6;">Tipo Pago</th>
+                                            <th style="background-color: #FCE4D6;">Fecha Pago</th>
 
                                             <th style="background-color: #E2EFDA;">Nro Recibo PCC</th>
                                             <th style="background-color: #E2EFDA;">Monto PCC</th>
                                             <th style="background-color: #E2EFDA;">Tipo Pago</th>
+                                            <th style="background-color: #E2EFDA;">Fecha Pago</th>
 
                                             <th style="background-color: #FFF2CC;">Nro Recibo Inscripción</th>
                                             <th style="background-color: #FFF2CC;">Monto Inscripción</th>
                                             <th style="background-color: #FFF2CC;">Tipo Pago</th>
+                                            <th style="background-color: #FFF2CC;">Fecha Pago</th>
 
                                             <th style="background-color: #FFF2CC;">Nro Recibo Matrícula</th>
                                             <th style="background-color: #FFF2CC;">Monto Matrícula</th>
                                             <th style="background-color: #FFF2CC;">Tipo Pago</th>
+                                            <th style="background-color: #FFF2CC;">Fecha Pago</th>
 
-                                            <th style="background-color: #DDEBF7;">Monto Pago / Nro Pago / Tipo Pago</th>
+                                            <th style="background-color: #DDEBF7; min-width: 210px !important;">Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
 
                                             <th style="background-color: #FCE4D6;">Deuda a la Fecha</th>
                                             <th style="background-color: #FCE4D6;">Promedio Final del Curso</th>
 
-                                            <th style="background-color: #DDEBF7;">Cuota / Fecha Programada / Monto Programado</th>
-                                            <th style="background-color: #DDEBF7;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
+                                            <th style="background-color: #DDEBF7; min-width: 210px !important;">Cuota / Fecha Programada / Monto Programado</th>
+                                            <th style="background-color: #DDEBF7; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
 
-                                            <th style="background-color: #FCE4D6;">Cuota / Monto Pago / Nro Pago / Tipo Pago</th>
-                                            <th style="background-color: #FCE4D6;">Cuota / Monto Deuda</th>
+                                            <th style="background-color: #FCE4D6; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
+                                            <th style="background-color: #FCE4D6; min-width: 140px !important;">Cuota / Monto Deuda</th>
                                             <th style="background-color: #FCE4D6;">Deuda Total</th>
 
                                             <th style="background-color: #FCD5B4;">Sede de Inscripción</th>
                                             <th style="background-color: #FCD5B4;">Recogo del Certificado</th>
-                                            <th style="background-color: #FCD5B4;">Cajero(a)</th>
-                                            <th style="background-color: #FCD5B4;">Vendedor(a)</th>
-                                            <th style="background-color: #FCD5B4;">Centro de Operación</th>
-                                            <th style="background-color: #FCD5B4;">Tipo de Vendedor</th>
-                                            <th style="background-color: #FCD5B4;">Como llegó aquí</th>
-                                            <th style="background-color: #FCD5B4;">Registrador(a)</th>
-                                            <th style="background-color: #FCD5B4;">Estado de la Matrícula</th>
-                                            <th style="background-color: #FCD5B4;">Fecha del Estado de la Matrícula</th>
-                                            <th style="background-color: #FCD5B4;">Nro Expediente</th>
-                                            <th style="background-color: #FCD5B4;">Fecha de Expediente</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Cajero(a)</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Vendedor(a)</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Centro de Operación</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Tipo de Vendedor</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Como llegó aquí</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Registrador(a)</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Estado de la Matrícula</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Fecha del Estado de la Matrícula</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Nro Expediente</th>
+                                            <th style="background-color: #FCD5B4; min-width: 200px !important;">Fecha de Expediente</th>
                                         </tr>
                                     </tfoot>
                                 </table>

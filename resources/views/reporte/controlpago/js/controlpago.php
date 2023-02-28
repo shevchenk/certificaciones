@@ -146,6 +146,21 @@ HTMLCargarReporte=function(result){
             r.tenencia = 'Propio';
         }
 
+        let adicional = '';
+
+        if( $.trim(r.adicional) != '' ){
+            if( $.trim(r.adicional).split("|")[0] != '' || $.trim(r.adicional).split("|")[1] != '' ){
+                adicional +="<ul>";
+                if( $.trim(r.adicional).split("|")[0] != '' ){
+                    adicional +="<li>2do Ciclo o Módulo en Adelante: <span style='font-style: italic;'>"+$.trim(r.adicional).split("|")[0]+"</span></li>";
+                }
+                if( $.trim(r.adicional).split("|")[1] != '' ){
+                    adicional +="<li>Promoción de la venta: <span style='font-style: italic;'>"+$.trim(r.adicional).split("|")[1]+"</span></li>";
+                }
+                adicional +="</ul>";
+            }
+        }
+
         html+="<tr id='trid_"+r.id+"'>"+
             "<td>"+r.dni+"</td>"+
             "<td>"+r.nombre+"</td>"+
@@ -179,6 +194,8 @@ HTMLCargarReporte=function(result){
             "<td>"+$.trim(r.horario)+"</td>"+
             "<td>"+$.trim(r.turno)+"</td>"+
             "<td>"+$.trim(r.inicio)+"</td>"+
+            "<td>"+$.trim(r.observacion)+"</td>"+
+            "<td>"+adicional+"</td>"+
             
             "<td>"+$.trim(r.nro_pago)+"</td>"+
             "<td>"+$.trim(r.monto_pago)+"</td>"+
