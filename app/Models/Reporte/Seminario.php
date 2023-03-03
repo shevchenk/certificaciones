@@ -274,7 +274,7 @@ class Seminario extends Model
                             WHERE ppv.persona_id='.$id.')')
             ->groupBy('mm.id','mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
                     ,'p.telefono','p.celular','p.email','mm.validada'
-                    ,'mm.fecha_matricula','e.empresa'
+                    ,'mm.fecha_matricula','e.empresa','mmd.tipo_pago'
                     ,'mmd.especialidad_id','mc.curso','mc.tipo_curso','me.especialidad','mp.dia','mp.turno','mp.fecha_inicio','mp.fecha_final'
                     ,'mm.especialidad_programacion_id'
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion'
@@ -786,7 +786,7 @@ class Seminario extends Model
                     ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago_matricula) AS tipo_pago_matricula')
                     ,'mm.fecha_pago_mat'
                     ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(pago," / ",nro_pago," / ",
-                                (SELECT banco FROM bancos WHERE id = tipo_pago), " / ", fecha_pago 
+                                (SELECT banco FROM bancos WHERE id = tipo_pago), " / ", IFNULL(fecha_pago,"") 
                                  SEPARATOR "\n") 
                                 FROM mat_matriculas_saldos
                                 WHERE nro_pago!=""
@@ -806,7 +806,7 @@ class Seminario extends Model
                                         WHERE ep.estado = 1
                                         AND m.id = mm.id),"") AS programacion_cuota ')
                     ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(mmc.cuota," / ",mmc.monto_cuota," / ",mmc.nro_cuota," / ",
-                                b.banco," / ",mmc.fecha_pago_cuota
+                                b.banco," / ",IFNULL(mmc.fecha_pago_cuota,"")
                                  ORDER BY mmc.cuota SEPARATOR "\n") 
                                 FROM mat_matriculas_cuotas mmc 
                                 LEFT JOIN mat_matriculas_saldos mms ON mms.matricula_id = mmc.matricula_id AND mms.cuota=mmc.cuota AND mms.estado=1
@@ -815,7 +815,7 @@ class Seminario extends Model
                                 AND mms.id IS NULL
                                 AND mmc.matricula_id= mm.id),"") AS pagos2_cuota ')
                     ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(IF(cuota=-1,"Ins.",IF(cuota=0, "Mat.",cuota))," / ",pago," / ",nro_pago," / ",
-                                (SELECT banco FROM bancos WHERE id = tipo_pago), " / ", fecha_pago
+                                (SELECT banco FROM bancos WHERE id = tipo_pago), " / ", IFNULL(fecha_pago,"")
                                  ORDER BY cuota,created_at SEPARATOR "\n") 
                                 FROM mat_matriculas_saldos
                                 WHERE nro_pago!=""
