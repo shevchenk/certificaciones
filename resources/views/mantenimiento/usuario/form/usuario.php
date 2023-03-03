@@ -30,7 +30,7 @@
                             <div class="col-sm-12"><!--INICIO DE COL SM 12-->
                                 <div class="col-sm-4">
                                     <label>DNI</label>
-                                    <input type="text" onkeypress="return masterG.validaNumerosMax(event, this, 10);" class="form-control" id="txt_dni" name="txt_dni" placeholder="DNI"  autocomplete="off">
+                                    <input type="text" class="form-control" id="txt_dni" name="txt_dni" placeholder="DNI"  autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-4">
