@@ -1423,6 +1423,7 @@ class Matricula extends Model
             })
             ->leftJoin('mat_trabajadores AS t',function($join) use($r){
                 $join->on('t.persona_id','=','mm.persona_marketing_id')
+                ->where('t.rol_id', '=', 1)
                 ->where('t.empresa_id', '=', Auth::user()->empresa_id);
             })
             ->leftJoin('personas AS psup',function($join){

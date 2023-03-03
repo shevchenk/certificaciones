@@ -771,11 +771,10 @@ class Persona extends Model
     {
         $sql ="UPDATE llamadas ll 
                 inner join (
-                select MIN(id) id, persona_id, count(persona_id) cant, max(ultimo_registro) ult
+                select MAX(id) id, persona_id, count(persona_id) cant, max(ultimo_registro) ult
                 from llamadas 
                 GROUP BY persona_id
-                HAVING cant = 1
-                and ult = 0 ) ll2 on ll2.id = ll.id 
+                HAVING ult = 0 ) ll2 on ll2.id = ll.id 
                 set ultimo_registro = 1";
         DB::update($sql);
 
