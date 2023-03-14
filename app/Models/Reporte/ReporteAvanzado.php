@@ -70,10 +70,10 @@ class ReporteAvanzado extends Model
                 $where.=" AND mc.id IN ($curso) ";
             }
         }
-
+        /*  */
         $sql = "
-        SELECT '' AS id,s.sucursal AS ode, e.empresa AS empresa, 
-        IF( mmd.especialidad_id IS NULL, IF( mc.tipo_curso=2, 'Seminario', 'Curso Libre' ), me.especialidad) AS formacion
+        SELECT '' AS id,s.sucursal AS ode, e.empresa AS empresa
+        , me.especialidad AS formacion
         , mc.curso AS curso, mp.dia AS frecuencia, CONCAT( TIME(mp.fecha_inicio),' - ',TIME(mp.fecha_final)) horario
         , DATE(mp.fecha_inicio) AS inicio
         ,COUNT(DISTINCT(IF( mm.fecha_matricula=CURDATE()-13,mm.id,NULL ))) f14
@@ -96,17 +96,18 @@ class ReporteAvanzado extends Model
         ,IF(DATEDIFF(CURDATE(),mp.fecha_campaña) >=0,DATEDIFF(CURDATE(),mp.fecha_campaña),0) AS dias_campaña
         ,IF(DATEDIFF(CURDATE(),DATE(mp.fecha_inicio)) >=0,0,(DATEDIFF(DATE(mp.fecha_inicio),CURDATE()) )) AS dias_falta
         ,'' ind_sa, '' ind_ud, '' pro_df, '' pro_fin, '' falta_meta, '' obs
-        FROM mat_matriculas AS mm 
-        INNER JOIN mat_matriculas_detalles AS mmd ON mmd.matricula_id = mm.id AND mmd.estado = 1 
-        INNER JOIN personas AS p ON p.id = mm.persona_id
-        INNER JOIN mat_cursos AS mc ON mc.id = mmd.curso_id 
+        FROM mat_programaciones AS mp 
+        INNER JOIN mat_cursos AS mc ON mc.id = mp.curso_id 
+        INNER JOIN mat_cursos_especialidades AS mce ON mce.curso_id = mc.id AND mce.estado = 1
+        INNER JOIN mat_especialidades AS me ON me.id = mce.especialidad_id 
         INNER JOIN empresas AS e ON e.id = mc.empresa_id 
-        INNER JOIN mat_programaciones AS mp ON mp.id = mmd.programacion_id
-        INNER JOIN sucursales AS s ON s.id=mp.sucursal_id 
-        LEFT JOIN mat_especialidades AS me ON me.id = mmd.especialidad_id 
-        WHERE mm.estado=1 
+        INNER JOIN sucursales AS s ON s.id=mp.sucursal_id
+        LEFT JOIN mat_matriculas_detalles AS mmd ON mp.id = mmd.programacion_id AND mmd.estado = 1 
+        LEFT JOIN mat_matriculas AS mm ON mm.id = mmd.matricula_id AND mm.estado = 1				
+        LEFT JOIN personas AS p ON p.id = mm.persona_id
+        WHERE mp.estado=1 
         $where
-        GROUP BY s.sucursal, e.empresa, mmd.especialidad_id, mc.tipo_curso, me.especialidad, mc.curso, mp.dia
+        GROUP BY s.sucursal, e.empresa, mc.tipo_curso, mc.curso, mp.dia, me.especialidad
         , mp.fecha_inicio, mp.fecha_final, mp.meta_max, mp.meta_min, mp.fecha_campaña";
 
         $result= DB::select($sql);

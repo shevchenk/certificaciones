@@ -24,6 +24,10 @@ $(document).ready(function() {
         $('#txt_fecha_fin').focus();
     });
 
+    $(".spn_limpiar").click(()=>{
+        $('#txt_fecha_ini, #txt_fecha_fin').val('');
+    });
+
     
     $("#TableReporte").DataTable({
         "paging": true,
@@ -224,6 +228,8 @@ HTMLCargarReporte=function(result){
             
             "<td><ul><li>"+$.trim(programacion_cuota)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(pagos2_cuota)+"</li></ul></td>"+
+            "<td><ul><li>"+$.trim(r.pagos2_cuota_t)+"</li></ul></td>"+
+            "<td><ul><li>"+(r.pagos2_cuota_t*1 + r.monto_pago_inscripcion*1 + r.monto_pago_matricula*1)+"</li></ul></td>"+
             
             "<td><ul><li>"+$.trim(pagos_cuota)+"</li></ul></td>"+
             "<td><ul><li>"+$.trim(deuda_cuota)+"</li></ul></td>"+

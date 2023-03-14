@@ -88,6 +88,7 @@
                                 <div class="col-md-2">
                                     <label class="control-label">Fecha Inscripción - Inicio:</label>
                                     <div class="input-group">
+                                      <span class="input-group-addon spn_limpiar" style="cursor: pointer;"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></span>
                                       <span id="spn_fecha_ini" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_ini" name="txt_fecha_ini" readonly/>
                                     </div>
@@ -95,6 +96,7 @@
                                 <div class="col-md-2">
                                     <label class="control-label">Fecha Inscripción - Final:</label>
                                     <div class="input-group">
+                                      <span class="input-group-addon spn_limpiar" style="cursor: pointer;"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></span>
                                       <span id="spn_fecha_fin" class="input-group-addon" style="cursor: pointer;"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                       <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="txt_fecha_fin" name="txt_fecha_fin" readonly/>
                                     </div>
@@ -121,7 +123,7 @@
                                             <th style="background-color: #FFF2CC;" colspan='4'>PAGO POR MATRÍCULA</th>
                                             <th style="background-color: #DDEBF7;" colspan='1'>PAGO DE SALDOS</th>
                                             <th style="background-color: #FCE4D6;" colspan='2'>DEUDA Y NOTA FINAL DEL CURSO</th>
-                                            <th style="background-color: #DDEBF7;" colspan='2'>PROGRAMACION Y PAGO - CUOTAS</th>
+                                            <th style="background-color: #DDEBF7;" colspan='4'>PROGRAMACION Y PAGO - CUOTAS</th>
                                             <th style="background-color: #FCE4D6;" colspan='2'>PAGO Y DEUDA DE SALDOS - CUOTAS</th>
                                             <th style="background-color: #FCE4D6;" colspan='1'>A LA FECHA</th>
                                             <th style="background-color: #FCD5B4;" colspan='12'>DATOS DE LA VENTA</th>
@@ -189,6 +191,8 @@
 
                                             <th style="background-color: #DDEBF7; min-width: 210px !important;">Cuota / Fecha Programada / Monto Programado</th>
                                             <th style="background-color: #DDEBF7; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
+                                            <th style="background-color: #DDEBF7;">Total Pago x Cuotas</th>
+                                            <th style="background-color: #DDEBF7;">Total Monto Pagado</th>
 
                                             <th style="background-color: #FCE4D6; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
                                             <th style="background-color: #FCE4D6; min-width: 140px !important;">Cuota / Monto Deuda</th>
@@ -274,6 +278,8 @@
 
                                             <th style="background-color: #DDEBF7; min-width: 210px !important;">Cuota / Fecha Programada / Monto Programado</th>
                                             <th style="background-color: #DDEBF7; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
+                                            <th style="background-color: #DDEBF7;">Total Pago x Cuotas</th>
+                                            <th style="background-color: #DDEBF7;">Total Monto Pagado</th>
 
                                             <th style="background-color: #FCE4D6; min-width: 260px !important;">Cuota / Monto Pago / Nro Pago / Tipo Pago / Fecha Pago</th>
                                             <th style="background-color: #FCE4D6; min-width: 140px !important;">Cuota / Monto Deuda</th>

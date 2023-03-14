@@ -813,6 +813,14 @@ class Seminario extends Model
                                 WHERE mmc.estado=1
                                 AND mms.id IS NULL
                                 AND mmc.matricula_id= mm.id),"") AS pagos2_cuota ')
+                    ,DB::raw('  IFNULL(
+                                    (SELECT SUM(mmc.monto_cuota) 
+                                    FROM mat_matriculas_cuotas mmc 
+                                    LEFT JOIN mat_matriculas_saldos mms ON mms.matricula_id = mmc.matricula_id AND mms.cuota=mmc.cuota AND mms.estado=1
+                                    LEFT JOIN bancos b ON b.id = mmc.tipo_pago_cuota 
+                                    WHERE mmc.estado=1
+                                    AND mms.id IS NULL
+                                    AND mmc.matricula_id= mm.id),"") AS pagos2_cuota_t, "" AS pagos2_cuota_tmi ')
                     ,DB::raw('  IFNULL((SELECT GROUP_CONCAT(IF(cuota=-1,"Ins.",IF(cuota=0, "Mat.",cuota))," / ",pago," / ",nro_pago," / ",
                                 (SELECT banco FROM bancos WHERE id = tipo_pago), " / ", IFNULL(fecha_pago,"")
                                  ORDER BY cuota,created_at SEPARATOR "\n") 
@@ -860,8 +868,8 @@ class Seminario extends Model
                     ,DB::raw('CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre) as marketing')
                     ,DB::raw('( SELECT GROUP_CONCAT(co.centro_operacion) 
                                 FROM mat_centro_operaciones AS co 
-                                INNER JOIN mat_trabajadores AS mt ON mt.id = t.id AND mt.centro_operacion_id = co.id
-                                WHERE co.estado = 1) centro_operacion') ,'meca.medio_captacion','meca2.medio_captacion as comollego'
+                                INNER JOIN mat_trabajadores AS mt ON mt.centro_operacion_id = co.id
+                                WHERE co.estado = 1 AND mt.id = t.id) centro_operacion') ,'meca.medio_captacion','meca2.medio_captacion as comollego'
                     ,DB::raw('CONCAT_WS(" ",pmat.paterno,pmat.materno,pmat.nombre) as matricula')
                     , 'mm.estado_mat', 'mm.fecha_estado', 'mm.expediente', 'mm.fecha_expediente'
                     )
@@ -994,9 +1002,9 @@ class Seminario extends Model
             15,15,15,15,
             15,15,15,15,
             15,15,15,15,
-            30,
+            50,
             15,15,
-            30,50,50,30,20,
+            30,50,20,20,50,30,20,
             20,20,30,30,20,20,20,30,
             20,20,20,20
         );
@@ -1022,7 +1030,7 @@ class Seminario extends Model
         $min=64;
         $estatico='';
         $posTit=2; $posDet=3;
-        $nrocabeceraTit=array(5,13,11,3,3,3,3,0,1,1,1,0,11);
+        $nrocabeceraTit=array(5,13,11,3,3,3,3,0,1,3,1,0,11);
         $colorTit=array('#DDEBF7','#88BAE3','#E2EFDA','#FCE4D6','#E2EFDA','#FFF2CC','#FFF2CC','#DDEBF7','#FCE4D6','#DDEBF7','#FCE4D6','#FCE4D6','#FCD5B4');
         $lengthTit=array();
         $lengthDet=array();
@@ -1065,7 +1073,7 @@ class Seminario extends Model
             ,'Nro Pago Matrícula','Monto Pago Matrícula','Tipo Pago','Fecha Pago'
             ,'Monto Pago / Nro Pago / Tipo Pago / Fecha Pago'
             ,'Deuda a la Fecha','Promedio Final del Curso'
-            ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago'
+            ,'Cuota / Fecha Programada / Monto Programado','Cuota / Monto Pago / Nro Pago / Tipo Pago', 'Total Pago x Cuotas', 'Total Monto Pagado'
             ,'Cuota / Monto Pago / Nro Pago / Tipo Pago','Cuota / Monto Deuda','Deuda Total'
             ,'Sede de Inscripción','Recogo del Certificado','Cajero(a)','Vendedor(a)','Centro de Operación','Tipo de Vendedor','Como llegó aquí','Registrador(a)'
             ,'Estado de la Matrícula', 'Fecha del Estado de la Matrícula', 'Nro Expediente', 'Fecha de Expediente'
@@ -1080,7 +1088,7 @@ class Seminario extends Model
         $return['lengthTit']=$lengthTit;
         $return['colorTit']=$colorTit;
         $return['lengthDet']=$lengthDet;
-        $return['max']= 'BQ'; //$estatico.chr($min);
+        $return['max']= 'BS'; //$estatico.chr($min);
         $return['min']=$min; // Max. Celda en LETRA
         
         return $return;

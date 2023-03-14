@@ -483,6 +483,7 @@ class SeminarioEM extends Controller
             }
 
             $data=json_decode(json_encode($renturnModel['data']), true);
+            
             $pos=3;
             for ($i=0; $i<count($data); $i++) {
                 unset($data[$i]['matricula_detalle_id']);
@@ -493,6 +494,7 @@ class SeminarioEM extends Controller
                 unset($data[$i]['archivo_pago_certificado']);
 
                 $data[$i]['id']=$i+1;
+                //$data[$i]['pagos2_cuota_tmi']=$data[$i]['pagos2_cuota_t']*1 + $data[$i]['monto_pago_inscripcion']*1 + $data[$i]['monto_pago_matricula']*1;
                 $pos++;
                 $sheet->row( $pos, $data[$i] );
             }
