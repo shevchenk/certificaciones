@@ -56,8 +56,30 @@ $(document).ready(function() {
     Reporte.CargarEspecialidad(HTMLCargarEspecialidad);
     Reporte.CargarCurso(HTMLCargarCurso);
     Reporte.CargarBanco(SlctCargarBanco);
+    Reporte.CargarMedioCaptacion(SlctCargarMedioCaptacion);
 
 });
+
+SlctCargarMedioCaptacion=function(result){
+    var html="<option value=''>.::Seleccione::.</option>";
+    var html2=html;
+    $.each(result.data,function(index,r){
+        if( r.tipo_medio == '1' || r.tipo_medio == '2' ){
+            html+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+        }
+        else{
+            html2+="<option data-tipo='"+r.tipo_medio+"' value='"+r.id+"'>"+r.medio_captacion+"</option>";
+        }
+    });
+    $("#PagoForm #slct_medio_captacion_id").html(html);
+    $("#PagoForm #slct_medio_captacion_id2").html(html2);
+    $("#PagoForm #slct_medio_captacion_id, #PagoForm #slct_medio_captacion_id2").selectpicker('refresh');
+}
+
+ValidaMedioCaptacion=function(){
+    $("#PagoForm #txt_marketing_id, #PagoForm #txt_marketing").val('');
+    $("#PagoForm #btn_marketing").attr("data-filtros2","estado:1|rol_id:1|medio_captacion_id:"+$("#PagoForm #slct_medio_captacion_id").val());
+}
 
 SlctCargarBanco=function(result){
     var html="<option value='0'>.::Seleccione::.</option>";
@@ -316,6 +338,12 @@ GuardarPago=function(){
     /*else if( $.trim($('#ModalPago #txt_pago_archivo').val())=='' ){
         msjG.mensaje('warning','Ingrese un archivo de pago',4000);
     }*/
+    else if( $.trim($('#ModalPago #slct_medio_captacion_id').val())=='' ){
+        msjG.mensaje('warning','Seleccione un Tipo de Vendedor',4000);
+    }
+    else if( $.trim($('#ModalPago #txt_marketing_id').val())=='' ){
+        msjG.mensaje('warning','Busque y seleccione un Vendedor',4000);
+    }
     else if( $.trim($('#ModalPago #txt_persona_caja_id').val())=='' ){
         msjG.mensaje('warning','Busque y seleccione un responsable de caja',4000);
     }

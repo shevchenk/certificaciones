@@ -537,6 +537,7 @@ class Alumno extends Model
                 if( $saldo<0 ){ $saldo=0; }
                 $MSF->saldo = $saldo;
                 $MSF->persona_caja_id = trim($r->persona_caja_id);
+                $MSF->persona_marketing_id = trim($r->marketing_id);
                 $MSF->persona_id_created_at = $user_id;
                 $MSF->save();
 
@@ -575,6 +576,7 @@ class Alumno extends Model
                 }
 
                 $MC->persona_caja_id = $r->persona_caja_id;
+                $MC->persona_marketing_id = $r->marketing_id;
                 $MC->estado = 1;
                 $MC->persona_id_created_at=$user_id;
                 $MC->save();
@@ -606,6 +608,7 @@ class Alumno extends Model
                     $mtsaldo->tipo_pago= $MC->tipo_pago_cuota;
                     $mtsaldo->fecha_pago= $MC->fecha_pago_cuota;
                     $mtsaldo->persona_caja_id = $MC->persona_caja_id;
+                    $mtsaldo->persona_marketing_id = $MC->persona_marketing_id;
                     $mtsaldo->persona_id_created_at= Auth::user()->id;
                     $mtsaldo->save();
                 }
@@ -629,6 +632,7 @@ class Alumno extends Model
             if( $saldo<0 ){ $saldo=0; }
             $MSF->saldo = $saldo;
             $MSF->persona_caja_id = trim($r->persona_caja_id);
+            $MSF->persona_marketing_id = trim($r->marketing_id);
             $MSF->persona_id_created_at = $user_id;
             $MSF->save();
 

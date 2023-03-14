@@ -77,6 +77,27 @@
                         </div>
                         <div class="box">
                             <div class="box-body">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Tipo de Vendedor</label>
+                                        <select name="slct_medio_captacion_id" id="slct_medio_captacion_id" onchange="ValidaMedioCaptacion()" class="form-control selectpicker"></select>
+                                    </div> 
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Vendedor</label>
+                                        <input type="hidden" name="txt_marketing_id" id="txt_marketing_id" class="form-control" readonly="">
+                                        <input type="text" class="form-control" id="txt_marketing" name="txt_marketing" disabled="">
+                                    </div> 
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>&nbsp;&nbsp;&nbsp;</label>
+                                        <span class="input-group-btn">
+                                            <button type="button" id="btn_marketing" data-id="ModalPago #btn_marketing" class="btn btn-success btn-flat" data-toggle="modal" data-target="#ModalListatrabajador" data-filtros="estado:1|rol_id:1" data-filtros2="" data-personaid="ModalPago #txt_marketing_id"  data-persona="ModalPago #txt_marketing">Buscar Persona Marketing</button>
+                                        </span>
+                                    </div> 
+                                </div>
                                 <div class="col-md-4">
                                     <label>Archivo de Pago:</label>
                                     <input type="text"  readOnly class="form-control input-sm" id="txt_pago_nombre"  name="txt_pago_nombre" value="">
