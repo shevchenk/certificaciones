@@ -159,6 +159,7 @@
                                                     <option value='Rechazado'>Rechazado</option>
                                                     <option value='Registrado'>Registrado</option>
                                                     <option value='A Corregir'>A Corregir</option>
+                                                    <option value='A Mejorar'>A Mejorar</option>
                                                 </select>
                                             </th>
                                             <th class="col-xs-1" style="min-width: 125px;">
