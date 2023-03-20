@@ -207,6 +207,9 @@ HTMLCambiarEstado=function(result){
         msjG.mensaje('success',result.msj,4000);
         AjaxEspecialidadProgramacion.Cargar(HTMLCargar);
     }
+    else{
+        msjG.mensaje('warning',result.msj,3000);
+    }
 }
 
 AgregarEditarAjax=function(){
