@@ -19,7 +19,7 @@ class EspecialidadProgramacionEM extends Controller
     public function EditStatus(Request $r )
     {
         if ( $r->ajax() ) {
-            $valE = EspecialidadProgramacion::find($r->id);
+            /*$valE = EspecialidadProgramacion::find($r->id);
             $val = EspecialidadProgramacion::where('estado', 1)
                     ->where('especialidad_id', $valE->especialidad_id)
                     ->where('tipo', $valE->tipo)
@@ -39,11 +39,11 @@ class EspecialidadProgramacionEM extends Controller
                 $return['rst'] = 2;
                 $return['msj'] = 'Programación de Pago - ya existe';
             }
-            else{
+            else{*/
                 EspecialidadProgramacion::runEditStatus($r);
                 $return['rst'] = 1;
                 $return['msj'] = 'Registro actualizado';
-            }
+            //}
             return response()->json($return);
         }
     }
@@ -65,7 +65,7 @@ class EspecialidadProgramacionEM extends Controller
             
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
-            $val = EspecialidadProgramacion::where('estado', 1)
+            /*$val = EspecialidadProgramacion::where('estado', 1)
                     ->where('especialidad_id', $r->especialidad_id)
                     ->where('tipo', $r->tipo)
                     ->where('costo', $r->costo)
@@ -83,7 +83,7 @@ class EspecialidadProgramacionEM extends Controller
                 $return['rst'] = 2;
                 $return['msj'] = 'Programación de Pago - ya existe';
             }
-            else{
+            else{*/
                 if ( !$validator->fails() ) {
                     EspecialidadProgramacion::runNew($r);
                     $return['rst'] = 1;
@@ -93,7 +93,7 @@ class EspecialidadProgramacionEM extends Controller
                     $return['rst'] = 2;
                     $return['msj'] = $validator->errors()->all()[0];
                 }
-            }
+            //}
 
             return response()->json($return);
         }
@@ -114,7 +114,7 @@ class EspecialidadProgramacionEM extends Controller
 
             $validator=Validator::make($r->all(), $rules,$mensaje);
 
-            $valE = EspecialidadProgramacion::find($r->id);
+            /*$valE = EspecialidadProgramacion::find($r->id);
             $val = EspecialidadProgramacion::where('estado', 1)
                     ->where('especialidad_id', $valE->especialidad_id)
                     ->where('tipo', $r->tipo)
@@ -134,7 +134,7 @@ class EspecialidadProgramacionEM extends Controller
                 $return['rst'] = 2;
                 $return['msj'] = 'Programación de Pago - ya existe';
             }
-            else{
+            else{*/
                 if ( !$validator->fails() ) {
                     EspecialidadProgramacion::runEdit($r);
                     $return['rst'] = 1;
@@ -144,7 +144,7 @@ class EspecialidadProgramacionEM extends Controller
                     $return['rst'] = 2;
                     $return['msj'] = $validator->errors()->all()[0];
                 }
-            }
+            //}
             return response()->json($return);
         }
     }
