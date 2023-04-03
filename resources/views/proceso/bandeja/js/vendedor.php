@@ -271,6 +271,7 @@ let Detalle = {
     Visualizar: (id, tipo) => {
         let datos = "monto_pago_inscripcion,monto_pago_matricula,monto_promocion";
         let datos2 = "nro_pago_inscripcion,nro_pago_matricula,nro_promocion";
+        let datos3 = "fecha_pago_inscripcion,fecha_pago_matricula,fecha_promocion";
         let tipos = "tipo_pago_inscripcion,tipo_pago_matricula,tipo_pago_promocion";
         let Matricula = {};
         let html = '';
@@ -319,10 +320,10 @@ let Detalle = {
         
         $.each( Matricula, (key, value) => {
             valida = true;
-            if( Matricula.tipo_mat == 1 && ( 'monto_promocion,nro_promocion,tipo_pago_promocion'.split(key).length > 1 ) ){
+            if( Matricula.tipo_mat == 1 && ( 'monto_promocion,nro_promocion,tipo_pago_promocion,fecha_promocion'.split(key).length > 1 ) ){
                 valida = false;
             }
-            else if( Matricula.tipo_mat == 2 && ( 'monto_promocion,nro_promocion,tipo_pago_promocion'.split(key).length > 1 ) && Matricula['monto_promocion']*1 <= 0 ){
+            else if( Matricula.tipo_mat == 2 && ( 'monto_promocion,nro_promocion,tipo_pago_promocion,fecha_promocion'.split(key).length > 1 ) && Matricula['monto_promocion']*1 <= 0 ){
                 valida = false;
             }
 
@@ -342,8 +343,11 @@ let Detalle = {
             else if( tipo == 'Valida' && tipos.split(key).length > 1 && valida ){
                 $("#FormBandeja ."+key).html( "<select class='form-control' id='slct_"+key+"' name='slct_"+key+"'>"+$("#slct_tipo_demo").html() + "</select>").removeClass("form-control");
                 if( Matricula[key+'_id']*1 > 0 ){
-                    $("#FormBandeja #slct_"+key).val( Matricula[key+'_id'] );
+                    $("#FormBandeja #slct_"+key).val( Matricula[key+'_id']*1 );
                 }
+            }
+            else if( tipo == 'Valida' && datos3.split(key).length > 1 && valida ){
+                $("#FormBandeja ."+key).html( "<input type='text' class='form-control fecha2' readonly id='txt_"+key+"' name='txt_"+key+"' value='"+ $.trim(value) + "'>" ).removeClass("form-control");
             }
             else{
                 $("#FormBandeja ."+key).text( $.trim(value) ).addClass("form-control");
@@ -391,6 +395,7 @@ let Detalle = {
                                 "<td>"+"<input type='text' class='form-control' name='txt_nro_pago_certificado[]' value='"+ value + "'>"+"</td>"+
                                 "<td>"+"<input type='text' class='form-control' id='"+Matricula.matricula_detalle_id.split(",")[key]+"' name='txt_monto_pago_certificado[]' value='"+ Matricula.monto_pago.split(",")[key] + "'>"+"</td>"+
                                 "<td>"+"<select class='form-control' name='slct_tipo_pago[]'>"+$("#slct_tipo_demo").html() + "</select>"+"</td>"+
+                                "<td>"+"<input type='text' class='form-control fecha2' readonly name='txt_fecha_pago_certificado[]' value='"+ Matricula.fecha_pago.split(",")[key] + "'>"+"</td>"+
                                 "<td>"+btnaux+"</td>"+
                                 "<td>"+
                                     '<input type="text" readonly class="form-control" id="pago_nombre_certificado'+Matricula.matricula_detalle_id.split(",")[key]+'"  name="pago_nombre_certificado[]" value="" readonly="">'+
@@ -416,11 +421,12 @@ let Detalle = {
                                 "<td>"+value+"</td>"+
                                 "<td>"+Matricula.monto_pago.split(",")[key]+"</td>"+
                                 "<td>"+Matricula.tipo_pago.split(",")[key]+"</td>"+
+                                "<td>"+Matricula.fecha_pago.split(",")[key]+"</td>"+
                                 "<td>"+btnaux+"</td>"+
                             "</tr>";
                 }
                 $("#FormBandeja .curso_pagos").append(html);
-                $("#FormBandeja .curso_pagos tr:last-child select").val(Matricula.tipo_pago_id.split(",")[key]);
+                $("#FormBandeja .curso_pagos tr:last-child select").val(Matricula.tipo_pago_id.split(",")[key]*1);
             }
         });
         html=  "<tr style='background-color: #F9CE88;' id='total'>"+
@@ -429,6 +435,15 @@ let Detalle = {
                 "</tr>";
         $("#FormBandeja .curso_pagos").append(html);
         /*****************************************************************/
+        $("#FormBandeja .fecha2").datetimepicker({
+            format: "yyyy-mm-dd",
+            language: 'es',
+            showMeridian: true,
+            time:true,
+            minView:2,
+            autoclose: true,
+            todayBtn: false
+        });
         MatriculaG.TotalCuo=[];
         AjaxBandeja.LoadCuotas(Detalle.HTMLLoadCuotas);
         AjaxBandeja.LoadPagos(Detalle.HTMLLoadPagos);
@@ -521,13 +536,14 @@ let Detalle = {
     },
     HTMLLoadCuotas: (result) => {
         let html = '';
-        let total = 0;
+        let total = 0; let validar = false;
         $("#FormBandeja .cuotas").html(html);
         const d = new Date();
         let time = d.getTime();
         $.each(result.data,function(index,r){
             let importe = r.monto_cuota;
-            if( importe*1>0 ){
+            if( importe*1>0 || $.trim(r.nro_cuota) != ''){
+                validar = true;
                 btnaux = MatriculaG.BtnAuxNo;
                 if( $.trim(r.archivo_cuota) != '' ){
                     btnaux = MatriculaG.BtnAuxSi.replace("#", r.archivo_cuota+"?time="+time);
@@ -541,6 +557,7 @@ let Detalle = {
                                 "<td>"+"<input type='text' class='form-control' name='txt_nro_cuota[]' value='"+ $.trim(r.nro_cuota) + "'>"+"</td>"+
                                 "<td>"+"<input type='text' class='form-control' id='"+r.matricula_id+"_"+r.cuota+"' name='txt_monto_cuota[]' value='"+ $.trim(importe) + "'>"+"</td>"+
                                 "<td>"+"<select class='form-control' name='slct_tipo_pago_cuota[]'>"+$("#slct_tipo_demo").html() + "</select>"+"</td>"+
+                                "<td>"+"<input type='text' class='form-control fecha2' readonly name='txt_fecha_pago_cuota[]' value='"+ $.trim(r.fecha_pago_cuota) + "'>"+"</td>"+
                                 "<td>"+btnaux+"</td>"+
                                 "<td>"+
                                     '<input type="text" readonly class="form-control" id="pago_nombre_cuota'+r.id+'"  name="pago_nombre_cuota[]" value="" readonly="">'+
@@ -566,12 +583,13 @@ let Detalle = {
                                 "<td>"+$.trim(r.nro_cuota)+"</td>"+
                                 "<td>"+$.trim(importe)+"</td>"+
                                 "<td>"+$.trim(r.tipo_pago_cuota)+"</td>"+
+                                "<td>"+$.trim(r.fecha_pago_cuota)+"</td>"+
                                 "<td>"+btnaux+"</td>"+
                             "</tr>";
                 }
                 total+= $.trim(importe)*1;
                 $("#FormBandeja .cuotas").append(html);
-                $("#FormBandeja .cuotas tr:last-child select").val(r.tipo_pago_cuota_id);
+                $("#FormBandeja .cuotas tr:last-child select").val(r.tipo_pago_cuota_id*1);
             }
         });
         html=  "<tr style='background-color: #F9CE88;' id='total'>"+
@@ -580,7 +598,16 @@ let Detalle = {
                     "<td>"+total.toFixed(2)+"</td>"+
                 "</tr>";
         $("#FormBandeja .cuotas").append(html);
-        if( total*1 > 0 ){
+        $("#FormBandeja .fecha2").datetimepicker({
+            format: "yyyy-mm-dd",
+            language: 'es',
+            showMeridian: true,
+            time:true,
+            minView:2,
+            autoclose: true,
+            todayBtn: false
+        });
+        if( validar ){
             $(".CuotasG").show(1500);
             $(".CursosG").hide(1000);
         }

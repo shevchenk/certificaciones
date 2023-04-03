@@ -319,6 +319,11 @@ class MatriculaPR extends Controller
                 unset($data[$i]['medio_captacion2']);
                 unset($data[$i]['matricula']);
                 unset($data[$i]['supervisor']);
+                unset($data[$i]['fecha_pago']);
+                unset($data[$i]['fecha_pago_matricula']);
+                unset($data[$i]['fecha_promocion']);
+                unset($data[$i]['fecha_pago_inscripcion']);
+                unset($data[$i]['adicional']);
                 $pos++;
                 $sheet->row( $pos, $data[$i] );
             }

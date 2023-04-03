@@ -659,7 +659,7 @@ class Matricula extends Model
             ->select('mm.id',DB::raw('"PLATAFORMA"'),'mm.fecha_matricula'
                     ,DB::raw('GROUP_CONCAT(DISTINCT(CONCAT_WS(" ",pmar.paterno,pmar.materno,pmar.nombre))) as marketing')
                     ,'mtp.tipo_participante','p.dni','p.nombre','p.paterno','p.materno'
-                    ,'p.telefono','p.celular','p.email','mm.validada','ep.tipo AS tipo_mat'
+                    ,'p.telefono','p.celular','p.email','mm.validada','ep.tipo AS tipo_mat','mm.adicional'
                     ,DB::raw('GROUP_CONCAT( DISTINCT(s3.sucursal) ) AS lugar_estudio'),'e.empresa AS empresa_inscripcion'
                     , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), "Modular") ) AS tipo_formacion')
                     , DB::raw( 'MIN( IF( mmd.especialidad_id is null, IF( mc.tipo_curso=2, "Seminario", "Curso Libre" ), me.especialidad) ) AS formacion')
@@ -678,6 +678,10 @@ class Matricula extends Model
                                 ) AS monto_pago')
                     ,DB::raw(' IF(ep.tipo = 1, 
                                 "",
+                                GROUP_CONCAT( IFNULL(mmd.fecha_pago_certificado,"") ORDER BY mmd.id )
+                                ) AS fecha_pago')
+                    ,DB::raw(' IF(ep.tipo = 1, 
+                                "",
                                 GROUP_CONCAT( mmd.archivo_pago_certificado ORDER BY mmd.id )
                                 ) AS archivo')
                     ,DB::raw(' IF(ep.tipo = 1, 
@@ -688,13 +692,13 @@ class Matricula extends Model
                     ,DB::raw(' IF(ep.tipo = 1, "", GROUP_CONCAT( mmd.tipo_pago ORDER BY mmd.id ) ) AS tipo_pago_id')
                     ,DB::raw(' IF(ep.tipo = 1, "", GROUP_CONCAT( mmd.id ORDER BY mmd.id ) ) AS matricula_detalle_id')
                     ,DB::raw('SUM(mmd.monto_pago_certificado) total')
-                    ,'mm.nro_pago AS nro_pago_matricula','mm.monto_pago AS monto_pago_matricula'
+                    ,'mm.nro_pago AS nro_pago_matricula','mm.monto_pago AS monto_pago_matricula','mm.fecha_pago_mat AS fecha_pago_matricula'
                     ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago_matricula) AS tipo_pago_matricula')
                     ,'mm.tipo_pago_matricula AS tipo_pago_matricula_id'
-                    ,'mm.nro_promocion','mm.monto_promocion'
+                    ,'mm.nro_promocion','mm.monto_promocion','mm.fecha_pago_pro AS fecha_promocion'
                     ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago) AS tipo_pago_promocion')
                     ,'mm.tipo_pago AS tipo_pago_promocion_id'
-                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion'
+                    ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.fecha_pago_ins AS fecha_pago_inscripcion'
                     ,DB::raw('(SELECT banco FROM bancos WHERE id = mm.tipo_pago_inscripcion) AS tipo_pago_inscripcion')
                     ,'mm.tipo_pago_inscripcion AS tipo_pago_inscripcion_id'
                     //,DB::raw('(SUM(mmd.monto_pago_certificado)+mm.monto_promocion) total')
@@ -790,7 +794,7 @@ class Matricula extends Model
                     ,'mm.especialidad_programacion_id'
                     ,'s.sucursal','s2.sucursal','mm.nro_promocion','mm.monto_promocion', 'mm.monto_pago', 'mm.nro_pago', 'mm.estado_mat', 'mm.fecha_estado'
                     ,'mm.nro_pago_inscripcion','mm.monto_pago_inscripcion','mm.tipo_pago','mm.tipo_pago_inscripcion','meca.medio_captacion','meca2.medio_captacion'
-                    ,'mm.tipo_pago_matricula');
+                    ,'mm.tipo_pago_matricula', 'mm.adicional', 'mm.fecha_pago_mat', 'mm.fecha_pago_pro', 'mm.fecha_pago_ins');
 
         $result = array();
         if( $r->has('exportar') ){
@@ -819,6 +823,9 @@ class Matricula extends Model
         }
         if( $r->has('tipo_pago_inscripcion') AND trim($matricula->tipo_pago_inscripcion) != trim($r->tipo_pago_inscripcion) ){
             $matricula->tipo_pago_inscripcion = trim($r->tipo_pago_inscripcion);
+        }
+        if( $r->has('fecha_pago_inscripcion') AND trim($matricula->fecha_pago_ins) != trim($r->fecha_pago_inscripcion) ){
+            $matricula->fecha_pago_ins = trim($r->fecha_pago_inscripcion);
         }
         if( $r->has('monto_pago_inscripcion') AND trim($matricula->monto_pago_inscripcion) != trim($r->monto_pago_inscripcion) ){
             $total = trim($matricula->monto_pago_inscripcion)*1;
@@ -866,6 +873,9 @@ class Matricula extends Model
         if( $r->has('tipo_pago_matricula') AND trim($matricula->tipo_pago_matricula) != trim($r->tipo_pago_matricula) ){
             $matricula->tipo_pago_matricula = trim($r->tipo_pago_matricula);
         }
+        if( $r->has('fecha_pago_matricula') AND trim($matricula->fecha_pago_mat) != trim($r->fecha_pago_matricula) ){
+            $matricula->fecha_pago_mat = trim($r->fecha_pago_matricula);
+        }
         if( $r->has('monto_pago_matricula') AND trim($matricula->monto_pago) != trim($r->monto_pago_matricula) ){
             $total = trim($matricula->monto_pago)*1;
             $matricula->monto_pago = trim($r->monto_pago_matricula)*1;
@@ -912,6 +922,9 @@ class Matricula extends Model
         if( $r->has('tipo_pago_promocion') AND trim($matricula->tipo_pago) != trim($r->tipo_pago_promocion) ){
             $matricula->tipo_pago = trim($r->tipo_pago_promocion);
         }
+        if( $r->has('fecha_promocion') AND trim($matricula->fecha_pago_pro) != trim($r->fecha_promocion) ){
+            $matricula->fecha_pago_pro = trim($r->fecha_promocion);
+        }
         if( $r->has('monto_promocion') AND trim($matricula->monto_promocion) != trim($r->monto_promocion) ){
             $matricula->monto_promocion = trim($r->monto_promocion)*1;
         }
@@ -951,6 +964,9 @@ class Matricula extends Model
                 }
                 if( trim($matriculaCuotas->tipo_pago_cuota) != trim($r->tipo_pago_cuota[$key]) ){
                     $matriculaCuotas->tipo_pago_cuota = trim($r->tipo_pago_cuota[$key]);
+                }
+                if( trim($matriculaCuotas->fecha_pago_cuota) != trim($r->fecha_pago_cuota[$key]) ){
+                    $matriculaCuotas->fecha_pago_cuota = trim($r->fecha_pago_cuota[$key]);
                 }
                 if( trim($matriculaCuotas->monto_cuota) != trim($r->monto_cuota[$key]) ){
                     $total = trim($matriculaCuotas->monto_cuota)*1;
@@ -1024,6 +1040,9 @@ class Matricula extends Model
                 }
                 if( trim($matriculaDetalle->tipo_pago) != trim($r->tipo_pago[$key]) ){
                     $matriculaDetalle->tipo_pago = trim($r->tipo_pago[$key]);
+                }
+                if( trim($matriculaDetalle->fecha_pago_certificado) != trim($r->fecha_pago_certificado[$key]) ){
+                    $matriculaDetalle->fecha_pago_certificado = trim($r->fecha_pago_certificado[$key]);
                 }
                 if( trim($matriculaDetalle->monto_pago_certificado) != trim($r->monto_pago_certificado[$key]) ){
                     $total = trim($matriculaDetalle->monto_pago_certificado)*1;
@@ -1354,7 +1373,7 @@ class Matricula extends Model
                     ->join('mat_especialidades_programaciones AS ep','ep.id', '=', 'm.especialidad_programacion_id')
                     ->leftJoin('bancos AS b', 'b.id', '=', 'mmc.tipo_pago_cuota')
                     ->select('mmc.nro_cuota','mmc.monto_cuota', 'mmc.cuota', 'mmc.archivo_cuota', 'mmc.tipo_pago_cuota AS tipo_pago_cuota_id'
-                        ,'mmc.id', 'mmc.matricula_id', 'ep.nro_cuota AS programado'
+                        ,'mmc.id', 'mmc.matricula_id', 'ep.nro_cuota AS programado','mmc.fecha_pago_cuota'
                         ,DB::raw('b.banco AS tipo_pago_cuota')
                     )
                     ->where('mmc.estado', '1')

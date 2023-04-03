@@ -245,7 +245,23 @@ let Detalle = {
         }
         
         $.each( Matricula, (key, value) => {
-            $("#FormBandeja ."+key).text( $.trim(value) );
+            if( key == 'adicional' ){
+                let adicional = $.trim(value).split("|");
+                $("#FormBandeja .adicional1, #FormBandeja .adicional2").text('');
+                $("#FormBandeja .adic, #FormBandeja .adic1, #FormBandeja .adic2").hide();
+                if( $.trim(adicional[0]) != '' ){
+                    $("#FormBandeja .adic, #FormBandeja .adic1").show();
+                    $("#FormBandeja .adicional1").text( adicional[0] );
+                }
+                if( $.trim(adicional[1]) != '' ){
+                    $("#FormBandeja .adic, #FormBandeja .adic2").show();
+                    $("#FormBandeja .adicional2").text( adicional[1] );
+                }
+            }
+            else{
+                $("#FormBandeja ."+key).text( $.trim(value) );
+            }
+            
         });
         /*****************************************************************/
         html = '';
@@ -274,6 +290,7 @@ let Detalle = {
                             "<td>"+value+"</td>"+
                             "<td>"+Matricula.monto_pago.split(",")[key]+"</td>"+
                             "<td>"+Matricula.tipo_pago.split(",")[key]+"</td>"+
+                            "<td>"+Matricula.fecha_pago.split(",")[key]+"</td>"+
                             "<td>"+btnaux+"</td>"+
                         "</tr>";
             }
@@ -371,7 +388,7 @@ let Detalle = {
         let time = d.getTime();
         $.each(result.data,function(index,r){
             let importe = r.monto_cuota;
-            if( importe*1>0 ){
+            if( importe*1>0 || $.trim(r.nro_cuota) != ''){
                 btnaux = MatriculaG.BtnAuxNo;
                 if( $.trim(r.archivo_cuota) != '' ){
                     btnaux = MatriculaG.BtnAuxSi.replace("#", r.archivo_cuota+"?time="+time);
@@ -382,6 +399,7 @@ let Detalle = {
                             "<td>"+$.trim(r.nro_cuota)+"</td>"+
                             "<td>"+$.trim(importe)+"</td>"+
                             "<td>"+$.trim(r.tipo_pago_cuota)+"</td>"+
+                            "<td>"+$.trim(r.fecha_pago_cuota)+"</td>"+
                             "<td>"+btnaux+"</td>"+
                         "</tr>";
                 total+= $.trim(importe)*1;

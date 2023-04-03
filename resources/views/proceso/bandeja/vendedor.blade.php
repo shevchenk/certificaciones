@@ -193,15 +193,6 @@
     </div><!-- .row -->
 
     <select class="hidden mant" id="slct_tipo_demo">
-        <option value="1.1">Transferencia - BCP</option>
-        <option value="1.2">Transferencia - Scotiabank</option>
-        <option value="1.3">Transferencia - BBVA</option>
-        <option value="1.4">Transferencia - Interbank</option>
-        <option value="2.1">Depósito - BCP</option>
-        <option value="2.2">Depósito - Scotiabank</option>
-        <option value="2.3">Depósito - BBVA</option>
-        <option value="2.4">Depósito - Interbank</option>
-        <option value="3.0" selected>Caja</option>
     </select>
     <form id="FormBandeja">
     <div class="row">
@@ -226,6 +217,21 @@
                     <div class="col-lg-3 col-md-6">
                         <label>Nombre:</label>
                         <span class="form-control nombre"></span>
+                    </div>
+                    <div class="col-lg-12">
+                        <table class="table table-bordered table-striped adic">
+                            <tr class="adic" style="background-color: #DDEBF7;">
+                                <th class="text-center" colspan=2>Datos Adicionales</th>
+                            </tr>
+                            <tr class="adic1">
+                                <td style="width:40%">Pagos para el 2do ciclo o módulo</td>
+                                <td class="adicional1"></td>
+                            </tr>
+                            <tr class="adic2">
+                                <td style="width:40%">Promoción de la matrícula</td>
+                                <td class="adicional2"></td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="col-lg-6">
                         <label>Observación de la Matrícula:</label>
@@ -285,19 +291,26 @@
             </div>
         </div>
 
+        <div class="col-lg-12 col-md-12">
+        </div>
+
         <div class="col-lg-4 col-md-6">
             <div class="box box-info">
                 <div class="box-header bg-navy-active text-center">
                     <div class="box-title">Pago de Inscripción</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_pago_inscripcion"></span>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_pago_inscripcion"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Fecha Pagado:</label>
+                        <span class="form-control fecha_pago_inscripcion"></span>
                     </div>
                     <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
@@ -337,13 +350,17 @@
                     <div class="box-title">Pago de Matrícula</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_pago_matricula"></span>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_pago_matricula"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Fecha Pagado:</label>
+                        <span class="form-control fecha_pago_matricula"></span>
                     </div>
                     <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
@@ -383,13 +400,17 @@
                     <div class="box-title">Pago de Promoción</div>
                 </div>
                 <div class="box-body">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label>Doc de Pago:</label>
                         <span class="form-control nro_promocion"></span>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label>Monto Pagado:</label>
                         <span class="form-control monto_promocion"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Fecha Pagado:</label>
+                        <span class="form-control fecha_promocion"></span>
                     </div>
                     <div class="col-lg-8">
                         <label>Tipo de Pago:</label>
@@ -436,6 +457,7 @@
                                 <th class="text-center">Doc de Pago</th>
                                 <th class="text-center">Monto Pagado</th>
                                 <th class="text-center">Tipo de Pago</th>
+                                <th class="text-center">Fecha Pagado</th>
                                 <th class="text-center">Archivo</th>
                                 <th class="text-center ArchivosG">Subir Archivo</th>
                             </tr>
@@ -459,6 +481,7 @@
                                 <th class="text-center">Doc de Pago</th>
                                 <th class="text-center">Monto Pagado</th>
                                 <th class="text-center">Tipo de Pago</th>
+                                <th class="text-center">Fecha Pagado</th>
                                 <th class="text-center">Archivo</th>
                                 <th class="text-center ArchivosG">Subir Archivo</th>
                             </tr>
