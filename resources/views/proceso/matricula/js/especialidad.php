@@ -193,7 +193,7 @@ ValidaForm=function(){
         r=false;
         msjG.mensaje('warning','Seleccione Medio de Captación',4000);
     }*/
-    else if( (tipo==1 || tipo==2) && $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
+    else if( $.trim( $("#ModalMatriculaForm #txt_marketing_id").val() )==''){
         r=false;
         msjG.mensaje('warning','Seleccione Persona Marketing',4000);
     }
