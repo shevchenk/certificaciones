@@ -155,7 +155,7 @@ class Reporte extends Model
         $campana  $distrito  
         GROUP BY pc.created_at,e.id, e.empresa, pc.ad_name
         ORDER BY e.empresa, ".$order;
-        
+        //dd($sql);
         $r= DB::select($sql);
         return $r;
     }

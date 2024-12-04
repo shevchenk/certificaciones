@@ -145,7 +145,7 @@ class SeminarioEM extends Controller
             $r['vendedor']=1;
         }
         $renturnModel = Seminario::runExportSeminario($r);
-        
+                
         Excel::create('Seminario', function($excel) use($renturnModel) {
 
         $excel->setTitle('Reporte de Seminarios')
@@ -251,6 +251,7 @@ class SeminarioEM extends Controller
         });
         
         })->export('xlsx');
+        
     }
 
     public function ExportSeminarioDetalle(Request $r )

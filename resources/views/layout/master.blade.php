@@ -10,14 +10,14 @@
         <meta name="author" content="Jorge Salcedo (Shevchenko)">
         @show
 
-        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="shortcut icon" href="img/ISAM sim.ico">
 
         @section('description')
         <meta name="description" content="Software Eficiencia de Entrega de Certificados ">
         @show
         <title>
             @section('title')
-                Formación Contínua
+                ISAM SIM
             @show
         </title>
 

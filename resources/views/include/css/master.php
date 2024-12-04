@@ -2,6 +2,14 @@
 .pagination>li>a{
     cursor: pointer !important;
 }
+.logoPersonaje {
+    margin: 0 auto;
+    display: block;
+    width: 160px;
+    height: 180px;
+    margin-bottom: 5%;
+    border-radius: 15px;
+}
 @media screen and (max-width: 767px) {
     .msjG{
         position: fixed;

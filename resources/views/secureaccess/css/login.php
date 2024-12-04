@@ -1,4 +1,12 @@
 <style type="text/css">
+.logoPersonaje {
+    margin: 0 auto;
+    display: block;
+    width: 160px;
+    height: 180px;
+    margin-bottom: 5%;
+    border-radius: 15px;
+}
 #loggit {
     background: url(img/login/flogin.png);
     width: 350px;

@@ -7,10 +7,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">       
         <meta name="author" content="Jorge Salcedo (Shevchenko)">
         
-        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="shortcut icon" href="img/ENCUS sim.ico">
         <meta name="description" content="">
         <title>         
-                Formación Continua
+                ENCUS SIM
         </title>
             {{ Html::style('lib/bootstrap/css/bootstrap.min.css') }}
             {{ Html::style('lib/font-awesome/css/font-awesome.min.css') }}
@@ -28,7 +28,7 @@
 <div id="mainWrap">
     <div class="content">
     <div id="loggit">
-        <h1><i class="fa fa-2x fa-lock"></i></h1>
+        <h1><img src="img/ENCUS sim.png" class="logoPersonaje" style="background: white;border: 5px solid white;"></h1>
             <h3 id="mensaje_msj"  class="label-success">
             </h3>
             
